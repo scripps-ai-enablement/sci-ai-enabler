@@ -1,0 +1,5 @@
+# Claude Code base action event log (written to the workspace during runs)
+output.txt
+
+# Transient prompt assembled by the workflow
+.run-prompt.md
