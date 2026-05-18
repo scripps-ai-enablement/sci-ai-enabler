@@ -4,17 +4,19 @@ A curated catalog of AI ecosystem components for life-science applications — M
 
 Maintained by a scheduled Claude curator. See the top-level [README](../README.md) and [`AGENT.md`](../AGENT.md) for how this is produced, and [`CHANGELOG.md`](../CHANGELOG.md) for the history.
 
+_Last refreshed: 2026-05-18_
+
 ## Categories
 
-| Category | File |
-|---|---|
-| Chemistry | [chemistry.md](chemistry.md) |
-| Immunology and Microbiology | [immunology-microbiology.md](immunology-microbiology.md) |
-| Integrative Structural and Computational Biology | [structural-computational-biology.md](structural-computational-biology.md) |
-| Molecular and Cellular Biology | [molecular-cellular-biology.md](molecular-cellular-biology.md) |
-| Neuroscience | [neuroscience.md](neuroscience.md) |
-| Translational Medicine | [translational-medicine.md](translational-medicine.md) |
-| Drug Repurposing and Discovery | [drug-repurposing-discovery.md](drug-repurposing-discovery.md) |
+| Category | File | Entries |
+|---|---|---|
+| Chemistry | [chemistry.md](chemistry.md) | 3 |
+| Immunology and Microbiology | [immunology-microbiology.md](immunology-microbiology.md) | 1 |
+| Integrative Structural and Computational Biology | [structural-computational-biology.md](structural-computational-biology.md) | 6 |
+| Molecular and Cellular Biology | [molecular-cellular-biology.md](molecular-cellular-biology.md) | 2 |
+| Neuroscience | [neuroscience.md](neuroscience.md) | 1 |
+| Translational Medicine | [translational-medicine.md](translational-medicine.md) | 3 |
+| Drug Repurposing and Discovery | [drug-repurposing-discovery.md](drug-repurposing-discovery.md) | 1 |
 
 ## Entry schema
 
