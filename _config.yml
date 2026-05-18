@@ -1,0 +1,4 @@
+theme: jekyll-theme-cayman
+title: Life Science AI Ecosystem Catalog
+description: A curated catalog of AI ecosystem components (MCP servers, plugins, skills, agents, workflows) for life-science applications.
+show_downloads: false

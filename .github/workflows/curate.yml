@@ -1,0 +1,109 @@
+name: Curate catalog
+
+on:
+  schedule:
+    # Daily at 13:00 UTC (~06:00 Pacific)
+    - cron: '0 13 * * *'
+  workflow_dispatch:
+    inputs:
+      category:
+        description: 'Scope this run to one category (or "all")'
+        required: false
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - chemistry
+          - immunology-microbiology
+          - structural-computational-biology
+          - molecular-cellular-biology
+          - neuroscience
+          - translational-medicine
+          - drug-repurposing-discovery
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: curate
+  cancel-in-progress: false
+
+jobs:
+  curate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Compose run prompt
+        run: |
+          SCOPE="${{ inputs.category }}"
+          SCOPE="${SCOPE:-all}"
+          {
+            cat AGENT.md
+            echo ""
+            echo "---"
+            echo ""
+            echo "## This run"
+            echo "- UTC date: $(date -u +%Y-%m-%d)"
+            echo "- Scope: ${SCOPE}"
+            if [ "${SCOPE}" = "all" ]; then
+              echo "- Update any of the seven category files as warranted."
+            else
+              echo "- Limit edits to catalog/${SCOPE}.md (plus CHANGELOG.md and catalog/README.md as required by your instructions)."
+            fi
+          } > .run-prompt.md
+
+      - uses: anthropics/claude-code-base-action@beta
+        with:
+          prompt_file: .run-prompt.md
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          model: claude-opus-4-7
+          allowed_tools: "Read,Edit,Write,Glob,Grep,WebSearch,WebFetch"
+
+      - name: Commit, push, and notify
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          SERVER_URL: ${{ github.server_url }}
+        run: |
+          rm -f .run-prompt.md
+          git config user.name "catalog-curator[bot]"
+          git config user.email "catalog-curator@users.noreply.github.com"
+
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "No catalog changes this run."
+            exit 0
+          fi
+
+          DATE=$(date -u +%Y-%m-%d)
+          git add -A
+          git commit -m "Catalog update ${DATE}"
+          git push
+          SHA=$(git rev-parse HEAD)
+
+          # Find or create the pinned tracking issue
+          ISSUE=$(gh issue list \
+            --state open \
+            --search 'in:title "Catalog updates"' \
+            --json number,title \
+            --jq '[.[] | select(.title == "Catalog updates")][0].number')
+          if [ -z "${ISSUE}" ] || [ "${ISSUE}" = "null" ]; then
+            ISSUE_URL=$(gh issue create \
+              --title "Catalog updates" \
+              --body "Rolling log of catalog updates. Each scheduled or on-demand run that produced changes posts a comment here.")
+            ISSUE="${ISSUE_URL##*/}"
+            gh issue pin "${ISSUE}" || true
+          fi
+
+          # Extract the top changelog entry (everything from the first '## ' up to the next one)
+          LATEST=$(awk '/^## / {n++} n>=2 {exit} n==1 {print}' CHANGELOG.md)
+
+          {
+            echo "${LATEST}"
+            echo ""
+            echo "[View commit](${SERVER_URL}/${REPO}/commit/${SHA})"
+          } | gh issue comment "${ISSUE}" --body-file -
