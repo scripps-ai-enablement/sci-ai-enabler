@@ -12,13 +12,15 @@ _Last refreshed: 2026-05-19_
 
 | Category | File | Entries |
 |---|---|---|
-| Chemistry | [chemistry.md](chemistry.md) | 0 |
-| Immunology and Microbiology | [immunology-microbiology.md](immunology-microbiology.md) | 0 |
-| Integrative Structural and Computational Biology | [structural-computational-biology.md](structural-computational-biology.md) | 0 |
-| Molecular and Cellular Biology | [molecular-cellular-biology.md](molecular-cellular-biology.md) | 0 |
-| Neuroscience | [neuroscience.md](neuroscience.md) | 0 |
+| Chemistry | [chemistry.md](chemistry.md) | 2 |
+| Immunology and Microbiology | [immunology-microbiology.md](immunology-microbiology.md) | 2 |
+| Integrative Structural and Computational Biology | [structural-computational-biology.md](structural-computational-biology.md) | 2 |
+| Molecular and Cellular Biology | [molecular-cellular-biology.md](molecular-cellular-biology.md) | 2 |
+| Neuroscience | [neuroscience.md](neuroscience.md) | 2 |
 | Translational Medicine | [translational-medicine.md](translational-medicine.md) | 2 |
-| Drug Repurposing and Discovery | [drug-repurposing-discovery.md](drug-repurposing-discovery.md) | 0 |
+| Drug Repurposing and Discovery | [drug-repurposing-discovery.md](drug-repurposing-discovery.md) | 2 |
+
+Entries can belong to multiple categories; cross-cutting tools (like the PubMed Connector and BioMCP) are duplicated byte-identically into every category file named in their `Categories` field. Distinct tools currently catalogued: 2.
 
 ## Entry schema
 

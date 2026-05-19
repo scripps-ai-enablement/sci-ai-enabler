@@ -8,6 +8,7 @@ _Last updated: 2026-05-19_
 
 ### Anthropic PubMed Connector
 
+- **Categories**: Chemistry | Immunology and Microbiology | Integrative Structural and Computational Biology | Molecular and Cellular Biology | Neuroscience | Translational Medicine | Drug Repurposing and Discovery
 - **Type**: MCP server
 - **Supplier**: Anthropic ([claude.com](https://claude.com/))
 - **Availability**: GA (Claude.ai / Claude Code); Beta MCP HTTP endpoint
@@ -26,6 +27,7 @@ _Last updated: 2026-05-19_
 
 ### BioMCP
 
+- **Categories**: Chemistry | Immunology and Microbiology | Integrative Structural and Computational Biology | Molecular and Cellular Biology | Neuroscience | Translational Medicine | Drug Repurposing and Discovery
 - **Type**: MCP server
 - **Supplier**: GenomOncology ([biomcp.org](https://biomcp.org/))
 - **Availability**: GA

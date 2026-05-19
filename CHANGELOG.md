@@ -6,6 +6,38 @@ A reverse-chronological log of catalog updates produced by the curator agent. Th
 
 ## 2026-05-19
 
+### Enable multi-category entries
+
+Backfilled the new `Categories` field on every existing catalog entry and duplicated each entry block byte-identically into every category file it claims. Both currently-catalogued tools are cross-cutting biomedical research infrastructure and were assigned all seven categories.
+
+#### Updated
+- **[All categories] Anthropic PubMed Connector** — Added `Categories: Chemistry | Immunology and Microbiology | Integrative Structural and Computational Biology | Molecular and Cellular Biology | Neuroscience | Translational Medicine | Drug Repurposing and Discovery`. Entry block duplicated into the six non-Translational-Medicine category files.
+- **[All categories] BioMCP** — Added `Categories: Chemistry | Immunology and Microbiology | Integrative Structural and Computational Biology | Molecular and Cellular Biology | Neuroscience | Translational Medicine | Drug Repurposing and Discovery` (reflecting that it bundles ClinicalTrials.gov, PubMed, MyVariant.info, and OpenFDA — all relevant to every life-science domain). Entry block duplicated into the six non-Translational-Medicine category files.
+- **[catalog/README.md]** — Refreshed entry counts (each category now lists 2 entries; 2 distinct tools across the catalog) and clarified that cross-cutting entries are duplicated across files.
+- **[AGENT.md]** — Removed the one-time multi-category backfill subsection now that the backfill has been executed.
+
+#### Added
+- **[Chemistry] Anthropic PubMed Connector** — Cross-cutting literature search; added to this category's `Recently surfaced` ([Tutorial](https://claude.com/resources/tutorials/using-the-pubmed-connector-in-claude)).
+- **[Chemistry] BioMCP** — Cross-cutting biomedical MCP; added to this category's `Recently surfaced` ([biomcp.org](https://biomcp.org/)).
+- **[Immunology and Microbiology] Anthropic PubMed Connector** — Cross-cutting literature search; added to this category's `Recently surfaced`.
+- **[Immunology and Microbiology] BioMCP** — Cross-cutting biomedical MCP; added to this category's `Recently surfaced`.
+- **[Integrative Structural and Computational Biology] Anthropic PubMed Connector** — Cross-cutting literature search; added to this category's `Recently surfaced`.
+- **[Integrative Structural and Computational Biology] BioMCP** — Cross-cutting biomedical MCP; added to this category's `Recently surfaced`.
+- **[Molecular and Cellular Biology] Anthropic PubMed Connector** — Cross-cutting literature search; added to this category's `Recently surfaced`.
+- **[Molecular and Cellular Biology] BioMCP** — Cross-cutting biomedical MCP; added to this category's `Recently surfaced`.
+- **[Neuroscience] Anthropic PubMed Connector** — Cross-cutting literature search; added to this category's `Recently surfaced`.
+- **[Neuroscience] BioMCP** — Cross-cutting biomedical MCP; added to this category's `Recently surfaced`.
+- **[Drug Repurposing and Discovery] Anthropic PubMed Connector** — Cross-cutting literature search; added to this category's `Recently surfaced`.
+- **[Drug Repurposing and Discovery] BioMCP** — Cross-cutting biomedical MCP; added to this category's `Recently surfaced`.
+
+#### Flagged
+- _None._
+
+#### Verified (no changes)
+- _None — backfill only._
+
+## 2026-05-19
+
 ### Scope refocus to Claude-installable components
 
 The catalog scope was narrowed to discrete, installable Claude components (Claude Skills, MCP servers, Claude Code Plugins, Claude.ai Connectors). General-purpose libraries, model weights distributed only as research artifacts, hosted SaaS without a Claude-installable wrapper, and bespoke LangChain-style agents are no longer in scope. The entry schema was migrated to add `Available in` (every supported install path) and `Tools / resources exposed`, and to drop the free-form `Benchmarks` and `Installation` fields. Surviving entries were re-keyed to the new schema; out-of-scope entries were removed (git history preserves them).

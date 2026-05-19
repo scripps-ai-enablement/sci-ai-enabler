@@ -37,15 +37,6 @@ Organize all entries under exactly these seven categories, each backed by one ma
 
 **One entry per tool.** If a tool ships via multiple install paths (e.g., PubMed available as both a Claude.ai Connector and a Claude Code MCP server via the `anthropics/life-sciences` marketplace), create one entry and list every path under `Available in`.
 
-### One-time multi-category backfill (next run only)
-
-Existing entries predate the multi-category schema. On your next run:
-
-1. For each existing entry across `catalog/*.md`, add a `Categories` field at the top of its field list per *Multi-category placement* rules. Cross-cutting infrastructure like the Anthropic PubMed Connector belongs in all seven categories; BioMCP belongs in every category whose research uses the sources it bundles (ClinicalTrials.gov, PubMed, MyVariant, OpenFDA).
-2. Duplicate each entry block into every category file named in its `Categories` field. Blocks must be byte-identical.
-3. Add a single `CHANGELOG.md` entry titled `Enable multi-category entries` summarizing the backfill (which entries got which categories).
-4. **Remove this "One-time multi-category backfill" subsection from `AGENT.md` in the same commit.** Future runs should not see this directive.
-
 ## Entry schema
 
 Every catalog entry follows this exact structure. Keep the field order stable so diffs are clean.
