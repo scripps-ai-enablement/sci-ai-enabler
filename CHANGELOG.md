@@ -6,6 +6,26 @@ A reverse-chronological log of catalog updates produced by the curator agent. Th
 
 ## 2026-05-19
 
+### Surface anthropics/life-sciences marketplace entries (batch 3)
+
+Cleared one more item from the Deferred list — `scvi-tools@life-sciences` — using the `anthropics/life-sciences` marketplace plus the Anthropic tutorial as primary sources. Held to one new entry this run because the tag list expands to six category-card edits (Chemistry excluded — scvi-tools is single-cell omics, not chemistry).
+
+### Added
+- **scvi-tools (Claude Skill)** (Categories: Drug Repurposing and Discovery, Immunology and Microbiology, Integrative Structural and Computational Biology, Molecular and Cellular Biology, Neuroscience, Translational Medicine) — Anthropic skill bundling deep-learning workflows for scVI, scANVI, totalVI, MultiVI, PeakVI, DestVI, contrastiveVI, sysVI, and veloVI; covers batch correction, semi-supervised cell-type annotation, multi-modal CITE-seq / multiome integration, spatial deconvolution, perturbation analysis, and RNA velocity ([Anthropic tutorial](https://claude.com/resources/tutorials/how-to-use-the-scvi-tools-bioinformatics-skill-bundle-with-claude), [marketplace](https://github.com/anthropics/life-sciences)).
+
+### Updated
+- **[catalog/entries.md]** — Promoted scvi-tools from the Deferred list; refreshed Recently surfaced (5-item rolling window: dropped single-cell-rna-qc, added scvi-tools at top).
+- **[catalog/README.md]** — Distinct-tool count 7 → 8; per-category counts incremented for the six tagged categories (Immunology, Molecular & Cellular, Drug Discovery, Translational 7 → 8; Structural/Computational and Neuroscience 6 → 7). Chemistry unchanged at 4.
+- **[Deferred list]** — Removed `scvi-tools@life-sciences`; remaining items (synapse, wiley-scholar-gateway, scientific-problem-selection, bio-research umbrella) carry forward.
+
+### Flagged
+- _None._
+
+### Verified (no changes)
+- 7 existing entries spot-checked (all `Last verified: 2026-05-19` from prior runs today); no field drift on supplier links or install paths.
+
+## 2026-05-19
+
 ### Surface anthropics/life-sciences marketplace entries (batch 2)
 
 Cleared two items from the previous run's Deferred list using the `anthropics/life-sciences` marketplace as the manifest-driven source. Stayed under the per-run surfacing cap (2 entries this run vs. soft cap of 5) because each new entry's tag list expands into 5–6 category-card edits.

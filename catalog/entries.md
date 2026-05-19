@@ -115,6 +115,24 @@ _Last updated: 2026-05-19_
 - **First catalogued**: 2026-05-19
 - **Last verified**: 2026-05-19
 
+### scvi-tools (Claude Skill)
+
+- **Categories**: Drug Repurposing and Discovery, Immunology and Microbiology, Integrative Structural and Computational Biology, Molecular and Cellular Biology, Neuroscience, Translational Medicine
+- **Type**: Claude Skill
+- **Supplier**: Anthropic ([anthropics/life-sciences](https://github.com/anthropics/life-sciences))
+- **Availability**: GA — distributed via `anthropics/life-sciences` marketplace alongside Claude for Life Sciences (Oct 2025)
+- **Pricing**: Free / OSS
+- **Capabilities**: Read/Write — guides Claude through scvi-tools deep-learning workflows on AnnData single-cell inputs; writes trained model artifacts, latent representations, and normalized expression matrices
+- **Available in**:
+  - Claude Code (plugin marketplace: `/plugin marketplace add anthropics/life-sciences` then `/plugin install scvi-tools@life-sciences`)
+  - Claude.ai (Settings → Capabilities → Skills → Upload skill, using the skill bundle from the `anthropics/life-sciences` repo)
+- **Tools / resources exposed**: `SKILL.md` workflows for scVI / scANVI (batch correction, semi-supervised cell-type annotation), totalVI and MultiVI (CITE-seq, RNA+ATAC multi-modal integration), PeakVI and scBasset (chromatin accessibility), DestVI / Tangram / cell2location / Stereoscope (spatial deconvolution), contrastiveVI (perturbation), sysVI (cross-cohort batch correction), and veloVI (RNA velocity); model setup, training, and latent-extraction code patterns
+- **Primary use cases**: Deep-learning-based batch integration, reference-mapped cell-type annotation, multi-modal CITE-seq / multiome analysis, spatial transcriptomics deconvolution
+- **Integration notes**: Requires Python with `scvi-tools` (PyTorch + AnnData stack) installed locally; GPU recommended for larger datasets; expects raw-count layer (not log-normalized) when registering AnnData via `setup_anndata`
+- **Sources**: [Anthropic tutorial](https://claude.com/resources/tutorials/how-to-use-the-scvi-tools-bioinformatics-skill-bundle-with-claude), [anthropics/life-sciences marketplace](https://github.com/anthropics/life-sciences), [scvi-tools documentation](https://docs.scvi-tools.org/)
+- **First catalogued**: 2026-05-19
+- **Last verified**: 2026-05-19
+
 ### single-cell-rna-qc (Claude Skill)
 
 - **Categories**: Drug Repurposing and Discovery, Immunology and Microbiology, Integrative Structural and Computational Biology, Molecular and Cellular Biology, Neuroscience, Translational Medicine
@@ -135,11 +153,11 @@ _Last updated: 2026-05-19_
 
 ## Recently surfaced
 
+- **scvi-tools (Claude Skill)** (added 2026-05-19) — Anthropic skill bundling deep-learning workflows for scVI, scANVI, totalVI, MultiVI, PeakVI, DestVI, veloVI, sysVI, and contrastiveVI on single-cell omics data.
 - **nextflow-development (Claude Skill)** (added 2026-05-19) — Anthropic skill that runs nf-core `rnaseq`, `sarek`, and `atacseq` pipelines on local or GEO/SRA inputs.
 - **instrument-data-to-allotrope (Claude Skill)** (added 2026-05-19) — Anthropic skill that converts 40+ lab-instrument output formats to Allotrope Simple Model JSON / CSV.
 - **BioRender Connector** (added 2026-05-19) — Scientific-illustration MCP / Claude.ai connector for slides, papers, and grants.
 - **10x Genomics Cloud MCP** (added 2026-05-19) — Conversational interface to 10x Cloud single-cell, immune-profiling, and spatial analyses.
-- **single-cell-rna-qc (Claude Skill)** (added 2026-05-19) — Anthropic's first scientific skill; scverse MAD-based QC for single-cell RNA-seq.
 
 ## Flagged for review
 
@@ -151,6 +169,5 @@ Candidates observed during the most recent surfacing pass but not yet catalogued
 
 - **synapse@life-sciences** — Remote MCP server for Sage Bionetworks Synapse; needs verification of auth model and supplier-side docs.
 - **wiley-scholar-gateway@life-sciences** — Remote MCP server for Wiley scholarly content; verify subscription/auth requirements.
-- **scvi-tools@life-sciences** — Skill packaging the scvi-tools deep-learning toolkit for single-cell omics.
 - **scientific-problem-selection@life-sciences** — Skill encoding Fischbach & Walsh (Cell 2024) scientific-project framework.
 - **bio-research@anthropics/knowledge-work-plugins** — Anthropic umbrella plugin bundling 10 MCP servers and 6 analysis skills for life-science research; verify install path and complete tool inventory before cataloguing.

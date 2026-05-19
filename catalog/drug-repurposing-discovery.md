@@ -4,7 +4,7 @@
 
 _Last updated: 2026-05-19_
 
-## Entries (7)
+## Entries (8)
 
 Tools tagged with **Drug Repurposing and Discovery** or `All`. Full details live in [`entries.md`](entries.md).
 
@@ -49,6 +49,13 @@ Converts 40+ lab-instrument output formats to Allotrope Simple Model JSON / CSV 
 Runs nf-core `rnaseq`, `sarek`, and `atacseq` pipelines on local FASTQ or GEO/SRA inputs.
 
 [Full entry →](entries.md#nextflow-development-claude-skill)
+
+### scvi-tools (Claude Skill)
+*Claude Skill · Anthropic · GA*
+
+Deep-learning workflows for scVI, scANVI, totalVI, MultiVI, PeakVI, DestVI, and related scvi-tools models for single-cell omics.
+
+[Full entry →](entries.md#scvi-tools-claude-skill)
 
 ### single-cell-rna-qc (Claude Skill)
 *Claude Skill · Anthropic · GA*

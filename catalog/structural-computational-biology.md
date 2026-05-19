@@ -4,7 +4,7 @@
 
 _Last updated: 2026-05-19_
 
-## Entries (6)
+## Entries (7)
 
 Tools tagged with **Integrative Structural and Computational Biology** or `All`. Full details live in [`entries.md`](entries.md).
 
@@ -42,6 +42,13 @@ Scientific-figure assembly from the 50,000+ BioRender icon and template library.
 Runs nf-core `rnaseq`, `sarek`, and `atacseq` pipelines on local FASTQ or GEO/SRA inputs.
 
 [Full entry →](entries.md#nextflow-development-claude-skill)
+
+### scvi-tools (Claude Skill)
+*Claude Skill · Anthropic · GA*
+
+Deep-learning workflows for scVI, scANVI, totalVI, MultiVI, PeakVI, DestVI, and related scvi-tools models for single-cell omics.
+
+[Full entry →](entries.md#scvi-tools-claude-skill)
 
 ### single-cell-rna-qc (Claude Skill)
 *Claude Skill · Anthropic · GA*
