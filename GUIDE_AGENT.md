@@ -47,17 +47,48 @@ Maintain exactly these files under `guide/`:
 
 ## Recency and source grounding
 
-The framework changes fast. Beginner-facing content that's six months stale actively misleads readers — wrong commands, missing launch surfaces (e.g., browser-based Claude Code running on Anthropic cloud), renamed features. Treat freshness as a quality bar, not a nice-to-have.
+The framework changes fast — fast enough that install commands and feature names that were correct last month are wrong today. Beginner-facing content that's stale actively misleads readers. Treat freshness as a quality bar, not a nice-to-have.
 
-**Per-claim grounding rule.** Every page's `## Sources` section lists the URLs that back its content with publication or last-modified dates. For feature-level claims, prefer a source dated **within the last 6 months**; for foundational concepts (e.g., "what an MCP server is"), an Anthropic doc updated within the last year is fine. If no source within these windows confirms a current claim, re-verify against today's canonical doc and update the page accordingly.
+**Tiered recency windows by claim type.** Different facts decay at different rates. Use the strictest applicable window:
 
-**Audit prompt for every page on every run.** Before keeping any sentence on the page, answer "what source dated within the last N months says this is still true?". If the answer is "my pre-training" or "an old archive", treat the sentence as suspect — re-verify or remove.
+| Claim type | Source must be dated within | Examples |
+|---|---|---|
+| Install commands, command-line syntax, package names | **30 days** | `curl … \| bash`, `npm install …`, `claude mcp add …`, slash-command syntax |
+| Launch surfaces, feature names, UI paths, pricing/availability tiers | **90 days** | "Claude Code on the web", connector toggle locations, plan names |
+| Foundational concepts | **365 days** | "what an MCP server is", "what a skill is" |
 
-**Concrete examples of stale content that this rule should catch:**
+**A source older than its tier window is presumptively stale.** Find a fresher one before relying on it. A landing page or release-notes page with no explicit publication date but a visible recent version number or changelog entry counts as fresh; an undated blog post does not.
 
-- A `claude-surfaces.md` that lists only CLI / IDE / API and omits browser-based Claude Code launched from Claude.ai (running on Anthropic-managed cloud compute). Verify the full current launch-surface list against `code.claude.com/docs` and recent Anthropic news posts each run.
-- A `plugins.md` that uses a deprecated install command. Cross-check against the current Claude Code CLI release notes.
-- A `connectors.md` that names connectors no longer in the directory.
+**Per-claim grounding rule.** Every page's `## Sources` section lists the URLs that back its content with publication or last-modified dates. If you can't find a source within the applicable window, omit the claim or mark it `Unknown — needs source`. Do not paper over staleness with "as of [old date]" — re-verify or remove.
+
+**Audit prompt for every page on every run.** Before keeping any sentence on the page, answer: "what source within the applicable recency window says this is still true?" If the answer is "my pre-training", "an old archive", or "the source I fetched six months ago", treat the sentence as suspect — re-verify or remove.
+
+### Source priority for install / command claims
+
+Install commands and CLI syntax change faster than docs are revised. For these claims specifically, fetch sources in this order and trust the most recent:
+
+1. **Product landing page** — e.g., `https://claude.com/product/claude-code`. The most-aggressively-updated surface; reflects the current recommended install command. **For every install claim on every page, fetch the product landing page on every run.**
+2. **Release notes / changelog** — `anthropics/claude-code` releases on GitHub; Anthropic product changelogs.
+3. **Recent named secondary commentary** — e.g., a Simon Willison post from this month covering the install or a recent release.
+4. **Deep documentation pages** — `code.claude.com/docs/...`. Authoritative for *concepts* but can lag the landing page for install state by weeks.
+
+If the landing page and a deep doc page disagree on the install command, **the landing page wins.** Add a line under `Flagged for review` in the changelog entry noting the doc-page lag, so a human can see the discrepancy.
+
+**Concrete recent examples of stale content this rule should catch:**
+
+- A `claude-surfaces.md` that still recommends `npm install -g @anthropic-ai/claude-code` after Anthropic moved the canonical install to `curl -fsSL https://claude.ai/install.sh | bash` (per `claude.com/product/claude-code`). When the landing page recommends a different command than a deep doc, follow the landing page.
+- A `plugins.md` install flow that doesn't reflect that `anthropics/claude-plugins-official` is pre-registered.
+- A `connectors.md` that names connectors no longer in the Healthcare-filtered list at `claude.com/connectors`.
+
+### One-time install-command re-verification (next run only)
+
+The previous backfill grounded most claims in sources, but operational install commands may still trail the product landing pages. On your next run, scope your work to:
+
+1. WebFetch `https://claude.com/product/claude-code` and `https://claude.com/product/claude` (or the equivalent current product pages). Confirm the canonical install command for Claude Code, the supported launch surfaces, and any version-specific commands they recommend.
+2. Cross-check every install / command code block across all guide pages against what you just fetched. Replace any deprecated command with the current canonical one. The known stale case to fix: `claude-surfaces.md` and any other page recommending `npm install -g @anthropic-ai/claude-code` should switch to `curl -fsSL https://claude.ai/install.sh | bash` if the landing page confirms.
+3. Refresh each affected page's `## Sources` section with the landing-page URLs and the date you fetched them.
+4. Write a single `GUIDE_CHANGELOG.md` entry titled `Re-verify install commands against product landing pages` listing each command replaced and the landing-page URL it came from.
+5. **Remove this "One-time install-command re-verification" subsection from `GUIDE_AGENT.md` in the same commit.** Future runs use only the steady-state per-run workflow with the tiered recency windows above.
 
 ## Page schema
 
@@ -109,15 +140,17 @@ Consult all of the following on every run; do not invent commands or behavior fr
 
 | Source | Use it for |
 |---|---|
-| [`docs.claude.com`](https://docs.claude.com/) | Canonical Claude platform documentation |
-| [`code.claude.com/docs`](https://code.claude.com/docs/) | Claude Code-specific: plugins, slash commands, hooks, `claude mcp add` |
+| [`claude.com/product/claude-code`](https://claude.com/product/claude-code) | **Canonical install command and supported launch surfaces for Claude Code.** Fetch on every run; landing pages lead docs. |
+| [`claude.com/product/claude`](https://claude.com/product/claude) | Current Claude.ai surfaces, plan tiers, connector availability. |
+| [`docs.claude.com`](https://docs.claude.com/) | Canonical Claude platform documentation (concepts; may trail landing pages on install state) |
+| [`code.claude.com/docs`](https://code.claude.com/docs/) | Claude Code-specific concepts: plugins, slash commands, hooks, `claude mcp add` (may trail landing pages on install) |
 | [`modelcontextprotocol.io`](https://modelcontextprotocol.io/) | The MCP specification |
 | [`claude.com/connectors`](https://www.claude.com/connectors) | Current list of Claude.ai Connectors |
 | [`anthropic.com/news`](https://www.anthropic.com/news) and product changelogs | New features and recent launches — check on every run |
 | [`anthropics/skills`](https://github.com/anthropics/skills) | Canonical Skills examples and spec |
-| [`anthropics/claude-code`](https://github.com/anthropics/claude-code) (release notes) | Source-of-truth for CLI commands and recent changes |
+| [`anthropics/claude-code`](https://github.com/anthropics/claude-code) (releases) | Recent CLI release notes; reflects install changes within days of shipping |
 | [`anthropics/life-sciences`](https://github.com/anthropics/life-sciences) | Real marketplace example to point readers at |
-| [`anthropics/claude-plugins-official`](https://github.com/anthropics/claude-plugins-official) | Anthropic-maintained cross-domain marketplace |
+| [`anthropics/claude-plugins-official`](https://github.com/anthropics/claude-plugins-official) | Anthropic-maintained cross-domain marketplace (pre-registered in Claude Code) |
 
 **Trusted secondary (named, dated, citable):**
 
