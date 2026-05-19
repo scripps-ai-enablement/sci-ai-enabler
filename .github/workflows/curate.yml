@@ -82,6 +82,8 @@ jobs:
           DATE=$(date -u +%Y-%m-%d)
           git add -A
           git commit -m "Catalog update ${DATE}"
+          # Rebase onto any commits that landed during this run (e.g., the guide agent finishing first)
+          git pull --rebase origin main
           git push
           SHA=$(git rev-parse HEAD)
 
