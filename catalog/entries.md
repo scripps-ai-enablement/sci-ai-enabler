@@ -79,6 +79,42 @@ _Last updated: 2026-05-19_
 - **First catalogued**: 2026-05-19
 - **Last verified**: 2026-05-19
 
+### instrument-data-to-allotrope (Claude Skill)
+
+- **Categories**: Chemistry, Drug Repurposing and Discovery, Immunology and Microbiology, Molecular and Cellular Biology, Translational Medicine
+- **Type**: Claude Skill
+- **Supplier**: Anthropic ([anthropics/life-sciences](https://github.com/anthropics/life-sciences))
+- **Availability**: GA — distributed via `anthropics/life-sciences` marketplace alongside Claude for Life Sciences (Oct 2025)
+- **Pricing**: Free / OSS
+- **Capabilities**: Read/Write — parses lab-instrument output (PDF, CSV, Excel, TXT) and writes Allotrope Simple Model (ASM) JSON, flattened 2D CSV, and exportable Python parser code
+- **Available in**:
+  - Claude Code (plugin marketplace: `/plugin marketplace add anthropics/life-sciences` then `/plugin install instrument-data-to-allotrope@life-sciences`)
+  - Claude.ai (Settings → Capabilities → Skills → Upload skill, using the skill bundle from the `anthropics/life-sciences` repo)
+- **Tools / resources exposed**: instrument auto-detection, native parsing via the `allotropy` library with flexible/PDF-table fallback, ASM JSON emission, flattened-CSV emission, ASM validation with strict mode, exportable Python parser code
+- **Primary use cases**: Standardising 40+ instrument types (cell counters, spectrophotometers, plate readers, qPCR, chromatography) for LIMS ingestion, data-lake loading, and downstream analysis
+- **Integration notes**: Depends on `pip install allotropy`; falls back to a flexible parser or PDF table extraction when native parsing fails, with reduced metadata completeness reported; also bundled in the Anthropic `bio-research` plugin
+- **Sources**: [Skill listing (playbooks)](https://playbooks.com/skills/anthropics/life-sciences/instrument-data-to-allotrope), [anthropics/life-sciences marketplace](https://github.com/anthropics/life-sciences), [Allotrope ASM overview](https://www.allotrope.org/asm)
+- **First catalogued**: 2026-05-19
+- **Last verified**: 2026-05-19
+
+### nextflow-development (Claude Skill)
+
+- **Categories**: Drug Repurposing and Discovery, Immunology and Microbiology, Integrative Structural and Computational Biology, Molecular and Cellular Biology, Neuroscience, Translational Medicine
+- **Type**: Claude Skill
+- **Supplier**: Anthropic ([anthropics/life-sciences](https://github.com/anthropics/life-sciences))
+- **Availability**: GA — distributed via `anthropics/life-sciences` marketplace alongside Claude for Life Sciences (Oct 2025); positioned by Anthropic as a prototype/educational example
+- **Pricing**: Free / OSS
+- **Capabilities**: Read/Write — configures and runs nf-core pipelines on local FASTQ inputs or public GEO/SRA accessions; writes pipeline outputs to a user-specified directory
+- **Available in**:
+  - Claude Code (plugin marketplace: `/plugin marketplace add anthropics/life-sciences` then `/plugin install nextflow-development@life-sciences`)
+  - Claude.ai (Settings → Capabilities → Skills → Upload skill, using the skill bundle from the `anthropics/life-sciences` repo)
+- **Tools / resources exposed**: `SKILL.md` instructions for nf-core `rnaseq` (v3.22.2), `sarek` (v3.7.1), and `atacseq` (v2.1.2) — including the standard `-profile test,docker` smoke commands and pointers to expand support to other nf-core pipelines
+- **Primary use cases**: Bench-scientist orchestration of bulk RNA-seq, germline/somatic variant calling, and ATAC-seq analyses without bespoke bioinformatics tooling
+- **Integration notes**: Requires Nextflow and Docker (or another supported container engine) on the host; users are responsible for compute capacity and result validation — Anthropic flags it as not production-ready without domain validation
+- **Sources**: [Skill listing (agent-skills.md)](https://agent-skills.md/skills/anthropics/life-sciences/nextflow-development), [anthropics/life-sciences marketplace](https://github.com/anthropics/life-sciences), [nf-core pipelines](https://nf-co.re/pipelines)
+- **First catalogued**: 2026-05-19
+- **Last verified**: 2026-05-19
+
 ### single-cell-rna-qc (Claude Skill)
 
 - **Categories**: Drug Repurposing and Discovery, Immunology and Microbiology, Integrative Structural and Computational Biology, Molecular and Cellular Biology, Neuroscience, Translational Medicine
@@ -99,6 +135,8 @@ _Last updated: 2026-05-19_
 
 ## Recently surfaced
 
+- **nextflow-development (Claude Skill)** (added 2026-05-19) — Anthropic skill that runs nf-core `rnaseq`, `sarek`, and `atacseq` pipelines on local or GEO/SRA inputs.
+- **instrument-data-to-allotrope (Claude Skill)** (added 2026-05-19) — Anthropic skill that converts 40+ lab-instrument output formats to Allotrope Simple Model JSON / CSV.
 - **BioRender Connector** (added 2026-05-19) — Scientific-illustration MCP / Claude.ai connector for slides, papers, and grants.
 - **10x Genomics Cloud MCP** (added 2026-05-19) — Conversational interface to 10x Cloud single-cell, immune-profiling, and spatial analyses.
 - **single-cell-rna-qc (Claude Skill)** (added 2026-05-19) — Anthropic's first scientific skill; scverse MAD-based QC for single-cell RNA-seq.
@@ -113,7 +151,6 @@ Candidates observed during the most recent surfacing pass but not yet catalogued
 
 - **synapse@life-sciences** — Remote MCP server for Sage Bionetworks Synapse; needs verification of auth model and supplier-side docs.
 - **wiley-scholar-gateway@life-sciences** — Remote MCP server for Wiley scholarly content; verify subscription/auth requirements.
-- **instrument-data-to-allotrope@life-sciences** — Skill that converts lab-instrument data to Allotrope Simple Model; useful in Chemistry and Translational Medicine.
-- **nextflow-development@life-sciences** — Skill for running nf-core pipelines (rnaseq, sarek, atacseq) on local or GEO/SRA inputs.
 - **scvi-tools@life-sciences** — Skill packaging the scvi-tools deep-learning toolkit for single-cell omics.
 - **scientific-problem-selection@life-sciences** — Skill encoding Fischbach & Walsh (Cell 2024) scientific-project framework.
+- **bio-research@anthropics/knowledge-work-plugins** — Anthropic umbrella plugin bundling 10 MCP servers and 6 analysis skills for life-science research; verify install path and complete tool inventory before cataloguing.

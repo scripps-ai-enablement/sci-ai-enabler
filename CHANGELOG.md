@@ -6,6 +6,27 @@ A reverse-chronological log of catalog updates produced by the curator agent. Th
 
 ## 2026-05-19
 
+### Surface anthropics/life-sciences marketplace entries (batch 2)
+
+Cleared two items from the previous run's Deferred list using the `anthropics/life-sciences` marketplace as the manifest-driven source. Stayed under the per-run surfacing cap (2 entries this run vs. soft cap of 5) because each new entry's tag list expands into 5–6 category-card edits.
+
+### Added
+- **instrument-data-to-allotrope (Claude Skill)** (Categories: Chemistry, Drug Repurposing and Discovery, Immunology and Microbiology, Molecular and Cellular Biology, Translational Medicine) — Anthropic skill that converts 40+ lab-instrument output formats (PDF, CSV, Excel, TXT) to Allotrope Simple Model JSON / flattened CSV via the `allotropy` library, with PDF-table fallback and ASM validation ([skill listing](https://playbooks.com/skills/anthropics/life-sciences/instrument-data-to-allotrope), [marketplace](https://github.com/anthropics/life-sciences)).
+- **nextflow-development (Claude Skill)** (Categories: Drug Repurposing and Discovery, Immunology and Microbiology, Integrative Structural and Computational Biology, Molecular and Cellular Biology, Neuroscience, Translational Medicine) — Anthropic prototype skill that runs nf-core `rnaseq` 3.22.2, `sarek` 3.7.1, and `atacseq` 2.1.2 on local FASTQ or GEO/SRA inputs ([skill listing](https://agent-skills.md/skills/anthropics/life-sciences/nextflow-development), [marketplace](https://github.com/anthropics/life-sciences)).
+
+### Updated
+- **[catalog/entries.md]** — Promoted both skills from the Deferred list; refreshed Recently surfaced to include them.
+- **[catalog/README.md]** — Distinct-tool count 5 → 7; per-category counts incremented (Chemistry 3 → 4; Structural/Computational and Neuroscience 5 → 6; Immunology, Molecular & Cellular, Drug Discovery, and Translational 5 → 7).
+- **[Deferred list]** — Removed the two surfaced items; added `bio-research@anthropics/knowledge-work-plugins` (umbrella plugin bundling 10 MCP servers + 6 skills) as a new next-run priority after it was named by both search results.
+
+### Flagged
+- _None._
+
+### Verified (no changes)
+- 5 existing entries spot-checked (all `Last verified: 2026-05-19` from yesterday's run); no field drift on supplier links or install paths.
+
+## 2026-05-19
+
 ### Refactor: entries.md is canonical; category files become tag-filtered indices
 
 Multi-category entries were previously duplicated as full blocks into every named category file. That hit the action's 600-second wall on expansion runs (each pan-life-sciences entry cost ~7 file writes plus drift detection) and forced an artificial "primary category" choice for genuinely cross-cutting tools like PubMed.

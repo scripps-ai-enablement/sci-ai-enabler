@@ -4,7 +4,7 @@
 
 _Last updated: 2026-05-19_
 
-## Entries (5)
+## Entries (6)
 
 Tools tagged with **Integrative Structural and Computational Biology** or `All`. Full details live in [`entries.md`](entries.md).
 
@@ -35,6 +35,13 @@ Unified biomedical lookup across PubMed, ClinicalTrials.gov, MyVariant, and Open
 Scientific-figure assembly from the 50,000+ BioRender icon and template library.
 
 [Full entry →](entries.md#biorender-connector)
+
+### nextflow-development (Claude Skill)
+*Claude Skill · Anthropic · GA*
+
+Runs nf-core `rnaseq`, `sarek`, and `atacseq` pipelines on local FASTQ or GEO/SRA inputs.
+
+[Full entry →](entries.md#nextflow-development-claude-skill)
 
 ### single-cell-rna-qc (Claude Skill)
 *Claude Skill · Anthropic · GA*

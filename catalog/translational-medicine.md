@@ -4,7 +4,7 @@
 
 _Last updated: 2026-05-19_
 
-## Entries (5)
+## Entries (7)
 
 Tools tagged with **Translational Medicine** or `All`. Full details live in [`entries.md`](entries.md).
 
@@ -35,6 +35,20 @@ Unified biomedical lookup across PubMed, ClinicalTrials.gov, MyVariant, and Open
 Scientific-figure assembly from the 50,000+ BioRender icon and template library.
 
 [Full entry →](entries.md#biorender-connector)
+
+### instrument-data-to-allotrope (Claude Skill)
+*Claude Skill · Anthropic · GA*
+
+Converts 40+ lab-instrument output formats to Allotrope Simple Model JSON / CSV for LIMS and data-lake ingestion.
+
+[Full entry →](entries.md#instrument-data-to-allotrope-claude-skill)
+
+### nextflow-development (Claude Skill)
+*Claude Skill · Anthropic · GA*
+
+Runs nf-core `rnaseq`, `sarek`, and `atacseq` pipelines on local FASTQ or GEO/SRA inputs.
+
+[Full entry →](entries.md#nextflow-development-claude-skill)
 
 ### single-cell-rna-qc (Claude Skill)
 *Claude Skill · Anthropic · GA*
