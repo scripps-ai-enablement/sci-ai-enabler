@@ -4,6 +4,41 @@ A reverse-chronological log of catalog updates produced by the curator agent. Th
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-05-19
+
+### Scope refocus to Claude-installable components
+
+The catalog scope was narrowed to discrete, installable Claude components (Claude Skills, MCP servers, Claude Code Plugins, Claude.ai Connectors). General-purpose libraries, model weights distributed only as research artifacts, hosted SaaS without a Claude-installable wrapper, and bespoke LangChain-style agents are no longer in scope. The entry schema was migrated to add `Available in` (every supported install path) and `Tools / resources exposed`, and to drop the free-form `Benchmarks` and `Installation` fields. Surviving entries were re-keyed to the new schema; out-of-scope entries were removed (git history preserves them).
+
+### Removed
+- **[Chemistry] RDKit** — General-purpose cheminformatics library; no Claude Skill/MCP/Plugin/Connector wrapper.
+- **[Chemistry] DeepChem** — General-purpose ML toolkit for chemistry; no Claude-installable wrapper.
+- **[Chemistry] ChemCrow** — LangChain bespoke agent, not packaged as a Skill or Plugin.
+- **[Structural and Computational Biology] AlphaFold 3** — Model weights + hosted server; no Claude-installable wrapper.
+- **[Structural and Computational Biology] Boltz-1 / Boltz-2** — Model weights / research code; no Claude-installable wrapper.
+- **[Structural and Computational Biology] Chai-1** — Model weights + hosted SaaS; no Claude-installable wrapper.
+- **[Structural and Computational Biology] OpenFold / OpenFold3** — Research code reproductions; no Claude-installable wrapper.
+- **[Structural and Computational Biology] ESM-2 / ESMFold** — Model weights distributed as research artifacts; no Claude-installable wrapper.
+- **[Structural and Computational Biology] RFdiffusion** — Research-artifact model weights; no Claude-installable wrapper.
+- **[Immunology and Microbiology] IgFold** — Research-artifact library; no Claude-installable wrapper.
+- **[Molecular and Cellular Biology] Scanpy** — General-purpose single-cell library; no Claude-installable wrapper.
+- **[Molecular and Cellular Biology] CZ CELLxGENE Discover Census** — Hosted dataset + client library; no Claude-installable wrapper.
+- **[Neuroscience] DeepLabCut** — General-purpose pose-estimation library; no Claude-installable wrapper.
+- **[Translational Medicine] Claude for Life Sciences** — Umbrella offering, not a discrete installable component.
+- **[Drug Repurposing and Discovery] TxGNN** — Research-artifact model and code; no Claude-installable wrapper.
+
+### Updated
+- **[Translational Medicine] Anthropic PubMed Connector** — Re-keyed to new schema with explicit `Available in` (Claude Code plugin marketplace, direct `mcp add`, Claude.ai Healthcare connector) and `Tools / resources exposed`.
+- **[Translational Medicine] BioMCP** — Re-keyed to new schema with explicit `Available in` (Claude Code via `uv`, Claude Desktop mcp_config.json) and `Tools / resources exposed`.
+- **[AGENT.md]** — Removed the one-time scope-migration subsection now that it has been executed.
+- **[catalog/README.md]** — Refreshed entry counts and timestamp; updated schema summary.
+
+### Flagged
+- _None._
+
+### Verified (no changes)
+- _None — scope migration only._
+
 ## 2026-05-18
 
 First substantive curator run — seeded each category with established, primary-source-verifiable entries.

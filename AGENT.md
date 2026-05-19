@@ -37,16 +37,6 @@ If an entry plausibly fits more than one category, place it in the single best f
 
 **One entry per tool.** If a tool ships via multiple install paths (e.g., PubMed available as both a Claude.ai Connector and a Claude Code MCP server via the `anthropics/life-sciences` marketplace), create one entry and list every path under `Available in`.
 
-### One-time scope migration (next run only)
-
-The previous catalog (entries from 2026-05-18) was seeded under a broader scope and contains libraries, model weights, hosted SaaS, and bespoke agents that are now out of scope. On your next run, do **only** the cleanup below — do **not** start populating new entries this run. New entries get added on subsequent scheduled runs.
-
-1. For each existing entry that does not fit the **Scope** rules above, **delete it** (do not flag, do not archive). Git history preserves removed entries.
-2. Re-key surviving entries (likely only **Anthropic PubMed Connector** and **BioMCP**) to the new schema, especially populating `Available in` and `Tools / resources exposed`. Quick web verification only — do not rewrite Sources or research history.
-3. Write a single `CHANGELOG.md` entry titled `Scope refocus to Claude-installable components` that lists every removed entry with a one-line reason and notes the schema migration.
-4. **Remove this "One-time scope migration" subsection from `AGENT.md` in the same commit.** Future runs should not see this directive.
-5. Stop and return — surfacing new in-scope entries from the Authoritative sources is the **next** scheduled run's job, not this one.
-
 ## Entry schema
 
 Every catalog entry follows this exact structure. Keep the field order stable so diffs are clean.
