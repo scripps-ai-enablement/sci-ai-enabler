@@ -16,7 +16,7 @@ Organize all entries under exactly these seven categories, each backed by one ma
 | Translational Medicine | `catalog/translational-medicine.md` |
 | Drug Repurposing and Discovery | `catalog/drug-repurposing-discovery.md` |
 
-If an entry plausibly fits more than one category, place it in the single best fit and cross-reference it from the others with a one-line "See also" pointer.
+**Entries can belong to multiple categories.** A cross-cutting tool like PubMed is relevant to every life-science domain, and forcing it into one category with "See also" pointers under-serves the reader. Each entry declares its categories in the `Categories` field of the schema, and the **full entry block is duplicated into each named category file**. The agent keeps the copies in sync (see *Multi-category placement* below).
 
 ## Scope
 
@@ -37,6 +37,15 @@ If an entry plausibly fits more than one category, place it in the single best f
 
 **One entry per tool.** If a tool ships via multiple install paths (e.g., PubMed available as both a Claude.ai Connector and a Claude Code MCP server via the `anthropics/life-sciences` marketplace), create one entry and list every path under `Available in`.
 
+### One-time multi-category backfill (next run only)
+
+Existing entries predate the multi-category schema. On your next run:
+
+1. For each existing entry across `catalog/*.md`, add a `Categories` field at the top of its field list per *Multi-category placement* rules. Cross-cutting infrastructure like the Anthropic PubMed Connector belongs in all seven categories; BioMCP belongs in every category whose research uses the sources it bundles (ClinicalTrials.gov, PubMed, MyVariant, OpenFDA).
+2. Duplicate each entry block into every category file named in its `Categories` field. Blocks must be byte-identical.
+3. Add a single `CHANGELOG.md` entry titled `Enable multi-category entries` summarizing the backfill (which entries got which categories).
+4. **Remove this "One-time multi-category backfill" subsection from `AGENT.md` in the same commit.** Future runs should not see this directive.
+
 ## Entry schema
 
 Every catalog entry follows this exact structure. Keep the field order stable so diffs are clean.
@@ -44,6 +53,7 @@ Every catalog entry follows this exact structure. Keep the field order stable so
 ```markdown
 ### Tool Name
 
+- **Categories**: pipe-separated list from the seven canonical categories (e.g., `Translational Medicine | Drug Repurposing and Discovery | Chemistry`). The full entry block is duplicated into each named category file; this field is the source of truth for which files must hold a copy.
 - **Type**: MCP server | Claude Skill | Claude Code Plugin | Claude.ai Connector
 - **Supplier**: Vendor / org name ([link](https://…))
 - **Availability**: GA | Beta | Alpha | Preview | Deprecated
@@ -67,6 +77,27 @@ Every catalog entry follows this exact structure. Keep the field order stable so
 - `Claude Code (community skill: clone K-Dense-AI/scientific-agent-skills, copy scientific-skills/<skill-name>/ into ~/.claude/skills/)`
 - `Claude.ai (Healthcare connector — toggle in Settings → Connectors)`
 - `Claude Desktop (manual mcp_config.json entry)`
+
+## Multi-category placement
+
+Many components are cross-cutting (e.g., PubMed, biorxiv, ChEMBL, Open Targets, ClinicalTrials.gov are relevant to almost every life-science domain). The catalog handles this by **duplicating the full entry block into each category file** named in the entry's `Categories` field.
+
+**Classifier rules** for assigning categories:
+
+- **Include a category if a researcher in that domain would plausibly reach for the tool while doing their work.** Don't restrict to "primary use case" — practical relevance is the bar.
+- **General research infrastructure** (literature search, preprint discovery, identifier resolvers like UniProt/MyVariant, broad clinical-trial databases) typically belongs to **all seven categories**.
+- **Pan-omics infrastructure** (sequence/structure databases, multi-omics services) typically belongs to several categories — at minimum Molecular and Cellular Biology, Structural and Computational Biology, and Drug Repurposing and Discovery.
+- **Domain-specific tools** (e.g., a single-cell RNA-seq skill, a connectomics MCP) usually fit one or two categories. Don't pad the list.
+- **Do not invent categories.** Use only the seven defined in the table above.
+
+**Synchronization rules**:
+
+- Every category file named in an entry's `Categories` field MUST contain a copy of the entry block. The blocks must be **byte-identical** across files, including the `Categories` field itself.
+- When adding a new entry: write the `Categories` field first, then copy the entry block into each named category file's `## Entries` section. Add the entry to each named category's `Recently surfaced` section on the day of addition.
+- When updating an entry (any field): update all copies in the same run. Treat `Categories` as authoritative — if the list changes, add the entry to newly-named categories and remove it from any that were dropped.
+- When flagging an entry: flag it in every category file the entry is in.
+- When removing an entry: remove every copy and the `Recently surfaced` lines.
+- **Drift detection (run-start step)**: while reading every catalog file, verify that for each entry encountered, its `Categories` field matches the set of files it actually appears in. If they differ, the `Categories` field wins — re-sync the files in the current run.
 
 ## File structure for each category
 
@@ -135,8 +166,8 @@ Do not rely on `mcp.so` or `smithery.ai` from the GitHub Actions runner — they
 
 ## Your responsibilities each run
 
-1. **Read every catalog file** before deciding what to change.
-2. **Verify existing entries** that have not been verified in the last 30 days. Confirm the supplier link resolves, availability/pricing fields are still accurate, and at least one `Available in` install path still works. Update `Last verified` to today's date when re-confirmed. If something has changed, update the relevant fields and note the change in the changelog.
+1. **Read every catalog file** before deciding what to change. While reading, perform the drift-detection step from *Multi-category placement* — confirm every entry's `Categories` field matches the files it appears in; re-sync any mismatch in this run.
+2. **Verify existing entries** that have not been verified in the last 30 days. Confirm the supplier link resolves, availability/pricing fields are still accurate, and at least one `Available in` install path still works. Update `Last verified` to today's date when re-confirmed. If something has changed, update the relevant fields and note the change in the changelog. Apply updates to every copy of the entry.
 3. **Surface new components** by walking the Authoritative sources above and by open web search. Prefer additions you can install today over speculative or unreleased components. **Cap additions at ~10 new entries per run across all categories.** The action has a hard 10-minute compute budget; if you find more candidates than that, prioritize the highest-quality ones and leave the rest for the next scheduled run.
 4. **Flag outdated entries** by moving them to the "Flagged for review" section with a dated reason. Do not silently delete current entries (except as part of the one-time scope migration above) — deprecation is information.
 5. **Always cite sources.** Every claim about pricing, availability, or capability must trace to a URL in the Sources field. Prefer primary sources (vendor docs, GitHub READMEs, official blog posts, peer-reviewed papers) over secondary coverage.
