@@ -159,15 +159,22 @@ Do not rely on `mcp.so` or `smithery.ai` from the GitHub Actions runner — they
 
 1. **Read every catalog file** before deciding what to change. While reading, perform the drift-detection step from *Multi-category placement* — confirm every entry's `Categories` field matches the files it appears in; re-sync any mismatch in this run.
 2. **Verify existing entries** that have not been verified in the last 30 days. Confirm the supplier link resolves, availability/pricing fields are still accurate, and at least one `Available in` install path still works. Update `Last verified` to today's date when re-confirmed. If something has changed, update the relevant fields and note the change in the changelog. Apply updates to every copy of the entry.
-3. **Surface new components** by walking the Authoritative sources above and by open web search. Prefer additions you can install today over speculative or unreleased components.
+3. **Surface new components.** The action has a hard 10-minute wall and per-tool web research is the most expensive thing you do. Keep the surfacing pass narrow:
 
-   **Run budget — the cap that matters is file writes, not logical entries.** The action has a hard 10-minute compute budget, and multi-category entries multiply file writes (one entry in five categories = five Write calls plus five Recently-surfaced bumps). Use this budget per run:
+   **Hard cap: ≤ 3 logical new entries per run.** Stop researching after the third entry, regardless of how many more candidates you've spotted. The rest are next-run work. Daily runs at three entries each = ~80 entries / month, which is plenty.
 
-   - **≤ 20 file writes** across new-entry additions for the whole run, total.
-   - Translate that into logical entries by estimating each entry's `Categories` count first. A pan-life-sciences tool (PubMed-class) costs 7 writes; a Translational-only tool costs 1. Mix accordingly.
-   - When you would exceed the budget, **stop adding and commit what you have.** Surfacing the rest is the next scheduled run's job, not this one. Note "N candidates deferred — next-run priority list: …" in the changelog under a `### Deferred` heading.
+   **Prefer manifest-driven sources** that yield multiple entries from a single fetch — they pay for themselves:
 
-   Practical heuristic: a typical run that fits the budget is **~3 cross-cutting entries plus ~5 narrow entries**, or all-narrow with **~10 entries**. Adjust to whatever you actually find.
+   - [`anthropics/life-sciences/marketplace.json`](https://raw.githubusercontent.com/anthropics/life-sciences/main/marketplace.json) — one fetch, every entry is pre-validated.
+   - [`anthropics/claude-plugins-official/marketplace.json`](https://raw.githubusercontent.com/anthropics/claude-plugins-official/main/marketplace.json) — same shape.
+   - [MCP Registry API](https://registry.modelcontextprotocol.io/) — one API call, filterable by keyword.
+   - Community skill collections' top-level READMEs / directory listings (one fetch each).
+
+   Only fall back to open WebSearch for a candidate when none of the manifest sources covers it.
+
+   **Workflow per surfacing pass**: pick one manifest-driven source you haven't drawn from in the last few runs → fetch it once → identify the most useful 1–3 candidates not yet in the catalog → write them with the correct `Categories` field and duplicate into each named file → stop. Defer the rest by listing them under a `### Deferred — next-run priority` heading in this run's changelog entry. The next scheduled run picks up that list.
+
+   Multi-category placement still applies: each new entry is duplicated into every category named in its `Categories` field. A pan-life-sciences tool costs 7 file writes; budget accordingly.
 4. **Flag outdated entries** by moving them to the "Flagged for review" section with a dated reason. Do not silently delete current entries (except as part of the one-time scope migration above) — deprecation is information.
 5. **Always cite sources.** Every claim about pricing, availability, or capability must trace to a URL in the Sources field. Prefer primary sources (vendor docs, GitHub READMEs, official blog posts, peer-reviewed papers) over secondary coverage.
 6. **Append to `CHANGELOG.md`** with a dated entry summarizing what changed this run and why. Use this format:
