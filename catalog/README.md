@@ -4,6 +4,8 @@ A curated catalog of AI ecosystem components for life-science applications — M
 
 Maintained by a scheduled Claude curator. See the top-level [README](../README.md) and [`AGENT.md`](../AGENT.md) for how this is produced, and [`CHANGELOG.md`](../CHANGELOG.md) for the history.
 
+**New to Claude Skills, MCP servers, or Plugins?** Start with the [guide](../guide/) — short pages that explain what each component is and how to install it.
+
 _Last refreshed: 2026-05-18_
 
 ## Categories

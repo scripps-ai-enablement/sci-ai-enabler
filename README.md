@@ -1,8 +1,11 @@
 # sci-ai-enabler
 
-An agent-maintained catalog of AI ecosystem components — MCP servers, plugins, skills, agents, workflows, and related systems — for life-science applications.
+Two agent-maintained resources for Claude users working in life science:
 
-A scheduled GitHub Action runs a Claude-based curator daily that researches, verifies, and updates entries across seven categories. All output lives as plain markdown under [`catalog/`](catalog/) and is also rendered as a [GitHub Pages site](https://goodb.github.io/sci-ai-enabler/).
+- **[Catalog](catalog/)** — what Claude Skills, MCP servers, Plugins, and Claude.ai Connectors are available for life-science work, organized into seven research areas.
+- **[Guide](guide/)** — short, beginner-facing pages that explain what those components are and how to install them.
+
+Both are rendered as a [GitHub Pages site](https://goodb.github.io/sci-ai-enabler/) and refreshed by separate scheduled GitHub Actions.
 
 ## Browse the catalog
 
@@ -14,27 +17,43 @@ A scheduled GitHub Action runs a Claude-based curator daily that researches, ver
 - [Translational Medicine](catalog/translational-medicine.md)
 - [Drug Repurposing and Discovery](catalog/drug-repurposing-discovery.md)
 
-See [`CHANGELOG.md`](CHANGELOG.md) for the history of curator updates.
+See [`CHANGELOG.md`](CHANGELOG.md) for the catalog's update history.
+
+## Read the guide
+
+Start here if you're new to Claude Skills, MCP servers, or Plugins.
+
+- [Claude surfaces](guide/claude-surfaces.md) — which Claude product is which.
+- [Skills](guide/skills.md), [MCP servers](guide/mcp-servers.md), [Plugins](guide/plugins.md), [Marketplaces](guide/marketplaces.md), [Connectors](guide/connectors.md) — one short page per concept.
+- [Decision tree](guide/decision-tree.md) — "I want to do X — which should I use?"
+- [Advanced](guide/advanced/) — hooks, custom slash commands, authentication.
+
+See [`GUIDE_CHANGELOG.md`](GUIDE_CHANGELOG.md) for the guide's update history.
 
 ## How it works
 
-- [`AGENT.md`](AGENT.md) — the curator's system prompt and schema. Single source of truth for entry structure and curator behavior.
-- [`.github/workflows/curate.yml`](.github/workflows/curate.yml) — runs the curator daily at 13:00 UTC, or on demand. Uses the [Claude Code GitHub Action](https://github.com/anthropics/claude-code-base-action) on a GitHub-hosted runner with web search and web fetch enabled.
-- Each run with substantive changes commits to `main` and posts a comment on the pinned **"Catalog updates"** issue, which is how update notifications land in your inbox.
+Two independent scheduled agents, each a [Claude Code GitHub Action](https://github.com/anthropics/claude-code-base-action) run on a GitHub-hosted runner with web search and fetch enabled. Each posts to its own pinned tracking issue when a run produced changes — that's how update notifications land in your inbox.
+
+| Resource | Prompt | Workflow | Schedule | Tracking issue |
+|---|---|---|---|---|
+| Catalog | [`AGENT.md`](AGENT.md) | [`curate.yml`](.github/workflows/curate.yml) | Daily 13:00 UTC | "Catalog updates" |
+| Guide | [`GUIDE_AGENT.md`](GUIDE_AGENT.md) | [`guide.yml`](.github/workflows/guide.yml) | Daily 14:30 UTC | "Guide updates" |
 
 ## Triggering an on-demand run
 
-From the browser: **Actions** → **Curate catalog** → **Run workflow**. You can optionally scope the run to a single category.
+From the browser: **Actions** → choose the workflow → **Run workflow**. You can optionally scope to a single category or topic.
 
 From the terminal:
 
 ```sh
-gh workflow run curate.yml                       # all categories
+gh workflow run curate.yml                       # whole catalog
 gh workflow run curate.yml -f category=chemistry # one category
+gh workflow run guide.yml                        # whole guide
+gh workflow run guide.yml -f topic=skills        # one topic
 ```
 
 ## One-time setup
 
 1. Add an `ANTHROPIC_API_KEY` repository secret (**Settings → Secrets and variables → Actions**).
 2. Enable GitHub Pages from the `main` branch root (**Settings → Pages → Source: Deploy from a branch → main / (root)**).
-3. Watch the repo (or just the **Catalog updates** issue once the first run creates it) to receive email notifications on each update.
+3. Watch the repo (or the **Catalog updates** and **Guide updates** issues once the first runs create them) to receive email notifications.

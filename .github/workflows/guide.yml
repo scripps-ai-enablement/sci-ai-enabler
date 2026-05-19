@@ -1,0 +1,110 @@
+name: Guide
+
+on:
+  schedule:
+    # Daily at 14:30 UTC, offset from the catalog cron at 13:00 UTC.
+    - cron: '30 14 * * *'
+  workflow_dispatch:
+    inputs:
+      topic:
+        description: 'Scope this run to one topic file (or "all")'
+        required: false
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - claude-surfaces
+          - skills
+          - mcp-servers
+          - plugins
+          - marketplaces
+          - connectors
+          - decision-tree
+          - advanced/hooks
+          - advanced/slash-commands
+          - advanced/authentication
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: guide
+  cancel-in-progress: false
+
+jobs:
+  guide:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Compose run prompt
+        run: |
+          SCOPE="${{ inputs.topic }}"
+          SCOPE="${SCOPE:-all}"
+          {
+            cat GUIDE_AGENT.md
+            echo ""
+            echo "---"
+            echo ""
+            echo "## This run"
+            echo "- UTC date: $(date -u +%Y-%m-%d)"
+            echo "- Scope: ${SCOPE}"
+            if [ "${SCOPE}" = "all" ]; then
+              echo "- Update any of the guide files as warranted."
+            else
+              echo "- Limit edits to guide/${SCOPE}.md (plus GUIDE_CHANGELOG.md as required by your instructions)."
+            fi
+          } > .run-prompt.md
+
+      - uses: anthropics/claude-code-base-action@beta
+        with:
+          prompt_file: .run-prompt.md
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          model: claude-opus-4-7
+          allowed_tools: "Read,Edit,Write,Glob,Grep,WebSearch,WebFetch"
+
+      - name: Commit, push, and notify
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          SERVER_URL: ${{ github.server_url }}
+        run: |
+          rm -f .run-prompt.md
+          git config user.name "guide-curator[bot]"
+          git config user.email "guide-curator@users.noreply.github.com"
+
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "No guide changes this run."
+            exit 0
+          fi
+
+          DATE=$(date -u +%Y-%m-%d)
+          git add -A
+          git commit -m "Guide update ${DATE}"
+          git push
+          SHA=$(git rev-parse HEAD)
+
+          ISSUE=$(gh issue list \
+            --state open \
+            --search 'in:title "Guide updates"' \
+            --json number,title \
+            --jq '[.[] | select(.title == "Guide updates")][0].number')
+          if [ -z "${ISSUE}" ] || [ "${ISSUE}" = "null" ]; then
+            ISSUE_URL=$(gh issue create \
+              --title "Guide updates" \
+              --body "Rolling log of guide updates. Each scheduled or on-demand run that produced changes posts a comment here.")
+            ISSUE="${ISSUE_URL##*/}"
+            gh issue pin "${ISSUE}" || true
+          fi
+
+          LATEST=$(awk '/^## / {n++} n>=2 {exit} n==1 {print}' GUIDE_CHANGELOG.md)
+
+          {
+            echo "${LATEST}"
+            echo ""
+            echo "[View commit](${SERVER_URL}/${REPO}/commit/${SHA})"
+          } | gh issue comment "${ISSUE}" --body-file -
