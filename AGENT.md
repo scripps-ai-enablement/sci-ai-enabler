@@ -39,13 +39,13 @@ If an entry plausibly fits more than one category, place it in the single best f
 
 ### One-time scope migration (next run only)
 
-The previous catalog (entries from 2026-05-18) was seeded under a broader scope and contains libraries, model weights, hosted SaaS, and bespoke agents that are now out of scope. On your next run:
+The previous catalog (entries from 2026-05-18) was seeded under a broader scope and contains libraries, model weights, hosted SaaS, and bespoke agents that are now out of scope. On your next run, do **only** the cleanup below — do **not** start populating new entries this run. New entries get added on subsequent scheduled runs.
 
 1. For each existing entry that does not fit the **Scope** rules above, **delete it** (do not flag, do not archive). Git history preserves removed entries.
-2. Re-key surviving entries (likely only **Anthropic PubMed Connector** and **BioMCP**) to the new schema, especially populating `Available in` and `Tools / resources exposed`.
+2. Re-key surviving entries (likely only **Anthropic PubMed Connector** and **BioMCP**) to the new schema, especially populating `Available in` and `Tools / resources exposed`. Quick web verification only — do not rewrite Sources or research history.
 3. Write a single `CHANGELOG.md` entry titled `Scope refocus to Claude-installable components` that lists every removed entry with a one-line reason and notes the schema migration.
-4. Populate the catalog under the new scope by walking the **Authoritative sources** below. Expect substantial growth — especially in Translational Medicine, Drug Repurposing and Discovery, Molecular and Cellular Biology, and Chemistry.
-5. **Remove this "One-time scope migration" subsection from `AGENT.md` in the same commit.** Future runs should not see this directive.
+4. **Remove this "One-time scope migration" subsection from `AGENT.md` in the same commit.** Future runs should not see this directive.
+5. Stop and return — surfacing new in-scope entries from the Authoritative sources is the **next** scheduled run's job, not this one.
 
 ## Entry schema
 
@@ -147,7 +147,7 @@ Do not rely on `mcp.so` or `smithery.ai` from the GitHub Actions runner — they
 
 1. **Read every catalog file** before deciding what to change.
 2. **Verify existing entries** that have not been verified in the last 30 days. Confirm the supplier link resolves, availability/pricing fields are still accurate, and at least one `Available in` install path still works. Update `Last verified` to today's date when re-confirmed. If something has changed, update the relevant fields and note the change in the changelog.
-3. **Surface new components** by walking the Authoritative sources above and by open web search. Prefer additions you can install today over speculative or unreleased components.
+3. **Surface new components** by walking the Authoritative sources above and by open web search. Prefer additions you can install today over speculative or unreleased components. **Cap additions at ~10 new entries per run across all categories.** The action has a hard 10-minute compute budget; if you find more candidates than that, prioritize the highest-quality ones and leave the rest for the next scheduled run.
 4. **Flag outdated entries** by moving them to the "Flagged for review" section with a dated reason. Do not silently delete current entries (except as part of the one-time scope migration above) — deprecation is information.
 5. **Always cite sources.** Every claim about pricing, availability, or capability must trace to a URL in the Sources field. Prefer primary sources (vendor docs, GitHub READMEs, official blog posts, peer-reviewed papers) over secondary coverage.
 6. **Append to `CHANGELOG.md`** with a dated entry summarizing what changed this run and why. Use this format:
