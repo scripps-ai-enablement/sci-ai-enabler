@@ -159,7 +159,15 @@ Do not rely on `mcp.so` or `smithery.ai` from the GitHub Actions runner — they
 
 1. **Read every catalog file** before deciding what to change. While reading, perform the drift-detection step from *Multi-category placement* — confirm every entry's `Categories` field matches the files it appears in; re-sync any mismatch in this run.
 2. **Verify existing entries** that have not been verified in the last 30 days. Confirm the supplier link resolves, availability/pricing fields are still accurate, and at least one `Available in` install path still works. Update `Last verified` to today's date when re-confirmed. If something has changed, update the relevant fields and note the change in the changelog. Apply updates to every copy of the entry.
-3. **Surface new components** by walking the Authoritative sources above and by open web search. Prefer additions you can install today over speculative or unreleased components. **Cap additions at ~10 new entries per run across all categories.** The action has a hard 10-minute compute budget; if you find more candidates than that, prioritize the highest-quality ones and leave the rest for the next scheduled run.
+3. **Surface new components** by walking the Authoritative sources above and by open web search. Prefer additions you can install today over speculative or unreleased components.
+
+   **Run budget — the cap that matters is file writes, not logical entries.** The action has a hard 10-minute compute budget, and multi-category entries multiply file writes (one entry in five categories = five Write calls plus five Recently-surfaced bumps). Use this budget per run:
+
+   - **≤ 20 file writes** across new-entry additions for the whole run, total.
+   - Translate that into logical entries by estimating each entry's `Categories` count first. A pan-life-sciences tool (PubMed-class) costs 7 writes; a Translational-only tool costs 1. Mix accordingly.
+   - When you would exceed the budget, **stop adding and commit what you have.** Surfacing the rest is the next scheduled run's job, not this one. Note "N candidates deferred — next-run priority list: …" in the changelog under a `### Deferred` heading.
+
+   Practical heuristic: a typical run that fits the budget is **~3 cross-cutting entries plus ~5 narrow entries**, or all-narrow with **~10 entries**. Adjust to whatever you actually find.
 4. **Flag outdated entries** by moving them to the "Flagged for review" section with a dated reason. Do not silently delete current entries (except as part of the one-time scope migration above) — deprecation is information.
 5. **Always cite sources.** Every claim about pricing, availability, or capability must trace to a URL in the Sources field. Prefer primary sources (vendor docs, GitHub READMEs, official blog posts, peer-reviewed papers) over secondary coverage.
 6. **Append to `CHANGELOG.md`** with a dated entry summarizing what changed this run and why. Use this format:
