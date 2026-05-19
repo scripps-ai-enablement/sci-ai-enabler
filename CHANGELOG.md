@@ -6,6 +6,37 @@ A reverse-chronological log of catalog updates produced by the curator agent. Th
 
 ## 2026-05-19
 
+### Surface anthropics/life-sciences marketplace entries (batch 1)
+
+Drew from the `anthropics/life-sciences` marketplace manifest — the highest-yield, pre-validated source for Claude-installable life-science components. Added the three most impactful entries not yet catalogued and stopped at the per-run cap of 3.
+
+#### Added
+- **[Chemistry, Immunology and Microbiology, Integrative Structural and Computational Biology, Molecular and Cellular Biology, Neuroscience, Translational Medicine, Drug Repurposing and Discovery] BioRender Connector** — Scientific-illustration MCP / Claude.ai connector launched alongside the Oct 23, 2025 Anthropic × BioRender partnership; relevant across every life-science domain because figure-building is universal ([Anthropic tutorial](https://claude.com/resources/tutorials/using-the-biorender-connector-in-claude), [BusinessWire announcement](https://www.businesswire.com/news/home/20251023858531/en/BioRender-and-Anthropic-Partner-To-Bring-Scientific-Illustrations-to-Claude-For-Life-Sciences)).
+- **[Immunology and Microbiology, Integrative Structural and Computational Biology, Molecular and Cellular Biology, Neuroscience, Translational Medicine, Drug Repurposing and Discovery] 10x Genomics Cloud MCP** — Local MCPB extension distributed by 10x Genomics that lets Claude Code and Claude Desktop drive 10x Cloud single-cell / immune-profiling / Visium / Xenium analyses; available from Oct 20, 2025 ([10x docs](https://www.10xgenomics.com/support/software/cloud-analysis/latest/tutorials/cloud-mcp-server-code)).
+- **[Immunology and Microbiology, Integrative Structural and Computational Biology, Molecular and Cellular Biology, Neuroscience, Translational Medicine, Drug Repurposing and Discovery] single-cell-rna-qc (Claude Skill)** — Anthropic's first published scientific skill; performs scverse MAD-based QC on `.h5ad` and 10x `.h5` inputs ([SKILL.md](https://github.com/anthropics/life-sciences/blob/main/single-cell-rna-qc/SKILL.md), [Anthropic tutorial](https://claude.com/resources/tutorials/how-to-use-the-single-cell-rna-qc-skill-with-claude)).
+
+#### Updated
+- **[catalog/README.md]** — Refreshed entry counts (Chemistry → 3, all other categories → 5; distinct tools → 5) and updated cross-cutting-tools example list.
+
+#### Flagged
+- _None._
+
+#### Verified (no changes)
+- _None — new-surfacing run._
+
+### Deferred — next-run priority
+
+The following candidates were observed in `anthropics/life-sciences` and adjacent sources during this run but deferred to remain within the 3-entry surfacing cap. Pick up next run before re-querying any source.
+
+- **synapse@life-sciences** — Remote MCP server for Sage Bionetworks Synapse; needs verification of auth model and supplier-side docs.
+- **wiley-scholar-gateway@life-sciences** — Remote MCP server for Wiley scholarly content; verify subscription/auth requirements.
+- **instrument-data-to-allotrope@life-sciences** — Skill that converts lab-instrument data to Allotrope Simple Model; useful in Chemistry and Translational Medicine.
+- **nextflow-development@life-sciences** — Skill for running nf-core pipelines (rnaseq, sarek, atacseq) on local or GEO/SRA inputs.
+- **scvi-tools@life-sciences** — Skill packaging the scvi-tools deep-learning toolkit for single-cell omics.
+- **scientific-problem-selection@life-sciences** — Skill encoding Fischbach & Walsh (Cell 2024) scientific-project framework.
+
+## 2026-05-19
+
 ### Enable multi-category entries
 
 Backfilled the new `Categories` field on every existing catalog entry and duplicated each entry block byte-identically into every category file it claims. Both currently-catalogued tools are cross-cutting biomedical research infrastructure and were assigned all seven categories.

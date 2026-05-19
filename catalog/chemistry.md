@@ -43,6 +43,24 @@ _Last updated: 2026-05-19_
 - **First catalogued**: 2026-05-18
 - **Last verified**: 2026-05-19
 
+### BioRender Connector
+
+- **Categories**: Chemistry | Immunology and Microbiology | Integrative Structural and Computational Biology | Molecular and Cellular Biology | Neuroscience | Translational Medicine | Drug Repurposing and Discovery
+- **Type**: MCP server
+- **Supplier**: BioRender ([biorender.com](https://www.biorender.com/))
+- **Availability**: GA — launched Oct 23, 2025 alongside the Claude for Life Sciences partnership
+- **Pricing**: Freemium — Free and Individual plans access a limited icon/template set; Premium / Team plans access the full BioRender library
+- **Capabilities**: Read/Write — search BioRender's icon and template library and request scientific-figure suggestions for slides, papers, posters, and grants
+- **Available in**:
+  - Claude Code (plugin marketplace: `/plugin marketplace add anthropics/life-sciences` then `/plugin install biorender@life-sciences`)
+  - Claude.ai (BioRender connector — toggle in Settings → Connectors; sign in with BioRender credentials)
+- **Tools / resources exposed**: scientific-icon search, template search, figure recommendations across the 50,000+ vetted BioRender icon library
+- **Primary use cases**: Building scientific figures, generating slide-deck illustrations, sourcing curated templates for grants and publications
+- **Integration notes**: Remote MCP server hosted by BioRender; OAuth login required; access scope depends on BioRender subscription tier
+- **Sources**: [Anthropic tutorial](https://claude.com/resources/tutorials/using-the-biorender-connector-in-claude), [BioRender × Anthropic partnership announcement (BusinessWire, 2025-10-23)](https://www.businesswire.com/news/home/20251023858531/en/BioRender-and-Anthropic-Partner-To-Bring-Scientific-Illustrations-to-Claude-For-Life-Sciences), [anthropics/life-sciences marketplace](https://github.com/anthropics/life-sciences)
+- **First catalogued**: 2026-05-19
+- **Last verified**: 2026-05-19
+
 ## Flagged for review
 
 _None._
@@ -51,3 +69,4 @@ _None._
 
 - **Anthropic PubMed Connector** (added 2026-05-19) — Cross-cutting literature-search MCP/Connector added to this category as part of the multi-category backfill.
 - **BioMCP** (added 2026-05-19) — Cross-cutting biomedical MCP (ClinicalTrials.gov, PubMed, MyVariant, OpenFDA) added to this category as part of the multi-category backfill.
+- **BioRender Connector** (added 2026-05-19) — Cross-cutting scientific-illustration MCP / Claude.ai connector; useful for chemistry-figure assembly. ([Anthropic tutorial](https://claude.com/resources/tutorials/using-the-biorender-connector-in-claude))

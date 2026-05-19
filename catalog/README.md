@@ -12,15 +12,15 @@ _Last refreshed: 2026-05-19_
 
 | Category | File | Entries |
 |---|---|---|
-| Chemistry | [chemistry.md](chemistry.md) | 2 |
-| Immunology and Microbiology | [immunology-microbiology.md](immunology-microbiology.md) | 2 |
-| Integrative Structural and Computational Biology | [structural-computational-biology.md](structural-computational-biology.md) | 2 |
-| Molecular and Cellular Biology | [molecular-cellular-biology.md](molecular-cellular-biology.md) | 2 |
-| Neuroscience | [neuroscience.md](neuroscience.md) | 2 |
-| Translational Medicine | [translational-medicine.md](translational-medicine.md) | 2 |
-| Drug Repurposing and Discovery | [drug-repurposing-discovery.md](drug-repurposing-discovery.md) | 2 |
+| Chemistry | [chemistry.md](chemistry.md) | 3 |
+| Immunology and Microbiology | [immunology-microbiology.md](immunology-microbiology.md) | 5 |
+| Integrative Structural and Computational Biology | [structural-computational-biology.md](structural-computational-biology.md) | 5 |
+| Molecular and Cellular Biology | [molecular-cellular-biology.md](molecular-cellular-biology.md) | 5 |
+| Neuroscience | [neuroscience.md](neuroscience.md) | 5 |
+| Translational Medicine | [translational-medicine.md](translational-medicine.md) | 5 |
+| Drug Repurposing and Discovery | [drug-repurposing-discovery.md](drug-repurposing-discovery.md) | 5 |
 
-Entries can belong to multiple categories; cross-cutting tools (like the PubMed Connector and BioMCP) are duplicated byte-identically into every category file named in their `Categories` field. Distinct tools currently catalogued: 2.
+Entries can belong to multiple categories; cross-cutting tools (like the PubMed Connector, BioMCP, BioRender, 10x Genomics Cloud, and the single-cell-rna-qc skill) are duplicated byte-identically into every category file named in their `Categories` field. Distinct tools currently catalogued: 5.
 
 ## Entry schema
 
