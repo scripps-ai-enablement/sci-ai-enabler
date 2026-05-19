@@ -22,12 +22,14 @@ Your account, Projects, and conversation history are shared across Claude.ai and
 
 - Claude.ai: sign in at `https://claude.ai`.
 - Claude Desktop: download from `https://claude.ai/download`.
-- Claude Code CLI: install, then sign in.
+- Claude Code CLI: install with the native installer, then sign in. (npm is deprecated.)
 
   ```bash
-  npm install -g @anthropic-ai/claude-code
+  curl -fsSL https://claude.ai/install.sh | bash
   claude
   ```
+
+  Windows PowerShell: `irm https://claude.ai/install.ps1 | iex`. Homebrew: `brew install --cask claude-code`.
 
 - Claude Code on the web: go to `https://claude.ai/code` and sign in (Pro, Max, Team, or premium Enterprise seats). Use `--teleport` from the CLI to pull a cloud session into your terminal.
 - Claude API: create a key at `https://console.anthropic.com` and call the REST endpoint or an Anthropic SDK.
@@ -48,8 +50,9 @@ Your account, Projects, and conversation history are shared across Claude.ai and
 
 ## Sources
 
+- [Claude Code product landing](https://claude.com/product/claude-code) — Anthropic product page; verified 2026-05-19 (this run) — canonical install command.
+- [Set up Claude Code](https://code.claude.com/docs/en/setup) — Anthropic docs; verified 2026-05-19 (this run) — confirms native installer is recommended, npm is deprecated.
 - [Claude Code on the web](https://code.claude.com/docs/en/claude-code-on-the-web) — Anthropic docs; verified 2026-05-19 (this run).
 - [Claude Code on the web (announcement)](https://www.anthropic.com/news/claude-code-on-the-web) — published 2025-10-20.
 - [Claude Code for web — Simon Willison](https://simonwillison.net/2025/Oct/20/claude-code-for-web/) — published 2025-10-20.
-- [Anthropic brings Claude Code to the web — TechCrunch](https://techcrunch.com/2025/10/20/anthropic-brings-claude-code-to-the-web/) — published 2025-10-20.
 - [Claude Code overview](https://code.claude.com/docs/en/overview) — Anthropic docs; verified 2026-05-19.

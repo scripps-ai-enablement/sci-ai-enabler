@@ -80,16 +80,6 @@ If the landing page and a deep doc page disagree on the install command, **the l
 - A `plugins.md` install flow that doesn't reflect that `anthropics/claude-plugins-official` is pre-registered.
 - A `connectors.md` that names connectors no longer in the Healthcare-filtered list at `claude.com/connectors`.
 
-### One-time install-command re-verification (next run only)
-
-The previous backfill grounded most claims in sources, but operational install commands may still trail the product landing pages. On your next run, scope your work to:
-
-1. WebFetch `https://claude.com/product/claude-code` and `https://claude.com/product/claude` (or the equivalent current product pages). Confirm the canonical install command for Claude Code, the supported launch surfaces, and any version-specific commands they recommend.
-2. Cross-check every install / command code block across all guide pages against what you just fetched. Replace any deprecated command with the current canonical one. The known stale case to fix: `claude-surfaces.md` and any other page recommending `npm install -g @anthropic-ai/claude-code` should switch to `curl -fsSL https://claude.ai/install.sh | bash` if the landing page confirms.
-3. Refresh each affected page's `## Sources` section with the landing-page URLs and the date you fetched them.
-4. Write a single `GUIDE_CHANGELOG.md` entry titled `Re-verify install commands against product landing pages` listing each command replaced and the landing-page URL it came from.
-5. **Remove this "One-time install-command re-verification" subsection from `GUIDE_AGENT.md` in the same commit.** Future runs use only the steady-state per-run workflow with the tiered recency windows above.
-
 ## Page schema
 
 Every topic page (everything under `guide/` except `README.md`, `decision-tree.md`, and `advanced/README.md`) follows this exact shape:
