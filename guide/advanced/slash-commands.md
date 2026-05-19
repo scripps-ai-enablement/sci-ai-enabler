@@ -48,3 +48,9 @@ For a subagent, write `.claude/agents/<name>.md` with `name`, `description`, `to
 - [Plugins](../plugins.md) — distribute commands and agents together
 - [Slash commands reference](https://code.claude.com/docs/en/slash-commands) — canonical docs
 - [Subagents reference](https://code.claude.com/docs/en/subagents) — canonical docs
+
+## Sources
+
+- [Slash Commands in the SDK](https://code.claude.com/docs/en/agent-sdk/slash-commands) — Anthropic docs; verified 2026-05-19 (this run).
+- [Slash Commands (platform docs)](https://platform.claude.com/docs/en/agent-sdk/slash-commands) — Anthropic docs; verified 2026-05-19.
+- [Claude Code customization guide](https://alexop.dev/posts/claude-code-customization-guide-claudemd-skills-subagents/) — Alex Op; verified 2026-05-19.

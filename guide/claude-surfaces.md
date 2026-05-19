@@ -1,39 +1,42 @@
 # Claude surfaces
 
-> The four products that share the Claude name: Claude.ai, Claude Desktop, Claude Code, and the Claude API.
+> The places you can use Claude: Claude.ai, Claude Desktop, Claude Code (terminal, IDE, and web), and the Claude API.
 
 _Last updated: 2026-05-19_
 
 ## What it is
 
-Four ways to talk to the same Anthropic models. **Claude.ai** is the web chat at `claude.ai`. **Claude Desktop** is the native macOS/Windows app — same chat, plus local MCP servers and Connectors. **Claude Code** is the agentic CLI (and an in-desktop GUI view) that edits files and runs commands in your terminal. **Claude API** is the developer endpoint you call from your own code.
+Ways to talk to the same Anthropic models. **Claude.ai** is the web chat at `claude.ai`. **Claude Desktop** is the native macOS/Windows app — same chat, plus local MCP servers and Connectors. **Claude Code** is the agentic coding tool: a CLI you install locally, an IDE extension, and a browser interface at `claude.ai/code` that runs tasks on Anthropic-managed cloud VMs. **Claude API** is the developer endpoint you call from your own code.
 
-Your account, Projects, and conversation history are shared across Claude.ai and Claude Desktop. Claude Code is billed either through your Pro/Max subscription or via API.
+Your account, Projects, and conversation history are shared across Claude.ai and Claude Desktop. Claude Code is billed through your Pro/Max/Team/Enterprise subscription or via API.
 
 ## When to use it
 
 - **Claude.ai** — chat, document upload, one-click Connectors.
-- **Claude Desktop** — the same chat plus local files via MCP and screen awareness.
-- **Claude Code** — multi-step coding, editing files, running commands, scripted workflows.
+- **Claude Desktop** — the same chat plus local files via MCP.
+- **Claude Code (CLI / IDE)** — multi-step coding against files on your machine.
+- **Claude Code on the web** (`claude.ai/code`) — async coding agents that clone your GitHub repo into an Anthropic-managed VM and open PRs; monitor from the Claude iOS app.
 - **Claude API** — building your own product, agent, or backend integration.
 
 ## How to install / enable
 
 - Claude.ai: sign in at `https://claude.ai`.
 - Claude Desktop: download from `https://claude.ai/download`.
-- Claude Code: install the CLI, then sign in.
+- Claude Code CLI: install, then sign in.
 
   ```bash
   npm install -g @anthropic-ai/claude-code
   claude
   ```
 
+- Claude Code on the web: go to `https://claude.ai/code` and sign in (Pro, Max, Team, or premium Enterprise seats). Use `--teleport` from the CLI to pull a cloud session into your terminal.
 - Claude API: create a key at `https://console.anthropic.com` and call the REST endpoint or an Anthropic SDK.
 
 ## Common pitfalls
 
-- Confusing Claude Desktop with Claude Code — they're different apps. The desktop app now embeds a Claude Code GUI view; the CLI is still its own binary.
-- Components don't all install everywhere. Skills, MCP servers, and Plugins work in Claude Code; Connectors work in Claude.ai/Desktop. A few tools (e.g., PubMed) ship in both.
+- Confusing Claude Desktop with Claude Code — they're different apps.
+- Components don't all install everywhere. Skills, MCP servers, and Plugins work in Claude Code; Connectors work in Claude.ai / Desktop. A few tools (e.g., PubMed) ship in both.
+- Claude Code on the web runs in a sandboxed VM with network restrictions; local-only tools won't work there.
 - API usage is metered separately from a Pro subscription.
 
 ## See also
@@ -42,3 +45,11 @@ Your account, Projects, and conversation history are shared across Claude.ai and
 - [Decision tree](decision-tree.md)
 - [Claude Code overview](https://code.claude.com/docs/) — canonical docs
 - [Claude.ai help center](https://support.claude.com/) — canonical docs
+
+## Sources
+
+- [Claude Code on the web](https://code.claude.com/docs/en/claude-code-on-the-web) — Anthropic docs; verified 2026-05-19 (this run).
+- [Claude Code on the web (announcement)](https://www.anthropic.com/news/claude-code-on-the-web) — published 2025-10-20.
+- [Claude Code for web — Simon Willison](https://simonwillison.net/2025/Oct/20/claude-code-for-web/) — published 2025-10-20.
+- [Anthropic brings Claude Code to the web — TechCrunch](https://techcrunch.com/2025/10/20/anthropic-brings-claude-code-to-the-web/) — published 2025-10-20.
+- [Claude Code overview](https://code.claude.com/docs/en/overview) — Anthropic docs; verified 2026-05-19.

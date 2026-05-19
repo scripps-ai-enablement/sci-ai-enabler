@@ -59,18 +59,6 @@ The framework changes fast. Beginner-facing content that's six months stale acti
 - A `plugins.md` that uses a deprecated install command. Cross-check against the current Claude Code CLI release notes.
 - A `connectors.md` that names connectors no longer in the directory.
 
-### One-time Sources backfill (next run only)
-
-The current guide pages were written before this Recency section existed, so they have no `## Sources` block. On your next run, scope your work to **adding Sources sections to every existing topic page**:
-
-1. For each page under `guide/` (including `advanced/`), WebFetch the canonical Anthropic source(s) for that topic plus one recently-dated secondary source (e.g., a Simon Willison post) if relevant.
-2. While doing so, **also check whether any sentence on the page contradicts what you just fetched** — for example, missing launch surfaces, renamed features, or deprecated commands. If yes, correct the prose in the same edit. The classic case to look for: `claude-surfaces.md` is likely missing the browser-based Claude Code launched from Claude.ai on Anthropic cloud compute. Verify and add it if confirmed.
-3. Add a `## Sources` section to each page per the schema with current dated URLs.
-4. Write a single `GUIDE_CHANGELOG.md` entry titled `Add Sources sections to all guide pages` summarizing what changed.
-5. **Remove this "One-time Sources backfill" subsection from `GUIDE_AGENT.md` in the same commit.** Future runs use only the steady-state per-run workflow.
-
-Do not undertake larger content rewrites in this backfill run — those happen on subsequent scheduled runs once Sources are in place.
-
 ## Page schema
 
 Every topic page (everything under `guide/` except `README.md`, `decision-tree.md`, and `advanced/README.md`) follows this exact shape:

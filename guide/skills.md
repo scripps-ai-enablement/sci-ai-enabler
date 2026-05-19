@@ -42,3 +42,11 @@ To browse and install skills shipped via a plugin marketplace, type `/plugin` in
 - [Slash commands & subagents](advanced/slash-commands.md)
 - [Skills reference](https://code.claude.com/docs/en/skills) — canonical docs
 - [`anthropics/skills`](https://github.com/anthropics/skills) — canonical examples
+
+## Sources
+
+- [Extend Claude with skills](https://code.claude.com/docs/en/skills) — Anthropic docs; verified 2026-05-19 (this run).
+- [Agent Skills overview](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview) — Anthropic API docs; verified 2026-05-19.
+- [Introducing Agent Skills](https://www.anthropic.com/news/skills) — published 2025-10-16.
+- [Equipping agents for the real world with Agent Skills](https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills) — Anthropic engineering blog; published 2025-10-16.
+- [`anthropics/skills`](https://github.com/anthropics/skills) — canonical examples repo; verified 2026-05-19.

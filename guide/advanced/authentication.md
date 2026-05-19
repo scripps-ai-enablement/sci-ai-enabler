@@ -47,3 +47,9 @@ For remote MCP, the OAuth flow triggers automatically the first time Claude call
 - [MCP servers](../mcp-servers.md)
 - [Authentication reference](https://code.claude.com/docs/en/authentication) — canonical docs
 - [API authentication reference](https://platform.claude.com/docs/en/manage-claude/authentication) — canonical docs
+
+## Sources
+
+- [Claude Code authentication](https://code.claude.com/docs/en/authentication) — Anthropic docs; verified 2026-05-19 (this run).
+- [API authentication](https://platform.claude.com/docs/en/manage-claude/authentication) — Anthropic API docs; verified 2026-05-19.
+- [`anthropics/claude-code-action` setup](https://github.com/anthropics/claude-code-action/blob/main/docs/setup.md) — verified 2026-05-19.

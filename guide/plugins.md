@@ -19,12 +19,18 @@ Plugins are a Claude Code feature only. They don't apply to Claude.ai or Claude 
 
 ## How to install / enable
 
-Add the marketplace, then install a plugin by name and marketplace:
+The Anthropic-managed marketplace `claude-plugins-official` is registered automatically when you start Claude Code. Install from it directly:
 
 ```bash
 # inside a Claude Code session
-/plugin marketplace add anthropics/claude-code
-/plugin install commit-commands@anthropics-claude-code
+/plugin install <plugin-name>@claude-plugins-official
+```
+
+For other marketplaces (community, vendor, your own), add the source first, then install:
+
+```bash
+/plugin marketplace add anthropics/life-sciences
+/plugin install pubmed@life-sciences
 ```
 
 Manage installs with `/plugin list`, `/plugin enable <name>`, `/plugin disable <name>`, `/plugin uninstall <name>`. Open the tabbed manager with `/plugin`. Run `/reload-plugins` after editing files in a local marketplace.
@@ -42,3 +48,10 @@ Manage installs with `/plugin list`, `/plugin enable <name>`, `/plugin disable <
 - [Skills](skills.md), [MCP servers](mcp-servers.md), [Hooks](advanced/hooks.md), [Slash commands](advanced/slash-commands.md)
 - [Plugins reference](https://code.claude.com/docs/en/plugins) — canonical docs
 - [`anthropics/claude-plugins-official`](https://github.com/anthropics/claude-plugins-official) — Anthropic's cross-domain marketplace
+
+## Sources
+
+- [Discover and install prebuilt plugins through marketplaces](https://code.claude.com/docs/en/discover-plugins) — Anthropic docs; verified 2026-05-19 (this run).
+- [`anthropics/claude-plugins-official`](https://github.com/anthropics/claude-plugins-official) — verified 2026-05-19.
+- [`anthropics/claude-plugins-community`](https://github.com/anthropics/claude-plugins-community) — verified 2026-05-19.
+- [`anthropics/claude-code` plugins README](https://github.com/anthropics/claude-code/blob/main/plugins/README.md) — verified 2026-05-19.

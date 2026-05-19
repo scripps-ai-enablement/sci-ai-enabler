@@ -58,3 +58,8 @@ Reload by restarting the session or running `/hooks` again.
 - [Plugins](../plugins.md) — distribute hooks alongside skills and MCP
 - [Authentication](authentication.md)
 - [Hooks reference](https://code.claude.com/docs/en/hooks) — canonical docs
+
+## Sources
+
+- [Automate workflows with hooks](https://code.claude.com/docs/en/hooks-guide) — Anthropic docs; verified 2026-05-19 (this run).
+- [Hooks reference](https://code.claude.com/docs/en/hooks) — Anthropic docs; verified 2026-05-19.

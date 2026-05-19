@@ -45,3 +45,10 @@ On Team/Enterprise, an Owner enables the connector for the org first (Organizati
 - [Use connectors](https://support.claude.com/en/articles/11176164-use-connectors-to-extend-claude-s-capabilities) — canonical docs
 - [Custom connectors with remote MCP](https://support.claude.com/en/articles/11175166-get-started-with-custom-connectors-using-remote-mcp) — canonical docs
 - Catalog example: [PubMed Connector](../catalog/translational-medicine.md)
+
+## Sources
+
+- [Use connectors to extend Claude's capabilities](https://support.claude.com/en/articles/11176164-use-connectors-to-extend-claude-s-capabilities) — Anthropic help center; verified 2026-05-19 (this run).
+- [Get started with custom connectors using remote MCP](https://support.claude.com/en/articles/11175166-get-started-with-custom-connectors-using-remote-mcp) — Anthropic help center; verified 2026-05-19.
+- [Claude AI Connectors directory overview](https://www.claude.com/connectors) — verified 2026-05-19.
+- [Slack connector for Claude Pro and Max](https://www.anthropic.com/news) — published 2026-01-26.

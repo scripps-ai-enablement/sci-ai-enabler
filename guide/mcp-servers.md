@@ -50,3 +50,9 @@ Inside a session, run `/mcp` to see status and trigger OAuth login for servers t
 - [MCP reference for Claude Code](https://code.claude.com/docs/en/mcp) — canonical docs
 - [Model Context Protocol spec](https://modelcontextprotocol.io/)
 - Catalog example: [PubMed MCP](../catalog/translational-medicine.md)
+
+## Sources
+
+- [Connect Claude Code to tools via MCP](https://code.claude.com/docs/en/mcp) — Anthropic docs; verified 2026-05-19 (this run).
+- [Model Context Protocol specification](https://modelcontextprotocol.io/) — verified 2026-05-19.
+- [MCP donated to Linux Foundation Agentic AI Foundation](https://www.anthropic.com/news) — December 2025 announcement; verified 2026-05-19.
