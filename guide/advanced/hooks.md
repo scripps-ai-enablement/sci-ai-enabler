@@ -6,9 +6,9 @@ _Last updated: 2026-05-19_
 
 ## What it is
 
-A hook is a deterministic handler that fires on a named Claude Code lifecycle event. Events include `PreToolUse`, `PostToolUse`, `UserPromptSubmit`, `Stop`, `SubagentStop`, `Notification`, and `SessionStart`. Handlers can be `command` (shell), `prompt`, `agent`, or `http`. A `PreToolUse` hook that exits 2 blocks the pending tool call — this is the main guardrail mechanism.
+A hook is a deterministic handler that fires on a named Claude Code lifecycle event. Events include `PreToolUse`, `PostToolUse`, `UserPromptSubmit`, `Stop`, `SubagentStop`, `Notification`, and `SessionStart`. Handlers can be `command` (shell), `prompt`, `agent`, or `http`. A `PreToolUse` hook that exits 2 blocks the pending tool call — this is the main guardrail mechanism. As of May 2026, `PostToolUse` hooks can also replace tool output for any tool (previously MCP-only) via `hookSpecificOutput.updatedToolOutput`.
 
-Hooks run outside the model. They see structured JSON on stdin and respond via exit codes or stdout JSON.
+Hooks run outside the model. They see structured JSON on stdin and respond via exit codes or stdout JSON. The active effort level is available as `effort.level` and `$CLAUDE_EFFORT`.
 
 ## When to use it
 
@@ -51,6 +51,7 @@ Reload by restarting the session or running `/hooks` again.
 - Omitting the `matcher` regex, which causes the hook to fire for every tool call.
 - Relying on `PostToolUse` to undo an action — it can't. Use `PreToolUse` to block.
 - Letting a hook hang. Long-running commands stall the session; background or short-circuit them.
+- Looping `Stop` hooks that keep blocking — Claude Code now ends the turn after 8 consecutive blocks (override with `CLAUDE_CODE_STOP_HOOK_BLOCK_CAP`).
 - Echoing tool input back unchanged from a `command` hook and assuming it bypasses permissions; use the `permissionDecision` JSON shape instead.
 
 ## See also
@@ -63,3 +64,4 @@ Reload by restarting the session or running `/hooks` again.
 
 - [Automate workflows with hooks](https://code.claude.com/docs/en/hooks-guide) — Anthropic docs; verified 2026-05-19 (this run).
 - [Hooks reference](https://code.claude.com/docs/en/hooks) — Anthropic docs; verified 2026-05-19.
+- [Claude Code changelog (May 2026)](https://code.claude.com/docs/en/changelog) — PostToolUse `updatedToolOutput` for all tools, Stop-hook loop cap, `$CLAUDE_EFFORT`; verified 2026-05-19.

@@ -8,7 +8,7 @@ _Last updated: 2026-05-19_
 
 A marketplace is a `marketplace.json` index — usually in a GitHub repo — listing plugins available for `/plugin install`. Once you register a marketplace, its plugins are discoverable in the `/plugin` browser and addressable as `<plugin-name>@<marketplace-name>`. Sources can be GitHub `owner/repo`, any Git URL, a local directory, or a direct URL to a hosted `marketplace.json`.
 
-Anthropic ships the `claude-plugins-official` marketplace pre-registered — it's available the first time you open Claude Code. Other Anthropic-managed marketplaces (community, life-sciences, knowledge-work) and any third-party marketplace must be added explicitly.
+Anthropic ships the `claude-plugins-official` marketplace pre-registered — it's available the first time you open Claude Code. Other Anthropic-managed marketplaces (community, life-sciences, knowledge-work) and any third-party marketplace must be added explicitly. On the Claude.ai side, the unified Directory at `claude.ai/directory` surfaces Plugins alongside Skills and Connectors — separate from the Claude Code marketplace mechanism described here.
 
 ## When to use it
 
@@ -39,7 +39,8 @@ List, remove, or update with `/plugin marketplace list`, `/plugin marketplace re
 
 - Skipping `/plugin marketplace add` before `/plugin install` — installs need a registered source.
 - Adding a private repo without authentication — Claude Code uses your local Git credentials.
-- Forgetting to `/plugin marketplace update` after the upstream marketplace changes.
+- Forgetting to `/plugin marketplace update` after the upstream marketplace changes — install will fail with "not found" if the local clone is stale.
+- Trying to `remove` or `update` a seed-managed marketplace (container-deployed, read-only) — fails by design; admins must update the seed image.
 - Trusting marketplaces blindly. Marketplaces are arbitrary repos; review the plugins they list.
 
 ## See also
@@ -53,6 +54,8 @@ List, remove, or update with `/plugin marketplace list`, `/plugin marketplace re
 ## Sources
 
 - [Discover and install prebuilt plugins through marketplaces](https://code.claude.com/docs/en/discover-plugins) — Anthropic docs; verified 2026-05-19 (this run).
+- [Create and distribute a plugin marketplace](https://code.claude.com/docs/en/plugin-marketplaces) — Anthropic docs; verified 2026-05-19.
+- [Claude Code changelog (May 2026)](https://code.claude.com/docs/en/changelog) — seed-managed marketplaces, marketplace browse cost estimates; verified 2026-05-19.
 - [`anthropics/claude-plugins-official`](https://github.com/anthropics/claude-plugins-official) — verified 2026-05-19.
 - [`anthropics/life-sciences`](https://github.com/anthropics/life-sciences) — verified 2026-05-19.
 - [`anthropics/claude-plugins-community`](https://github.com/anthropics/claude-plugins-community) — verified 2026-05-19.

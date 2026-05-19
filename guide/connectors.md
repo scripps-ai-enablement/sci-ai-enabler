@@ -6,9 +6,9 @@ _Last updated: 2026-05-19_
 
 ## What it is
 
-A Connector is a remote MCP server exposed through the Claude.ai UI. Anthropic (or a vendor partner) hosts the server and handles OAuth so you don't run anything yourself. You enable a connector once in Settings; it then appears as a toggle in the chat composer. Connectors inherit your permissions in the source system — Claude can only see what your account can.
+A Connector is a remote MCP server exposed through the Claude.ai UI. Anthropic (or a vendor partner) hosts the server and handles OAuth so you don't run anything yourself. You enable a connector once; it then appears as a toggle in the chat composer. Connectors inherit your permissions in the source system — Claude can only see what your account can.
 
-Custom connectors are also supported: you point Claude.ai at a remote MCP URL and it walks you through OAuth.
+Since March 2026 the Connectors directory lives at `claude.ai/directory/connectors` (alongside Skills and Plugins tabs in a unified Directory). The catalog has grown past 200 prebuilt integrations across productivity, design, finance, healthcare, and everyday-life categories. Custom connectors are also supported: point Claude.ai at a remote MCP URL and it walks you through OAuth.
 
 ## When to use it
 
@@ -19,7 +19,7 @@ Custom connectors are also supported: you point Claude.ai at a remote MCP URL an
 
 ## How to install / enable
 
-Open `https://claude.ai/settings/connectors`, browse the directory, click **Connect**, and complete OAuth. Inside a chat, click the **+** button → **Connectors** to toggle which ones are active for that conversation.
+Open `https://claude.ai/directory/connectors` (or `claude.ai/settings/connectors`), browse the directory, click **Connect**, and complete OAuth. Inside a chat, click the **+** button (or type **/**) → **Connectors** to toggle which ones are active for that conversation.
 
 Add a custom connector:
 
@@ -50,5 +50,6 @@ On Team/Enterprise, an Owner enables the connector for the org first (Organizati
 
 - [Use connectors to extend Claude's capabilities](https://support.claude.com/en/articles/11176164-use-connectors-to-extend-claude-s-capabilities) — Anthropic help center; verified 2026-05-19 (this run).
 - [Get started with custom connectors using remote MCP](https://support.claude.com/en/articles/11175166-get-started-with-custom-connectors-using-remote-mcp) — Anthropic help center; verified 2026-05-19.
+- [Connectors directory](https://claude.com/docs/connectors/directory) — canonical directory listing; verified 2026-05-19.
 - [Claude AI Connectors directory overview](https://www.claude.com/connectors) — verified 2026-05-19.
-- [Slack connector for Claude Pro and Max](https://www.anthropic.com/news) — published 2026-01-26.
+- [New connectors in Claude for everyday life](https://claude.com/blog/connectors-for-everyday-life) — Anthropic blog; AllTrails/Uber/Spotify/etc. added May 2026.

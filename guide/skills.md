@@ -6,7 +6,7 @@ _Last updated: 2026-05-19_
 
 ## What it is
 
-A Skill is a folder containing a `SKILL.md` file (markdown with YAML frontmatter) plus optional scripts and reference files. The frontmatter tells Claude when to activate the skill; the body tells it what to do. Skills are filesystem-based in Claude Code and Claude Desktop, and uploaded as a `.zip` on Claude.ai. The same `SKILL.md` format works everywhere.
+A Skill is a folder containing a `SKILL.md` file (markdown with YAML frontmatter) plus optional scripts and reference files. The frontmatter tells Claude when to activate the skill; the body tells it what to do. Skills are filesystem-based in Claude Code, Claude Desktop, and Cowork, and uploaded as a `.zip` on Claude.ai. The `SKILL.md` format is now an open standard adopted by Codex CLI, Cursor, Gemini CLI, and GitHub Copilot — same file, multiple agents.
 
 Skills add focused know-how, not new APIs. If you need network access, pair a skill with an MCP server.
 
@@ -26,7 +26,7 @@ mkdir -p ~/.claude/skills/my-skill
 # place SKILL.md inside ~/.claude/skills/my-skill/
 ```
 
-To browse and install skills shipped via a plugin marketplace, type `/plugin` inside Claude Code. List active skills with `/skills`.
+To browse and install skills shipped via a plugin marketplace, type `/plugin` inside Claude Code. List active skills with `/skills` — the picker has a type-to-filter search box for long lists.
 
 ## Common pitfalls
 
@@ -49,4 +49,5 @@ To browse and install skills shipped via a plugin marketplace, type `/plugin` in
 - [Agent Skills overview](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview) — Anthropic API docs; verified 2026-05-19.
 - [Introducing Agent Skills](https://www.anthropic.com/news/skills) — published 2025-10-16.
 - [Equipping agents for the real world with Agent Skills](https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills) — Anthropic engineering blog; published 2025-10-16.
+- [Claude Code changelog (May 2026)](https://code.claude.com/docs/en/changelog) — type-to-filter `/skills`, nested SKILL.md surfacing; verified 2026-05-19.
 - [`anthropics/skills`](https://github.com/anthropics/skills) — canonical examples repo; verified 2026-05-19.
