@@ -6,6 +6,29 @@ A reverse-chronological log of catalog updates produced by the curator agent. Th
 
 ## 2026-05-19
 
+### Refactor: entries.md is canonical; category files become tag-filtered indices
+
+Multi-category entries were previously duplicated as full blocks into every named category file. That hit the action's 600-second wall on expansion runs (each pan-life-sciences entry cost ~7 file writes plus drift detection) and forced an artificial "primary category" choice for genuinely cross-cutting tools like PubMed.
+
+Refactored to a single source of truth:
+
+- `catalog/entries.md` now holds every entry's full content block, alphabetically.
+- Each `catalog/<area>.md` is a card-based index: brief summary per entry tagged with that category, linking back to `entries.md`.
+- The `Categories` field is a tag list (comma-separated), with the literal value `All` allowed for tools applicable across every life-science domain. No notion of a "primary" category.
+- Drift detection at run-start is no longer needed — single source of truth, no drift possible.
+- Updates to a tool's pricing/availability/etc. are one write to `entries.md`. Card edits in indices are only needed when the card's surface text (name, type, supplier, availability, one-line summary) changes.
+
+This refactor was performed locally rather than by the agent because it's a substantial content migration and the agent's per-run timeouts made it unsafe to run there. AGENT.md was rewritten in the same change to match the new storage model.
+
+#### Removed
+- Per-category duplicated copies of the 5 cross-cutting entries (Anthropic PubMed Connector, BioMCP, BioRender Connector, 10x Genomics Cloud MCP, single-cell-rna-qc) — superseded by `entries.md` as canonical store.
+
+#### Added
+- **catalog/entries.md** — canonical file with all 5 entries; PubMed / BioMCP / BioRender tagged `All`, 10x Genomics Cloud / single-cell-rna-qc tagged with their explicit 6-category subset.
+- Card-based index in each category file linking back to canonical entries.
+
+## 2026-05-19
+
 ### Surface anthropics/life-sciences marketplace entries (batch 1)
 
 Drew from the `anthropics/life-sciences` marketplace manifest — the highest-yield, pre-validated source for Claude-installable life-science components. Added the three most impactful entries not yet catalogued and stopped at the per-run cap of 3.

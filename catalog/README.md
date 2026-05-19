@@ -8,9 +8,12 @@ Maintained by a scheduled Claude curator. See the top-level [README](../README.m
 
 _Last refreshed: 2026-05-19_
 
-## Categories
+## How this catalog is organized
 
-| Category | File | Entries |
+- [`entries.md`](entries.md) holds the **full content for every entry** — one canonical block per tool. Browse it directly to scan everything, or jump to a specific tool by name.
+- The seven category files below are **index views**. Each lists short cards for every entry tagged with that category, linking back to the canonical entry. Tools tagged `Categories: All` appear in every category index.
+
+| Category | Index | Entries |
 |---|---|---|
 | Chemistry | [chemistry.md](chemistry.md) | 3 |
 | Immunology and Microbiology | [immunology-microbiology.md](immunology-microbiology.md) | 5 |
@@ -20,8 +23,8 @@ _Last refreshed: 2026-05-19_
 | Translational Medicine | [translational-medicine.md](translational-medicine.md) | 5 |
 | Drug Repurposing and Discovery | [drug-repurposing-discovery.md](drug-repurposing-discovery.md) | 5 |
 
-Entries can belong to multiple categories; cross-cutting tools (like the PubMed Connector, BioMCP, BioRender, 10x Genomics Cloud, and the single-cell-rna-qc skill) are duplicated byte-identically into every category file named in their `Categories` field. Distinct tools currently catalogued: 5.
+Distinct tools currently catalogued: **5**. Cross-cutting tools (PubMed Connector, BioMCP, BioRender Connector) use `Categories: All` and appear in every index; tools with a defined subset (10x Genomics Cloud MCP, single-cell-rna-qc) enumerate their categories explicitly.
 
 ## Entry schema
 
-Each entry includes type, supplier, availability, pricing, capabilities, install paths (`Available in`), tools/resources exposed, primary use cases, integration notes, sources, and verification timestamps. See [`AGENT.md`](../AGENT.md) for the canonical schema.
+Each entry in `entries.md` includes a `Categories` tag list, type, supplier, availability, pricing, capabilities, install paths (`Available in`), tools/resources exposed, primary use cases, integration notes, sources, and verification timestamps. See [`AGENT.md`](../AGENT.md) for the canonical schema.
