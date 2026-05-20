@@ -1,0 +1,3694 @@
+https://doi.org/10.1038/s41586-026-10652-y
+
+Accelerated Article Preview
+
+W
+E
+I
+V
+E
+R
+P
+E
+L
+C
+I
+T
+R
+A
+D
+E
+T
+A
+R
+E
+L
+E
+C
+C
+A
+A multi-agent system for automating
+scientific discovery
+Received: 23 May 2025
+
+Accepted: 12 May 2026
+
+Accelerated Article Preview
+Published online xx xx xxxx
+
+Cite this article as: Ghareeb, A. E. et al.
+A multi-agent system for automating
+scientific discovery. Nature https://doi.
+org/10.1038/s41586-026-10652-y (2026)
+
+Ali Essam Ghareeb, Benjamin Chang, Ludovico Mitchener, Angela Yiu,
+Caralyn J. Szostkiewicz, Dmytro Shved, Gavin J. Gyimesi, Jon M. Laurent,
+Samantha M. Wright, Muhammed T. Razzak, Andrew D. White, Silvia C. Finnemann,
+Michaela M. Hinks & Samuel G. Rodriques
+
+This is a PDF file of a peer-reviewed paper that has been accepted for publication.
+Although unedited, the content has been subjected to preliminary formatting. Nature
+is providing this early version of the typeset paper as a service to our authors and
+readers. The text and figures will undergo copyediting and a proof review before the
+paper is published in its final form. Please note that during the production process
+errors may be discovered which could affect the content, and all legal disclaimers
+apply.
+
+Nature | www.nature.com
+
+2
+
+PR
+EV
+IE
+W
+
+A multi-agent system for automating
+scientific discovery
+
+1
+
+3
+
+Ali Essam Ghareeb 1,*, Benjamin Chang 1,2, *, Ludovico Mitchener 1, Angela Yiu 1, Caralyn J.
+Szostkiewicz 1, Dmytro Shved 3, Gavin J. Gyimesi 3, Jon M. Laurent 1, Samantha M. Wright 1,
+Muhammed T. Razzak 1, Andrew D. White 1,†,‡ , Silvia C. Finnemann 1, Michaela M. Hinks 1,†,‡,
+and Samuel G. Rodriques 1,†,‡
+
+4
+5
+6
+7
+8
+
+1
+
+FutureHouse, San Francisco, USA
+
+10
+
+2
+
+University of Oxford, Oxford, UK
+
+11
+
+3
+
+Fordham University, New York, USA
+
+12
+
+* Equal contribution.
+
+13
+
+† These authors jointly supervised this work.
+
+14
+
+‡ Corresponding authors
+
+AR
+
+D
+
+15
+Contact information
+
+17
+
+S.G.R: sam@futurehouse.org
+
+18
+
+M.M.H: michaela@edisonscientific.com
+
+19
+
+A.D.W: andrew@futurehouse.org
+
+ER
+
+AT
+E
+
+16
+
+AC
+
+C
+
+EL
+
+20
+
+TI
+
+C
+LE
+
+9
+
+1 Abstract
+
+21
+
+Scientific discovery is driven by the iterative process of observation, hypothesis generation,
+experimentation, and data analysis. Despite recent advancements in applying artificial intelligence
+to biology, no system has yet automated all these stages [1, 2, 3]. Here, we introduce Robin, the first
+multi-agent system capable of fully automating both hypothesis generation and data analysis for
+experimental biology. By integrating literature search agents with data analysis agents, Robin can
+generate hypotheses, propose experiments, interpret experimental results, and generate updated
+hypotheses, achieving a semi-autonomous approach to scientific discovery. By applying this system,
+we were able to identify promising therapeutic candidates for dry age-related macular degeneration
+(dAMD), the major cause of blindness in the developed world [4, 5]. Robin proposed enhancing
+retinal pigment epithelium phagocytosis as a therapeutic strategy, and identified and confirmed in
+vitro efficacy for ripasudil and KL001. Ripasudil is a clinically-used Rho kinase (ROCK) inhibitor
+that has never previously been proposed for treating dAMD. To elucidate the mechanism of
+ripasudil-induced upregulation of phagocytosis, Robin then proposed and analyzed a follow-up
+RNA-seq experiment, which revealed upregulation of ABCA1, a lipid efflux pump and possible novel
+target. All hypotheses, experimental directions, data analyses, and data figures in the main text of
+this report were produced by Robin. As the first AI system to autonomously discover and validate
+novel therapeutic candidates within an iterative lab-in-the-loop framework, Robin establishes a new
+paradigm for AI-driven scientific discovery.
+
+C
+LE
+
+PR
+EV
+IE
+W
+
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+
+2 Main
+
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+
+Advances in our ability to measure, perturb, and model biological systems have resulted in rapid growth of our
+collective scientific knowledge [6]. Yet, complementary technologies to interpret, synthesize, and generate hypotheses
+from this knowledge have lagged behind [7]. Artificial intelligence (AI) systems based on large language models
+(LLMs) show promise for automating this knowledge synthesis process and accelerating scientific discovery. As a
+primary goal of biomedical research is the development of new treatments for disease, our ability to produce new
+therapeutics may be the ultimate beneficiary of these approaches. Drug development heavily relies on a confluence of
+biological, clinical, and pharmaceutical expertise, and is limited by the rate at which these experts can synthesize the
+scientific literature [8].
+
+AR
+
+TI
+
+40
+
+AC
+
+C
+
+EL
+
+ER
+
+AT
+E
+
+D
+
+The repurposing of existing drugs for new indications presents a promising application space for LLM systems. The
+history of drug repurposing often shows a pattern: while insights often existed in scientific literature, only after a
+significant lag did that knowledge crystallize into a new treatment. For example, dabrafenib, an inhibitor of BRAF
+kinase that is used in various cancers with mitogenic mutations in BRAF, is being repurposed to prevent hearing loss
+[9, 10]. While its molecular action was well characterized by 2010 [11, 12, 13], dabrafenib’s otoprotective effects were
+only discovered 10 years later via unbiased high-throughput screening. This delayed discovery occurred despite
+dabrafenib’s otoprotective effects being a direct result of its known inhibition of BRAF [9, 14, 10], suggesting that
+more repurposing opportunities could be identified through logical connection of existing biological insights in the
+literature. Further cases across medicine from ketamine (22-year lag [15, 16]) to leucovorin (5-year lag [17, 18]) to
+KarXT (13-year lag [19, 20]) – underscore how repurposing efforts are frequently realized years after core insights are
+documented. Such delays in connecting existing insights to new therapeutic applications highlight the challenge of
+synthesizing disparate scientific knowledge. Trained on data across many fields, large language models (LLMs) can
+store and recall information on a wide variety of scientific topics and thus transcend the limitations of individual human
+knowledge. Previous work has shown that fine-tuned LLMs and specialized RAG systems can exceed human
+performance on retrieving and summarizing information from the scientific literature. These advances raise the
+possibility that LLM systems could be used for novel hypothesis generation [21, 22, 23, 24, 25].
+Several LLM systems have recently been developed to automate hypothesis generation [26, 1, 27, 28, 2, 3, 29].
+Specialized systems have also been developed to automate specific tasks in drug discovery, such as prediction of
+pharmacological properties and safety profiles [3, 27]. These systems have demonstrated they can generate reasonable
+hypotheses by utilizing multi-agent architectures that decompose scientific reasoning into discrete manageable subtasks [3], domain-specific fine-tuning [2, 30], integration of external tools [2, 3], and incorporation of human feedback
+[3]. However, none of these systems have automated all of the key intellectual steps of the scientific process, including
+generating hypotheses and experimental strategies, analyzing results from laboratory experiments, and refining
+hypotheses in light of new data.
+
+2
+
+Here, we introduce Robin, the first multi-agent system for discovery in biology that integrates novel hypothesis
+generation with experimental data analysis in one continuous workflow (Figure 1A,B). Robin utilizes specialized
+language agents for literature search (Crow and Falcon) and data analysis (Finch) to enable semi-autonomous scientific
+discovery (Figure 1C) [25, 31]. Though this system could be applicable to scientific discovery across disciplines, in
+this report, we focus on its potential in therapeutics. After giving Robin a disease of interest, Robin automatically
+identified relevant in vitro assays that model key disease mechanisms and proposed specific drug candidates to evaluate
+in these experimental models. We then conducted the experiments and provided the resulting data to Robin for
+autonomous analysis. Robin then interpreted the results of this analysis to generate a new round of therapeutic
+candidates. Through this process, Robin drove an iterative therapeutics development cycle where hypotheses were
+generated, tested, analyzed, and refined based on experimental results. The key intellectual steps of the scientific
+method were thus automated while coordinating with scientists throughout the experimental loop. Robin represents
+the first system to connect literature-based hypothesis generation with autonomous analysis of biological laboratory
+data in a continuous feedback system.
+
+88
+89
+90
+91
+92
+93
+
+To demonstrate Robin’s ability to generate and refine novel therapeutic hypotheses, we attempted to identify potential
+new treatments for dry age-related macular degeneration (dAMD). dAMD is the leading cause of irreversible sight loss
+in developed countries, yet limited treatment options are available. In the U.S. alone, 1.5 million people have visionthreatening dAMD, and 600,000 are legally blind due to AMD, a figure projected to almost triple by 2050 due to an
+aging population [4, 5]. By applying Robin to discover novel therapeutic candidates for dAMD, this work represents a
+first step towards AI-generated discovery in scientific research.
+
+94
+
+2.1 Robin: A multi-agent system for scientific discovery
+
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+
+Robin integrates multiple language agents in a structured workflow to generate therapeutic candidates for a given
+disease (Figure 1A,B). Crow and Falcon are literature search agents based on PaperQA2 that conduct concise and deep
+literature summaries, respectively [25]. PaperQA2 achieves expert-level performance in information retrieval and
+summarization, with access to scientific literature, clinical trial reports, and the Open Targets Platform [32]. Finch is a
+scientific data analysis agent that performs analyses of experimental data from assays, such as RNA-seq and flow
+cytometry (Figure 1C) [31]. By coordinating these agents to identify novel and readily lab-testable therapeutic
+strategies, we used Robin to enable an experimentally-guided system that drives the process of scientific discovery. An
+example of the Robin hypothesis generation workflow is shown in Supplementary Figure 1. In the workflow described
+in this paper, Robin analyses 551 papers in 30 minutes compared to an estimated time of 540 hours for a human. Using
+estimates derived from published surveys, we estimate a 200-fold reduction in time spent completing the entire
+scientific workflow manually (Table 1).
+
+106
+
+2.1.1 Therapeutic hypothesis generation
+
+107
+108
+109
+110
+111
+112
+113
+
+When provided with the disease of interest (“dry age-related macular degeneration”), Robin formulated a series of
+general questions about the disease pathology and queries Crow to answer each question. Using the reports from Crow
+as context, Robin then identified 10 potential causal disease mechanisms. For each mechanism, Robin deployed Crow
+to prepare a detailed report describing an in vitro model of the disease mechanism which could be used to test drug
+efficacy. Robin then used an LLM judge to make pairwise comparisons between reports, which are used to calculate
+their relative rankings (see Methods). The top-ranked in vitro model is used by Robin to define the experimental
+strategy for therapeutic candidate hypothesis generation.
+
+114
+115
+116
+117
+118
+119
+120
+121
+
+Once an in vitro model was selected, Robin conducted a similar sequence of general literature review and hypothesis
+generation steps to propose 30 therapeutic candidates for experimental testing. Robin then queried Falcon to generate
+a detailed report to evaluate each candidate. These reports contained both justification for why each drug is suitable for
+mitigating the disease mechanism represented in the in vitro model and potential limitations the drug may pose. The
+drug candidates are ranked by an LLM-judged tournament according to the strength of the scientific rationale,
+pharmacological profile, and methodology of the supporting literature. This ranked list was then reviewed by human
+scientists, and top drug candidates were tested in the lab by executing a human-generated experimental protocol based
+on the assay suggested by Robin.
+
+AC
+
+C
+
+EL
+
+ER
+
+AT
+E
+
+D
+
+AR
+
+TI
+
+C
+LE
+
+PR
+EV
+IE
+W
+
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+
+122
+
+2.1.2 Experimental data analysis
+
+123
+124
+125
+126
+
+Once the experiments were complete, we uploaded raw or semi-processed data (in this case, .FCS files from flow
+cytometry or gene counts for RNA-seq) and prompted Robin with a desired analysis approach, e.g., “flow cytometry”
+or “differential expression analysis”. Robin then deployed Finch to carry out the desired analysis. This analysis step
+presents unique challenges due to the inherently ambiguous nature of biological data interpretation. For example, the
+3
+
+gating choices in flow cytometry analysis or the filters used in RNA-seq analyses will vary between human scientists
+and may impact the final conclusions. Similarly, Finch’s analysis results can vary between runs, even when given
+identical prompts and data, due to the stochasticity of the language agent. To leverage this diversity, we configured
+Robin to launch 8 Finch analysis trajectories, each of which independently analyzed the experimental data. In each
+trajectory, Finch executed analysis code in a Jupyter notebook and provided an interpretable and reproducible summary
+of its findings. After all trajectories were completed, a meta-analysis was conducted to synthesize all outputs into a
+consensus-driven conclusion. In this way, Finch explored diverse analytical trajectories while delivering highly
+consistent end results based on consensus (Methods) [33].
+
+135
+136
+137
+138
+
+Finally, Robin distilled actionable scientific insights from these processed experimental results. Robin also has the
+ability to propose targeted follow-up assays to explore or confirm significant or unexpected findings. These
+experimental insights are used to inform the next cycle of therapeutic hypothesis generation. The cycle continues until
+a human has a satisfactory drug candidate.
+
+139
+
+2.2 Robin expedites hypothesis generation
+
+140
+141
+142
+143
+144
+145
+
+We applied Robin to generate therapeutic candidates for dAMD as an initial proof-of-concept (Figure 2A,
+Supplementary Figures 1-11). Robin began the therapeutic hypothesis generation workflow by identifying and
+reviewing 151 papers to propose ten biologically relevant dAMD mechanisms to assay. After ranking the disease
+mechanisms and corresponding experimental strategies, Robin proposed treating dAMD by increasing RPE cell
+phagocytosis, and suggested testing how well drugs increase the phagocytic capacity of either patient-derived or stem
+cell-derived RPE cells in a flow cytometry assay.
+
+146
+147
+148
+149
+150
+
+Robin then called Crow (Supplementary Figure 4) to conduct a literature review of about 400 papers relating to RPE
+phagocytosis and the therapeutic landscape of dry AMD and synthesized the results to propose 30 existing drug
+candidates for experimental testing in the phagocytosis assay. Robin called Falcon to produce comprehensive
+evaluation reports on each of these molecules (Supplementary Figure 9), which were ranked in an LLM-judged
+tournament.
+
+151
+152
+153
+
+We calculated the cost of a Robin workflow under the same configuration that was run in the paper: num_queries=5,
+num_assays=10, and num_candidates=30. This configuration would lead to 45 Crow calls and 30 Falcon calls, which
+are on average $4.33 and $6.43, respectively, or $10.76 for a total run.
+
+154
+155
+156
+157
+
+Our time-on-task analysis (Table 1) demonstrates that the Robin framework reduces the total cognitive labor of a
+discovery cycle from an estimated 872–937 human hours to less than two hours. Notably, the system synthesized
+approximately 825 references in roughly 30 minutes, a task that would require over 800 hours of manual processing
+based on established literature benchmarks for scholarly reading.
+
+158
+
+2.2.1 ROCK inhibitor enhances phagocytosis
+
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+
+We then selected the top five candidates from this ranking for experimental testing: Exendin-4, Fingolimod, MFGE8,
+Y-27632, and the combination of AICAR and TUDCA. MFGE8 is known to increase phagocytosis in cultured RPE
+cells [38], so we included it to serve as a positive control. Although Robin suggested using fluorescently labeled
+photoreceptor outer segments as a substrate for RPE phagocytosis, we initially decided to use pHrodo beads due to
+availability. Additionally, Robin suggested using primary or stem cell derived RPE, but we used ARPE-19 cells for the
+initial drug screen to expedite our evaluation of Robin’s hypotheses. pHrodo beads are fluorescently activated in the
+low pH environment of the lysosome, allowing detection of phagocytosis in single cells using flow cytometry (Figure
+2B, See Supplementary Figure 12 for microscopy validation). After testing these therapeutic candidates in the RPE
+phagocytosis assay, the raw flow cytometry data, associated metadata, and an analysis prompt were uploaded to Robin.
+Robin called the data analysis agent Finch, which developed a Jupyter notebook to quantify the effect of each
+compound on RPE phagocytosis by gating the flow cytometry data and performing statistical tests. Plots from a
+representative individual Finch trajectory are shown in Figure 2C-E. These results were confirmed by a human analysis
+of the same data (Supplementary Figure 13 and Supplementary Table 3). Preclinical models have demonstrated that Y27632 can restore phagocytic efficiency in RPE cells [39], confirming Robin’s literature-based rationale for suggesting
+this candidate.
+
+AC
+
+C
+
+EL
+
+ER
+
+AT
+E
+
+D
+
+AR
+
+TI
+
+C
+LE
+
+PR
+EV
+IE
+W
+
+127
+128
+129
+130
+131
+132
+133
+134
+
+174
+
+2.2.2 Automated RNA-seq analysis
+
+175
+176
+177
+
+After analyzing the initial flow cytometry results, Robin recommended RNA sequencing of Y-27632-treated RPE cells
+to investigate the transcriptional effects of ROCK inhibition (Figure 3A). We conducted a second RPE phagocytosis
+experiment with Y-27632 and profiled the samples using bulk RNA sequencing. Finch conducted differential gene
+
+4
+
+expression (DGE) analysis and summarized results in a volcano plot (Figure 3B). While previous studies have shown
+that Y-27632 enhances phagocytic cup formation through post-translational regulation of F-actin dynamics [39, 40,
+41], Finch’s DGE analysis revealed that Y-27632 treatment also induced rapid transcriptional changes in RPE cells
+during phagocytosis. Finch’s consensus analysis demonstrated that Finch identified the same genes as significantly
+differentially expressed in over 50% of trajectories (Figure 3C). Finch next performed GO enrichment analysis and
+found that Y27632 significantly altered the expression of genes involved in actin filament organization, small GTPasemediated signal transduction, and autophagy pathways upon phagocytosis (Figure 3D). These results suggest that Y27632 could enhance the initial uptake phase of phagocytosis through cytoskeletal rearrangement and promote
+clearance of internalized material through transcriptional regulation of autophagy, however further work is necessary
+to validate any effects on autophagy. The human version of this analysis is like that of Finch and is shown in
+(Supplementary Figure 14)
+
+PR
+EV
+IE
+W
+
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+
+The DGE analysis identified a 3-fold upregulation (adjusted p=2.13x10-83) of ABCA1, a critical lipid efflux pump, in
+Y-27632-treated cells. Differential expression of ABCA1 upon ROCKi-induced phagocytosis has potential
+implications for dAMD, as ABCA1 is essential for healthy RPE function. ABCA1 facilitates the active transport of
+cholesterol and phospholipids from the plasma membrane to acceptor proteins prior to their ejection from the cell.
+Further connecting these findings to dAMD pathology, Apo-E, a lipid acceptor for ABCA1, has been identified in
+multiple studies as a genetic susceptibility allele for macular degeneration [42, 43, 44].
+
+C
+LE
+
+These mechanistic insights, derived from experiments proposed by Robin and analyzed by Finch, demonstrate how AIdriven scientific discovery can not only expedite the generation of in vitro data for candidate therapeutic compounds
+but also reveal novel molecular targets within disease pathways that might have otherwise remained unexplored.
+2.2.3 A repurposed drug for dAMD
+
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+
+In addition to suggesting RNA-seq analysis on Y-27632, Robin also conducted a subsequent iteration of candidate drug
+hypotheses (Figure 4A). We tested 10 of these drugs experimentally and provided the data to Finch for analysis. Finch’s
+analysis showed that ripasudil, a ROCK inhibitor approved for treatment of glaucoma in Japan, outperformed Y-27632
+and increased RPE cell phagocytosis 1.89-fold compared to DMSO controls (Figure 4B; human analysis showed a
+1.75-fold increase - see Supplementary Figure 15 and Supplementary Table 4). A dose response experiment in ARPE19 cells confirmed the greater potency of ripasudil as compared to Y-27632 (Figure 4C). Additionally, as an approved
+drug, ripasudil has a known safety profile, providing an advantage over Y-27632 (a research compound) in clinical
+translation.
+
+211
+212
+213
+214
+215
+216
+217
+
+Retinal Pigment Epithelium Stem Cells (RPE-SC) are a subpopulation of the human RPE that retains limited mitotic
+potential allowing for cultivation in vitro. When expanded into a confluent monolayer and allowed to mature in vitro,
+RPE-SC are known to express canonical RPE genes, retain polarized barrier function and morphologically resemble
+native human RPE [45]. Additionally, ROCK inhibitors are not required in the culture of RPE-SC, unlike iPSC-derived
+RPE [46]. We obtained RPE-SC isolated from a >60-year old patient from the Eye Bank For Sight Restoration (New
+York) and expanded them into a confluent monolayer. We validated their RPE phenotype through
+immunocytochemistry of canonical RPE markers and phagocytosis machinery [47] (Extended Data Figures 1 and 2).
+
+218
+219
+220
+221
+222
+223
+224
+225
+
+We re-screened all drugs suggested by Robin, this time using RPE-SC in place of ARPE-19 cells and fluorescently
+labeled bovine rod outer segments (ROS) in place of beads. Once again, ripasudil and Y-27632 were identified as hits,
+with ripasudil again showing higher potency (Figure 4D; see also human analysis in Supplementary Figure 16 and
+Supplementary Table 5). There is a dose dependent increase in phagocytosis with both ROCK inhibitors, with ripasudil
+being the more potent (Figure 4E). Supernatants from this dose response experiment were assayed for cytotoxicity.
+There was no relationship between Y-27632 dose and LDH release from RPE-SC cells. Surprisingly, ripasudil showed
+a negative relationship with LDH release, with higher drug concentrations reducing LDH release (Extended Data Figure
+3).
+
+D
+
+AR
+
+TI
+
+200
+
+C
+
+EL
+
+ER
+
+AT
+E
+
+2.2.4 Validation in primary human RPE
+
+Interestingly, KL001, a circadian clock modulator which works by preventing the ubiquitin-dependent degradation of
+CRY proteins, was also identified as a hit in RPE-SC. Robin suggested this drug based on the circadian control of RPE
+phagocytosis [47] and to our knowledge no one has previously proposed KL001 as an enhancer of phagocytosis.
+
+229
+230
+231
+
+To further validate the ABCA1 finding, we performed RNA-seq on RPE-SC cells treated with ripasudil or vehicle
+control (with or without ROS). ABCA1 was also upregulated in RPE-SC cells in response to ripasudil exposure, with
+or without ROS (Supplementary Figure 17).
+
+AC
+
+226
+227
+228
+
+5
+
+Although in vivo validation of both drugs would be necessary for definitive comparison, the initial superior performance
+of ripasudil relative to Y-27632 in this in vitro assay demonstrates Robin’s ability to progressively refine therapeutic
+hypotheses through iterative experimentation and feedback.
+
+235
+
+2.3 Validation of the Robin architecture
+
+236
+237
+238
+
+We started by ablating the literature search agents Crow and Falcon, replacing them with calls to OpenAI’s o4-mini.
+We then assessed the performance of Robin (wild type) versus its ablated version by asking both to generate 50 drug
+candidate proposals for dAMD and then assessing the quality of a sampled subset of these proposals.
+
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+
+We manually assessed their quality by performing a human reference check. As expected, this showed that ablation of
+Falcon, or both Crow and Falcon, but not Crow alone led to a dramatic increase in hallucinated references (Extended
+Data Figure 4A and Supplementary Tables 6-8, respectively). (Crow is responsible for producing the literature searches
+that guide Falcon in producing the final drug candidate report, and so any references hallucinated during the Crow
+literature search phase could be corrected by Falcon in producing its final report.) To confirm that Falcon was indeed
+masking the hallucinated LLM-generated references in the Crow-only ablation we generated 15 assay proposals from
+wild type and Crow-ablated Robin (Crow, not Falcon, produces final assay reports, see Supplementary Figure 1). We
+then performed a human reference check, and as expected Crow produced no hallucinated references while 44.5 ±
+6.37% (mean ± SEM, n=15 assay proposals)) of o4-mini’s references were hallucinated (Extended Data Figure 4B and
+Supplementary Table 9).
+
+254
+255
+256
+257
+258
+
+Next, we assessed the performance of Finch on the flow cytometry and RNA-seq tasks performed in round 2 of the
+dAMD drug screen. Finch was given the task-specific prompts and data from round 2 and performance was measured
+by assessing Finch’s adherence to expert-generated rubrics (Supplementary Figures 18 and 19). Finch demonstrated
+consistent performance on RNA-seq (86±0%; (mean ± SEM, n=3 runs)) and flow cytometry (100±0%; (mean ± SEM,
+n=3 runs)) (Extended Data Figure 5A).
+
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+
+To probe Finch’s failure mode on a range of more difficult data analysis tasks without the task-specific multistep
+prompting given in the Robin workflow, we curated an expert-generated panel of 170 question-answer pairs from
+BixBench which span bioinformatics and statistics tasks relevant to drug discovery (Extended Data Figure 5B and
+Supplementary Table 10) [31]. Finch’s overall performance was 22.8±1.7% compared to 1.6±1.2% for Sonnet 3.7
+alone without the agent harness (mean ± SEM, n=3; Extended Data Figure 5C and 5D). Finch performed better on the
+statistics subset (47.9±1.5%) than the bioinformatics subset (15.3± 2.0%). Typically, the bioinformatics subset required
+executing multi-step pipelines which are sensitive to parameterization, while the biostatistics questions required only
+single-step computations on clean, tabular data. These results demonstrate a clear utility for agent harnesses such as
+Finch, which augment LLMs with the tools necessary to engage with data sources, but also point out room for
+substantial performance improvement on multi-step problems.
+
+269
+270
+271
+272
+273
+274
+275
+
+To confirm that Robin’s identification of ROCK inhibitors in the phagocytosis assay could not be trivially recapitulated
+by a general purpose LLM-based agent, we gave the same candidate generation prompt (Supplementary Figure 8) to
+OpenAI’s Deep Research, an agent designed to conduct multi-step research on complex tasks. Like Robin, Deep
+Research was asked to generate 19 novel drug candidates (equal to the total number of Robin drug candidates in round
+1 and round 2) which we screened in RPE-SC. Deep Research generated 17 unique candidates (duplicating two drug
+candidates). None of Deep Research’s suggested drugs were hits in this assay and notably Deep Research did not
+suggest ROCK inhibition as a means of enhancing RPE phagocytosis (Extended Data Figure 6).
+
+C
+LE
+
+EL
+
+ER
+
+AT
+E
+
+D
+
+AR
+
+TI
+
+To probe whether Crow and Falcon literature searches produced higher quality proposals over those produced by o4mini, we compared the 50 wild type and 50 ablated proposals in a head-to-head tournament adjudicated by an LLM
+judge (Claude Sonnet 3.7; See Judge prompts in Supplementary Figure 11). Ablation of Crow, Falcon or Crow and
+Falcon always led to a reduction in the quality of the final drug proposals (Extended Data Figure 4C).
+
+3 Discussion
+
+C
+
+276
+
+PR
+EV
+IE
+W
+
+232
+233
+234
+
+In this report, we present Robin, a multi-agent system integrating automated hypothesis generation and experimental
+data analysis for scientific discovery. When tasked with identifying novel therapeutics for dAMD, Robin proposed
+phagocytosis enhancement as a therapeutic strategy for dAMD and identified Ripasudil and KL001 as enhancers of
+RPE phagocytosis among tested compounds through an iterative lab-in-the-loop discovery cycle. Ripasudil’s
+established safety profile and clinical approval for ocular use present a promising drug repurposing opportunity while
+KL001 represents, to our knowledge, a totally novel approach to phagocytosis enhancement in RPE cells.
+
+283
+284
+
+Notably, while ROCK inhibitors have been previously suggested for treatment of wet AMD and other retinal diseases
+of neovascularization, Robin is the first to propose their therapeutic application in dry AMD via a mechanism of
+
+AC
+
+277
+278
+279
+280
+281
+282
+
+6
+
+phagocytosis enhancement [48]. This approach is supported by several lines of evidence. RPE phagocytic dysfunction
+is observed not only with normal aging but is pronounced in AMD patients [49, 50, 51]. Additionally, the ability of
+ROCK inhibition to enhance phagocytosis in RPE cells is already known [39, 40, 41]. This hypothesis would of course
+require validation in a suitable disease model and ultimately in a randomized, placebo-controlled trial to confirm
+clinical validity.
+
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+
+Taken together, these results demonstrate Robin’s ability to effectively generate novel, testable hypotheses by
+synthesizing insights already present in the scientific literature. By focusing on “combinatorial synthesis” (identifying
+non-obvious connections between disparate fields), Robin effectively targets “low-hanging fruit” that human experts
+may overlook due to the compartmentalization of scientific knowledge. This paradigm of reliable, literature-grounded
+synthesis is applicable beyond drug repurposing and could be readily extended to fields such as materials science [52].
+Beyond the specific application of dAMD, Robin addresses a broader challenge in therapeutic development. With FDA
+approvals stagnating at approximately 50 novel drugs annually over the past decade [53], new approaches to scale
+therapeutic discovery are urgently needed. As the first system to automate both literature-grounded hypothesis
+generation and experimental biology data analysis, Robin is poised to accelerate the pace of drug discovery compared
+to traditional approaches.
+
+300
+301
+302
+303
+304
+305
+306
+307
+
+In light of the potential for automated discovery systems to identify potent biological agents, we have implemented
+guardrails within the Robin framework. Firstly, the system prioritizes candidates with established safety profiles and
+searches for known toxicities or off-target interactions. Secondly, as a “lab-in-the-loop” system, Robin’s outputs are
+treated as therapeutic hypotheses that must undergo standard pre-clinical validation, ensuring that any unintended
+toxicity is identified through traditional in vitro and in vivo safety filters prior to clinical translation. Regarding dualuse concerns, Robin utilizes off-the-shelf LLMs that have undergone extensive safety alignment (via red-teaming and
+RLHF) to prevent the generation of malicious biological protocols. Additionally, all queries to our platform are run
+through an LLM classifier that checks against unsafe topics.
+
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+
+In its current implementation, Robin has several opportunities for continued development. For example, while Robin
+generates experimental outlines, it does not yet produce precise, executable protocols—future iterations aim to provide
+detailed methodologies that require minimal human translation for laboratory execution. The Finch data analysis agent
+is also reliant on prompt engineering by domain experts to produce reliable analytical results. Adapting Finch to
+independently generate or adapt prompts to specific data modalities would enable a more autonomous discovery
+pipeline. Finally, while the results in this manuscript rely on frontier LLMs available in early 2025, Robin’s modelagnostic architecture ensures its capabilities will scale alongside advances in underlying foundation models. While the
+rapidly advancing baseline capabilities of general-purpose coding agents may achieve parity with specialized harnesses
+like Finch on standard computational tasks, domain-specific architectures remain crucial for strictly enforcing
+experimental constraints and reliably orchestrating specialized bioinformatics toolchains.
+
+318
+319
+320
+321
+
+By automating hypothesis generation, experimental planning, and data analysis in an integrated system, Robin
+represents a powerful new paradigm for AI-driven scientific discovery. This approach can be used to not only reshape
+therapeutic development but fundamentally accelerate the scientific process to drive a greater understanding of the
+natural world.
+
+AT
+E
+
+D
+
+AR
+
+TI
+
+C
+LE
+
+PR
+EV
+IE
+W
+
+285
+286
+287
+288
+289
+
+AC
+
+C
+
+EL
+
+ER
+
+322
+
+7
+
+323
+
+4 References
+
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+
+[1]
+
+AC
+
+C
+
+EL
+
+ER
+
+AT
+E
+
+D
+
+AR
+
+TI
+
+C
+LE
+
+PR
+EV
+IE
+W
+
+Boiko, D. A., MacKnight, R., Kline, B. & Gomes, G. Autonomous chemical research with large language models.
+Nature 624, 570–578 (2023).
+[2] Wang, E. et al. TxGemma: Efficient and Agentic LLMs for Therapeutics, arXiv (2025). doi: https://doi.org/
+10.48550/arXiv.2504.06196.
+[3] Gottweis, J. et al. Towards an AI co-scientist, arXiv (2025). doi: https://doi.org/10.48550/arXiv.2502. 18864.
+[4] Fleckenstein, M., Schmitz-Valckenberg, S. & Chakravarthy, U. Age-related macular degeneration. JAMA 331,
+147 (2024).
+[5] Rein, D. B. et al. Forecasting Age-Related Macular Degeneration Through the Year 2050: The Potential Impact
+of New Treatments. Archives of Ophthalmology 127, 533–540 (2009).
+[6] Stephens, Z. D. et al. Big Data: Astronomical or Genomical? PLOS Biology 13, e1002195 (2015).
+[7] Nurse, P. Biology must generate ideas as well as data. Nature 597, 305–305 (2021).
+[8] Cheng, F., Ma, Y., Uzzi, B. & Loscalzo, J. Importance of scientific collaboration in contemporary drug discovery
+and development: a detailed network analysis. BMC Biology 18, 138 (2020).
+[9] Ingersoll, M. A. et al. BRAF inhibition protects against hearing loss in mice. Science Advances 6, eabd0561
+(2020).
+[10] Ingersoll, M. A. et al. Dabrafenib protects from cisplatin-induced hearing loss in a clinically relevant mouse
+model. JCI Insight 8, e171140.
+[11] GlaxoSmithKline. Clinical Trial Results: A Phase II (BRF113710) single-arm, open-label study of dabrafenib
+(GSK2118436) in previously treated BRAF mutant metastatic melanoma. EU Clinical Trials Register (2017).
+URL https://www.clinicaltrialsregister.eu/ctr-search/trial/2009-015297-36/results.
+[12] GlaxoSmithKline. A Phase II (BRF113710) Single-arm, Open-label Study of GSK2118436 in BRAF Mutant
+Metastatic Melanoma. Clinical trial registration NCT01153763, clinicaltrials.gov (2017). URL https://
+clinicaltrials.gov/study/NCT01153763.
+[13] Ribas, A. & Flaherty, K. T. BRAF targeted therapy changes the treatment paradigm in melanoma. Nature Reviews.
+Clinical Oncology 8, 426–433 (2011).
+[14] Lahne, M. & Gale, J. E. Damage-Induced Activation of ERK1/2 in Cochlear Supporting Cells Is a Hair Cell
+Death-Promoting Signal That Depends on Extracellular ATP and Calcium. The Journal of Neuroscience 28,
+4918–4928 (2008).
+[15] Berman, R. M. et al. Antidepressant effects of ketamine in depressed patients. Biological Psychiatry 47, 351–354
+(2000).
+[16] Petersen, R. C. & Stillman, R. C. (eds.) Phencyclidine (PCP) Abuse: An Appraisal. No. 21 in NIDA Research
+Monograph (National Institute on Drug Abuse, Rockville, MD, 1978).
+[17] Frye, R. E., Sequeira, J. M., Quadros, E. V., James, S. J. & Rossignol, D. A. Cerebral folate receptor
+autoantibodies in autism spectrum disorder. Molecular Psychiatry 18, 369–381 (2013).
+[18] Ramaekers, V. T., Blau, N., Sequeira, J. M., Nassogne, M.-C. & Quadros, E. V. Folate Receptor Autoimmunity
+and Cerebral Folate Deficiency in Low-Functioning Autism with Neurological Deficits. Neuropediatrics 38, 276–
+281 (2008).
+[19] Sauerberg, P. et al. Novel functional M1 selective muscarinic agonists. Synthesis and structure-activity
+relationships of 3-(1,2,5-thiadiazolyl)-1,2,5,6-tetrahydro-1-methylpyridines. Journal of Medicinal Chemistry 35,
+2274–2283 (1992).
+[20] Karuna Therapeutics, Inc. Form 10-K: Annual Report for the Fiscal Year Ended December 31, 2019. U.S.
+Securities and Exchange Commission (2020). URL https://www.sec.gov/Archives/edgar/data/1771917/
+000156459020012311/krtx-10k_20191231.htm.
+[21] Taylor, R. et al. Galactica: A Large Language Model for Science, arXiv (2022). doi: https://doi.org/10.
+48550/arXiv.2211.09085, URL http://arxiv.org/abs/2211.09085.
+[22] Giglou, H. B., D’Souza, J. & Auer, S. LLMs4Synthesis: Leveraging Large Language Models for Scientific
+Synthesis, arXiv (2024). doi: https://doi.org/10.48550/arXiv.2409.18812.
+[23] Agarwal, S. et al. LitLLM: A Toolkit for Scientific Literature Review, arXiv (2025). doi: https://doi.org/
+10.48550/arXiv.2402.01788.
+8
+
+[24] Wang, Z. P., Bhandary, P., Wang, Y. & Moore, J. H. Using GPT-4 to write a scientific review article: a pilot
+evaluation study. BioData Mining 17, 16 (2024).
+[25] Skarlinski, M. D. et al. Language agents achieve superhuman synthesis of scientific knowledge, arXiv (2024).
+doi: https://doi.org/10.48550/arXiv.2409.13740.
+[26] Huang, K. et al. Automated Hypothesis Validation with Agentic Sequential Falsifications, arXiv (2025). doi:
+https://doi.org/10.48550/arXiv.2502.09858.
+[27] Lu, C. et al. The AI Scientist: Towards Fully Automated Open-Ended Scientific Discovery, arXiv (2024). doi:
+https://doi.org/10.48550/arXiv.2408.06292.
+[28] Ifargan, T., Hafner, L., Kern, M., Alcalay, O. & Kishony, R. Autonomous LLM-driven research from data to
+human-verifiable research papers, arXiv (2024). doi: https://doi.org/10.48550/arXiv.2404.17605.
+[29] Yamada, Y. et al. The AI Scientist-v2: Workshop-Level Automated Scientific Discovery via Agentic Tree Search,
+arXiv (2025). doi: https://doi.org/10.48550/arXiv.2504.08066.
+[30] Chaves, J. M. Z. et al.
+Tx-LLM: A Large Language Model for Therapeutics, arXiv (2024).
+doi:
+https: //doi.org/10.48550/arXiv.2406.06316.
+[31] Mitchener, L. et al. Bixbench: A comprehensive benchmark for LLM-based agents in Computational Biology,
+arXiv (2025). URL https://arxiv.org/abs/2503.00096.
+[32] Buniello, A. et al. Open Targets Platform: facilitating therapeutic hypotheses building in drug discovery. Nucleic
+Acids Research 53, D1467–D1475 (2024). https://academic.oup.com/nar/article-pdf/53/D1/D1467/
+60967175/gkae1128.pdf.
+[33] Narayanan, S. et al. Aviary: training language agents on challenging scientific tasks, arXiv (2024). doi:
+https://doi.org/10.48550/arXiv.2412.21154.
+[34] Tenopir, C., King, D. W., Christian, L. & Volentine, R. Scholarly article seeking, reading, and use: a continuing
+evolution from print to electronic in the sciences and social sciences. Learned Publishing 28, 93–105 (2015).
+[35] Hippel, T. v. & Hippel, C. v. To Apply or Not to Apply: A Survey Analysis of Grant Writing Costs and Benefits.
+PLOS ONE 10, e0118494 (2015).
+[36] Sboner, A., Mu, X. J., Greenbaum, D., Auerbach, R. K. & Gerstein, M. B. The real cost of sequencing: higher
+than you think! Genome Biology 12, 125 (2011).
+
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+
+[37] Anaconda. State of Data Science 2024 Report (2024). URL
+https://www.anaconda.com/resources/
+report/state-of-data-science-report-2024.
+[38] Nandrot, E. F. et al. Essential role for MFG-E8 as ligand for αvβ5 integrin in diurnal retinal phagocytosis.
+Proceedings of the National Academy of Sciences 104, 12005–12010 (2007).
+[39] Mao, Y. & Finnemann, S. C. Acute RhoA/Rho kinase inhibition is sufficient to restore phagocytic capacity to
+retinal pigment epithelium lacking the engulfment receptor MerTK. Cells 10, 1927 (2021).
+[40] Müller, C., Charniga, C., Temple, S. & Finnemann, S. C. Quantified F-Actin Morphology Is Predictive of
+Phagocytic Capacity of Stem Cell-Derived Retinal Pigment Epithelium. Stem Cell Reports 10, 1075–1087 (2018).
+[41] Kozyrina, A. N. et al. Laminin-defined mechanical status modulates retinal pigment epithelium phagocytosis.
+EMBO Reports 26, 3357–3383 (2025).
+[42] Malek, G. et al. Apolipoprotein E allele-dependent pathogenesis: A model for age-related retinal degeneration.
+Proceedings of the National Academy of Sciences 102, 11900–11905 (2005).
+[43] Klaver, C. C. et al. Genetic association of apolipoprotein E with age-related macular degeneration. American
+Journal of Human Genetics 63, 200–206 (1998).
+[44] McKay, G. J. et al. Evidence of association of APOE with age-related macular degeneration - a pooled analysis
+of 15 studies. Human mutation 32, 1407–1416 (2011).
+[45] Blenkinsop, T. A. et al. Human Adult Retinal Pigment Epithelial Stem Cell–Derived RPE Monolayers Exhibit
+Key Physiological Characteristics of Native Tissue. Investigative Ophthalmology & Visual Science 56, 7085
+(2015).
+[46] Croze, R. H. et al. ROCK Inhibition Extends Passage of Pluripotent Stem Cell-Derived Retinal Pigmented
+Epithelium. STEM CELLS Translational Medicine 3, 1066–1078 (2014).
+[47] Lieffrig, S. A., Gyimesi, G., Mao, Y. & Finnemann, S. C. Clearance phagocytosis by the retinal pigment epithelial
+during photoreceptor outer segment renewal: Molecular mechanisms and relation to retinal inflammation.
+Immunological Reviews 319, 81–99 (2023).
+
+AC
+
+C
+
+EL
+
+ER
+
+AT
+E
+
+D
+
+AR
+
+TI
+
+C
+LE
+
+PR
+EV
+IE
+W
+
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+
+9
+
+[48] Halasz, E. & Townes-Anderson, E. Rock inhibitors in ocular disease. ADMET and DMPK 4, 280 (2016).
+[49] Inana, G. et al. RPE phagocytic function declines in age-related macular degeneration and is rescued by human
+umbilical tissue derived cells. Journal of Translational Medicine 16, 63 (2018).
+[50] Si, Z., Zheng, Y. & Zhao, J. The Role of Retinal Pigment Epithelial Cells in Age-Related Macular Degeneration:
+Phagocytosis and Autophagy. Biomolecules 13, 901 (2023).
+[51] Kaarniranta, K. et al. Autophagy and heterophagy dysregulation leads to retinal pigment epithelium dysfunction
+and development of age-related macular degeneration. Autophagy 9, 973–984 (2013).
+[52] Gregoire, J. M., Zhou, L. & Haber, J. A. Combinatorial synthesis for AI-driven materials discovery. Nature
+Synthesis 2, 493–504 (2023).
+[53] Baedeker, M., Ringel, M. S. & Möller, C. C. 2024 FDA approvals exceed average number but have lower sales
+projections. Nature Reviews Drug Discovery 24, 85–85 (2025).
+
+AC
+
+C
+
+EL
+
+ER
+
+AT
+E
+
+D
+
+AR
+
+TI
+
+C
+LE
+
+PR
+EV
+IE
+W
+
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434
+
+10
+
+5 Figure Titles and Captions
+
+436
+437
+438
+439
+440
+441
+442
+
+Figure 1: Architecture and workflow of the Robin system. A) Given the name of a target disease, Robin generates
+hypotheses and selects top therapeutic candidates to test experimentally. Robin can autonomously analyze raw data
+from these experiments to synthesize scientific insights and generate updated therapeutic hypotheses. B) Robin
+interacts with language agents to generate hypotheses and analyze experimental data. C) Crow and Falcon are used to
+conduct concise and deep literature searches, respectively, to gather information to guide hypothesis generation.
+Finch performs analyses of experimental data, which Robin uses to derive insights to inform the next round of
+hypothesis generation.
+
+443
+444
+445
+446
+447
+448
+449
+450
+451
+452
+453
+454
+
+Figure 2: Robin generates therapeutic candidate hypotheses for dry AMD and analyzes experimental data from
+in vitro experiments A) Robin proposes several experimental assays and ultimately decides to use an RPE
+phagocytosis enhancement assay. Robin synthesizes this strategy into an overall goal and then generates several novel
+therapeutic candidates to enhance RPE phagocytosis. B) Schematic representation of the phagocytosis assay. RPE cells
+are incubated with the drug for 1 hour before pHrodo-labelled beads or rod outer segments (ROS) are added. The cells
+are incubated with the beads/ROS for 3 hours and phagocytic activity is measured via flow cytometry. Schematic
+created in BioRender. (C-F) Example plots from a Finch flow cytometry analysis trajectory, formatted for readability
+in publication by a human. C) Finch performs gating to discard debris using a FSC-A vs SSC-A plot. D) Finch gates
+singlet cells from the FSC-H vs FSC-A plot. E) Finch identifies the DAPI signal and excludes dead cells. F) Finch
+performs statistical tests to compare candidate drugs to the DMSO control and plots the results. The bar plot shows the
+fold change in mean fluorescence intensity relative to the DMSO control (n=3 wells; SEM shown; p<0.05(*);
+Dunnett’s test)
+
+455
+456
+457
+458
+459
+460
+
+Figure 3: RNA-sequencing analysis of ARPE-19 cells treated with ROCK inhibitor Y-27632. A) Robin interprets
+results from the first experiment and proposes follow-up assays. B-D) Example plots from a Finch RNA-seq analysis,
+formatted for readability in publication by a human. B) Finch-made volcano plot showing differentially expressed
+genes between Y27632-treated and wildtype cells after phagocytosis. C) Finch-made consensus findings from eight
+RNA-seq analysis trajectories, showing the percentage of analyses that identified the same genes as consistently upor down-regulated. D) Finch-made GO-term enrichment of differentially expressed genes. (n=3 wells)
+
+461
+462
+463
+464
+465
+466
+467
+468
+469
+470
+
+Figure 4: Ripasudil and KL001 enhance RPE phagocytosis. (A) Excerpt of Robin proposal for ripasudil. Drawing
+from the insights from the first round of experimental analysis, Robin proposes ripasudil as a therapeutic candidate
+for treating dry AMD. Result Interpretation: a JSON structured output is generated from the Finch results by an LLM
+(see EXPERIMENTAL_INSIGHTS_APPENDAGE in prompts.py in the Robin GitHub repository). (B) Analyzed
+flow cytometry data from the second round of experiments in ARPE-19 cells shows that ripasudil significantly
+enhances phagocytosis (n=3 wells). (C) Dose response curves for ripasudil and Y-27632 in ARPE-19 cells. Ripasudil
+is more potent than Y-27632 at stimulating phagoytosis in ARPE-19 cells (n=3 wells). (D) Validation of ripasudil in
+geriatric primary human RPE cells (RPE-SC) recapitulates the phagocytosis enhancing effect of Y-27632 and
+ripasudil (n=4 wells). (E) Ripasudil is more potent than Y-27632 in RPE-SC (n=4 wells). (Error bars show the SEM
+on all plots; p<0.05(*); Dunnett’s test).
+
+C
+LE
+
+TI
+
+AR
+
+D
+
+AT
+E
+
+ER
+
+EL
+
+AC
+
+C
+
+471
+
+PR
+EV
+IE
+W
+
+435
+
+11
+
+472
+
+6 Methods
+
+474
+
+6.1 Robin Implementation
+
+475
+476
+477
+478
+
+Robin is implemented as a Jupyter notebook using the Aviary framework to instantiate and call agents [33]. Robin
+utilizes the OpenAI o4-mini model to synthesize literature and generate hypotheses, and the Anthropic Claude 3.7
+Sonnet model as the judge for pairwise comparisons to rank hypotheses. Prompts used for agents and LLMs called in
+Robin are shown in Supplementary Figures 2-11.
+
+479
+480
+481
+
+Notably, while the experiments in this paper were conducted using an agentic implementation of Robin, we observed
+that Robin almost always called tools in the same order, leading to a deterministic workflow. Therefore, we translated
+Robin into a streamlined Jupyter notebook to improve stability and ease of use.
+
+482
+483
+484
+485
+486
+487
+488
+489
+490
+491
+492
+493
+494
+495
+496
+497
+498
+499
+500
+501
+
+The ranking of hypotheses was calculated via a series of pairwise comparisons adjudicated by the LLM judge. When
+ranking 25 or fewer hypotheses, all possible pairs were compared in a round robin tournament. When considering more
+than 25 hypotheses, 300 pairwise comparisons were randomly selected to achieve a comprehensive assessment within
+reasonable computational and time constraints. The outcomes from these comparisons were used to estimate strength
+parameters via the Bradley-Terry-Luce (BTL) model, which subsequently informed the relative ranking of each
+hypothesis [54]. While there is no clear consensus on the optimal strategy for LLM-judge based rankings, we opted
+for pairwise comparisons rather than pointwise. Some literature [55, 56] shows pairwise comparisons to be more robust
+than pointwise grading, as pointwise grading may be unable to distinguish nuanced differences between similar pairs.
+Position bias in the pairwise comparisons is addressed by utilizing a highly distributed tournament paired with the BTL
+model, rather than relying on simple win/loss tallies, which are highly susceptible to positional bias. To generate the
+prompt for this LLM judge, domain experts were asked to conduct pairwise comparisons of Robin’s therapeutic
+candidate hypotheses. The results of these expert evaluations were given to Google’s Gemini 2.5 Pro Preview model
+to generate a prompt for Robin’s LLM judge. This approach was designed to elicit decision-making from the LLM
+judge consistent with expert preferences and criteria.
+When comparing the LLM judge’s preferences with experts’, the LLM judge demonstrated high concordance with
+expert preferences, with an average of 7.25 of its top 10 hypotheses matching those in the experts’ top 10
+(Supplementary Figure 20A). This concordance is more than double that expected from random selection. Furthermore,
+the LLM judge exhibited higher intra-rater consistency than human experts (Supplementary Figure 20B). When
+presented with identical pairwise comparisons, the LLM judge selected the same hypothesis in 88% of comparisons,
+as compared with human experts who selected the same hypothesis 61% of the time.
+
+502
+
+6.2 Finch Implementation
+
+503
+504
+505
+
+Finch is an autonomous, Jupyter-native data analysis agent designed using the Aviary framework [33]. Finch
+systematically processes bioinformatics workflows, such as RNA sequencing differential expression analysis or flow
+cytometry, based on a provided dataset and research question.
+
+506
+507
+508
+509
+510
+511
+
+Rather than retrieving static templates from a codebase, the agent operates as a generative reasoning engine that writes
+original, executable Python/R code line-by-line in real time, ensuring the analytical logic is dynamically adapted to the
+data distribution rather than constrained by hard-coded subroutines. The agent operates within a structured execution
+environment provided by the Aviary framework; an extensible gymnasium tailored for language agent evaluation and
+iterative problem-solving [33]. Aviary was selected specifically for its controlled environment, supporting reproducible
+evaluations through standardized software environments, consistent tool access, and structured multi-step reasoning.
+
+C
+LE
+
+TI
+
+AR
+
+D
+
+AT
+E
+
+ER
+
+EL
+
+Finch leverages an agentic prompting strategy based on the ReAct approach, balancing logical reasoning and practical
+execution effectively [57]. Each Finch trajectory unfolds within a pre-built Docker container (BixBench-env:v1.0),
+containing extensive bioinformatics-oriented Python, R, and Bash libraries. This standardized container ensures
+reproducibility and isolates evaluation strictly to Finch’s analytical capability rather than software installation or
+dependency management. That being said, Finch is capable of installing new dependencies when needed and does so
+competently.
+
+AC
+
+C
+
+512
+513
+514
+515
+516
+517
+
+PR
+EV
+IE
+W
+
+473
+
+518
+
+6.2.1 Tools and Environment
+
+519
+
+Finch interacts exclusively via two tools enabled by the Aviary framework:
+
+12
+
+520
+
+• edit_cell: The agent can select, modify, and execute cells within a Jupyter notebook.
+
+521
+
+• submit_answer: Finalizes and submits the agent’s analytical conclusion.
+Prompt engineering was thoroughly explored to optimize Finch’s initial instructions, with an example provided in
+Supplementary Figure 10. All Finch trajectories are available through the FutureHouse platform.
+
+524
+
+6.2.2 Finch evaluation
+
+525
+526
+527
+528
+529
+530
+531
+532
+533
+534
+535
+536
+
+We evaluated Finch and its base model (Claude 3.7 Sonnet) without agent capabilities on 170 questions relevant to
+drug discovery from the BixBench bioinformatics benchmark [31]. After excluding low-quality categories and
+categories not relevant to human drug discovery, 170 questions across 38 data capsules were retained and classified
+into two categories: Bioinformatics (n=131 questions), comprising RNA-seq, genomics, epigenomics, functional
+enrichment, and sequence analysis tasks; and Biostatistics (n=39 questions), comprising image analysis tasks and
+general statistical analysis tasks. Each question was assigned to its first listed category in the BixBench category
+mapping to avoid double-counting across multi-label assignments. Both Finch and the base LLM were run in triplicate.
+Mean accuracy was calculated per category per replicate, and error bars represent the standard error of the mean across
+replicates. For failure mode analysis, each non-correct Finch response was classified as Wrong Answer (agent produced
+a specific incorrect value), Distractor Match (response matched a provided distractor), Formatting (correct value in
+wrong format), Unsure (agent declined to answer), or Empty/Failed (no response produced), aggregated across all three
+replicas.
+
+537
+538
+539
+540
+541
+542
+543
+544
+
+Each BixBench question consists of a natural language prompt which references data files packaged in a capsule (ZIP
+archive), an expected answer, three distractor options, and a designated evaluation method. Finch receives both the
+question and access to the capsule data and may write and execute code (Python or R) over up to 10 steps to produce
+an answer. The base LLM receives only the question text with no data access or code execution capability. Responses
+were evaluated using one of three methods specified per question: exact match (string or numeric equality), range match
+(numeric answer within a specified interval), or LLM judge (semantic equivalence assessed by a separate model for
+free-text answers). A response was scored as correct only if it passed its designated evaluation; all other outcomes
+including valid analyses that produced wrong values, formatting mismatches, and refusals were scored as incorrect.
+
+545
+
+6.3 Robin Validation
+
+546
+
+6.3.1 Crow and Falcon Ablation experiments
+
+547
+548
+549
+550
+551
+552
+
+Calls to the FutureHouse platform agents Crow and Falcon were replaced with calls to o4-mini via the OpenAI API
+using the same system and user prompt. For the human reference check, a scientist blinded to the source was provided
+with 10 randomly chosen proposals from the wild type and ablated versions of Robin. Each time a citation or reference
+was encountered in a proposal, the scientist attempted to find the original article online. If the original article could not
+confidently be identified from the citation or reference (including the available context from the proposal) the reference
+was labeled as hallucinated. Otherwise, the reference was labeled legitimate.
+
+553
+554
+555
+556
+557
+558
+559
+560
+561
+
+For the LLM judge comparison, 50 wild type and 50 ablated proposals were submitted to a head-to-head tournament
+adjudicated by Claude Sonnet 3.7 and the outcomes from these comparisons were used to generate a proposal ranking
+via the BTL model (as implemented in the Robin internal ranking system). Statistical significance of differences in
+mean ranks between groups was assessed using a permutation test. The observed test statistic was the difference in
+mean ranks between the ablated and wild-type groups (mean rank of ablated minus mean rank of wild-type). Under the
+null hypothesis of no difference between groups, the null distribution was generated by randomly permuting group
+labels 10,000 times and recalculating the test statistic for each permutation. The p-value was calculated as the proportion
+of permuted differences greater than or equal to the observed difference (one-tailed test). All analyses were performed
+using Python 3.12.10 with NumPy and pandas.
+
+C
+
+EL
+
+ER
+
+AT
+E
+
+D
+
+AR
+
+TI
+
+C
+LE
+
+PR
+EV
+IE
+W
+
+522
+523
+
+6.3.2 Comparison to OpenAI’s Deep Research
+
+563
+564
+565
+566
+567
+568
+
+For the comparison to Deep Research (DR), DR was given the system and user prompt shown in Supplementary Figure
+8 via the ChatGPT user interface. As of the time these queries were submitted to DR (June 2025), DR typically followed
+up a user prompt with 2-3 questions, the purpose of which was to clarify and delineate the search query. We answered
+these questions as helpfully as possible for each query. Once we had 18 complete queries, we ordered the drugs and
+formulated drug stocks, the details of which are in Supplementary Table 1. The phagocytosis assay was performed on
+RPE-SC cells in the same experiment that we validated the Robin findings.
+
+AC
+
+562
+
+13
+
+6.3.3 Cost analysis
+
+570
+571
+572
+
+We tracked the costs of LLM calls through litellm (https://docs.litellm.ai/docs/providers/github) and calculated mean
+costs for Crow and Falcon ($0.0963 and $0.2142, respectively; n=52 runs). The cost of a typical Robin run, CRobin, was
+estimated by assuming 45 Crow and 30 Falcon runs:
+
+573
+
+CRobin = 45(CCrow)+30(CFalcon)
+
+PR
+EV
+IE
+W
+
+569
+
+(1)
+
+Finch is excluded from this estimate as it is only run once per iteration, making its cost contribution negligible.
+
+575
+
+6.4 Cell Culture
+
+576
+577
+578
+579
+580
+581
+582
+583
+
+ARPE-19 cells were obtained from ATCC (CRL-2302), expanded for 3 passages, aliquoted and frozen. These aliquots
+were used for all ARPE-19 experiments in this manuscript. In culture, the ARPE-19 cells are maintained in DMEM/F12
+(Corning; 15-090-CV), with 10% fetal bovine serum (Gibco; 10082-147), 2mM L-glutamine (Gibco; 25030-081),
+1mM sodium pyruvate (Gibco; 11360-070) and 1% penicillin-streptomycin (Gibco; 15140-122) at 37°C, 5% CO2. For
+phagocytosis assays, cells are seeded in 96-well tissue culture plates (VWR, 10861-666) at a density of 1x104 cells per
+well with 100 µL of complete cell media. They are grown to confluence and then incubated for a further 7 days, during
+which the media is not changed. At this point they have formed a monolayer and show signs of differentiation (melanin
+granule expression, cobblestone morphology) [58].
+
+584
+585
+586
+587
+588
+589
+590
+591
+592
+
+Primary RPE-SC cells were harvested from a single aged donor (>60 years old) with no known ocular conditions by
+the Eye-Bank for Sight Restoration, Inc. (New York). RPE-SC cells were thawed, seeded and cultured as per the
+protocols described in Fernandes et al. (2018) [59]. Briefly, patient RPE-SCs were thawed immediately on arrival and
+plated on 24-well tissue-culture plastic plates (Corning, 3470) coated with Synthemax II (Corning, 3535) for 5 hours
+in cell media containing 10 % heat-inactivated FBS. After 7 days, the media was changed to one containing 2% heatinactivated FBS. As an amendment to the Fernandes et al. protocol, media was changed three times per week on
+Monday, Wednesday and Friday by removing 2/3 of the medium and replacing it with fresh medium. Cells were split
+into 96-well plates or transwell inserts (Corning, 3470) 4 weeks after seeding and then allowed to mature for a further
+4 weeks before ELISA was performed.
+
+593
+594
+595
+596
+597
+598
+599
+600
+
+The RPE-SC medium consisted of a 1:1 mixture of DMEM/F12 (Sigma-Aldrich, D8062) and MEM (Sigma-Aldrich,
+M4526) as the basal medium. The medium was supplemented with 1X penicillin-streptomycin (Life Technologies, cat.
+no. 15140-163), 1X Glutamax (Life Technologies, 35050-079), 1X non-essential amino acids (Life Technologies
+11140-076), and 1X sodium pyruvate (Life Technologies, 11360-070). Additional supplements were 2% or 10% (v/v)
+heat-inactivated FBS (Sigma-Aldrich, F4135), 10 mM nicotinamide (Sigma-Aldrich, N5535), N1 medium supplement
+at 50% of the manufacturer’s recommended concentration (Sigma-Aldrich, N6530), 0.25 mg/ml taurine (SigmaAldrich,
+T0625), 0.02 µg/ml hydrocortisone (Sigma-Aldrich, H4001), and 0.013 ng/ml 3,3′,5-triiodo-L-thyronine (SigmaAldrich, T5516) [59].
+
+AT
+E
+
+D
+
+AR
+
+TI
+
+C
+LE
+
+574
+
+601
+
+6.5 Phagocytosis Drug Screen
+
+603
+
+6.5.1 Drug Library Preparation
+
+604
+605
+606
+607
+
+Optimal cell culture concentrations for the drugs proposed by Robin were found in the literature and if multiple
+concentrations were proposed, the highest was selected for use in the phagocytosis assay. On the day of the
+phagocytosis experiment, drug stocks were used to prepare working stocks in complete media at 2X working
+concentration.
+
+EL
+
+6.5.2 pHrodo Bead Preparation
+
+C
+
+608
+
+ER
+
+602
+
+To specifically detect phagocytosed particles, we utilized pHrodo beads (ThermoFisher; Cat. No. A10010) which are
+fluorescent only in the low pH of the lysosome. Deep red E. coli pHrodo beads were thawed and resuspended in 2 ml
+PBS as per the manufacturer’s instructions. The resuspended beads were then sonicated for 10 minutes in a water bath
+at RT before addition to the cell culture plate.
+
+613
+
+6.5.3 Bovine Rod Outer Segment Preparation
+
+614
+615
+
+Bovine rod outer segments (ROS) were used in place of phrodo beads for the RPE-SC validation experiments. Bovine
+ROS were obtained from Invision BioResources (Cat. No. 98740) and received as a frozen pellet. This pellet was re-
+
+AC
+
+609
+610
+611
+612
+
+14
+
+suspended in cold sterile PBS to a concentration of 1107 ROS per 100 µL and aliquots were stored at -80C. On the
+day of the experiments, ROS aliquots were thawed on ice and conjugated with pHrodo red dye SE (ThermoFisher, Cat.
+No. P36600). The pHrodo red dye was reconstituted in DMSO to a concentration of 10 mM as per the manufacturer’s
+instructions. ROS were centrifuged for 7 minutes at 6,500 g at 4C and then re-suspended in sterile cold conjugation
+buffer (0.2 mM sodium bicarbonate buffer, pH 9.2) to achieve a concentration of 1×106 ROS per 100 µL (10-fold
+dilution of the aliquots). For each 100 µL of diluted ROS (1×106 ROS), 1 µL of 10 mM pHrodo SE was added and
+mixed by pipetting. ROS were then incubated in a shaking bead bath at 21C and 500 RPM in the dark. After
+incubation, the pHrodo Red conjugated ROS were washed to remove excess dye by centrifugation and re-suspension
+in cold sterile PBS. Before adding conjugated ROS to cells, the ROS were re-suspended to 1107 ROS per 100 µL (in
+cell media) and 4 µL (10 ROS per cell) was added to each well of a 96-well plate. ROS were distributed over the well
+by pipetting and visually inspected to ensure even coverage.
+6.5.4 Phagocytosis Assay
+
+629
+630
+631
+632
+633
+634
+
+For the phagocytosis assays, prior to bead addition cells were treated with test compounds or vehicle control (0.5%
+DMSO) for 60 minutes at 37°C, 5% CO2 by adding 100 µL of 2X drug stock in complete media to the cells. At
+60 minutes of incubation, 10 µL of 1 µg/µl pHrodo beads were added to each well. After bead addition, plates were
+incubated at 37°C for 3 hours. Cells were then resuspended using TrypLE Express (Gibco, 12604-013) for 10 minutes
+and diluted in FACS buffer (1% BSA and either 500 ng/ml DAPI or 5µM Hoechst 33342 in calcium and magnesiumfree PBS) to achieve a cell suspension suitable for flow cytometry.
+
+635
+636
+637
+638
+639
+
+For the RPE-SC validation experiments, we replaced pHrodo beads with pHrodo red SE (Thermo Fisher) labeled
+Bovine ROS (Invision BioResources) and replaced DAPI with Hoechst 33342 (BroadPharm, BP-42012). Additionally,
+the ROS were resuspended in cell media before adding to the cells. We performed the RPE-SC screen with 4 technical
+replicates (1 more than the ARPE-19) due to the availability of extra donor cells. Otherwise, the RPE-SC drug screen
+was performed in the same way as the ARPE-19 screen.
+
+640
+
+6.5.5 Flow Cytometry
+
+641
+642
+643
+644
+645
+646
+647
+648
+
+ARPE-19 or RPE-SC cells suspended in FACS buffer in 96-well cell culture plates were immediately transferred to an
+Attune NxT flow cytometer (ThermoFisher; Cat. No. A24858) equipped with an Autosampler. For the ARPE19
+experiments, fluorescence from the pHrodo beads and DAPI was stimulated using the 637 and 405 nm lasers,
+respectively, and detected using the 670/14 and 450/40 filters, respectively. For the RPE-SC experiments, pHrodo red
+dye and Hoechst 33342 were stimulated using the 532nm and 405nm lasers, respectively, and detected using the 585/16
+and 450/40 filters, respectively. The cell population was delineated from trial wells and then a cell gate was used to
+limit each well to 5000 events in the cell population. This was necessary as the majority of events detected are bovine
+ROS.
+
+649
+
+6.5.6 RNA Sequencing
+
+650
+651
+652
+653
+654
+655
+656
+657
+658
+
+ARPE-19 cells were seeded in 24-well tissue culture plates in triplicate and cells were lysed and RNA extracted using
+the Maxwell RSC 48 (Promega; Cat. No. AS8500) and Maxwell RSC SimplyTissue kit (Promega, Cat. No. AS1340)
+as per the manufacturer’s guidelines. Total RNA was quantified using a Qubit instrument (ThermoFisher, Cat. No.
+Q33327) and Qubit high-sensitivity RNA kit (ThermoFisher, Cat. No. Q10210). Using 1 µg of total RNA as input,
+poly-A tailed mRNA was isolated using NEBNext® Poly(A) mRNA Magnetic Isolation Module (New England
+Biolabs; Cat. No. E7490) and then prepared for sequencing using the NEBNext Ultra II Directional RNA Library Prep
+Kit for Illumina (New England Biolabs; Cat. No. E7760). Quality control was performed using an Agilent Bioanalyzer.
+Libraries (with 1% PhiX spiked in) were sequenced on an Illumina NextSeq 2000 with 75 base-pair paired-end reads
+using a P3 flow cell.
+
+C
+
+EL
+
+ER
+
+AT
+E
+
+D
+
+AR
+
+TI
+
+C
+LE
+
+PR
+EV
+IE
+W
+
+616
+617
+618
+619
+620
+621
+622
+623
+624
+625
+626
+627
+628
+
+AC
+
+659
+660
+661
+662
+663
+664
+665
+
+6.5.7 Immunocytochemistry
+Cells were fixed with 4% paraformaldehyde (PFA) for 25 minutes at room temperature (RT) and subsequently washed
+three times with PBS for 5 minutes each. Non-specific antibody binding was blocked by incubating the cells with a
+blocking buffer (1% Bovine Serum Albumin (BSA), 22.52 mg/mL glycine in PBST (PBS + 0.1% Tween 20)) for 30
+minutes. Cells were then incubated overnight at 4°C with the primary antibody diluted in 1% BSA in PBST. Following
+this, cells were incubated with the secondary antibody in 1% BSA for 1 hour at room temperature in the dark, and
+finally, incubated with DAPI before a final wash step. Supplementary Table 2 lists the antibodies used in this study.
+
+15
+
+6.5.8 ELISA
+
+667
+668
+669
+670
+671
+672
+673
+
+RPE-SC cells were seeded on 6.5 mm transwell inserts with a 0.4 µm pore polyester membrane insert (Corning 3470)
+at 15,000 cells per insert and cultured for a further 4 weeks. VEGF ELISA was performed using the Invitrogen Novex
+VEGF Human ELISA Kit (Thermo Fisher, KHG0111). Cell media from the apical and basolateral compartments was
+sampled 48 hours after media change and diluted 1:10 in sample diluent buffer before performing ELISA according to
+the manufacturer’s instructions.
+
+674
+675
+676
+677
+
+Supernatants from the RPE-SC dose response experiment were stored at -80C immediately after the experiment. The
+LDH assay was conducted according to the manufacturer’s protocol using the LDH-Glo Cytotoxicity Assay (Promega,
+J2381). To measure the maximal LDH activity, a positive control was created by lysing cells with Triton X-100 (SigmaAldrich, X100), enabling calculation of relative cytotoxicity.
+
+678
+
+6.6 Data Analysis
+
+679
+
+6.6.1 Flow Cytometry
+
+680
+681
+682
+683
+684
+685
+686
+
+Finch, the data analysis agent, performed end-to-end analysis of our flow cytometry data. Debris and cell aggregates
+were excluded from the analysis based on forward and side scatter parameters. In general, Finch clusters the forward
+scatter versus side scatter plot by using the flowMeans package for the R programming language to apply a k-means
+clustering before choosing the cluster most likely to contain the main cell population. For subsequent gates, Finch
+generated scatter plots and then used the plots to define gates. Single cells were gated based on pulse width and area
+parameters. The mean fluorescence intensity (MFI) of the pHrodo signal was quantified for each well to assess the
+extent of phagocytosis.
+
+687
+688
+689
+690
+691
+692
+
+Flow cytometry data was also analyzed by a human scientist (Supplementary Figures 13, 15 and 16). The human flow
+cytometry analysis was like Finch’s except that the human analysis had the additional step of using the no-bead control
+to remove background signal in the Alexa 647 channel, which proved minimal. The human analysis started by
+identifying the main cell population in the forward versus side scatter plot. Next, singlets were identified. Dead cells
+were then removed using the DAPI channel before finally removing Alexa 647 background signal using the no bead
+control.
+
+693
+
+6.6.2 RNA Sequencing
+
+694
+695
+
+Read demultiplexing and alignment was performed by a human and subsequent differential gene expression analysis
+was performed by Finch (code available on the Robin GitHub repository).
+
+696
+
+6.6.3 Read Alignment and Processing
+
+697
+698
+699
+700
+701
+702
+703
+704
+705
+706
+707
+
+Raw paired-end RNA-Seq reads (2 x 150 bp) for twelve samples (including Y27632-treated, vehicle control, and beadtreated conditions) were processed using a custom Bash pipeline. Sequencing files (*_R1_001.fastq.gz and
+*_R2_001.fastq.gz) were retrieved from the FASTQ directory and aligned individually to the GRCh38 human
+reference genome (HISAT2 index built from GENCODE v44) using HISAT2 with the –dta flag to retain splice junction
+information for downstream transcriptome assembly. Alignments were performed with eight CPU threads (-p 8) and
+output in SAM format. Each SAM file was converted to BAM with samtools view -bS, then sorted (samtools sort) and
+indexed (samtools index) to produce compressed, coordinate-sorted BAMs. Intermediate SAM and unsorted BAM
+files were removed to conserve disk space. This procedure ensured that all alignments were uniformly processed and
+ready for quantitative analysis.
+
+PR
+EV
+IE
+W
+
+666
+
+C
+
+EL
+
+ER
+
+AT
+E
+
+D
+
+AR
+
+TI
+
+C
+LE
+
+6.5.9 Lactate Dehydrogenase Assay
+
+AC
+
+708
+709
+710
+711
+712
+713
+714
+
+6.6.4 Gene-Level Quantification
+Gene counts were obtained with the featureCounts tool from the Subread package, using the GENCODE v44 GTF
+annotation file. Paired-end mode (-p) was specified to correctly handle fragment counting, and eight threads (-T 8)
+were used to accelerate processing. All the indexed, sorted BAM files were supplied simultaneously, and read
+assignment to genes was performed according to the provided exon features. The resulting raw gene-level count matrix
+was written to gene_counts.txt, serving as the input for subsequent normalization and differential expression analyses.
+This workflow provides a reproducible framework for high-throughput RNA-Seq data processing from raw reads
+through gene-level quantification.
+
+16
+
+6.6.5 Differential Gene Expression Analysis
+
+716
+717
+718
+719
+720
+721
+722
+
+Raw gene counts were imported into R (v4.2.0) and filtered to remove non-count columns, yielding a matrix of 6
+samples across two conditions (Y-27632, untreated). The count matrix and metadata were encapsulated in a
+DESeqDataSet object (DESeq2 v1.36.0) [60]. Normalization, dispersion estimation, and Wald tests were performed to
+detect differential expression. Transcript identifiers were mapped to gene symbols using biomaRt, and one pairwise
+contrasts were defined (Y-27632 versus untreated) [61]. Results were ordered by adjusted p-value, exported to CSV,
+and volcano plots were generated with EnhancedVolcano (v1.14.0) using thresholds of |log2FC| > 1 and adj. p < 0.05
+[62].
+
+723
+
+6.6.6 RPE-SC RNA sequencing validation
+
+724
+725
+726
+727
+728
+729
+730
+731
+732
+733
+734
+
+For this experiment, which was designed to validate the ABCA1 finding from the ARPE-19 RNA-seq experiment, total
+RNA was prepared using the Maxwell RSC simplyRNA Cells Kit (Promega, AS1390) and submitted to Plasmidsaurus
+(plasmidsaurus.com) for library preparation and sequencing using their ultrafast RNA-Seq service. Library generation
+utilized a high-throughput 3′-end counting strategy targeting polyadenylated transcripts. Briefly, poly(A)+ mRNA was
+captured from the total RNA input and reverse-transcribed into cDNA using oligo-dT primers containing samplespecific barcodes, Unique Molecular Identifiers (UMIs), and Illumina Read 1 sequences. Following second strand
+synthesis, the cDNA underwent tagmentation to simultaneously fragment the molecules and incorporate Read 2
+sequences. Libraries were completed via amplification to attach P5/P7 adapters and unique dual indices (i5 and i7).
+Sequencing was conducted on an Illumina platform to a depth of approximately 10 million deduplicated reads (20
+million raw reads) per sample. Raw reads were processed by clustering UMI sequences to remove PCR duplicates, and
+gene counts were generated from the resulting deduplicated, aligned reads.
+
+735
+
+7 Acknowledgements
+
+736
+737
+738
+739
+740
+741
+
+We would like to acknowledge Michael Skarlinski, Mayk Caldas, Tyler Nadolski, James Braza, and Siddharth
+Narayanan for their help in supporting this research and reviewing this manuscript. We are also grateful to all our
+colleagues at FutureHouse and Edison Scientific, Inc. for their support. Additionally, we would like to thank Professor
+David Steel (Newcastle University, UK) and Professor Majlinda Lako (Newcastle University, UK) for their invaluable
+advice.
+
+742
+
+8 Funding Statement
+
+743
+744
+
+We acknowledge generous support from Eric and Wendy Schmidt.
+
+745
+
+9 Code Availability
+
+746
+747
+748
+
+Sample trajectories and code for Robin are available at https://github.com/Future-House/robin. Finch code is available
+at https://github.com/Future-House/finch.
+
+749
+
+10 Data Availability
+
+C
+LE
+
+TI
+
+AR
+
+D
+
+AT
+E
+
+ER
+
+EL
+
+The raw RNA-seq data generated in this study have been deposited in the NCBI Sequence Read Archive (SRA) under
+BioProject accession code PRJNA1464762.
+
+C
+
+750
+751
+752
+
+PR
+EV
+IE
+W
+
+715
+
+11 Competing Interest Statement
+
+754
+755
+756
+
+A.E.G, L.M, A.Y, C.J.S, J.M.L, S.M.W, A.D.W, M.M.H, and S.G.R all hold shares in Edison Scientific, Inc.,
+a spin-out of FutureHouse. The remaining authors declare no competing interests.
+
+AC
+
+753
+
+17
+
+12 Author Contributions
+
+758
+759
+760
+761
+762
+763
+764
+765
+766
+767
+768
+769
+770
+771
+772
+773
+774
+775
+
+Conceptualization and Project Design: A.E.G., S.C.F., M.M.H., and S.G.R. conceived the project and
+designed the experiments.
+Software and AI System Development: B.C., A.E.G., and M.T.R. developed the Robin architecture, wrote
+the code, and implemented the AI agents. L.M. and A.Y. developed the Finch data analysis agent.
+
+PR
+EV
+IE
+W
+
+757
+
+AC
+
+C
+
+EL
+
+ER
+
+AT
+E
+
+D
+
+AR
+
+TI
+
+C
+LE
+
+Experimental Investigation (In vitro assays, flow cytometry, RNA-seq): A.E.G., C.J.S., and M.M.H.
+performed the cell culture, phagocytosis assays, and RNA sequencing preparations.
+Data Curation and Formal Analysis: A.E.G., A.Y., D.S., and G.J.G. analyzed the experimental data,
+validated the Finch outputs, and performed the human analysis workflows.
+Validation: S.M.W. and J.M.L. performed benchmarking of Finch on BixBench. A.E.G. performed the Robin
+validations.
+Writing – Original Draft: A.E.G. wrote the initial draft of the manuscript.
+Writing – Review & Editing: A.E.G., B.C., L.M., A.Y., C.J.S., D.S., G.J.G., J.M.L., S.M.W., M.T.R., A.D.W.,
+S.C.F., M.M.H., and S.G.R. all discussed the results, provided critical feedback, and edited the manuscript.
+Funding Acquisition: S.G.R. acquired the financial support for this project.
+Supervision: These authors jointly supervised this work: A.D.W, M.M.H and S.G.R
+Equal Contribution: These authors contributed equally: A.E.G. and B.C.
+
+18
+
+13 Methods References
+
+777
+778
+779
+780
+781
+782
+783
+784
+785
+786
+787
+788
+789
+790
+791
+792
+793
+794
+795
+
+[54] Bradley, R. A. & Terry, M. E. Rank Analysis of Incomplete Block Designs: I. The Method of Paired Comparisons.
+Biometrika 39, 324–345 (1952).
+[55] Zheng, L. et al. Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena, arXiv (2023). doi: https:
+//doi.org/10.48550/arXiv.2306.05685, URL http://arxiv.org/abs/2306.05685.
+[56] Liu, Y. et al. Aligning with Human Judgement: The Role of Pairwise Preference in Large Language Model
+Evaluators, arXiv (2025). doi: https://doi.org/10.48550/arXiv.2403.16950, URL http://arxiv. org/abs/2403.16950.
+[57] Yao, S. et al. React: Synergizing reasoning and acting in language models (2023). URL https://arxiv.org/
+abs/2210.03629.
+[58] Dunn, K. C., Aotaki-Keen, A. E., Putkey, F. R. & Hjelmeland, L. M. ARPE-19, a human retinal pigment epithelial
+cell line with differentiated properties. Experimental Eye Research 62, 155–169 (1996).
+[59] Fernandes, M., McArdle, B., Schiff, L. & Blenkinsop, T. A. Stem Cell–Derived Retinal Pigment Epithelial Layer
+Model from Adult Human Globes Donated for Corneal Transplants. Current Protocols in Stem Cell Biology 45,
+e53 (2018).
+[60] Love, M. I., Huber, W. & Anders, S. Moderated estimation of fold change and dispersion for RNA-seq data with
+DESeq2. Genome Biology 15, 550 (2014).
+[61] Durinck, S., Spellman, P. T., Birney, E. & Huber, W. Mapping identifiers for the integration of genomic datasets
+with the R/Bioconductor package biomaRt. Nature Protocols 4, 1184–1191 (2009).
+[62] EnhancedVolcano: publication-ready volcano plots with enhanced colouring and labeling. URL
+https://bioconductor.org/packages/release/bioc/vignettes/EnhancedVolcano/inst/doc/EnhancedVolcano.html
+
+C
+LE
+
+PR
+EV
+IE
+W
+
+776
+
+AC
+
+C
+
+EL
+
+ER
+
+AT
+E
+
+D
+
+AR
+
+TI
+
+796
+
+19
+
+Tables
+
+797
+
+14
+
+798
+
+Table 1: Estimated Time-on-Task Comparison: Human vs. Robin-Assisted Discovery.
+Discovery Stage
+Hypothesis Generation
+Literature Search & Synthesis
+Hypothesis Ideation & Ranking
+Experimental Design Planning
+Data Analysis
+Bioinformatics Pipeline Setup
+Exploratory Data Analysis (Coding)
+Result Interpretation & Plotting
+Total Cognitive Time
+
+800
+801
+802
+803
+804
+805
+806
+
+PR
+EV
+IE
+W
+
+799
+Human Scientist (Manual
+Workflow)
+
+Robin
+(Semi-Autonomous)
+
+294 hours♢
+20 – 40 hours†
+10 – 20 hours†
+
+∼ 0.5 hours
+∼ 0.2 hours
+∼ 0.1 hours
+
+10 – 20 hours‡
+20 – 40 hours‡
+5 – 10 hours
+359 – 424 hours
+
+∼ 0.1 hours
+∼ 0.5 hours
+∼ 0.1 hours
+< 2 hours
+
+C
+LE
+
+*Performed by human scientist in both workflows (Lab-in-the-Loop).
+♢Calculated as 551 papers × 32 mins/paper [34].
+†
+
+Based on von Hippel et al. (2015) [35] estimates of 116 hours per proposal.
+‡
+
+TI
+
+Based on Sboner et al. (2011) [36] and Anaconda Data Science Report [37].
+
+Time-on-task table for intellectual tasks in a single discovery cycle. “Robin: estimates are for an average Robin run,
+which typically triggers 75 agent calls (45 Crow, 30 Falcon) citing an average of 11 unique references each, resulting
+in ~551 papers analyzed per run. Human time for “Literature Search” is calculated based on processing this
+equivalent volume (551 papers) at a synthesis speed of 20-45 minutes per paper (values derived from published
+surveys). “Hypothesis Ideation” and “Experimental Design” estimates are derived from grant writing surveys. Robin
+times represent the actual compute wall-clock time for the system to process this volume.
+
+AR
+
+807
+808
+809
+810
+811
+812
+
+AC
+
+C
+
+EL
+
+ER
+
+AT
+E
+
+D
+
+813
+
+20
+
+15
+
+814
+
+Extended Data Figure 1: RPE-SC and ARPE-19 express canonical RPE markers and phagocytic
+machinery. Images shown are immunostaining (Cy5, red) for the canonical RPE markers MiTF, OTX2,
+RPE65, and BEST1, and the phagocytosis machinery Integrin αv β5 and the MER proto-oncogene
+tyrosine kinase (MERTK). Nuclei are stained with DAPI.
+
+PR
+EV
+IE
+W
+
+815
+816
+817
+818
+
+Extended Data Figure Titles and Captions
+
+819
+820
+821
+822
+823
+824
+
+Extended Data Figure 2: Functional validation of the RPE-SC and ARPE-19 retinal pigment
+epithelium phenotype. (A) Brightfield images of RPE-SC cells and ARPE-19 cells grown to confluency
+demonstrating a more regular cobblestone morphology in RPE-SC cells. (B) RPE-SC cells cultured on
+transwell inserts for 1 month polarize secretion of VEGF towards the basolateral compartment
+(basal), a hallmark of human RPE cells.
+
+825
+826
+827
+828
+829
+
+Extended Data Figure 3: Cytotoxicity assays of Y-27632 and ripasudil in RPE-SC. (A) There is no
+relationship between Y-28632 dose and LDH release (n=4 wells; One-way ANOVA: F = 2.07, p =
+0.12). (B) LDH release decreases with increasing ripasudil dose (n=4 wells; One-way ANOVA: F =
+3.10, p = 0.038; Spearman correlation (log dose vs LDH): ρ=-0.73, p = 0.0002).
+
+C
+LE
+
+830
+
+Extended Data Figure 4: Crow and Falcon ablation experiments. (A) Human evaluation of reference
+veracity. Bar plots show mean percentage hallucinated references from 10 randomly chosen wild
+type or ablated drug candidate proposals (SEM). Plot titles show which agent is being ablated. (B)
+Human evaluation of references in assay proposals generated by either wild type Robin or Robin
+with Crow ablated. (C) Box plots showing the performance of wild type (blue) and ablated (red)
+Robin in an LLM-judged competition (lower rank indicates better performance). Histograms show
+the permutation test null distribution (n=10,000 permutations) of mean rank differences (ablated
+rank minus wild type rank). The red dashed line indicates the observed difference. All three ablated
+conditions show significantly worse performance (one-tailed p-values shown).
+
+AR
+
+TI
+
+831
+832
+833
+834
+835
+836
+837
+838
+839
+840
+
+Extended Data Figure 5: Accuracy of Finch analysis. (A) Finch’s adherence to an expert-curated
+rubric on the RNA-seq and flow cytometry analysis tasks from round 2 of the dAMD drug screen
+when given the prompts from the Robin workflow (n=3 answers) (B) A subset of BixBench
+questions, most relevant for drug discovery (n=170 questions) were used to test Finch’s capabilities.
+BixBench questions are given subject labels by the expert who wrote them. We divided 170 of these
+questions into two groups: Bioinformatics and Biostatistics. (C) Accuracy of Finch and Claude Sonnet
+3.7 (no-harness control) on a variety of challenging bioinformatics and biostatistics tasks (n=3).
+Error bars show the standard error of the mean. (D) Failure modes of Finch on Bioinformatics and
+Biostatistics questions from BixBench (3 replicates of 170 questions).
+
+ER
+
+AT
+E
+
+D
+
+841
+842
+843
+844
+845
+846
+847
+848
+849
+851
+852
+853
+854
+855
+
+AC
+
+C
+
+856
+
+Extended Data Figure 6: Comparison to a OpenAI’s Deep Research. Performance of all 19 drug
+candidates generated by Robin and 17 unique drug candidates generated by OpenAI’s Deep
+Research (Deep Research suggested Resveratrol and GW3965 twice) in the phagocytosis assay using
+RPE-SC cells. Error bars show the SEM. (n=4)
+
+EL
+
+850
+
+21
+
+Target Disease
+Name
+
+Hypothesis
+Generation
+
+b
+b
+
+Experimental
+Analysis
+
+Laboratory Experiments
+
+Hypothesis Generation
+
+AR
+
+Robin first selects an experimental assay
+by conducting literature review with Crow
+and generating assay proposals.
+
+ED
+
+Therapeutic Candidate Generation
+
+AT
+
+Robin generates therapeutic candidates via
+scientific synthesis with Falcon literature
+search and if provided, experimental results.
+
+R
+
+Crow
+
+AC
+
+C
+
+EL
+E
+
+The Crow agent conducts
+concise literature reviews to
+identify experimental
+strategies and therapeutic
+candidates.
+
+Therapeutic
+Candidates
+
+Robin proposes top
+therapeutic
+candidates for the
+target disease.
+
+Experimental Analysis
+
+Experimental Assay Selection
+
+c
+
+Output
+
+TI
+C
+LE
+
+The scientist
+directs the system
+by providing the
+name of the
+disease to target.
+
+PR
+EV
+IE
+
+Robin System
+
+Input
+
+Laboratory Experiments
+
+a
+
+Data Analysis
+
+Finch is called to conduct full
+bioinformatic analyses and visualizations
+from raw experimental data.
+
+Result Interpretation
+Experimental insights are used to
+generate more informed hypotheses
+and follow-up assays, if needed.
+
+Falcon
+
+Finch
+
+The Falcon agent conducts
+deep literature reviews to
+generate a comprehensive
+report to evaluate every
+therapeutic candidate.
+
+The Finch agent performs
+autonomous analyses of
+experimental data to derive
+insights for hypothesis
+generation.
+
+a
+
+b
+
+P
+
+phagocytosis
+
+Input
+Input
+Dry age-related macular
+degeneration
+
+1 hr
+
+4 hr
+
+TI
+C
+LE
+
+c
+
+5. TEER Measurement for RPE Barrier...
+
+Therapeutic Candidate Goal
+Screen a diverse small‐molecule
+library to identify compounds that
+enhance RPE‐mediated phagocytic...
+
+Count
+
+1000
+
+6
+
+100
+10
+
+3
+
+AR
+
+4. Drusen-Like Deposit Formation Assay
+
+SSC-A (×105)
+
+2. Oxidative Stress Resistance Assay
+3. Mitochondrial Membrane Potential Assay
+
+9
+
+FSC-H (×105)
+
+d
+
+1. Phagocytosis Enhancement Assay
+
+1
+
+0
+
+3
+
+6
+
+FSC-A (×105 )
+
+10
+1
+
+3
+
+f
+
+AT
+ED
+
+Live
+
+FC MFI
+
+Count
+
+*
+
+6
+
+9
+
+FSC-A (×105)
+
+DMSO
+
+2
+1
+0
+
+1000
+
+5. MFGE8 will enhance RPE-medi...
+
+6. Danicopan, a complement inhibit...
+
+Singlets
+
+4
+
+9
+
+2000
+
+1. Exendin-4, a GLP-1 agonist, will...
+
+4. Y-27632, a ROCK inhibitor, will...
+
+100
+
+2
+
+Therapeutic Candidates
+
+3. The combination of AICAR and T...
+
+Count
+
+6
+
+0
+
+e
+
+2. Fingolimod enhances phagocytic...
+
+8
+
+0
+
+0.0
+
+0.5
+
+1.0
+
+1.5
+
+2.0
+
+DAPI Intensity (×105)
+
+Y27
+M 632
+Ex FG
+e E
+Fi nd 8
+ng in
+ol -4
+im
+AI od
+AI
+C
+C
+AR T AR
+U
++ DC
+TU A
+D
+C
+A
+
+Experimental Assays
+
+flow
+cytometry
+
++ beads
+
++ drug
+
+Drug Treatment
+
+Data Interpretation:
+
+200
+
+RPE cells treated with
+
+Mechanistic Insights:
+ROCK inhibition by Y-27632
+may facilitate actin cytosk...
+Questions Raised:
+
+lead compounds (e.g.,
+Y-27632 and Exendin-4)
+individually and in
+combination will provide
+
+1. What specific molecular
+
+insights into the
+
+mechanisms underlie the...
+
+transcriptional changes
+underlying enhanced
+
+RNA-seq. Performing RNAseq on RPE cells treated...
+
+phagocytosis. This
+experiment will help...
+
+40
+20
+0
+
+AT
+ED
+
+Percentage of Genes (%)
+
+60
+
+100
+
+Upregulated
+Downregulated
+Not Significant
+
+ABCA1
+
+50
+0
+
+-6
+
+-3
+
+0
+
+Log2FC
+
+3
+
+6
+
+(Y-27632+beads vs. WT+beads)
+
+d
+
+100
+80
+
+Status
+
+CYP1B1
+
+150
+
+AR
+
+Follow-up Assays:
+
+FSTL3
+
+TI
+C
+LE
+
+Performing RNA-seq on
+
+among the tested comp...
+
+250
+
+FHL2
+
+RNA-seq
+
+The data indicate that
+
+c
+
+b
+
+Follow-up Assays
+
+P
+
+Result Interpretation
+
+-Log10 p-value
+
+a
+
+Percentage of
+trajectories
+100%
+50-100%
+0-50%
+
+down
+regulated
+
+neutral
+
+up
+regulated
+
+p.adjust
+
+actin filament organization
+ribonucleoprotein complex
+biogenesis
+small GTPase-mediated signal
+transduction
+regulation of actin
+filament-based process
+ribosome biogenesis
+
+2e-09
+4e-09
+6e-09
+
+macroautophagy
+cellular response to
+external stimulus
+protein localization to
+nucleus
+rRNA metabolic process
+actin filament bundle
+organization
+
+Count
+
+80
+100
+120
+140
+160
+
+0.02
+
+0.03
+0.04
+GeneRatio
+
+0.05
+
+a
+The data indicate that
+among the tested comp...
+Mechanistic Insights:
+
+Therapeutic Candidate Goal
+Screen a diverse small‐molecule
+
+Ripasudil
+
+library to identify compounds that
+
+KL001
+
+enhance RPE‐mediated phagocytic...
+
+B-Ionone
+
+Questions Raised:
+1. What specific molecular
+mechanisms underlie the...
+Follow-up Assays:
+RNA-seq. Performing RNAseq on RPE cells treated...
+
+selectivity and pharmacokinetics
+compared to traditional ROCK
+
+Experimental tests have been
+
+inhibitors like Y-27632. By
+
+Bay K8644
+
+facilitating cytoskeletal
+
+GW4064
+
+relaxation, Ripasudil may allow
+
+Rolipram
+
+for greater membrane flexibility
+
+conducted previously to identify
+
+Vorinostat
+
+therapeutic compounds to treat dry
+
+Simvastatin
+
+age-related macular degeneration.
+
+Rapamycin
+
+Here is a summary of the results...
+
+Resveratrol
+
+and phagocytic cup formation in
+
+RPE cells. Given the experimental
+data suggesting that ROCK
+inhibition significantly...
+
+c
+
+Phagocytosis screen in ARPE-19 cell line (Robin analysis)
+
+AT
+
+C
+
+EL
+
+ER
+
+Validation of Robin drugs in primary RPE cells (Human analysis)
+
+AC
+
+d
+
+ED
+
+AR
+
+TI
+
+b
+
+Experimentally-Informed
+Literature Review
+
+Hypothesis Generation
+Ripasudil offers improved
+
+NECA
+
+ROCK inhibition by Y-27632
+may facilitate actin cytosk...
+
+Therapeutic Candidates
+
+PR
+EV
+IE
+W
+
+Data Interpretation:
+
+C
+LE
+
+Result Interpretation
+
+e
+
+ER
+
+EL
+
+C
+
+AC
+
+Extended Data Fig. 1
+
+D
+
+AT
+E
+C
+LE
+
+TI
+
+AR
+
+PR
+EV
+IE
+W
+
+ER
+
+EL
+
+C
+
+AC
+
+Extended Data Fig. 2
+
+D
+
+AT
+E
+C
+LE
+
+TI
+
+AR
+
+PR
+EV
+IE
+W
+
+ER
+
+EL
+
+C
+
+AC
+Extended Data Fig. 3
+
+D
+
+AT
+E
+C
+LE
+
+TI
+
+AR
+
+PR
+EV
+IE
+W
+
+Extended Data Fig. 4
+
+ER
+
+EL
+
+C
+
+AC
+
+D
+
+AT
+E
+C
+LE
+
+TI
+
+AR
+
+PR
+EV
+IE
+W
+
+Extended Data Fig. 5
+
+ER
+
+EL
+
+C
+
+AC
+
+D
+
+AT
+E
+C
+LE
+
+TI
+
+AR
+
+PR
+EV
+IE
+W
+
+ER
+
+EL
+
+C
+
+AC
+
+Extended Data Fig. 6
+
+D
+
+AT
+E
+C
+LE
+
+TI
+
+AR
+
+PR
+EV
+IE
+W
+
+Last updated by author(s): YYYY-MM-DD
+
+Reporting Summary
+Nature Portfolio wishes to improve the reproducibility of the work that we publish. This form provides structure for consistency and transparency
+in reporting. For further information on Nature Portfolio policies, see our Editorial Policies and the Editorial Policy Checklist.
+
+nature portfolio | reporting summary
+
+Corresponding author(s):
+
+Double-anonymous peer review submissions:
+write DAPR and your manuscript number here
+instead of author names.
+
+Statistics
+For all statistical analyses, confirm that the following items are present in the figure legend, table legend, main text, or Methods section.
+n/a Confirmed
+The exact sample size (n) for each experimental group/condition, given as a discrete number and unit of measurement
+A statement on whether measurements were taken from distinct samples or whether the same sample was measured repeatedly
+The statistical test(s) used AND whether they are one- or two-sided
+Only common tests should be described solely by name; describe more complex techniques in the Methods section.
+
+A description of all covariates tested
+A description of any assumptions or corrections, such as tests of normality and adjustment for multiple comparisons
+A full description of the statistical parameters including central tendency (e.g. means) or other basic estimates (e.g. regression coefficient)
+AND variation (e.g. standard deviation) or associated estimates of uncertainty (e.g. confidence intervals)
+For null hypothesis testing, the test statistic (e.g. F, t, r) with confidence intervals, effect sizes, degrees of freedom and P value noted
+Give P values as exact values whenever suitable.
+
+For Bayesian analysis, information on the choice of priors and Markov chain Monte Carlo settings
+For hierarchical and complex designs, identification of the appropriate level for tests and full reporting of outcomes
+Estimates of effect sizes (e.g. Cohen's d, Pearson's r), indicating how they were calculated
+Our web collection on statistics for biologists contains articles on many of the points above.
+
+Software and code
+Policy information about availability of computer code
+Data collection
+
+Paper retrieval relies on FutureHouse's PaperQA2: https://github.com/Future-House/paper-qa.
+The commercial Large Language Models (LLMs) and their versions used in this study are:
+OpenAI 04-mini
+Anthropic Claude 3.7 Sonnet
+Google's Gemini 2.5 Pro Preview
+
+Data analysis
+
+Autonomous data analysis is performed using our in-house agent, Finch. The code is publicly available here: https://github.com/FutureHouse/finch.
+
+For manuscripts utilizing custom algorithms or software that are central to the research but not yet described in published literature, software must be made available to editors and
+reviewers. We strongly encourage code deposition in a community repository (e.g. GitHub). See the Nature Portfolio guidelines for submitting code & software for further information.
+
+April 2023
+
+1
+
+Policy information about availability of data
+All manuscripts must include a data availability statement. This statement should provide the following information, where applicable:
+- Accession codes, unique identifiers, or web links for publicly available datasets
+- A description of any restrictions on data availability
+- For clinical datasets or third party data, please ensure that the statement adheres to our policy
+"Sample trajectories for Robin and Finch, as well as the code for Robin and ablated versions of Robin, will be available at https://github.com/Future-House/robin"
+
+Research involving human participants, their data, or biological material
+Policy information about studies with human participants or human data. See also policy information about sex, gender (identity/presentation),
+and sexual orientation and race, ethnicity and racism.
+Reporting on sex and gender
+
+nature portfolio | reporting summary
+
+Data
+
+The following information was received from the Eye Bank for Sight Restoration (New York) regarding the single patient who
+contributed tissue which was used in this study:
+sex, age, race, medical history, smoking history, date and time of death, date and time of tissue preservation.
+The following information was reported about this patient in our manuscript:
+"Primary RPE-SC cells were harvested from a single aged donor (>60 years old) with no known ocular conditions by the EyeBank for Sight Restoration, Inc. (New York)."
+
+Reporting on race, ethnicity, or We use the term "aged" and define this as >60 years old. Samples from older patients are necessary as we are studying a
+disease of aging in this manuscript (age-related macular degeneration).
+other socially relevant
+groupings
+Population characteristics
+
+For studying age-related macular degeneration, the most important variable is age. The next most important is genetic
+background (specifically complement factor H, CFH, and ARMS2/HTRA1 genes). Other variables thought to play a role in
+pathogenesis: smoking status, obesity, hypertension.
+
+Recruitment
+
+We were presented with a list of available tissue samples with no patient information other than age. We chose this sample
+based only on the age of the patient.
+
+Ethics oversight
+
+The project was reviewed by the Scientific Committee at the Eye Bank For Sight Restoration (New York) before samples were
+approved for shipping.
+
+Note that full information on the approval of the study protocol must also be provided in the manuscript.
+
+Field-specific reporting
+Please select the one below that is the best fit for your research. If you are not sure, read the appropriate sections before making your selection.
+Life sciences
+
+Behavioural & social sciences
+
+Ecological, evolutionary & environmental sciences
+
+For a reference copy of the document with all sections, see nature.com/documents/nr-reporting-summary-flat.pdf
+
+Life sciences study design
+All studies must disclose on these points even when the disclosure is negative.
+Samples sizes were determined based on pilot studies which showed 3 replicates could reliably distinguish the positive control (MFGE8) from
+the vehicle control. For the RPE-SC phagocytosis screen a sample size of 4 was chosen to maximally utilize the available clinical material.
+
+Data exclusions
+
+No data was excluded.
+
+Replication
+
+Our initial findings in ARPE-19 cells (both phagocytosis screen and dose response) were validated by repeating the experiments in a primary
+human RPE cell line (RPE-SC).
+
+Randomization
+
+N/A
+
+Blinding
+
+For the human reference check (see section 3.3.1 "Crow and Falcon Ablation Experiments"), we blinded a scientist to the origin proposals
+(wild type Robin vs ablated Robin).
+
+April 2023
+
+Sample size
+
+Reporting for specific materials, systems and methods
+2
+
+Materials & experimental systems
+
+Methods
+
+n/a Involved in the study
+
+n/a Involved in the study
+
+Antibodies
+
+ChIP-seq
+
+Eukaryotic cell lines
+
+Flow cytometry
+
+Palaeontology and archaeology
+
+MRI-based neuroimaging
+
+Animals and other organisms
+Clinical data
+Dual use research of concern
+Plants
+
+nature portfolio | reporting summary
+
+We require information from authors about some types of materials, experimental systems and methods used in many studies. Here, indicate whether each material,
+system or method listed is relevant to your study. If you are not sure if a list item applies to your research, read the appropriate section before selecting a response.
+
+Antibodies
+Antibodies used
+
+Bestrophin-1 Monoclonal antibody; Target: BEST1; Vendor: Proteintech; Catalog number: 60326-1-Ig; Dilution: 1:200.
+MERTK Polyclonal antibody; Target: MERTK; Vendor: Proteintech; Catalog number: 27900-1-AP; Dilution: 1:200.
+Anti-Integrin alphaBeta5 Antibody, clone EM09902, ZooMAb® Rabbit Monoclonal; Target: $\\alpha$V$\\beta$5; Vendor: SigmaAldrich; Catalog number: ZRB1191-25UL; Dilution: 1:100.
+Anti-RPE65 Rabbit Polyclonal Antibody; Target: RPE65; Vendor: Proteintech; Catalog number: 17939-1-AP; Dilution: 1:100.
+Anti-MiTF antibody \[EPR26363-10\]; Target: MiTF; Vendor: Abcam; Catalog number: ab303530; Dilution: 1:50.
+Otx2 Polyclonal Antibody; Target: OTX2; Vendor: Thermo Fisher Scientific; Catalog number: PA5-39887; Dilution: 1:20.
+Donkey Anti-Mouse IgG H\&L (Alexa Fluor 647); Target: Mouse IgG; Vendor: Abcam; Catalog number: ab150107; Dilution: 1:500.
+Goat Anti-Rabbit IgG H\&L (Alexa Fluor 647); Target: Rabbit IgG; Vendor: Abcam; Catalog number: ab150079; Dilution: 1:500.
+Donkey Anti-Goat IgG H\&L (Alexa Fluor 647), preadsorbed; Target: Goat IgG; Vendor: Abcam; Catalog number: ab150135; Dilution:
+1:500.
+
+Validation
+
+**Bestrophin-1 Monoclonal antibody** (Proteintech, catalog no. 60326-1-Ig): According to the manufacturer's website and online
+antibody databases, this antibody is validated for use in Western Blot, ELISA, Immunocytochemistry, Immunoprecipitation, and
+Immunohistochemistry, demonstrating cross-reactivity with human, mouse, rat, and canine samples (such as positive Western blot
+detection in human Y79 cells).
+**MERTK Polyclonal antibody** (Proteintech, catalog no. 27900-1-AP): Proteintech validates this antibody for Western Blot,
+Immunohistochemistry, Immunofluorescence, Intracellular Flow Cytometry, and ELISA across human, mouse, and rat tissues. It is
+widely cited in peer-reviewed literature, including recent 2024 studies characterizing MERTK expression in hepatocellular carcinoma
+mouse models.
+**Anti-Integrin αVβ5 Antibody, clone EM09902, ZooMAb® Rabbit Monoclonal** (Sigma-Aldrich, catalog no. ZRB1191-25UL): The
+manufacturer's profile states this recombinant antibody is validated for Flow Cytometry, Immunocytochemistry,
+Immunohistochemistry, and Western Blot. Sigma-Aldrich specifically notes its high affinity for human Integrin αVβ5 (EC50 = 5 ng/mL)
+and heavily enhanced validation for specificity, showing low cross-reactivity to the closely related αVβ3 integrin.
+**Anti-RPE65 Rabbit Polyclonal Antibody** (Proteintech, catalog no. 17939-1-AP): The manufacturer verifies this antibody for
+Western Blot, Immunohistochemistry, Immunofluorescence, and ELISA in human, mouse, and rat models. It is well-documented in
+the SciCrunch research resource registry (RRID:AB_2285290) and features dozens of literature citations validating its use in retinal
+pigment epithelium studies.
+**Anti-MiTF antibody [EPR26363-10]** (Abcam, catalog no. ab303530): Abcam's database highlights that this rabbit monoclonal
+antibody has undergone strict knockout (KO) validation. It is validated for Immunocytochemistry/Immunofluorescence,
+Immunohistochemistry, Western Blot, Immunoprecipitation, and Flow Cytometry in human, mouse, and rat samples, and appears
+frequently in recent proteogenomic literature.
+**Otx2 Polyclonal Antibody** (Thermo Fisher Scientific, catalog no. PA5-39887): Thermo Fisher and online registries (such as
+SciCrunch RRID:AB_2556436) indicate this antibody is validated for Immunocytochemistry/Immunofluorescence,
+Immunohistochemistry, and Western Blot targeting human, mouse, and rat OTX2. It has been actively cited in recent 2024 and 2025
+publications, including benchmark studies utilizing human cerebellar organoids.
+
+Eukaryotic cell lines
+Policy information about cell lines and Sex and Gender in Research
+ARPE-19 - ATCC
+RPE-SC - Eye Bank For Sight Restoration New York
+
+Authentication
+
+ARPE-19 cells - immunocytochemistry, brightfield
+RPE-SC - immunocytochemistry, brightfield, VEGF polarization assay
+
+Mycoplasma contamination
+
+All cell lines tested negative for mycoplasma.
+
+April 2023
+
+Cell line source(s)
+
+3
+
+Commonly misidentified lines
+
+None.
+
+nature portfolio | reporting summary
+
+(See ICLAC register)
+
+Plants
+Seed stocks
+
+N/A
+
+Novel plant genotypes
+
+N/A
+
+Authentication
+
+N/A
+
+Flow Cytometry
+Plots
+Confirm that:
+The axis labels state the marker and fluorochrome used (e.g. CD4-FITC).
+The axis scales are clearly visible. Include numbers along axes only for bottom left plot of group (a 'group' is an analysis of identical markers).
+All plots are contour plots with outliers or pseudocolor plots.
+A numerical value for number of cells or percentage (with statistics) is provided.
+
+Methodology
+Sample preparation
+
+For flow cytometry, samples were prepared as follows:
+1. Drug Treatment: ARPE-19 cells or RPE-SC were incubated with test compounds or a vehicle control for 60 minutes.
+2. Bead Addition: pHrodo beads or ROS were added, and the plates were incubated for 3 hours.
+3. Dissociation: Cells were treated with TrypLE Express for 10 minutes to detach them.
+4. Suspension: Cells were washed and resuspended in FACS buffer (1% BSA and 500 ng/ml DAPI or 1ug/ml Hoechst 33342 in
+PBS) before being transferred to the flow cytometer.
+
+Instrument
+
+Attune NxT flow cytometer with autosampler
+
+Software
+
+Either Finch (agent analysis) or FlowJo (human analysis).
+
+Cell population abundance
+
+After passing all gates, there was between 2000 and 6000 cells in the final population (apart from the Cytochalasin D
+negative control and 4-phenylbutyric acid test condition which showed some cytotoxicity and had <1000 cells in the final
+population).
+
+Gating strategy
+
+ARPE-19 with pHrodo beads: (i) cell population gated in the FCS vs SSC plot, (ii) singlet gate (iii) live/dead gate on DAPI (iv) he
+Alexa 647 background signal was removed using the no-bead control (V) take the geometric mean of the pHrodo
+fluorescence
+RPE-SC with pHrodo-labelled ROS: (i) cell population gated in the FCS vs SSC plot, (ii) A histogram of the Hoechst 33342 signal
+was used to exclude the bovine rod outer segments (ROS), which were Hoechst negative. (iii) Measure the geometric mean
+of the Hoechst positive population.
+
+Tick this box to confirm that a figure exemplifying the gating strategy is provided in the Supplementary Information.
+
+April 2023
+
+4
+
+

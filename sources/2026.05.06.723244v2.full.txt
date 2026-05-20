@@ -1,0 +1,1011 @@
+bioRxiv preprint doi: https://doi.org/10.64898/2026.05.06.723244; this version posted May 15, 2026. The copyright holder for this preprint
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made
+available under aCC-BY-NC 4.0 International license.
+
+Talk2QSP: Deriving Executable Scenarios from Unstructured Literature via
+Human-in-the-Loop Agents
+
+Amirmohammad Kazemeini * 1 ‡ Jose Prieto 1 2 Sanjana Balaji Kuttae 3 Anastasios Siokis 1 Gurdeep Singh 3 †
+Peyman Passban 1 † Tommaso Andreani 1 † ‡
+{Amirmohammad.Kazemeini, Jose.Prieto,
+Anastasios.Siokis, Peyman.Passban, Tommaso.Andreani}@sanofi.com
+{balaji-kuttae, gsingh}@bmedx.com
+
+Abstract
+
+HITL cases, demonstrating that structured collaboration between experts and agentic systems can
+resolve scenarios that standalone Systems Biology
+Markup Language (SBML) reasoning LLM calls
+or prior agentic efforts operating on processed
+SBML data handle unreliably.
+
+Quantitative Systems Pharmacology (QSP) models play an inherently interventional role in pharmaceutical research and development, functioning as executable causal systems for designing,
+evaluating, and replacing clinical trials. However, deploying QSP as an experimental planning engine remains constrained by the difficulty
+of translating unstructured literature descriptions
+of clinical or preclinical scenarios into reproducible, simulation-ready model interventions.
+Motivated by this issue, we propose an agentbased framework that operationalizes QSP models as intervention-ready experimental systems by
+automatically extracting and executing literaturederived scenarios. The framework combines semantic grounding of model entities with a large
+language model (LLM)-driven Scenario Extractor and a dual-agent Scenario Mapper. Rather
+than relying on opaque, single-shot reasoning, our
+pipeline converts free-text interventions into precise parameter configurations through discrete,
+verifiable work orders. Moreover, our dynamic
+Human-in-the-Loop (HITL) strategy empowers
+modelers to resolve biological ambiguities interactively. Across four diverse kinetic ordinary differential equation (ODE)/QSP models and seven
+Subject Matter Expert (SME)-curated literature
+scenarios, our model resolved all selected scenarios into correct executable parameter changes,
+including multi-dose interventions, unit conversions, no-op scenarios, and ambiguity-triggered
+
+1. Introduction
+QSP has become a central discipline for modeling and simulation efforts aimed at de-risking clinical development programs and assessing the translational potential of novel drug
+assets. QSP models integrate mechanistic modeling, pharmacokinetics/pharmacodynamics (PK/PD), and systems biology to quantitatively characterize drug–disease–biology
+interactions across multiple temporal and spatial scales.
+They are typically formulated as systems of dynamical equations encoding causal assumptions about molecular pathways, cellular interactions, and physiological processes, and
+are widely used in the pharmaceutical industry to inform
+target validation, dose and schedule optimization, biomarker
+selection, trial design, and translational inference from preclinical to clinical settings.
+From a computational standpoint, QSP models are distinguished by large, high-dimensional, and uncertain parameter spaces that reflect biological variability, incomplete
+knowledge of system dynamics, and competing mechanistic
+hypotheses. As a result, meaningful deployment of QSP
+models relies on repeated execution across ensembles of parameterizations (such as virtual populations, hypothesis calibrations, or scenario sweeps) to produce distributions over
+outcomes rather than single point estimates. This execution
+pattern introduces challenges in scalability, reproducibility,
+and workflow orchestration that are largely independent of
+the underlying biology.
+
+∗
+
+†
+Lead Technical Architect.
+Joint Senior Authors.
+1
+Corresponding Authors. Sanofi R&D 2 Capgemini 3 BioMed X
+Germany GmbH, Heidelberg. Correspondence to: Amirmohammad Kazemeini <Amirmohammad.Kazemeini@sanofi.com>,
+Tommaso Andreani <Tommaso.Andreani@sanofi.com>.
+‡
+
+These challenges closely mirror core concerns in machine
+learning, including automated experiment management, sys-
+
+Preprint. May 14, 2026.
+
+1
+
+bioRxiv preprint doi: https://doi.org/10.64898/2026.05.06.723244; this version posted May 15, 2026. The copyright holder for this preprint
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made
+available under aCC-BY-NC 4.0 International license.
+
+Talk2QSP: Translating Literature into Executable QSP Models
+
+tematic exploration of complex parameter spaces, and standardized execution of computational graphs. This parallel
+motivates automated and scalable frameworks for managing, executing, and reusing QSP simulations across diverse
+parameter regimes.
+
+from figures, tables, or free text in the accompanying publication. Second, interpreting model parameters requires
+considerable effort, since parameters are frequently underannotated and lack clear biological definitions (Domı́nguezRomero et al., 2024). Third, ensuring consistency of parameter values and units is non-trivial, as discrepancies between
+values and units in the SBML file and those reported in the
+publication require careful verification and conversion (Karr
+et al., 2022).
+
+Recent advances in large language model (LLM)-driven
+agentic systems are transforming biomedical research
+by shifting from task-specific automation toward integrated, multi-step analytical workflows. Agentic systems such as Talk2BioModels (Wehling et al., 2025),
+Talk2KnowledgeGraph (Singh et al., 2025), BiomniA1 (Huang et al., 2025), MEDEA (Sui et al., 2026),
+BioMedAgent (Bu et al., 2026), and The AI Scientist (Lu
+et al., 2026) demonstrate capabilities including mechanistic model interrogation, hypothesis generation, multi-step
+reasoning, omics-driven tool integration, and iterative execution to perform complex biomedical tasks. Collectively,
+these systems enable more scalable, interdisciplinary, and
+semi-autonomous computational pipelines, with the potential to accelerate scientific discovery (Li & Moore, 2026).
+
+As a result, researchers must manually inspect reaction equations and model structures within SBML files to identify
+appropriate parameters and units, a process that is both timeconsuming and error prone, where even minor inconsistencies can yield unreliable or misleading simulation results.
+Collectively, these challenges pose significant barriers to
+reproducibility, ultimately hindering the validation, interpretation, and reuse of QSP models (Tiwari et al., 2021; Blinov
+et al., 2021).
+To bridge the gap between unstructured literature and computational models, we propose Talk2QSP, an agent-based
+framework for translating literature-derived scenarios into
+reproducible, simulation-ready QSP interventions. We make
+three primary contributions:
+
+While these advances open new ways of building biomedical workflows, applying them to QSP requires confronting
+the specific characteristics of QSP models. QSP extends
+systems biology by integrating PK/PD (Knight-Schrijver
+et al., 2016), and its models are routinely exercised across
+many simulation scenarios, varying drug doses and dosing
+regimens to inform therapeutic decisions (Helmlinger et al.,
+2019). This breadth of scenarios is precisely what makes
+reproducibility both critical and difficult.
+
+• Entity Definer: A semantic parsing component that
+translates complex QSP model parameters and biological species into human-readable, context-aware
+definitions.
+• Scenario Extractor: An automated module that parses
+QSP literature to identify and extract the specific experimental scenarios evaluated within a given model.
+
+Ensuring reproducibility is critical for the reliability and validation of such models, as it allows independent verification
+of simulation outcomes (Tiwari et al., 2021). Reproducible
+models also support model reuse and extension of existing work, thereby accelerating scientific progress (Blinov
+et al., 2021). A key enabler of reproducibility is the ability
+to extract and share structured simulated scenarios, that is,
+the specific combination of species initialization, parameter settings, and dosing regimens used to reproduce figures
+or results of a publication. Without such structured representations, reproducing or building upon published models
+requires substantial manual effort, limiting the community’s
+ability to validate, compare, and extend models systematically.
+
+• Scenario Mapper: An alignment framework that
+bridges the extracted text scenarios with the defined
+model entities, calculating the parameter adjustments
+required to computationally replicate published experimental results.
+We design these three modules so that they can be deployed
+independently as standalone components or jointly as an
+end-to-end pipeline, offering a flexible and reproducible
+workflow for researchers in computational biology and biopharma.
+
+While Systems Biology Markup Language (SBML) provides a standardized structure for model encoding (Hucka
+et al., 2015), it does not prescribe how simulation scenarios
+should be documented. In practice, extracting such scenarios from published models remains hindered by three key
+challenges. First, identifying relevant model components is
+often difficult, as information on initialized species or parameters for a given scenario is rarely provided in a structured,
+machine-readable format, and instead it must be inferred
+
+2. Methodology
+Our methodology is organized as a staged pipeline comprising three modules as illustrated in Figure 1. The Entity
+Definer first ingests a published SBML model and produces
+structured semantic artifacts (an Entity Definitions Dictionary and a compact Minified Semantic Index) that supply
+the biological grounding consumed by both downstream
+modules. The Scenario Extractor processes the associated
+2
+
+bioRxiv preprint doi: https://doi.org/10.64898/2026.05.06.723244; this version posted May 15, 2026. The copyright holder for this preprint
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made
+available under aCC-BY-NC 4.0 International license.
+
+Talk2QSP: Translating Literature into Executable QSP Models
+
+Figure 1. Overview of the proposed agentic framework. The pipeline comprises three modules: the Entity Definer, the Scenario Extractor,
+and the Scenario Mapper. The Entity Definer’s Context Enricher first aggregates reaction schemes, ontological annotations, and entity
+metadata from multiple sources, which the Describer uses to produce structured entity definitions; these artifacts are then consumed
+by both downstream modules. The Scenario Extractor parses the companion publication to identify all relevant QSP scenarios for the
+model of interest, and its structured output, together with the entity definitions, serves as input to the Scenario Mapper, which resolves the
+required parameter changes to produce simulation-ready configurations.
+
+publication alongside the semantic index to identify and
+structure the experimental scenarios described in the paper.
+The Scenario Mapper then resolves each extracted scenario
+into simulation-ready parameter values by jointly leveraging
+both Entity Definer artifacts through an agentic workflow.
+Below, we detail each component in turn.
+
+partments). Because reaction topology alone is frequently
+opaque (especially when variables rely on single-letter or
+non-self-explanatory names), we expand upon the annotation retrieval tool introduced by Talk2BioModels. Our
+system introduces robust, multi-library annotation support
+that actively queries external ontological databases such as
+UniProt (The UniProt Consortium, 2025) and the Ontology
+Lookup Service (OLS) (McLaughlin et al., 2025), ensuring
+that references to disparate databases are standardized and
+resolved via OLS. By fetching these verified annotations
+prior to inference, the enricher guarantees that the LLM is
+firmly grounded in established biological literature. The direct result of this stage is an intermediate Enriched Mapping
+artifact, which cleanly aggregates the governing reaction
+equations, passthrough initial values, and unified annotations to serve as the foundational context for the downstream
+synthesizer.
+
+2.1. Entity Definer
+The Entity Definer serves as the semantic bridge between
+raw mathematical specifications and natural language reasoning. This translation is essential not only for the downstream Scenario Extractor and Scenario Mapper, but also
+for assisting QSP modelers in interpreting complex, legacy
+model parameters. Taking a computational QSP SBML
+model as input (parsed via the BASICO (Bergmann, 2023)
+Python interface), the module systematically processes all
+internal variables. It executes a two-fold pipeline: first
+enriching the context of each variable, and subsequently
+processing it into a structured, human-readable JSON dictionary. This dictionary defines the biological identity, kinetic
+role, and compartment of every species and parameter.
+
+Describer and Multi-Pass Refinement: The core semantic synthesis is performed by the Describer, which transforms the Enriched Mapping into structured definitions. To
+prevent hallucinations, prompts enforce an authority hierarchy: external database annotations (e.g. , UniProt, OLS)
+serve as ground truth for biological identity, overriding conflicting LLM inferences. Meanwhile, kinetic roles and units
+are derived directly from the governing equations and physical metadata.
+
+Context Enricher: To prevent the language model from
+hallucinating biological intent from ambiguous mathematical syntax, we first employ a deterministic Context Enricher. This sub-module extracts raw mechanistic data,
+grouping all relevant reaction schemes and physical entity
+metadata (e.g., initial concentrations, units, and spatial com-
+
+Because biological networks are interconnected, definitions
+are produced through a multi-pass refinement loop with
+3
+
+bioRxiv preprint doi: https://doi.org/10.64898/2026.05.06.723244; this version posted May 15, 2026. The copyright holder for this preprint
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made
+available under aCC-BY-NC 4.0 International license.
+
+Talk2QSP: Translating Literature into Executable QSP Models
+
+cumulative dependency tracking. In the first pass, every entity is processed concurrently via asynchronous LLM calls.
+Alongside its definition draft, the model must emit a selfevaluation tag (COMPLETE or NEEDS REFINEMENT) and
+list any neighboring variables that lack biological grounding
+(e.g. , referencing a bare symbol “L” without explaining
+what it represents).
+
+so that segmentation remains reproducible and each unit
+stays within a manageable context size for downstream inference. For extraction, consecutive chunks can be grouped
+into overlapping windows, which allows the model to process local context while preserving continuity across neighboring parts of the document.
+I TERATIVE THREE - BLOCK DESIGN
+
+Subsequent passes re-evaluate only the flagged entities. The
+Describer re-issues the original raw context, now augmented
+with a “Context from Related Entities” block. To keep the
+prompt compact, this block is restricted to the latest biological identity and definition of the missing dependencies,
+pulled from a running cache updated after every pass. Crucially, the entity’s own previous draft is never fed back. The
+LLM regenerates from scratch using the raw data and the
+newly enriched neighbor context, preventing earlier mistakes from being reinforced. The loop terminates when all
+entities reach COMPLETE, when no progress is observed, or
+when the max passes threshold is reached.
+
+We organize the extraction workflow into three high-level
+blocks that progressively move from local evidence detection to document-level consolidation. This design allows
+the system to first capture candidate scenarios with high
+sensitivity, then reconcile them globally, and finally perform
+a targeted quality-control pass when necessary.
+Block 1: Local scenario extraction. Block 1 processes
+the paper sequentially through chunk windows and incrementally builds a set of candidate scenarios. At each step,
+the model receives the current local text span together with
+the scenario set accumulated so far, and proposes evidencegrounded updates such as adding a new candidate, revising
+an existing one, or discarding a weak duplicate.
+
+The pipeline yields a suite of machine-actionable JSON artifacts tailored for different computational needs. The primary
+output is the Entity Definitions Dictionary, which profiles
+each variable and categorizes it as species or parameter. For
+each entity, it encapsulates the resolved biological identity,
+kinetic definition, physical compartments, units, and initial
+values, alongside execution metadata such as the required
+refinement passes and resolution status. The module also
+compiles a Minified Semantic Index. This compact artifact
+strips away verbose mathematical traces and execution metadata, flattening the ontology into a key-value index where
+each entity ID is mapped to a single, dense string summarizing its type, identity, and functional role. The Minified
+Index is designed to be injected into the limited context
+windows of the Scenario Extractor and Scenario Mapper,
+providing semantic grounding at low token cost.
+
+The main role of this block is to maximize coverage while
+keeping each decision tied to a limited and explicit textual
+context. In practice, this stage acts as the recall-oriented
+component of the system: it aims to capture explicit study
+arms, regimens, intervention settings, simulation conditions,
+or comparison setups as they appear across the document.
+Block 2: Paper-level synthesis. Block 2 performs a single
+paper-level synthesis pass over the candidates produced by
+Block 1 and the evidence associated with them. Its purpose
+is to move from a locally accumulated set of mentions to
+a coherent document-level representation of the scenarios
+described in the paper.
+In this stage, the model consolidates semantically equivalent
+candidates, merges obvious duplicates, harmonizes wording, and reconstructs fragmented scenario descriptions only
+when the required elements are explicitly supported by the
+associated evidence chunks. Conceptually, this block acts as
+the global integration stage of the pipeline, preserving local
+evidence while producing a cleaner set of scenario-level
+outputs.
+
+2.2. Scenario Extractor
+We design the Scenario Extractor to take as input a
+biomedical modeling paper in PDF format together with a
+lightweight context index containing short entity definitions
+and aliases used to stabilize terminology during prompting. Its output is a compact structured list of scenarios
+(scenarios.json), where each scenario is represented
+by a persistent identifier, a short natural-language description, and the text chunks that support it as evidence. At the
+current stage, we rely only on textual information; visual
+elements such as figures or diagrams are not explicitly used,
+although they could be incorporated in future multimodal
+extensions.
+
+Block 3: Judge-guided refinement. Block 3 is a refinement loop designed as a lightweight judge-based framework. Rather than re-running full extraction or allowing
+unrestricted rewriting, the system reviews the synthesized
+scenario set globally and requests only localized, evidencegrounded edits when further changes are needed.
+
+Before extraction, we convert the paper text into a deterministic, document-ordered sequence of chunks. Our chunking
+is rule-based and constrained by a maximum segment length
+
+This stage separates two roles: a judge, which inspects the
+full set and identifies potential issues, and a refiner, which
+4
+
+bioRxiv preprint doi: https://doi.org/10.64898/2026.05.06.723244; this version posted May 15, 2026. The copyright holder for this preprint
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made
+available under aCC-BY-NC 4.0 International license.
+
+Talk2QSP: Translating Literature into Executable QSP Models
+
+needs to be computed, while the solver focuses on how to
+compute it.
+
+executes localized edits only when requested by the judge.
+If the scenario set is already satisfactory, the process stops.
+Otherwise, the judge sends specific refinement actions to
+the refiner, grounded on the scenarios under review and on
+their associated evidence chunks.
+
+Solver Agent Execution: Upon receiving a singular work order, the Solver Agent executes a multi-tool cognitive framework to resolve the final mathematical value. This process
+relies on iterative information retrieval, computation, and
+expert validation through the following integrated toolset:
+
+For example, the judge may determine that one scenario is
+too broad and ask the refiner to split it into two more specific
+scenarios, or it may indicate that two candidates should be
+merged because they describe the same intervention setting.
+The refiner then performs the requested operation using
+the chunk references and scenario identifiers provided in
+the refinement request, ensuring that edits remain localized,
+evidence-grounded, and traceable to the underlying text.
+
+• Dictionary Lookup: The agent establishes the target parameter’s mathematical boundaries by executing
+an exact-syntax query against the Entity Definitions
+Dictionary. This retrieves the complete biological definition, initial value, and base units necessary to anchor
+the upcoming transformation.
+
+In the current implementation, this refinement loop is
+bounded to a maximum of three iterations. This final stage
+improves consistency, specificity, and overall coherence,
+while preserving the evidence-grounded structure built in
+the previous blocks.
+
+• Index Lookup: To identify any missing auxiliary entities required to compute the target value, the agent
+semantically queries variables based on their biological
+purpose. A lightweight LLM, grounded by the Minified Semantic Index, processes these queries to return
+the exact variable names of the most relevant entities.
+
+2.3. Scenario Mapper
+The Scenario Mapper is the final stage of our pipeline, bridging the gap between descriptive biology and mathematical
+simulation. It takes as input the free-text clinical pharmacology scenarios (whether generated by the Scenario Extractor or provided manually) alongside the Minified Semantic
+Index (generated by the Entity Definer). The output is a
+structured JSON array of model-ready parameter configurations, containing the exact numerical values, adjusted units,
+and computation histories required to replicate the literature
+scenario within the ordinary differential equation (ODE)
+Solver.
+
+• HITL Interrupt: The agent may iterate between the
+Dictionary and Index lookups until all necessary inputs
+are gathered. If a critical requirement remains missing or a non-straightforward decision point is reached,
+the HITL mechanism is dynamically triggered, pausing execution to allow a domain expert to resolve the
+ambiguity.
+• Calculator (Python REPL): Finally, the agent delegates the mathematical translation to a sandboxed
+Python REPL tool. By autonomously executing code
+to handle complex unit conversions (e.g. , converting patient-weight-adjusted mass into molar concentrations), the Calculator produces deterministic outputs,
+avoiding the arithmetic errors common in LLM outputs.
+
+To handle the complex reasoning required for pharmacokinetic and pharmacodynamic translations, the Mapper leverages a dual-agent, orchestrator-solver architecture built on
+stateful graphs via LangGraph.
+Orchestrator Agent: The pipeline is governed by the Orchestrator Agent, which acts as the semantic router. It analyzes
+the free-text scenario alongside the Minified Semantic Index,
+utilizing an LLM to identify the specific ODE parameters
+that require modification along with their relevant context.
+By injecting the Minified Index directly into the context
+window, this method avoids both the fragility of exact-string
+matching and the retrieval inaccuracies common in standard
+Retrieval-Augmented Generation (RAG) approaches, while
+keeping context sizes manageable. The Orchestrator formulates these modifications into discrete, structured ”work
+orders”. It feeds only one work order to the downstream
+solver at a time; this sequential dispatch improves user experience and prevents parallel execution conflicts during
+Human-in-the-Loop (HITL) interventions. This separation
+of concerns ensures that the Orchestrator focuses on what
+
+Together, this integrated toolset ensures the Solver Agent
+can autonomously bridge the semantic and mathematical
+gaps required to execute literature-derived interventions.
+Upon resolving a parameter, the Solver triggers a terminal
+formatting node that structures its execution history into a
+validated JSON object containing the exact numerical values
+and the explanatory biological context. These individual outputs are then returned to the Orchestrator, which aggregates
+all completed work orders into a consolidated parameter
+update summary, presenting the final simulation-ready state
+back to the user.
+
+3. End-to-End Evaluation
+Implementation Details: The Entity Definer’s Describer
+stage, the Scenario Extractor (Blocks 1–3), and the Sce5
+
+bioRxiv preprint doi: https://doi.org/10.64898/2026.05.06.723244; this version posted May 15, 2026. The copyright holder for this preprint
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made
+available under aCC-BY-NC 4.0 International license.
+
+Talk2QSP: Translating Literature into Executable QSP Models
+
+Results: We evaluated the workflow on four QSP models
+spanning a deliberately diverse set of scenarios: multi-dose
+interventions (BioModels 512, 788), multi-parameter interventions requiring intermediate computations (BioModels
+537, 788), and scenarios that require no parameter change
+but whose phrasing could plausibly mislead the mapper
+(BioModels 537 and 913). For each model, the Entity Definer first produced its semantic artifacts as described in
+the Methodology, the Scenario Extractor returned the full
+set of candidate scenarios, a Subject Matter Expert (SME)
+selected the relevant ones for downstream execution, and
+the Scenario Mapper resolved each selected scenario into
+parameter configurations. The mapped outputs were then
+compared against an SME-curated ground truth that reproduces the published figures and results. As reported in
+Table 1, the pipeline passed all seven end-to-end tests, with
+at most one HITL clarification per parameter, demonstrating
+that the Mapper consistently aligns extracted scenarios with
+the correct entities and target values.
+
+nario Mapper’s Orchestrator and Solver agents all use OpenAI GPT-4.1-mini with temperature=0 and seed=42,
+to maximize reproducibility within the limits of the OpenAI
+API. Within the Solver, the simpler task of semantic search
+against the Minified Index is served by a smaller model
+(GPT-4.1-nano) through the lightweight Index Lookup tool.
+The Describer is configured with up to eight refinement
+passes and up to ten concurrent LLM calls per pass for
+processing the interconnected reactions produced by the
+Stage-1 enriched mapping. The Scenario Extractor processes the chunked paper text (approximately 320 tokens
+per chunk) with a window size of two and an overlap of one,
+with Block 3 enabled for up to three judge–refiner rounds.
+The Orchestrator of the Scenario Mapper dispatches work
+orders sequentially to support HITL clarification.
+Evaluation Framework: While intrinsic evaluation isolates the performance of individual components, evaluating
+an integrated agentic workflow requires an extrinsic, endto-end approach to measure system utility and account for
+compounding variables. To demonstrate pipeline viability,
+we conducted end-to-end case studies translating raw computational models and their accompanying literature into
+executable parameter states.
+
+BioModels 512 (Osteoarthritic Pain) exercises the Mapper’s
+multi-dose handling: the Orchestrator emits a single work
+order for the dosing parameter and the Solver resolves the
+seven dose levels in sequence. The HITL interrupt is triggered once, exclusively to confirm unit is mg, since the
+SBML model does not declare a unit for the dose entity
+and the surrounding SBML context alone is insufficient to
+disambiguate it.
+
+Pipeline Execution: The evaluation followed a sequential
+execution mirroring real-world deployment:
+
+BioModels 537 (IBD (Crohn’s disease)) stresses multi-step
+pharmacological reasoning. In the first two scenarios, the
+Solver correctly converts the body-weight-normalized dose
+(8 mg/kg) using an average human body weight of 70 kg,
+and computes kIL6RUnbind from the relation
+
+1. Semantic Grounding: The target model was processed by the Entity Definer to generate the required
+semantic artifacts.
+2. Scenario Extraction: The accompanying publication
+was processed by the Scenario Extractor to surface
+candidate experimental scenarios based on the text.
+
+koff = Kd · kon ,
+by retrieving the missing association rate constant (kon )
+from the model and combining it with the literature-reported
+Kd . This illustrates the Solver’s ability to chain Dictionary
+lookups, Index lookups, and the Calculator tool to resolve
+parameters that are coupled through reaction kinetics. The
+correct selection of Dose for the every-4-week regimen and
+DoseQ2W for the every-2-week regimen further demonstrates the Orchestrator’s ability to disambiguate among
+similarly-named parameters by attending to specific contextual cues (here, the dosing frequency) in the scenario text.
+The remaining two BioModels 537 rows verify that the system also handles scenarios that require no parameter change.
+In the placebo scenario, the Dose parameter is correctly set
+to 0. In the “varying dose” scenario, the Orchestrator does
+identify Dose as a candidate, but, because the SBML model
+does not declare a dose unit and various dose is ambiguous,
+the Solver triggers a single HITL clarification to confirm
+the change and implicit mg assumption before returning the
+parameter’s value.
+
+3. HITL Filtering: A domain expert reviewed the extracted scenarios, mirroring the intended user workflow.
+Scenarios that were out-of-scope or non-actionable
+were discarded, and only relevant scenarios were selected for downstream execution.
+4. Parameter Mapping: The selected free-text scenarios
+were fed into the Scenario Mapper to calculate the
+modified parameter configurations.
+Ground Truth Mapping: To quantify the accuracy of
+the end-to-end pipeline, the outputs of the Scenario Mapper were evaluated against the established ground truth for
+each scenario (derived from the original authors’ simulation
+settings). We evaluated the pipeline based on the resulting
+“Delta”, reporting whether the system successfully identified
+the correct target parameters, executed necessary unit conversions, and mapped them to the exact numerical values
+required to replicate the literature scenario.
+6
+
+bioRxiv preprint doi: https://doi.org/10.64898/2026.05.06.723244; this version posted May 15, 2026. The copyright holder for this preprint
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made
+available under aCC-BY-NC 4.0 International license.
+
+Talk2QSP: Translating Literature into Executable QSP Models
+
+Table 1. End-to-end evaluation results of the full pipeline across four QSP models and seven scenarios. Each row corresponds to a scenario
+extracted from the model’s companion publication. Extracted Scenario Text is the free-text scenario as identified by the Scenario Extractor.
+Expected Entity Change lists the model parameters and target values the Scenario Mapper must resolve. o3 SBML Baseline reports the
+parameter mapping produced by a single-shot OpenAI o3 call given only the raw SBML context; cells marked Pass indicate the baseline
+matches the expected entity change, otherwise the parameters and values returned by the baseline are listed. Talk2Biomodels Baseline
+reports the parameter mapping produced by the Talk2Biomodels agentic system on the same scenarios, evaluated analogously. Talk2QSP
+indicates whether the full pipeline resolved the scenario autonomously (Pass) or required HITL clarification (HITL Pass).
+BioModel
+ID
+
+Extracted Scenario Text
+
+Expected Entity
+Change
+
+o3 SBML
+Baseline
+
+Talk2Biomodels
+Baseline
+
+512
+
+Model calibration simulation of percentage cannabinoid receptor (CB1) occupancy in the brain at doses
+of 0.1 mg, 0.3 mg, 1 mg, 3
+mg, 10 mg, 20 mg, and 40
+mg, as shown in Figure 5.
+
+Dose: 0.1; 0.3; 1;
+3; 10; 20; 40
+
+Pass
+
+Pass
+
+Pass
+
+Dose: 560;
+kIL6RUnbind:
+1000
+
+Pass
+
+Dose: 8;
+kIL6RBind: 1; Ab:
+8
+
+Pass
+
+DoseQ2W: 560;
+kIL6RUnbind:
+1000
+
+Dose: 560;
+parameter 1: 560;
+mw1. . . 01ead:
+1000
+
+Dose: 8; DoseQ2W:
+8; kIL6RBind: 1;
+Ab: 8; Ab sR: 8;
+Ab sR IL6: 8
+
+Pass
+
+Placebo treatment;
+
+Dose: 0
+
+Pass
+
+Dose: 0; CRP: 0;
+sR IL6: 0; IL6: 0
+
+Pass
+
+Dose-response experiment
+under every 4-week intravenous dosing for 12 weeks
+with anti-IL-6 and anti-IL6Rα antibodies targeting
+both transmembrane and
+soluble IL-6Rα, simulating effects on serum CRP,
+pSTAT3 activity in the GI
+tract, and IL-6 levels in the
+GI tract and serum, varying
+dose and binding affinities.
+
+No parameter
+change required
+
+Dose: 10; 30; 100;
+300; 600;
+kIL6RUnbind: 25;
+2.5; 0.25
+
+Dose: 600;
+kIL6RBind: 1500;
+kdegIL6: 20; IL6:
+0.0001; CRP: 100
+
+HITL
+Pass
+
+788
+
+Simulations with the full
+BsAb model for 50 mg and
+250 mg intravenous doses
+without peripheral compartment, evaluating area under
+the curve (AUC) of BsAb
+concentration and ternary
+complex (TC) formation
+over time (Figure 3).
+
+k 12: 0; k 21: 0;
+C free: 50 mg =
+335 nM; 250 mg
+=1675 nM
+
+k 12: 0; k 21: 0;
+C free: 16.67;
+83.33
+
+C free: 250; R A: 0
+
+HITL
+Pass
+
+913
+
+Quadratic control simulation of IL-2 treatment (VI)
+and chemotherapy treatment
+(VM) with detectable initial tumor conditions (T =
+107 ), tracing tumor, natural
+killers, CD8+ T cells, IL-2,
+and circulating lymphocytes
+over 5 days, as shown in Figure 1.
+
+V I: 20000; V M:
+1
+
+N: 106 ; C: 3×1010 ;
+I: 5×103 ; L:
+4×103 ; gI : 3×107 ;
+gT : 1.5×105 ; α1 :
+2×104 ; β: 0.008
+
+HITL
+Pass
+
+537
+
+Treatment with 8 mg/kg
+anti-IL-6Rα antibody administered intravenously every 4 weeks with Kd of 1
+nmol/l.
+Treatment with 8 mg/kg
+anti-IL-6Rα antibody administered intravenously every 2 weeks with Kd of 1
+nmol/l.
+
+No parameter
+change required
+
+7
+
+Talk2QSP
+Results
+
+bioRxiv preprint doi: https://doi.org/10.64898/2026.05.06.723244; this version posted May 15, 2026. The copyright holder for this preprint
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made
+available under aCC-BY-NC 4.0 International license.
+
+Talk2QSP: Translating Literature into Executable QSP Models
+Table 2. Summary of QSP models used for benchmark. Each entry lists the BioModels identifier, the associated disease and the
+corresponding reference
+BioModels ID
+
+Disease
+
+Reference
+
+BIOMD0000000512
+
+Osteoarthritic Pain
+
+(Benson et al., 2014)
+
+BIOMD0000000537
+
+IBD (Crohn’s disease)
+
+(Dwivedi et al., 2014)
+
+BIOMD0000000788
+
+Bispecific antibodies (BsAbs) therapies
+
+(Schropp et al., 2019)
+
+BIOMD0000000913
+
+Generic solid tumors (tumor immune interactions)
+
+(de Pillis et al., 2008)
+
+demonstrates the system’s flexibility in accommodating both
+mathematically rigorous derivations and strictly empirical,
+literature-matched replications based on dynamic human
+guidance.
+
+BioModels 913 (Generic solid tumors (tumor immune interactions)) highlights a subtler failure mode that the HITL
+design is meant to catch: the SBML unit for the extracted
+parameter (T, in mmol/ml) disagrees with the quantity reported in the publication, which is a tumor cell population
+(i.e., a count, not a concentration). The Solver pauses to
+double-check the conversion, giving the SME the ability to
+override the proposed decision. This case also exemplifies
+a broader modeling practice (where default SBML units
+are retained as placeholders for raw numerical values rather
+than performing strict unit conversions to reflect the paper’s
+narrative), which we discuss as a direction for future work.
+
+Reasoning-LLM baseline. To probe whether a strong
+off-the-shelf reasoning LLM can substitute for the structured agentic workflow, we benchmarked OpenAI o3, a
+frontier reasoning model with strong multi-step reasoning
+and tool-use capabilities, on the same seven scenarios, providing only the raw SBML XML and the scenario text
+in a single call (no Entity Definer artifacts, no Orchestrator/Solver decomposition, no HITL hooks; we deliberately
+did not pin sampling parameters in order to characterize
+run-to-run variability). The o3 SBML Baseline column
+of Table 1 reports a representative run, and we repeated
+the calls three times per scenario. Only BioModels 512
+(dose titration) and the BioModels 537 placebo are recovered consistently (3/3). The remaining scenarios exhibit
+run-to-run instabilities that mirror our design motivations:
+fabrication of parameter names that do not exist in the
+SBML model on BioModels 537 (e.g. ModelValue 98,
+mw1c4bc9c3 ...); missed body-weight conversions on
+the every-2-week scenario, where DoseQ2W is resolved to
+8 mg/kg in one run and 560 mg in another; silent omission
+of C free on BioModels 788, which appears in only one of
+three runs and with an incorrect mass-to-concentration conversion; and, on BioModels 913, fabrication of non-existent
+parameters V I and V M (neither of which appears in the
+SBML), even though the scenario requires no parameter
+change at all, with V I additionally varying from 4 000
+to 50 000 000 across runs (a four-orders-of-magnitude
+swing). These failure modes correspond directly to our
+three contributions: grounded, validated entity naming (Entity Definer), discrete and verifiable work orders (Orchestrator), and ambiguity-triggered HITL interrupts (Solver).
+At the same time, the baseline confirms that o3 itself is a
+competent unit reasoner that we view as a natural drop-in
+primitive within our agentic framework wherever stronger
+reasoning is required, rather than as a replacement for the
+agentic decomposition.
+
+BioModels 788 (Bispecific antibodies (BsAbs) therapies)
+further demonstrates the pipeline’s robustness in handling
+these unit disparities and the aforementioned practice of
+retaining default SBML units as placeholders. First, to capture the “without peripheral compartment” condition, the
+Mapper correctly identifies that the transition rate constants
+k12 and k21 must be set to 0. The scenario also requires
+translating intravenous doses (50 mg and 250 mg) into the
+model’s free-concentration entity, Cf ree , which the SBML
+model strictly defines in nmol/L (nM). The Solver correctly
+recognizes that this gap between mass and molar concentration cannot be closed from the SBML context alone and
+proposes the structural conversion:
+Cfree =
+
+Dose × 106
+,
+M W · Vc
+
+triggering a HITL interrupt to request the missing molecular
+weight (MW) and central compartment volume (Vc ) from
+the SME. If the SME supplies the conversion factor explicitly stated in the paper’s methodology (1 mg = 6.7 nM), the
+Calculator deterministically computes the mathematically
+accurate concentrations (335 nM and 1675 nM). Alternatively, replicating the publication’s graphical results and
+published parameter information reveals that the original
+authors used the default SBML units as placeholders, directly inputting the raw mass values (50 and 250) into their
+simulation software. When the SME instructs the agent to
+bypass the mathematical conversion to mirror this placeholder practice, the Mapper successfully passes the raw
+values directly to the parameter configuration. This case
+8
+
+bioRxiv preprint doi: https://doi.org/10.64898/2026.05.06.723244; this version posted May 15, 2026. The copyright holder for this preprint
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made
+available under aCC-BY-NC 4.0 International license.
+
+Talk2QSP: Translating Literature into Executable QSP Models
+
+Agentic-tool-use baseline (Talk2Biomodels). We further
+benchmarked Talk2Biomodels on the same seven scenarios
+with GPT-4.1-mini as the underlying LLM, asking it which
+parameters and species to change and to what values. Because Talk2Biomodels enumerates entities directly from the
+uploaded SBML through basico, the baseline does not
+fabricate non-existent parameter names (the failure mode
+observed for o3) and recovers the BioModels 512 dose titration. Across the remaining six scenarios we observe four
+recurring failure modes, all reducing to the absence of an
+explicit reasoning and HITL layer:
+
+for expanding its capabilities. Currently, the Scenario Extractor and Mapper rely exclusively on textual data. However, critical experimental conditions are frequently embedded within complex visual modalities (such as charts
+and figures) without explicit textual descriptions. Future
+iterations will integrate multimodal vision-language capabilities to process figure captions and graphical data directly,
+leveraging open-source vision-language models such as Pixtral (Agrawal et al., 2024) and Qwen2.5-VL (Bai et al.,
+2025). Furthermore, the Entity Definer currently grounds
+semantic meaning in each entity’s intrinsic attributes (name,
+type, unit, and initial value), its reaction context (kinetic
+schemes, mappings, and rate-law functions), and MIRIAM
+ontology annotations retrieved from UniProt and the OLS.
+Future iterations will broaden this coverage to include complementary intra-model signals such as SBML events, assignment rules, and parameter-level notes (useful, for instance, for dosing-control switches in event-driven models
+like BioModels 620), as well as document-level evidence
+for cases where essential parameter context resides only in
+the publication narrative (e.g. , BioModels 913).
+
+Missed unit conversions: “8 mg/kg” written as 8 into the
+absolute Dose; “250 mg” written as 250 into the nmol/L
+species C free (incidentally matching the publication’s
+mg-as-placeholder convention, but reached without unit
+reasoning).
+Kinetic-constant conflation: equilibrium constant Kd
+used in place of association rate kon .
+Hardcoded endogenous state: CRP, IL6, sR IL6 zeroed in the placebo arm; the Q2W dose pasted
+into Dose, DoseQ2W, and the antibody complexes
+Ab sR/Ab sR IL6 (breaking mass balance at t = 0);
+eight quantities altered on BioModels 913 where no
+change is required.
+Collapsed parameter sweeps: no 50/250 mg arm on
+BioModels 788, with k 12/k 21 left active despite the
+“without peripheral compartment” instruction.
+
+Additionally, the present architecture of the Scenario Mapper operates on a one-to-one mapping paradigm, which
+efficiently handles discrete interventions. Translating aggregated or multidimensional scenarios, such as complex
+parameter sweeps or changing interconnected groups of entities, will be a key functional improvement for the solver
+agent.
+
+Grounded entity access through basico is therefore necessary but not sufficient: the remaining gap is precisely what
+our Entity Definer, Orchestrator/Solver work orders, and
+HITL interrupts are designed to close.
+
+Finally, the broader transition toward agentic biomedical
+systems requires standardized evaluation frameworks. Because no large-scale, annotated dataset of QSP scenarios
+currently exists, our end-to-end evaluation was necessarily
+constrained to a manually curated set of seven scenarios
+designed to demonstrate the viability of the architecture.
+Developing a comprehensive benchmark dataset (consisting of diverse QSP models, their paired publications, and
+validated sets of extracted scenarios with exact parameter
+modifications) is an essential next step. Establishing such a
+benchmark will not only provide a rigorous grounding for
+evaluating and refining our modules at scale, but also serve
+as a vital open resource for the wider community developing
+generative AI tools for systems biology.
+
+4. Discussion and Future Work
+In this work, we introduce an agentic framework that reduces the friction of reusing and validating published QSP
+models. By providing comprehensive semantic grounding of SBML files, automatically extracting experimental scenarios from accompanying literature, and dynamically mapping free-text descriptions to executable parameter
+states, our pipeline transforms static publications into interactive, simulation-ready systems. This capability addresses
+a critical bottleneck in computational biology, enabling researchers to seamlessly replicate and iterate upon existing
+models using natural language. Across both the o3 singleshot reasoning baseline and the Talk2Biomodels agentic
+baseline, the seven scenarios are recovered only partially,
+indicating that the combination of grounded entity access,
+discrete work orders, and HITL interrupts in our pipeline
+materially closes the gap.
+
+Acknowledgments
+We acknowledge Julia Deichmann for her in-depth discussions and help with the IBD proprietary model from Sanofi.
+
+Funding
+This study was funded by Sanofi.
+
+While our current pipeline establishes a robust foundation
+for automated model management, several avenues remain
+9
+
+bioRxiv preprint doi: https://doi.org/10.64898/2026.05.06.723244; this version posted May 15, 2026. The copyright holder for this preprint
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made
+available under aCC-BY-NC 4.0 International license.
+
+Talk2QSP: Translating Literature into Executable QSP Models
+
+Conflict of Interests
+
+Interleukin-6–Mediated Immune Regulation in Crohn’s
+Disease and Its Application in Drug Discovery and Development. CPT: Pharmacometrics & Systems Pharmacology, 3(1):1–9, 2014.
+
+AK, JP, AS, PP, and TA are Sanofi employees and may hold
+shares and/or stock options in the company.
+
+Helmlinger, G. et al. Quantitative systems pharmacology:
+An exemplar model-building workflow with applications
+in cardiovascular, metabolic, and oncology drug development. CPT: Pharmacometrics & Systems Pharmacology,
+8(6):380–395, 2019. doi: 10.1002/psp4.12426.
+
+References
+Agrawal, P., Antoniak, S., Hanna, E. B., Chaplot, D., Chudnovsky, J., Garg, S., Gervet, T., Ghosh, S., Héliou, A.,
+Jacob, P., Jiang, A. Q., Lacroix, T., Lample, G., Las Casas,
+D., Lavril, T., Le Scao, T., Lo, A., Marshall, W., Martin, L., Mensch, A., Muddireddy, P., Nemychnikova, V.,
+Pellat, M., Von Platen, P., Raghuraman, N., Rozière, B.,
+Sablayrolles, A., Saulnier, L., Sauvestre, R., Shang, W.,
+Soletskyi, R., Stewart, L., Stock, P., Studnia, J., Subramanian, S., Vaze, S., Wang, T., and Yang, S. Pixtral 12B.
+arXiv preprint arXiv:2410.07073, 2024.
+
+Huang, K., Zhang, S., Wang, H., Qu, Y., Lu, Y., Roohani,
+Y., Li, R., Qiu, L., Li, G., Zhang, J., Yin, D., Marwaha, S., Carter, J. N., Zhou, X., Wheeler, M., Bernstein, J. A., Wang, M., He, P., Zhou, J., Snyder, M.,
+Cong, L., Regev, A., and Leskovec, J. Biomni: A
+general-purpose biomedical AI agent. bioRxiv, 2025.
+doi: 10.1101/2025.05.30.656746.
+
+Bai, S., Chen, K., Liu, X., Wang, J., Ge, W., Song, S., Dang,
+K., Wang, P., Wang, S., Tang, J., Zhong, H., Zhu, Y.,
+Yang, M., Li, Z., Wan, J., Wang, P., Ding, W., Fu, Z., Xu,
+Y., Ye, J., Zhang, X., Xie, T., Cheng, Z., Zhang, H., Yang,
+Z., Xu, H., and Lin, J. Qwen2.5-VL technical report.
+arXiv preprint arXiv:2502.13923, 2025.
+
+Hucka, M. et al. The Systems Biology Markup Language
+(SBML): Language specification for Level 3 Version 1
+Core. Journal of Integrative Bioinformatics, 12(2):266,
+2015. doi: 10.2390/biecoll-jib-2015-266.
+Karr, J. R., Malik-Sheriff, R. S., Osborne, J., GonzalezParra, G., Forgoston, E., Bowness, R., Liu, Y., Thompson,
+R., Garira, W., Barhak, J., Rice, J., Torres, M., Dobrovolny, H. M., Tang, T., Waites, W., Glazier, J. A., Faeder,
+J. R., and Kulesza, A. Model integration in computational
+biology: The role of reproducibility, credibility and utility. Frontiers in Systems Biology, 2:822606, 2022. doi:
+10.3389/fsysb.2022.822606.
+
+Benson, N., Metelkin, E., Demin, O., Li, G., Nichols, D.,
+and Van Der Graaf, P. A systems pharmacology perspective on the clinical development of fatty acid amide
+hydrolase inhibitors for pain. CPT: pharmacometrics &
+systems pharmacology, 3(1):1–7, 2014.
+Bergmann, F. T. BASICO: A simplified Python interface to
+COPASI. Journal of Open Source Software, 8(90):5553,
+2023. doi: 10.21105/joss.05553.
+
+Knight-Schrijver, V. R., Chelliah, V., Cucurull-Sanchez,
+L., and Le Novère, N. The promises of quantitative
+systems pharmacology modelling for drug development.
+Computational and Structural Biotechnology Journal, 14:
+363–370, 2016. doi: 10.1016/j.csbj.2016.09.002.
+
+Blinov, M. L., Gennari, J. H., Karr, J. R., Moraru, I. I.,
+Nickerson, D. P., and Sauro, H. M. Practical resources for
+enhancing the reproducibility of mechanistic modeling in
+systems biology. arXiv preprint arXiv:2104.04604, 2021.
+
+Li, B. and Moore, J. H. Agentic AI and the rise of in silico
+team science in biomedical research. Nature Biotechnology, 2026. doi: 10.1038/s41587-026-03035-1.
+
+Bu, D., Sun, J., Zhao, Y., et al. Empowering AI data scientists using a multi-agent LLM framework with selfevolving capabilities for autonomous, tool-aware biomedical data analyses. Nature Biomedical Engineering, 2026.
+doi: 10.1038/s41551-026-01634-6.
+
+Lu, C., Lu, C., Lange, R. T., Yamada, Y., Hu, S., Foerster,
+J., Ha, D., and Clune, J. Towards end-to-end automation
+of AI research. Nature, 651(8107):914–919, 2026. doi:
+10.1038/s41586-026-10265-5.
+
+de Pillis, L. G., Fister, K. R., Gu, W., Head, T., Maples, K.,
+Neal, T., Murugan, A., and Kozai, K. Optimal control
+of mixed immunotherapy and chemotherapy of tumors.
+Journal of Biological systems, 16(01):51–80, 2008.
+
+McLaughlin, J., Lagrimas, J., Iqbal, H., Parkinson, H., and
+Harmse, H. OLS4: a new Ontology Lookup Service for a
+growing interdisciplinary knowledge ecosystem. Bioinformatics, 41(6):btaf279, 2025. doi: 10.1093/bioinformatics/
+btaf279.
+
+Domı́nguez-Romero, E. et al. Making PBPK models more
+reproducible in practice. Briefings in Bioinformatics, 25
+(6), 2024. doi: 10.1093/bib/bbae569.
+
+Schropp, J., Khot, A., Shah, D. K., and Koch, G. TargetMediated Drug Disposition Model for Bispecific Antibodies: Properties, Approximation, and Optimal Dosing
+
+Dwivedi, G., Fitz, L., Hegen, M., Martin, S., Harrold, J.,
+Heatherington, A., and Li, C. A Multiscale Model of
+10
+
+bioRxiv preprint doi: https://doi.org/10.64898/2026.05.06.723244; this version posted May 15, 2026. The copyright holder for this preprint
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made
+available under aCC-BY-NC 4.0 International license.
+
+Talk2QSP: Translating Literature into Executable QSP Models
+
+Strategy. CPT: Pharmacometrics & Systems Pharmacology, 8(3):177–187, 2019.
+Singh, G., Wehling, L., Mulyadi, A. W., Sreenath,
+R. H., Klabunde, T., Andreani, T., and McCloskey, D.
+Talk2biomodels and talk2knowledgegraph: AI agentbased application for prediction of patient biomarkers
+and reasoning over biomedical knowledge graphs. In
+ICLR 2025 Workshop on Machine Learning for Genomics
+Explorations, 2025. URL https://openreview.
+net/forum?id=av4QhBNeZo.
+Sui, P., Li, M. M., Gao, S., Shen, W., Giunchiglia, V., Shen,
+A., Huang, Y., Kong, Z., and Zitnik, M. Medea: An omics
+AI agent for therapeutic discovery. bioRxiv, 2026. doi:
+10.64898/2026.01.16.696667.
+The UniProt Consortium. UniProt: the Universal Protein
+Knowledgebase in 2025. Nucleic Acids Research, 53
+(D1):D609–D617, 2025. doi: 10.1093/nar/gkae1010.
+Tiwari, K. et al. Reproducibility in systems biology modelling. Molecular Systems Biology, 17(2):e9982, 2021.
+doi: 10.15252/msb.20209982.
+Wehling, L., Singh, G., Mulyadi, A. W., Sreenath, R. H.,
+Nguyen, T. V. N., Hoffmann, S., Rapp, H., Mosa, M. H.,
+Clauwaert, J., Araujo, J. V. d., Kalra, K. D., MalikSheriff, R. S., and Metzner, M. Talk2Biomodels: AI
+agent-based open-source LLM initiative for kinetic biological models. BMC Bioinformatics, 26:276, 2025. doi:
+10.1186/s12859-025-06310-1.
+
+11
+
+

@@ -1,5 +1,46 @@
 {
   "version": 1,
   "description": "DOI-keyed registry of source PDFs archived in this directory. The autonomous-science curator agent checks this before downloading anything new. Existing filenames are preserved; the manifest decouples filenames from DOIs.",
-  "entries": []
+  "entries": [
+    {
+      "doi": "10.1038/s41586-026-10644-y",
+      "filename": "s41586-026-10644-y_reference.pdf",
+      "title": "Accelerating scientific discovery with Co-Scientist",
+      "source_url": "https://doi.org/10.1038/s41586-026-10644-y",
+      "downloaded": "2026-05-20",
+      "txt_sidecar": "s41586-026-10644-y_reference.txt"
+    },
+    {
+      "doi": "10.1038/s41586-026-10652-y",
+      "filename": "s41586-026-10652-y_reference.pdf",
+      "title": "A multi-agent system for automating scientific discovery (Robin)",
+      "source_url": "https://doi.org/10.1038/s41586-026-10652-y",
+      "downloaded": "2026-05-20",
+      "txt_sidecar": "s41586-026-10652-y_reference.txt"
+    },
+    {
+      "doi": "10.64898/2026.05.06.723244",
+      "filename": "2026.05.06.723244v2.full.pdf",
+      "title": "Talk2QSP: Deriving Executable Scenarios from Unstructured Literature via Human-in-the-Loop Agents",
+      "source_url": "https://doi.org/10.64898/2026.05.06.723244",
+      "downloaded": "2026-05-20",
+      "txt_sidecar": "2026.05.06.723244v2.full.txt"
+    },
+    {
+      "doi": "10.1016/j.cell.2024.09.022",
+      "filename": "1-s2.0-S0092867424010705-main.pdf",
+      "title": "Empowering biomedical discovery with AI agents (Gao et al., Cell Perspective)",
+      "source_url": "https://doi.org/10.1016/j.cell.2024.09.022",
+      "downloaded": "2026-05-20",
+      "txt_sidecar": "1-s2.0-S0092867424010705-main.txt"
+    },
+    {
+      "doi": "10.1038/d41586-026-01199-z",
+      "filename": "d41586-026-01199-z.pdf",
+      "title": "Nature news: AI agents in science (AI Index Report 2026 coverage)",
+      "source_url": "https://doi.org/10.1038/d41586-026-01199-z",
+      "downloaded": "2026-05-20",
+      "txt_sidecar": "d41586-026-01199-z.txt"
+    }
+  ]
 }

@@ -1,0 +1,300 @@
+SOURCE: ARTIFICIAL INTELLIGENCE INDEX REPORT 2026
+
+Award winners
+Almost 14,000 young researchers applied for
+a 2026 GRFP award, submitting a research plan
+and personal statement that were reviewed
+by an independent panel of researchers. Typically, only about one in every six applicants
+receive one of the prestigious fellowships.
+In addition to covering tuition fees, the
+fellowships come with an annual stipend of
+US$37,000 for three years. Since 1952, when
+the GRFP began, it has supported more than
+70,000 researchers, and at least 40 of those
+have gone on to receive Nobel prizes.
+After rumours swirled that the Trump
+administration would request a massive cut
+to the NSF’s approximately $9-billion budget
+for the 2026 fiscal year, in April last year the
+agency cut in half the approximately 2,000
+GRFP awards usually handed out. Months later,
+however, 500 awards were added — mostly
+in areas in which the Trump administration
+wants the United States to be a world leader,
+including artificial intelligence and quantum
+science — bringing the total to 1,500.
+In February this year, NSF leaders announced
+at a board meeting that they intended to
+reshape the agency to fund more research on
+quantum science and AI, something reflected
+in the newly announced awards. Fifty-three
+of the latest GRFP awards are categorized as
+being for quantum science, a 39% increase
+from the previous year, and 103 are listed
+under AI or machine learning, a 17% increase.
+Fields funded by the agency’s engineering
+directorate saw the largest boost in GRFP awardees in 2026, from 406 (or 27% of the total)
+last year to 914 (or 35% of the total) this year.
+But there were gains in other fields too.
+Research funded by the biological sciences
+
+directorate rebounded, going from 214 awardees (or 14% of the total) last year to 486 (or
+19% of the total) this year. Many researchers
+had been particularly worried about the biological sciences, given the reorientation of
+the NSF to focus on quantum and AI. With the
+exception of 2025, biological sciences applicants have received between 21% and 27% of
+the GRFP awards during the past decade.
+After the awards were announced, many
+of the recipients from the record-breaking
+cohort took to the Internet to celebrate.
+
+“Beyond grateful and still in disbelief,” posted
+Lena Kemmelmeier, a psychology PhD student
+at the University of California, San Diego, on
+the social-media platform Bluesky. “Thank you
+to my wonderful lab mates.”
+Another student, posting anonymously on
+the social-media platform Reddit, where many
+GRFP hopefuls have commiserated, shared
+their excitement: “im a first gen PhD student
+and this is such a huge accomplishment for
+me!! Im tearing up in the middle of writing this
+and my hands are shaking!”
+
+HUMAN SCIENTISTS BEAT
+THE BEST AI AGENTS ON
+COMPLEX TASKS
+State-of-the-industry report finds that, despite
+limitations, researchers have embraced AI systems.
+By Nicola Jones
+
+I
+
+n an indication of how quickly scientists are
+embracing artificial intelligence, the number of publications in the natural sciences
+that mention AI grew almost 30-fold from
+2010 to 2025, according to an influential
+annual report.
+The proportion of publications in any given
+natural-sciences field that mention AI ranges
+from 6% to 9% (see ‘AI paper boom’), according
+to the Artificial Intelligence Index Report 2026,
+released last week by the Stanford Institute for
+Human-Centered AI at Stanford University in
+California (see go.nature.com/4ctbkrg).
+“Scientists have really embraced this AI era,”
+
+AI PAPER BOOM
+
+The number of natural-science publications —
+papers, preprints and other material — that
+mention artificial intelligence has increased sharply
+over the past 15 years. The natural sciences are
+comprised of physical, life and Earth sciences.
+Natural sciences*
+Life sciences
+
+Physical sciences
+Earth sciences
+
+100
+Number of publications
+that mention AI (thousands)
+
+also ‘returned without review’ (sent back to
+applicants without a score), according to data
+shared with Nature by Grant Witness, a watchdog project that tracks changes to research
+funding. This sparked concerns that the type
+of science that the NSF would fund had also
+changed.
+But some of these worries have been allayed
+with the announcement of a record-breaking
+number of GRFP awardees this year.
+Brian Stone, who is standing in as NSF
+director until a permanent one is confirmed,
+said in a statement that the continuation of
+the programme reflects the Trump administration’s “strong focus on building talent
+and investing in individual researchers”. He
+added: “I’m excited to see how these emerging
+STEM [science, technology, engineering and
+mathematics] leaders will shape the future.”
+The agency did not respond to Nature’s
+queries about changes to the programme or
+applications returned without review. On its
+website, the NSF states that “the number of
+applications returned without review this year
+has not changed substantially since last year”.
+
+80
+60
+40
+20
+0
+2010
+
+2015
+
+2020
+
+2025
+
+*Totals do not tally as some publications are included in more than one sub-field.
+
+says computer scientist Yolanda Gil at the University of Southern California in Los Angeles,
+who led this year’s index report.
+Alongside the boom in AI-related science
+publications, the report also lists a host of
+newly released science foundation models —
+AI models that are broadly trained to take on a
+wide range of tasks, but also specially trained
+on massive data sets from a specific domain
+of science.
+Many researchers have started to rely on AI
+‘agents’ that autonomously carry out actions
+including scientific workflows, but the report
+is sceptical about the agents’ performance.
+AI agents still struggle to perform multistep
+workflows reliably, the report says, with the
+best AI agents scoring roughly half as well as
+human specialists with PhDs. “Agents are wonderful, but we are still far from a place where
+we understand how to use them effectively,”
+says Gil.
+
+Growing numbers
+The report says that in 2025, more than 80,000
+papers, preprints and other types of publication in the natural sciences — which include
+life, physical and Earth sciences — mentioned
+AI, 26% more than in 2024. Physical sciences
+had the most publications that mention AI,
+with 33,000. The Earth sciences category had
+the highest percentage, at 9%.
+The boom in AI-related science papers
+is “not surprising”, says computer scientist
+Arvind Narayanan at Princeton University in
+New Jersey. But it’s not clear, he says, whether
+the rise of AI use is productive for science.
+“Whether or not this explosive growth is meaningful is hotly debated,” Narayanan says. “My
+Nature | Vol 652 | 23 April 2026 | 841
+
+News in focus
+view is that it is happening too fast, without
+giving scientific norms time to adjust, and so
+the quality of research has taken a nosedive.”
+Gil says there isn’t much evidence yet that
+AI is improving scientists’ productivity. “The
+studies are limited,” she says. But, she adds,
+scientists “can’t live without it. If you took AI
+away from them, there would be a riot. So it
+must be helping in some way.”
+
+a lot of hype around agents, but they are
+already extremely useful to researchers as
+time-saving tools.”
+The use of AI agents is part of a general
+trend of scientists using AI tools not just for
+
+data analysis but also for broader attempts at
+hypothesis generation and discovery. That’s
+exciting, but the index concludes that, for
+now, “the list of experimentally confirmed AI
+discoveries remains short”.
+
+As uptake has grown, so has the number of AI
+platforms available to researchers. The past
+year has seen the emergence of many science
+foundation models, including the first one for
+astronomy: AION-1, which was trained on more
+than 200 million celestial objects. This training helps it to classify galaxies and to estimate
+their properties. “When I talked to scientists
+in 2024 and said ‘There’s foundation models
+for science’, scientists would not know what
+that means. They didn’t know they existed. I
+think we have seen that really advance very
+quickly,” says Gil.
+The performance of general-purpose foundation models, which include large language
+models (LLMs) such as those used by chatbots,
+on expert-level tests continued to improve rapidly in 2025, the index says. “I keep thinking:
+next year it’s going to plateau. And it doesn’t,”
+says Gil. But these leading AI models still make
+basic mistakes, such as reading analog clocks
+incorrectly 50% of the time.
+On a positive note, models that generate videos “are beginning to learn how the physical
+world actually works”, the index says. The AI
+community has long hoped that models will
+be able to learn the basic rules of physics, such
+as how gravity affects a bouncing ball. In 2025,
+Google DeepMind’s Veo 3 video model was
+able to simulate phenomena such as buoyancy
+without being trained to do so. But there’s a
+long way to go, says Narayanan. “Despite some
+minor successes,” he says, “the dream seems
+pretty far away.”
+
+Agentic abilities
+Several benchmark tests emerged in 2025
+to score the performance of AI agents on
+science-relevant tasks. A test called PaperArena, for example, gives LLM-based agents
+a research question and then evaluates their
+ability to “formulate a reasoning plan, interact
+with multiple papers and invoke appropriate
+tools to produce a well-grounded answer”,
+according to an unreviewed preprint describing that benchmark (D. Wang et al. Preprint at
+arXiv https://doi.org/q3fw; 2025). On this test,
+even the best LLM powering a skilled agent
+achieved an accuracy of just 39%.
+Narayanan has a more positive view of what
+agents. In November, his own team showed
+that agents can ace one benchmark test for
+reproducing computational results in scientific papers, he says. “There is obviously
+842 | Nature | Vol 652 | 23 April 2026
+
+O. SCHWARTZ, M. SOURISSEAU, MC. PREVOST, INST. PASTEUR/SPL
+
+Top models
+
+Chikungunya particles (red) infecting a cell.
+
+VIRUSES ALLEGEDLY
+STOLEN FROM
+HIGH‑SECURITY LAB
+The samples have been recovered by Brazilian
+police, but questions linger over motive.
+By Mariana Lenharo
+
+B
+
+razil’s federal police arrested a
+researcher late last month for allegedly taking samples of viruses from a
+high-security biosafety laboratory at
+a leading Brazilian university. Soledad
+Palameta Miller, a virologist at the State University of Campinas (Unicamp), was released
+on bail on 24 March and faces charges including theft.
+Police have recovered the missing samples
+— which included specimens of the viruses
+chikungunya, dengue and Epstein–Barr,
+according to the Brazilian news programme
+Fantástico — from other locations on Unicamp’s campus. Brazil’s National Health Regulatory Agency (Anvisa) said this month that
+it had evaluated the recovered samples and
+that they did not pose a risk to people’s health.
+But the news has caused a stir in the Brazilian virology community, whose members are
+
+wondering how the lapse could have happened
+at a lab designated biosafety-level-3 (BSL-3),
+the second-highest security classification.
+The community is “perplexed”, says Paulo
+Sanches, a virologist at São Paulo State University in Araraquara, Brazil. “No sample can
+be removed from a lab with this biosafety level
+without authorization.” The news comes as
+Brazil is building support for the construction of its first BSL-4 lab — the highest level of
+biosafety facility — only a few kilometres from
+Unicamp.
+Miller did not respond to a request for comment from Nature. In a statement, Unicamp
+said that it is cooperating fully with the police
+and is conducting an internal investigation.
+
+Police investigation
+The samples were allegedly stolen from Unicamp’s Laboratory of Virology and Applied
+Biotechnology. BSL-3 facilities are equipped
+with air filters and containment systems to
+
+
