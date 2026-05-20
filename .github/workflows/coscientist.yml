@@ -78,6 +78,7 @@ jobs:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           model: claude-opus-4-7
           mcp_config: .mcp-config.json
+          timeout_minutes: "25"
           allowed_tools: "Read,Edit,Write,Glob,Grep,Bash,WebSearch,WebFetch,mcp__papers__search_papers,mcp__papers__search_pubmed,mcp__papers__search_biorxiv,mcp__papers__search_medrxiv,mcp__papers__search_arxiv,mcp__papers__download_with_fallback,mcp__papers__download_arxiv,mcp__papers__download_pubmed,mcp__papers__download_biorxiv,mcp__papers__download_medrxiv,mcp__papers__read_arxiv_paper,mcp__papers__read_pubmed_paper,mcp__papers__read_biorxiv_paper"
 
       - name: Commit, push, and notify
