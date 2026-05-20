@@ -6,7 +6,7 @@ Maintained by a scheduled Claude curator. See the top-level [README](../README.m
 
 **New to Claude Skills, MCP servers, or Plugins?** Start with the [guide](../guide/) — short pages that explain what each component is and how to install it.
 
-_Last refreshed: 2026-05-19_
+_Last refreshed: 2026-05-20_
 
 ## How this catalog is organized
 
@@ -15,15 +15,15 @@ _Last refreshed: 2026-05-19_
 
 | Category | Index | Entries |
 |---|---|---|
-| Chemistry | [chemistry.md](chemistry.md) | 4 |
-| Immunology and Microbiology | [immunology-microbiology.md](immunology-microbiology.md) | 8 |
-| Integrative Structural and Computational Biology | [structural-computational-biology.md](structural-computational-biology.md) | 7 |
-| Molecular and Cellular Biology | [molecular-cellular-biology.md](molecular-cellular-biology.md) | 8 |
-| Neuroscience | [neuroscience.md](neuroscience.md) | 7 |
-| Translational Medicine | [translational-medicine.md](translational-medicine.md) | 8 |
-| Drug Repurposing and Discovery | [drug-repurposing-discovery.md](drug-repurposing-discovery.md) | 8 |
+| Chemistry | [chemistry.md](chemistry.md) | 7 |
+| Immunology and Microbiology | [immunology-microbiology.md](immunology-microbiology.md) | 11 |
+| Integrative Structural and Computational Biology | [structural-computational-biology.md](structural-computational-biology.md) | 10 |
+| Molecular and Cellular Biology | [molecular-cellular-biology.md](molecular-cellular-biology.md) | 11 |
+| Neuroscience | [neuroscience.md](neuroscience.md) | 10 |
+| Translational Medicine | [translational-medicine.md](translational-medicine.md) | 11 |
+| Drug Repurposing and Discovery | [drug-repurposing-discovery.md](drug-repurposing-discovery.md) | 11 |
 
-Distinct tools currently catalogued: **8**. Cross-cutting tools (PubMed Connector, BioMCP, BioRender Connector) use `Categories: All` and appear in every index; tools with a defined subset (10x Genomics Cloud MCP, single-cell-rna-qc, nextflow-development, instrument-data-to-allotrope, scvi-tools) enumerate their categories explicitly.
+Distinct tools currently catalogued: **11**. Cross-cutting tools (PubMed Connector, BioMCP, BioRender Connector, Scholar Gateway Connector, Synapse.org Connector, scientific-problem-selection) use `Categories: All` and appear in every index; tools with a defined subset (10x Genomics Cloud MCP, single-cell-rna-qc, nextflow-development, instrument-data-to-allotrope, scvi-tools) enumerate their categories explicitly.
 
 ## Entry schema
 

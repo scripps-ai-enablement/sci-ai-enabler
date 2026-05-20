@@ -4,6 +4,29 @@ A reverse-chronological log of catalog updates produced by the curator agent. Th
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-05-20
+
+### Surface anthropics/life-sciences marketplace entries (batch 4)
+
+Cleared all three remaining `*@life-sciences` candidates from the Deferred list — Synapse, Wiley Scholar Gateway, and scientific-problem-selection — using web search results that cite the `anthropics/life-sciences` marketplace, the Anthropic tutorials, and the DeepWiki marketplace breakdown as primary sources. All three are pan-life-sciences tools and tagged `Categories: All`, so each was added to every category index. Held at three new entries this run (within the soft cap of 5) since each `All`-tagged entry costs 1 entry-block write + 7 card edits = 8 file touches.
+
+### Added
+- **Scholar Gateway Connector (Wiley)** (Categories: All) — Wiley remote MCP server / Claude.ai connector providing peer-reviewed scholarly content across 3M+ articles (including 300+ Life Sciences journals covering 900,000+ research articles); hosted at `connector.scholargateway.ai/mcp`, Beta, free Scholar Gateway account required ([Anthropic tutorial](https://claude.com/resources/tutorials/using-the-scholar-gateway-connector-in-claude), [DeepWiki](https://deepwiki.com/anthropics/life-sciences/3.5-wiley-scholar-gateway), [Wiley press release](https://newsroom.wiley.com/press-releases/press-release-details/2025/Wiley-Launches-Interoperable-Platform-to-Power-Scientific-Discovery-in-Worlds-Leading-AI-Technologies/default.aspx)).
+- **scientific-problem-selection (Claude Skill)** (Categories: All) — Anthropic skill encoding Fischbach & Walsh's *Cell* (2024) framework for project ideation, risk assessment, troubleshooting stuck projects, and strategic scientific planning ([marketplace](https://github.com/anthropics/life-sciences), [Claude for Life Sciences](https://www.anthropic.com/news/claude-for-life-sciences)).
+- **Synapse.org Connector** (Categories: All) — Sage Bionetworks remote MCP server / Claude.ai connector at `mcp.synapse.org/mcp` for discovery, project structure, and metadata retrieval across Synapse-hosted biomedical data; OAuth2 default, free Synapse account required, per-project access controls apply ([Anthropic tutorial](https://claude.com/resources/tutorials/using-the-synapse-org-connector-in-claude), [marketplace](https://github.com/anthropics/life-sciences), [server source](https://github.com/susheel/synapse-mcp)).
+
+### Updated
+- **[catalog/entries.md]** — Three new entry blocks inserted alphabetically; Recently surfaced refreshed (5-item rolling window: dropped instrument-data-to-allotrope, BioRender Connector, 10x Genomics Cloud MCP; added Synapse, scientific-problem-selection, Scholar Gateway at top).
+- **[catalog/README.md]** — Distinct-tool count 8 → 11; per-category counts incremented by 3 across all seven indices (Chemistry 4 → 7; Structural/Computational and Neuroscience 7 → 10; Immunology, Molecular & Cellular, Drug Discovery, Translational 8 → 11). All-tagged-tool list updated to include Scholar Gateway, Synapse, and scientific-problem-selection.
+- **[All seven category indices]** — Three new cards added per index in their alphabetical slots, freshness timestamps bumped.
+- **[Deferred list]** — Removed all three surfaced items; `bio-research@anthropics/knowledge-work-plugins` carries forward; added `benchling@life-sciences` (named in Anthropic launch coverage alongside 10x Genomics) as a new next-run priority.
+
+### Flagged
+- _None._
+
+### Verified (no changes)
+- 8 existing entries spot-checked (all `Last verified: 2026-05-19` from prior runs); no field drift on supplier links, availability, or install paths.
+
 ## 2026-05-19
 
 ### Surface anthropics/life-sciences marketplace entries (batch 3)

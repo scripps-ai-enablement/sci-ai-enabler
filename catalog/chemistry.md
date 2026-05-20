@@ -2,9 +2,9 @@
 
 > Installable Claude components (Skills, MCP servers, Plugins, Connectors) focused on cheminformatics, computational chemistry, chemical structure handling, reaction prediction, retrosynthesis, and chemistry-aware language interfaces.
 
-_Last updated: 2026-05-19_
+_Last updated: 2026-05-20_
 
-## Entries (4)
+## Entries (7)
 
 Tools tagged with **Chemistry** or `All`. Full details live in [`entries.md`](entries.md).
 
@@ -35,3 +35,24 @@ Scientific-figure assembly from the 50,000+ BioRender icon and template library.
 Converts 40+ lab-instrument output formats to Allotrope Simple Model JSON / CSV for LIMS and data-lake ingestion.
 
 [Full entry →](entries.md#instrument-data-to-allotrope-claude-skill)
+
+### Scholar Gateway Connector (Wiley)
+*MCP server · Wiley · Beta*
+
+Wiley remote connector for peer-reviewed scholarly content — 3M+ articles, 300+ Life Sciences journals.
+
+[Full entry →](entries.md#scholar-gateway-connector-wiley)
+
+### scientific-problem-selection (Claude Skill)
+*Claude Skill · Anthropic · GA*
+
+Structured framework for research project ideation, risk assessment, and troubleshooting, based on Fischbach & Walsh (*Cell* 2024).
+
+[Full entry →](entries.md#scientific-problem-selection-claude-skill)
+
+### Synapse.org Connector
+*MCP server · Sage Bionetworks · GA*
+
+Discovery and metadata retrieval across Synapse-hosted biomedical datasets and consortium projects.
+
+[Full entry →](entries.md#synapseorg-connector)

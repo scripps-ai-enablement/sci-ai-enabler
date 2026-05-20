@@ -2,7 +2,7 @@
 
 > Canonical content for every Claude-installable life-science component in the catalog. Each entry is tagged with the categories it applies to via a `Categories` field. Browse by research area via the category pages, or scan this file directly.
 
-_Last updated: 2026-05-19_
+_Last updated: 2026-05-20_
 
 ## Entries
 
@@ -115,6 +115,42 @@ _Last updated: 2026-05-19_
 - **First catalogued**: 2026-05-19
 - **Last verified**: 2026-05-19
 
+### Scholar Gateway Connector (Wiley)
+
+- **Categories**: All
+- **Type**: MCP server
+- **Supplier**: Wiley ([wiley.com](https://www.wiley.com/))
+- **Availability**: Beta — released alongside the Claude for Life Sciences launch (Oct 2025)
+- **Pricing**: Free / OSS — requires a free Scholar Gateway account
+- **Capabilities**: Read-only — search Wiley's Scholar Gateway corpus and retrieve scholarly article metadata, abstracts, and DOI-linked content
+- **Available in**:
+  - Claude Code (plugin marketplace: `/plugin marketplace add anthropics/life-sciences` then `/plugin install wiley-scholar-gateway@life-sciences`; sign in with Scholar Gateway credentials when prompted)
+  - Claude.ai (Scholar Gateway connector — toggle in Settings → Connectors; sign in with Scholar Gateway credentials)
+- **Tools / resources exposed**: scholarly-article search, publication metadata retrieval, full-text/DOI-linked access for Wiley-indexed content (3M+ articles across STEM, including 300+ Life Sciences journals covering 900,000+ research articles)
+- **Primary use cases**: Literature search grounded in peer-reviewed sources, citation-verifiable Q&A, supplementing PubMed with Wiley-published journal content
+- **Integration notes**: Remote MCP server hosted at `connector.scholargateway.ai/mcp`; HTTP transport; OAuth login flow on first use; access scope tied to Scholar Gateway account
+- **Sources**: [Anthropic tutorial](https://claude.com/resources/tutorials/using-the-scholar-gateway-connector-in-claude), [DeepWiki: Wiley Scholar Gateway](https://deepwiki.com/anthropics/life-sciences/3.5-wiley-scholar-gateway), [Wiley AI Gateway press release (2025)](https://newsroom.wiley.com/press-releases/press-release-details/2025/Wiley-Launches-Interoperable-Platform-to-Power-Scientific-Discovery-in-Worlds-Leading-AI-Technologies/default.aspx)
+- **First catalogued**: 2026-05-20
+- **Last verified**: 2026-05-20
+
+### scientific-problem-selection (Claude Skill)
+
+- **Categories**: All
+- **Type**: Claude Skill
+- **Supplier**: Anthropic ([anthropics/life-sciences](https://github.com/anthropics/life-sciences))
+- **Availability**: GA — distributed via `anthropics/life-sciences` marketplace alongside Claude for Life Sciences (Oct 2025)
+- **Pricing**: Free / OSS
+- **Capabilities**: Read-only — guides Claude through a structured framework for evaluating research questions; does not write files unless the user asks Claude to summarise outputs to disk
+- **Available in**:
+  - Claude Code (plugin marketplace: `/plugin marketplace add anthropics/life-sciences` then `/plugin install scientific-problem-selection@life-sciences`)
+  - Claude.ai (Settings → Capabilities → Skills → Upload skill, using the skill bundle from the `anthropics/life-sciences` repo)
+- **Tools / resources exposed**: `SKILL.md` instructions encoding Fischbach & Walsh's *Cell* (2024) framework — covers project ideation, risk assessment, troubleshooting stuck projects, and strategic scientific planning
+- **Primary use cases**: PI/postdoc project ideation, go/no-go decisions on lab projects, structured triage of competing research directions
+- **Integration notes**: Pure prompt-based skill (no external services or runtime dependencies); applies to any life-science research planning conversation
+- **Sources**: [anthropics/life-sciences marketplace](https://github.com/anthropics/life-sciences), [Claude for Life Sciences announcement](https://www.anthropic.com/news/claude-for-life-sciences), [Fischbach & Walsh, *Cell* (2024)](https://www.cell.com/cell/fulltext/S0092-8674(24)00077-3)
+- **First catalogued**: 2026-05-20
+- **Last verified**: 2026-05-20
+
 ### scvi-tools (Claude Skill)
 
 - **Categories**: Drug Repurposing and Discovery, Immunology and Microbiology, Integrative Structural and Computational Biology, Molecular and Cellular Biology, Neuroscience, Translational Medicine
@@ -151,13 +187,32 @@ _Last updated: 2026-05-19_
 - **First catalogued**: 2026-05-19
 - **Last verified**: 2026-05-19
 
+### Synapse.org Connector
+
+- **Categories**: All
+- **Type**: MCP server
+- **Supplier**: Sage Bionetworks ([synapse.org](https://www.synapse.org/))
+- **Availability**: GA — released with the Claude for Life Sciences launch (Oct 2025)
+- **Pricing**: Free / OSS — requires a free Synapse account; some datasets require governance approval
+- **Capabilities**: Read-only — discover Synapse projects, browse data-asset structure, and retrieve metadata for authorised users across all of Synapse
+- **Available in**:
+  - Claude Code (plugin marketplace: `/plugin marketplace add anthropics/life-sciences` then `/plugin install synapse@life-sciences`)
+  - Claude Code (direct mcp add: `claude mcp add --transport http synapse https://mcp.synapse.org/mcp`)
+  - Claude.ai (Synapse.org connector — toggle in Settings → Connectors; OAuth2 sign-in with Synapse credentials)
+- **Tools / resources exposed**: project discovery and listing, file/folder structure inspection, metadata retrieval for Synapse-hosted data assets, cross-project search subject to per-project access controls
+- **Primary use cases**: Discovering biomedical datasets hosted on Synapse, retrieving project and file metadata, navigating consortium / DREAM-challenge data structures
+- **Integration notes**: Remote MCP server hosted at `mcp.synapse.org/mcp`; HTTP transport; OAuth2 default (browser-based) — personal access tokens supported as alternative; data access governed by per-project controls (some require Synapse governance approval); Synapse Terms of Service restrict data redistribution, which may include third-party AI providers — review before connecting controlled datasets
+- **Sources**: [Anthropic tutorial](https://claude.com/resources/tutorials/using-the-synapse-org-connector-in-claude), [anthropics/life-sciences marketplace](https://github.com/anthropics/life-sciences), [Synapse MCP server source](https://github.com/susheel/synapse-mcp)
+- **First catalogued**: 2026-05-20
+- **Last verified**: 2026-05-20
+
 ## Recently surfaced
 
+- **Synapse.org Connector** (added 2026-05-20) — Sage Bionetworks remote MCP server / Claude.ai connector for discovery and metadata retrieval across Synapse-hosted biomedical data.
+- **scientific-problem-selection (Claude Skill)** (added 2026-05-20) — Anthropic skill encoding Fischbach & Walsh's *Cell* (2024) framework for research project ideation, risk assessment, and troubleshooting.
+- **Scholar Gateway Connector (Wiley)** (added 2026-05-20) — Wiley remote MCP server / Claude.ai connector providing peer-reviewed scholarly content (3M+ articles, 300+ Life Sciences journals).
 - **scvi-tools (Claude Skill)** (added 2026-05-19) — Anthropic skill bundling deep-learning workflows for scVI, scANVI, totalVI, MultiVI, PeakVI, DestVI, veloVI, sysVI, and contrastiveVI on single-cell omics data.
 - **nextflow-development (Claude Skill)** (added 2026-05-19) — Anthropic skill that runs nf-core `rnaseq`, `sarek`, and `atacseq` pipelines on local or GEO/SRA inputs.
-- **instrument-data-to-allotrope (Claude Skill)** (added 2026-05-19) — Anthropic skill that converts 40+ lab-instrument output formats to Allotrope Simple Model JSON / CSV.
-- **BioRender Connector** (added 2026-05-19) — Scientific-illustration MCP / Claude.ai connector for slides, papers, and grants.
-- **10x Genomics Cloud MCP** (added 2026-05-19) — Conversational interface to 10x Cloud single-cell, immune-profiling, and spatial analyses.
 
 ## Flagged for review
 
@@ -167,7 +222,5 @@ _None._
 
 Candidates observed during the most recent surfacing pass but not yet catalogued. Pick these up before re-querying other sources.
 
-- **synapse@life-sciences** — Remote MCP server for Sage Bionetworks Synapse; needs verification of auth model and supplier-side docs.
-- **wiley-scholar-gateway@life-sciences** — Remote MCP server for Wiley scholarly content; verify subscription/auth requirements.
-- **scientific-problem-selection@life-sciences** — Skill encoding Fischbach & Walsh (Cell 2024) scientific-project framework.
 - **bio-research@anthropics/knowledge-work-plugins** — Anthropic umbrella plugin bundling 10 MCP servers and 6 analysis skills for life-science research; verify install path and complete tool inventory before cataloguing.
+- **benchling@life-sciences** — Local MCPB connector for Benchling ELN/LIMS (named in the Anthropic Claude for Life Sciences launch alongside 10x Genomics); verify install path, auth, and exposed tools before cataloguing.

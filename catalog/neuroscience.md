@@ -2,9 +2,9 @@
 
 > Installable Claude components (Skills, MCP servers, Plugins, Connectors) for neural data analysis, brain imaging, connectomics, electrophysiology, behavioral assays, and computational neuroscience.
 
-_Last updated: 2026-05-19_
+_Last updated: 2026-05-20_
 
-## Entries (7)
+## Entries (10)
 
 Tools tagged with **Neuroscience** or `All`. Full details live in [`entries.md`](entries.md).
 
@@ -43,6 +43,20 @@ Runs nf-core `rnaseq`, `sarek`, and `atacseq` pipelines on local FASTQ or GEO/SR
 
 [Full entry →](entries.md#nextflow-development-claude-skill)
 
+### Scholar Gateway Connector (Wiley)
+*MCP server · Wiley · Beta*
+
+Wiley remote connector for peer-reviewed scholarly content — 3M+ articles, 300+ Life Sciences journals.
+
+[Full entry →](entries.md#scholar-gateway-connector-wiley)
+
+### scientific-problem-selection (Claude Skill)
+*Claude Skill · Anthropic · GA*
+
+Structured framework for research project ideation, risk assessment, and troubleshooting, based on Fischbach & Walsh (*Cell* 2024).
+
+[Full entry →](entries.md#scientific-problem-selection-claude-skill)
+
 ### scvi-tools (Claude Skill)
 *Claude Skill · Anthropic · GA*
 
@@ -56,3 +70,10 @@ Deep-learning workflows for scVI, scANVI, totalVI, MultiVI, PeakVI, DestVI, and 
 scverse MAD-based QC for `.h5ad` and 10x `.h5` single-cell RNA-seq inputs.
 
 [Full entry →](entries.md#single-cell-rna-qc-claude-skill)
+
+### Synapse.org Connector
+*MCP server · Sage Bionetworks · GA*
+
+Discovery and metadata retrieval across Synapse-hosted biomedical datasets and consortium projects.
+
+[Full entry →](entries.md#synapseorg-connector)
