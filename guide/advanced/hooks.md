@@ -2,11 +2,11 @@
 
 > Shell commands Claude Code runs automatically in response to events — e.g., before/after a tool call or on session end.
 
-_Last updated: 2026-05-19_
+_Last updated: 2026-05-20_
 
 ## What it is
 
-A hook is a deterministic handler that fires on a named Claude Code lifecycle event. Events include `PreToolUse`, `PostToolUse`, `UserPromptSubmit`, `Stop`, `SubagentStop`, `Notification`, and `SessionStart`. Handlers can be `command` (shell), `prompt`, `agent`, or `http`. A `PreToolUse` hook that exits 2 blocks the pending tool call — this is the main guardrail mechanism. As of May 2026, `PostToolUse` hooks can also replace tool output for any tool (previously MCP-only) via `hookSpecificOutput.updatedToolOutput`.
+A hook is a deterministic handler that fires on a named Claude Code lifecycle event. Events include `PreToolUse`, `PostToolUse`, `UserPromptSubmit`, `Stop`, `SubagentStop`, `Notification`, and `SessionStart`. Handlers can be `command` (shell), `prompt`, `agent`, or `http`. A `PreToolUse` hook that exits 2 blocks the pending tool call — this is the main guardrail mechanism. As of May 2026, `PostToolUse` hooks can also replace tool output for any tool (previously MCP-only) via `hookSpecificOutput.updatedToolOutput`, and any hook can fire desktop notifications, set window titles, or ring the terminal bell via the new `terminalSequence` JSON field (works even with no controlling terminal).
 
 Hooks run outside the model. They see structured JSON on stdin and respond via exit codes or stdout JSON. The active effort level is available as `effort.level` and `$CLAUDE_EFFORT`.
 
@@ -64,4 +64,4 @@ Reload by restarting the session or running `/hooks` again.
 
 - [Automate workflows with hooks](https://code.claude.com/docs/en/hooks-guide) — Anthropic docs; verified 2026-05-19 (this run).
 - [Hooks reference](https://code.claude.com/docs/en/hooks) — Anthropic docs; verified 2026-05-19.
-- [Claude Code changelog (May 2026)](https://code.claude.com/docs/en/changelog) — PostToolUse `updatedToolOutput` for all tools, Stop-hook loop cap, `$CLAUDE_EFFORT`; verified 2026-05-19.
+- [Claude Code changelog (May 2026)](https://code.claude.com/docs/en/changelog) — PostToolUse `updatedToolOutput` for all tools, Stop-hook loop cap, `$CLAUDE_EFFORT`, `terminalSequence` hook field; verified 2026-05-20.

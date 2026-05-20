@@ -2,7 +2,7 @@
 
 > Installable bundles for Claude Code that can ship skills, MCP servers, hooks, and slash commands together.
 
-_Last updated: 2026-05-19_
+_Last updated: 2026-05-20_
 
 ## What it is
 
@@ -25,6 +25,8 @@ The Anthropic-managed marketplace `claude-plugins-official` is registered automa
 # inside a Claude Code session
 /plugin install <plugin-name>@claude-plugins-official
 ```
+
+A good first install is `claude-code-setup`, which scans your project and recommends hooks, skills, MCP servers, and subagents that fit your stack.
 
 For other marketplaces (community, vendor, your own), add the source first, then install:
 
@@ -54,6 +56,6 @@ Manage installs with `/plugin list`, `/plugin enable <name>`, `/plugin disable <
 
 - [Discover and install prebuilt plugins through marketplaces](https://code.claude.com/docs/en/discover-plugins) — Anthropic docs; verified 2026-05-19 (this run).
 - [Claude Code changelog (May 2026)](https://code.claude.com/docs/en/changelog) — `--plugin-dir` zip support, `--plugin-url`, dependency enforcement, `claude plugin prune`; verified 2026-05-19.
-- [`anthropics/claude-plugins-official`](https://github.com/anthropics/claude-plugins-official) — verified 2026-05-19.
+- [`anthropics/claude-plugins-official`](https://github.com/anthropics/claude-plugins-official) — verified 2026-05-20; includes `claude-code-setup`.
 - [`anthropics/claude-plugins-community`](https://github.com/anthropics/claude-plugins-community) — verified 2026-05-19.
 - [Cowork and plugins for teams across the enterprise](https://claude.com/blog/cowork-plugins-across-enterprise) — Anthropic blog; published 2026-02-24 — Cowork-layer plugins are separate from Claude Code plugins.

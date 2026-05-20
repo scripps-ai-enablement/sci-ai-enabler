@@ -2,7 +2,7 @@
 
 > External tools and data sources Claude can call, packaged behind the Model Context Protocol.
 
-_Last updated: 2026-05-19_
+_Last updated: 2026-05-20_
 
 ## What it is
 
@@ -41,6 +41,7 @@ Inside a session, run `/mcp` to see status and trigger OAuth login for servers t
 - Committing `~/.claude.json` (it holds local-scope credentials). Use `--scope project` for `.mcp.json` instead.
 - Using `--transport sse` — deprecated; use `--transport http`.
 - Assuming static API keys work for remote MCP. Remote servers use OAuth 2.1; pass bearer tokens via `--header` when supported.
+- Trying to expose an MCP server inside a private network. Don't poke firewall holes — request access to **MCP tunnels** (Research Preview, May 2026), which run a `cloudflared` agent outbound from your network. Console-managed only; not yet exposed as claude.ai connectors.
 
 ## See also
 
@@ -53,6 +54,9 @@ Inside a session, run `/mcp` to see status and trigger OAuth login for servers t
 
 ## Sources
 
-- [Connect Claude Code to tools via MCP](https://code.claude.com/docs/en/mcp) — Anthropic docs; verified 2026-05-19 (this run).
+- [Connect Claude Code to tools via MCP](https://code.claude.com/docs/en/mcp) — Anthropic docs; verified 2026-05-19.
 - [Model Context Protocol specification](https://modelcontextprotocol.io/) — verified 2026-05-19.
 - [MCP donated to Linux Foundation Agentic AI Foundation](https://www.anthropic.com/news) — December 2025 announcement; verified 2026-05-19.
+- [New in Claude Managed Agents: self-hosted sandboxes and MCP tunnels](https://claude.com/blog/claude-managed-agents-updates) — Anthropic blog; published 2026-05-19 — MCP tunnels (Research Preview), `cloudflared`-based.
+- [Anthropic Introduces MCP Tunnels for Private Agent Access to Internal Systems](https://www.infoq.com/news/2026/05/claude-mcp-tunnels/) — InfoQ; published 2026-05-19.
+- [MCP tunnels (API docs)](https://platform.claude.com/docs/en/agents-and-tools/mcp-tunnels/overview) — Anthropic docs; verified 2026-05-20.
