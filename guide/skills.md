@@ -1,8 +1,12 @@
+---
+title: Skills
+parent: Guide
+nav_order: 2
+---
+
 # Skills
 
 > A focused capability a Claude agent can adopt for one kind of task.
-
-_Last updated: 2026-05-19_
 
 ## What it is
 

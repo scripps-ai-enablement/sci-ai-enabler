@@ -1,6 +1,13 @@
-# Changelog
+---
+title: Catalog updates
+parent: Updates
+nav_order: 1
+permalink: /updates/catalog.html
+---
 
-A reverse-chronological log of catalog updates produced by the curator agent. The newest entry is at the top.
+# Catalog updates
+
+Reverse-chronological log of changes to the [catalog](catalog/). Newest at the top.
 
 <!-- Curator appends new dated entries directly below this line. -->
 

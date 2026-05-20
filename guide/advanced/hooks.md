@@ -1,8 +1,13 @@
+---
+title: Hooks
+parent: Advanced
+grand_parent: Guide
+nav_order: 1
+---
+
 # Hooks
 
 > Shell commands Claude Code runs automatically in response to events — e.g., before/after a tool call or on session end.
-
-_Last updated: 2026-05-20_
 
 ## What it is
 

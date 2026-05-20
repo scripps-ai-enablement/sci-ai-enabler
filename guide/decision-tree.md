@@ -1,8 +1,12 @@
+---
+title: Decision tree
+parent: Guide
+nav_order: 7
+---
+
 # Decision tree
 
 > "I want to do X — which Claude component should I use?"
-
-_Last updated: 2026-05-19_
 
 Use this table to find the right component type for a goal you have in mind.
 

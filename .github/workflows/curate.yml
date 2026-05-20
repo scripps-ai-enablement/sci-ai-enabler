@@ -51,9 +51,9 @@ jobs:
             echo "- UTC date: $(date -u +%Y-%m-%d)"
             echo "- Scope: ${SCOPE}"
             if [ "${SCOPE}" = "all" ]; then
-              echo "- Update any of the seven category files as warranted."
+              echo "- Update any per-tool pages under \`catalog/tools/\` as warranted, plus \`CHANGELOG.md\` per your instructions."
             else
-              echo "- Limit edits to catalog/${SCOPE}.md (plus CHANGELOG.md and catalog/README.md as required by your instructions)."
+              echo "- Limit edits to tool pages whose front-matter \`tool_categories\` includes \"${SCOPE}\" (plus \`CHANGELOG.md\` per your instructions)."
             fi
           } > .run-prompt.md
 

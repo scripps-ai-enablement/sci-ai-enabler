@@ -1,8 +1,12 @@
+---
+title: Marketplaces
+parent: Guide
+nav_order: 5
+---
+
 # Marketplaces
 
 > Curated catalogs of plugins (and the skills/MCP servers inside them) that Claude Code can install from.
-
-_Last updated: 2026-05-19_
 
 ## What it is
 

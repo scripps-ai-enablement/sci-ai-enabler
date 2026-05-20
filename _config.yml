@@ -1,4 +1,47 @@
-theme: jekyll-theme-cayman
-title: Life Science AI Ecosystem Catalog
-description: A curated catalog of AI ecosystem components (MCP servers, plugins, skills, agents, workflows) for life-science applications.
-show_downloads: false
+title: Life Science AI Ecosystem
+description: Installable Claude components, beginner guides, and a tracker of autonomous AI scientists for life-science research.
+
+remote_theme: just-the-docs/just-the-docs
+plugins:
+  - jekyll-remote-theme
+
+color_scheme: light
+search_enabled: true
+search:
+  heading_level: 3
+  previews: 2
+  preview_words_before: 5
+  preview_words_after: 10
+  tokenizer_separator: /[\s\-/]+/
+  rel_url: true
+  button: false
+
+heading_anchors: true
+
+aux_links:
+  "GitHub":
+    - "https://github.com/goodb/sci-ai-enabler"
+aux_links_new_tab: true
+
+back_to_top: true
+back_to_top_text: "Back to top"
+
+footer_content: 'Maintained by automated curators. <a href="https://github.com/goodb/sci-ai-enabler">Source on GitHub</a>.'
+
+exclude:
+  - AGENT.md
+  - GUIDE_AGENT.md
+  - COSCIENTIST_AGENT.md
+  - README.md
+  - sources/
+  - Gemfile
+  - Gemfile.lock
+  - vendor/
+  - .github/
+  - .DS_Store
+
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: default

@@ -39,46 +39,87 @@ Cross-cutting tools (PubMed, biorxiv, ChEMBL, Open Targets, ClinicalTrials.gov, 
 
 ## Storage model
 
-The catalog has **one canonical content file** and **seven index views**:
+The catalog is rendered as a [just-the-docs](https://just-the-docs.com/) GitHub Pages site. It has **one page per tool** and **seven auto-generated category index pages**:
 
-- [`catalog/entries.md`](catalog/entries.md) — the single source of truth. Every entry's full block lives here, sorted alphabetically by name. Edits to an entry's fields happen here and **here only**.
-- `catalog/<category>.md` (seven files) — card-based indices. Each lists short summary cards for entries whose `Categories` tag includes that category (or is `All`), linking back to the canonical entry in `entries.md`.
+- `catalog/tools/<slug>.md` — **one page per tool, one tool per page**. Each is a complete, self-contained reader-facing page. This is the single source of truth for that tool. Edits to a tool's fields happen in its own page and **there only**.
+- `catalog/<category>.md` (seven files: `chemistry.md`, `immunology-microbiology.md`, `structural-computational-biology.md`, `molecular-cellular-biology.md`, `neuroscience.md`, `translational-medicine.md`, `drug-repurposing-discovery.md`) — auto-generated index views. Each contains a Liquid loop that filters the per-tool pages by their `tool_categories` front-matter and renders a card list. **The agent does not edit category pages in the normal course of work** — they update themselves when a tool's front-matter changes. The agent only edits a category page if the descriptive paragraph at the top of it needs revision.
+- `catalog/tools/index.md` — the "All tools" index. Auto-renders via just-the-docs `has_children`. The agent does not edit this in the normal course of work.
 
-This avoids the duplication problem: an update to PubMed's pricing is **one write** to `entries.md`; the cards in category indices only need refreshing if the tool's *name*, *type*, *supplier*, *availability*, or *one-line summary* changes.
+Tagging by category lives in each tool page's `tool_categories` front-matter array. There is no notion of a "primary" category; tagging is a tag list, not a hierarchy.
 
-There is no notion of a "primary" category. Tagging is a tag list, not a hierarchy.
+**Slug rule** for `catalog/tools/<slug>.md`: lowercase the tool name, replace spaces with hyphens, drop parentheses and punctuation, trim brand qualifiers like "(Claude Skill)" / "(Claude Code Plugin)" from the slug. Examples: `Anthropic PubMed Connector` → `pubmed.md`; `scientific-problem-selection (Claude Skill)` → `scientific-problem-selection.md`; `Scholar Gateway Connector (Wiley)` → `scholar-gateway.md`.
 
-## Entry schema (used in `entries.md`)
+## Tool page schema
 
-Every entry in `entries.md` follows this exact structure. Keep field order stable so diffs are clean.
+Every per-tool page (`catalog/tools/<slug>.md`) is a self-contained reader-facing document. It opens with YAML front-matter, then a one-sentence description, then sections in this order: a metadata table, **How to install**, **What it does**, **Notes**, **Sources**.
 
 ```markdown
-### Tool Name
+---
+title: <Tool Name>
+parent: All tools
+grand_parent: Catalog
+nav_order: <integer; alphabetical position, 1..N>
+tool_type: MCP server | Claude Skill | Claude Code Plugin | Claude.ai Connector
+supplier: <vendor / org name>
+availability: GA | Beta | Alpha | Preview | Deprecated
+tool_categories: [All]   # or, e.g., [Chemistry, Drug Repurposing and Discovery, Translational Medicine]
+last_verified: YYYY-MM-DD
+summary: <≤ 25-word plain-language description; used by the category card lists>
+---
 
-- **Categories**: `All` for tools applicable across all seven categories, or a comma-separated list (alphabetical) of one or more categories the tool applies to.
-- **Type**: MCP server | Claude Skill | Claude Code Plugin | Claude.ai Connector
-- **Supplier**: Vendor / org name ([link](https://…))
-- **Availability**: GA | Beta | Alpha | Preview | Deprecated
-- **Pricing**: Free / OSS | Freemium | Subscription (e.g., $X/mo) | Usage-based | Enterprise (contact)
-- **Capabilities**: Read-only | Write | Read/Write — short note on what it reads or writes
-- **Available in**:
-  - <Claude product> (<install path>: <one-line command or pointer>)
-  - <Claude product> (<install path>: <one-line command or pointer>)
-- **Tools / resources exposed**: short list of the MCP tools, skill commands, or connector operations (e.g., "search_articles, get_article_metadata") or "Unknown"
-- **Primary use cases**: 1–3 phrases, comma-separated
-- **Integration notes**: auth requirements, known limitations, transport details (stdio / HTTP-SSE / Anthropic-managed)
-- **Sources**: [primary](url), [secondary](url) — at least one primary source
-- **First catalogued**: YYYY-MM-DD
-- **Last verified**: YYYY-MM-DD
+# <Tool Name>
+
+<One-sentence reader-facing description.>
+
+| | |
+|---|---|
+| **Type** | <type> |
+| **Supplier** | [<name>](https://…) |
+| **Availability** | GA / Beta / etc., with a specific date if available |
+| **Pricing** | Free / OSS | Freemium | Subscription (e.g., $X/mo) | Usage-based | Enterprise (contact) |
+| **Capabilities** | Read-only | Write | Read/Write — short note |
+
+## How to install
+
+- **Claude Code** — plugin marketplace:
+  ```
+  /plugin marketplace add <owner>/<repo>
+  /plugin install <plugin>@<marketplace>
+  ```
+- **Claude Code** — direct MCP add: `claude mcp add --transport http <name> https://…/mcp`
+- **Claude.ai** — <connector / skill upload path>
+- **Claude Desktop** — <install path>
+
+## What it does
+
+<Short paragraph or bullet list of tools, resources, or skill commands exposed. Plain language.>
+
+**Primary use cases**: <1–3 phrases, comma-separated.>
+
+## Notes
+
+<Auth requirements, known limitations, transport details, caveats.>
+
+## Sources
+
+- [<title>](url)
+- [<title>](url)
 ```
 
-`Available in` examples — copy these shapes:
+**Front-matter rules**:
 
-- `Claude Code (plugin marketplace: /plugin install pubmed@anthropics/life-sciences)`
-- `Claude Code (direct mcp add: claude mcp add --transport http pubmed https://pubmed.mcp.claude.com/mcp)`
-- `Claude Code (community skill: clone K-Dense-AI/scientific-agent-skills, copy scientific-skills/<skill-name>/ into ~/.claude/skills/)`
-- `Claude.ai (Healthcare connector — toggle in Settings → Connectors)`
-- `Claude Desktop (manual mcp_config.json entry)`
+- `tool_categories` is a YAML array. Use `[All]` for tools applicable across every life-science domain (literature search, broad clinical-trial databases, figure builders, identifier resolvers, generic biomedical Q&A). Use a comma-separated alphabetical list for tools with a defined subset of applicability.
+- `nav_order` controls the sidebar position under "All tools". Keep it consistent with alphabetical order across pages so the sidebar reads cleanly.
+- `last_verified` is the date the curator last confirmed every link, install path, and pricing claim.
+- `summary` is the card text shown on the category index pages; keep it ≤ 25 words.
+
+**Install-path examples** to copy:
+
+- `/plugin install pubmed@anthropics/life-sciences`
+- `claude mcp add --transport http pubmed https://pubmed.mcp.claude.com/mcp`
+- "Clone `K-Dense-AI/scientific-agent-skills`, copy `scientific-skills/<skill-name>/` into `~/.claude/skills/`"
+- "Toggle in **Settings → Connectors**"
+- "Manual `mcp_config.json` entry"
 
 ## Tagging by area (the `Categories` field)
 
@@ -92,24 +133,18 @@ Tag every entry with the categories where a researcher in that area would plausi
 - **Do not invent categories.** Use only the seven defined above (or `All`).
 - **Don't pad.** If a tool applies to 6 of 7, the choice between `All` and the 6-item list is a judgment call — use `All` unless the omission is meaningful enough to call out (e.g., the tool genuinely does not apply to Chemistry and a Chemistry reader would not find it useful).
 
-## File structure
+## Curator-only state files
 
-### `catalog/entries.md`
+These hold curator state that does **not** appear as a normal site page. They are tracked in `catalog/curator-state.md`, which has `nav_exclude: true` so it stays out of the site nav. Maintain it with three sections:
 
 ```markdown
-# Entries
+---
+title: Curator state
+parent: Catalog
+nav_exclude: true
+---
 
-> ...brief intro pointing to category indices and explaining the tag system...
-
-_Last updated: YYYY-MM-DD_
-
-## Entries
-
-### Tool 1
-…full schema fields…
-
-### Tool 2
-…full schema fields…
+# Curator state
 
 ## Recently surfaced
 
@@ -121,40 +156,42 @@ _Last updated: YYYY-MM-DD_
 
 ## Deferred — next-run priority
 
-Optional. Carry forward candidates the previous run identified but didn't catalogue.
-
 - **candidate-name** — one-line description and why deferred.
 ```
 
-Keep `Recently surfaced`, `Flagged for review`, and (if present) `Deferred — next-run priority` even when empty (`_None._`). The `Recently surfaced` list keeps the last ~5 additions.
+Keep all three sections present even when empty (`_None._`). `Recently surfaced` keeps the last ~5 additions. Create `catalog/curator-state.md` on the next run if it does not yet exist.
 
 ### `catalog/<category>.md` (the seven index views)
 
+Each category page is a Liquid template that auto-renders cards from per-tool pages whose `tool_categories` front-matter includes that category or `All`. The agent does not normally edit these. The agent only edits the descriptive paragraph at the top of a category page (the prose between the H1 and the Liquid loop) — for example, to broaden or refine the category description.
+
+Template form (do not change the Liquid block):
+
 ```markdown
-# <Category name>
+---
+title: <Category Name>
+parent: Catalog
+nav_order: <1..7>
+permalink: /catalog/<slug>.html
+---
 
-> <One-paragraph description of what this category covers in this catalog.>
+# <Category Name>
 
-_Last updated: YYYY-MM-DD_
+<One-paragraph reader-facing description of what this category covers.>
 
-## Entries (N)
+{% raw %}{% assign tools = site.pages | where_exp: "p", "p.tool_type" | sort: "title" %}
+{% for tool in tools %}
+{% if tool.tool_categories contains "<Category Name>" or tool.tool_categories contains "All" %}
+### [{{ tool.title }}]({{ tool.url | relative_url }})
+*{{ tool.tool_type }} · {{ tool.supplier }} · {{ tool.availability }}*
 
-Tools tagged with **<category name>** or `All`. Full details live in [`entries.md`](entries.md).
+{{ tool.summary }}
 
-### Tool Name
-*Type · Supplier · Availability*
-
-One-line description (≤ 25 words, plain language, no marketing).
-
-[Full entry →](entries.md#tool-anchor)
-
-### Tool Name
-...
+{% endif %}
+{% endfor %}{% endraw %}
 ```
 
-`N` is the number of cards in the file. Cards are sorted alphabetically (matching `entries.md` order). The category index has **no** `Recently surfaced`, `Flagged for review`, or `Deferred` sections — those live in `entries.md` only.
-
-Card anchors use GitHub's auto-slug for the entry's `###` heading (lowercase, spaces → hyphens, punctuation stripped). Verify the anchor matches the heading in `entries.md`.
+Adding a tool to a category is done by editing the **per-tool page's `tool_categories` front-matter array**, not by editing the category index.
 
 ## Authoritative sources
 
@@ -195,27 +232,28 @@ Do not rely on `mcp.so` or `smithery.ai` from the GitHub Actions runner — they
 
 ## Your responsibilities each run
 
-1. **Read `entries.md` first.** This is the source of truth. Skim the category index files only as needed to confirm card counts match.
-2. **Verify existing entries** that have not been verified in the last 30 days. Confirm the supplier link resolves, availability/pricing fields are still accurate, and at least one `Available in` install path still works. Update `Last verified` to today's date when re-confirmed. If something has changed, update the relevant fields in `entries.md`. Card updates in the category indices are only needed if the change affects the card content (name, type, supplier, availability, one-line summary).
+1. **List `catalog/tools/`** to see what's currently catalogued. Read `catalog/curator-state.md` (if it exists) to pick up `Deferred` candidates from the last run.
+2. **Verify existing tools** whose `last_verified` front-matter is more than 30 days old. Confirm the supplier link resolves, availability/pricing claims are still accurate, and at least one install path under **How to install** still works. Update `last_verified` in front-matter and any out-of-date fields in the body. If a tool's `title`, `tool_type`, `supplier`, `availability`, or `summary` changed, the auto-rendered category cards pick this up on the next site build — no manual edit needed.
 3. **Surface new components.** The action has a hard 10-minute wall and per-tool web research is the most expensive thing you do. Keep the surfacing pass narrow:
 
    **Soft cap: ≤ 5 logical new entries per run.** Stop adding after the fifth. The rest are next-run work.
 
-   **Prefer manifest-driven sources** that yield multiple entries from a single fetch — they pay for themselves:
+   **Prefer manifest-driven sources** that yield multiple entries from a single fetch:
 
-   - [`anthropics/life-sciences/marketplace.json`](https://raw.githubusercontent.com/anthropics/life-sciences/main/marketplace.json) — one fetch, every entry is pre-validated.
-   - [`anthropics/claude-plugins-official/marketplace.json`](https://raw.githubusercontent.com/anthropics/claude-plugins-official/main/marketplace.json) — same shape.
-   - [MCP Registry API](https://registry.modelcontextprotocol.io/) — one API call, filterable by keyword.
-   - Community skill collections' top-level READMEs / directory listings (one fetch each).
+   - [`anthropics/life-sciences/marketplace.json`](https://raw.githubusercontent.com/anthropics/life-sciences/main/marketplace.json)
+   - [`anthropics/claude-plugins-official/marketplace.json`](https://raw.githubusercontent.com/anthropics/claude-plugins-official/main/marketplace.json)
+   - [MCP Registry API](https://registry.modelcontextprotocol.io/)
+   - Community skill collections' top-level READMEs / directory listings.
 
    Only fall back to open WebSearch for a candidate when none of the manifest sources covers it.
 
-   **Workflow per surfacing pass**: pick one manifest-driven source you haven't drawn from in the last few runs → fetch it once → identify the most useful 1–5 candidates not yet in the catalog → for each candidate, write the full entry block in `entries.md` and add cards in every category index named in its `Categories` field → stop. Defer remaining candidates by listing them under `## Deferred — next-run priority` in `entries.md`. The next scheduled run picks up that list.
+   **Workflow per surfacing pass**: pick one manifest-driven source you haven't drawn from in the last few runs → fetch it once → identify the most useful 1–5 candidates not yet in the catalog → for each candidate, **create `catalog/tools/<slug>.md`** following the page schema above → stop. Defer remaining candidates by appending them under `## Deferred — next-run priority` in `catalog/curator-state.md`.
 
-   **Write budget per entry**: 1 write to `entries.md` + N card-edits to category indices, where N is the number of categories the tool applies to (or 7 if `All`). A pan-life-sciences entry costs ~8 file edits total.
-4. **Flag outdated entries** by moving them to the "Flagged for review" section in `entries.md` with a dated reason. Do not silently delete current entries — deprecation is information. When you flag an entry, leave the cards in the category indices as-is until the entry is removed; readers following the card-link will see the flag.
-5. **Always cite sources.** Every claim about pricing, availability, or capability must trace to a URL in the Sources field. Prefer primary sources (vendor docs, GitHub READMEs, official blog posts, peer-reviewed papers) over secondary coverage.
-6. **Append to `CHANGELOG.md`** with a dated entry summarizing what changed this run and why. Use this format:
+   **Write budget per entry**: 1 new file in `catalog/tools/`. No category-index edits are required — they regenerate from front-matter. (Optional: refresh the descriptive paragraph at the top of a category page if the new tool meaningfully broadens the category's coverage.)
+
+4. **Flag outdated entries** by adding a `flagged: <reason as of YYYY-MM-DD>` front-matter field to the tool's page and a line under `## Flagged for review` in `catalog/curator-state.md` with a dated reason. Do not silently delete current entries — deprecation is information.
+5. **Always cite sources.** Every claim about pricing, availability, or capability must trace to a URL in the **Sources** section. Prefer primary sources (vendor docs, GitHub READMEs, official blog posts, peer-reviewed papers) over secondary coverage.
+6. **Append to `CHANGELOG.md`** (which renders as `/updates/catalog.html`) with a dated entry summarizing what changed this run and why. Use this format:
 
    ```markdown
    ## YYYY-MM-DD
@@ -233,13 +271,11 @@ Do not rely on `mcp.so` or `smithery.ai` from the GitHub Actions runner — they
    - N entries re-verified.
    ```
 
-   The newest entry goes at the top of the file, directly after the `# Changelog` header.
-
-7. **Update `catalog/README.md`** if the index card-counts changed (entries added/removed/recategorized) or the freshness timestamp needs bumping.
+   Insert the new dated block directly after the YAML front-matter and the `# Catalog updates` header — preserve the front-matter intact.
 
 ## Run scope
 
-You may receive a scoped run that limits work to one category (e.g., `category: chemistry`). If so, edit `entries.md` (the canonical content) and only that one category's index file, plus `CHANGELOG.md` and `catalog/README.md`. Do not touch other category index files in a scoped run.
+You may receive a scoped run that limits work to one category (e.g., `category: chemistry`). If so, only create or edit tool pages whose `tool_categories` includes that category, plus `CHANGELOG.md`. Do not touch tool pages outside that category in a scoped run.
 
 If no substantive changes are warranted this run, write a single dated changelog entry of the form:
 
@@ -253,8 +289,19 @@ No substantive updates — N entries spot-checked, all current.
 
 ## Tone and style
 
+The catalog is read by working scientists, engineers, and clinicians who do not know or care that an agent maintains it. Write for them.
+
+**Voice rules for tool-page bodies**:
+
 - Factual, terse, neutral. No marketing copy from vendor pages — paraphrase claims and cite.
+- Lead with what the tool *does for the reader*, not what it is in the curator's classification.
+- **Do not write self-referential prose in page bodies.** Examples to avoid:
+  - "This catalog covers…" / "Full details live in tools/" / "Browse by research area".
+  - Length self-references: "≤ 25 words", "≤ 400 words", "(in brief)".
+  - Curator attribution: "Maintained by a scheduled Claude curator". (One link in the site's About page is enough.)
+  - "Last refreshed" or "Last updated" banners at the top of page bodies. Use the `last_verified` front-matter field instead; readers do not need to see a freshness banner.
+  - "Out of scope" or "in scope" framing aimed at the curator. The reader is not curating — they are looking at content.
 - One canonical link per source; avoid affiliate or tracking URLs.
 - Prefer specific over vague: "$20/mo Pro tier" beats "paid"; "Beta as of 2026-04-18 release notes" beats "Beta".
 - If a fact cannot be verified, write `Unknown` rather than guessing.
-- Category-index cards are ≤ 25 words after the `*Type · Supplier · Availability*` metadata line. Compression is the product for indices; full detail lives in `entries.md`.
+- The `summary` front-matter field is ≤ 25 words and is what appears on category cards — keep it plain-language and skim-friendly.

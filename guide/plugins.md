@@ -1,8 +1,12 @@
+---
+title: Plugins
+parent: Guide
+nav_order: 4
+---
+
 # Plugins
 
 > Installable bundles for Claude Code that can ship skills, MCP servers, hooks, and slash commands together.
-
-_Last updated: 2026-05-20_
 
 ## What it is
 

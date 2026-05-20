@@ -1,8 +1,12 @@
+---
+title: MCP servers
+parent: Guide
+nav_order: 3
+---
+
 # MCP servers
 
 > External tools and data sources Claude can call, packaged behind the Model Context Protocol.
-
-_Last updated: 2026-05-20_
 
 ## What it is
 

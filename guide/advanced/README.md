@@ -1,9 +1,15 @@
+---
+title: Advanced
+parent: Guide
+nav_order: 8
+has_children: true
+permalink: /guide/advanced/
+---
+
 # Advanced
 
-Topics that go beyond the beginner basics. Read the [main guide](../README.md) first.
+Topics beyond the basics. Read the [main guide](../) first.
 
-## Topics
-
-- [Hooks](hooks.md) — run commands automatically on Claude Code events (e.g., before/after tool calls).
-- [Slash commands & subagents](slash-commands.md) — define custom `/commands` and specialized subagents in your project.
-- [Authentication](authentication.md) — API keys, OAuth flows, and where secrets actually live.
+- [Hooks](hooks.html) — run commands automatically on Claude Code events (e.g., before/after tool calls).
+- [Slash commands and subagents](slash-commands.html) — define custom `/commands` and specialized subagents in your project.
+- [Authentication](authentication.html) — API keys, OAuth flows, and where secrets actually live.

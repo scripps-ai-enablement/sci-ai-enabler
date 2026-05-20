@@ -1,8 +1,13 @@
+---
+title: Slash commands and subagents
+parent: Advanced
+grand_parent: Guide
+nav_order: 2
+---
+
 # Slash commands and subagents
 
 > User-defined `/commands` and specialized subagent definitions you can ship with your project or install globally.
-
-_Last updated: 2026-05-19_
 
 ## What it is
 

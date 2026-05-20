@@ -64,9 +64,9 @@ jobs:
             echo "- UTC date: $(date -u +%Y-%m-%d)"
             echo "- Scope: ${SCOPE}"
             if [ "${SCOPE}" = "bootstrap" ]; then
-              echo "- Bootstrap mode: re-scan every PDF in \`sources/\`, rebuild \`autonomous-science/entries.md\` and \`autonomous-science/summary.md\` from scratch, and re-populate \`sources/manifest.json\`."
+              echo "- Bootstrap mode: re-scan every PDF in \`sources/\`, rebuild the per-system pages under \`autonomous-science/systems/\` and \`autonomous-science/summary.md\` from scratch, and re-populate \`sources/manifest.json\`."
             else
-              echo "- Daily mode: normal search-and-update flow. If \`autonomous-science/entries.md\` still has the placeholder \"Pending first run\" text, treat this run as a bootstrap and seed entries/summary/manifest from the existing PDFs in \`sources/\`."
+              echo "- Daily mode: normal search-and-update flow. If \`autonomous-science/systems/\` is empty or missing, treat this run as a bootstrap and seed system pages, summary, and manifest from the existing PDFs in \`sources/\`."
             fi
             echo "- PDFs in \`sources/\` can be read with \`pdftotext <path>.pdf -\` via the Bash tool; poppler-utils is installed in this runner."
             echo "- The \`papers\` MCP server provides paper-search-mcp tools (search_pubmed, search_biorxiv, search_arxiv, download_with_fallback, etc.). Use it for discovery and PDF retrieval before falling back to WebSearch/WebFetch."

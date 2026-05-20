@@ -1,8 +1,12 @@
+---
+title: Connectors
+parent: Guide
+nav_order: 6
+---
+
 # Connectors
 
 > Anthropic-managed integrations you toggle on inside the Claude.ai web, desktop, and mobile apps.
-
-_Last updated: 2026-05-20_
 
 ## What it is
 

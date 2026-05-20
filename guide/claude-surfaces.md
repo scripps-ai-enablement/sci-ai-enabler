@@ -1,8 +1,12 @@
+---
+title: Claude surfaces
+parent: Guide
+nav_order: 1
+---
+
 # Claude surfaces
 
 > The places you can use Claude: Claude.ai, Claude Desktop, Claude Code (terminal, IDE, and web), Claude Cowork, and the Claude API.
-
-_Last updated: 2026-05-19_
 
 ## What it is
 

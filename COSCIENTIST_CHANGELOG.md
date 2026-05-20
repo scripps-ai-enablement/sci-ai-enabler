@@ -1,6 +1,13 @@
-# Autonomous science changelog
+---
+title: AI scientist updates
+parent: Updates
+nav_order: 3
+permalink: /updates/ai-scientists.html
+---
 
-Rolling log of updates to the autonomous-science tracker. Newest entry at the top. See [`COSCIENTIST_AGENT.md`](COSCIENTIST_AGENT.md) for the curation rules and [`autonomous-science/`](autonomous-science/) for the content.
+# AI scientist updates
+
+Reverse-chronological log of changes to the [AI scientists tracker](autonomous-science/). Newest at the top.
 
 ## 2026-05-20 (daily run)
 

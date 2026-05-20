@@ -1,6 +1,13 @@
-# Guide changelog
+---
+title: Guide updates
+parent: Updates
+nav_order: 2
+permalink: /updates/guide.html
+---
 
-A reverse-chronological log of guide updates produced by the guide curator agent. The newest entry is at the top.
+# Guide updates
+
+Reverse-chronological log of changes to the [guide](guide/). Newest at the top.
 
 <!-- Curator appends new dated entries directly below this line. -->
 

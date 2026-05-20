@@ -82,14 +82,18 @@ If the landing page and a deep doc page disagree on the install command, **the l
 
 ## Page schema
 
-Every topic page (everything under `guide/` except `README.md`, `decision-tree.md`, and `advanced/README.md`) follows this exact shape:
+The site is rendered as a [just-the-docs](https://just-the-docs.com/) GitHub Pages site, so every page opens with YAML front-matter for navigation. Every topic page (everything under `guide/` except `README.md`, `decision-tree.md`, and `advanced/README.md`) follows this exact shape:
 
 ```markdown
+---
+title: <Topic title>
+parent: Guide
+nav_order: <integer; reading order: 1 claude-surfaces, 2 skills, 3 mcp-servers, 4 plugins, 5 marketplaces, 6 connectors, 7 decision-tree, 8 advanced>
+---
+
 # Topic title
 
 > One-sentence plain-language definition.
-
-_Last updated: YYYY-MM-DD_
 
 ## What it is
 
@@ -110,7 +114,7 @@ Bullet list, ≤ 5 items.
 ## See also
 
 - Related guide pages
-- Catalog entries that exemplify this (link to `../catalog/<file>.md#<anchor>`)
+- Catalog tools that exemplify this (link to `../catalog/tools/<slug>.html`)
 
 ## Sources
 
@@ -120,7 +124,11 @@ The content above was synthesized from these dated sources, consulted during the
 - [Source title](url) — published YYYY-MM-DD.
 ```
 
-The index pages (`guide/README.md`, `guide/advanced/README.md`) use a reading-order TOC. The decision tree (`guide/decision-tree.md`) uses a table mapping user goal → recommended component type with one-line rationale.
+**Advanced pages** use the same shape but with `parent: Advanced` and `grand_parent: Guide`.
+
+The index pages (`guide/README.md` → renders as `/guide/`, `guide/advanced/README.md` → renders as `/guide/advanced/`) use front-matter with `has_children: true` and contain only a short reading-order list, not topic content. The decision tree (`guide/decision-tree.md`) uses a table mapping user goal → recommended component type with one-line rationale.
+
+**Do not write a `_Last updated: YYYY-MM-DD` line into the page body.** The information about when a page was last verified belongs in each individual source's "verified YYYY-MM-DD" annotation, which the reader does not see at the top of the page. Page-top freshness banners are noise.
 
 ## Authoritative sources
 
@@ -173,9 +181,9 @@ When in genuine doubt, mark the section `Unknown — needs source` and move on.
    - Has terminology shifted?
    - Does the `## Sources` section accurately list every URL that grounds a current claim on the page, with publication / last-modified dates? Refresh it.
    Update only the affected sections. Leave correct prose alone, but **never leave a page without a current Sources section**.
-4. **Refresh `_Last updated:_` only when the page content actually changed.** A pure Sources-section refresh (URLs unchanged, dates re-verified) also counts as a content-relevant change and bumps the date.
-5. **Update `guide/README.md`** if the topic set changes (rare) or freshness summary needs refreshing.
-6. **Append to `GUIDE_CHANGELOG.md`** using the same format as `CHANGELOG.md`:
+4. **Preserve front-matter exactly.** Every page begins with a YAML block (`---` … `---`); never overwrite or remove it. Do not insert a `_Last updated:_` line into the body — that has been retired (see Page schema above).
+5. **Update `guide/README.md`** if the topic set changes (rare). It is a short reading-order list, not topic content; keep it that way.
+6. **Append to `GUIDE_CHANGELOG.md`** (which renders as `/updates/guide.html`) using the same format as `CHANGELOG.md`. Insert the new dated block directly after the YAML front-matter and the `# Guide updates` header — preserve the front-matter intact.
 
    ```markdown
    ## YYYY-MM-DD
@@ -210,6 +218,10 @@ No substantive updates — N pages spot-checked, all current.
 
 ## Tone and style
 
+Pages are read by beginners who do not know or care that an agent maintains the guide. Write for them.
+
+**Voice rules**:
+
 - Friendly, terse, action-oriented. Second person ("Install…", "Add…", "Toggle…").
 - No marketing copy. No "powerful", "seamless", "blazing-fast", "world-class".
 - No "you might want to consider" — say what to do.
@@ -217,3 +229,4 @@ No substantive updates — N pages spot-checked, all current.
 - Code blocks for every command. No inline `like this` for full commands.
 - One canonical link per source; avoid affiliate or tracking URLs.
 - If a fact cannot be verified, write `Unknown` rather than guessing.
+- **Do not write self-referential prose into page bodies.** No length budgets in the page ("≤ 400 words"), no curator attribution ("Maintained by a scheduled Claude curator"), no "Last updated" banners at page top. Internal length budgets are for the curator; readers see only the content. The site's About page is the one place curator details belong.

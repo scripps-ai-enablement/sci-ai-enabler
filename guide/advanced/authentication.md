@@ -1,8 +1,13 @@
+---
+title: Authentication
+parent: Advanced
+grand_parent: Guide
+nav_order: 3
+---
+
 # Authentication
 
 > Where Claude Code looks for API keys, how OAuth flows for MCP servers work, and where each kind of secret actually lives.
-
-_Last updated: 2026-05-19_
 
 ## What it is
 
