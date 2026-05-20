@@ -2,7 +2,7 @@
 title: Robin (FutureHouse)
 parent: Systems
 grand_parent: AI scientists
-nav_order: 8
+nav_order: 9
 affiliation: FutureHouse, with University of Oxford and Fordham University
 lifecycle_stages: [Multi-stage]
 autonomy: Semi-autonomous

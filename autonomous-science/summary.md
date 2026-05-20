@@ -22,6 +22,7 @@ Two systems with peer-reviewed *Nature* papers anchor the wet-lab end of the lan
 ## General-purpose biomedical agents
 
 - [**Biomni**](systems/biomni.html) (Stanford / Snap group) couples an environment of 150 tools, 105 packages, and 59 databases (Biomni-E1) with a code-executing planner (Biomni-A1). On LAB-Bench it matches expert humans (74.4% DbQA, 81.9% SeqQA) and scores 17.3% on a 14-subfield HLE subset.
+- [**OpenScientist**](systems/openscientist.html) (Washington University in St. Louis) is an Apache-2.0 agentic co-scientist built on Claude Code with a public collection of biomedical Agent Skills. Evaluated by domain experts across four clinical case studies — Alzheimer's biomarkers (SEABIRD cohort, identified `%ptau217` as best predictor in 40 minutes), plasma proteomic survival, single-cell transcriptomics in neurofibrillary tangles, and multiple-myeloma hypothesis generation validated in an external cohort ([Roberts et al., *medRxiv* 2026.03.15.26348338](https://www.medrxiv.org/content/10.64898/2026.03.15.26348338v1)).
 - [**CRISPR-GPT**](systems/crispr-gpt.html) (Stanford / Princeton) is a four-agent planner spanning 22 gene-editing tasks across knockout, base, prime, and epigenetic editing; full code is withheld pending US regulatory clarity ([Qu et al., *Nat. Biomed. Eng.* 2026](https://doi.org/10.1038/s41551-025-01463-z)).
 
 ## Chemistry
@@ -65,4 +66,5 @@ Evaluation now spans three regimes.
 - [Yamada et al., "The AI Scientist-v2," arXiv:2504.08066](https://arxiv.org/abs/2504.08066)
 - [Huang et al., "Biomni: A General-Purpose Biomedical AI Agent," *bioRxiv* 2025.05.30.656746](https://doi.org/10.1101/2025.05.30.656746)
 - [Qu et al., "CRISPR-GPT for agentic automation of gene-editing experiments," *Nat. Biomed. Eng.* 10, 245–258 (2026)](https://doi.org/10.1038/s41551-025-01463-z)
+- [Roberts et al., "OpenScientist: evaluating an open agentic AI co-scientist to accelerate biomedical discovery," *medRxiv* 2026.03.15.26348338](https://www.medrxiv.org/content/10.64898/2026.03.15.26348338v1)
 - [NovelSeek Team, arXiv:2505.16938](https://arxiv.org/abs/2505.16938)

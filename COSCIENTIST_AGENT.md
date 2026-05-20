@@ -155,6 +155,7 @@ Consult all of the following on every run. **WebFetch (or MCP-fetch) the relevan
 | `search_papers` (paper-search-mcp unified search) | Multi-source concurrent search with dedup. Good for a single broad query. |
 | `download_with_fallback` (paper-search-mcp) | Fetch PDFs via open-access mirrors. Use this before falling back to `WebFetch`. |
 | [bioRxiv API](https://api.biorxiv.org/) | Direct fallback if MCP is unavailable. Public, no auth. |
+| [medRxiv API](https://api.medrxiv.org/) | Same shape as the bioRxiv API; covers health-sciences preprints (clinical, epidemiology, public-health). Public, no auth. Run `search_medrxiv` against it on every daily pass — clinical co-scientist systems (e.g., OpenScientist) post here first. |
 | [NCBI E-utilities](https://eutils.ncbi.nlm.nih.gov/) | Direct PubMed fallback. Public, no auth. |
 
 **Industry and lab announcements** (WebSearch + WebFetch):
@@ -177,6 +178,7 @@ Consult all of the following on every run. **WebFetch (or MCP-fetch) the relevan
 - `"AI scientist" agent`
 - `"closed-loop" LLM laboratory`
 - `multi-agent scientific discovery`
+- `"agentic AI co-scientist" biomedical` (medRxiv-leaning; surfaces clinical co-scientist work)
 
 ## Your responsibilities each run
 

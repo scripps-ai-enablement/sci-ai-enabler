@@ -9,6 +9,15 @@ permalink: /updates/ai-scientists.html
 
 Reverse-chronological log of changes to the [AI scientists tracker](autonomous-science/). Newest at the top.
 
+## 2026-05-20 (medRxiv source test)
+
+### Added
+- **OpenScientist** (Lifecycle: Multi-stage) — Washington University agentic AI co-scientist built on Claude Code; evaluated by domain experts across four clinical case studies (Alzheimer's biomarkers, plasma proteomics, single-cell neuroscience, multiple myeloma). Open source under Apache 2.0; code at [openscientist-io/openscientist](https://github.com/openscientist-io/openscientist); web UI at [openscientist.io](https://openscientist.io/) ([source](https://www.medrxiv.org/content/10.64898/2026.03.15.26348338v1)).
+
+### Updated
+- **Landscape** — added OpenScientist to the general-purpose biomedical agents section of `summary.md`.
+- **Curation rules** — added the medRxiv API as an explicit fallback source alongside bioRxiv, and added a medRxiv-leaning seed query (`"agentic AI co-scientist" biomedical`) to surface clinical co-scientist work on future runs.
+
 ## 2026-05-20 (daily run)
 
 ### Added
