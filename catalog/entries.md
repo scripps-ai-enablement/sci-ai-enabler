@@ -43,6 +43,24 @@ _Last updated: 2026-05-20_
 - **First catalogued**: 2026-05-18
 - **Last verified**: 2026-05-19
 
+### bio-research (Claude Code Plugin)
+
+- **Categories**: All
+- **Type**: Claude Code Plugin
+- **Supplier**: Anthropic ([anthropics/knowledge-work-plugins](https://github.com/anthropics/knowledge-work-plugins))
+- **Availability**: GA — open-sourced in the `anthropics/knowledge-work-plugins` repo; also surfaced inside Claude Cowork
+- **Pricing**: Free / OSS — plugin itself is Apache 2.0; individual bundled connectors carry their own pricing (e.g., Benchling requires institutional access, BioRender Premium gates the full library)
+- **Capabilities**: Read/Write — umbrella plugin bundling literature search, single-cell QC, sequencing-pipeline orchestration, drug-discovery lookups, and research-strategy skills behind a single `/start` command
+- **Available in**:
+  - Claude Code (plugin marketplace: `/plugin marketplace add anthropics/knowledge-work-plugins` then `/plugin install bio-research@knowledge-work-plugins`; run `/start` to enumerate available tools)
+  - Claude.ai (Cowork — surfaces the same plugin contents via the Cowork plugin browser)
+- **Tools / resources exposed**: 5 analysis skills (Literature Review, Single-Cell Analysis, Sequencing Pipeline, Drug Discovery, Research Strategy) plus ~10 MCP connectors named in the plugin docs: PubMed, BioRender, bioRxiv, ClinicalTrials.gov, ChEMBL, Synapse, Wiley Scholar Gateway, Owkin, Open Targets, Benchling
+- **Primary use cases**: End-to-end preclinical R&D in a single install — literature triage, scRNA-seq QC + integration, nf-core pipelines, target prioritisation, clinical-trial review, project-strategy framing
+- **Integration notes**: Each bundled connector authenticates independently (PubMed needs no auth; Benchling requires institutional API token; BioRender/Wiley/Synapse use OAuth; Owkin/Open Targets/ChEMBL/bioRxiv/ClinicalTrials are read-only). A known issue (`anthropics/claude-code#40106`, Mar 2026) reports plugin-bundled MCP tools returning "Session not found" in Claude Code while working in Cowork — verify before relying on it for production workflows.
+- **Sources**: [bio-research plugin README](https://github.com/anthropics/knowledge-work-plugins/tree/main/bio-research), [knowledge-work-plugins repo](https://github.com/anthropics/knowledge-work-plugins), [DeepWiki: knowledge-work-plugins](https://deepwiki.com/anthropics/knowledge-work-plugins), [Issue #40106 (Session not found bug)](https://github.com/anthropics/claude-code/issues/40106)
+- **First catalogued**: 2026-05-20
+- **Last verified**: 2026-05-20
+
 ### BioMCP
 
 - **Categories**: All
@@ -208,11 +226,11 @@ _Last updated: 2026-05-20_
 
 ## Recently surfaced
 
+- **bio-research (Claude Code Plugin)** (added 2026-05-20) — Anthropic umbrella plugin in `knowledge-work-plugins` bundling 5 analysis skills and ~10 MCP connectors (PubMed, BioRender, bioRxiv, ClinicalTrials.gov, ChEMBL, Synapse, Wiley, Owkin, Open Targets, Benchling) for preclinical R&D.
 - **Synapse.org Connector** (added 2026-05-20) — Sage Bionetworks remote MCP server / Claude.ai connector for discovery and metadata retrieval across Synapse-hosted biomedical data.
 - **scientific-problem-selection (Claude Skill)** (added 2026-05-20) — Anthropic skill encoding Fischbach & Walsh's *Cell* (2024) framework for research project ideation, risk assessment, and troubleshooting.
 - **Scholar Gateway Connector (Wiley)** (added 2026-05-20) — Wiley remote MCP server / Claude.ai connector providing peer-reviewed scholarly content (3M+ articles, 300+ Life Sciences journals).
 - **scvi-tools (Claude Skill)** (added 2026-05-19) — Anthropic skill bundling deep-learning workflows for scVI, scANVI, totalVI, MultiVI, PeakVI, DestVI, veloVI, sysVI, and contrastiveVI on single-cell omics data.
-- **nextflow-development (Claude Skill)** (added 2026-05-19) — Anthropic skill that runs nf-core `rnaseq`, `sarek`, and `atacseq` pipelines on local or GEO/SRA inputs.
 
 ## Flagged for review
 
@@ -222,5 +240,6 @@ _None._
 
 Candidates observed during the most recent surfacing pass but not yet catalogued. Pick these up before re-querying other sources.
 
-- **bio-research@anthropics/knowledge-work-plugins** — Anthropic umbrella plugin bundling 10 MCP servers and 6 analysis skills for life-science research; verify install path and complete tool inventory before cataloguing.
-- **benchling@life-sciences** — Local MCPB connector for Benchling ELN/LIMS (named in the Anthropic Claude for Life Sciences launch alongside 10x Genomics); verify install path, auth, and exposed tools before cataloguing.
+- **Individual `knowledge-work-plugins` connectors not yet catalogued** — bioRxiv, ChEMBL, ClinicalTrials.gov, Owkin, Open Targets are bundled inside `bio-research` but each is an individually installable MCP server worth its own entry; verify per-tool install paths before cataloguing.
+- **K-Dense-AI/scientific-agent-skills** — ~135 community skills (bioinformatics, cheminformatics, clinical research, medical imaging, protein engineering); identify the most-installed individual skills worth standalone entries.
+- _Dropped 2026-05-20: `benchling@life-sciences` — removed from the `anthropics/life-sciences` marketplace because tenant-specific URLs are unsupported by the plugin system ([source](https://deepwiki.com/anthropics/life-sciences/3.6-benchling)). Still available indirectly inside the `bio-research` umbrella plugin._

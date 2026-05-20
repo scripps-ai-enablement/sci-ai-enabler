@@ -15,15 +15,15 @@ _Last refreshed: 2026-05-20_
 
 | Category | Index | Entries |
 |---|---|---|
-| Chemistry | [chemistry.md](chemistry.md) | 7 |
-| Immunology and Microbiology | [immunology-microbiology.md](immunology-microbiology.md) | 11 |
-| Integrative Structural and Computational Biology | [structural-computational-biology.md](structural-computational-biology.md) | 10 |
-| Molecular and Cellular Biology | [molecular-cellular-biology.md](molecular-cellular-biology.md) | 11 |
-| Neuroscience | [neuroscience.md](neuroscience.md) | 10 |
-| Translational Medicine | [translational-medicine.md](translational-medicine.md) | 11 |
-| Drug Repurposing and Discovery | [drug-repurposing-discovery.md](drug-repurposing-discovery.md) | 11 |
+| Chemistry | [chemistry.md](chemistry.md) | 8 |
+| Immunology and Microbiology | [immunology-microbiology.md](immunology-microbiology.md) | 12 |
+| Integrative Structural and Computational Biology | [structural-computational-biology.md](structural-computational-biology.md) | 11 |
+| Molecular and Cellular Biology | [molecular-cellular-biology.md](molecular-cellular-biology.md) | 12 |
+| Neuroscience | [neuroscience.md](neuroscience.md) | 11 |
+| Translational Medicine | [translational-medicine.md](translational-medicine.md) | 12 |
+| Drug Repurposing and Discovery | [drug-repurposing-discovery.md](drug-repurposing-discovery.md) | 12 |
 
-Distinct tools currently catalogued: **11**. Cross-cutting tools (PubMed Connector, BioMCP, BioRender Connector, Scholar Gateway Connector, Synapse.org Connector, scientific-problem-selection) use `Categories: All` and appear in every index; tools with a defined subset (10x Genomics Cloud MCP, single-cell-rna-qc, nextflow-development, instrument-data-to-allotrope, scvi-tools) enumerate their categories explicitly.
+Distinct tools currently catalogued: **12**. Cross-cutting tools (PubMed Connector, BioMCP, bio-research umbrella plugin, BioRender Connector, Scholar Gateway Connector, Synapse.org Connector, scientific-problem-selection) use `Categories: All` and appear in every index; tools with a defined subset (10x Genomics Cloud MCP, single-cell-rna-qc, nextflow-development, instrument-data-to-allotrope, scvi-tools) enumerate their categories explicitly.
 
 ## Entry schema
 

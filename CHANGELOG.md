@@ -6,6 +6,27 @@ A reverse-chronological log of catalog updates produced by the curator agent. Th
 
 ## 2026-05-20
 
+### Surface knowledge-work-plugins bio-research umbrella plugin
+
+Cleared the top Deferred item — `bio-research@anthropics/knowledge-work-plugins` — using the plugin's GitHub README, the parent `knowledge-work-plugins` repo, and the DeepWiki marketplace breakdown as primary sources. It is a pan-life-sciences plugin (literature, single-cell, sequencing, drug discovery, strategy), so tagged `Categories: All` and added to every category index. Also dropped `benchling@life-sciences` from the Deferred list: it was removed from the `anthropics/life-sciences` marketplace because the plugin system does not support tenant-specific URLs (per the [Benchling DeepWiki page](https://deepwiki.com/anthropics/life-sciences/3.6-benchling)); Benchling remains reachable indirectly via the new bio-research umbrella.
+
+### Added
+- **bio-research (Claude Code Plugin)** (Categories: All) — Anthropic open-source umbrella plugin in `anthropics/knowledge-work-plugins` bundling 5 analysis skills (Literature Review, Single-Cell Analysis, Sequencing Pipeline, Drug Discovery, Research Strategy) and ~10 MCP connectors (PubMed, BioRender, bioRxiv, ClinicalTrials.gov, ChEMBL, Synapse, Wiley Scholar Gateway, Owkin, Open Targets, Benchling); install via `/plugin marketplace add anthropics/knowledge-work-plugins` then `/plugin install bio-research@knowledge-work-plugins`, then `/start` ([plugin README](https://github.com/anthropics/knowledge-work-plugins/tree/main/bio-research), [DeepWiki](https://deepwiki.com/anthropics/knowledge-work-plugins)).
+
+### Updated
+- **[catalog/entries.md]** — New bio-research entry inserted alphabetically between Anthropic PubMed Connector and BioMCP; Recently surfaced refreshed (5-item rolling window: dropped nextflow-development, added bio-research at top); Deferred reshaped to flag individual `knowledge-work-plugins` connectors (bioRxiv, ChEMBL, ClinicalTrials.gov, Owkin, Open Targets) and the K-Dense-AI scientific-skills collection as next-run targets.
+- **[catalog/README.md]** — Distinct-tool count 11 → 12; per-category counts incremented by 1 across all seven indices (Chemistry 7 → 8; Structural/Computational and Neuroscience 10 → 11; Immunology, Molecular & Cellular, Drug Discovery, Translational 11 → 12). All-tagged-tool list updated to include bio-research.
+- **[All seven category indices]** — One new `bio-research (Claude Code Plugin)` card added per index in the alphabetical slot between Anthropic PubMed Connector and BioMCP.
+- **[Deferred list]** — Removed `bio-research@anthropics/knowledge-work-plugins` (surfaced this run); recorded `benchling@life-sciences` as dropped with rationale and DeepWiki citation; added individual bundled connectors and `K-Dense-AI/scientific-agent-skills` as next-run priorities.
+
+### Flagged
+- _None._
+
+### Verified (no changes)
+- 11 existing entries spot-checked (all carry `Last verified` between 2026-05-19 and 2026-05-20 from recent runs); no field drift on supplier links, availability, or install paths. The bio-research plugin's bundled PubMed/BioRender/Synapse/Wiley connectors corroborate the existing standalone entries for those tools.
+
+## 2026-05-20
+
 ### Surface anthropics/life-sciences marketplace entries (batch 4)
 
 Cleared all three remaining `*@life-sciences` candidates from the Deferred list — Synapse, Wiley Scholar Gateway, and scientific-problem-selection — using web search results that cite the `anthropics/life-sciences` marketplace, the Anthropic tutorials, and the DeepWiki marketplace breakdown as primary sources. All three are pan-life-sciences tools and tagged `Categories: All`, so each was added to every category index. Held at three new entries this run (within the soft cap of 5) since each `All`-tagged entry costs 1 entry-block write + 7 card edits = 8 file touches.

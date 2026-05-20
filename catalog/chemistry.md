@@ -4,7 +4,7 @@
 
 _Last updated: 2026-05-20_
 
-## Entries (7)
+## Entries (8)
 
 Tools tagged with **Chemistry** or `All`. Full details live in [`entries.md`](entries.md).
 
@@ -14,6 +14,13 @@ Tools tagged with **Chemistry** or `All`. Full details live in [`entries.md`](en
 Anthropic-managed NCBI literature search via PubMed and PubMed Central.
 
 [Full entry →](entries.md#anthropic-pubmed-connector)
+
+### bio-research (Claude Code Plugin)
+*Claude Code Plugin · Anthropic · GA*
+
+Umbrella plugin bundling 5 analysis skills and ~10 MCP connectors (PubMed, BioRender, ChEMBL, Synapse, Wiley, Open Targets, Benchling, etc.) for preclinical R&D.
+
+[Full entry →](entries.md#bio-research-claude-code-plugin)
 
 ### BioMCP
 *MCP server · GenomOncology · GA*
