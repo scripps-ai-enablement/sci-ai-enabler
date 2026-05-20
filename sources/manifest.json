@@ -1,0 +1,5 @@
+{
+  "version": 1,
+  "description": "DOI-keyed registry of source PDFs archived in this directory. The autonomous-science curator agent checks this before downloading anything new. Existing filenames are preserved; the manifest decouples filenames from DOIs.",
+  "entries": []
+}

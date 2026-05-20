@@ -3,3 +3,9 @@ output.txt
 
 # Transient prompt assembled by the workflow
 .run-prompt.md
+
+# Transient MCP config assembled by the coscientist workflow
+.mcp-config.json
+
+# macOS metadata
+.DS_Store

@@ -1,0 +1,127 @@
+name: Autonomous science
+
+on:
+  schedule:
+    # Daily at 16:00 UTC, offset from catalog (13:00) and guide (14:30).
+    - cron: '0 16 * * *'
+  workflow_dispatch:
+    inputs:
+      scope:
+        description: 'daily (default) or bootstrap (re-read all PDFs in sources/)'
+        required: false
+        default: 'daily'
+        type: choice
+        options:
+          - daily
+          - bootstrap
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: coscientist
+  cancel-in-progress: false
+
+jobs:
+  coscientist:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install poppler-utils (for pdftotext)
+        run: sudo apt-get update && sudo apt-get install -y poppler-utils
+
+      - name: Install uv (for uvx)
+        run: curl -LsSf https://astral.sh/uv/install.sh | sh
+
+      - name: Compose MCP config
+        run: |
+          cat > .mcp-config.json <<'JSON'
+          {
+            "mcpServers": {
+              "papers": {
+                "command": "/home/runner/.local/bin/uvx",
+                "args": ["paper-search-mcp"]
+              }
+            }
+          }
+          JSON
+
+      - name: Compose run prompt
+        run: |
+          SCOPE="${{ inputs.scope }}"
+          SCOPE="${SCOPE:-daily}"
+          {
+            cat COSCIENTIST_AGENT.md
+            echo ""
+            echo "---"
+            echo ""
+            echo "## This run"
+            echo "- UTC date: $(date -u +%Y-%m-%d)"
+            echo "- Scope: ${SCOPE}"
+            if [ "${SCOPE}" = "bootstrap" ]; then
+              echo "- Bootstrap mode: re-scan every PDF in \`sources/\`, rebuild \`autonomous-science/entries.md\` and \`autonomous-science/summary.md\` from scratch, and re-populate \`sources/manifest.json\`."
+            else
+              echo "- Daily mode: normal search-and-update flow. If \`autonomous-science/entries.md\` still has the placeholder \"Pending first run\" text, treat this run as a bootstrap and seed entries/summary/manifest from the existing PDFs in \`sources/\`."
+            fi
+            echo "- PDFs in \`sources/\` can be read with \`pdftotext <path>.pdf -\` via the Bash tool; poppler-utils is installed in this runner."
+            echo "- The \`papers\` MCP server provides paper-search-mcp tools (search_pubmed, search_biorxiv, search_arxiv, download_with_fallback, etc.). Use it for discovery and PDF retrieval before falling back to WebSearch/WebFetch."
+          } > .run-prompt.md
+
+      - uses: anthropics/claude-code-base-action@beta
+        with:
+          prompt_file: .run-prompt.md
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          model: claude-opus-4-7
+          mcp_config: .mcp-config.json
+          allowed_tools: "Read,Edit,Write,Glob,Grep,Bash,WebSearch,WebFetch,mcp__papers__search_papers,mcp__papers__search_pubmed,mcp__papers__search_biorxiv,mcp__papers__search_medrxiv,mcp__papers__search_arxiv,mcp__papers__download_with_fallback,mcp__papers__download_arxiv,mcp__papers__download_pubmed,mcp__papers__download_biorxiv,mcp__papers__download_medrxiv,mcp__papers__read_arxiv_paper,mcp__papers__read_pubmed_paper,mcp__papers__read_biorxiv_paper"
+
+      - name: Commit, push, and notify
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          SERVER_URL: ${{ github.server_url }}
+        run: |
+          rm -f .run-prompt.md .mcp-config.json
+          git config user.name "coscientist-curator[bot]"
+          git config user.email "coscientist-curator@users.noreply.github.com"
+
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "No autonomous-science changes this run."
+            exit 0
+          fi
+
+          DATE=$(date -u +%Y-%m-%d)
+          git add -A
+          git commit -m "Autonomous science update ${DATE}"
+          # Rebase onto any commits that landed during this run (e.g., catalog or guide agent finishing first)
+          git pull --rebase origin main
+          git push
+          SHA=$(git rev-parse HEAD)
+
+          # Find or create the pinned tracking issue
+          ISSUE=$(gh issue list \
+            --state open \
+            --search 'in:title "AI co-scientist updates"' \
+            --json number,title \
+            --jq '[.[] | select(.title == "AI co-scientist updates")][0].number')
+          if [ -z "${ISSUE}" ] || [ "${ISSUE}" = "null" ]; then
+            ISSUE_URL=$(gh issue create \
+              --title "AI co-scientist updates" \
+              --body "Rolling log of autonomous-science tracker updates. Each scheduled or on-demand run that produced changes posts a comment here.")
+            ISSUE="${ISSUE_URL##*/}"
+            gh issue pin "${ISSUE}" || true
+          fi
+
+          # Extract the top changelog entry (everything from the first '## ' up to the next one)
+          LATEST=$(awk '/^## / {n++} n>=2 {exit} n==1 {print}' COSCIENTIST_CHANGELOG.md)
+
+          {
+            echo "${LATEST}"
+            echo ""
+            echo "[View commit](${SERVER_URL}/${REPO}/commit/${SHA})"
+          } | gh issue comment "${ISSUE}" --body-file -
