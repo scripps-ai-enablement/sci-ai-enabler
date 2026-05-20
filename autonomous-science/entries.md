@@ -6,6 +6,42 @@ _Last updated: 2026-05-20._
 
 ## Systems
 
+### AI Scientist (Sakana)
+
+- **Affiliation**: Sakana AI, with FLAIR (Oxford), University of British Columbia, Vector Institute ([Sakana AI](https://sakana.ai/))
+- **First introduced**: 2024-08 (arXiv v1); v2 preprint 2025-04; published in Nature 2026-03
+- **Lifecycle stages**: Multi-stage, Writing
+- **Autonomy level**: Fully autonomous (within a fixed code-template starting point for v1; v2 removes the template requirement)
+- **Domain focus**: Machine-learning research (diffusion modelling, transformer LMs, learning dynamics in v1; broader ML domains in v2)
+- **Approach**: End-to-end LLM agent that generates research ideas, searches literature, writes/executes code, runs experiments, produces figures and a full LaTeX manuscript, and runs an Automated Reviewer (Area-Chair-style ensemble of five LLM reviews). v2 replaces v1's human-written code templates with a progressive agentic tree search managed by a dedicated experiment-manager agent.
+- **Availability**: Open source (v1 code on GitHub; v2 codebase open-sourced alongside the preprint)
+- **Validation**: v1 generated full ML papers at ~$15 per paper and reported papers exceeding a top-ML-conference acceptance threshold under the Automated Reviewer; v2 submitted three fully AI-generated manuscripts to an ICLR 2025 workshop, with one accepted at the "I Can't Believe It's Not Better" (ICBINB) workshop — the first AI-generated paper to pass human peer review. The Nature paper reports a scaling law tying paper quality to underlying foundation-model capability.
+- **Notable results**: First end-to-end AI-generated paper to pass peer review (ICLR 2025 workshop, v2); Automated Reviewer reaches ~69% balanced accuracy on NeurIPS-style review tasks (v1).
+- **Primary paper**: [Lu et al., "The AI Scientist: Towards Fully Automated Open-Ended Scientific Discovery," arXiv:2408.06292](https://arxiv.org/abs/2408.06292); peer-reviewed version Lu et al., Nature 651, 914–919 (2026)
+- **Other references**: [Yamada et al., "The AI Scientist-v2," arXiv:2504.08066](https://arxiv.org/abs/2504.08066); [Sakana AI Nature announcement](https://sakana.ai/ai-scientist-nature/); [Nature news, "How to build an AI scientist"](https://www.nature.com/articles/d41586-026-00899-w)
+- **Code**: [AI-Scientist (v1)](https://github.com/SakanaAI/AI-Scientist) and [AI-Scientist-v2](https://github.com/SakanaAI/AI-Scientist-v2)
+- **Local source files**: `sources/2408.06292v5.pdf`, `sources/2504.08066v1.pdf`
+- **First catalogued**: 2026-05-20
+- **Last verified**: 2026-05-20
+
+### Biomni
+
+- **Affiliation**: Stanford University (Snap group, Leskovec lab), with Genentech, Arc Institute, Princeton, University of Washington, UCSF ([Biomni](https://biomni.stanford.edu/))
+- **First introduced**: 2025-05 (bioRxiv preprint 2025.05.30.656746)
+- **Lifecycle stages**: Multi-stage (experiment design, analysis, hypothesis generation)
+- **Autonomy level**: Semi-autonomous (closed-loop with checkpoints; LLM-generated code is executed with system privileges by default)
+- **Domain focus**: Biomedicine (general purpose across 25 biomedical subfields)
+- **Approach**: Two-component agent. **Biomni-E1** is an environment mined from tens of thousands of biomedical publications, exposing 150 specialized tools, 105 software packages, and 59 databases as a unified action space. **Biomni-A1** is an LLM agent that dynamically selects tools, plans tasks, and executes Python code that composes loops, parallelization, and conditional steps; an adaptive planning loop iteratively refines plans during execution.
+- **Availability**: Open source (Apache-2.0 for Biomni itself; integrated tools/databases may carry separate licenses); free no-code web UI at biomni.stanford.edu
+- **Validation**: On LAB-Bench, 74.4% accuracy on DbQA (vs. 74.7% human experts) and 81.9% on SeqQA (vs. 78.8% human experts); on a 52-question HLE subset spanning 14 biomedical subfields, 17.3% accuracy (reported as a 4× improvement over base LLMs in the paper). Real-world case studies: 10-step wearable-sensor pipeline analyzing 458 files and 227 nights of sleep data; multi-omics processing of >336,000 single-nucleus RNA-seq/ATAC-seq profiles.
+- **Notable results**: Matched or exceeded expert performance on LAB-Bench DbQA/SeqQA; autonomously authored multi-stage bioinformatics pipelines with figures and reports across heterogeneous biomedical data types.
+- **Primary paper**: [Huang et al., "Biomni: A General-Purpose Biomedical AI Agent," bioRxiv 2025.05.30.656746](https://doi.org/10.1101/2025.05.30.656746)
+- **Other references**: [Biomni project page](https://biomni.stanford.edu/); [GitHub README and DETAILS.md](https://github.com/snap-stanford/Biomni)
+- **Code**: [Repo](https://github.com/snap-stanford/Biomni)
+- **Local source files**: `sources/biomni_paper.pdf`
+- **First catalogued**: 2026-05-20
+- **Last verified**: 2026-05-20
+
 ### ChemCrow
 
 - **Affiliation**: EPFL / University of Rochester ([Bran et al.](https://www.nature.com/articles/s42256-024-00832-8))
@@ -36,7 +72,7 @@ _Last updated: 2026-05-20._
 - **Validation**: Three biomedical case studies — drug repurposing for acute myeloid leukemia (AML) with in vitro confirmation; novel epigenetic targets for liver fibrosis confirmed in human hepatic organoids; recapitulation of a then-unpublished bacterial gene-transfer mechanism in antimicrobial resistance discovered independently by collaborators at Imperial College.
 - **Notable results**: Identified novel single-agent and combination repurposing candidates for AML showing selective cytotoxicity at clinically relevant concentrations; ranked epigenetic targets with anti-fibrotic activity in organoids; independently recapitulated an unpublished AMR gene-transfer mechanism.
 - **Primary paper**: [Gottweis et al., "Accelerating scientific discovery with Co-Scientist," Nature 2026](https://doi.org/10.1038/s41586-026-10644-y)
-- **Other references**: [Nature news on AI agents in science (AI Index 2026)](https://doi.org/10.1038/d41586-026-01199-z)
+- **Other references**: [Nature news on AI agents in science (AI Index 2026)](https://doi.org/10.1038/d41586-026-01199-z); [arXiv preprint, "Towards an AI co-scientist," 2502.18864](https://arxiv.org/abs/2502.18864)
 - **Code**: Not released (pseudocode and system prompts provided in supplementary notes)
 - **Local source files**: `sources/s41586-026-10644-y_reference.pdf`
 - **First catalogued**: 2026-05-20
@@ -57,6 +93,42 @@ _Last updated: 2026-05-20._
 - **Other references**: [Gao et al., Cell Perspective 2024](https://doi.org/10.1016/j.cell.2024.09.022) (single-LLM-multi-role case study)
 - **Code**: [Repo](https://github.com/gomesgroup/coscientist)
 - **Local source files**: `sources/1-s2.0-S0092867424010705-main.pdf` (Cell perspective citing Coscientist)
+- **First catalogued**: 2026-05-20
+- **Last verified**: 2026-05-20
+
+### CRISPR-GPT
+
+- **Affiliation**: Stanford University (Cong lab), Princeton, UC Berkeley, Google DeepMind ([Qu et al.](https://doi.org/10.1038/s41551-025-01463-z))
+- **First introduced**: 2024-04 (arXiv v1); peer-reviewed version in Nature Biomedical Engineering 2026-02
+- **Lifecycle stages**: Experiment design, Analysis
+- **Autonomy level**: Assistive (human-in-the-loop; user-proxy agent operates autonomously but user oversight is encouraged)
+- **Domain focus**: Biology (CRISPR-Cas gene editing — knockout, base editing, prime editing, epigenetic editing)
+- **Approach**: Multi-agent LLM system with four roles — a Planner agent decomposes user requests into a chain of state-machine tasks; a Task Executor manages workflow; a User-Proxy agent mediates user interaction; Tool Providers wrap external tools/databases/web search via APIs. The system implements 22 individual gene-editing tasks (sgRNA design, off-target prediction, delivery selection, protocol drafting, validation assay design) across Meta, Auto, and QA modes.
+- **Availability**: Closed (no full code release pending US regulatory clarity on AI in biology); welcome page on GitHub
+- **Validation**: Real-world case study of non-expert researchers using CRISPR-GPT to plan and execute gene-editing experiments from scratch, as reported in the Nature Biomedical Engineering paper.
+- **Notable results**: First LLM agent system reported to span the full CRISPR experimental-design workflow across four editing modalities; demonstrated to help non-experts plan and execute real gene-editing experiments.
+- **Primary paper**: [Qu et al., "CRISPR-GPT for agentic automation of gene-editing experiments," Nat. Biomed. Eng. 10, 245–258 (2026)](https://doi.org/10.1038/s41551-025-01463-z)
+- **Other references**: [arXiv:2404.18021](https://arxiv.org/abs/2404.18021)
+- **Code**: [Welcome page](https://github.com/cong-lab/crispr-gpt-pub); full codebase withheld pending regulatory clarity
+- **Local source files**: `sources/2404.18021v2.pdf`
+- **First catalogued**: 2026-05-20
+- **Last verified**: 2026-05-20
+
+### NovelSeek
+
+- **Affiliation**: Shanghai Artificial Intelligence Laboratory ([NovelSeek Team](https://alpha-innovator.github.io/NovelSeek-project-page))
+- **First introduced**: 2025-05 (arXiv:2505.16938)
+- **Lifecycle stages**: Multi-stage
+- **Autonomy level**: Semi-autonomous (closed-loop with optional human expert interaction)
+- **Domain focus**: General (reaction yield, transcription/enhancer prediction, molecular dynamics, time-series forecasting, power flow estimation, semantic segmentation, etc. — 12 AI-for-Science tasks)
+- **Approach**: Multi-agent framework spanning a Survey agent (literature search), Code Review agent (analyzes baseline repositories), Idea Innovation agent (proposes and self-evolves research ideas), and Planning & Execution agent (turns ideas into experiments and handles errors). Designed as an end-to-end loop from hypothesis to verification.
+- **Availability**: Open source (code and baselines released)
+- **Validation**: Reports improvements on 12 AI-for-Science benchmark tasks against published baselines, e.g. reaction yield prediction 27.6 → 35.4 in 12 hours; enhancer activity prediction (DeepSTARR baseline) 0.52 → 0.79 in 4 hours; 2D semantic segmentation 78.8 → 81.0 in ~30 hours. Compared head-to-head to AI Scientist-v2 on 2D image classification and point-cloud autonomous-driving idea-generation tasks via 5 human reviewers averaging 20 ideas/task.
+- **Notable results**: Time-bounded performance gains across 12 heterogeneous AI4Science tasks; reported novelty preference over AI Scientist-v2 on the head-to-head idea-quality study.
+- **Primary paper**: [NovelSeek Team, "NovelSeek: When Agent Becomes the Scientist — Building Closed-Loop System from Hypothesis to Verification," arXiv:2505.16938](https://arxiv.org/abs/2505.16938)
+- **Other references**: [Project page](https://alpha-innovator.github.io/NovelSeek-project-page); [HuggingFace](https://huggingface.co/U4R/NovelSeek)
+- **Code**: [Repo](https://github.com/Alpha-Innovator/NovelSeek)
+- **Local source files**: `sources/2505.16938v1.pdf`
 - **First catalogued**: 2026-05-20
 - **Last verified**: 2026-05-20
 
@@ -98,11 +170,11 @@ _Last updated: 2026-05-20._
 
 ## Recently surfaced
 
-- **ChemCrow** (added 2026-05-20) — chemistry-tool-augmented GPT-4 agent for organic synthesis planning.
-- **Co-Scientist (Google)** (added 2026-05-20) — Gemini-based multi-agent hypothesis engine validated in three biomedical case studies.
-- **Coscientist (CMU)** (added 2026-05-20) — GPT-4 planner for autonomous chemistry on a physical robotic platform.
+- **AI Scientist (Sakana)** (added 2026-05-20) — end-to-end LLM agent that produced the first AI-generated paper to pass peer review (ICLR 2025 workshop, v2); Nature 2026.
+- **Biomni** (added 2026-05-20) — Stanford general-purpose biomedical agent matching expert humans on LAB-Bench DbQA/SeqQA.
+- **CRISPR-GPT** (added 2026-05-20) — multi-agent gene-editing experiment designer published in Nat. Biomed. Eng. 2026.
+- **NovelSeek** (added 2026-05-20) — closed-loop multi-agent system reporting time-bounded gains on 12 AI-for-Science tasks.
 - **Robin (FutureHouse)** (added 2026-05-20) — first published multi-agent system to close the hypothesize/analyze loop in experimental biology with in vitro validation.
-- **Talk2QSP** (added 2026-05-20) — human-in-the-loop agent that converts literature scenarios into executable QSP model interventions.
 
 ## Flagged for review
 
@@ -110,8 +182,10 @@ _None._
 
 ## Deferred — next-run priority
 
-- **Sakana AI Scientist** — frequently cited in landscape coverage but no primary source archived this run.
+- **Virtual Lab (Stanford / CZ Biohub)** — Nature 2025 multi-agent system that designed nanobodies against SARS-CoV-2 variants; bioRxiv PDF blocked by Cloudflare this run, defer to next attempt via Nature PDF or paper-search-mcp fallback.
+- **MARS (multi-agent + robot materials lab)** — 19-agent / 16-tool hierarchical RAG system reported January 2026 for closed-loop materials discovery (perovskite nanocrystals, water-stable composites); locate the underlying primary paper next run.
+- **BORA** — Digital Discovery Feb 2026 LLM + Bayesian optimisation hybrid (o3, o4-mini, gpt-5, gemini-2.5-flash) benchmarked on 10D photocatalytic H₂ evolution and 7D pétanque simulation; archive primary paper.
+- **Agent Laboratory / AutoGen / BabyAGI / GPT Researcher / MOOSE-Chem2 / SciAgents / SciMON** — eight open-source frameworks evaluated in the bioRxiv January 2026 critical evaluation (10.64898/2026.01.05.697809); archive the evaluation paper and decide per-system inclusion.
 - **STORM (Stanford)** — referenced in the agent landscape; primary paper not yet in `sources/`.
 - **FutureHouse Aviary framework** — underpins Robin; the Aviary arXiv paper itself is worth archiving as a separate entry if Aviary is judged a discrete system rather than a framework.
 - **AutoBa** — multi-omic analysis agent cited by Gao et al.; primary paper to be archived.
-- **CRISPR-GPT** — biology agent referenced in the broader literature; archive primary source on next run.

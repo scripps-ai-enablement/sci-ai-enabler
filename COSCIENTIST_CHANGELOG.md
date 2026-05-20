@@ -2,6 +2,25 @@
 
 Rolling log of updates to the autonomous-science tracker. Newest entry at the top. See [`COSCIENTIST_AGENT.md`](COSCIENTIST_AGENT.md) for the curation rules and [`autonomous-science/`](autonomous-science/) for the content.
 
+## 2026-05-20 (daily run)
+
+### Added
+- **AI Scientist (Sakana)** (Lifecycle: Multi-stage, Writing) — Nature 651, 914–919 (2026); v2 produced the first AI-generated peer-reviewed workshop paper ([source](https://arxiv.org/abs/2408.06292), [v2](https://arxiv.org/abs/2504.08066)).
+- **Biomni** (Lifecycle: Multi-stage) — Stanford general-purpose biomedical agent; matches expert humans on LAB-Bench DbQA/SeqQA ([source](https://doi.org/10.1101/2025.05.30.656746)).
+- **CRISPR-GPT** (Lifecycle: Experiment design, Analysis) — four-agent gene-editing planner across 22 tasks; Nat. Biomed. Eng. 10, 245–258 (2026) ([source](https://doi.org/10.1038/s41551-025-01463-z)).
+- **NovelSeek** (Lifecycle: Multi-stage) — closed-loop multi-agent framework reporting time-bounded gains on 12 AI4Science tasks ([source](https://arxiv.org/abs/2505.16938)).
+
+### Updated
+- **`sources/manifest.json`** — added five new DOI-keyed entries (AI Scientist v1 arXiv, AI Scientist v2 arXiv, Biomni bioRxiv, NovelSeek arXiv, CRISPR-GPT arXiv) with `pdftotext` sidecars.
+- **`autonomous-science/entries.md`** — added four new system blocks (alphabetised between existing entries); refreshed `Recently surfaced` to reflect the new additions; refreshed `Deferred — next-run priority` with Virtual Lab (PDF blocked by Cloudflare this run), MARS, BORA, and the bioRxiv Jan 2026 critical evaluation framework list.
+- **`autonomous-science/summary.md`** — rewrote `The landscape today` and `How these systems are evaluated` to incorporate AI Scientist (Sakana), Biomni, CRISPR-GPT, and NovelSeek; added new `Open problems` items on code-execution risk and end-to-end-cycle failure modes; appended five new dated source citations.
+
+### Flagged
+_None._
+
+### Verified (no changes)
+- ChemCrow, Co-Scientist (Google), Coscientist (CMU), Robin (FutureHouse), Talk2QSP — all five bootstrap entries spot-checked; primary links resolve; `Last verified` left at 2026-05-20 (bootstrap date).
+
 ## 2026-05-20
 
 ### Added

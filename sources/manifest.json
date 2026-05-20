@@ -41,6 +41,46 @@
       "source_url": "https://doi.org/10.1038/d41586-026-01199-z",
       "downloaded": "2026-05-20",
       "txt_sidecar": "d41586-026-01199-z.txt"
+    },
+    {
+      "doi": "10.48550/arXiv.2408.06292",
+      "filename": "2408.06292v5.pdf",
+      "title": "The AI Scientist: Towards Fully Automated Open-Ended Scientific Discovery (Sakana AI v1)",
+      "source_url": "https://arxiv.org/abs/2408.06292",
+      "downloaded": "2026-05-20",
+      "txt_sidecar": "2408.06292v5.txt"
+    },
+    {
+      "doi": "10.48550/arXiv.2504.08066",
+      "filename": "2504.08066v1.pdf",
+      "title": "The AI Scientist-v2: Workshop-Level Automated Scientific Discovery via Agentic Tree Search (Sakana AI v2)",
+      "source_url": "https://arxiv.org/abs/2504.08066",
+      "downloaded": "2026-05-20",
+      "txt_sidecar": "2504.08066v1.txt"
+    },
+    {
+      "doi": "10.1101/2025.05.30.656746",
+      "filename": "biomni_paper.pdf",
+      "title": "Biomni: A General-Purpose Biomedical AI Agent",
+      "source_url": "https://biomni.stanford.edu/paper.pdf",
+      "downloaded": "2026-05-20",
+      "txt_sidecar": "biomni_paper.txt"
+    },
+    {
+      "doi": "10.48550/arXiv.2505.16938",
+      "filename": "2505.16938v1.pdf",
+      "title": "NovelSeek: When Agent Becomes the Scientist -- Building Closed-Loop System from Hypothesis to Verification",
+      "source_url": "https://arxiv.org/abs/2505.16938",
+      "downloaded": "2026-05-20",
+      "txt_sidecar": "2505.16938v1.txt"
+    },
+    {
+      "doi": "10.48550/arXiv.2404.18021",
+      "filename": "2404.18021v2.pdf",
+      "title": "CRISPR-GPT for Agentic Automation of Gene-editing Experiments",
+      "source_url": "https://arxiv.org/abs/2404.18021",
+      "downloaded": "2026-05-20",
+      "txt_sidecar": "2404.18021v2.txt"
     }
   ]
 }
