@@ -2,7 +2,6 @@
 title: Synapse.org Connector
 parent: All tools
 grand_parent: Catalog
-nav_order: 12
 tool_type: MCP server
 supplier: Sage Bionetworks
 availability: GA

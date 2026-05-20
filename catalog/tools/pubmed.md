@@ -2,7 +2,6 @@
 title: Anthropic PubMed Connector
 parent: All tools
 grand_parent: Catalog
-nav_order: 2
 tool_type: MCP server
 supplier: Anthropic
 availability: GA

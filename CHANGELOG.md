@@ -11,6 +11,60 @@ Reverse-chronological log of changes to the [catalog](catalog/). Newest at the t
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-05-20 (topic-focused seeding pass)
+
+A one-time directed sweep across all seven categories, seeded by per-category seed queries newly added to `AGENT.md`. Twenty new tool pages, organized by the day-of-week the rotating focus is now scheduled to revisit each category.
+
+### Added — Chemistry (Mondays)
+- **RDKit Cheminformatics Skill** (Categories: Chemistry) — K-Dense Claude skill providing RDKit recipes for SMILES parsing, descriptors, fingerprints, substructure search, reactions, and 2D/3D molecular generation ([source](https://github.com/K-Dense-AI/scientific-agent-skills)).
+- **PubChem MCP Server** (Categories: Chemistry, Drug Repurposing and Discovery) — community MCP wrapping the PubChem compound database; complements bioactivity-focused ChEMBL ([source](https://github.com/JackKuo666/PubChem-MCP-Server)).
+- **RDKit MCP Server (TandemAI)** (Categories: Chemistry, Drug Repurposing and Discovery) — full RDKit 2025.3.1 surface exposed as discrete MCP tools, for environments without local Python execution ([source](https://github.com/tandemai-inc/rdkit-mcp-server)).
+
+### Added — Immunology and Microbiology (Tuesdays)
+- **BioContextAI Knowledgebase MCP** (Categories: All) — read-only MCP unifying 14+ biomedical databases (Antibody Registry, UniProt, STRING, AlphaFold, KEGG, Open Targets, …) ([source](https://github.com/biocontext-ai/knowledgebase-mcp)).
+- **scikit-bio (Claude Skill)** (Categories: Immunology and Microbiology, Molecular and Cellular Biology) — K-Dense skill for microbiome ecology, alpha/beta diversity, ordination, PERMANOVA, phylogenetics ([source](https://github.com/K-Dense-AI/scientific-agent-skills)).
+- **FlowIO (Claude Skill)** (Categories: Immunology and Microbiology) — K-Dense skill parsing Flow Cytometry Standard (FCS v2–3.1) files for immunophenotyping pipelines ([source](https://github.com/K-Dense-AI/scientific-agent-skills)).
+
+### Added — Integrative Structural and Computational Biology (Wednesdays)
+- **PDB MCP Server** (Categories: Integrative Structural and Computational Biology, Drug Repurposing and Discovery) — Augmented Nature MCP wrapping the RCSB Protein Data Bank with UniProt cross-referencing and structure-quality lookups ([source](https://github.com/Augmented-Nature/PDB-MCP-Server)).
+- **AlphaFold MCP Server** (Categories: Immunology and Microbiology, Integrative Structural and Computational Biology, Molecular and Cellular Biology, Drug Repurposing and Discovery) — Augmented Nature MCP over the EBI AlphaFold Protein Structure Database; ~25 tools including pLDDT analysis and PyMOL/ChimeraX export ([source](https://github.com/Augmented-Nature/AlphaFold-MCP-Server)).
+- **Molecule-MCP** (Categories: Chemistry, Integrative Structural and Computational Biology, Drug Repurposing and Discovery) — chatmol three-server bundle driving PyMOL, ChimeraX, and GROMACS MD simulations via natural language ([source](https://github.com/chatmol/molecule-mcp)).
+
+### Added — Molecular and Cellular Biology (Thursdays)
+- **Scanpy-MCP** (Categories: All) — MCP wrapping the full Scanpy workflow (IO, QC, normalization, PCA, clustering, DE, plotting) for natural-language single-cell analysis ([source](https://github.com/scmcphub/scanpy-mcp)).
+- **UniProt MCP Server** (Categories: Immunology and Microbiology, Integrative Structural and Computational Biology, Molecular and Cellular Biology, Drug Repurposing and Discovery) — Augmented Nature MCP with 26 tools over UniProt REST: domains, orthologs, PTMs, pathways, multi-format export ([source](https://github.com/Augmented-Nature/UniProt-MCP-Server)).
+
+### Added — Neuroscience (Fridays)
+- **Neurosift Tools MCP** (Categories: Neuroscience) — Flatiron Institute MCP for DANDI / OpenNeuro discovery, NWB introspection, and PyNWB docs semantic search ([source](https://github.com/magland/neurosift-mcps)).
+- **allenbrain-mcp** (Categories: Neuroscience) — Alpha community wrapper exposing Allen Brain Atlas RMA queries, cell types, mouse connectivity, ontologies, and image / grid downloads ([source](https://github.com/maflot/allenbrain-mcp)). License unset upstream — flag for review before redistribution.
+- **AIND Data MCP** (Categories: Neuroscience) — official Allen Institute for Neural Dynamics MCP for V2 metadata DocDB queries and NWB introspection ([source](https://github.com/AllenNeuralDynamics/aind-data-mcp)).
+
+### Added — Translational Medicine (Saturdays)
+- **WSO2 FHIR MCP Server** (Categories: Translational Medicine) — Apache-2.0 MCP for FHIR R4 CRUD against any EHR or sandbox FHIR API with SMART-on-FHIR auth ([source](https://github.com/wso2/fhir-mcp-server)).
+- **fhir-developer (Anthropic Healthcare Plugin)** (Categories: Translational Medicine) — Anthropic Claude Code plugin for authoring FHIR R4 resources with LOINC, SNOMED, and RxNorm validation ([source](https://github.com/anthropics/healthcare)).
+- **prior-auth-review (Anthropic Healthcare Plugin)** (Categories: Translational Medicine) — Anthropic plugin reviewing prior-authorization request documents against payer rules and surfacing gaps ([source](https://github.com/anthropics/healthcare)).
+
+### Added — Drug Repurposing and Discovery (Sundays)
+- **Open Targets Plugin** (Categories: Drug Repurposing and Discovery, Molecular and Cellular Biology, Translational Medicine) — Anthropic-packaged plugin wrapping the official Open Targets MCP for target-disease associations and target-prioritisation ([source](https://github.com/anthropics/life-sciences)).
+- **AdisInsight Plugin** (Categories: Drug Repurposing and Discovery, Translational Medicine) — Springer Nature commercial plugin for drug-development pipeline, clinical-trial, and deal intelligence ([source](https://github.com/anthropics/life-sciences/blob/main/adisinsight/.claude-plugin/plugin.json)).
+- **DrugBank MCP Server** (Categories: Drug Repurposing and Discovery, Chemistry, Translational Medicine) — community MCP over a local DrugBank SQLite (17k+ drugs) with 16 query methods; requires user-supplied DrugBank XML license ([source](https://github.com/openpharma-org/drugbank-mcp-server)).
+
+### Updated
+- **`AGENT.md`** — added a Topic-focused rotation section with per-category seed queries and source pointers, plus a directed-pass procedure that runs alongside the existing manifest sweep on every daily run.
+- **`.github/workflows/curate.yml`** — derives today's focus category from the UTC weekday and injects `focus_category:` into the run prompt.
+- **All existing tool pages** — dropped explicit `nav_order` so the new and existing pages sort alphabetically together in the sidebar.
+
+### Deferred — next-run priority
+Catalog candidates from the directed-pass that warrant a follow-up entry but were not added in this seeding pass:
+
+- **Standalone `anthropics/life-sciences` plugins** beyond Open Targets and AdisInsight: `owkin`, `chembl`, `cortellis`, `tooluniverse`, `consensus`, `medidata`. Each is a discrete `/plugin install <name>@life-sciences` target and deserves its own entry distinct from the bundled `bio-research` umbrella.
+- **OpenClaw Medical Skills Library** — 869-skill MIT-licensed collection. Per the catalog rule, treat each individual skill (clinical-trial-design, pharmacovigilance, FHIR-developer, adverse-event detection, PyHealth) as a separate entry rather than the umbrella repo.
+- **Ensembl MCP servers** (`munch-group/ensembl-mcp`, `effieklimi/ensembl-mcp-server`) — both early-stage; revisit when one of them stabilises.
+- **UCSC Genome MCP** (`hlydecker/ucsc-genome-mcp`) — 12 tools over the UCSC Genome Browser API.
+- **NCBI Datasets MCP** (`Augmented-Nature/NCBI-Datasets-MCP-Server`) — 31 tools over the NCBI Datasets API.
+- **OpenFDA MCP** (`Augmented-Nature/OpenFDA-MCP-Server`, `ythalorossy/openfda`) — standalone OpenFDA wrappers; BioMCP already covers OpenFDA but the distinct install path may warrant a separate entry.
+- **Azure FHIR MCP** (`erikhoward/azure-fhir-mcp-server`) — Azure Health Data Services-specific FHIR adapter.
+
 ## 2026-05-20
 
 ### Surface knowledge-work-plugins bio-research umbrella plugin

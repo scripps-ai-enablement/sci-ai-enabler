@@ -2,7 +2,6 @@
 title: BioMCP
 parent: All tools
 grand_parent: Catalog
-nav_order: 4
 tool_type: MCP server
 supplier: GenomOncology
 availability: GA

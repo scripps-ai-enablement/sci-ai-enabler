@@ -2,7 +2,6 @@
 title: scientific-problem-selection
 parent: All tools
 grand_parent: Catalog
-nav_order: 9
 tool_type: Claude Skill
 supplier: Anthropic
 availability: GA

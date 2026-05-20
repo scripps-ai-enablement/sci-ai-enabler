@@ -42,6 +42,21 @@ jobs:
         run: |
           SCOPE="${{ inputs.category }}"
           SCOPE="${SCOPE:-all}"
+
+          # Derive today's focus category from the UTC weekday (1=Mon … 7=Sun).
+          # Used by the directed-pass procedure described under
+          # "Topic-focused rotation" in AGENT.md.
+          DOW=$(date -u +%u)
+          case "${DOW}" in
+            1) FOCUS="Chemistry" ;;
+            2) FOCUS="Immunology and Microbiology" ;;
+            3) FOCUS="Integrative Structural and Computational Biology" ;;
+            4) FOCUS="Molecular and Cellular Biology" ;;
+            5) FOCUS="Neuroscience" ;;
+            6) FOCUS="Translational Medicine" ;;
+            7) FOCUS="Drug Repurposing and Discovery" ;;
+          esac
+
           {
             cat AGENT.md
             echo ""
@@ -50,10 +65,11 @@ jobs:
             echo "## This run"
             echo "- UTC date: $(date -u +%Y-%m-%d)"
             echo "- Scope: ${SCOPE}"
+            echo "- focus_category: ${FOCUS}"
             if [ "${SCOPE}" = "all" ]; then
-              echo "- Update any per-tool pages under \`catalog/tools/\` as warranted, plus \`CHANGELOG.md\` per your instructions."
+              echo "- Run the manifest sweep AND the directed pass for the focus category. Update any per-tool pages under \`catalog/tools/\` as warranted, plus \`CHANGELOG.md\` per your instructions."
             else
-              echo "- Limit edits to tool pages whose front-matter \`tool_categories\` includes \"${SCOPE}\" (plus \`CHANGELOG.md\` per your instructions)."
+              echo "- Limit edits to tool pages whose front-matter \`tool_categories\` includes \"${SCOPE}\" (plus \`CHANGELOG.md\` per your instructions). When \`${SCOPE}\` matches \`${FOCUS}\`, run the directed pass; otherwise rely on the manifest sweep filtered to this category."
             fi
           } > .run-prompt.md
 

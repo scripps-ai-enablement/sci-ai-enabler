@@ -2,7 +2,6 @@
 title: 10x Genomics Cloud MCP
 parent: All tools
 grand_parent: Catalog
-nav_order: 1
 tool_type: MCP server
 supplier: 10x Genomics
 availability: GA

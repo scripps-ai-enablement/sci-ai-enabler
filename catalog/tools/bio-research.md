@@ -2,7 +2,6 @@
 title: bio-research (Claude Code Plugin)
 parent: All tools
 grand_parent: Catalog
-nav_order: 3
 tool_type: Claude Code Plugin
 supplier: Anthropic
 availability: GA

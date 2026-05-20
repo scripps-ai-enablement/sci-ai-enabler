@@ -2,7 +2,6 @@
 title: single-cell-rna-qc
 parent: All tools
 grand_parent: Catalog
-nav_order: 11
 tool_type: Claude Skill
 supplier: Anthropic
 availability: GA

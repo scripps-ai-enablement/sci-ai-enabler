@@ -2,7 +2,6 @@
 title: BioRender Connector
 parent: All tools
 grand_parent: Catalog
-nav_order: 5
 tool_type: MCP server
 supplier: BioRender
 availability: GA

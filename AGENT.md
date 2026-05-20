@@ -230,6 +230,142 @@ Do not rely on `mcp.so` or `smithery.ai` from the GitHub Actions runner — they
 
 **On community skill collections**: a single collection like K-Dense or OpenClaw bundles many individual skills. For the catalog, treat **each individual skill** (`SKILL.md` directory) as one entry — not the umbrella repo as a single entry. In `Available in`, document the install path the collection itself prescribes — typically "clone the repo and copy/symlink the skill directory into `~/.claude/skills/<skill-name>/`" or the collection's own installer script.
 
+## Topic-focused rotation
+
+The manifest-driven sweep above tends to surface horizontal tools — broad literature search, figure-building, generic omics — because the seed marketplaces are themselves horizontal. To find category-specific tools (chemistry-only skills, neuroscience-only MCPs, etc.), each run also performs **one directed pass on a rotating focus category**:
+
+| Day of week (UTC) | Focus category |
+|---|---|
+| Monday | Chemistry |
+| Tuesday | Immunology and Microbiology |
+| Wednesday | Integrative Structural and Computational Biology |
+| Thursday | Molecular and Cellular Biology |
+| Friday | Neuroscience |
+| Saturday | Translational Medicine |
+| Sunday | Drug Repurposing and Discovery |
+
+The workflow injects today's focus category into the run prompt as `focus_category:`. Use the table below to drive the directed pass.
+
+### Chemistry
+
+**Seed queries** (run via WebSearch; supplement with `mcp__papers__search_*` if a paper is referenced):
+
+- `RDKit MCP server`
+- `cheminformatics Claude skill`
+- `retrosynthesis agent MCP`
+- `ChEMBL MCP server install`
+- `Polaris drug discovery Claude`
+
+**Targeted sources to scan**:
+
+- [`punkpeye/awesome-mcp-servers`](https://github.com/punkpeye/awesome-mcp-servers) — search the page for "chemistry", "RDKit", "molecule", "reaction", "SMILES".
+- [`K-Dense-AI/scientific-agent-skills`](https://github.com/K-Dense-AI/scientific-agent-skills) — `cheminformatics/` and `chemistry/` subdirectories.
+- [Polaris Hub](https://polarishub.io/) and the [Polaris GitHub org](https://github.com/polaris-hub) — emerging benchmarks and tools with MCP/Skill wrappers.
+
+### Immunology and Microbiology
+
+**Seed queries**:
+
+- `IEDB MCP server`
+- `antibody design Claude skill`
+- `BCR TCR repertoire MCP`
+- `metagenomics MCP server`
+- `AlphaFold antibody Claude skill`
+
+**Targeted sources**:
+
+- [`punkpeye/awesome-mcp-servers`](https://github.com/punkpeye/awesome-mcp-servers) — "antibody", "immune", "microbiome", "metagenome".
+- [IEDB tools](https://www.iedb.org/) — epitope prediction; check for MCP wrappers.
+- [Galaxy ImmCantation](https://immcantation.readthedocs.io/) — BCR/TCR repertoire pipelines.
+
+### Integrative Structural and Computational Biology
+
+**Seed queries**:
+
+- `RCSB PDB MCP server`
+- `AlphaFold Claude skill`
+- `molecular dynamics LLM agent`
+- `GROMACS MCP`
+- `cryo-EM Claude skill`
+
+**Targeted sources**:
+
+- [RCSB PDB API](https://data.rcsb.org/) — check the MCP Registry for wrappers.
+- [AlphaFold Server](https://alphafoldserver.com/) — and any Anthropic / Google partner integrations.
+- [`punkpeye/awesome-mcp-servers`](https://github.com/punkpeye/awesome-mcp-servers) — "structure", "PDB", "MD", "trajectory".
+
+### Molecular and Cellular Biology
+
+**Seed queries**:
+
+- `Scanpy MCP server`
+- `CRISPR design Claude skill`
+- `Geneformer MCP`
+- `Bioconductor MCP server`
+- `Ensembl MCP server`
+
+**Targeted sources**:
+
+- [Ensembl REST API](https://rest.ensembl.org/) — check for community MCPs.
+- [Bioconductor](https://bioconductor.org/) — look for `BiocAgents` or similar wrappers.
+- [`K-Dense-AI/scientific-agent-skills`](https://github.com/K-Dense-AI/scientific-agent-skills) — `bioinformatics/`, `single-cell/`, `crispr/`.
+
+### Neuroscience
+
+**Seed queries**:
+
+- `Neurodata Without Borders MCP`
+- `Allen Brain Atlas MCP`
+- `NWB Claude skill`
+- `fMRI Claude skill`
+- `spike sorting MCP`
+
+**Targeted sources**:
+
+- [Neurodata Without Borders](https://www.nwb.org/) and [DANDI Archive](https://dandiarchive.org/).
+- [Allen Brain Map](https://portal.brain-map.org/) — check the MCP Registry for adapters.
+- [`punkpeye/awesome-mcp-servers`](https://github.com/punkpeye/awesome-mcp-servers) — "neuro", "brain", "EEG", "MRI", "imaging".
+
+### Translational Medicine
+
+**Seed queries**:
+
+- `FHIR MCP server`
+- `OpenFDA Claude skill`
+- `ClinicalTrials.gov MCP install`
+- `EHR Claude skill`
+- `regulatory submission Claude skill`
+
+**Targeted sources**:
+
+- [`anthropics/claude-plugins-official`](https://github.com/anthropics/claude-plugins-official) — healthcare plugins.
+- [`FreedomIntelligence/OpenClaw-Medical-Skills`](https://github.com/FreedomIntelligence/OpenClaw-Medical-Skills) — clinical / regulatory skill collection.
+- [HL7 FHIR](https://www.hl7.org/fhir/) — check the MCP Registry for FHIR adapters.
+
+### Drug Repurposing and Discovery
+
+**Seed queries**:
+
+- `Open Targets MCP server`
+- `DrugBank MCP`
+- `ADMET Claude skill`
+- `target prioritization Claude`
+- `drug repurposing agent MCP`
+
+**Targeted sources**:
+
+- [Open Targets Platform](https://platform.opentargets.org/) — already bundled in `bio-research`; check for a standalone MCP entry.
+- [DrugBank](https://go.drugbank.com/) — check for MCP wrappers.
+- [`anthropics/life-sciences`](https://github.com/anthropics/life-sciences) — Owkin and other partner plugins.
+
+### Directed-pass procedure
+
+1. **Identify the focus category** from `focus_category:` in the run prompt (workflow-injected) — or, if absent, derive it from today's UTC weekday using the table above.
+2. **Run 2–3 of the seed queries** via `WebSearch`. Stop early if you have 1–3 strong candidates not already in `catalog/tools/`.
+3. **Verify each candidate**: fetch a primary source (vendor docs, GitHub README, official blog) and confirm it is *installable today* in Claude Code, Claude Desktop, or Claude.ai. A library without a Claude wrapper is out of scope.
+4. **Write the tool page** under `catalog/tools/<slug>.md` per the schema above. Tag `tool_categories` honestly — most directed-pass finds will be single-category or two-category, not `[All]`.
+5. **The directed pass is in addition to the manifest sweep**, not a replacement. But because both share the ≤ 5-new-entries-per-run soft cap, prioritize directed-pass candidates when both passes yield candidates — that is the lever the rotation is meant to pull.
+
 ## Your responsibilities each run
 
 1. **List `catalog/tools/`** to see what's currently catalogued. Read `catalog/curator-state.md` (if it exists) to pick up `Deferred` candidates from the last run.

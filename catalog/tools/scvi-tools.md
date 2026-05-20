@@ -2,7 +2,6 @@
 title: scvi-tools
 parent: All tools
 grand_parent: Catalog
-nav_order: 10
 tool_type: Claude Skill
 supplier: Anthropic
 availability: GA

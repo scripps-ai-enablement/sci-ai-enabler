@@ -2,7 +2,6 @@
 title: instrument-data-to-allotrope
 parent: All tools
 grand_parent: Catalog
-nav_order: 6
 tool_type: Claude Skill
 supplier: Anthropic
 availability: GA

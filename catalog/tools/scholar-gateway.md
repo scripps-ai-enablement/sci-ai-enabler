@@ -2,7 +2,6 @@
 title: Scholar Gateway Connector (Wiley)
 parent: All tools
 grand_parent: Catalog
-nav_order: 8
 tool_type: MCP server
 supplier: Wiley
 availability: Beta

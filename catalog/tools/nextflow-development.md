@@ -2,7 +2,6 @@
 title: nextflow-development
 parent: All tools
 grand_parent: Catalog
-nav_order: 7
 tool_type: Claude Skill
 supplier: Anthropic
 availability: GA
