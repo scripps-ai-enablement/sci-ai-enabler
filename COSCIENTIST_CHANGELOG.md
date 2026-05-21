@@ -9,6 +9,25 @@ permalink: /updates/ai-scientists.html
 
 Reverse-chronological log of changes to the [AI scientists tracker](autonomous-science/). Newest at the top.
 
+## 2026-05-21
+
+### Added
+- **Kosmos** (Lifecycle: Multi-stage, Writing) — Edison Scientific's AI scientist; 12-hour autonomous cycles of parallel data analysis, literature search, and hypothesis generation over a structured world model; 79.4% independent statement accuracy; seven highlighted discoveries across metabolomics, materials science, neuroscience, and statistical genetics ([source](https://arxiv.org/abs/2511.02824)).
+- **AgenticSciML** (Lifecycle: Hypothesis, Experiment design) — Brown / Karniadakis 10+-agent system for emergent discovery in scientific machine learning; up to four orders of magnitude error reduction over single-agent and human baselines on PINN and operator-learning tasks ([source](https://arxiv.org/abs/2511.07262)).
+- **AILA** (Lifecycle: Experiment design, Analysis) — IIT Delhi multi-agent LLM framework for atomic force microscopy, with the AFMBench 100-task evaluation suite; documents an "agent sleepwalking" failure mode with safety implications for SDLs ([source](https://doi.org/10.1038/s41467-025-64105-7)).
+- **MARS** (Lifecycle: Multi-stage) — SIAT/CAS hierarchical 19-agent / 16-tool framework with robotic synthesis; optimized perovskite nanocrystal synthesis in 10 iterations and designed a water-stable perovskite composite in 3.5 h ([source](https://doi.org/10.1016/j.matt.2025.102577)).
+
+### Updated
+- **`autonomous-science/summary.md`** — promoted Kosmos into the top-tier biology section alongside Co-Scientist and Robin; added AgenticSciML under machine-learning research; rebuilt the chemistry section to chemistry-and-materials and folded in MARS and AILA; added independent-expert-review as a third evaluation regime; added an "instruction adherence in lab settings" open-problem item citing AILA's sleepwalking finding; appended four new source citations.
+- **`autonomous-science/systems/`** — renumbered `nav_order` on the nine pre-existing system pages to preserve alphabetical ordering after inserting the four new entries.
+- **`autonomous-science/curator-state.md`** — created (was missing); populated `Recently surfaced`, empty `Flagged for review`, and `Deferred — next-run priority` (CORAL, AIDO.Harness, SAGA, Deep Researcher Agent, Virtual Lab).
+
+### Flagged
+_None._
+
+### Verified (no changes)
+- All existing system pages were `last_verified: 2026-05-20` — one day old, inside the 30-day re-verification window. No spot-checks performed this run.
+
 ## 2026-05-20 (medRxiv source test)
 
 ### Added

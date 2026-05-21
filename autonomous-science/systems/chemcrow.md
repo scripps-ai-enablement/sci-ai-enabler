@@ -2,7 +2,7 @@
 title: ChemCrow
 parent: Systems
 grand_parent: AI scientists
-nav_order: 3
+nav_order: 5
 affiliation: EPFL / University of Rochester
 lifecycle_stages: [Experiment design, Analysis]
 autonomy: Semi-autonomous

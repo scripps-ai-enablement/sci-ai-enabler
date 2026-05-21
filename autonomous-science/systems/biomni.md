@@ -2,7 +2,7 @@
 title: Biomni
 parent: Systems
 grand_parent: AI scientists
-nav_order: 2
+nav_order: 4
 affiliation: Stanford University (Snap group, Leskovec lab), with Genentech, Arc Institute, Princeton, University of Washington, UCSF
 lifecycle_stages: [Multi-stage]
 autonomy: Semi-autonomous

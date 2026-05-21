@@ -81,6 +81,46 @@
       "source_url": "https://arxiv.org/abs/2404.18021",
       "downloaded": "2026-05-20",
       "txt_sidecar": "2404.18021v2.txt"
+    },
+    {
+      "doi": "10.48550/arXiv.2511.02824",
+      "filename": "2511.02824v2.pdf",
+      "title": "Kosmos: An AI Scientist for Autonomous Discovery",
+      "source_url": "https://arxiv.org/abs/2511.02824",
+      "downloaded": "2026-05-21",
+      "txt_sidecar": "2511.02824v2.txt"
+    },
+    {
+      "doi": "10.48550/arXiv.2511.07262",
+      "filename": "2511.07262v1.pdf",
+      "title": "AgenticSciML: Collaborative Multi-Agent Systems for Emergent Discovery in Scientific Machine Learning",
+      "source_url": "https://arxiv.org/abs/2511.07262",
+      "downloaded": "2026-05-21",
+      "txt_sidecar": "2511.07262v1.txt"
+    },
+    {
+      "doi": "10.1038/s41467-025-64105-7",
+      "filename": "s41467-025-64105-7.pdf",
+      "title": "Evaluating large language model agents for automation of atomic force microscopy (AILA / AFMBench)",
+      "source_url": "https://www.nature.com/articles/s41467-025-64105-7",
+      "downloaded": "2026-05-21",
+      "txt_sidecar": "s41467-025-64105-7.txt"
+    },
+    {
+      "doi": "10.48550/arXiv.2604.01658",
+      "filename": "2604.01658v1.pdf",
+      "title": "CORAL: Towards Autonomous Multi-Agent Evolution for Open-Ended Discovery",
+      "source_url": "https://arxiv.org/abs/2604.01658",
+      "downloaded": "2026-05-21",
+      "txt_sidecar": "2604.01658v1.txt"
+    },
+    {
+      "doi": "10.1016/j.matt.2025.102577",
+      "filename": "mars-matter-2026.pdf",
+      "title": "Knowledge-driven autonomous materials research via collaborative multi-agent and robotic system (MARS)",
+      "source_url": "https://doi.org/10.1016/j.matt.2025.102577",
+      "downloaded": "2026-05-21",
+      "txt_sidecar": "mars-matter-2026.txt"
     }
   ]
 }

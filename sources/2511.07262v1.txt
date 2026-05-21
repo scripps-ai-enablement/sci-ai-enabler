@@ -1,0 +1,2060 @@
+AGENTIC S CI ML: C OLLABORATIVE M ULTI -AGENT S YSTEMS
+FOR E MERGENT D ISCOVERY IN S CIENTIFIC M ACHINE L EARNING
+
+George Karniadakis ∗
+Division of Applied Mathematics,
+Brown University,
+Providence, RI, USA
+george_karniadakis@brown.edu
+
+arXiv:2511.07262v1 [cs.AI] 10 Nov 2025
+
+Qile Jiang
+Division of Applied Mathematics,
+Brown University,
+Providence, RI, USA
+qile_jiang@brown.edu
+
+A BSTRACT
+Scientific Machine Learning (SciML) integrates data-driven inference with physical modeling to
+solve complex problems in science and engineering. However, the design of SciML architectures, loss
+formulations, and training strategies remains an expert-driven research process, requiring extensive
+experimentation and problem-specific insights. Here we introduce AgenticSciML, a collaborative
+multi-agent system in which over 10 specialized AI agents collaborate to propose, critique, and refine
+SciML solutions through structured reasoning and iterative evolution. The framework integrates
+structured debate, retrieval-augmented method memory, and ensemble-guided evolutionary search,
+enabling the agents to generate and assess new hypotheses about architectures and optimization
+procedures. Across physics-informed learning and operator learning tasks, the framework discovers solution methods that outperform single-agent and human-designed baselines by up to four
+orders of magnitude in error reduction. The agents produce novel strategies—including adaptive
+mixture-of-expert architectures, decomposition-based PINNs, and physics-informed operator learning models—that do not appear explicitly in the curated knowledge base. These results show that
+collaborative reasoning among AI agents can yield emergent methodological innovation, suggesting
+a path toward scalable, transparent, and autonomous discovery in scientific computing.
+
+∗
+
+Corresponding author: george_karniadakis@brown.edu
+
+1
+
+Introduction
+
+Scientific Machine Learning (SciML) integrates data-driven learning with numerical simulation and physical modeling
+to solve problems in scientific computing that are analytically intractable or computationally expensive. Recent
+developments such as physics-informed neural networks (PINNs) [1], neural operators [2, 3], and domain-decomposition
+methods [4, 5] have enabled progress across fluid mechanics, inverse problems, materials modeling, biophysics, and
+geoscience. However, the construction of effective SciML models still requires substantial manual effort: practitioners
+must select architectures, enforce physical constraints, tune loss weightings, design sampling curricula, and determine
+proper optimization strategies. This iterative search is labor-intensive and problem-specific, forming a bottleneck for
+scalable scientific computing.
+Recent LLM-based agent systems have motivated interest in automating portions of the SciML workflow. Notable
+examples include the Virtual Lab [6], in which domain-specialized agents collaborate to plan experiments and interpret
+results, and agent-based frameworks for molecular and materials design [7, 8]. These approaches demonstrate the
+utility of role-specialization and iterative refinement, but they focus primarily on managing experimental or modelselection workflows. In parallel, AutoML systems and neural architecture search (NAS) frameworks [9, 10] optimize
+hyperparameters or network topologies, while evolutionary and program-synthesis approaches such as AlphaEvolve
+[11] and symbolic regression systems [12, 13] aim to discover compact representations. However, these systems do not
+generally produce new SciML modeling strategies, such as novel PDE-constrained architectures, problem-specific loss
+formulations, or adaptive decomposition schemes. Instead, they typically search within a predetermined hypothesis
+space or rely on a fixed modeling paradigm.
+In contrast, scientific computing often requires reasoning about model structure, discretization, and physics-informed
+inductive bias. The space of possible SciML solution strategies is therefore combinatorial and structured, involving
+architectural motifs, physics constraints, numerical solvers, and multi-objective optimization. A system capable of
+exploring this space must not only tune parameters but also compose and critique modeling ideas.
+To address this need, we introduce AgenticSciML, a collaborative multi-agent framework for the emergent discovery
+of SciML modeling strategies. The framework coordinates multiple specialized agents—including proposers, critics,
+engineers, retrievers, and evaluators—that iteratively generate, analyze, and refine candidate SciML solutions. A
+persistent knowledge base stores prior solutions, ablation outcomes, error analyses, and textual reports. Retrieval agents
+surface relevant methodological precedents, allowing new strategies to build upon earlier ones. A structured debate
+process encourages agents to justify, challenge, and revise modeling decisions, while an ensemble-guided evolutionary
+search balances exploitation of promising directions with exploration of alternative approaches.
+Across benchmarks in PDE-constrained learning, operator learning, and inverse problems, AgenticSciML produces
+solution strategies that outperform single-agent LLM systems, sometimes by 1000×, automated PINN frameworks [14],
+and NAS/AutoML baselines. Moreover, the system discovers SciML strategies that do not appear in the knowledge
+base or in standard formulations, including (1) adaptive domain-decomposed PINNs for multi-scale PDEs, (2) physicsinformed operator learning architectures with constraint-conditioned branches, and (3) dynamically weighted loss
+schedules derived from residual-flow structure. These results indicate that structured multi-agent collaboration can
+enable emergent innovation in SciML model construction, beyond what can be achieved through direct prompting or
+search alone.
+The remainder of this paper is organized as follows. In Section 2 we describe our multi-agent architecture, including
+agent roles, knowledge retrieval mechanisms, and evolutionary search strategies. In Section 3 we detail experiment
+setups and findings across benchmark SciML problems. Finally, in Section 4 we summarize our contributions and
+discuss future research directions.
+
+2
+
+2
+
+Methods
+
+Our evolutionary multi-agent system operates in three phases (Figure 1): user input, data analysis and evaluation criteria
+creation, and solution evolution. A team of 10+ agents are deployed with specialized roles. Key steps are detailed
+below.
+
+Figure 1: Framework for the evolutionary multi-agent SciML system. Phase 1: A Human user provides inputs including
+problem, requirements, evaluation criteria, and data. Phase 2: Agents analyze user inputs and define solution evaluation
+criteria, with human approval. Phase 3: Specialized agents (Knowledge Retrievers, Proposers, Critics, Engineers, and
+Debuggers) collaboratively propose, implement, and execute new solutions. The Result Analyst agent evaluates each
+solution, which then becomes eligible for mutation in the next iteration.
+
+3
+
+Structured User Input
+To start, the human user provides structured input written in Markdown and JSON formats to the agentic system: (1)
+Problem.md: a statement of the problem to solve; (2) Requirements.md: constraints on implementation (frameworks,
+libraries, hardware); (3) Evaluation.md: metrics and procedures for scoring solutions; (4) Data_config.json
+(optional): training or validation datasets with descriptions, file paths, and loading instructions.
+The problem and requirement statements are to provide contexts. The evaluation criteria define what success looks like
+for this problem, such as a low mean squared error on a validation set or low PDE residuals. Datasets are optional, and
+the user can choose to provide none, some, or all data needed for training or validation. Agents will use user-provided
+data when available, but can also generate synthetic data if needed. The user only needs to write in minimal prompts in
+natural language, and the agents will handle all technical details. See Appendix A for examples.
+Exploratory Data Analysis
+If training data is provided, a multi-modal (text and vision) data analyst agent autonomously generates Python code
+to perform exploratory data analysis on the training dataset. It is prompted to quantitatively and visually examine
+both mathematical properties (discontinuities, sharp gradients, multi-scale phenomena, etc.) and data quality (outliers,
+distribution characteristics, etc.). The agent then analyzes the generated plots using its vision capabilities and produces
+a text-only report (data_analysis.md) summarizing key findings, so that downstream text-only agents can always
+reference this analysis.
+This step is important because human scientists often start by visualizing and analyzing data to gain intuitions. The data
+analyst agent mimics this process and provides such data intuition to all downstream agents. Note that no analysis is
+performed on validation data to avoid data leakage.
+Evaluation Contract Generation
+Before proceeding to solution generation, an evaluator agent formalizes an evaluation contract that all candidate
+solutions must satisfy. The goal is to ensures consistent evaluation across diverse solutions and produces a scalar score
+for ranking. Note that throughout this work, the score is usually defined as a loss to minimize such as mean squared
+error (MSE) or relative L2 error, so lower is better.
+The evaluator agent generates two components that define the solution interface. First, evaluate.py is a complete
+test script that loads existing model checkpoints, generates or loads validation data, computes metrics, and returns a
+score. Second, guidelines.md outlines some implementation details for the engineer agent to follow, such as model
+checkpoint formats and expected input-output data shapes, so that all engineered models can be evaluated through the
+same procedure. Finally, since the human defines the success criteria, human approval is sought before the plan is set.
+Root Solution Generation
+To start the solution tree expansion, a root solution is generated by a single-agent root engineer.
+The root engineer has access to all the user inputs and evaluation guidelines. It produces a baseline solution, named
+solution_0. The solution is executed and evaluated autonomously. The results, including training logs and any generated plots, are analyzed by a multi-modal result analyst agent, which writes a detailed textual report (analysis_0.md)
+saved to the Analysis Base for future reference.
+Ensemble-Guided Parent Selection
+During each iteration of tree expansion, several existing solutions are selected from the solution tree to serve as parents
+for mutation. Each parent will produce one child solution through the mutation process described later. Multiple parents
+are mutated in parallel to generate multiple children per iteration.
+In the early stage (total solutions ≤ mutation batch size), all solutions mutate in parallel. In the mature stage (total
+solutions > mutation batch size), the best-scoring solution is always selected (exploitation), while additional parents are
+chosen through majority voting by a diverse ensemble of selector agents (exploration). Figure 2 shows an example of
+the selection mechanism.
+The selectors are prompted to holistically evaluate solution code, analysis reports, and scores to select 1-2 solutions
+that give promising results and 1-2 solutions that are less promising but have potential for improvement. Each selector
+4
+
+agent votes independently, and the solutions with the most votes are selected as additional parents. Solutions reaching
+maximum children per node (10) are excluded from selection to prevent over-exploitation.
+
+Figure 2: Example showing the selection mechanism for solution tree expansion. The best performing solution on
+the tree is always selected for mutation in the next iteration (exploitation). Additional solutions are selected based
+on multi-agent majority voting (exploration). This balances the search between refining the best-known solution and
+exploring alternative approaches that are deemed promising by the agent ensemble. All selections and mutations are
+performed in parallel.
+
+Solution Mutation through Multi-Agent Debate and Engineering
+After parents are selected, child solutions are generated through three stages: planning, engineering, and evaluation.
+Planning: This is the critical stage for scientific reasoning and innovation. First, a retriever agent critically evaluates the
+parent’s solution and results analysis to determine if any entries from a curated Knowledge Base of SciML techniques
+would be helpful. If so, it retrieves 0-1 entries to share with the proposer and critic agents. More information on the
+Knowledge Base can be found in Appendix B.
+Next, several reports from the Analysis Base are also retrieved. These include the parent’s analysis report, sibling
+reports (same parent), and uncle reports (grandparent’s other children). This provides broader context on what strategies
+have worked or failed in neighboring solutions.
+All these contexts are provided to the proposer and critic agents, who then engage in structured N -round debate to
+formulate a concrete implementation proposal for the child solution. For the first N − 2 rounds, the proposer is asked
+to analyze the problem deeply and think out loud. It is not asked to propose a new strategy yet – it focuses solely on
+reasoning. The critic then challenges the proposer’s reasoning, pointing out flaws, gaps, or alternative perspectives. In
+the (N − 1)-th round, the proposer starts to synthesize its reasoning into a concrete implementation plan, which the critic
+evaluates for feasibility and soundness. Finally, in the N -th round, the proposer produces a final implementation-ready
+proposal without further critique.
+Engineering: The engineer agent receives the parent’s full code, final proposal, and other problem specifications.
+It implements the exact proposed solution by modifying the parent’s codebase and does not need to reason about
+high-level strategies. Any errors are handled by the debugger agent until successful execution or maximum debugging
+iteration reached.
+5
+
+Evaluation: The multi-modal result analyst agent is again employed to analyze the child solution’s results, both textual
+logs and generated plots, and write a detailed report, which is added into the Analysis Base. The score of this solution
+is also computed for ranking.
+Iteration
+The above tree mutation process is repeated for a fixed number of iterations or until a stopping criterion is met. At the
+end, the best-scoring solution on the tree is returned as the champion solution.
+
+3
+
+Results
+
+To demonstrate the capabilities of our multi-agent SciML system, we evaluate its performance on a challenging set of
+benchmark problems on physics-informed machine learning and operator learning. The problems include:
+1. Discontinuous Function Approximation (A.1): Learning a piecewise oscillatory function with discontinuities
+from data using neural networks.
+2. Solving Poisson Equation on L-shaped Domain with PINN (A.2): Using Physics-Informed Neural Networks
+(PINNs) to solve the Poisson equation on an L-shaped domain.
+3. Solving Burger’s Equation using PINN (A.3): Using PINNs to solve the time-dependent nonlinear Burger’s
+equation with periodic boundary conditions and a challenging initial condition.
+4. Antiderivative Operator Learning (A.4): Learning a neural operator that maps input functions to their
+antiderivatives, generalizing to unseen functions.
+5. Multiple-input Operator Learning for Reaction-Diffusion Equation (A.5): Learning a neural operator that
+maps multiple input functions (diffusion coefficient and source term) to the solution of a reaction-diffusion
+equation over time.
+6. Reconstruction of 2D Cylinder Wake Vorticity Field from Sparse and Noisy Observations (A.6): Using
+neural networks to reconstruct the vorticity field behind a cylinder from only 4 sensors and noisy measurement.
+These problems are designed to encourage original thinking from the agents and be solved with novel SciML techniques.
+Detailed setups and results for each problem are provided in the Appendix. All problems use the same knowledge base
+and similar agent parameters. Below, we summarize key findings across all experiments.
+3.1
+
+Multi-Agent Collaboration Outperforms Single-Agent Baselines
+
+For all problems, a single root engineer agent generates the root solution as a baseline to improve upon. With today’s
+state-of-the-art LLMs, single-agent systems can already produce reasonably competent solutions for many SciML
+problems. However, the multi-agent system discovers solutions that significantly outperform the single-agent baseline
+across all benchmark problems, with improvement factors ranging from 10× to over 11,000×. Figure 3 summarizes the
+performance improvements. The improvement factor is measured as the ratio of the root solution score to the champion
+solution score after multi-agent evolution.
+These results critically demonstrate that the intelligence of the multi-agent system emerges from collaborative reasoning,
+knowledge integration, and evolutionary tree search, rather than solely relying on the capabilities of individual LLMs.
+3.2
+
+Novel Solution Strategies Emerge Through Evolution
+
+We observe that the multi-agent system discovers novel solution strategies that differ significantly from the initial root
+solution. Even though knowledge base entries are retrieved and considered, the final solutions are not direct copies of
+existing methods. Instead, agents creatively adapt and combine techniques to devise new approaches tailored to each
+problem. Some novel strategies for each problem include:
+1. Discontinuous Function Approximation (A.1.4): A Mixture-of-Experts architecture with specialized experts
+for different branches of the piecewise function, controlled by a learnable gating mechanism. The trainable
+gating parameter is inspired by the trainable parameter in adaptive activation functions [15].
+2. Poisson Equation on L-shaped Domain (A.2.4): Decomposition of the target solution into a known particular
+solution plus a component learned by a PINN. The solution also uses importance sampling of collocation
+points to bias towards the corner’s singularity.
+6
+
+Figure 3: Performance improvements achieved by the multi-agent system over single-agent baselines across all
+benchmark problems. The y-axis shows the improvement factor (root score / champion score) on a logarithmic scale. In
+every case, the multi-agent system discovers solutions that outperform the single-agent baseline, with improvement
+factors ranging from 10× to over 11,000×.
+
+3. Burger’s Equation (A.3.4): Dividing training into 3 steps: pre-train only on the initial and boundary condition,
+then train on the gradient-enhanced PDE residual [16] with self-adaptive weights [17], and finally fine-tune
+with residual-based adaptive refinement of collocation points using double-precision L-BFGS.
+4. Antiderivative Operator Learning (A.4.4): A DeepONet with a linear, bias-free branch net to enforce
+linearity of the antiderivative operator.
+5. Multiple-input Operator Learning (A.5.4): 2D FNO trained with a derivative-enhanced loss, inspired by
+[18].
+6. Cylinder Wake Reconstruction (A.6.4): Modified U-FNO architecture [18] with CNO-inspired [19]
+bandlimit-preserving filters in the decoder to mitigate aliasing during upsampling.
+In particular, solutions to Problems 2 and 4 are mainly based on analysis of the underlying mathematical properties of
+the problem. Solutions to Problems 1, 5, and 6 come from combining and refining existing methods from the literature.
+3.3
+
+Ensemble Voting Analysis
+
+The solution tree mutation is guided by an ensemble of selector agents. Throughout this work, Gemini-2.5-pro,
+GPT-5-mini, and Grok-4-fast are used as the selector ensemble due to their diverse perspectives. In all experiments,
+each selector nominates three candidate solutions for mutation. Figure 4 shows the ensemble’s voting agreement for the
+top three nominations across all experiments.
+The selectors consistently agree on the first choice and mostly on the second, as these typically correspond to the
+best-performing solutions favored for exploitation. In contrast, the third selection shows a healthy disagreement between
+agents. This is because the third selection is usually an exploratory choice, where agents diverge on which solution has
+the potential for improvement. The voting mechanism thus introduces stochasticity and diversity into the evolutionary
+tree search.
+3.4
+
+Agent Contribution Analysis
+
+Figure 5 summarizes the contributions of key planning agents by word count. The contributions from engineers and
+debuggers are not included. We observe that the proposer agent consistently contributes the most words, since it is
+instructed to think out loud and write down all intermediate reasoning steps. The human user contributes less than 0.3%
+of the total text, showing the system’s ability to autonomously handle problems with minimal human input.
+7
+
+Figure 4: Ensemble voting agreement across all experiments for top 3 selections. The selectors consistently agree on
+the first choice and mostly on the second, while the third choice shows disagreement, since different selector agents
+have different opinions on which solutions have the most potential for improvement.
+
+Figure 5: Agent contribution analysis across all experiments by word count. The proposer contributes the most, while
+the user’s contribution is minimal.
+
+4
+
+Summary and Discussion
+
+We introduced AgenticSciML, a collaborative multi-agent framework for constructing scientific machine learning
+(SciML) models through structured proposal, critique, refinement, and evaluation. In contrast to automated hyperparameter tuning, one-shot prompting, or neural architecture search pipelines, AgenticSciML coordinates distinct reasoning
+roles among agents and maintains a persistent methodological memory, enabling the system to explore the space of
+modeling strategies rather than merely parameter configurations. The resulting designs are not limited to variations of
+standard templates; instead, the system produces new forms of SciML architectures and training procedures that reflect
+nontrivial modeling decisions, such as adaptive domain decomposition in PINNs, constraint-conditioned branches
+in operator networks, or dynamically modulated loss schedules based on residual structure. These outcomes are
+characteristic of expert manual development in scientific computing and indicate that structured agentic collaboration
+can support emergent model-form innovation.
+The approach shares conceptual motivation with recent multi-agent scientific planning frameworks such as the Virtual
+Lab [6] and domain-specialized agent systems for molecular and materials discovery [7, 8], as well as with neural
+architecture search and evolutionary optimization methods [9, 10]. However, those systems typically optimize within
+8
+
+fixed hypothesis classes or focus on experimental decision-making, whereas SciML model design requires reasoning
+across architectural choices, physical constraints, solver behavior, training dynamics, and numerical stability. Similarly,
+symbolic regression methods [12, 13] recover interpretable expressions but do not construct PDE-constrained learning
+architectures. Recent automated PINN and operator-learning frameworks [14] streamline training workflows but do
+not modify the underlying modeling paradigm. AgenticSciML differs in aiming for the construction of new solution
+strategies rather than the optimization of predefined ones, with collaborative critique and retrieval enabling iterative
+refinement informed by prior results.
+We also note some current limitations of this work. The quality of emergent solutions depends in part on the structure
+and coverage of the knowledge base, and improving retrieval grounding remains an important direction. Debate and
+justification among agents are mediated by LLMs and thus may not always reflect physically rigorous reasoning unless
+paired with numerical verification signals. Furthermore, the evolutionary search layer introduces computational overhead
+proportional to evaluation cost, suggesting that future work should prioritize tighter integration with differentiable
+solvers and low-fidelity model proxies. Extending the framework to multi-physics systems, turbulence, data assimilation,
+and real experimental workflows will also require adaptation in both evaluation procedures and memory representation.
+Future directions include incorporating the classic solvers, e.g., finite element and spectral methods, as well as hybrid
+methods based on PINNs or neural operators combined with classical methods. This will provide scalability and
+improved accuracy. In addition, we plan to develop stronger physics-grounded reasoning signals, such as adjoint-based
+consistency checks or solver-in-the-loop validation; exploring hierarchical agent coordination in which meta-agents
+learn to orchestrate debate and search strategies; and formalizing the relationship between collaborative agentic
+dynamics and the emergence of new SciML strategies. More broadly, our results suggest that multi-agent reasoning
+systems offer a path toward scalable exploration of the combinatorial solution spaces characteristic of modern scientific
+computing that includes both classical solvers and neural PDEs and operators.
+
+Code Availability
+Code and all experiment results will be available on Github http://github.com upon publication.
+
+Acknowledgements
+This work was supported by the Vannevar Bush Faculty Fellowship award from ONR (N00014-22-1-2795).
+
+9
+
+A
+
+Problems and Results
+
+A.1
+
+Discontinuous Function Approximation
+
+In this problem, the multi-agent system is asked to build a machine learning model to approximate a piecewise oscillatory
+function with discontinuities based on provided training data. The target function is defined as:
+(
+2
+x2 − 2e−3000(x+0.5) , −1 ≤ x ≤ 0,
+f (x) =
+sin(10πx) + 1,
+0 < x ≤ 1.
+However, the agents do not have access to the underlying mathematical form of the function. They only observe the
+training datasets containing 200 input-output pairs. A validation set of 500 points is also provided for model evaluation
+but is not leaked during training.
+A.1.1
+
+Problem Setup
+
+The user provided the following structured prompt to the system:
+Problem
+Build any model of your choice for data regression using the provided dataset.
+Requirements
+Use PyTorch.
+Evaluation
+The model should be scored on the MSE based on the provided validation set.
+Data
+training_set:
+• filename: train_data.npz
+• description: Training points for regression. Shapes: x_train (200, 1), u_train (200, 1).
+• loading_instructions: Use np.load(‘train_data.npz’). Access via data[‘x_train’] and data[’u_train’]
+validation_set:
+• filename: val_data.npz
+• description: Validation points for evaluation. Shapes: x_val (500, 1), u_val (500, 1).
+• loading_instructions: Use np.load(‘val_data.npz’). Access via data[‘x_val’] and data[‘u_val’]
+A.1.2
+
+Agents Setup
+
+Table 1 summarizes the agent configurations and evolutionary parameters used in this experiment. Gemini is used as
+the proposer due to its long context window capable of handling extensive retrieved knowledge and analysis reports.
+Claude is used as the root engineer and main engineering agent due to its strong coding capabilities. The temperature
+parameter is set lower for agents requiring deterministic outputs (e.g., root engineer, evaluator, engineer, debugger) and
+higher for creative agents (e.g., proposer, critic, Analyst).
+A.1.3
+
+Results
+
+The evolutionary process generated 16 solutions over 6 iterations. The score used for ranking in this problem is defined
+as the MSE on the validation set. Figure 6 visualizes the solution evolution tree. Figure 7 tracks the best MSE obtained
+over evolution iterations. The best MSE decreases as the solution tree grows deeper before reaching a plateau. Figure 7
+shows key planning agents’ contributions by word count. The proposer agent contributes the most words, followed by
+10
+
+Table 1: Agent configurations for function approximation experiment
+Agent
+
+Model
+
+Temperature
+
+root engineer
+
+Claude Haiku 4.5
+
+0.0
+
+data analyst
+evaluator
+retriever
+proposer
+critic
+engineer
+debugger
+result analyst
+selector
+
+Gemini 2.5 Pro
+Claude Haiku 4.5
+Gemini 2.5 Pro
+Gemini 2.5 Pro
+GPT-5 Mini
+Claude Haiku 4.5
+GPT-5 Mini
+Gemini 2.5 Pro
+GPT-5 Mini, Grok-4 Fast, Gemini 2.5 Pro
+
+0.5
+0.0
+0.0
+0.9
+0.5
+0.0
+0.0
+0.5
+-
+
+Evolutionary Parameters
+Max Iterations
+Parallel Mutations
+
+6
+4
+
+critic and result analyst, while the user contributed minimal text. Non-planning agents, such as engineers and debuggers,
+are excluded in this plot.
+Figure 8 compares the predictions and absolute errors of the root and champion solutions. The root model fails to
+capture the oscillations and discontinuity, while the champion’s solution shows significant improvements on both pieces
+of the function. Note that these plots are generated by the evaluator agent and are validated and reformatted by the
+authors for inclusion in this paper. The result analyst agent is able to visually analyze these plots and generate insights.
+
+Figure 6: Evolution of solution tree for function approximation problem. Each node of the tree represents a solution
+implemented and evaluated by the agents. The score shows the MSE error on the validation dataset. The best solution is
+colored in orange.
+A.1.4
+
+Novelty of the Champion Solution
+
+The champion solution (0100) achieved a test MSE of 1.46 × 10−3 , representing a 194× improvement over the root
+solution (0.283). The winning strategy employs a Mixture-of-Experts (MoE) architecture with two specialized experts:
+a simple MLP for the region x < 0 and a Fourier-feature-augmented MLP for the oscillatory region x > 0. Expert
+selection was controlled by a parametric sigmoid gating function
+g(x) = σ(k · (x − x0 ))
+where σ is the sigmoid function, x0 is the trainable transition location (the final learned location is 0.04, close to the
+discontinuity at 0), and k controls the gating sharpness. The final output combined experts as
+upred (x) = g(x) · E1 (x) + (1 − g(x)) · E2 (x)
+11
+
+(a) Evolution of best MSE over tree expansion iterations
+
+(b) Agent contributions by word count
+
+Figure 7: Multi-agent evolution metrics for the discontinuous function approximation problem. Left: Evolution of best
+solution score over iterations. Right: Text contributions by agent type, showing the proposer contributes the most while
+the human user contributes minimal text. Engineering agents and selector agents are excluded in this plot.
+
+Figure 8: Comparison of root and champion solutions for function approximation on the validation dataset. Top row:
+root solution, MSE = 0.283. Bottom row: champion, MSE = 1.46 × 10−3 . Champion solution exhibits significant
+improvement from the root.
+
+The parent solution (010) also used a similar MoE architecture. However, the training optimization suffered from
+numerical instability leading to divergence of loss. To mitigate this, the champion’s solution defines a learnable
+parameter kraw that is then transformed via a bounded mapping to get k = kmin + (kmax − kmin ) · σ(kraw ). This
+constrains k ∈ [kmin , kmax ] = [1.0, 50.0]. A small weight decay (10−5 ) on kraw prevents drift to extreme values.
+Noticeably, during developement, the proposer agent reasons that
+12
+
+“k should be a trainable parameter. Let kraw be a learnable parameter, and define the sharpness as k =
+exp(kraw ) to ensure positivity. This allows the optimizer to discover the optimal trade-off between a
+soft, stable mixture and a sharp, accurate partition. This approach, inspired by adaptive activations,
+directly addresses the instability by incorporating the sharpness into the optimization loop, allowing
+for smoother, data-driven adjustments rather than forced, exponential increases."
+The above reasoning shows that the proposer agent is able to draw inspiration from the retrieved knowledge base entry
+on adaptive activation functions [15] and adapt it to the current problem context, even though the knowledge base entry
+does not directly discuss mixture-of-experts or gating functions.
+In addition, the solution also implemented a weighted loss function to emphasize the discontinuity (x = 0). The loss is
+given as
+PN
+wi (upred (xi ) − utrue (xi ))2
+,
+L = i=1
+PN
+i=1 wi
+where wi = 1 + wmax · exp(−x2i /(2σ 2 )) with wmax = 4.0 and σ = 0.1.
+The optimizer also employs separate AdamW parameters for MLP experts and gating parameters: expert networks
+use learning rate 5 × 10−4 with weight decay 10−4 , while gating parameters (x0 , kraw ) use learning rate 10−4 with
+weight decay 10−5 . An entropy penalty Lent = −E[g log g + (1 − g) log(1 − g)] with weight ramping from 0 to
+5 × 10−4 after epoch 200 encourages crisp expert separation. The solution also uses gradient clipping (norm 1.0) and
+ReduceLROnPlateau scheduling (patience 100, factor 0.5) to prevent instability that the parent solution suffers from.
+Training runs for 2000 epochs with batch size 32.
+
+13
+
+A.2
+
+Solving Poisson Equation on L-shaped Domain with PINN
+
+This problem tests the system’s ability to discover effective PINN architectures and loss balancing strategies for solving
+PDEs on irregular geometries.
+A.2.1
+
+Problem Setup
+
+The user provided the following structured prompt to the system:
+Problem
+Solve the Poisson equation using Physics-Informed Neural Networks (PINNs):
+∇2 u(x, y) = 1,
+
+(x, y) ∈ Ω
+
+Domain: L-shaped region Ω = [−1, 1]2 \ [0, 1]2 . Boundary Conditions: Dirichlet u = 0 on ∂Ω.
+Requirements
+Use PyTorch.
+Evaluation
+Score = 12 (PDE Residual MSE + BC MSE), where PDE residual is evaluated at 5000 interior points and BC
+error at 500 points per boundary side.
+A.2.2
+
+Agents Setup
+
+Table 2 summarizes the agent configurations and evolutionary parameters used in this experiment.
+Table 2: Agent configurations for Poisson L experiment
+Agent
+
+Model
+
+Temperature
+
+root engineer
+
+GPT-5 Mini
+
+0.0
+
+data analyst
+evaluator
+retriever
+proposer
+critic
+engineer
+debugger
+result analyst
+selector
+
+Gemini 2.5 Pro
+Claude Haiku 4.5
+Gemini 2.5 Pro
+Gemini 2.5 Pro
+GPT-5 Mini
+Claude Haiku 4.5
+GPT-5 Mini
+Gemini 2.5 Pro
+GPT-5 Mini, Grok-4 Fast, Gemini 2.5 Pro
+
+0.1
+0.0
+0.0
+0.8
+0.5
+0.0
+0.0
+0.1
+-
+
+Evolutionary Parameters
+Max Iterations
+Parallel Mutations
+
+A.2.3
+
+6
+4
+
+Results
+
+The evolutionary process generated 17 solutions over 6 iterations. Figure 9 visualizes the solution tree showing
+parent-child relationships across all 17 solutions. The champion solution (00001) achieved a test score of 3.58 × 10−5 ,
+representing a 927× improvement over the root solution (3.32 × 10−2 ). Figure 10 shows the evolution of the best
+solution score across iterations and shows the text contributions from different agent types, with the proposer agent
+contributing the most. Figure 11 compares the ground truth solution obtained from finite difference method with
+500×500 grid resolution against the root and champion PINN solutions. The root solution exhibits large errors especially
+around the corner at (0, 0), while the champion solution achieves much reduced errors nearly uniformly distributed
+across the domain.
+14
+
+Figure 9: Evolution of solution tree for Poisson equation on L-shaped domain. Each node of the tree represents a
+solution implemented and evaluated by the agents. The score shows the combined PDE residual and boundary condition
+MSE. The best solution is colored in orange.
+
+(a) Evolution of best solution
+
+(b) Agent text contributions
+
+Figure 10: Multi-agent evolution metrics for the Poisson equation on L-shaped domain. Left: Evolution of best solution
+score over iterations. Right: Text contributions by agent type, showing the proposer contributes the most while the
+human user contributes minimal text. Engineering agents and selector agents are excluded in this plot.
+
+A.2.4
+
+Novelty of the Champion Solution
+
+The agents strategized to decompose the solution into multiple components. The proposer agent’s initial plan is to
+decompose the target solution as u(x, y) = unn (x, y) + up (x, y) + us1 (x, y) + us2 (x, y). Here unn is a 5-layer MLP,
+up = (x2 + y 2 )/4 is an analytical particular solution satisfying ∇2 up = 1, and us1 , us2 are analytical singular basis
+functions Ar2/3 sin( 23 (θ − π/2)) and Br4/3 sin( 43 (θ − π/2)) with trainable amplitudes A and B. To goal is to have
+the singular terms capture the singularity at the origin, while unn learns the smooth remainder.
+However, the engineer agent made a critical bug in the implementation: a PyTorch .detach() call cuts off gradient
+flow to A and B, preventing them from being learned, so A and B are kept as the initial values A = B = 0 in the final
+15
+
+model. Therefore, this 4-way decomposition strategy is not fully realized in practice. The actual learned decomposition
+is u(x, y) = unn (x, y) + up (x, y). The two components are visualized in Figure 12.
+In addition to the decomposition, the agents improved sampling of collocation points. The critic agent noted that
+“Uniform sampling of interior points is inefficient. The difficulty of the problem is concentrated at
+the origin, yet this region is sampled with the same probability as any other. This starves the model
+of the critical information needed to properly resolve the singularity."
+The agents thus implemented a 70/30 hybrid sampling scheme: 70% of collocation points are sampled uniformly
+over the domain, while 30% use an importance sampler. The importance sampler uses inverse transform sampling in
+polar coordinates centered at the origin. Specifically, the radius r is√drawn from a truncated power-law distribution
+p(r) ∝ r−γ on [rmin , rmax ] with γ = 0.7, rmin = 10−3 , and rmax = 2 (the maximum distance from origin to domain
+corner). For a uniform random variable U ∈ [0, 1], the inverse transform formula is:
+h
+i1/(1−γ) 
+
+1−γ
+1−γ
+1−γ
+0.3
+0.3
+0.3 1/0.3
+r = U · (rmax
+− rmin
+) + rmin
+= U · (rmax
+− rmin
+) + rmin
+The angle θ is sampled uniformly in [π/2, 2π] to cover the three quadrants of the L-shaped domain, then converted
+to Cartesian coordinates (x, y) = (r cos θ, r sin θ) and filtered to reject points outside the L-shaped domain. This
+power-law distribution with γ = 0.7 < 1 biases points near the origin.
+The code implements n_uniform = int(4096 * 0.7) = 2867 uniform points and n_importance = 4096 2867 = 1229 importance-sampled points. During training, each epoch samples a fresh batch of collocation points
+according to this scheme. Figure 13 visualizes the two samples.
+Finally, the agents improved the optimization by first training with Adam optimizer for 12,000 epochs using a
+CosineAnnealingLR scheduler. After Adam, it switches to L-BFGS training for 3,000 epochs, where the collocation
+points are fixded and do not change between epochs.
+
+16
+
+(a) Ground truth solution
+
+(b) Root solution (Score = 0.0332)
+
+(c) Champion solution (Score = 3.58e-05)
+
+Figure 11: Comparison of ground truth, root, and champion solutions for Poisson equation on L-shaped domain. (a)
+Ground truth solution from finite difference method. (b) Root solution, Score = 3.32 × 10−2 . (c) Champion solution,
+Score = 3.58 × 10−5 . The score shows the combined PDE residual and boundary condition MSE. The Champion
+solution exhibits significant improvement from the root.
+
+17
+
+Figure 12: Decomposition of the champion solution showing the two active components. Left: up = (x2 + y 2 )/4, the
+particular solution satisfying ∇2 up = 1. Right: unn , the MLP-learned component.
+
+Figure 13: Uniform and importance sampling of collocation points. Left: Uniform sampling. Right: Importance
+sampling with power-law distribution p(r) ∝ r−0.7 concentrates points near the origin. During each epoch of training,
+70% of collocation points are sampled uniformly and 30% from the importance sampler.
+
+18
+
+A.3
+
+Solving Burger’s Equation using PINN
+
+In this test, the multi-agent system is tasked with building a PINN to solve the viscous Burger’s equation with a
+challenging initial condition that leads to sharp gradients in the solution.
+A.3.1
+
+Problem Setup
+
+The user provided the following structured prompt to the system:
+Problem
+Build a PINN to solve the Burger’s equation with periodic boundary conditions:
+ut + uux −
+
+0.01
+uxx = 0,
+π
+
+x ∈ [0, 1],
+
+t ∈ [0, 1]
+
+u(0, x) = sin(2πx) − cos(4πx)
+Requirements
+Use PyTorch. Build a PINN - do NOT use numerical methods.
+Evaluation
+Find the PDE residual mean squared error (MSE) over a dense set of collocation points in the domain (must
+satisfy the Burger’s equation). Find the boundary condition MSE over a dense set of points on the boundary
+(must satisfy the periodic boundary conditions). Find initial condition error.
+Score =
+
+A.3.2
+
+1
+(PDE Residual MSE + IC Error MSE + BC Error MSE)
+3
+
+Agents Setup
+
+Table 3 summarizes the agent configurations and evolutionary parameters used in this experiment.
+Table 3: Agent configurations for Burger’s PINN experiment
+Agent
+
+Model
+
+Temperature
+
+root engineer
+
+Claude Haiku 4.5
+
+0.0
+
+data analyst
+evaluator
+retriever
+proposer
+critic
+engineer
+debugger
+result analyst
+selector
+
+Gemini 2.5 Pro
+Claude Haiku 4.5
+Gemini 2.5 Pro
+Grok-4 Fast Reasoning
+GPT-5 Mini
+Claude Haiku 4.5
+GPT-5 Mini
+Gemini 2.5 Pro
+GPT-5 Mini, Grok-4 Fast, Gemini 2.5 Pro
+
+0.1
+0.0
+0.0
+0.5
+0.3
+0.0
+0.0
+0.1
+-
+
+Evolutionary Parameters
+Max Iterations
+Parallel Mutations
+
+A.3.3
+
+6
+4
+
+Results
+
+The evolutionary process generated 8 solutions over 3 iterations. The score used for ranking in this problem is defined
+as the combined PDE residual, initial condition, and boundary condition MSE. The champion solution achieved an
+11,169× improvement from the root solution’s score. Figure 14 compares the ground truth solution obtained from
+FFT-based solver against the root and champion PINN solutions. The root solution is able to capture the general form
+19
+
+of the solution, but details near sharp gradients are missed. The champion solution closely matches the ground truth
+even in regions with steep gradients. Figure 15 visualizes the solution tree. Figure 16 shows the evolution of the best
+solution score across iterations with rapid convergence and agent text contributions.
+
+(a) Ground truth solution
+
+(b) Root solution (Score = 0.0449)
+
+(c) Champion solution (Score = 4.02 × 10−6 )
+
+Figure 14: Comparison of ground truth, root, and champion solutions for Burger’s equation PINN. The score shows the
+combined PDE residual, initial condition, and boundary condition errors.
+
+20
+
+Figure 15: Evolution of solution tree for Burger’s equation PINN. Each node of the tree represents a solution
+implemented and evaluated by the agents. The score shows the combined PDE residual, initial condition, and boundary
+condition errors. The best solution is colored in orange.
+
+(a) Evolution of best solution
+
+(b) Agent text contributions
+
+Figure 16: Multi-agent evolution metrics for Burger’s equation PINN. Left: Evolution of best solution score over
+iterations. Right: Text contributions by agent type, showing the proposer contributes the most while the human user
+contributes minimal text. Engineering agents and selector agents are excluded in this plot.
+
+A.3.4
+
+Novelty of the Champion Solution
+
+The agents proposed an adaptive gradient-enhanced PINN based on the retrieved knowledge base entry “GradientEnhanced Physics-Informed Neural Networks (gPINN)” [16]. The network architecture is a 6-block ResNet with
+Fourier embedding. The input (t, x) is first embedded as [t, sin(2πx), cos(2πx), x] to exploit the periodic boundary
+conditions.
+Training proceeds in three phases. First, the PINN undergoes pretraining to fit only the initial and boundary conditions
+using Adam with learning rate 5 × 10−3 . No PDE residuals are enforced.
+Next, the PINN is trained with full loss for an additional 12,000 epochs. Here, the PDE residual f = ut + uux − νuxx
+is differentiated to give fx = utx + u2x + uuxx − νuxxx . The loss function is L = LPDE + 10−4 Lgrad + LIC + LBC
+21
+
+where:
+Ncoll
+1 X
+λ(ti , xi ) · f (ti , xi )2 ,
+LPDE =
+2Ncoll i=1
+
+Lgrad =
+
+Ncoll
+1 X
+λ(ti , xi ) · fx (ti , xi )2 ,
+2Ncoll i=1
+
+LIC =
+
+NIC
+1 X
+λ(0, xj ) · [u(0, xj ) − u0 (xj )]2 ,
+2NIC j=1
+
+LBC =
+
+BC
+1 X
+[u(tk , 0) − u(tk , 1)]2 .
+NBC
+
+N
+
+k=1
+
+Inspired by [17], λ(t, x) are per-point adaptive weights, which are parameterized by a small 3-layer MLP λnet . For each
+point (t, x), the network outputs λ(t, x) = clamp(softplus(λnet (t, x)) · α, 0.1, 100) where α = 1/mean(λ) normalizes
+the average weight to 1. The λnet is optimized via gradient ascent using a separate Adam optimizer that maximizes the
+weighted losses while the main model minimizes them.
+Finally, the solution uses residual-based adaptive refinement (RAR) to further finetune the model on high-error
+regions. Each RAR iteration generates candidate points via Latin Hypercube Sampling, evaluate max(|f |, |fx |) at these
+candidates in batches of 1000, and add the top-50 highest-error points to the collocation set. After adding points, the
+model undergoes 1000 Adam epochs with λnet trainable followed by 500 L-BFGS iterations with λnet frozen. The
+L-BFGS optimization uses strong Wolfe line search and double precision.
+
+22
+
+A.4
+
+Antiderivative Operator Learning
+
+To test the agents’ understanding of operator learning and neural operators, this problem requires building a neural
+operator that maps input functions to their antiderivatives.
+A.4.1
+
+Problem Setup
+
+The user provided the following structured prompt to the system:
+Problem
+Learn a neural operator that maps input functions to their antiderivatives. Given an input function f : [0, 1] → R
+sampled at 100 equispaced points, find the operator G such that F ′ (x) = f (x).
+Input: Functions f (x) sampled at 100 points. Output: Antiderivative functions F (x) at the same 100 points.
+Goal: Generalize to unseen functions. Build a machine learning model, not a numerical integrator.
+Requirements
+Use PyTorch.
+Evaluation
+Average relative L2 error over 4000 validation samples (1000 each at 4 frequency levels: high, medium-high,
+medium-low, low).
+N
+1 X ∥Fpred − Ftrue ∥2
+Score =
+N i=1
+∥Ftrue ∥2
+Data
+validation_set:
+• filename: val_data.pkl
+• description: 4 datasets containing functions of different properties. Each dataset contains 1000 function
+pairs (f, F) where F is the antiderivative of f. Each function is sampled at 100 equispaced points on [0,
+1]. Total: 4000 samples.
+• loading_instructions: import pickle
+with open(’val_data.pkl’, ’rb’) as f:
+data = pickle.load(f)
+# data = {’0.05’: {...}, ’0.1’: {...}, ’0.2’: {...}, ’0.5’: {...}}
+# Each key contains: {’values’: (1000, 100), ’antiderivative’: (1000, 100)}
+# Extract specific dataset: dataset = data[’0.05’]
+# Or combine all: import numpy as np; all_values = np.vstack([data[k][’values’] for k in data.keys()])
+The validation set is provided to the evaluator to help with model assessment, but it is not accessible to other agents
+during solution development. The validation set contains functions sampled from Gaussian Random Fields (GRFs)
+with four different length scales (0.05, 0.1, 0.2, 0.5), but this information is not provided to the agents. No training
+dataset is provided; the agents must generate their own training samples.
+A.4.2
+
+Agents Setup
+
+Table 4 summarizes the agent configurations and evolutionary parameters used in this experiment.
+A.4.3
+
+Results
+
+The evolutionary process generated 15 solutions over 5 iterations, achieving a 669× improvement from the root
+solution’s relative L2 error of 0.810 to the champion solution’s (solution_0200) error of 0.00121. Figure 17 visualizes
+the solution evolution tree showing all 15 solutions. Figure 18 shows the evolution of the best solution score and agent
+23
+
+Table 4: Agent configurations for antiderivative operator experiment
+Agent
+
+Model
+
+Temperature
+
+root engineer
+
+GPT-5 Mini
+
+0.0
+
+data analyst
+evaluator
+retriever
+proposer
+critic
+engineer
+debugger
+result analyst
+selector
+
+Gemini 2.5 Pro
+Claude Haiku 4.5
+Gemini 2.5 Pro
+Gemini 2.5 Pro
+GPT-5 Mini
+Claude Haiku 4.5
+GPT-5 Mini
+Gemini 2.5 Pro
+GPT-5 Mini, Grok-4 Fast, Gemini 2.5 Pro
+
+0.1
+0.0
+0.0
+0.3
+0.1
+0.0
+0.0
+0.1
+-
+
+Evolutionary Parameters
+Max Iterations
+Parallel Mutations
+
+5
+4
+
+text contributions. Figure 19 shows the root solution’s predictions across four GRF length scales (0.05, 0.1, 0.2, 0.5),
+and Figure 20 shows the champion solution’s predictions. Figure 21 compares mean relative L2 error across GRF
+length scales: the root solution shows high errors with high variance, while the champion solution achieves low errors,
+with functions generated from small length scale (0.05) being the most challenging case.
+
+Figure 17: Evolution of solution tree for antiderivative operator learning. Each node of the tree represents a solution
+implemented and evaluated by the agents. The score shows the average relative L2 error over the validation set. The
+best solution is colored in orange.
+
+A.4.4
+
+Novelty of the Champion Solution
+
+The solution uses a DeepONet consisting of two networks: a linear, bias-free branch network that maps the input
+function to a 128-dimensional latent space, and a trunk network with 4 hidden layers of 192 neurons each using
+AdaptiveGELU activations that maps spatial coordinates to the same 128-dimensional latent space. During the analysis
+phase, the proposer noted that
+“The integration operator G is linear. For any functions f1 , f2 and scalars α, β:
+G(αf1 + βf2 ) = αG(f1 ) + βG(f2 )
+A successful neural operator should respect this property.”
+Therefore, it decides to implement the unconventional choice of a linear branch network to enforce the linearity.
+Additionally, “physics-informed DeepONet” [20] retrieved from the knowledge base inspires the incorporation of a
+24
+
+(a) Evolution of best solution
+
+(b) Agent text contributions
+
+Figure 18: Multi-agent evolution metrics for antiderivative operator learning. Left: Evolution of best solution score
+over iterations. Right: Text contributions by agent type, showing the proposer contributes the most while the human
+user contributes minimal text. Engineering agents and selector agents are excluded in this plot.
+physics-informed loss
+N
+
+Lphysics =
+
+100 
+
+XX
+1
+N · 100 i=1 j=1
+
+2
+dF (i)
+(xj ) − f (i) (xj )
+dx
+
+into the training to enforce the differential relationship F ′ = f .
+Training employs a scheduled weighting strategy where the physics-informed loss weight starts at 0 and linearly
+increases to its final value of 0.1 over the first 50 epochs according to wphysics (epoch) = 0.1 · min(1.0, epoch+1
+). This
+50
+schedule is intended to let the model first establish a data fit before gradually introducing the physics constraint. The
+model is trained for 250 epochs using the AdamW optimizer with learning rate 10−3 , weight decay 10−5 , batch size
+128, and a cosine annealing learning rate scheduler.
+The agents generated their own training data using GRFs with length scales sampled from a log-uniform distribution on
+[0.05, 0.5], giving more samples at smaller scales.
+
+25
+
+Figure 19: Root solution predictions for antiderivative operator learning on the validation dataset where input functions
+are sampled using GRF with different length scales.
+
+26
+
+Figure 20: Champion solution predictions for antiderivative operator learning on the validation dataset where input
+functions are sampled using GRF with different length scales.
+
+Figure 21: Error comparison for antiderivative operator learning. Left: Root solution error distribution. Right:
+Champion solution error distribution. Champion solution exhibits significant improvement from the root across all
+frequency categories.
+
+27
+
+A.5
+
+Multiple-input Operator Learning for Reaction-Diffusion Equation
+
+This problem tests the agents’ ability to design a neural operator that takes multiple input functions. We follow the
+same setup as [21], but this work is not included in the knowledge base.
+A.5.1
+
+Problem Setup
+
+The user provided the following structured prompt to the system:
+Problem
+Learn operator mapping two input functions to spatiotemporal solution.
+∂
+∂u
+2
+PDE: ∂u
+∂t = ∂x (k(x) ∂x ) + 0.01 · u + f (x), x ∈ [0, 1], t ∈ [0, 1], u(x, 0) = 0, u(0, t) = u(1, t) = 0.
+Task: Input two functions k(x) and f (x) (each 100 spatial points), output solution u(x, t) on 100×100 grid.
+Note: This differs from standard single-input operator learning by having two input functions. Design a model
+that can handle multiple inputs.
+Requirements
+Use PyTorch.
+Evaluation
+Average relative L2 error: Score = (1/N )
+
+P
+
+i ∥upred − utrue ∥L2 /∥utrue ∥L2
+
+Data
+training_set:
+• filename: train_data.npz
+• description: 1000 samples for diffusion-reaction operator learning. PDE: u_t = (k(x)u_x)_x + 0.01·u² +
+f(x) on [0,1]×[0,1] with zero BC and IC. Both k(x) and f(x) are time-independent spatial functions
+from GRF (length scale 0.2). Shapes: k (1000, 100), f (1000, 100), u (1000, 100, 100), x (100,), t
+(100,). Solution u is in the shape of (num_samples, time_points, spatial_points).
+• loading_instructions: Use np.load(’train_data.npz’). Access via data[’k’], data[’f’], data[’u’], data[’x’],
+data[’t’]
+validation_set:
+• filename: val_data.npz
+• description: 200 samples for diffusion-reaction operator learning. PDE: u_t = (k(x)u_x)_x + 0.01·u² +
+f(x) on [0,1]×[0,1] with zero BC and IC. Both k(x) and f(x) are time-independent spatial functions
+from GRF (length scale 0.2). Shapes: k (200, 100), f (200, 100), u (200, 100, 100), x (100,), t (100,).
+Solution u is in the shape of (num_samples, time_points, spatial_points).
+• loading_instructions: Use np.load(’val_data.npz’). Access via data[’k’], data[’f’], data[’u’], data[’x’],
+data[’t’]
+A.5.2
+
+Agents Setup
+
+Table 5 summarizes the agent configurations and evolutionary parameters used in this experiment.
+A.5.3
+
+Results
+
+The evolutionary process generated 20 solutions over 7 iterations, achieving a 15.6× improvement from the root
+solution’s relative L2 error of 0.137 to the champion solution’s (solution_010110) error of 0.00878. Figure 22 shows
+the solution evolution tree showing all 20 solutions. Figure 23 shows the evolution of the best score across iterations
+and agent text contributions. Figure 24 shows the root solution’s predictions on three validation samples. Figure 25
+shows the champion solution’s predictions on the same samples. Note that the immediate childs of the root solution all
+28
+
+Table 5: Agent configurations for multi-input operator experiment
+Agent
+
+Model
+
+Temperature
+
+root engineer
+
+GPT-5 Mini
+
+0.0
+
+data analyst
+evaluator
+retriever
+proposer
+critic
+engineer
+debugger
+result analyst
+selector
+
+Gemini 2.5 Flash
+Claude Haiku 4.5
+Gemini 2.5 Flash
+Gemini 2.5 Flash
+GPT-5 Mini
+Claude Haiku 4.5
+GPT-5 Mini
+Gemini 2.5 Flash
+GPT-5 Mini, Grok-4 Fast, Gemini 2.5 Flash
+
+0.1
+0.0
+0.0
+0.9
+0.3
+0.0
+0.0
+0.1
+-
+
+Evolutionary Parameters
+Max Iterations
+Parallel Mutations
+
+8
+4
+
+degraded in performance. However, further mutations led to significant improvements, as the agents learn from failures
+and refine their designs. This shows the importance of not discarding solutions that initially perform poorly but keeping
+exploring their potential through further mutations.
+
+Figure 22: Evolution of solution tree for multi-input operator learning for reaction-diffusion equation. Each node of the
+tree represents a solution implemented and evaluated by the agents. The score shows the average relative L2 error over
+the validation set. The best solution is colored in orange.
+A.5.4
+
+Novelty of the Champion Solution
+
+The solution employs a Fourier Neural Operator (FNO2d) architecture with 4 input channels (k(x), f (x), spatial
+coordinates x, and temporal coordinates t), 16 Fourier modes in both time and space dimensions, and 4 spectral layers.
+To handle the two input functions k(x) and f (x), the model expands each 1D spatial function into 2D spatiotemporal
+grids by replicating across the time dimension, then concatenates them with coordinate grids to form a 4-channel input
+tensor of shape (N, 4, 100, 100).
+Inspired by a retrieved knowledge base entry on the training strategy of U-FNO for capturing sharp saturation fronts in
+CO2 storage simulations [18], the proposer introduced a derivative loss term to encourage the model to learn solutions
+29
+
+(a) Evolution of best solution
+
+(b) Agent text contributions
+
+Figure 23: Multi-agent evolution metrics for multi-input operator learning for reaction-diffusion equation. Left:
+Evolution of best solution score over iterations. Right: Text contributions by agent type, showing the proposer
+contributes the most while the human user contributes minimal text. Engineering agents and selector agents are
+excluded in this plot.
+more accurately in regions of high spatial variation. The spatial derivative ∂u/∂x is approximated using a central finite
+difference scheme (∂u/∂x)i ≈ (ui+1 − ui−1 )/(2∆x). The derivative loss is computed as the relative loss
+PNinterior
+[(∂upred /∂x)i − (∂utrue /∂x)i ]2
+Lderiv = i=1PNinterior
+2
+−8
+i=1 (∂utrue /∂x)i + 10
+where the summation is over all interior spatial points (excluding boundaries) across all samples and time steps. The
+total loss function is given as
+L=
+
+Ndata
+1 X
+[upred,i − utrue,i ]2 + 0.5 · Lderiv
+Ndata i=1
+
+The training process consists of 100 epochs with batch size 32, Adam optimizer with learning rate 10−3 , and ReduceLROnPlateau scheduler (factor 0.5, patience 5). Boundary and initial conditions are hard-enforced by directly setting
+u(x, 0) = 0, u(0, t) = 0, and u(1, t) = 0 on the FNO output before returning predictions.
+
+30
+
+Figure 24: Root solution predictions for multi-input operator learning on the validation dataset. The contours and
+magnitudes of the prediction are not accurate compared to the ground truth.
+
+31
+
+Figure 25: Champion solution predictions for multi-input operator learning on the validation dataset. The prediction is
+very close to the ground truth.
+
+32
+
+A.6
+
+Reconstruction of 2D Cylinder Wake Vorticity Field from Sparse Observations
+
+This problem evaluates the agents’ capability to design a model architecture that can reconstruct a physical field from
+sparse and noisy sensor measurements. We use the set up and dataset from [22] and [23], but these works are not
+included in the agents’ knowledge base.
+A.6.1
+
+Problem Setup
+
+The user provided the following structured prompt to the system:
+Problem
+Reconstruct the complete 2D vorticity field from sparse noisy sensor measurements in unsteady cylinder wake
+flow.
+Physical System: The cylinder wake is a well-known benchmark in fluid mechanics characterized by periodic
+laminar flow vortex shedding. The flow field is obtained by solving the incompressible Navier-Stokes equations
+at Reynolds number Re = 100. The computational domain is rectangular with the cylinder body positioned
+within it, and the dataset contains 5000 snapshots spanning four vortex shedding periods.
+Task: Input: Noisy vorticity measurements from 4 fixed sensor locations distributed across the flow field.
+Output: Complete vorticity field reconstructed at all 112×192 grid points in the spatial domain. Objective:
+Learn the mapping from sparse noisy observations (4 points) to the global physical field (21,504 grid points),
+achieving accurate reconstruction that captures the complex vortex dynamics despite measurement noise.
+Challenge: Sparse Sensors: Only 4 measurement points to reconstruct 21,504 grid points (5,376× expansion
+ratio). Measurement Noise: Additive White Gaussian Noise (AWGN) with SNR=30dB is added to sensor
+observations.
+Requirements
+Use PyTorch.
+Evaluation
+The reconstruction performance is evaluated using the relative L2 error: Relative L2 Error = ∥u − upred ∥2 /∥u∥2 .
+Final Score: Average relative L2 error over all test snapshots (750 snapshots).
+Data
+training_set:
+• filename: train_data.npy
+• description: 3500 samples for noisy cylinder wake vorticity reconstruction. Flow at Re=100 with
+periodic vortex shedding. AWGN noise with SNR=30dB added to all data. 4 fixed sensors in wake
+region at positions [56,37], [53,40], [59,43], [50,47] in (h,w) coordinates. Shapes: sparse_observations
+(3500, 1, 112, 192) with noisy values at 4 sensor locations, full_fields (3500, 1, 112, 192) complete
+noisy vorticity fields, coordinates (2, 112, 192) where dim0=[x_grid, y_grid] normalized to [0,1],
+sensor_positions (4, 2) array of [h_idx, w_idx] for each sensor.
+• loading_instructions: Use np.load(’train_data.npy’, allow_pickle=True).item(). Returns dictionary with keys: ’sparse_observations’, ’full_fields’, ’coordinates’, ’sensor_positions’. Access via
+data[’sparse_observations’][i] for i-th sample’s noisy sparse field, data[’full_fields’][i] for noisy ground
+truth. Coordinates are shared: data[’coordinates’][0] is x-grid, data[’coordinates’][1] is y-grid. Input
+to model: concatenate [sparse_observations[i], coordinates] along channel dimension to get (3, 112,
+192) where channels are [sparse_noisy_vorticity, x_coords, y_coords]. Target: data[’full_fields’][i, 0]
+shape (112, 192) noisy field.
+validation_set:
+• filename: val_data.npy
+• description: 750 samples for noisy cylinder wake vorticity reconstruction. Flow at Re=100 with
+periodic vortex shedding. AWGN noise with SNR=30dB added to all data. 4 fixed sensors in wake
+
+33
+
+region at positions [56,37], [53,40], [59,43], [50,47] in (h,w) coordinates. Shapes: sparse_observations
+(750, 1, 112, 192) with noisy values at 4 sensor locations, full_fields (750, 1, 112, 192) complete
+noisy vorticity fields, coordinates (2, 112, 192) where dim0=[x_grid, y_grid] normalized to [0,1],
+sensor_positions (4, 2) array of [h_idx, w_idx] for each sensor.
+• loading_instructions: Use np.load(’val_data.npy’, allow_pickle=True).item(). Returns dictionary
+with keys: ’sparse_observations’, ’full_fields’, ’coordinates’, ’sensor_positions’. Access via
+data[’sparse_observations’][i] for i-th sample’s noisy sparse field, data[’full_fields’][i] for noisy ground
+truth. Coordinates are shared: data[’coordinates’][0] is x-grid, data[’coordinates’][1] is y-grid. Input
+to model: concatenate [sparse_observations[i], coordinates] along channel dimension to get (3, 112,
+192) where channels are [sparse_noisy_vorticity, x_coords, y_coords]. Target: data[’full_fields’][i, 0]
+shape (112, 192) noisy field.
+A.6.2
+
+Agents Setup
+
+Table 6 summarizes the agent configurations and evolutionary parameters used in this experiment.
+Table 6: Agent configurations for cylinder reconstruction experiment
+Agent
+
+Model
+
+Temperature
+
+root engineer
+
+Claude Haiku 4.5
+
+0.0
+
+data analyst
+evaluator
+retriever
+proposer
+critic
+engineer
+debugger
+result analyst
+selector
+
+Gemini 2.5 Flash
+Claude Haiku 4.5
+Gemini 2.5 Flash
+Grok-4 Fast Reasoning
+GPT-5 Mini
+Claude Haiku 4.5
+GPT-5 Mini
+Gemini 2.5 Flash
+GPT-5 Mini, Grok-4 Fast, Gemini 2.5 Flash
+
+0.1
+0.0
+0.0
+0.1
+0.1
+0.0
+0.0
+0.1
+-
+
+Evolutionary Parameters
+Max Iterations
+Parallel Mutations
+
+A.6.3
+
+5
+4
+
+Results
+
+The evolutionary process generated 15 solutions over 4 iterations, achieving a 10.3× improvement from the root
+solution’s relative L2 error of 0.238 to the champion solution’s (solution_000) error of 0.0232. Figure 26 visualizes
+the solution evolution tree showing all 15 solutions. Figure 27 shows the evolution of the best solution score across
+iterations and agent text contributions. Figure 28 shows the ground truth and the root and champion predictions for a
+validation sample.
+A.6.4
+
+Novelty of the Champion Solution
+
+The solution combines the U-FNO architecture [18] with a bandlimit-preserving filter in the U-Net component inspired
+by Convolutional Neural Operators (CNO) [19] to mitigate aliasing effects during decoder upsampling. This strategy is
+different from the ones in [22] and [23] which inspired this benchmark problem.
+Specifically, the U-FNO modifies the standard FNO by appending a mini U-Net path to the Fourier layer. The model
+takes 3 input channels (sparse noisy vorticity observations, x-coordinate grid, and y-coordinate grid) and reconstructs
+the full 112×192 vorticity field. The architecture consists of a lifting layer projecting inputs to width 32, two pure
+Fourier blocks with SpectralConv2d operations, and two U-Fourier fusion layers that concatenate spectral output, bias
+projection, and U-Net output through 1×1 convolutions before a final projection to the output channel.
+The key modification is a filtering implemented in the U-Net’s upsampling stage, inspired by the Convolutional Neural
+Operator. It is intended to address aliasing when upsampling operations reconstruct fine-scale features from coarse
+representations. The bandlimit-preserving activation is implemented in the U-Net through four stages: upsample by
+factor 2 using nearest-neighbor interpolation, apply LeakyReLU with negative slope 0.1, convolve with a Gaussian
+34
+
+Figure 26: Evolution of solution tree for cylinder wake vorticity field reconstruction from sparse noisy observations.
+Each node of the tree represents a solution implemented and evaluated by the agents. The score shows the relative L2
+error on the validation set. The best solution is colored in orange.
+
+(a) Evolution of best solution
+
+(b) Agent text contributions
+
+Figure 27: Multi-agent evolution metrics for cylinder wake vorticity field reconstruction from sparse noisy observations.
+Left: Evolution of best solution score over iterations. Right: Text contributions by agent type, showing the proposer
+contributes the most while the human user contributes minimal text. Engineering agents and selector agents are excluded
+in this plot.
+low-pass filter (g(x, y) = exp(−(x2 + y 2 )/(2σ 2 )) with kernel size 7 × 7 and σ = 1.0, ), and downsample back to
+original resolution using area interpolation.
+The loss function combines three weighted terms:
+N
+∥upred − utrue ∥2
+∥∇upred − ∇utrue ∥2
+1 X
+L = 1.0 ·
++ 0.1 ·
+|upred,i − utrue,i | + 0.3 ·
+∥utrue ∥2
+N i=1
+∥∇utrue ∥2
+
+where N = 112 × 192 is the total number of grid points. The L1 term is designed to provide robustness to noise
+(SNR=30dB) and outliers. The gradient computation uses central finite differences instead of automatic differentiation.
+The proposer agent decides to add this gradient term to help capture sharp vorticity gradients at vortex core boundaries.
+
+35
+
+(a) Noisy ground truth with sensor positions
+
+(b) Root solution
+
+(c) Champion solution
+
+Figure 28: Comparison of ground truth, root, and champion solutions for cylinder wake vorticity field reconstruction.
+
+36
+
+B
+
+Knowledge Base
+
+B.1
+
+Construction of the Knowledge Base
+
+The knowledge base (KB) used in our experiments consists of 70 entries of SciML techniques. While it is generally
+advantageous to include only the entries relevant to a specific problem context, we keep all entries in the KB throughout
+our experiments to test the retriever agent’s robustness, even though many entries are not directly relevant and can
+potentially lead to agents’ confusion.
+Each KB entry is constructed by synthesizing information from both research papers and their corresponding publicly
+available code on GitHub. The curation process is semi-automated using an LLM agent (Claude). Human researchers
+first identify relevant papers and code, and the agent then extracts key information including:
+• Problem Setup: The specific scientific computing problem being addressed, including equation types,
+boundary conditions, and domain characteristics.
+• Issues addressed: Concrete symptoms and challenges the method mitigates (e.g., slow convergence, oscillations, discontinuities, noise sensitivity), so that agents can match methods to observed training difficulties.
+• Core method: The key algorithmic or architectural innovation.
+• Implementation: Annotated code snippets on the model architecture, training loop, and other algorithmic
+components.
+• Critical parameters: Hyperparameters and design choices.
+If a paper discussed multiple applications, all applications are included in the knowledge base as separate entries under
+the same method.
+All entries are stored as structured Markdown files. A summary index in JSON format holds all the method names,
+descriptions, and file paths. The retriever agent will search through this index to identify relevant methods based on the
+problem context and training issues reported by other agents.
+An example knowledge base entry is provided in Figure 29.
+
+Figure 29: Example knowledge base entry and the JSON index summarizing method descriptions and file paths.
+B.2
+
+List of Knowledge Base Entries
+
+Table 7 provides a comprehensive overview of all KB entries.
+
+37
+
+Table 7: Knowledge Base Entries: 70 Scientific Machine Learning Methods
+#
+
+Method
+
+Description
+
+Ref.
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+
+Adaptive Act.
+Local Adaptive Act.
+DeepONet
+PI-DeepONet
+PI-DeepONet
+MoE-PINN
+MoE-PINN
+Self-Adaptive PINN
+Self-Adaptive PINN
+Self-Adaptive PINN
+PINN
+PINN
+PINN
+PINN
+PINN
+hp-VPINN
+hp-VPINN
+hp-VPINN
+hp-VPINN
+gPINN
+Delta-PINN
+gPINN
+gPINN
+gPINN
+gPINN
+gPINN
+gPINN
+NSFnet
+ev-NSFnet
+hPINN
+hPINN
+DeepONet
+FNO
+DeepONet
+FNO
+DeepONet
+FNO
+DeepONet
+FNO
+POD-DeepONet
+FNO
+ICON
+U-FNO
+U-FNO
+CNO
+Fourier-DeepONet
+Fourier-DeepONet
+Fourier-DeepONet
+Fourier-DeepONet
+CNO
+CNO
+CNO
+CNO
+CNO
+
+Adaptive activation functions for Burgers equation
+Locally adaptive activation with slope recovery
+Antiderivative operator learning
+Physics-informed antiderivative operator learning
+Diffusion-reaction systems
+Burgers equation with mixture-of-experts
+Poisson equation on L-shaped domain
+Allen-Cahn equation
+Burgers equation
+Helmholtz equation
+Burgers equation forward problem
+Burgers equation inverse problem
+Diffusion equation with source term
+Simple ordinary differential equation
+1D Poisson equation with Dirichlet BC
+Advection-diffusion inverse problem
+1D Poisson equation
+2D Poisson equation
+2D Poisson equation on L-shaped domain
+Diffusion-reaction equation
+Complex geometries
+Allen-Cahn equation with adaptive refinement
+Burgers’ equation
+Inverse diffusion-reaction system
+Function approximation
+1D Poisson equation
+2D Poisson equation
+Incompressible Navier-Stokes equations
+Entropy-viscosity regularized NSFnet
+Inverse design with hard constraints
+Stokes flow topology optimization
+2D advection equations
+2D advection equations
+1D Burgers’ equation
+1D Burgers’ equation
+2D Darcy flow with piecewise constant permeability
+2D Darcy flow
+2D Darcy flow on triangular domain with notch
+Irregular geometries
+Instability wave propagation
+Wave propagation with non-uniform grids
+In-context operator networks
+Gas saturation in CO2 storage
+Pressure buildup in CO2 storage
+Allen-Cahn equation
+Full waveform inversion (CurveFault-A)
+Full waveform inversion (CurveVel-A)
+Full waveform inversion (FlatVel-B)
+Full waveform inversion (Style-A)
+Smooth transport equation
+Darcy flow
+Discontinuous transport equation
+Compressible Euler equations (airfoil)
+Navier-Stokes shear layer
+
+[15]
+[24]
+[3, 25]
+[20, 25]
+[20, 25]
+[26]
+[26]
+[17]
+[17]
+[17]
+[1]
+[1]
+[1]
+[1]
+[1]
+[27]
+[27]
+[27]
+[27]
+[16]
+[28]
+[16]
+[16]
+[16]
+[16]
+[16]
+[16]
+[29]
+[29]
+[30]
+[30]
+[31, 3]
+[31, 2]
+[31, 3]
+[31, 2]
+[31, 3]
+[31, 2]
+[31, 3]
+[31, 2]
+[31, 3]
+[31, 2]
+[32]
+[18]
+[18]
+[19]
+[33]
+[33]
+[33]
+[33]
+[19]
+[19]
+[19]
+[19]
+[19]
+Continued on next page
+
+38
+
+#
+
+Method
+
+Table 7 – Continued from previous page
+Description
+
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+
+CNO
+CNO-FM
+Oformer
+Oformer
+Oformer
+Oformer
+Oformer
+Oformer
+GNOT
+GNOT
+GNOT
+GNOT
+GNOT
+GNOT
+GNOT
+GNOT
+
+Wave equation
+Foundation model for multiple PDEs
+Compressible flow around airfoils
+Burgers’ equation
+Darcy flow
+Electrostatics Poisson equation
+Magnetostatics Poisson equation
+2D Navier-Stokes equations
+2D Darcy flow
+2D elasticity
+2D multi-scale heat conduction
+3D multi-physics heatsink
+2D electromagnetic inductor
+2D transonic airfoil flow
+2D Navier-Stokes steady-state
+2D time-dependent Navier-Stokes
+
+39
+
+Ref.
+[19]
+[19]
+[34]
+[34]
+[34]
+[34]
+[34]
+[34]
+[35]
+[35]
+[35]
+[35]
+[35]
+[35]
+[35]
+[35]
+
+C
+
+Agent Prompts
+
+This section provides the core system prompts for each agent in the framework. Full prompt details will be available in
+the code repository.
+C.1
+
+Data analyst agent
+
+ROLE: Exploratory data analyst with multimodal vision (Gemini)
+TASK: Generate Python code for EDA, execute it, analyze
+visualizations, and produce text-only report.
+KEY INSTRUCTIONS:
+- Generate code focusing on:
+(1) Mathematical properties (singularities, discontinuities)
+(2) Data quality (outliers, distributions)
+(3) Solution-relevant insights (sharp gradients, sampling issues)
+- Create matplotlib visualizations and save all plots
+- Execute code with self-debugging loop (max 3 iterations)
+- Analyze generated plots using vision capabilities
+- Write text-only report (downstream agents cannot see images)
+- Use NumPy/matplotlib/scipy only (no PyTorch/JAX)
+C.2
+
+Evaluator agent
+
+ROLE: Testing contract generator
+TASK: Generate evaluate.py and guidelines.md defining solution
+interface and evaluation protocol.
+KEY INSTRUCTIONS:
+- evaluate.py: Self-contained test script with get_test_data(),
+compute_score(), and main() functions
+- guidelines.md: Engineering contract specifying MODEL class
+interface, checkpoint format, data shapes
+- Make ALL technical decisions (checkpoint format, data shapes)
+- Ensure 100% consistency between evaluate.py and guidelines.md
+- Specify WHAT to implement, NOT HOW (no architecture suggestions)
+- Do NOT provide validation dataset details to engineer
+C.3
+
+Retriever agent
+
+ROLE: Knowledge base retriever
+TASK: Search 70 KB entries to identify 0-1 relevant technique
+that can improve current solution.
+KEY INSTRUCTIONS:
+- Evaluate relevance based on problem description, parent’s
+performance, and parent’s code
+- Check if technique is already correctly implemented (skip if yes)
+- Consider testing results (avoid regularization if underfitting)
+- Select AT MOST 1 entry that will help and is feasible
+- Provide detailed reasoning for selection/non-selection
+C.4
+
+Proposer agent
+
+ROLE: Mutation proposal generator (4-round debate with critic)
+
+40
+
+TASK: Generate implementation-ready proposals through structured
+debate (2 reasoning + 1 synthesis + 1 finalization rounds).
+ROUNDS:
+- Rounds 1-2 (Reasoning): Explore improvements by analyzing:
+(1) Parent’s weaknesses from analysis report
+(2) KB entry techniques
+(3) Insights from relatives in Analysis Bank
+(4) selector’s reasoning for choosing this parent
+Focus on diagnosing issues and proposing targeted fixes.
+- Round 3 (Synthesis): Synthesize critic feedback into concrete
+mutation plan. Specify exact changes with hyperparameters.
+- Round 4 (Finalization): Generate complete proposal with sections:
+Motivation, Core Changes, Implementation Plan, Expected Outcomes.
+KEY INSTRUCTIONS:
+- Consider data analysis report for training data characteristics
+- Balance incremental improvements and novel approaches
+- Respond to critic’s feedback constructively
+C.5
+
+Critic agent
+
+ROLE: Proposal critic (3-round debate with proposer)
+TASK: Critique proposals through structured debate
+(2 reasoning + 1 plan critique rounds).
+ROUNDS:
+- Rounds 1-2 (Reasoning Critique): Evaluate proposal for:
+(1) Correctness (mathematical validity, feasibility)
+(2) Relevance (addresses parent’s actual weaknesses)
+(3) Feasibility (compatible with existing code)
+(4) Novelty vs safety trade-off
+Challenge assumptions and identify potential issues.
+- Round 3 (Plan Critique): Review synthesized plan for
+completeness. Ensure all implementation details specified.
+Verify consistency with requirements and testing contract.
+KEY INSTRUCTIONS:
+- Balance constructive criticism and reasonable exploration
+- If parent selected for exploration, be permissive of risky ideas
+C.6
+
+Engineer agent
+
+ROLE: Solution code implementer
+TASK: Implement solution.py following proposals and guidelines.
+MODES:
+- Root Solution (Phase 2): Generate complete solution.py
+implementing MODEL class from scratch. No parent/proposal.
+- Child Solution (Phase 3): Implement proposal’s changes on
+top of parent’s code. Use parent as foundation, modify per
+proposal. Include all hyperparameters from proposal.
+
+41
+
+- Debugging (All phases): Fix errors based on debugger feedback.
+Preserve working components, only modify problematic sections.
+KEY INSTRUCTIONS:
+- Implement both --mode=validate (1 epoch) and --mode=train (full)
+- Save checkpoint to ./MODEL_CHECKPOINT per guidelines
+- Print training progress to stdout
+- Follow guidelines exactly (API, data shapes, checkpoint format)
+C.7
+
+Debugger agent
+
+ROLE: Implementation error analyzer
+TASK: Diagnose errors from failed validation/training runs and
+provide debugging suggestions.
+KEY INSTRUCTIONS:
+- Analyze error traceback and error message
+- Review problematic code sections
+- Identify root cause (syntax, runtime, logic errors)
+- Provide specific fix suggestions with code snippets
+- Consider common pitfalls (shape mismatches, device issues, etc.)
+- Keep fixes minimal and targeted to preserve working components
+C.8
+
+Result analyst agent
+
+ROLE: Performance analyzer with multimodal vision
+TASK: Generate comprehensive analysis reports for completed solutions.
+INPUTS:
+- Solution code (complete, no truncation)
+- Training log (complete, no truncation)
+- Testing log (complete, no truncation)
+- Final evaluation score
+- Proposal markdown (for child solutions)
+- Parent analysis (for child solutions)
+- Plot images (if available)
+REPORT STRUCTURE:
+## Summary of Approach
+- Model architecture/algorithm
+- Key techniques and innovations (focus on novel, non-trivial)
+- Hyperparameters (network size, loss weights, etc.)
+- Training setup (epochs, batch size, etc.)
+- Optimization details (optimizer, learning rate, scheduler)
+## Training Dynamics
+- Convergence behavior (fast/slow/stagnant)
+- Loss components (which dominates)
+- Training stability (stable/oscillating/diverging)
+- Overfitting/underfitting behavior
+- Numerical issues or anomalies
+## Performance Breakdown
+- Final score and component metrics
+- Comparison with parent (for child solutions)
+- Algorithmic/mathematical bottlenecks
+- NOT hardware bottlenecks
+42
+
+## Plot Analysis (if plots provided)
+- Describe what plots show
+- Key observations and patterns
+- How plots relate to performance
+## Comparison with Parent (for child solutions)
+- What changed from parent
+- Why change helped or hurt performance
+- Lessons learned
+KEY INSTRUCTIONS:
+- Be specific and technical (not generic praise)
+- Focus on actionable insights for downstream mutations
+- Use multimodal vision to analyze plots when available
+C.9
+
+Selector agent
+
+ROLE: Solution selector for ensemble-guided mutation
+TASK: Select top-K solutions from candidate pool for next iteration.
+Uses ensemble voting (GPT + Grok + Gemini).
+SELECTION CRITERIA:
+HIGH POTENTIAL (select):
+- New architecture with moderate losses (may need tuning)
+- Innovative techniques with fixable implementation flaws
+- Strong theory but imbalanced loss terms (needs rebalancing)
+- Novel approach not yet converged (needs more training)
+- Underexplored branch (fewer children, unexplored search space)
+- Good ideas with suboptimal hyperparameters (easy wins)
+LOW POTENTIAL (avoid):
+- Traditional architecture with performance plateau
+- Repeatedly failed mutations with no clear improvement path
+- Fundamental design flaws incompatible with requirements
+- Overexplored branches (many children, likely exhausted)
+EXPLOITATION VS EXPLORATION:
+- Select 1-2 top performers for incremental refinement
+- Select 1-2 interesting failures with fixable issues
+- Balance is key for effective search
+OUTPUT:
+- Exactly K solution IDs
+- 2-3 bullet points per selection explaining potential
+- Explicit consideration of exploitation-exploration trade-off
+
+43
+
+References
+[1] Maziar Raissi, Paris Perdikaris, and George E Karniadakis. Physics-informed neural networks: A deep learning
+framework for solving forward and inverse problems involving nonlinear partial differential equations. Journal of
+Computational physics, 378:686–707, 2019.
+[2] Zongyi Li, Nikola Kovachki, Kamyar Azizzadenesheli, Burigede Liu, Kaushik Bhattacharya, Andrew Stuart,
+and Anima Anandkumar. Fourier neural operator for parametric partial differential equations. arXiv preprint
+arXiv:2010.08895, 2020.
+[3] Lu Lu, Pengzhan Jin, Guofei Pang, Zhongqiang Zhang, and George Em Karniadakis. Learning nonlinear
+operators via deeponet based on the universal approximation theorem of operators. Nature machine intelligence,
+3(3):218–229, 2021.
+[4] Ameya D Jagtap, Ehsan Kharazmi, and George Em Karniadakis. Conservative physics-informed neural networks
+on discrete domains for conservation laws: Applications to forward and inverse problems. Computer Methods in
+Applied Mechanics and Engineering, 365:113028, 2020.
+[5] Xuhui Meng, Zhen Li, Dongkun Zhang, and George Em Karniadakis. Ppinn: Parareal physics-informed neural
+network for time-dependent pdes. Computer Methods in Applied Mechanics and Engineering, 370:113250, 2020.
+[6] et al. Boiko. The Virtual Lab: A platform for AI-driven scientific experimentation.
+arXiv:2310.XXXX, 2023.
+
+arXiv preprint
+
+[7] et al. Bran. Chemist-GPT: LLM agents for molecular synthesis planning. arXiv preprint arXiv:2305.XXXX, 2023.
+[8] et al. Gupta. Agent-based discovery for materials design. Nature Communications, 2023.
+[9] Hanxiao Liu, Karen Simonyan, and Yiming Yang. Darts: Differentiable architecture search. In International
+Conference on Learning Representations (ICLR), 2019.
+[10] Esteban Real, Alok Aggarwal, Yanping Huang, and Quoc V. Le. Regularized evolution for image classifier
+architecture search. In Proceedings of the AAAI Conference on Artificial Intelligence, volume 33, pages 4780–4789,
+2019.
+[11] et al. X. Alphaevolve: Large-scale evolutionary algorithm discovery. Science, 2024.
+[12] Miles Cranmer, Alvaro Sanchez-Gonzalez, Peter Battaglia, Rui Xu, Kyle Cranmer, David Spergel, and Shirley
+Ho. Discovering symbolic models from deep learning with inductive biases. Advances in Neural Information
+Processing Systems (NeurIPS), 33:17429–17442, 2020.
+[13] Silviu-Marian Udrescu and Max Tegmark. Ai feynman 2.0: Pareto-optimal symbolic regression driven by iterative
+learning. arXiv preprint arXiv:2006.10782, 2020.
+[14] Yichi Zhang, Nikola Kovachki, Zongyi Li, Aditi Krishnapriyan, Kailai Li, Anima Anandkumar, and Eric Darve.
+Auto-pinn: Automated physics-informed neural network training via algorithmic differentiation and meta-learning.
+arXiv preprint arXiv:2303.05552, 2023.
+[15] Ameya D Jagtap, Kenji Kawaguchi, and George Em Karniadakis. Adaptive activation functions accelerate
+convergence in deep and physics-informed neural networks. Journal of Computational Physics, 404:109136,
+2020.
+[16] Jeremy Yu, Lu Lu, Xuhui Meng, and George Em Karniadakis. Gradient-enhanced physics-informed neural
+networks for forward and inverse pde problems. Computer Methods in Applied Mechanics and Engineering,
+393:114823, 2022.
+[17] Levi D McClenny and Ulisses M Braga-Neto. Self-adaptive physics-informed neural networks. Journal of
+Computational Physics, 474:111722, 2023.
+[18] Gege Wen, Zongyi Li, Kamyar Azizzadenesheli, Anima Anandkumar, and Sally M Benson. U-fno—an enhanced
+fourier neural operator-based deep-learning model for multiphase flow. Advances in Water Resources, 163:104180,
+2022.
+[19] Bogdan Raonic, Roberto Molinaro, Tobias Rohner, Siddhartha Mishra, and Emmanuel de Bezenac. Convolutional
+neural operators. In ICLR 2023 workshop on physics for machine learning, 2023.
+[20] Sifan Wang, Hanwen Wang, and Paris Perdikaris. Learning the solution operator of parametric partial differential
+equations with physics-informed deeponets. Science advances, 7(40):eabi8605, 2021.
+[21] Pengzhan Jin, Shuai Meng, and Lu Lu. Mionet: Learning multiple-input operators via tensor product. SIAM
+Journal on Scientific Computing, 44(6):A3490–A3514, 2022.
+44
+
+[22] Xiaoyu Zhao, Xiaoqian Chen, Zhiqiang Gong, Weien Zhou, Wen Yao, and Yunyang Zhang. Recfno: A resolutioninvariant flow and heat field reconstruction method from sparse observations via fourier neural operator. International Journal of Thermal Sciences, 195:108619, 2024.
+[23] Kai Fukami, Romit Maulik, Nesar Ramachandra, Koji Fukagata, and Kunihiko Taira. Global field reconstruction
+from sparse sensors with voronoi tessellation-assisted deep learning. Nature Machine Intelligence, 3(11):945–951,
+2021.
+[24] Ameya D Jagtap, Kenji Kawaguchi, and George Em Karniadakis. Locally adaptive activation functions with slope
+recovery for deep and physics-informed neural networks. Proceedings of the Royal Society A, 476(2239):20200334,
+2020.
+[25] Juan Diego Toscano. Learning-scientific machine learning: Residual based attention pinns, pikans, and
+deeponets. https://github.com/jdtoscano94/Learning-Scientific_Machine_Learning_Residual_
+Based_Attention_PINNs_PIKANs_DeepONets, 2024.
+[26] Rafael Bischof and Michael A Kraus. Mixture-of-experts-ensemble meta-learning for physics-informed neural
+networks. In Proceedings of 33. forum bauinformatik, 2022.
+[27] Ehsan Kharazmi, Zhongqiang Zhang, and George Em Karniadakis. hp-vpinns: Variational physics-informed neural
+networks with domain decomposition. Computer Methods in Applied Mechanics and Engineering, 374:113547,
+2021.
+[28] Francisco Sahli Costabal, Simone Pezzuto, and Paris Perdikaris. δ-pinns: Physics-informed neural networks on
+complex geometries. Engineering Applications of Artificial Intelligence, 127:107324, 2024.
+[29] Xiaowei Jin, Shengze Cai, Hui Li, and George Em Karniadakis. Nsfnets (navier-stokes flow nets): Physicsinformed neural networks for the incompressible navier-stokes equations. Journal of Computational Physics,
+426:109951, 2021.
+[30] Lu Lu, Raphael Pestourie, Wenjie Yao, Zhicheng Wang, Francesc Verdugo, and Steven G Johnson. Physicsinformed neural networks with hard constraints for inverse design. SIAM Journal on Scientific Computing,
+43(6):B1105–B1132, 2021.
+[31] Lu Lu, Xuhui Meng, Shengze Cai, Zhiping Mao, Somdatta Goswami, Zhongqiang Zhang, and George Em
+Karniadakis. A comprehensive and fair comparison of two neural operators (with practical extensions) based on
+fair data. Computer Methods in Applied Mechanics and Engineering, 393:114778, 2022.
+[32] Liu Yang, Siting Liu, Tingwei Meng, and Stanley J Osher. In-context operator learning with data prompts for
+differential equation problems. Proceedings of the National Academy of Sciences, 120(39):e2310142120, 2023.
+[33] Min Zhu, Shihang Feng, Youzuo Lin, and Lu Lu. Fourier-deeponet: Fourier-enhanced deep operator networks for
+full waveform inversion with improved accuracy, generalizability, and robustness. Computer Methods in Applied
+Mechanics and Engineering, 416:116300, 2023.
+[34] Zijie Li, Kazem Meidani, and Amir Barati Farimani. Transformer for partial differential equations’ operator
+learning. arXiv preprint arXiv:2205.13671, 2022.
+[35] Zhongkai Hao, Zhengyi Wang, Hang Su, Chengyang Ying, Yinpeng Dong, Songming Liu, Ze Cheng, Jian Song,
+and Jun Zhu. Gnot: A general neural operator transformer for operator learning. In International Conference on
+Machine Learning, pages 12556–12569. PMLR, 2023.
+
+45
+
+
