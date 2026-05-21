@@ -12,7 +12,7 @@ nav_order: 6
 
 A Connector is a remote MCP server exposed through the Claude.ai UI. Anthropic (or a vendor partner) hosts the server and handles OAuth so you don't run anything yourself. You enable a connector once; it then appears as a toggle in the chat composer. Connectors inherit your permissions in the source system — Claude can only see what your account can.
 
-Since March 2026 the Connectors directory lives at `claude.ai/directory/connectors` (alongside Skills and Plugins tabs in a unified Directory). The catalog has grown past 375 prebuilt integrations across productivity, design, finance, healthcare, legal, creative, and everyday-life categories — the May 12 "Claude for Legal" launch alone added 20+ connectors (DocuSign, LexisNexis, Westlaw, Everlaw, iManage, Harvey, Ironclad, …). Custom connectors are also supported: point Claude.ai at a remote MCP URL and it walks you through OAuth.
+Since March 2026 the Connectors directory lives at `claude.ai/directory/connectors` (alongside Skills and Plugins tabs in a unified Directory). The catalog spans productivity, design, finance, healthcare, legal, creative, and everyday-life categories — Anthropic's most recent count is "over 200" since the July 2025 launch, and the May 12 2026 "Claude for Legal" push alone added 20+ connectors (DocuSign, LexisNexis, Westlaw, Everlaw, iManage, Harvey, Ironclad, …) plus 12 practice-area plugins. Custom connectors are also supported: point Claude.ai at a remote MCP URL and it walks you through OAuth.
 
 ## When to use it
 
@@ -41,6 +41,7 @@ On Team/Enterprise, an Owner enables the connector for the org first (Organizati
 - Free-tier limit: one custom connector per account.
 - Adding a custom connector that hasn't been vetted by Anthropic — review the source.
 - Org-level enable doesn't grant access; each user still has to authenticate.
+- Looking for Intuit / PayPal / HubSpot / Canva / DocuSign / Google Workspace / Microsoft 365 connectors and not finding the workflow you expected — those are best bundled through the **Claude for Small Business** Cowork plugin (single-toggle install, 15 prebuilt workflows; launched 2026-05-13).
 
 ## See also
 
@@ -52,10 +53,10 @@ On Team/Enterprise, an Owner enables the connector for the org first (Organizati
 
 ## Sources
 
-- [Use connectors to extend Claude's capabilities](https://support.claude.com/en/articles/11176164-use-connectors-to-extend-claude-s-capabilities) — Anthropic help center; verified 2026-05-19 (this run).
+- [Use connectors to extend Claude's capabilities](https://support.claude.com/en/articles/11176164-use-connectors-to-extend-claude-s-capabilities) — Anthropic help center; verified 2026-05-19.
 - [Get started with custom connectors using remote MCP](https://support.claude.com/en/articles/11175166-get-started-with-custom-connectors-using-remote-mcp) — Anthropic help center; verified 2026-05-19.
 - [Connectors directory](https://claude.com/docs/connectors/directory) — canonical directory listing; verified 2026-05-20.
 - [Claude AI Connectors directory overview](https://www.claude.com/connectors) — verified 2026-05-20.
-- [New connectors in Claude for everyday life](https://claude.com/blog/connectors-for-everyday-life) — Anthropic blog; AllTrails/Uber/Spotify/etc. added May 2026.
+- [New connectors in Claude for everyday life](https://claude.com/blog/connectors-for-everyday-life) — Anthropic blog; "over 200 connectors" since July 2025 launch; AllTrails/Uber/Spotify/etc. added; verified 2026-05-21 (this run).
 - [Anthropic Goes All-In on Legal](https://www.lawnext.com/2026/05/anthropic-goes-all-in-on-legal-releasing-more-than-20-connectors-and-12-practice-area-plugins-for-claude.html) — LawSites; published 2026-05-12 — 20+ legal connectors and 12 practice-area plugins.
-- [Anthropic Expands Claude for Legal](https://www.technology.org/2026/05/13/anthropic-claude-legal-plugins-mcp-connectors/) — published 2026-05-13.
+- [Introducing Claude for Small Business](https://www.anthropic.com/news/claude-for-small-business) — Anthropic news; published 2026-05-13 — Cowork-plugin bundle of common SMB connectors.

@@ -11,6 +11,23 @@ Reverse-chronological log of changes to the [guide](guide/). Newest at the top.
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-05-21
+
+### Updated
+- **[claude-surfaces] Expanded install methods and added background-session note** — `claude.com/product/claude-code` now documents `winget upgrade Anthropic.ClaudeCode`, Homebrew `claude-code@latest` for the latest channel, and `apt`/`dnf`/`apk` packages alongside the canonical `curl …/install.sh`. Removed "npm is deprecated" wording since the npm package now wraps the same native binary. Added `claude --bg` / `/resume` / `claude agents` for background sessions per the May 18–19 changelog (v2.1.144–v2.1.145).
+- **[plugins] `/plugin` Discover/Browse component previews and Claude for Small Business example** — noted that the Discover and Browse panes now preview a plugin's commands/agents/skills/hooks/MCP/LSP servers before install (May 2026 changelog), and added Claude for Small Business (2026-05-13) as the canonical example of a single-toggle Cowork plugin bundling connectors + workflows.
+- **[connectors] Corrected directory size estimate** — replaced "past 375" with Anthropic's own most-recent count of "over 200" since July 2025 launch (per `claude.com/blog/connectors-for-everyday-life`); the 375 figure was sourced from secondary commentary only. Kept the May 12 legal push (20+ connectors, 12 practice-area plugins). Added a pitfall pointer to the Claude for Small Business Cowork bundle for users hunting SMB connectors.
+
+### Verified (no changes)
+- skills.md — `~/.claude/skills/` layout, open-standard claim, `/skills` picker unchanged this run.
+- mcp-servers.md — `claude mcp add --transport http` syntax, MCP tunnels (Research Preview), and `--scope` semantics unchanged.
+- marketplaces.md — source forms and seed-managed read-only behavior unchanged.
+- decision-tree.md — table unchanged; Cowork row covers the SMB scenario adequately at this granularity.
+- advanced/hooks.md, advanced/slash-commands.md, advanced/authentication.md — unchanged this run.
+
+### Flagged for review
+- WebFetch remained unavailable (model 404 for `claude-3-5-haiku-20241022`) — all source verification this run went through WebSearch summaries of `claude.com/product/claude-code`, `code.claude.com/docs/en/changelog`, `claude.com/blog/connectors-for-everyday-life`, `anthropic.com/news/claude-for-small-business`, and `github.com/anthropics/claude-plugins-official`. A human should occasionally check the actual connector count on `claude.ai/directory/connectors`; Anthropic's blog says "over 200" but third-party trackers list far more.
+
 ## 2026-05-20
 
 ### Updated

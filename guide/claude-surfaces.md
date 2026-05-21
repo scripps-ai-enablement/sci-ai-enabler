@@ -27,16 +27,16 @@ Your account, Projects, and conversation history are shared across Claude.ai and
 
 - Claude.ai: sign in at `https://claude.ai`.
 - Claude Desktop: download from `https://claude.ai/download`.
-- Claude Code CLI: install with the native installer, then sign in. (npm is deprecated.)
+- Claude Code CLI: install with the native installer, then sign in.
 
   ```bash
   curl -fsSL https://claude.ai/install.sh | bash
   claude
   ```
 
-  Windows PowerShell: `irm https://claude.ai/install.ps1 | iex`. Homebrew: `brew install --cask claude-code`.
+  Windows PowerShell: `irm https://claude.ai/install.ps1 | iex`, or `winget upgrade Anthropic.ClaudeCode`. Homebrew: `brew install --cask claude-code` (stable) or `claude-code@latest` (newest). Linux: `apt`, `dnf`, or `apk` packages also available. The npm package still works and now wraps the same native binary.
 
-- Claude Code on the web: go to `https://claude.ai/code` and sign in (Pro, Max, Team, or premium Enterprise seats). Use `--teleport` from the CLI to pull a cloud session into your terminal.
+- Claude Code on the web: go to `https://claude.ai/code` and sign in (Pro, Max, Team, or premium Enterprise seats). Use `--teleport` from the CLI to pull a cloud session into your terminal. Start long-running work in the background with `claude --bg` and reattach later via `/resume` or `claude agents`.
 - Claude Cowork: open the Claude desktop app on macOS (Windows in preview) and enable Cowork from the sidebar. Available on all paid plans.
 - Claude API: create a key at `https://console.anthropic.com` and call the REST endpoint or an Anthropic SDK.
 
@@ -56,10 +56,11 @@ Your account, Projects, and conversation history are shared across Claude.ai and
 
 ## Sources
 
-- [Claude Code product landing](https://claude.com/product/claude-code) — Anthropic product page; verified 2026-05-19 (this run) — canonical install command.
-- [Set up Claude Code](https://code.claude.com/docs/en/setup) — Anthropic docs; verified 2026-05-19 (this run) — confirms native installer is recommended, npm is deprecated.
-- [Claude Code on the web](https://code.claude.com/docs/en/claude-code-on-the-web) — Anthropic docs; verified 2026-05-19 (this run).
+- [Claude Code product landing](https://claude.com/product/claude-code) — Anthropic product page; verified 2026-05-21 (this run) — canonical install command and Windows/WinGet/Linux package options.
+- [Set up Claude Code](https://code.claude.com/docs/en/setup) — Anthropic docs; verified 2026-05-21 (this run) — confirms native installer is recommended; npm package wraps the same native binary.
+- [Claude Code on the web](https://code.claude.com/docs/en/claude-code-on-the-web) — Anthropic docs; verified 2026-05-19.
 - [Claude Code on the web (announcement)](https://www.anthropic.com/news/claude-code-on-the-web) — published 2025-10-20.
 - [Anthropic announces Claude Cowork](https://www.infoq.com/news/2026/01/claude-cowork/) — published 2026-01-13; covers Cowork's launch as the non-developer counterpart to Claude Code.
 - [Cowork and plugins for teams across the enterprise](https://claude.com/blog/cowork-plugins-across-enterprise) — Anthropic blog; published 2026-02-24.
 - [Claude Code overview](https://code.claude.com/docs/en/overview) — Anthropic docs; verified 2026-05-19.
+- [Claude Code changelog (v2.1.144 / v2.1.145, May 18–19 2026)](https://code.claude.com/docs/en/changelog) — `claude --bg`, `/resume` for background sessions, `claude agents --json`; verified 2026-05-21 (this run).
