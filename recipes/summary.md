@@ -7,7 +7,7 @@ permalink: /recipes/summary.html
 
 # Recipe landscape
 
-This cookbook pairs concrete life-science problems with recommended assemblies of the components catalogued elsewhere on this site. Each recipe is the answer to "I have this problem — what's the simplest viable assembly that has evidence behind it?" The recipes are deliberately biased toward the lowest rung of the [simplicity ladder](../#the-simplicity-ladder) that actually solves the problem.
+This cookbook pairs concrete life-science problems with recommended assemblies of the components catalogued elsewhere on this site. Each recipe is the answer to "I have this problem — what's the simplest viable assembly that has evidence behind it?" The recipes are deliberately biased toward the lowest rung of the [simplicity ladder](./#the-simplicity-ladder) that actually solves the problem.
 
 ## Coverage by problem class
 
