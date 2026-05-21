@@ -2,8 +2,8 @@ name: Autonomous science
 
 on:
   schedule:
-    # Daily at 16:00 UTC, offset from catalog (13:00) and guide (14:30).
-    - cron: '0 16 * * *'
+    # Daily at 09:00 UTC (= 02:00 PDT / 01:00 PST). One hour after the guide cron.
+    - cron: '0 9 * * *'
   workflow_dispatch:
     inputs:
       scope:

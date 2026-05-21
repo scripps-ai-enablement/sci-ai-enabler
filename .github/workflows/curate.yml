@@ -2,8 +2,8 @@ name: Curate catalog
 
 on:
   schedule:
-    # Daily at 13:00 UTC (~06:00 Pacific)
-    - cron: '0 13 * * *'
+    # Daily at 07:00 UTC (= 00:00 PDT / 23:00 PST). Catalog runs first in the overnight slot.
+    - cron: '0 7 * * *'
   workflow_dispatch:
     inputs:
       category:

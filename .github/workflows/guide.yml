@@ -2,8 +2,8 @@ name: Guide
 
 on:
   schedule:
-    # Daily at 14:30 UTC, offset from the catalog cron at 13:00 UTC.
-    - cron: '30 14 * * *'
+    # Daily at 08:00 UTC (= 01:00 PDT / 00:00 PST). One hour after the catalog cron.
+    - cron: '0 8 * * *'
   workflow_dispatch:
     inputs:
       topic:
