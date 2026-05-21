@@ -2,7 +2,7 @@
 title: MARS
 parent: Systems
 grand_parent: AI scientists
-nav_order: 10
+nav_order: 13
 affiliation: Shenzhen Institutes of Advanced Technology (Chinese Academy of Sciences), with City University of Hong Kong, National University of Singapore, and Chongqing University of Posts and Telecommunications
 lifecycle_stages: [Multi-stage]
 autonomy: Fully autonomous

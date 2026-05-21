@@ -121,6 +121,46 @@
       "source_url": "https://doi.org/10.1016/j.matt.2025.102577",
       "downloaded": "2026-05-21",
       "txt_sidecar": "mars-matter-2026.txt"
+    },
+    {
+      "doi": "10.48550/arXiv.2605.18407",
+      "filename": "2605.18407v1.pdf",
+      "title": "Qumus: Realization of An Embodied AI Quantum Material Experimentalist",
+      "source_url": "https://arxiv.org/abs/2605.18407",
+      "downloaded": "2026-05-21",
+      "txt_sidecar": "2605.18407v1.txt"
+    },
+    {
+      "doi": "10.48550/arXiv.2604.22541",
+      "filename": "2604.22541v1.pdf",
+      "title": "Dr.Sai: An agentic AI for real-world physics analysis at BESIII",
+      "source_url": "https://arxiv.org/abs/2604.22541",
+      "downloaded": "2026-05-21",
+      "txt_sidecar": "2604.22541v1.txt"
+    },
+    {
+      "doi": "10.48550/arXiv.2605.11117",
+      "filename": "2605.11117v1.pdf",
+      "title": "GRAFT-ATHENA: Self-Improving Agentic Teams for Autonomous Discovery and Evolutionary Numerical Algorithms",
+      "source_url": "https://arxiv.org/abs/2605.11117",
+      "downloaded": "2026-05-21",
+      "txt_sidecar": "2605.11117v1.txt"
+    },
+    {
+      "doi": "10.48550/arXiv.2605.06607",
+      "filename": "2605.06607v1.pdf",
+      "title": "AI CFD Scientist: Toward Open-Ended Computational Fluid Dynamics Discovery with Physics-Aware AI Agents",
+      "source_url": "https://arxiv.org/abs/2605.06607",
+      "downloaded": "2026-05-21",
+      "txt_sidecar": "2605.06607v1.txt"
+    },
+    {
+      "doi": "10.48550/arXiv.2604.27092",
+      "filename": "2604.27092v1.pdf",
+      "title": "End-to-end autonomous scientific discovery on a real optical platform (Qiushi Discovery Engine)",
+      "source_url": "https://arxiv.org/abs/2604.27092",
+      "downloaded": "2026-05-21",
+      "txt_sidecar": "2604.27092v1.txt"
     }
   ]
 }

@@ -8,11 +8,11 @@ nav_exclude: true
 
 ## Recently surfaced
 
-- **Kosmos** (added 2026-05-21) — Edison Scientific's AI scientist; 12-hour autonomous runs, structured world model, 79.4% independent statement accuracy, seven highlighted discoveries spanning four domains.
-- **AgenticSciML** (added 2026-05-21) — Brown/Karniadakis multi-agent system for emergent discovery of SciML modeling strategies; up to four orders of magnitude error reduction over single-agent and human baselines.
-- **AILA** (added 2026-05-21) — IIT Delhi multi-agent LLM framework for atomic force microscopy, shipped with the 100-task AFMBench evaluation suite; documents the "agent sleepwalking" failure mode.
-- **MARS** (added 2026-05-21) — SIAT/CAS hierarchical 19-agent / 16-tool robotic framework that designed a water-stable perovskite composite in 3.5 hours.
-- **OpenScientist** (added 2026-05-20) — Washington University agentic AI co-scientist on Claude Code; four clinical case studies.
+- **Qumus** (added 2026-05-21) — Princeton/Sanfeng Wu embodied multi-agent AI quantum-materials experimentalist; first AI creation of graphene and AI-fabricated vdW field-effect transistors.
+- **Qiushi Discovery Engine** (added 2026-05-21) — Zhejiang University dual-layer agentic system on a real free-space optical platform; autonomously discovered and experimentally validated optical bilinear interaction in a 206-step open-ended study.
+- **Dr.Sai** (added 2026-05-21) — IHEP/CAS AutoGen-based multi-agent system for end-to-end HEP analysis at BESIII; re-measured ten J/ψ branching fractions.
+- **GRAFT-ATHENA** (added 2026-05-21) — Brown/Karniadakis self-improving agentic framework with factored decision trees; designs a spectral PINN with exponential convergence and reconstructs Apollo Mach-10 flow.
+- **AI CFD Scientist** (added 2026-05-21) — RPI/Pan group open-source AI scientist for CFD on OpenFOAM with a vision-language physics gate; autonomously discovered a Spalart–Allmaras runtime correction.
 
 ## Flagged for review
 

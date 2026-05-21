@@ -9,6 +9,26 @@ permalink: /updates/ai-scientists.html
 
 Reverse-chronological log of changes to the [AI scientists tracker](autonomous-science/). Newest at the top.
 
+## 2026-05-21 (Phase B)
+
+### Added
+- **Qumus** (Lifecycle: Multi-stage) — Princeton/Sanfeng Wu embodied multi-agent AI quantum-materials experimentalist running in a robotic minilab; first AI creation of graphene and first AI fabrication of atomically thin field-effect transistors via vdW stacking ([source](https://arxiv.org/abs/2605.18407)).
+- **Qiushi Discovery Engine** (Lifecycle: Multi-stage) — Zhejiang University dual-layer agentic system coupled to a real free-space optical platform; autonomously identified and experimentally validated "optical bilinear interaction" as a previously unreported physical mechanism in a 206-step open-ended study ([source](https://arxiv.org/abs/2604.27092)).
+- **Dr.Sai** (Lifecycle: Analysis, Experiment design) — IHEP/CAS AutoGen-based six-agent system with HEP-RAG and a HepScript DSL that re-measured branching fractions across ten J/ψ decay channels in the BESIII production environment ([source](https://arxiv.org/abs/2604.22541)).
+- **GRAFT-ATHENA** (Lifecycle: Multi-stage) — Brown/Karniadakis self-improving agentic framework over factored decision trees with a metric embedding and reward-calibrated nearest-neighbor priors; designs a spectral PINN with exponential convergence, reconstructs Mach-10 hypersonic flow over the Apollo Command Module from a 1968 NASA report, and recovers shear-thinning red-blood-cell rheology ([source](https://arxiv.org/abs/2605.11117)).
+- **AI CFD Scientist** (Lifecycle: Multi-stage, Writing) — RPI/Pan group open-source AI scientist for CFD on OpenFOAM via Foam-Agent; vision-language physics-verification gate caught 14 of 16 silent failures missed by solver logs, and the system autonomously discovered a Spalart–Allmaras runtime correction that cut lower-wall Cf RMSE against DNS by 7.89% ([source](https://arxiv.org/abs/2605.06607)).
+
+### Updated
+- **`autonomous-science/summary.md`** — added GRAFT-ATHENA and AI CFD Scientist to the machine-learning and scientific-computing section; added a new "Embodied physical-sciences and high-energy systems" section covering Qumus, Qiushi Discovery Engine, and Dr.Sai; expanded the wet-lab/instrument-coupled evaluation paragraph with the new validations; appended six new source citations.
+- **`autonomous-science/systems/`** — renumbered `nav_order` on the existing 14 system pages to preserve alphabetical ordering after inserting the five new entries.
+- **`autonomous-science/curator-state.md`** — replaced `Recently surfaced` with the five new additions.
+
+### Flagged
+_None._
+
+### Verified (no changes)
+- All pre-existing system pages were `last_verified` on 2026-05-20 or 2026-05-21 — inside the 30-day re-verification window. No spot-checks performed this run.
+
 ## 2026-05-21
 
 ### Added

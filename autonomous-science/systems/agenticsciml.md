@@ -2,7 +2,7 @@
 title: AgenticSciML
 parent: Systems
 grand_parent: AI scientists
-nav_order: 2
+nav_order: 1
 affiliation: Brown University (Karniadakis group, Division of Applied Mathematics)
 lifecycle_stages: [Hypothesis, Experiment design]
 autonomy: Semi-autonomous

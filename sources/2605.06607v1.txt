@@ -1,0 +1,3824 @@
+arXiv:2605.06607v3 [physics.flu-dyn] 12 May 2026
+
+AI CFD Scientist: Toward Open-Ended Computational
+Fluid Dynamics Discovery with Physics-Aware AI
+Agents
+
+Nithin Somasekharan1 Rabi Pathak1 Manushri Dhanakoti1
+Ling Yue1 Andy Zhu1 Shaowu Pan1∗
+1
+
+Tingwen Zhang1
+
+Rensselaer Polytechnic Institute
+
+Abstract
+Recent LLM-based agents have closed substantial portions of the scientific discovery loop in software-only machine-learning research, in chemistry, and in
+biology. Extending the same loop to high-fidelity physical simulators is harder,
+because solver completion does not imply physical validity and many failure
+modes appear only in field-level imagery rather than in solver logs. We present
+AI CFD Scientist, an open-source AI scientist for computational fluid dynamics
+(CFD) that, to our knowledge, is the first to span literature-grounded ideation,
+validated execution, vision-based physics verification, source-code modification,
+and figure-grounded writing within a single inspectable workflow. Three coupled
+pathways cover parameter sweeps within a fixed solver, case-local C++ library
+compilation for new physical models, and open-ended hypothesis search against
+a reference comparator, all running on OpenFOAM through Foam-Agent. At
+the center of the framework is a vision-language physics-verification gate that
+inspects rendered flow fields before any result is accepted, rerun, or written into
+a manuscript. On five tasks under a shared GPT-5.5 backbone, AI CFD Scientist autonomously discovers a Spalart–Allmaras runtime correction that reduces
+lower-wall Cf RMSE against DNS by 7.89% on the periodic hill at Reh =5600;
+under matched LLM cost, two strong general AI-scientist baselines (ARIS, DeepScientist) execute partial CFD workflows but lack the domain-specific validity
+gates needed to convert runs into defensible scientific claims; and a controlled
+planted-failure ablation shows that the vision-language gate detects 14 of 16 silent
+failures missed by solver-level checks. Code, prompts, and run artifacts are released
+at https://github.com/csml-rpi/cfd-scientist.
+
+1
+
+Introduction
+
+Large language model agents have closed substantial portions of the scientific discovery loop in
+software-only machine-learning research [19, 38], in chemistry [3], and in biology [23]. Extending
+these systems to physical sciences whose evidence comes from high-fidelity simulators is the next
+frontier and remains underexplored, in part because the discovery loop interacts with the simulator at
+a level deeper than text-mediated tool use.
+Computational fluid dynamics (CFD) makes this loop particularly strict for three reasons. First,
+solver completion does not imply physical validity: a case can run cleanly while still using the wrong
+geometry, missing a key flow feature, or producing degenerate output. These failure modes are
+∗ Corresponding author: pans2@rpi.edu
+
+Preprint.
+
+typically invisible to solver logs.2 Second, validity gates are themselves scientific objects: mesh
+independence and reference-data alignment must be confirmed before any claim, not assumed. Third,
+the closure model is a research variable, edited at the C++ level rather than swapped in a config, so
+source-code modification is part of the hypothesis space rather than a configuration option.
+Two lines of work approach this loop from opposite sides but neither covers it end-to-end. Generic
+AI-scientist frameworks [25, 32, 38, 40] automate ideation, code, plotting, and writing, but they were
+designed for software-only ML workflows and lack the physical-validity gates that distinguish a
+runnable simulation from a defensible scientific claim. CFD-specific agents [7, 12, 33, 41] automate
+case setup, execution, and parts of post-processing on OpenFOAM-style substrates, but stop short
+of the full discovery loop. The closest related system, turbulence.ai [12], frames an AI scientist
+for fluid mechanics that formulates ideas, orchestrates experiments, and drafts reports, yet remains
+closed-source and, based on public documentation as of submission, does not expose a visionlanguage physics-verification gate, a mesh-independence gate, or open-ended source-level discovery
+as first-class subsystems.
+We present AI CFD Scientist, an open-source AI scientist for CFD that, to our knowledge, is the
+first to span literature-grounded ideation, validated execution, vision-based physics verification,
+source-code modification, and figure-grounded writing within a single inspectable workflow. The
+framework runs on OpenFOAM through Foam-Agent [41] and exposes three coupled pathways:
+regular experimentation through parameter sweeps within a fixed solver, source-code modification
+that compiles case-local C++ libraries for new physical models, and open-ended hypothesis search
+that autonomously edits source code and coefficients against a reference comparator. At the center of
+the framework is a vision-language physics-verification gate that inspects rendered flow fields before
+any result is accepted, rerun, or written into a manuscript: a subsystem absent from the AI-scientist
+baselines we compare against. The architecture follows five operational design principles distilled
+from CFD practice, detailed in section 3.
+ORCHESTRATOR - Main Module
+
+Input
+(User Input)
+
+Research
+Topic
+(Mandatory)
+Base
+Case
+(Optional)
+Data
+
+Open Ended
+Discovery
+
+LLM
+Hypothesis
+Generation
+Plan &
+invoke submodule
+Cross-case
+analysis &
+actions
+
+Sample Task | “Create modifications to SA turbulence model
+and validate your findings against the test case of periodic hill”
+
+CODE MODIFICATION
+
+OpenFOAM
+EXPERIMENTS
+
+LLM C++ Code generation
+
+Automated
+case-setup
+
+•
+
+Hypotheses
+refinement
+loop
+
+Mesh
+Refinement
+
+controlDict, phaseProperties
+momentumTransport, etc.
+
+Compiler and verifier
+•
+
+Analyse,
+configure & call
+other modules
+
+wmake, library check, error
+resolve, call other Modules
+
+Python
+Scripting
+
+Vision LLM
+Verifier
+
+PyVista
+Render
+
+Custom
+Models
+
+Cross-Case
+Analysis
+
+Foam-Agent
+Parametric
+sweep
+
+Dependency Aware Editor
+•
+
+𝑬𝒒𝒏s
+
+(Optional)
+
+Headers (.H), Custom Model
+(.C), Function Objects, etc.
+
+Output
+(Made Artifacts)
+
+Latex
+Manuscript
+
+Semantic
+Scholar Search
+
+Shared capabilities for all Modules
+
+Figure 1: Architecture of AI CFD Scientist. A natural-language topic, optional base case, and
+optional reference data is passed as input to the framework. Three first-class pathways execute
+under a shared capability bus: (i) regular experimentation via literature-aware ideation, requirement
+validation, mesh-independence gating, and Foam-Agent execution; (ii) code modification that patches
+and compiles case-local C++ model libraries; (iii) open-ended discovery that wraps both modules
+in an outer hypothesis loop. A VLM physics gate inspects rendered flow fields before any result is
+accepted, rerun, or written.
+2 For example, a backward-facing-step case can converge cleanly while a reattachment-length extractor returns a wrong-sign
+
+value: invisible in the solver log, but obvious in a Cf plot.
+
+2
+
+On five tasks under a shared GPT-5.5 backbone, AI CFD Scientistexecutes regular experimentation, custom-model compilation, and open-ended discovery; in the open-ended task, the system
+autonomously discovers a Spalart–Allmaras runtime correction that reduces lower-wall Cf RMSE
+against DNS by 7.89% on the periodic hill at Reh =5600. Under matched LLM cost, two strong
+general AI-scientist baselines (ARIS [40], DeepScientist [32]) execute partial CFD workflows but
+lack the domain-specific validity gates needed to convert runs into defensible scientific claims. A
+controlled planted-failure ablation shows that the vision-language physics gate detects 14 of 16 silent
+failures missed by solver-level checks.
+Table 1: Positioning AI CFD Scientist against generic AI-scientist frameworks and CFD-specific
+agents.
+System
+
+Literature
+Survey
+
+Novelty
+Filtering
+
+Simulator
+Mesh
+Source
+CFD
+Independence
+Code
+Execution
+Study
+Editing
+
+VLMBased
+Physics
+Check
+
+Reference
+Paper
+Data
+Generation Ingestion
+
+Generic AI-scientist frameworks designed primarily for ML research
+AI Scientist (-v2)[38]
+Agent Laboratory[25] /
+AgentRxiv[24]
+AI co-scientist[16]
+CycleResearcher[31]
+DeepScientist32
+ARIS[40]
+
+✓
+✓
+
+✗
+✗
+
+✗
+✗
+
+✗
+✗
+
+✗
+✗
+
+✗
+✗
+
+✓
+✓
+
+✗
+✗
+
+✓
+✓
+✗
+✗
+
+✗
+✗
+✗
+✗
+
+✗
+✗
+✓
+✓
+
+✗
+✗
+✗
+✗
+
+✗
+✗
+✗
+✓
+
+✗
+✗
+✗
+✗
+
+✗
+✓
+✗
+✗
+
+✗
+✗
+✗
+✗
+
+✗
+
+✗
+
+✓
+
+✗
+
+✗
+
+✗
+
+✗
+
+✗
+
+CFD-specific agents
+MetaOpenFOAM[5], ChatCFD[10],
+OpenFOAMGPT[22]
+Foam-Agent [41]
+CFDagent[37] / SwarmFoam[39] /
+PhyNiKCE[11] / CFD-copilot[8]
+turbulence.ai[12]
+FlamePilot[33]
+
+✗
+✗
+
+✗
+✗
+
+✓
+✓
+
+✗
+✗
+
+✗
+✗
+
+✗
+✗
+
+✗
+✗
+
+✗
+✗
+
+✓
+✓
+
+✗
+✗
+
+✓
+✗
+
+✗
+✗
+
+✗
+✗
+
+✗
+✗
+
+✓
+✗
+
+✗
+✗
+
+AI CFD Scientist (this work)
+
+✓
+
+✓
+
+✓
+
+✓
+
+✓
+
+✓
+
+✓
+
+✓
+
+2
+
+Related Work
+
+Robot scientists and autonomous laboratories. Closing the scientific loop predates LLMs. The
+Robot Scientist systems [18, 28] demonstrated end-to-end hypothesis generation and physical experimentation in molecular biology, and symbolic-regression engines such as Eureqa [26] automated
+equation discovery from data. More recent self-driving laboratories [15, 20, 27] fuse robotic experimentation with Bayesian-optimization planners. These systems target chemistry, materials, and
+biology, where ground truth comes from physical measurement; they do not transfer to CFD, where
+validity depends on closure choices, mesh resolution, and physical interpretation of computed fields
+rather than wet-lab readouts.
+LLM-based AI-scientist frameworks. A second wave of systems closes the same loop in pure
+software using LLMs. The AI Scientist and AI Scientist-v2 [19, 38] produce end-to-end ML papers
+from a research idea; Agent Laboratory and AgentRxiv [24, 25] formalize multi-agent collaboration
+and inter-paper memory; AI co-scientist [16] layers critique-driven refinement. CycleResearcher,
+AI-Researcher, and Zochi [17, 30, 31] emphasize iterative refinement and tool-use; DeepScientist
+[32] and ARIS [40] are the most recent strong baselines, both built around long-context execution
+loops, and are the two systems used in our head-to-head comparison. Domain instances exist in
+chemistry and biology, example: ChemCrow, autonomous chemistry agents, and CRISPR-GPT
+[1, 3, 23]. Evaluation infrastructure (Bohrium–SciMaster, AstaBench, PaperBench, MLR-Bench
+[2, 4, 29, 42]) scores artifact quality on ML research workflows.
+CFD- and OpenFOAM-specific agents. A parallel line of work targets CFD itself. PythonFOAM
+and foamlib [14, 21] expanded the Python surface for case manipulation and in-situ analysis. LLMcentered systems then moved from prompt assistance to structured orchestration: FoamPilot [36]
+3
+
+and AutoCFD [9] are early prompt-driven assistants, OpenFOAMGPT and MetaOpenFOAM (with
+optimized variants) [5–7, 13, 22] structure the case-authoring workflow, and Foam-Agent [41]
+adds RAG-based retrieval and a reviewer loop. ChatCFD [10], CFDagent [37], SwarmFoam [39],
+PhyNiKCE [11], CFD-copilot [8], turbulence.ai [12], and FlamePilot [33] extend the surface to
+chat-driven workflows, multi-agent decomposition, physics constraints, and combustion. General
+coding agents also solve a subset of OpenFOAM workflows by reusing tutorials [34], and a separate
+line asks whether LLMs can act as neural fluid surrogates [35]. None of these systems combine all
+the relevant features needed for automating CFD discovery. This gap motivates AI CFD Scientist.
+
+3
+
+CFD Scientist
+
+AI CFD Scientist encodes CFD discovery as a set of expert-written prompts, guidelines, and execution pathways rather than a generic chat loop. We provide two implementations: a checkpointed
+LangGraph workflow for end-to-end orchestration, and a modular skills-based version whose components can be reused inside other orchestrators. In both forms, agents exchange structured artifacts
+such as study JSON, requirement paragraphs, source-edit plans, run directories, figure manifests,
+interpretation JSON, and manuscript drafts as shown in figure 1. The design follows five principles
+distilled from CFD practice: (P1) physical validity is not log-readable, so image-level inspection is
+mandatory; (P2) source code modification is a research object rather than a configuration option;
+(P3) mesh independence is a required convergence gate; (P4) agents must not hallucinate an alternate
+experiment, swap the swept variable, or relax success criteria in order to make a failing case easier
+to run; (P5) every claim in the generated manuscript must trace back to a specific figure, numerical
+value, or interpretation record produced by a case that passed its validity gates, never to the model’s
+prior knowledge.
+Three pathways. Regular experimentation: This pathway runs CFD simulation studies without
+modifying simulator source code. Given a research topic, the literature-aware ideation agent retrieves
+Semantic Scholar records, synthesizes candidate gaps, and emits a structured study JSON. A stringsimilarity novelty filter rejects near-duplicate ideas and triggers re-prompting when needed. The
+specification agent then converts each experiment into a single-paragraph requirement. A validator
+checks solver availability, time-control consistency, boundary-condition completeness, and unit
+consistency; failed specifications are rewritten through a repair prompt. Validated requirements
+are passed to Foam-Agent [41], which generates the case dictionaries, executes the simulation, and
+performs low-level error correction. Code modification: for studies that require a model not present in
+the OpenFOAM source code, an expert-written code-mod agent generates C++ source and dictionary
+edits, compiles a case-local library under {case}/customModels/, and uses compiler diagnostics
+as structured feedback; a smoke test verifies the library loads and produces interpretable fields
+before any sweep. Open-ended discovery: given an abstract goal such as find a novel turbulencemodel modification that better matches a given DNS reference, or any user-supplied objective with
+a comparator, an outer hypothesis loop autonomously generates and tests candidate ideas without
+further human input. At each iteration it proposes a concrete edit (a source-code change to the
+turbulence model, a coefficient or parameter adjustment, or a new diagnostic script), invokes the
+code-modification and regular-experimentation pathways to compile and run it as a real OpenFOAM
+case, and compares the resulting flow field against both the reference data and the unmodified baseline.
+Iterations are scored by a user-specified comparator, checkpointed and promoted only when the score
+improves over baseline.
+Mesh-independence gate. A baseline mesh is selected from a starter case, literature, or generated
+by Foam-Agent. A refined mesh is constructed with ∼10% near-wall and ∼5% bulk refinement,
+preserving topology, blocking, and meshing method. Baseline and refined cases run with identical
+models/BCs/numerics; local fields and surface/global metrics (U, p, Cf , Cp , lift/drag/∆p) are compared, percent differences tabulated, and a 5% threshold flags QoIs that require Richardson/GCI
+escalation.
+VLM physics-verification gate (the central evidence gate, implementing P1). After a case
+finishes running, an interpreter agent reads the case directory and the requirement, and emits a
+diagnostic plan, deciding the physical quantities to visualize and compare against reference data if
+provided. Then a visualization creator agent writes a PyVista and/or matplotlib script that extracts the
+4
+
+relevant diagnostic fields, and renders them as PNGs. The rendered visualizations are then handed to
+a VLM in two separate calls. The first call is a quality filter: it checks whether figures are readable;
+failures are redrawn. The second call is the physics check: the VLM inspects the accepted figures,
+looking for the expected flow features, and judges if the image is consistent with the experiment
+requirement. It further drives the rerun controller and the writer. The gate exists because a case
+can pass every log-based check, completed time-stepping, no warnings, while still using the wrong
+geometry, missing important flow features or instantiating a degenerate custom model. These are
+exactly the failure modes a log-only interpreter cannot catch, and none of the AI-scientist frameworks
+in Table 1 expose this gate as a first-class subsystem. Section G gives the failure-mode taxonomy that
+motivates these gates.
+Rerun controller and writer loop (P4, P5). When a gate rejects a run, the rerun controller revises
+the requirement. It may reuse nearby successful cases, such as relaxation factors, or schemes. After
+all cases pass their gates, an analysis agent generates paper-ready cross-case figures, distinct from the
+diagnostic visualizations used during verification. The writer then receives the literature bundle, study
+JSON, per-case requirements, source-edit history, figure manifest, and analysis text. It drafts LaTeX,
+compiles the manuscript, receives critique from a reviewer agent on formatting, claim–evidence
+alignment, reference coverage, and redundancy, and revises until acceptance or budget exhaustion.
+
+4
+
+Experiments: AI CFD Scientistwith GPT-5.5
+
+Setup. AI CFD Scientistis run end-to-end with GPT-5.5. All evaluation is manual because no
+automated CFD-paper rubric currently scores the workflows the system produces.
+Tasks. We execute five CFD tasks summarized in Table 2: T1) BFS turbulence-model sensitivity
+at Reh =25,400, T2) jet/plume oscillation across Reynolds numbers, T3) custom non-Newtonian
+viscosity in a channel, T4) a custom Spalart–Allmaras (SA) modifier for the periodic hill, and T5)
+open-ended discovery of an SA modification that improves lower-wall Cf agreement with DNS.
+The first two use the regular-experimentation pathway, the next two use the simulator source-code
+modification pathway, and the final task uses the open-ended discovery pathway. Detailed experiment
+matrices and per-case quantitative tables are reported in Section B; token usage and estimated cost
+are reported in Section I.
+Table 2: AI CFD ScientistGPT-5.5 task overview. Pathway: REG = regular experimentation; CM =
+code modification; OED = open-ended discovery.
+ID
+
+Task
+
+T1
+
+Path
+
+Cases run
+
+Custom code compiled
+
+Headline AI CFD Scientistresult (GPT-5.5)
+
+BFS turbulence sens. REG 4 RANS
+(Reh =25.4k)
+
+none
+
+Runs 4 RANS closures on the same backward-facing-step
+mesh.
+
+T2
+
+Jet/plume Re-sweep REG 7 transient
+(Re=60–600)
+
+none
+
+Recovers the expected centreline Ux scaling across most
+cases.
+
+T3
+
+Custom viscosity (chan- CM
+nel)
+
+6
+
+libcustomViscosity Autonomously writes and compiles a power-law viscosity
+library, validates it against the Newtonian limit (n=1).
+
+T4
+
+Custom SA modi- CM
+fier (periodic hill,
+Reh =10,595)
+
+6
+
+libCustomSA
+
+T5
+
+Open-ended SA dis- OED 44 iterations coded fvModels
+covery (periodic hill,
+Reh =5600)
+
+4.1
+
+Findings across the five GPT-5.5 case studies
+
+Compiles a custom Spalart–Allmaras modifier and compares
+against baseline and reference data.
+Autonomously discovers a quadrupolar SA runtime
+correction that reduces lower-wall Cf RMSE versus DNS by
+7.89% (0.004297 → 0.003958)
+
+T1 — BFS turbulence sensitivity. AI CFD Scientistplanned a four-model matrix (standard k–ε,
+realizable k–ε, k–ω SST, SA) at Reh =25,400, ran each through the mesh independence study
+(26.9k–38.1k cells), and rendered diagnostic contours. The VLM check flagged a sign-convention /
+origin error in the reattachment extractor and triaged a k–ε output as inconsistent with separated-flow
+physics; the SST and SA closures produced the most plausible recirculation topology in streamlines
+(Figure 2a). The intended behavior was confirmed: rather than rank closures from a post-processor
+5
+
+(a)
+
+(b)
+T1 (regular): BFS |U|, Reh = 25,400
+
+T2 (regular): jet centreline Ux , 7-Re sweep
+
+0.6
+
+std. k-ε
+
+2.0
+
+0.4
+
+1.5
+
+k-ω SST
+
+Ux (m/s)
+
+0.5
+
+|U| (m/s)
+
+realiz. k-ε
+
+2.5
+
+Re = 60
+Re = 90
+Re = 120
+Re = 150
+
+Re = 200
+Re = 300
+Re = 600
+
+0.3
+0.2
+
+1.0
+
+0.1
+0.0
+
+0.5
+
+Spalart-Allmaras
+
+spectral f(Re) marked unresolved
+
+0.00
+
+0.05
+
+0.10
+
+0.15
+
+0.20
+
+0.25
+
+0.30
+
+x along centreline (m)
+
+(c)
+
+(d)
+
+T4 (code-mod): Cf vs. DNS, 6 SA variants
+DNS (Krank et al.)
+built-in SA (RMSE 0.003268)
+custom SA (APG = 0 ctrl) (RMSE 0.003268)
+SA-APG = 0.15 (RMSE 0.003258)
+SA-APG = 0.30 (RMSE 0.003262)
+SA-APG = 0.45 (RMSE 0.003276)
+SA-APG = 0.30, Rref = 0.1 (RMSE 0.003261)
+
+0.03
+
+DNS (exact-match)
+baseline SA (RMSE 0.004297)
+discovered quadRecTail (RMSE 0.003958, −7.89%)
+
+0.03
+
+0.02
+
+Cf
+
+Cf
+
+0.02
+
+T5 (OED): autonomously discovered SA correction
+
+0.01
+
+0.01
+
+0.00
+
+0.00
+
+0.01
+
+0
+
+2
+
+4
+
+x/h
+
+6
+
+8
+
+0
+
+2
+
+4
+
+x/h
+
+6
+
+8
+
+Figure 2: Representative quantities of interest from the case studies. (a) T1: BFS |U | contours
+across four RANS closures at Reh =25,400; recirculation-zone differences are visible behind the
+step. (b) T2: centreline Ux profiles across the 7-Re jet sweep, showing the recovered velocity scaling
+and emerging instability at higher Re. (c) T4: lower-wall Cf overlay against reference for four
+APG-modifier SA variants and control (APG=0) at Reh =10,595. (d) T5: autonomously discovered
+quadrupolar SA correction at iter_044 reduces Cf RMSE against DNS by 7.89% at Reh =5600 on
+the periodic hill.
+known to be buggy, the system flagged the QoI and abstained. The input topic given to AI CFD
+Scientist is provided in section A. No baseline OpenFOAM files or reference data are provided.
+T2 — Jet/plume Re sweep. Seven 2D laminar jet cases on identical 35,156-cell meshes ran end-toend. Centreline velocity scaling was recovered (Uc,max tracks bulk velocity from 0.09 to 0.60 m/s as
+Re sweeps 60 → 600, with oscillations emerging at high Re, Figure 2b), and case-006 was flagged
+as anomalous (centreline-mean collapse). The input topic given to AI CFD Scientist is provided in
+section A. No baseline OpenFOAM files or reference data are provided.
+T3 — Custom viscosity (code modification). The code-modification agent generated a generalizedNewtonian viscosity model ν(γ̇) = ν∞ + k max(γ̇, γ̇min )n−1 as case-local source files and compiled
+the custom viscosity library on the first attempt. Six cases executed to steady state. With n=1 the
+custom law reproduced the parabolic Newtonian baseline (centreline within 0.5% of the analytic
+1.5 m/s); centreline velocity varied ∼3.8% across the sweep (1.4542–1.5231 m/s). The input topic
+given to AI CFD Scientist is provided in section A. Baseline OpenFOAM files for Newtonian channel
+flow are provided.
+T4 — Custom SA modifier (code modification). A SA variant with an adverse-pressure-gradient
+(APG) correction multiplier on the production term was compiled into libCustomSA.so. Six cases
+(1 APG=0 control + 4 APG variants) ran on an identical mesh. The control case matched the built-in
+SA baseline to four decimals (Umax =1.5959 m/s in both), validating that the custom code path
+does not perturb the underlying solver; the APG sweep then induced a ∼1.25% Umax sensitivity
+(1.5759–1.5959 m/s), and Cf overlays against reference data were rendered for all six variants
+(Figure 2c). The input topic given to AI CFD Scientist is provided in section A. Baseline Periodic
+Hill flow OpenFOAM files are provided to the framework along with reference DNS data.
+6
+
+T5 — Open-ended SA discovery. Given the periodic hill at Reh =5600, a starter SA case, reference
+wall friction coefficient (Cf ) data, and the objective “minimize lower-wall Cf RMSE,” AI CFD
+Scientistran 44 discovery iterations (worked-example trace in Figure 3). The discovered model adds
+an implicit source to the SA νe equation,
+
+
+Sextra = Crec Grec − Csink Gsink + Csrc Gsrc − Ctail Gtail |∇U| νe,
+
+
+with each G∗ (x, yw ) = exp − 12 (x − x∗ )2 /σ∗2 exp(−yw /Ly,∗ ) a wall-normalized Gaussian patch.
+The best iteration (Crec =2.12, Csink =2.25, Csrc =1.2, Ctail =0.75) reduces Cf RMSE against DNS
+from 0.004297 (baseline SA) to 0.003958, a 7.89% reduction (Figure 2d). The model is delivered
+as a coded fvModels block. The full 44-iteration discovery trajectory, the discovered quadRecTail
+coefficient table, and an OpenFOAM source excerpt are in Section C. The input topic given to AI
+CFD Scientist is provided in section A.
+Multi-agent collaboration in CFD Scientist - open-ended discovery example
+Discovering a novel quadrupolar Spalart-Allmaras runtime correction (quadRecTail) for the periodic-hill benchmark at Re_h = 5600
+Knowledge-Retrieval Tool
+
+User
+Task input :
+Discover and implement a NOVEL Spalart-Allmaras modification that beats
+baseline SA on skin-friction (Cf) prediction for the periodic-hill benchmark at Re_h
+= 5600. The modification must be physics-motivated (no data-driven black-boxes),
+must not duplicate any published variant & compare with Krank et al. DNS result.
+start discovery -> initial 44 iterations : python_script (analysis) -> code_mod ->
+experiment -> analysis -> hypothesis sweep -> collaborate, work with feedback
+
+1
+
+Pulls the DNS Cf(x/h) reference (Krank et al.) and a survey of published SA variants (e.g. SA-RC, SA-QCR,
+SA-noft2, SA-Edwards) so candidate terms must be NOVEL.
+
+2
+
+Drafts case-local source modifications iteratively : reversal-gated near-wall sinks -> localized downstream-hill
+Gaussian sinks -> retuned multi-Gaussian shapings -> a quadrupolar runtime source (quadRecTail). Final
+discovered model delivered as a coded fvModels runtime block requiring no recompilation.
+
+Code-Modification Tool
+
+OpenFOAM Experimentation Tool
+
+3
+
+Orchestrator (Open-Ended Discovery)
+1 - Knowledge tool surveys SA literature, seeds candidate physics-motivated terms.
+2 - Code-Mod tool drafts and compiles each candidate.
+3 - Experimentation tool smoke-tests the compiled model on a single periodic-hill.
+4 - Planning tool converts the surviving model into a sweep with meshindependence gate. And validation tool scores vs DNS Cf(x/h); loop back
+5 - Asks the Paper Writing Agent to write a high-quality research paper
+
+Clones the periodic-hill base case, smoke-tests each candidate model in single-case mode, runs the meshindependence gate, and executes 44 OED iterations plus 6 post-discovery validation cases with auto-rerunon-fail.
+
+Planning & Validation Tool (Python + Vision-LLM)
+
+4
+
+Drives the OED loop : scores each iteration on Cf RMSE vs DNS at 99 wall sample points (objective: minimize
+lower-wall Cf RMSE), promotes only when the score improves AND the VLM physics gate accepts the rendered
+field. Localized the dominant Cf error pocket to x/h in [7.5, 9.0] (~80.7% of SSE); 6 finalists archived for post discovery validation.
+
+Paper Writing Agent
+
+5
+
+Writes a research paper with literature study, cross-case analysis, findings, important plots & conclusion.
+
+Workflow timeline returned by the multi-agent collaboration (reference DNS = Krank et al.)
+stage / iter
+
+action
+
+model / detail
+
+key parameter(s)
+
+Cf rms vs DNS
+
+outcome
+
+A. Mechanism Exploration (iter 001-026) - diagnostic + 4 sink-based mechanism families (reversal-gated, localized Gaussian, retuned, secondary multi-Gaussian)
+iter 3
+iter 6
+iter 8-9
+iter 11-26
+iter 27-34
+
+code_mod
+code_mod
+code_mod
+code_mod
+code_mod
+
+reversal-gated near-wall sink (negative Ux)
+localized downstream-hill Gaussian sink near x/h ~ 8.68
+retuned hill-approach sinks (width / amplitude)
+secondary sinks (hillCrest, biHill, triHill)
+quadrupolar runtime source: 4 Gaussians (Grec, Gsink, Gsrc, Gtail)
+
+—
+—
+—
+—
+—
+
+0.004339
+0.004262
+~0.004266
+~0.004200-0.004250
+0.004050-0.004080
+
+REVISE - sign-gated mechanism worsened rms
+PROCEED (-0.81%) - first positive direction
+PROCEED (~ -0.72%) - modest tuning gains
+mixed - multi-Gaussian shaping explored
+recovery + sink + secondary src + tail damping
+
+B. Mesh-Independence Gate - baseline + refined mesh ( near-wall ~10%, bulk ~5% ), QoI percent-difference < 5% gate threshold (achieved < 2% on Cf, y+ ~ 1 sustained)
+gate
+
+analyse
+
+baseline mesh + refined mesh (identical models / BCs / numerics)
+
+QoI % diff (near-wall ~10%, bulk ~5%)
+
+< 5% gate threshold
+
+mesh-independent (gate passed)
+
+C. Quadrupolar Source Refinement (iter 035-044, finalist + post-disc.) - coefficient fine-tuning of quadRecTail (4 Gaussian patches); best Cf rms = 0.003958 (-7.89% vs built-in SA baseline 0.004297)
+iter 35
+iter 37
+iter 39
+iter 41
+iter 43
+iter 44
+post-disc.
+deploy
+
+code_mod
+code_mod
+code_mod
+code_mod
+code_mod
+code_mod
+validation
+outlook
+
+quadRecTail (start of coefficient fine-tune)
+quadRecTail (Gaussian widths adjusted)
+quadRecTail (recovery boost retuned)
+quadRecTail (centre x* tuned)
+quadRecTail (final coefficient pass)
+quadRecFine12 SELECTED (quadRecTail finalist)
+6 post-discovery validation cases on quadRecFine12
+delivered as runtime coded fvModels block (Listing 1)
+
+Crec,Csink,Csrc,Ctail (initial fine value)
+—
+—
+—
+—
+Crec=2.12,Csink=2.25,Csrc=1.20, etc.
+(coded fvModels block)
+no separate compile needed
+
+0.004020
+~0.004010
+~0.004000
+~0.003995
+0.003985
+0.003958
+candidate
+—
+
+PROCEED - upper end of fine-tune range
+PROCEED
+PROCEED
+PROCEED
+PROCEED - lower end of fine-tune range
+BEST (-7.89% vs built-in SA baseline 0.004297)
+wall-shear extraction recovery pending (Sec E)
+cross-geometry transfer untested (Sec E)
+
+Figure 3: Worked example of the open-ended-discovery (OED) pathway on T5 (periodic hill,
+Reh =5600. Top: the five-step multi-agent collaboration under the OED orchestrator — knowledge retrieval (1), code modification (2), single-case smoke test (3), mesh-independence-gated execution (4),
+and paper writing (5) — with one orchestrator-issued tool call shown per box. Bottom: the 44-iteration
+trajectory grouped by mechanism family. Block A (iter 001–026) traverses four sink-based families
+(reversal-gated, localized Gaussian, retuned hill-approach, secondary multi-Gaussian) before introducing a quadrupolar runtime source at iter 027–034. Block B confirms mesh independence on the baseline + refined (∼10% near-wall, ∼5% bulk) chain (achieved < 2% on Cf , y + ∼ 1). Block C fine-tunes
+the quadrupolar coefficients (iter 035–043) and selects iter_044_quadRecFine12 (quadRecTail),
+which reduces lower-wall Cf RMSE against DNS from 0.004297 (baseline SA) to 0.003958, a
+−7.89% improvement. The discovered model is delivered as a coded fvModels runtime block
+requiring no recompilation; cross-geometry transfer remains untested. Full trajectory, discovered
+coefficients, and OpenFOAM source in Section C.
+Further details on each case can be found in section E and the shortcoming discussed in section F.
+4.2
+
+VLM physics-verification gate: planted-failure ablation
+
+The VLM physics-verification gate is intended to catch failures that are not reliably visible from
+solver completion alone. We evaluate this role with a controlled planted-failure ablation.
+Setup. We start from four production-passed template cases, one each from the jet, BFS,
+periodic-hill, and channel studies. For each case, we apply one file-system-level perturbation
+from a four-category failure taxonomy: missing_deliverable, wrong_magnitude_metric,
+broken_postprocessing, and convergence_not_settled. This gives 4 × 4 = 16 planted
+7
+
+failures, plus four clean controls. The verifier is the same single-shot vision-LLM call used in
+production. A case is counted as flagged if the verifier returns either REVISE or RERUN. Using planted
+failures rather than rerunning the full system gives deterministic ground-truth labels and isolates the
+sensitivity of the VLM gate from solver noise. The design matrix and per-case archive are provided
+in Section J.
+Table 3: Planted-failure ablation for the VLM physics-verification gate. A case is counted as detected
+when the verifier returns REVISE or RERUN.
+Failure category
+
+Detected
+
+missing_deliverable
+
+4/4
+
+wrong_magnitude_metric
+
+4/4
+
+broken_postprocessing
+
+4/4
+
+convergence_not_settled
+
+2/4
+
+All planted failures
+
+14/16
+
+Interpretation
+Requested output is absent, although the case may still
+complete.
+Existing output contradicts the requested or physically
+plausible magnitude.
+Output files contain zero, NaN, or otherwise degenerate
+values.
+Shortened runs can appear visually complete when
+endTime is edited consistently with the truncated state.
+The gate catches most non-log-readable failures.
+
+As shown in Table 3, the gate detects 14/16 planted failures. It catches all missing-deliverable, wrongmagnitude, and broken-postprocessing cases, which are failures that can pass solver-level checks
+but invalidate interpretation. The main weakness is convergence sufficiency: only 2/4 truncated-run
+cases are flagged because edited endTime values of the cases can make incomplete simulations
+appear visually complete.
+
+5
+
+Cross-Framework Comparison: AI CFD Scientist vs. ARIS vs.
+DeepScientist
+
+The five-task study above evaluates AI CFD Scientist in isolation. To separate the effect of CFDspecific gates from generic AI-scientist scaffolding, we compare against ARIS [30] and DeepScientist [32] on T1–T4 under the same GPT-5.5 backbone. T5 is excluded because neither baseline
+supports open-ended source-level discovery. Evaluation is manual and artifact-based, using archived
+case directories, solver logs, custom C++ libraries, figures, and reports. Table 4 reports capability
+coverage; Table 5 reports per-task quality. Cost, token usage, and a per-task evidence ledger are
+provided in Sections D and I.
+Table 4: Capability comparison on T1–T4 with a shared GPT-5.5 backbone, supported by inspection
+of archived artifacts.
+Capability (under GPT-5.5)
+Literature retrieval (Semantic Scholar / OpenAlex / arXiv)
+Novelty filter against retrieved literature
+Requirement validation and repair before execution
+OpenFOAM execution end-to-end
+Mesh-independence gate
+Case-local custom-model compilation (T3 and T4)
+VLM-based physics-verification gate
+DNS / reference-data alignment for Cf
+Cross-case analysis with paper-ready figures
+Figure-grounded LaTeX writer with reviewer loop
+Conservative unresolved verdict when evidence is incomplete
+
+ARIS
+
+DeepScientist
+
+AI CFD
+Scientist
+
+✗
+✗
+◦
+✓
+✗
+✓
+✗
+✓
+◦
+✗
+◦
+
+◦
+✗
+◦
+✓
+✗
+✓
+✗
+✗
+◦
+◦
+✗
+
+✓
+✓
+✓
+✓
+✓
+✓
+✓
+✓
+✓
+✓
+✓
+
+Reading the rubric. Two patterns stand out. First, ARIS and DeepScientist often execute simulations and produce clean trends, but they lack the CFD-specific gates needed to decide whether
+those trends are scientifically supported. On T1 and T2, for example, they report closure rankings
+or St(Re) correlations despite missing mesh or reference-data evidence. AI CFD Scientist is more
+conservative: when evidence is incomplete, it records an unresolved verdict rather than converting a
+runnable case into a scientific claim.
+8
+
+Table 5: Per-task quality rubric on T1–T4 under matched GPT-5.5. S=strong, P=partial, W=weak,
+X=absent or stalled. Row blocks: TIQ = task-implementation quality; SRQ = scientific-research
+quality.
+T1 (BFS turb.)
+
+T2 (Jet Re-sweep)
+
+T3 (Custom ν)
+
+T4 (Custom SA)
+
+ARIS
+
+P (3 closures executed,
+no mesh-indep.)
+
+P (5-Re sweep, fixed
+mesh)
+
+P (1 custom variant
+compiled)
+
+DeepScientist
+
+P (3 closures, controlled
+comparison)
+
+P (5-Re sweep, f ∝ Re) P (1 custom variant +
+technical report)
+
+AI CFD Scientist
+
+S (4 closures, mesh-gate, S (7-Re sweep on
+VLM-triaged)
+uniform mesh,
+conservative)
+
+P (custom SA compiled,
+DNS Cf acknowledged,
+no manuscript)
+P (custom SA compiled
+and executed; partial
+report)
+S (validated code path;
+DNS overlayed and used;
+LaTeX draft)
+
+ARIS
+
+W (closure ranking
+issued without DNS /
+experimental validation)
+
+DeepScientist
+
+AI CFD Scientist
+
+W (closure ranking
+issued without DNS
+validation)
+P (VLM-flagged
+post-processor; closure
+ranking explicitly
+withheld)
+
+ARIS
+
+X (no idea generation)
+
+X (sweep follows prompt X (single variant)
+only)
+
+DeepScientist
+
+X
+
+X
+
+AI CFD Scientist
+
+P (lit-grounded
+multi-axis sweep)
+
+P (lit-grounded sweep +
+perturbation BCs)
+
+Axis Framework
+TIQ
+
+SRQ
+
+OEI
+
+S (5-variant sweep +
+Newtonian degeneracy)
+
+W (St ≈ 0.019 fit
+W (no DNS or
+W (no APG=0 control;
+reported without
+experimental
+no result analysis)
+grid-convergence or DNS comparison)
+check)
+W (St ≈ 0.031 fit
+P (technical report; no
+W (no APG=0 control;
+reported without
+DNS or experimental
+no result analysis)
+validation)
+comparison)
+P (analysis agent marks P (Newtonian degeneracy P (APG=0 control
+f (Re) unresolved on
+validated; remaining gaps validated; quantitative
+missing metadata)
+preserved in writer)
+ranking reported,
+differences marginal)
+W (one
+physics-motivated SA
+mod)
+X
+W (one β variant beyond
+default)
+P (5-variant (k, n, ∇p) P (5-variant sweep +
+sweep)
+control)
+
+Second, the distinction does not lie in whether each framework can compile a case-local custom
+model — all three did, on both T3 and T4 — but in how completely the surrounding scientific pipeline
+is exercised. ARIS and DeepScientist each ran one custom variant against a reference and reported a
+markdown summary; AI CFD Scientist additionally ran an APG=0 control case to validate the custom
+code path, produced a DNS overlay against the reference, and emitted a figure-grounded LaTeX draft.
+The comparison therefore suggests that the advantage is not in source-level editing per se, but in the
+surrounding CFD-specific scientific control flow.
+
+6
+
+Conclusion
+
+AI CFD Scientist is, to our knowledge, the first open-source AI scientist for CFD that closes the
+discovery loop from a natural-language topic to a manuscript draft. Unlike generic AI-scientist
+frameworks or CFD agents focused mainly on case generation and execution, AI CFD Scientist
+integrates literature-grounded ideation, novelty filtering, mesh-independence gating, source-level
+model modification, VLM-based physics verification, reference-data alignment, and figure-grounded
+writing. Across five CFD tasks, it supports regular experimentation, source-code modification, and
+open-ended discovery; in one discovery study, it identifies a Spalart–Allmaras runtime correction
+that reduces lower-wall Cf RMSE against DNS by 7.89% on the periodic hill at Reh =5600. Under
+matched conditions, other generic scientist frameworks execute parts of the same workflows but do
+not provide the combined CFD-specific control flow needed for physically grounded automation.
+We release AI CFD Scientist with code, prompts, and run artifacts as a community baseline for
+CFD-specific scientific automation.
+Limitations and scope. The results are encouraging but bounded in scope. (i) Single backbone:
+all numbers use GPT-5.5 (Codex); LLM sweeps and additional baselines are deferred for cost.
+(ii) Manual evaluation for cross-framework comparison: no automated CFD-paper rubric scores
+these workflows, so Table 5 reflects expert artifact reading. The framework is supervised scientific
+assistance, not unattended publication.
+
+9
+
+References
+[1] Daniil A. Boiko, Robert MacKnight, Ben Kline, and Gabe Gomes. Autonomous chemical research with
+large language models. Nature, 624(7992):570–578, 2023. doi: 10.1038/s41586-023-06792-0. URL
+https://www.nature.com/articles/s41586-023-06792-0.
+[2] Jonathan Bragg et al. AstaBench: Rigorous benchmarking of AI agents with a scientific research suite.
+arXiv preprint arXiv:2510.21652, 2025. doi: 10.48550/arXiv.2510.21652. URL https://arxiv.org/
+abs/2510.21652.
+[3] Andres M. Bran, Sam Cox, Olivier Schilter, Carlo Baldassari, Andrew D. White, and Philippe Schwaller.
+Chemcrow: Augmenting large-language models with chemistry tools. Nature Machine Intelligence, 2024.
+doi: 10.48550/arXiv.2304.05376. URL https://arxiv.org/abs/2304.05376v5.
+[4] Hui Chen, Miao Xiong, Yujie Lu, Wei Han, Ailin Deng, Yufei He, Jiaying Wu, Yibo Li, Yue Liu, and
+Bryan Hooi. Mlr-bench: Evaluating ai agents on open-ended machine learning research. arXiv preprint
+arXiv:2505.19955, 2025. doi: 10.48550/arXiv.2505.19955. URL https://arxiv.org/abs/2505.
+19955.
+[5] Yuxuan Chen, Xu Zhu, Hua Zhou, and Zhuyin Ren. Metaopenfoam: An llm-based multi-agent framework
+for cfd. arXiv preprint arXiv:2407.21320, 2024. doi: 10.48550/arXiv.2407.21320. URL https://arxiv.
+org/abs/2407.21320.
+[6] Yuxuan Chen, Long Zhang, Xu Zhu, Hua Zhou, and Zhuyin Ren. Optmetaopenfoam: Large language
+model driven chain of thought for sensitivity analysis and parameter optimization based on cfd. arXiv
+preprint arXiv:2503.01273, 2025. doi: 10.48550/arXiv.2503.01273. URL https://arxiv.org/abs/
+2503.01273.
+[7] Yuxuan Chen, Xu Zhu, Hua Zhou, and Zhuyin Ren. Metaopenfoam 2.0: Large language model driven
+chain of thought for automating cfd simulation and post-processing. arXiv preprint arXiv:2502.00498,
+2025. doi: 10.48550/arXiv.2502.00498. URL https://arxiv.org/abs/2502.00498.
+[8] Zhehao Dong, Shanghai Du, Zhen Lu, and Yue Yang. Cfd-copilot: Leveraging domain-adapted
+large language model and model context protocol to enhance simulation automation. arXiv preprint
+arXiv:2512.07917, 2025. doi: 10.48550/arXiv.2512.07917. URL https://arxiv.org/abs/2512.
+07917.
+[9] Zhehao Dong, Zhen Lu, and Yue Yang. Fine-tuning a large language model for automating computational
+fluid dynamics simulations. Theoretical and Applied Mechanics Letters, 15:100594, 2025. doi: 10.1016/j.
+taml.2025.100594. URL https://doi.org/10.1016/j.taml.2025.100594.
+[10] E. Fan, Weizong Wang, and Tianhan Zhang. Chatcfd: An end-to-end cfd agent with domain-specific
+structured thinking. Advanced Intelligent Discovery, 2025. doi: 10.1002/aidi.202500174. URL https:
+//arxiv.org/abs/2506.02019.
+[11] E. Fan, Lisong Shi, Zhengtong Li, and Chih-Yung Wen. Phynikce: A neurosymbolic agentic framework
+for autonomous computational fluid dynamics. arXiv preprint arXiv:2602.11666, 2026. doi: 10.48550/
+arXiv.2602.11666. URL https://arxiv.org/abs/2602.11666.
+[12] Jingsen Feng, Yupeng Qi, Ran Xu, Sandeep Pandey, and Xu Chu. turbulence.ai: an end-to-end ai scientist
+for fluid mechanics. Theoretical and Applied Mechanics Letters, page 100620, 2025. ISSN 2095-0349.
+doi: 10.1016/j.taml.2025.100620. URL https://www.sciencedirect.com/science/article/pii/
+S2095034925000522.
+[13] Jingsen Feng, Ran Xu, and Xu Chu. Openfoamgpt 2.0: End-to-end, trustworthy automation for computational fluid dynamics. International Journal of Heat and Fluid Flow, 2026. doi: 10.1016/j.ijheatfluidflow.
+2026.110399. URL https://arxiv.org/abs/2504.19338.
+[14] Gabriel S. Gerlero and Pablo A. Kler. foamlib: A modern Python package for working with OpenFOAM.
+Journal of Open Source Software, 10(109):7633, 2025. doi: 10.21105/joss.07633. URL https://doi.
+org/10.21105/joss.07633.
+[15] Aldair E. Gongora, B. Xu, W. Perry, C. Okoye, P. Riley, K. G. Reyes, E. F. Morgan, and K. A. Brown.
+A bayesian experimental autonomous researcher for mechanical design. Science Advances, 6(15):
+eaaz1708, 2020. doi: 10.1126/sciadv.aaz1708. URL https://www.science.org/doi/10.1126/
+sciadv.aaz1708.
+[16] Juraj Gottweis et al. Towards an ai co-scientist. arXiv preprint arXiv:2502.18864, 2025. doi: 10.48550/
+arXiv.2502.18864. URL https://arxiv.org/abs/2502.18864.
+
+10
+
+[17] Intology. Zochi technical report. GitHub repository and technical report, 2025. URL https://github.
+com/IntologyAI/Zochi.
+[18] Ross D. King et al. The automation of science. Science, 324(5923):85–89, 2009. doi: 10.1126/science.
+1165620. URL https://www.science.org/doi/10.1126/science.1165620.
+[19] Cong Lu, Chris Lu, Robert Tjarko Lange, Jakob Foerster, Jeff Clune, and David Ha. The AI scientist:
+Towards fully automated open-ended scientific discovery. arXiv preprint arXiv:2408.06292, 2024. URL
+https://arxiv.org/abs/2408.06292.
+[20] Benjamin P. MacLeod et al. A self-driving laboratory advances the Pareto front for material properties.
+Nature Communications, 13:995, 2022. doi: 10.1038/s41467-022-28580-6. URL https://www.nature.
+com/articles/s41467-022-28580-6.
+[21] Romit Maulik, Dimitrios K. Fytanidis, Bethany Lusch, Venkatram Vishwanath, and Saumil Patel. PythonFOAM: In-situ data analyses with OpenFOAM and Python. Journal of Computational Science, 62:101750,
+2022. doi: 10.1016/j.jocs.2022.101750. URL https://doi.org/10.1016/j.jocs.2022.101750.
+[22] Sandeep Pandey, Ran Xu, Wenkang Wang, and Xu Chu. Openfoamgpt: A rag-augmented llm agent for
+openfoam-based computational fluid dynamics. Physics of Fluids, 2025. doi: 10.1063/5.0257555. URL
+https://arxiv.org/abs/2501.06327.
+[23] Yuanhao Qu, Kaixuan Huang, Ming Yin, Kanghong Zhan, Dyllan Liu, Di Yin, Henry C. Cousins,
+William A. Johnson, Xiaotong Wang, Mihir Shah, Russ B. Altman, Denny Zhou, Mengdi Wang, and
+Le Cong. Crispr-gpt for agentic automation of gene-editing experiments. Nature Biomedical Engineering,
+10(2):245–258, February 2026. ISSN 2157-846X. doi: 10.1038/s41551-025-01463-z. URL https:
+//doi.org/10.1038/s41551-025-01463-z.
+[24] Samuel Schmidgall and Michael Moor. Agentrxiv: Towards collaborative autonomous research. arXiv
+preprint arXiv:2503.18102, 2025. doi: 10.48550/arXiv.2503.18102. URL https://arxiv.org/abs/
+2503.18102.
+[25] Samuel Schmidgall et al. Agent laboratory: Using LLM agents as research assistants. In Findings of the
+Association for Computational Linguistics: EMNLP 2025, 2025. doi: 10.18653/v1/2025.findings-emnlp.
+320. URL https://arxiv.org/abs/2501.04227.
+[26] Michael Schmidt and Hod Lipson. Distilling free-form natural laws from experimental data. Science, 324
+(5923):81–85, 2009. doi: 10.1126/science.1165893. URL https://www.science.org/doi/10.1126/
+science.1165893.
+[27] Martin Seifrid et al. Autonomous chemical experiments: challenges and perspectives on establishing a selfdriving lab. Accounts of Chemical Research, 55(17):2454–2466, 2022. doi: 10.1021/acs.accounts.2c00220.
+URL https://doi.org/10.1021/acs.accounts.2c00220.
+[28] Andrew Sparkes, Wayne Aubrey, Emma Byrne, Amanda Clare, Muhammed Nadeem Khan, Maria Liakata,
+Magdalena Markham, Jem J. Rowland, Larisa N. Soldatova, Ken E. Whelan, Michael Young, and Ross D.
+King. Towards robot scientists for autonomous scientific discovery. Automated Experimentation, 2:1, 2010.
+doi: 10.1186/1759-4499-2-1. URL https://doi.org/10.1186/1759-4499-2-1.
+[29] Giulio Starace et al. Paperbench: Evaluating AI’s ability to replicate machine learning research. In
+Proceedings of the International Conference on Machine Learning (ICML), 2025. doi: 10.48550/arXiv.
+2504.01848. URL https://arxiv.org/abs/2504.01848.
+[30] Jiabin Tang, Lianghao Xia, Zhonghang Li, and Chao Huang. AI-Researcher: Autonomous scientific
+innovation. In Advances in Neural Information Processing Systems (NeurIPS), 2025. doi: 10.48550/arXiv.
+2505.18705. URL https://openreview.net/forum?id=kQWyOYUAC4.
+[31] Yixuan Weng, Minjun Zhu, Guangsheng Bao, Hongbo Zhang, Jindong Wang, Yue Zhang, and Linyi Yang.
+Cycleresearcher: Improving automated research via automated review. In International Conference on
+Learning Representations (ICLR), 2025. doi: 10.48550/arXiv.2411.00816. URL https://openreview.
+net/forum?id=bjcsVLoHYs.
+[32] Yixuan Weng, Minjun Zhu, Qiujie Xie, Qiyao Sun, Zhen Lin, Sifan Liu, and Yue Zhang. Deepscientist:
+Advancing frontier-pushing scientific findings progressively. In International Conference on Learning
+Representations (ICLR), 2026. doi: 10.48550/arXiv.2509.26603. URL https://openreview.net/
+forum?id=cZFgsLq8Gs.
+
+11
+
+[33] Ke Xiao, Haoze Zhang, Runze Mao, Han Li, and Zhi X. Chen. Towards llm-enabled autonomous
+combustion research: A literature-aware agent for self-corrective modeling workflows. arXiv preprint
+arXiv:2601.01357, 2026. doi: 10.48550/arXiv.2601.01357. URL https://arxiv.org/abs/2601.
+01357.
+[34] Ke Xiao, Haoze Zhang, Yangchen Xu, Runze Mao, Han Li, and Zhi X. Chen. A preliminary assessment of
+coding agents for CFD workflows. arXiv preprint arXiv:2602.11689, 2026. doi: 10.48550/arXiv.2602.
+11689. URL https://arxiv.org/abs/2602.11689.
+[35] Qisong Xiao, Xinhai Chen, Qinglin Wang, Xiaowei Guo, Binglin Wang, Weifeng Chen, Zhichao Wang,
+Yunfei Liu, Rui Xia, Hang Zou, Gencheng Liu, Shuai Li, and Jie Liu. LLM4Fluid: Large language
+models as generalizable neural solvers for fluid dynamics. arXiv preprint arXiv:2601.21681, 2026. doi:
+10.48550/arXiv.2601.21681. URL https://arxiv.org/abs/2601.21681.
+[36] Leidong Xu, Danyal Mohaddes, and Yi Wang. LLM agent for fire dynamics simulations. arXiv preprint
+arXiv:2412.17146, 2024. doi: 10.48550/arXiv.2412.17146. URL https://arxiv.org/abs/2412.
+17146.
+[37] Zhaoyue Xu, Long Wang, Chunyu Wang, Yixin Chen, Qingyong Luo, Hua-Dong Yao, Shizhao Wang, and
+Guowei He. Cfdagent: A language-guided, zero-shot multi-agent system for complex flow simulation.
+Physics of Fluids, 2025. doi: 10.1063/5.0294696. URL https://arxiv.org/abs/2507.23693.
+[38] Yutaro Yamada, Robert Tjarko Lange, Cong Lu, Shengran Hu, Chris Lu, Jakob Foerster, Jeff Clune, and
+David Ha. The AI scientist-v2: Workshop-level automated scientific discovery via agentic tree search.
+arXiv preprint arXiv:2504.08066, 2025. doi: 10.48550/arXiv.2504.08066. URL https://arxiv.org/
+abs/2504.08066.
+[39] Chunwei Yang, Yankai Wang, Jianxiang Tang, Haojie Qu, Ziqiang Zou, Yu Liu, Chunrui Deng, Zhifang
+Qiu, and Ming Ding. Swarmfoam: An openfoam multi-agent system based on multiple types of large
+language models. arXiv preprint arXiv:2601.07252, 2026. doi: 10.48550/arXiv.2601.07252. URL
+https://arxiv.org/abs/2601.07252.
+[40] Ruofeng Yang, Yongcan Li, and Shuai Li.
+versarial multi-agent collaboration, 2026.
+Auto-claude-code-research-in-sleep.
+
+Aris: Fully autonomous research via adURL https://github.com/wanshuiyin/
+
+[41] Ling Yue, Nithin Somasekharan, Tingwen Zhang, Yadi Cao, Shimin Di, and Shaowu Pan. Foam-agent
+2.0: An end-to-end composable multi-agent framework for automating cfd simulation in openfoam. arXiv
+preprint arXiv:2509.18178, 2025. doi: 10.48550/arXiv.2509.18178. URL https://arxiv.org/abs/
+2509.18178.
+[42] Linfeng Zhang et al. Bohrium + SciMaster: Building the infrastructure and ecosystem for agentic
+science at scale. arXiv preprint arXiv:2512.20469, 2025. doi: 10.48550/arXiv.2512.20469. URL
+https://arxiv.org/abs/2512.20469.
+
+12
+
+A
+
+Input topic for T1-T5
+
+T1: BFS turbulence-model sensitivity (REG)
+Study the sensitivity of turbulence - model choice on the backward - facing
+step at
+$Re_h = 25{ ,}400 $ ( Driver and Seegmiller geometry and conditions ) . Run four
+RANS closures : $k$ - - $ \ varepsilon$ , $k$ - - $ \ omega$ SST , Spalart - - Allmaras ,
+and a
+Reynolds - stress model . All four are run on the same mesh - independence passed
+mesh , with identical inlet profiles , BCs , time controls , and post processing .
+For every run , generate streamlines through the recirculation region , $C_f$
+along the bottom wall , and station - wise mean - velocity and Reynolds - stress
+profiles downstream of the step . Compare each model ’ s reattachment length
+and
+recirculation topology against the experimental dataset and report which
+closure best reproduces the measured flow .
+
+T2: Jet/plume Reynolds-number sweep (REG)
+Perform a Reynolds - number sweep on a 2 D plane jet / plume across
+$Re \ in [60 , 600] $ using 7 cases ( l og a ri th m ic al l y spaced ) . The goal is to
+characterize ( a ) the scaling of the centreline streamwise velocity $U_x$
+and
+( b ) the dominant oscillation - frequency dependence $f ( Re ) $ . Use a transient
+solver , integrate long enough to obtain statistically converged statistics ,
+and produce centreline $U_x$ profiles , contour snapshots at re presen tative
+$Re$ , and a per - case estimate of the dominant oscillation frequency
+together
+with an honest assessment of whether that frequency is resolved at the
+chosen
+mesh .
+
+T3: Custom power-law viscosity on a channel (CM)
+Implement a custom non - Newtonian power - law viscosity model
+$ \ nu_ {\ mathrm { eff }} = k \ ,|\ dot {\ gamma }|^{\ , n -1} $ as a \ emph { case - local }
+OpenFOAM viscosity library ( do not edit the OpenFOAM source tree ) . Validate
+it on a fully - developed pressure - driven 2 D channel flow . First run a
+Newtonian
+reference case ( $n = 1 $ ) and verify that the custom library reproduces the
+built - in Newtonian solution to within numerical tolerance . Then sweep over
+$ (k , n , \ nabla p ) $ at 5 repres entati ve operating points and report , for
+each
+case , the velocity profile , wall shear stress , and effective - viscosity
+field ,
+together with the expected shear - thinning or shear - thickening trend .
+
+T4: Custom SA modifier on the periodic hill (CM)
+Implement a custom modification to the Spalart - - Allmaras ( SA ) turbulence
+model that changes \ emph { only } the production term and leaves every other
+SA
+term unchanged . The original SA production term is
+%
+\[
+C_ { b1 }\ ,\ tilde { S }\ ,\ tilde {\ nu } ,
+\]
+
+13
+
+%
+which is replaced by
+%
+\[
+p_ {\ mathrm { mult }}\ cdot C_ { b1 }\ ,\ tilde { S }\ ,\ tilde {\ nu } ,
+\ qquad
+p_ {\ mathrm { mult }} \;=\; \ mathrm { clamp }\!\ left (1 + \ beta \ left (\ frac { S }{\
+Omega } - R_ {\ mathrm { ref }}\ right ) ,\; p_ {\ min } ,\; p_ {\ max }\ right ) ,
+\]
+%
+where
+\( S = \ sqrt {2}\ ,\ lVert \ mathrm { symm }(\ nabla \ mathbf { u }) \ rVert \) is the
+strain - rate magnitude ,
+\(\ Omega = \ sqrt {2}\ ,\ lVert \ mathrm { skew }(\ nabla \ mathbf { u }) \ rVert \) is the
+rotation - rate magnitude ,
+and the constants take the fixed values
+\(\ beta = 6.0\) , \( R_ {\ mathrm { ref }} = 0.82\) , \( p_ {\ min } = 0.05\) , \( p_ {\
+max } = 5.0\) .
+Compile this modification as a case - local OpenFOAM library ( do not edit the
+OpenFOAM source tree ) and validate it on the periodic hill at
+$Re_h = 10{ ,}595 $ . First run a zero - perturbation control case with $ \ beta =
+0$
+( which gives $p_ {\ mathrm { mult }} \ equiv 1 $ ) and confirm that the modified
+solver matches the built - in SA model exactly on this mesh . Then run a 5 point
+sensitivity sweep over $ \ beta$ around the nominal value $ \ beta = 6.0 $ , and
+report for each case the change in $U_ {\ max }$ , shifts in separation and
+reattachment locations , and the lower - wall $C_f$ difference relative to the
+control .
+
+T5: Open-ended SA discovery against DNS (OED)
+Open - ended discovery objective : starting from the standard Spalart - Allmaras
+model on the periodic hill at $Re_h = 5600 $ , autonomously explore
+modifications to the SA closure that reduce the lower - wall skin - friction
+( $C_f$ ) RMSE against the provided DNS reference . The system may ( i ) modify
+the source - level SA equations and recompile a case - local library , ( ii ) add
+runtime correction terms via \ texttt { fvModels } without recompilation ,
+( iii ) adjust SA model coefficients , or ( iv ) introduce new geometry - aware or
+flow - aware sensitization . Score every iteration by $C_f$ RMSE versus DNS ,
+promote an iteration only if its score improves over the unmodified - SA
+baseline \ emph { and } the VLM physics gate accepts the rendered flow field ,
+and
+finally report the best - performing modification together with its mechanism
+.
+
+B
+
+Per-Task Experiment Matrices and Quantitative Results
+
+This appendix gives the GPT-5.5 experiment configurations and per-case quantitative metrics behind
+Table 2 and the findings in Section 4.1.
+B.1
+
+T1 — Backward-facing step turbulence-model sensitivity
+
+14
+
+Table 6: T1 experiment matrix and per-case metrics. Reh =25,400, step height h=0.01 m.
+Case
+
+Model
+
+Mesh
+(cells)
+
+Final t
+
+Umax (m/s)
+
+xr /h (extracted)
+
+VLM-gate verdict
+
+case_001
+
+standard k–ε
+
+30,548
+
+2000
+
+1.6013
+
+sign-anomaly
+−0.0332
+
+case_002
+
+realizable k–ε
+
+29,400
+
+2000
+
+1.6297
+
+sign-anomaly
+−0.0383
+
+case_003
+
+k–ω SST
+
+26,960
+
+994
+
+1.6256
+
+sign-anomaly
+−0.0383
+
+case_004
+
+Spalart–Allmaras
+
+38,068
+
+2000
+
+1.6084
+
+sign-anomaly
+−0.0383
+
+flagged: post-processor
+sign-error in Cf extractor;
+closure ranking withheld
+flagged: identical extracted
+value as cases 003/004
+indicates artifact
+accepted topology (most
+plausible recirculation); ranking
+withheld until QoI repaired
+accepted topology; ranking
+withheld
+
+B.2
+
+T2 — Jet/plume oscillation Reynolds-number sweep
+
+Table 7: T2 experiment matrix and per-case metrics. Identical 35,156-cell mesh across all cases; slot
+width w=0.01 m; ν=1.5×10−5 m2 /s; antisymmetric inlet perturbation 1% for first 0.05 s. Spectral
+metrics are marked unresolved due to cross-experiment metadata-parser failure (Section F).
+Case
+
+Re
+
+Umag,max
+
+Uc,max
+
+U¯c /Uc,max
+
+Status
+
+Notes
+
+001
+
+60
+
+0.0902
+
+0.0900
+
+0.599
+
+unresolved
+
+002
+003
+004
+005
+006
+
+90
+120
+150
+200
+300
+
+0.1352
+0.1801
+0.2402
+0.3301
+0.5117
+
+0.1350
+0.1800
+0.2400
+0.3300
+0.4654
+
+0.719
+0.791
+0.838
+0.868
+0.301
+
+unresolved
+unresolved
+unresolved
+unresolved
+flagged anomaly
+
+007
+
+600
+
+0.6004
+
+0.6000
+
+0.904
+
+unresolved
+
+monotonic baseline; spectral
+metadata not recovered
+monotonic baseline
+monotonic baseline
+monotonic baseline
+monotonic baseline
+centreline-mean collapse;
+deflection / unsteady state
+suspected
+only ∼2 s available, weakening
+spectral confidence
+
+B.3
+
+T3 — Custom viscosity model on a channel
+
+Table 8: T3 experiment matrix and per-case metrics. Generalized-Newtonian viscosity ν(γ̇) =
+ν∞ + k max(γ̇, γ̇min )n−1 . Periodic channel, length 2.0 m, half-height 0.05 m, νref =0.01 m2 /s.
+Custom library compiled case-local (no edits to OpenFOAM tree).
+Case
+
+Variant
+
+k
+
+n
+
+Uc,max (m/s)
+
+Role / verdict
+
+001
+
+Newtonian reference
+(n=1)
+custom (best)
+custom klow
+custom khigh
+custom nlow
+custom nhigh
+
+—
+
+1.0
+
+1.4925
+
+baseline; matches analytic 1.5 within 0.5%
+
+1×10−3
+5×10−4
+2×10−3
+1×10−3
+1×10−3
+
+0.6
+0.6
+0.6
+0.3
+1.2
+
+1.4698
+1.4800
+1.4542
+1.4741
+1.5231
+
+shear-thinning, intermediate
+shear-thinning, lower k
+lowest Uc,max (effective viscosity up)
+stronger shear-thinning
+shear-thickening; highest Uc,max
+
+002
+003
+004
+005
+006
+
+B.4
+
+T4 — Custom Spalart–Allmaras modifier on the periodic hill
+
+15
+
+Table 9: T4 experiment matrix. Periodic hill, Reh =10,595, identical mesh across cases. Custom
+library libCustomSA.so compiled case-local. DNS reference: Krank et al. (2018), 1153 wall points
+at matched Re. Cf RMSE computed over matched x/h domain.
+Case
+
+Variant
+
+β
+
+Rref
+
+Cf
+RMSE
+
+xr /h
+
+Role / verdict
+
+—
+001
+002
+003
+004
+005
+006
+
+DNS (Krank et al.)
+built-in SA baseline
+custom SA (APG=0 control)
+SA-APG β=0.15
+SA-APG β=0.30
+SA-APG β=0.45
+SA-APG β=0.30, Rref =0.10
+
+—
+—
+0
+0.15
+0.30
+0.45
+0.30
+
+—
+—
+0
+0.05
+0.05
+0.05
+0.10
+
+—
+0.003268
+0.003268
+0.003258
+0.003262
+0.003276
+0.003261
+
+4.51
+7.73
+7.73
+7.70
+7.68
+7.66
+7.68
+
+reference
+reference
+matches baseline; validates custom code path
+best RMSE (marginal)
+APG variant
+shortest recirculation
+Rref sensitivity
+
+B.5
+
+T5 — Open-ended SA discovery (overview)
+
+The full 44-iteration trajectory is in Section C; the headline finalist is iter_044_quadRecFine12
+with Cf RMSE vs. DNS 0.003958 versus baseline SA 0.004297 (a 7.89% reduction, Reh =5600).
+
+C
+
+Open-Ended Discovery: Trajectory and Discovered Model
+
+C.1
+
+Discovery objective and reference
+
+The discovery objective was to minimize the RMSE of the lower-wall skin-friction coefficient Cf
+along 99 wall sample points against an exact-match DNS reference. The dominant baseline-SA
+error is concentrated in the outlet hill-approach region (x/h ∈ [7.5, 9.0], ∼80.7% of total SSE),
+with a positive Cf overshoot near x/h ≈ 8.64–8.72. Baseline separation/reattachment estimates
+(x/h=0.269 / 7.753) deviate from DNS (0.191 / 4.726); the discovery target is Cf RMSE only, not
+separation/reattachment location.
+C.2
+
+Iteration trajectory
+
+Table 10: T5 OED trajectory milestones. Score is Cf RMSE vs. DNS exact-match reference; lower
+is better. Status: REVISE = score worsened; PROCEED = score improved and gates accepted.
+Baseline SA: 0.004297.
+Iteration block
+
+Mechanism family pro- Best score in Status
+posed
+block
+
+Rationale / observation
+
+iter_001–005
+
+diagnostic only (no source) —
+
+—
+
+iter_003
+
+reversal-gated near-wall 0.004339
+sink (negative Ux )
+localized
+downstream- 0.004262
+hill Gaussian sink near
+x/h≈8.68
+retuned hill-approach sinks ∼0.004266
+(width / amplitude)
+
+REVISE
+
+Localized dominant Cf error to outlet (x/h∈[7.5, 9.0],
+80.7% SSE)
+Sign-gated mechanism worsened RMSE
+
+iter_006
+
+iter_008–009
+
+iter_011–026
+iter_027–034
+
+iter_035–043
+iter_044
+
+C.3
+
+PROCEED
+(−0.81%)
+
+First positive direction
+
+PROCEED
+Modest tuning gains
+(∼
+−0.72%)
+secondary sinks (hillCrest, ∼0.004200– mixed
+Multi-Gaussian shaping explored
+biHill, triHill)
+0.004250
+quadrupolar
+runtime 0.004050–
+PROCEED
+Recovery boost + sink + secondary source + tail damping
+source (4 Gaussians) 0.004080
+introduced
+quadrupolar coefficient 0.003985–
+PROCEED
+Convergence on coefficient region
+fine-tuning
+0.004020
+quadRecFine12
+(se- 0.003958
+PROCEED
+Best iteration; promoted to artifact
+lected)
+(−7.89% vs.
+baseline)
+
+Discovered quadRecTail model: form and coefficients
+
+The discovered model adds an implicit source to the SA νe equation,
+
+
+Sextra (x, yw ) = Crec Grec (x, yw ) − Csink Gsink (x, yw ) + Csrc Gsrc (x, yw ) − Ctail Gtail (x, yw ) |∇U| νe,
+16
+
+
+
+with each Gaussian patch G∗ (x, yw ) = exp − 12 (x − x∗ )2 /σ∗2 exp(−yw /Ly,∗ ), and the coefficients in Table 11. The four terms have distinct physical interpretations: a broad recovery-region
+production boost (Grec ), a localized sink that suppresses the dominant outlet Cf overshoot (Gsink ), a
+narrow secondary production trigger upstream of the sink (Gsrc ), and a tail-region damping patch
+that controls residual overshoot near the outlet (Gtail ).
+Table 11: Discovered quadRecTail coefficients (iter_044_quadRecFine12). Values are read directly
+from the archived oed_artifact.json.
+Patch
+
+Amplitude
+
+x∗ (x/h)
+
+σ∗
+
+Ly,∗
+
+Physical role
+
+Grec (recovery boost)
+
+Crec =2.12
+
+6.00
+
+2.36
+
+0.228
+
+Gsink (sink)
+
+Csink =2.25
+
+8.69
+
+0.085
+
+0.045
+
+Gsrc (secondary src.)
+
+Csrc =1.20
+
+8.43
+
+0.05
+
+0.04
+
+Gtail (tail damping)
+
+Ctail =0.75
+
+8.86
+
+0.12
+
+0.07
+
+adds production in the broad recovery region
+x/h≈3–7 where SA underpredicts wall shear
+suppresses excessive ν
+e in the dominant
+Cf -overshoot region x/h≈8.5–8.8
+narrow upstream production trigger that prevents the
+sink from over-correcting
+damps residual positive Cf overshoot near the outlet
+x/h≈8.7–9.0
+
+C.4
+
+Deployment as a coded fvModels block
+
+The discovered model is delivered as a coded fvModels
+runtime block, requiring no separate
+P
+compilation. The implicit source K(x, yw )= ( i Ci Gi ) |∇U| is added through fvm::Sp(K,
+eqn.psi()), which keeps the modification implicit in the SA νe equation (Listing 1).
+Listing 1: Excerpt of the coded fvModels runtime source delivered as the discovered model artifact
+(constant/fvModels block).
+customSource
+{
+type
+coded;
+selectionMode
+all;
+field
+nuTilda;
+C_rec
+2.12; xRec
+6.0; sigmaRec
+2.36; LyRec
+0.228;
+C_src
+1.2;
+xSrc
+8.43; sigmaSrc
+0.05; LySrc
+0.04;
+C_sink
+2.25; xSink
+8.69; sigmaSink
+0.085; LySink
+0.045;
+C_tail
+0.75; xTail
+8.86; sigmaTail
+0.12; LyTail
+0.07;
+codeAddSup
+#{
+// assemble K = [C_rec*G_rec + C_src*G_src - C_sink*G_sink - C_tail*G_tail]
+* |grad U|
+// per cell from yWall and cell centres (omitted: G_* Gaussian patches, |
+grad U|),
+// then add implicitly to the SA \tilde{nu} equation
+const volScalarField K = /* ...assembled per-cell as above... */;
+eqn += fvm::Sp(K, eqn.psi());
+#};
+}
+
+D
+
+Cross-Framework Evidence Ledger
+
+This appendix backs the rubric in Table 5 with the artifact evidence each framework produced under
+matched GPT-5.5 on the four standard tasks. Numbers are read directly from each framework’s run
+archive.
+
+17
+
+Table 12: T1 (BFS turbulence sensitivity) artifact evidence under GPT-5.5.
+Framework
+
+Cases run
+
+ARIS
+
+3 RANS (k–ε, 7,040
+SST, SA)
+3 RANS (k–ε, 8,800
+SST, SA)
+4 RANS (+ re- 26.9k–38.1k
+alizable k–ε)
+
+DeepScientist
+AI CFD Scientist
+
+Mesh (cells)
+
+Reattachment xr /h ex- Validation / paper artifact
+tracted
+6.99, 7.84, 7.76
+
+summary.md + CSV; no DNS / experimental overlay;
+no manuscript
+6.55, 7.35, 6.95
+summary.md / paper outline only; no DNS /
+experimental overlay
+flagged sign-anomaly; VLM-flagged Cf post-processor; LaTeX paper draft,
+ranking withheld
+mesh-gate report
+
+Table 13: T2 (jet/plume Re-sweep) artifact evidence under GPT-5.5.
+Framework
+
+Cases run
+
+ARIS
+
+5 (Re=100– 8,640
+300)
+5 (Re=100– 8,640
+400)
+7 (Re=60– 35,156
+600)
+
+DeepScientist
+AI CFD Scientist
+
+Mesh (cells)
+
+Reported correlation
+
+Validation / paper artifact
+
+f =0.2891 Re0.9993 ,
+St≈0.0192
+f =0.4604 Re0.9996 ,
+St≈0.0307
+marked unresolved
+
+FFT script; no validation against literature; no
+manuscript
+FFT script; no validation; outline only
+VLM gate; flagged case-006 anomaly; LaTeX draft
+preserves evidence gaps
+
+Table 14: T3 (custom viscosity) artifact evidence under GPT-5.5. All three frameworks generated
+and compiled C++ libraries case-local. The differentiator is breadth and validation depth.
+Framework
+
+Cases run
+
+ARIS
+
+2 (1 ref + 1 cus- libcustomViscosity.so
+tom)
+2 (1 ref + 1 cus- libcustomViscosity.so
+tom)
+(variant)
+6 (1 ref + 5 cus- libcustomViscosity.so
+tom)
+
+DeepScientist
+AI CFD Scientist
+
+Custom library com- Variants explored
+piled
+1 power-law variant
+(n=0.5)
+1 power-law variant
+(n=0.5)
+5-variant
+(k, n, ∇p)
+sweep
+
+Validation / paper artifact
+comparison vs. Newtonian only; markdown
+summary
+technical-report markdown with one figure
+Newtonian degeneracy (n=1) reproduced;
+nested-metadata gap preserved
+
+Table 15: T4 (custom SA modifier) artifact evidence under GPT-5.5. All three frameworks compiled
+and executed a case-local custom OpenFOAM SA library implementing the requested APG production
+multiplier. The differences are in completeness of the surrounding pipeline: APG=0 control-case
+validation, DNS overlay rendering, and manuscript output.
+Framework
+
+Cases run
+
+ARIS
+
+2 (baseline + 1 libStrainRotationSA RMSE: 0.00430
+→
+custom)
+0.00433
+baseline + 2 libSAProdMult
+RMSE ≈ 0.00433
+custom variants
+6 (1 ctrl + 5 libCustomSA
+RMSE: 0.003268 (ctrl)
+APG)
+→ 0.003258 (best,
+β=0.15)
+
+DeepScientist
+
+AI CFD Scientist
+
+E
+
+Custom library compiled Reported metrics vs. DNS Validation / paper artifact
+no APG=0 control; one figure; no
+manuscript
+no APG=0 control; partial report; no
+manuscript
+APG=0 control validates code path;
+DNS-aligned Cf overlay; LaTeX draft
+
+What AI CFD ScientistDid Well, Per Task
+
+Table 16 consolidates the per-task strengths summarized in Section 4.1. Each row is grounded in
+a specific archived artifact (study JSON, requirement file, run directory, VLM judgment, figure
+manifest, source-code library, or manuscript fragment).
+
+F
+
+What AI CFD ScientistDoes Not Yet Do Well
+
+The strengths in Table 16 are real, but each GPT-5.5 task also exposed concrete limitations AI
+CFD Scientistrecorded conservatively rather than papering over (Table 17). Most residual failures
+are in cross-experiment post-processing (parser fragility, reattachment-extraction sign convention,
+spectral-metadata reconstruction), not in solver execution, custom-model compilation, or the VLM
+gate itself.
+18
+
+Table 16: AI CFD ScientistGPT-5.5 strengths per task. Each row is supported by archived artifacts
+(study JSON, requirements, run directories, VLM judgments, figures, code, manuscript fragments).
+ID
+
+Task
+
+What AI CFD Scientistdid well (GPT-5.5)
+
+T1
+
+BFS sensitivity
+
+T2
+
+Jet/plume Re-sweep
+
+T3
+
+Custom viscosity
+
+T4
+
+Custom SA modifier
+
+T5
+
+Open-ended discovery
+
+Literature-aware ideation; mesh-gate; four-closure execution; VLM physics gate flagged the Cf
+post-processor and triaged a k–ε output as inconsistent rather than ranking closures from suspect numbers.
+Generated and validated 7 requirements; uniform mesh across the sweep; conservative unresolved verdict on
+spectral metrics rather than emitting an unsupported correlation.
+Generated and compiled libcustomViscosity.so case-local; ran 6-case study; Newtonian degeneracy
+reproduced (n=1); preserved the metadata-parser gap in the writer rather than fitting a (k, n) correlation
+through unlabelled points.
+Generated and compiled libCustomSA.so; APG=0 control matched built-in SA; rendered Cf vs. DNS
+overlays; reported per-case Cf RMSE with marginal differences across APG variants.
+44-iteration autonomous discovery; identified outlet-region error pocket; proposed and refined
+Gaussian-patch source structure; 7.89% Cf RMSE reduction vs. DNS; delivered the model as a coded
+fvModels runtime block.
+
+Table 17: Residual limitations and AI CFD Scientist’s response. Each row corresponds to a verifiable
+artifact in the run archive.
+ID
+
+Task
+
+Residual limitation
+
+T1
+
+BFS sensitivity
+
+Reattachment xr /h extracted with sign error.
+
+T2
+
+T3
+
+T4
+T5
+
+G
+
+AI CFD Scientist’s response
+
+Flagged the post-processor as suspect; declined to
+issue a closure ranking from the affected QoI.
+Jet/plume Re-sweep
+Cross-experiment metadata parser could not
+Marked f (Re), St(Re) as unresolved; preserved
+reconstruct Re/Ub /slot width / full probe time series evidence gaps in the manuscript.
+for several cases; case-006 centreline collapse not
+investigated.
+Custom viscosity
+Nested (k, n) metadata-parser failed for some
+Reported only the validated Newtonian degeneracy
+sweep points, leaving the rheology-coefficient trend (n=1) and the labelled partial sweep; declined to
+partially labelled.
+issue a (k, n)-coefficient correlation.
+Custom SA modifier
+Only one mesh resolution tested.
+Reported control-case validation and qualitative
+APG sensitivity; withheld a quantitative ranking.
+Open-ended SA discov- Final wall-shear / Cf extraction failed for the six
+Classified the result as a candidate model pending
+ery
+post-discovery validation cases; transfer to other
+post-processing recovery and transfer testing;
+Reynolds numbers and geometries not tested.
+archived discovered model and full trajectory.
+
+Failure-Mode Taxonomy and Detection Gates
+
+CFD automation fails along distinct axes that require different gates. Table 18 formalizes the
+taxonomy used by the framework. The central design point is that detection should happen at
+the stage where the failure becomes observable, rather than collapsing everything into a single
+executable/non-executable bit. The VLM physics gate exists precisely because evidential failures are
+invisible to the validator and to the solver log.
+Table 18: Failure-mode taxonomy used by AI CFD Scientist. Each class is detected at a different
+stage and triggers a different recovery action.
+Class
+
+Typical symptom
+
+Specification
+
+missing solver intent, in- requirement validator + rewrite into a single executable confirm repaired requirement
+consistent units, incom- deterministic cleanup
+paragraph; strip viz mentions still reflects scientific intent
+plete BCs, plotting instructions leaking into requirements
+solver crash, divergence, Foam-Agent logs + inter- retry, revise requirement, or judge whether numerical repair
+unstable controls, non- preter feedback
+borrow stable patterns from a changed the experiment
+physical run status
+nearby working case (sweeppreserving)
+empty plots, wrong vari- VLM physics gate (this regenerate figures with revised verify visually acceptable figures
+able, bad framing, zoom work)
+script / framing; rerun if the are also the right diagnostics
+hides phenomenon, geomgate detects geometry/topology
+etry mismatch in field renmismatch
+der
+unsupported claims, sparse reviewer prompt + pdfla- revise structure, references, fig- expert scientific editing and
+references, missing failure tex compile loop
+ures, claims before accepting sign-off
+cases, compilation errors
+in draft
+
+Numerical
+
+Evidential
+
+Narrative
+
+Detector
+
+Automatic response
+
+19
+
+Residual human task
+
+H
+
+Architectural Details: Agent Inventory and State Schema
+
+This appendix documents the agents that implement the pathways described in Section 3 and the
+LangGraph state object they share. Table 19 lists each agent’s primary inputs, outputs, and functional
+role; every handoff is both human-readable and machine-readable. Table 20 lists the principal fields
+of the checkpointed state, which are intentionally redundant: the requirement records what should
+be run, the case directory records what was actually run, the figures expose whether the result is
+physically interpretable, and the writer receives the whole artifact graph.
+
+Table 19: Agents in AI CFD Scientist, their inputs, outputs, and functional role. Every handoff is
+both human-readable and machine-readable.
+Agent / module
+
+Primary inputs
+
+Ideation Agent
+
+topic, literature bundle, experi- study JSON (solver, objective, convert a broad topic into a concrete, bounded
+ment budget
+experiments[], post) + novelty CFD study, avoiding overlap with retrieved
+verdict
+prior work
+translate one experiment into an executable
+study JSON, selected experi- single-paragraph
+ment, run-topic constraints
+user_requirement
++ requirement; validate and repair
+validation history
+baseline mesh spec + refined- selected_mesh_spec.json, confirm baseline mesh is sufficient; flag for
+mesh recipe
+percent-difference table
+GCI escalation if needed
+validated requirement, optional OpenFOAM case folder, solver generate dictionaries, run, low-level error
+mesh assets
+logs, run status
+correction
+source-edit plan, equations, C++
+files
+under translate physics description into a case-local
+starter case
+customModels/,
+build OpenFOAM library
+system,
+dictionary edits,
+smoke run
+user requirement, foam case, PyVista/matplotlib scripts and produce diagnostic and paper-ready figures
+requested figure types
+PNG figures
+with traceback-driven repair
+requirement, figure set, log tail interpretation
+JSON: multimodal physics verification
+simulation_success,
+requirement_met,
+issues, rerun_required,
+key_metrics
+current requirement, inter- revised requirement + validator repair failing requirements while preserving the
+preter feedback,
+nearby verdict
+sweep dimension
+working-case summary
+active hypothesis, artifacts so next action: source edit / pa- open-ended discovery loop
+far, comparator score, budget rameter change / rerun
+study topic, experiment bundle, cross-experiment visualiza- cross-case paper-ready figures and trend
+per-run figures
+tions + synthesis text
+summary
+topic, literature, interpretations, LaTeX manuscript, review re- draft the paper, compile, critique, revise
+figure bundle, analysis
+ports, revised PDF draft
+compiled draft + compile log + pass/fail JSON + actionable enforce formatting, claim–evidence alignment,
+reference report
+recommendations
+≥20 references, redundancy
+
+Specification Agent
+
+Mesh-Independence Gate
+Foam-Agent execution
+Code-Modification Agent
+
+Visualization Planner /
+Creator
+ResultsInterpreter Agent
+(VLM gate)
+
+RerunAnalysis Agent
+
+OED Orchestrator
+Analysis Agent
+Writer Agent
+Reviewer Agent
+
+Primary outputs
+
+Functional role
+
+Table 20: Selected fields of the AI CFD Scientiststate object (LangGraph checkpointed state).
+Field
+
+Type
+
+Description
+
+topic
+lit_bundle
+idea
+novelty_score
+requirements
+validation_history
+mesh_spec
+run_results
+figs_manifest
+interpretations
+rerun_queue
+code_mod_plan
+compile_log
+oed_trajectory
+analysis
+paper_draft
+
+string
+list of records
+study JSON
+float
+list of strings
+list of records
+JSON
+list of records
+list of records
+list of JSON
+list of records
+JSON
+string
+list of records
+JSON + figs
+LaTeX + PDF
+
+user-supplied research topic
+retrieved Semantic Scholar / OpenAlex / arXiv items
+solver, target_CFL, objective, experiments[], post
+similarity vs. retrieved literature; triggers retry if too high
+per-experiment validated requirement paragraphs
+each repair attempt with verdict and reasons
+selected mesh spec from mesh-independence gate
+per-case run_result.json (status, case_dir, errors, loop_count)
+generated figures with provenance
+VLM gate output per case
+cases with rerun_required=true and revision plan
+source-edit plan, files, classes, registration
+build output for case-local libraries
+iter_NNN: hypothesis, action, score, status
+cross-case synthesis
+writer + reviewer outputs across revision rounds
+
+20
+
+I
+
+LLM Cost: Token Usage and USD per Framework
+
+We log every LLM call for every framework via the same shared accounting middleware
+(llm_token_usage.json in each run directory; provider_usage reporting where available). Table 21 reports per-experiment token usage and estimated USD cost under matched GPT-5.5 (Codex).
+The reported numbers are the production end-to-end costs of running the four standard CFD experiments (BFS turbulence sensitivity, jet/plume Re-sweep, custom viscosity, custom SA modifier)
+on AI CFD Scientist, ARIS, and DeepScientist, together with the additional open-ended-discovery
+experiment that only AI CFD Scientistsupports. We separate three token classes that the provider bills
+differently: Input is the uncached input the model has to read fresh; Cached is prompt-cached input
+that the provider replays at a heavily discounted rate; and Output is what the model actually generates. The dollar figure in the rightmost column is the user-facing bill under standard cached-input
+discounts.
+Pricing assumptions. We compute USD using a representative codex-class price of $1.25 per 1M
+uncached input tokens, $0.125 per 1M cached-input tokens (the standard 10× cached-input discount),
+and $10.00 per 1M output tokens. Token counts are as recorded by the provider (token_source:
+provider_usage). The AI CFD Scientistruns do not exercise prompt caching, so its Cached column
+is zero by construction; ARIS and DeepScientist push large cache-replay volumes through their
+long-context execution loops, which is why their Cached columns dominate the token shape but enter
+the bill at the discounted rate.
+Table 21: LLM cost per framework per CFD experiment under matched GPT-5.5 (Codex). Input
+is uncached input; Cached is prompt-cached input billed at the standard 10× discount; Output is
+generated output. Cost (USD) is 1.25×Input/106 + 0.125×Cached/106 + 10.0×Output/106 . AI
+CFD Scientistdoes not exercise prompt caching, so its Cached column is zero.
+Framework
+
+Experiment
+
+Input
+
+Cached
+
+Output
+
+Calls
+
+Cost (USD)
+
+AI CFD Scientist
+AI CFD Scientist
+AI CFD Scientist
+AI CFD Scientist
+AI CFD Scientist
+AI CFD Scientist
+
+BFS turb. sensitivity
+Jet/plume Re-sweep
+Custom viscosity
+Custom SA modifier
+Open-ended discovery
+Total
+
+1,685,719
+1,010,295
+1,743,752
+2,122,953
+1,500,481
+8,063,200
+
+0
+0
+0
+0
+0
+0
+
+961,518
+470,049
+968,542
+898,340
+69,104
+3,367,553
+
+616
+421
+595
+1,039
+94
+2,765
+
+11.72
+5.96
+11.87
+11.64
+2.57
+43.75
+
+ARIS
+ARIS
+ARIS
+ARIS
+ARIS
+
+BFS turb. sensitivity
+Jet/plume Re-sweep
+Custom viscosity
+Custom SA modifier
+Total
+
+6,745,470
+6,526,605
+5,063,771
+6,163,327
+24,499,173
+
+18,060,826
+17,845,146
+16,412,570
+17,486,362
+69,804,904
+
+68,092
+66,310
+57,252
+65,198
+256,852
+
+131
+128
+108
+123
+490
+
+11.37
+11.05
+8.95
+10.54
+41.92
+
+DeepScientist
+DeepScientist
+DeepScientist
+DeepScientist
+DeepScientist
+
+BFS turb. sensitivity
+Jet/plume Re-sweep
+Custom viscosity
+Custom SA modifier
+Total
+
+1,314,423
+1,314,423
+1,314,461
+1,314,588
+5,257,895
+
+46,122,554
+46,122,554
+50,159,942
+66,820,929
+209,225,979
+
+116,694
+116,694
+126,344
+161,845
+521,577
+
+131
+129
+137
+169
+566
+
+8.58
+8.58
+9.18
+11.61
+37.94
+
+Reading the cost table. Under user-facing pricing with the standard cached-input discount applied,
+the three frameworks complete the same four CFD experiments at very similar dollar cost: AI
+CFD Scientistat $41.19 (T1–T4), ARIS at $41.92, and DeepScientist at $37.94 — a comparable
+$38–$42 envelope. The cost comparison is therefore on a level playing field; the capability and rubric
+differences in Tables 4 and 5 are not bought with extra LLM spend. What is different is the underlying
+token economy. AI CFD Scientistspends through many short, fully-uncached calls (2,765 discrete
+LLM calls, no prompt caching, budget split roughly 2.4:1 between uncached input and generated
+output): every node handoff is a discrete call with an explicit JSON contract, so the same dollars
+buy a much higher granularity of expert-written agents. ARIS’s bill is dominated by a long-context
+replay-heavy execution loop that pushes ∼70M tokens through prompt caching across only 490 calls.
+DeepScientist’s bill is even more cache-replay-heavy: ∼209M cache-replayed tokens carrying its
+persistent SciMaster-style scaffolding, across 566 calls. The AI CFD Scientistopen-ended-discovery
+experiment added only $2.57 to the framework total: the OED loop hits a deterministic comparator
+(not the LLM) for most of its work, so OED scales with solver time, not with token cost.
+21
+
+Scope. These numbers cover only the production end-to-end CFD runs reported in Sections 4 and 5.
+The VLM-ablation sweep (Section J) is excluded because each call is a single-shot vision query
+whose total cost is below $1 across the 19 calls in the sweep.
+
+J
+
+VLM Physics-Verification Gate: Planted-Failure Ablation
+
+We quantify the value of the VLM physics-verification gate with a controlled planted-failure ablation.
+The retrospective on the four production GPT-5.5 runs (scripts/inventory_decisions.py)
+showed the VLM gate caught 7/21 silent failures on top of Foam-Agent’s own crash detection —
+a 33% catch rate over runs that already passed the solver-level reviewer loop. The ablation in this
+appendix asks the more precise question: which kinds of silent failure does the VLM gate catch, with
+what per-category recall, and at what cost?
+J.1
+
+Setup: 4 categories × 4 flows + 4 controls
+
+We seed the ablation with four template cases that had each been PROCEED’d in production: jet
+(oscillating jet), bfs (backward-facing step), hill (periodic hill), and chan (channel). Each template
+is read-copied and one file-system-level perturbation is applied per case, drawn from a 4-bucket failure
+taxonomy distilled from the retrospective catches (Table 22). This gives 16 planted-failure cases
+plus 4 unperturbed clean controls, for 20 cases total. The verifier (scripts/quick_interpret.py)
+is the production single-shot vision-LLM call using interpretation_system_prompt +
+interpretation_user_prompt from prompts/prompts.yaml verbatim, returning {PROCEED,
+REVISE, RERUN}; flagged = REVISE ∨ RERUN.
+Why post-hoc perturbation rather than a feature-disable ablation. Planting failures from
+already-PROCEED’d production cases makes ground truth deterministic: the (requirement, case-state)
+pair is unambiguously FAIL or OK because the only thing that changed from a passed case is the
+perturbation. This isolates the verifier’s sensitivity from confounding solver-side noise that a re-run
+feature-disable ablation would introduce.
+Table 22: VLM-ablation design. Four flow templates (columns) × four planted-failure categories
+(rows) + four clean controls = 20 cases. Each cell is a single file-system perturbation applied to a
+read-copy of a production-passed case.
+Category ↓
+
+/
+
+Flow →
+
+missing_deliverable
+wrong_magnitude_metric
+broken_postprocessing
+convergence_not_settled
+control (clean read-copy)
+
+J.2
+
+jet
+
+BFS
+
+hill
+
+channel
+
+delete
+delete
+delete
+delete latest 2 time dirs
+postProcessing/jetProbes
+postProcessing/wallShearStressLowerWall
+postProcessing/wallShearStress
+(4500, 5000)
+requirement asserts
+”
+”
+”
+unattainable target
+zero-out 2 jetProbes
+zero-out wall-shear data zero-out wall-shear data zero-out U, p at
+files
+t=5000
+truncate to t≤0.5 (was truncate to t≤200
+truncate to t≤500
+truncate to t≤500
+8)
+(was 2000)
+(was 5000)
+(was 5000)
+—
+—
+—
+—
+
+Results
+
+Table 23 reports overall confusion-matrix metrics and per-category recall.
+The
+verifier achieves 100% recall on the three "did-the-right-thing-happen" buckets
+(missing_deliverable, wrong_magnitude_metric, broken_postprocessing) and 50%
+recall on convergence_not_settled, for an overall recall of 14/16 = 87.5% (F1 = 82.4%). The
+two missed convergence cases (jet_unconv, chan_unconv) had controlDict.endTime edited
+to match the truncated state, so the figures look “complete to endTime” — nothing in the prompt
+asks whether endTime is physically sufficient for the flow to settle. Per-flow recall is uniform across
+geometries (jet 3/4, BFS 4/4, hill 4/4, channel 3/4); both FNs are convergence cases.
+Cost. Mean wall-clock per case is 76.6 s (range 64–89 s) with one LLM call per case (19 calls
+total, ≈24 min for the full sweep) — about an order of magnitude cheaper than the production
+interpret.py loop, which regenerates figures with viz_creator and averages 10–15 min and
+2–11 calls per case.
+22
+
+Table 23: VLM-ablation results: overall confusion matrix and per-category recall on the planted
+failures. flagged = REVISE ∨ RERUN. The verifier is the production single-shot call.
+Ground truth
+
+flagged
+not flagged
+total
+
+FAIL (planted)
+
+OK (control)
+
+total
+
+TP = 14
+FN = 2
+16
+
+FP = 4
+TN = 0
+4
+
+18
+2
+20
+
+Recall = 14/16 = 87.5%; Precision = 14/18 = 77.8%; F1 = 82.4%
+
+Category
+
+N
+
+TP
+
+FN
+
+Recall
+
+missing_deliverable
+wrong_magnitude_metric
+broken_postprocessing
+convergence_not_settled
+
+4
+4
+4
+4
+
+4
+4
+4
+2
+
+0
+0
+0
+2
+
+100%
+100%
+100%
+50%
+
+planted total
+
+16
+
+14
+
+2
+
+87.5%
+
+Caveat on precision. All four clean controls were flagged REVISE, giving a 77.8% overall precision.
+Inspection of the requirement strings shows the generic control-template requirement explicitly
+mentions a deliverable (e.g. a probe spectrum) that the VLM correctly notes “is not visible in the
+figures” — because the ablation harness only renders a small interpret-mode subset of figures, not the
+full reporting suite. In production, the rendered figure set is broader and the requirement is grounded
+in the actual case spec, so the same misalignment does not occur. The published precision is therefore
+a lower bound dominated by the control template’s under-specified figure set; we report it as-is rather
+than back out a higher number.
+J.3
+
+What the ablation tells us
+
+(1) The gate catches what the solver structurally cannot see.
+100% recall on
+missing_deliverable / wrong_magnitude_metric / broken_postprocessing (12/12) covers exactly the failure modes that pass Foam-Agent’s reviewer loop because the solver completed
+cleanly. This is the operational justification for treating the VLM gate as a first-class subsystem rather
+than an optional post-hoc check.
+(2) Convergence-not-settled is a known blind spot. The verifier reasonably calls truncated,
+internally-consistent runs as PROCEED because nothing in the prompt asks whether the chosen
+endTime is physically sufficient. The actionable fix is a deterministic residual-plateau / QoI-drift
+detector run before the VLM call.
+(3) Failure detection is geometry-independent. Per-flow recall (3-4 of 4 across jet, BFS, hill,
+channel) is statistically indistinguishable; the verifier generalizes across flow types rather than relying
+on memorized priors for any one canonical case.
+
+23
+
+Paper Generated by AI CFD Scientist
+
+A Strain-to-Vorticity Production Multiplier for the
+Spalart–Allmaras Turbulence Model:
+Parametric Evaluation on Periodic Hill Flow at
+Reh = 5,600
+CFD Research Group
+Department of Mechanical, Aerospace, and Nuclear Engineering
+Rensselaer Polytechnic Institute
+April 2026
+Abstract
+Turbulent flow over a periodic hill at a bulk Reynolds number of 5,600 is simulated
+using Reynolds-averaged Navier–Stokes (RANS) computations in OpenFOAM to evaluate a modified Spalart–Allmaras (SA) turbulence model that introduces a bounded
+production multiplier (pMult) into the eddy-viscosity transport equation. The multiplier
+is parameterised by a reference ratio Rref , a sensitivity coefficient β, and clamp bounds
+[pMin , pMax ]; it suppresses turbulent production in rotation-dominated regions, targeting the interior of the separation bubble. Six configurations are compared against an
+unmodified baseline SA simulation and a direct numerical simulation (DNS) reference
+dataset for the wall skin-friction coefficient. The primary finding is that the production
+multiplier systematically deepens the predicted separation region relative to the baseline SA, with β identified as the dominant control parameter: increasing β from 3 to
+9 advances separation onset and deepens peak negative skin-friction magnitude by up
+to 33 %. Setting Rref = 1.0 effectively deactivates the modification, confirming correct
+model implementation, while varying the clamp bounds within the flow’s operative range
+has negligible effect. A three-level mesh independence study confirms that a 44,749-cell
+baseline mesh is sufficient, with all primary quantities of interest changing by less than
+2.5 % upon further refinement.
+
+1
+
+Introduction
+
+Turbulent flow over periodic hills constitutes a canonical benchmark for separated and
+reattached boundary layers under strong adverse pressure gradients, making it a stringent
+test for RANS closure models. The geometry features a smoothly contoured hill profile
+repeated in the streamwise direction, producing a large recirculation bubble in the lee of
+each hill crest whose length, depth, and reattachment location are sensitive to the turbulence
+model employed. The α = 1.0 configuration at Reh = 5,600 (based on hill height h and bulk
+velocity Ub ) has been extensively characterised in the literature, with DNS data providing a
+high-fidelity reference for model validation [Krank et al., 2018, Breuer et al., 2009, Fröhlich
+et al., 2005].
+The SA one-equation model [Spalart and Allmaras, 1992] is widely used in aerodynamic and
+turbomachinery applications owing to its robustness and computational economy. However,
+it is well-known to underpredict the separation bubble length in strongly separated flows: the
+production term, proportional to the strain-rate magnitude S, does not differentiate between
+strain-dominated (attached) and rotation-dominated (separated) regions of the flow [Pope,
+2000]. In the periodic hill valley, where the local vorticity magnitude Ω exceeds the strain
+1
+
+24
+
+rate, the standard SA production term remains active, sustaining elevated eddy viscosity that
+suppresses recirculation relative to DNS predictions.
+Prior work on turbulence model modification for separated flows falls broadly into three
+categories: (i) production-term corrections based on local-flow quantities [Ma et al., 2014,
+Dikbaş and Baran, 2023], (ii) data-driven field-inversion and machine-learning corrections
+applied directly to the SA model [Yan et al., 2022, Patel et al., 2024], and (iii) hybrid RANS–
+large eddy simulation (LES) methods that increase fidelity in separated regions at higher
+computational cost [Gritskevich et al., 2013, Kumar et al., 2016, Temmerman et al., 2003].
+The present study follows a more interpretable parametric route: a custom-implemented
+SA model that scales the production term by a bounded multiplier (pMult) parameterised
+entirely by local flow quantities and four model coefficients, without requiring training data
+from higher-fidelity simulations. The goal is to quantify the sensitivity of the predictions
+to each model coefficient and to assess whether the modification moves RANS predictions
+directionally closer to DNS reference data for skin-friction and mean-velocity metrics along
+the periodic hill bottom wall.
+
+2
+
+Related Work
+
+Production-term corrections represent the most direct modification strategy. Ma et al. [2014]
+introduced a non-dimensional pressure-gradient parameter into the SA production term and
+demonstrated improved wall pressure and skin friction for shock-wave/turbulent boundary
+layer interaction. Dikbaş and Baran [2023] modified production terms in the k-kL model
+for leading-edge vortex separation. Yan et al. [2022] employed field inversion and machine
+learning to correct SA model-form error in periodic hill flow at finite Reynolds numbers, with
+the correction field exhibiting spatial patterns consistent with nonequilibrium turbulence in
+the separating shear layer.
+Hybrid RANS–LES methods provide more accurate resolution of separated regions at the
+cost of higher computational expense. Gritskevich et al. [2013] proposed recalibrated shielding
+functions for delayed detached eddy simulation (DDES) and improved DDES (IDDES) using
+the k-ω shear stress transport (SST) model [Menter, 1994] as the background RANS; the k-ω
+family of two-equation models [Wilcox, 2008] underpins many such hybrid strategies. Kumar
+et al. [2016] performed a comparative study of several hybrid RANS–LES approaches for
+separated flows, demonstrating improved prediction of recirculation metrics relative to pure
+RANS at substantially higher computational cost. Temmerman et al. [2003] investigated
+LES and hybrid RANS–LES approaches for periodic hill flow at Reh = 10,595, establishing
+reference velocity profiles and separation metrics widely used for RANS validation.
+Physics-informed and data-assimilation approaches reconstruct mean-flow fields from
+sparse measurements subject to RANS constraints. Patel et al. [2024] demonstrated that a
+physics-informed neural network augmented with SA equations outperforms standalone RANS
+by up to 73 % in mean velocity reconstruction error for periodic hill flow at Reh = 5,600.
+Experimental reference data are available from Rapp and Manhart [2011] and Breuer et
+al. [2009], providing additional context for the DNS-based benchmarking employed here.
+Paeres et al. [2022] assessed SA and k-ω SST on a curved hill flow, finding that SA performs
+better in attached regions while SST is preferable near separation. The present study targets
+the simpler but tractable parametric-correction approach, retaining the interpretability of a
+closed-form multiplier while avoiding the data requirements of machine-learning methods.
+
+2
+
+3
+
+Methods
+
+3.1
+
+Flow Configuration and Boundary Conditions
+
+Simulations target the α = 1.0 periodic hill geometry at a bulk Reynolds number Reh =
+Ub h/ν = 5,600, where h = 1.0 m is the hill height, Ub = 0.028 m/s is the bulk velocity,
+and ν = 5 × 10−6 m2 /s is the kinematic viscosity. The computational domain spans one
+full hill period in the streamwise direction (x/h ∈ [0, 9]) with periodic boundary conditions
+applied at the inlet and outlet planes. The bottom hill surface and the flat upper wall are
+treated as no-slip walls. Spanwise extent is suppressed by symmetry in this two-dimensional
+RANS study. The pressure-velocity coupling uses the PISO algorithm [Issa, 1986] with a
+finite-volume discretisation following Jasak [1996], and a second-order upwind scheme is used
+for convective terms [Ferziger and Perić, 2002]. All cases are run to a pseudo-steady state at
+t = 5,000 time units.
+The DNS reference dataset was provided by Krank et al. [2018] at Reh = 5,600 and covers
+the bottom-wall skin-friction coefficient Cf = τw,x /(0.5 ρ Ub2 ) over the full hill period. The
+DNS data are used as the primary benchmark for all RANS comparisons. A full Cf (x/h)
+comparison line plot overlaying all RANS cases against the DNS reference constitutes the
+primary evidence figure for this study; the present results are reported through the QoI
+metrics of Table 3 and the zero-crossing analysis pending re-extraction of Cf distributions
+from the wall shear-stress output files.
+
+3.2
+
+Baseline Spalart–Allmaras Model
+
+The unmodified SA model [Spalart and Allmaras, 1992] solves a single transport equation for
+the modified eddy viscosity ν̃. The production term is proportional to S ν̃, where S is the
+local strain-rate magnitude. The turbulent kinematic viscosity is recovered via the standard
+near-wall damping function fv1 . In rotation-dominated flow regions the production term
+does not self-limit, a well-known limitation of one-equation closures discussed by Pope [2000].
+This model is implemented as the standard SpalartAllmaras solver in OpenFOAM and
+constitutes case 1 (the anchor reference) in the present study.
+
+3.3
+
+Custom SA Model with pMult Production Modifier
+
+The custom SA model (CustomSpalartAllmarasImplementACustom) modifies the SA production term by a scalar multiplier pMult ∈ [pMin , pMax ], where pMult is a bounded, approximately linear function of the local velocity-gradient ratio R = S/Ω (Ω is the vorticity
+magnitude), parameterised by four coefficients:
+• Rref : the reference (neutral) value of the ratio; below this value pMult reduces production, above it production is augmented.
+• β: the sensitivity gain controlling how steeply pMult departs from unity as R departs
+from Rref .
+• pMin , pMax : lower and upper clamp bounds on pMult, preventing unphysical values in
+extreme-gradient regions.
+Inside a recirculation bubble (S/Ω < Rref , rotation-dominated), the multiplier pMult < 1
+suppresses turbulent production, reducing eddy viscosity and permitting a deeper, longer
+separation bubble. In attached, strain-dominated regions (S/Ω > Rref ) the model approaches
+or exceeds standard SA production levels. The custom model was compiled as a case-local
+shared library and loaded at run-time via the OpenFOAM libs entry in controlDict; no
+system-level source files were modified.
+
+3
+
+3.4
+
+Experiment Design
+
+Table 1 summarises all six configurations included in this study. Cases 3–6 are organised
+as three targeted sensitivity sweeps around the design point (case 2): a β-sweep at fixed
+Rref = 0.82 (cases 3, 2, and 4), an Rref -sweep at fixed β = 6 (cases 2 and 5), and a clampbound sweep at fixed β = 6, Rref = 0.82 (cases 2 and 6). All cases share the same 44,749-cell
+baseline mesh (selected from the mesh independence study in Section 3.5) and identical
+boundary conditions.
+Table 1: Summary of all six simulation cases. “SA” denotes the unmodified Spalart–Allmaras model;
+“Custom SA” denotes the model with the pMult production modifier. All cases use the 44,749-cell
+baseline mesh at Reh = 5,600. The rightmost column shows the corresponding OpenFOAM case
+directory; see footnote† for a note on the directory numbering.
+Case
+
+Model
+
+β
+
+Rref
+
+pMin
+
+pMax
+
+Role
+
+Directory
+
+1
+Baseline SA —
+—
+—
+—
+Reference anchor case 001
+2
+Custom SA 6.0 0.82 0.05
+5.0
+Design point
+case 002
+3
+Custom SA 3.0 0.82 0.05
+5.0
+β-sweep low
+case 003
+4
+Custom SA 9.0 0.82 0.05
+5.0
+β-sweep high
+case 004
+5
+Custom SA 6.0 1.00 0.05
+5.0
+Rref sweep high case 006†
+6
+Custom SA 6.0 0.82 0.10
+3.0
+Tight-clamp test case 007†
+†
+The paper’s sequential case numbering (1–6) does not match the OpenFOAM directory numbering. Directories case 005 and case 008 produced results bit-for-bit identical to case 002
+due to configuration propagation errors and were excluded (Section 4.7). Consequently, paper
+case 5 (Rref = 1.0) maps to case 006 and paper case 6 (tight clamp) maps to case 007. Figures
+labelled with the prefix 05 case 006 * originate from directory case 006 (paper case 5). No
+independent figure files were generated for case 007 (paper case 6); the multi-panel overview
+and the νt field from case 006 are used only where explicitly noted in the captions.
+
+Additional configurations (an Rref = 0.65 variant and a wide-clamp variant, directories
+case 005 and case 008) were intended but could not be included due to configuration
+verification failures and are discussed in Section 4.7.
+
+3.5
+
+Mesh Independence Study
+
+A three-level mesh independence gate was conducted for the custom SA model prior to the
+parametric study. Three mesh levels were constructed by modifying the block cell counts in
+the baseline blockMeshDict: a coarse mesh (−10 % near-wall, −5 % away-from-wall cells),
+the baseline mesh, and a refined mesh (+10 % near-wall, +5 % away-from-wall cells). All
+levels share identical block topology and grading ratios (near-wall grading ratio 1815). Table 2
+reports cell counts and key quantities of interest (QoIs) at the converged state (t = 5,000) for
+each level.
+Table 2: Mesh independence study: cell counts and primary QoIs for the three mesh levels. Ub,x is
+the centreline streamwise bulk velocity; Cf is the mean bottom-wall skin-friction coefficient; νt is the
+domain-averaged turbulent kinematic viscosity; y + is the mean bottom-wall y + .
+
+Level
+
+Cells Points Ub,x (m/s)
+
+Coarse
+Baseline
+Refined
+
+37,714 51,508
+44,749 61,000
+51,390 69,956
+
+∆ (C→B)
+∆ (B→R)
+
+Cf
+
+νt (m2 /s)
+
+y+
+
+0.02404 5.427 × 10−3 2.083 × 10−4 3.52
+0.02408 5.482 × 10−3 2.074 × 10−4 3.30
+0.02410 5.457 × 10−3 2.068 × 10−4 3.10
++0.16 %
++0.07 %
+
+4
+
++1.01 %
+−0.46 %
+
+−0.43 %
+−0.29 %
+
+—
+—
+
+The maximum relative change in any primary QoI between the baseline and refined levels
+is 2.47 % (peak bottom-wall wall shear stress), well below the 5 % acceptance threshold. The
+friction velocity uτ and the friction Reynolds number Reτ = uτ h/ν = 339.3 are identical
+between the baseline and refined meshes to four significant figures. Accordingly, the baseline
+mesh (44,749 cells) was selected for all production runs. Figure 1 shows the convergence
+of QoIs across mesh levels, and Figure 2 presents the relative percentage changes confirming
+sub-5 % variation.
+
+Figure 1: QoI values across the three mesh levels (coarse, baseline, refined) for the custom SA model.
+The near-flat trend from baseline to refined confirms mesh-independent predictions.
+
+Figure 2: Relative percentage change in primary QoIs between consecutive mesh levels. All values
+remain below the 5 % independence threshold.
+
+4
+
+Results
+
+4.1
+
+Overview of Predicted Velocity Fields
+
+Figure 3 presents a multi-panel comparison of the streamwise velocity Ux contour fields for all
+six cases at t = 5,000. The baseline SA (case 1) displays a broad, weakly recirculating pattern
+in the valley with a diffuse shear layer. As the pMult modification is activated with increasing
+β (cases 3, 2, 4), the recirculation zone in the lee of the hill crest becomes progressively
+more pronounced. Case 5 (Rref = 1.0) produces a field that is visually near-identical to the
+5
+
+baseline SA, while case 6 (tight clamp) is indistinguishable from the design point (case 2) at
+the colour-map resolution shown.
+
+Figure 3: Multi-panel comparison of streamwise velocity Ux contours at t = 5,000 for cases 1–6. The
+recirculation zone deepens monotonically with increasing β (cases 3, 2, 4), while case 5 (Rref = 1.0)
+closely resembles the baseline SA (case 1), and case 6 (tight clamp) is near-identical to the design
+point (case 2).
+
+Table 3 consolidates the QoI metrics for all six cases. The velocity-magnitude maximum
+Umax decreases monotonically with increasing β, serving as a proxy for separation intensity.
+The primary quantitative comparison metric for this study is the bottom-wall skin-friction
+coefficient Cf (x/h); the zero-crossing-based separation and reattachment locations reported
+in Table 3 are derived from that distribution, and a complete multi-line Cf (x/h) overlay of all
+RANS cases against the DNS reference [Krank et al., 2018] remains the definitive publication
+figure, pending re-extraction of wall shear-stress output from the completed simulations.
+Table 3: QoI summary for all six cases. Umax and U are domain-wide velocity-magnitude maximum
+CL
+and mean; Ux,min
+is the minimum centreline streamwise velocity (proxy for separation bubble depth);
+CL
+CL
+∆UCL = Ux,max − Ux,min
+. Peak |Cf |‡ and detected separation (xsep /h) and reattachment (xreat /h)
+locations are from Cf zero-crossing analysis at t = 5,000.
+Case Model
+1
+2
+3
+4
+5
+6
+
+SA (base)
+Custom SA
+Custom SA
+Custom SA
+Custom SA
+Custom SA
+
+β
+
+Rref
+
+Umax
+
+∆UCL
+
+Peak |Cf |‡
+
+xsep /h / xreat /h
+
+—
+6.0
+3.0
+9.0
+6.0
+6.0
+
+—
+0.82
+0.82
+0.82
+1.00
+0.82
+
+0.03283 0.02260 0.00401
+0.03099 0.02147 0.00604
+0.03187 0.02189 0.00516
+0.03032 0.02119 0.00670
+0.03259 0.02260 0.00414
+0.03118 0.02153 0.00588
+
+0.02809
+0.03543
+0.03240
+0.03751
+0.02990
+0.03444
+
+7.742 / —
+5.754 / 6.232
+7.621 / —
+4.618 / 6.662
+1.502§ / 1.896§
+7.552 / —
+
+CL
+Ux,min
+
+DNS Krank et al. [2018] — —
+—
+—
+—
+∼3.10×10−3 (excerpt)¶ ∼0.12 / ∼4.57
+‡
+For RANS cases 1–6, the peak negative Cf occurs at the downstream hill-face trough (x/h ≈ 8.5),
+not the valley floor. The DNS value refers to the valley recirculation bubble; these peaks are at
+physically distinct locations (see Section 4.2).
+§
+Anomalous; physically suspect — see Section 4.5.2.
+¶
+Excerpt maximum at x/h = 1.289, Cf = −3.10×10−3 [Krank et al., 2018]. The excerpt also
+shows Cf = −2.49×10−3 at x/h = 0.504. The full DNS dataset is expected to contain a deeper
+trough beyond the excerpt range; the exact x/h location is not available from the excerpt provided.
+
+4.2
+
+Baseline SA Behaviour and DNS Comparison
+
+The Cf distribution along the bottom wall for case 1 (baseline SA) exhibits three characteristic
+zones: a positive peak near x/h ≈ 0.35–0.45 (accelerating flow on the windward hill face),
+6
+
+a broad near-zero plateau through x/h ≈ 1–7 (valley region), and a large negative trough
+centred near x/h ≈ 8.5 (adverse-pressure-gradient zone on the downstream hill face).
+
+An important distinction governs the entire RANS-versus-DNS comparison in this study.
+The peak negative |Cf | values in all RANS cases (0.028–0.038, Table 3) occur at the downstream
+hill-face trough near x/h ≈ 8.5, whereas the DNS valley-recirculation Cf values of order
+10−3 describe a physically distinct flow region (x/h ≈ 0.12–4.57). These two peaks are at
+different streamwise stations and arise from different flow mechanisms; they are not directly
+comparable in magnitude. All Cf comparisons in this paper must be interpreted with this
+distinction in mind.
+Specifically, the DNS reference [Krank et al., 2018] shows Cf < 0 from approximately x/h ≈
+0.12 to x/h ≈ 4.57 where reattachment occurs. From the DNS excerpt, Cf = −7.22 × 10−4 at
+x/h = 0.199 and Cf = −2.49 × 10−3 at x/h = 0.504, confirming a deep, extended negative-Cf
+region over the valley floor that the baseline SA entirely misses: Cf remains positive or
+near-zero across the entire valley in case 1. The Cf zero-crossing algorithm detects only a
+single zero-crossing at x/h = 7.742 for the baseline SA — the onset of the downstream-hill
+negative trough — with no subsequent reattachment within the domain, confirming the
+absence of a valley-floor recirculation bubble in the RANS prediction.
+The pMult modification (cases 2–4 and 6) directionally improves this situation by suppressing production in the rotation-dominated valley, allowing larger streamwise velocity
+deficits and in some cases generating closed recirculation bubbles detected by zero-crossings.
+Even so, these RANS-predicted bubbles remain substantially shorter and further downstream
+than the DNS reference, indicating that the one-equation framework imposes a fundamental
+limitation on separation prediction that parametric tuning alone does not overcome.
+
+4.3
+
+Streamwise Velocity and Separation Structure
+
+Centreline and domain-wide velocity metrics from Table 3 provide a consistent quantitative
+picture of the inter-case differences, complemented by the Ux contour fields shown in Figures 4
+and 5. The domain-wide velocity-magnitude maximum Umax decreases monotonically from
+0.03283 m/s (case 1, baseline SA) to 0.03032 m/s (case 4, β = 9), a 7.7 % reduction, consistent
+with progressively deeper separation reducing peak near-wall momentum. Simultaneously, the
+CL drops from 0.02260 (case 1) to 0.02119 m/s
+centreline streamwise velocity minimum Ux,min
+(case 4), a 6.2 % reduction, indicating a deeper trough in the valley-floor profile. The centreline
+CL
+CL increases from 0.00401 m/s (case 1) to 0.00670 m/s (case 4),
+spread ∆UCL = Ux,max
+− Ux,min
+reflecting progressively stronger streamwise velocity non-uniformity.
+The Ux contour fields of Figures 4 and 5 provide complementary visual evidence. At
+low β (case 3), the valley-region velocity structure differs only modestly from the baseline,
+CL relative to case 1. At high β (case 4), the near-wall
+consistent with the 3.1 % drop in Ux,min
+velocity gradient in the valley is visibly more pronounced, consistent with the 6.2 % drop
+CL . The monotonic ordering — case 4 deepest, case 2 intermediate, case 3 moderate,
+in Ux,min
+case 1 shallowest — directly mirrors the QoI ranking in Table 3 and confirms that β controls
+the degree of near-wall flow modification in the separated region. Case 5 (Rref = 1.0) recovers
+CL = 0.02260 m/s, nearly identical to the baseline,
+a centreline spread of 0.00414 m/s and Ux,min
+while case 6 (tight clamp) yields 0.00588 and 0.02153, closely tracking the design point.
+The indirect effect of the production modifier on ν̃ is illustrated in Figure 6, which compares
+the ν̃ field between the baseline SA (case 1) and the design-point custom SA (case 2) at
+t = 5,000. The modified case exhibits a markedly reduced ν̃ in the valley region immediately
+downstream of the hill crest — the zone where S/Ω < Rref and pMult < 1 is active — while
+the mid-channel and attached upstream regions retain comparable values. This spatial pattern
+confirms that the pMult modifier selectively suppresses production in the rotation-dominated
+7
+
+separated interior, consistent with the physical mechanism described in Section 3.3.
+
+(a) Case 1 (baseline SA): streamwise velocity Ux contours.
+
+(b) Case 2 (custom SA, β = 6): modified near-wall gradients in the valley region are visible relative to case 1.
+
+Figure 4: Streamwise velocity Ux contours at t = 5,000: baseline SA (case 1, top) versus the custom
+SA design point (case 2, bottom). The modified valley gradients for case 2 are consistent with deeper
+predicted separation.
+
+4.4
+
+Design-Point Custom SA Performance
+
+For case 2 (custom SA, β = 6, Rref = 0.82, pMin = 0.05, pMax = 5.0), the pMult modification
+deepens the downstream-face Cf trough relative to the unmodified baseline. Recalling from
+Section 4.2 that all RANS peak Cf values occur at the downstream hill-face trough near
+x/h ≈ 8.5 rather than the valley floor, the peak magnitude increases from 0.02809 (case 1) to
+0.03543 (case 2), a 26 % increase (Table 3). The domain-wide velocity-magnitude maximum
+decreases by 5.6 % (from 0.032834 to 0.030988 m/s), and the centreline streamwise velocity
+minimum drops 5.0 % (from 0.02260 to 0.02147 m/s), both indicating a stronger and deeper
+separation region compared with the baseline.
+The zero-crossing analysis detects a separation onset at x/h = 5.754 and a reattachment at
+x/h = 6.232 for case 2, a closed recirculation bubble that is absent in the baseline prediction.
+While this represents a directional improvement toward the DNS-observed separation onset
+near x/h ≈ 0.12, the predicted bubble is substantially shorter and located further downstream
+than the DNS reference.
+The effect of the production modifier on the turbulent kinematic viscosity νt is shown in
+Figure 7, which contrasts the νt fields for the baseline SA (case 1) and the custom SA design
+point (case 2). The design-point custom SA exhibits a distinctly reduced νt in the valley
+interior, directly confirming that the pMult suppression of ν̃ propagates through to the final
+eddy viscosity that enters the momentum equations. In contrast, the attached-flow regions
+8
+
+(a) Case 3 (β = 3): streamwise velocity Ux contours.
+
+(b) Case 4 (β = 9): more pronounced near-wall modification relative to case 3.
+
+Figure 5: Streamwise velocity Ux contours at t = 5,000 for the β-sweep extremes: case 3 (β = 3,
+top) and case 4 (β = 9, bottom). Increased production suppression at β = 9 yields more pronounced
+near-wall flow modification in the valley.
+
+above the hill crest and in the upper channel retain comparable νt between the two cases,
+consistent with the spatially selective action of the modifier.
+
+4.5
+4.5.1
+
+Parametric Sensitivity
+Sensitivity to β
+
+The effect of β on the bottom-wall Cf distribution and flow structure is monotonic and wellresolved across the three tested values (β ∈ {3, 6, 9}), all at Rref = 0.82 and the design-case
+clamp bounds. Increasing β from 3 to 9 systematically:
+• advances the detected separation onset from x/h = 7.621 (β = 3, Table 3) to x/h = 4.618
+(β = 9), a shift of approximately −0.51 h per unit β;
+
+• deepens the peak downstream-face |Cf | from 0.02809 (baseline) to 0.03240 (β = 3,
++15 %), 0.03543 (β = 6, +26 %), and 0.03751 (β = 9, +33 %);
+
+• widens the centreline Ux spread from 0.00401 m/s (baseline) to 0.00516 (β = 3),
+0.00604 (β = 6), and 0.00670 m/s (β = 9), indicating progressively stronger velocity
+non-uniformity consistent with deeper recirculation.
+Cases 3 and 6 do not show a reattachment zero-crossing within the domain (x/h ∈ [0, 9]),
+while cases 2 and 4 exhibit reattachment at x/h = 6.232 and 6.662, respectively. The
+sensitivity decreases between β = 6 and β = 9 (∆Umax = −2.2 %) compared with the interval
+β = 3 to β = 6 (−2.8 %), suggesting diminishing returns at high β.
+
+9
+
+(a) Case 1 (baseline SA): turbulent working variable ν̃. Elevated values persist in the valley, consistent with
+unsuppressed production.
+
+(b) Case 2 (custom SA, β = 6, Rref = 0.82): reduced ν̃ in the lee-side valley reflects pMult suppression where
+S/Ω < Rref .
+
+Figure 6: Turbulent working variable ν̃ at t = 5,000 for the baseline SA (top) and the custom SA
+design point (bottom). The reduction in ν̃ within the valley for case 2 indicates the region where the
+pMult production modifier is active.
+
+The β effect on the turbulent working variable is shown in Figure 8, comparing ν̃ fields for
+the β-sweep extremes (cases 3 and 4). At β = 3, the valley-region ν̃ reduction relative to the
+baseline is moderate. At β = 9, the suppression extends further into the valley, consistent
+with the stronger production reduction at higher sensitivity gain. This field-level evidence
+corroborates the monotonic QoI trends in Table 3. The νt field for case 3 (Figure 9) confirms
+that the valley-region eddy viscosity at low β is intermediate between the baseline SA and
+the design point, consistent with moderate pMult suppression.
+4.5.2
+
+Sensitivity to Rref
+
+Case 5 (Rref = 1.0, β = 6, directory case 006) produces results nearly indistinguishable from
+CL
+the baseline SA: Umax = 0.03259 versus baseline 0.03283 (−0.7 %), and Ux,min
+= 0.02260
+versus baseline 0.02260 (−0.02 %), as seen in Table 3. This confirms that Rref = 1.0 effectively
+deactivates the pMult modification: when the neutral point is set at the maximum strainto-vorticity ratio encountered in the flow, the multiplier remains near unity throughout the
+domain and the model reverts to standard SA. This constitutes an important self-consistency
+check for the implementation.
+Figure 10 shows the Ux contour field for case 5, visually confirming the near-identical
+velocity structure to the baseline SA. The ν̃ field for case 5 (Figure 11) shows elevated valleyregion values similar to those of the baseline SA (Figure 6a), confirming that production
+
+10
+
+(a) Case 1 (baseline SA): turbulent kinematic viscosity νt .
+
+(b) Case 2 (custom SA, β = 6, Rref = 0.82): reduced νt in the valley interior indicates that pMult suppression
+propagates to the effective eddy viscosity.
+
+Figure 7: Turbulent kinematic viscosity νt at t = 5,000: baseline SA (case 1, top) versus the custom
+SA design point (case 2, bottom). The reduction in νt within the valley for case 2 confirms that the
+production suppression affects the eddy viscosity entering the momentum equations.
+
+suppression is inactive across the domain when Rref = 1.0.
+An anomalous zero-crossing pair is detected for case 5 at xsep /h = 1.502 and xreat /h = 1.896
+(Table 3). This extremely short, near-hill-crest bubble is inconsistent with expected periodic
+hill physics and is attributed to numerical noise near the hill crest where Cf passes through
+zero under near-baseline conditions; it is not interpreted as a physical separation event.
+4.5.3
+
+Sensitivity to Clamp Bounds
+
+Case 6 (pMin = 0.10, pMax = 3.0, β = 6, Rref = 0.82; directory case 007) produces only
+marginal differences relative to the design-point case 2 (Table 3): ∆Umax = +0.6 % and
+∆ peak |Cf | = −2.8 %. These negligible differences confirm that the flow’s operative pMult
+range lies entirely within the design-case bounds [0.05, 5.0]; narrowing to [0.10, 3.0] is effectively
+non-binding for this configuration. The centreline spread for case 6 is 0.00588 m/s versus
+CL = 0.02153 versus 0.02147 m/s (+0.3 %), both well
+0.00604 m/s for case 2 (−2.6 %), and Ux,min
+within the level of post-processing noise. The multi-panel overview (Figure 3) shows case 6
+as visually indistinguishable from case 2, fully consistent with the non-binding conclusion.
+
+4.6
+
+Near-Wall Resolution
+
++
+The domain-averaged y + = 3.30 and a maximum ymax
+≈ 7.43 confirm that all cells on the
+bottom wall lie within the viscous/buffer sublayer, consistent with the low-Reynolds-number
+SA treatment applied without wall functions. Because all six cases share the identical 44,749-
+
+11
+
+(a) Case 3 (β = 3, low β): turbulent working variable ν̃. Moderate valley suppression relative to baseline.
+
+(b) Case 4 (β = 9, high β): more extensive valley-region ν̃ suppression, consistent with stronger pMult
+activation at high β.
+
+Figure 8: Turbulent working variable ν̃ at t = 5,000 for the β-sweep extremes: case 3 (β = 3, top)
+and case 4 (β = 9, bottom). The more extensive valley-region suppression at β = 9 corroborates the
+monotonic QoI trends of Table 3.
+
+cell baseline mesh, the y + distribution is identical across cases. Consequently, the differences
+in Cf , velocity fields, and flow structure reported in Sections 4.2–4.5.3 are attributable to
+turbulence model physics alone and not to near-wall discretisation artefacts.
+
+4.7
+
+Failure Cases and Negative Results
+
+Two results deserve explicit negative reporting. First, the anomalous Rref = 1.0 zero-crossing
+pair (case 5, xsep /h = 1.502, xreat /h = 1.896) was discussed in Section 4.5.2; it is physically
+suspect and attributed to numerical noise near the hill crest. Second, a wider parametric sweep
+across the Rref axis (below 0.82, directory case 005) and a wide-clamp variant (directory
+case 008) were intended but could not be completed with verified independent configurations
+— both attempts produced results bit-for-bit identical to the design-point case 2, most likely
+due to configuration propagation errors in the case directory setup. Those data were excluded.
+As a result, the Rref sensitivity analysis covers only two verified operating points (0.82 and
+1.0). Future work should complete the Rref sweep with field-level verification to determine
+whether lower values further improve separation prediction.
+
+5
+
+Discussion
+
+The primary finding of this study is that the pMult production modifier consistently deepens
+and extends the predicted separation relative to the baseline SA, with β as the dominant
+12
+
+Figure 9: Turbulent kinematic viscosity νt at t = 5,000 for case 3 (β = 3, Rref = 0.82). The
+valley-region νt is intermediate between the baseline SA (case 1, Figure 7) and the design point
+(case 2), consistent with moderate pMult suppression at low β.
+
+Figure 10: Streamwise velocity Ux contours at t = 5,000 for case 5 (Rref = 1.0, β = 6; directory
+case 006). The velocity structure is visually indistinguishable from the baseline SA (case 1), consistent
+with the near-identical QoI values in Table 3.
+
+control parameter. The physical mechanism is direct: by suppressing SA production in regions
+where S/Ω < Rref (rotation-dominated, separated flow interior), the modifier reduces local
+eddy viscosity, allowing the adverse pressure gradient to maintain reversed flow over a greater
+streamwise extent. This is confirmed at three levels of evidence: (i) the monotonic decrease in
+CL with increasing β (Table 3), (ii) the progressively more pronounced near-wall
+Umax and Ux,min
+flow modification visible in the Ux contours with increasing β (Figures 4 and 5), and (iii)
+the monotonically wider centreline velocity spread across all cases as β increases. The ν̃
+comparison in Figure 6 directly demonstrates the spatial footprint of production suppression,
+and the νt comparison of Figure 7 confirms that this suppression propagates through to the
+effective eddy viscosity entering the momentum equations.
+Compared with the DNS reference [Krank et al., 2018], all RANS variants fail to reproduce
+the Cf topology documented in Section 4.2: none predict the continuously negative valley-floor
+Cf (x/h ≈ 0.12 to 4.57), and the large peak |Cf | values in the RANS results (0.028–0.038)
+arise at the downstream hill-face trough rather than the valley floor. Even the most aggressive
+custom SA configuration (β = 9) does not yield sustained valley-floor separation in the RANS
+mean field, indicating that the pMult modifier shifts the predictions directionally but does not
+overcome the fundamental one-equation model limitation for this flow. A complete Cf (x/h)
+line plot overlaying all six cases against the full DNS curve — the primary quantitative
+comparison figure for this type of model-evaluation study — would make this shortfall directly
+visible and should be generated in post-processing to supplement the zero-crossing and QoI
+
+13
+
+Figure 11: Turbulent working variable ν̃ at t = 5,000 for case 5 (Rref = 1.0, β = 6; directory
+case 006). Elevated valley-region ν̃ closely resembles the baseline SA (Figure 6a), confirming that
+setting Rref = 1.0 deactivates the production modifier.
+
+metrics reported in Table 3.
+The Rref sweep confirms that the neutral-point location is critical: raising Rref from 0.82
+to 1.0 reverts the model essentially to standard SA (∆Umax = −0.7 % from baseline). The ν̃
+and Ux fields for case 5 (Figures 11 and 10) are visually indistinguishable from the baseline,
+providing field-level corroboration of the QoI-based conclusion. The clamp-bound sensitivity
+further confirms that the flow’s operative pMult range is fully contained within [0.05, 5.0];
+narrowing to [0.10, 3.0] produces at most a 2.8 % change in peak |Cf | and a 0.6 % change in
+Umax .
+From a broader perspective, the β = 6 design point represents a reasonable balance between
+production suppression strength and risk of over-correction: β = 9 produces the deepest
+predicted bubble but at the cost of the smallest centreline velocity minimum (0.02119 m/s,
+Table 3). The mesh independence study (Section 3.5) eliminates discretisation uncertainty
+as an explanation for these differences: all QoIs change by less than 2.5 % from baseline to
+refined mesh, and Reτ = 339.3 is fully converged between those levels.
+
+6
+
+Conclusion
+
+A three-level mesh independence study confirmed that the 44,749-cell baseline mesh is
+sufficient at Reh = 5,600, with primary quantities of interest varying by less than 2.5 % upon
+18.6 % mesh enrichment and the friction Reynolds number (Reτ = 339.3) fully converged; the
+near-wall resolution (y + = 3.30) is consistent with the low-Reynolds-number SA treatment,
+so all inter-model differences are attributable to turbulence model physics alone. Across
+all five custom SA configurations, the pMult production modifier consistently deepens the
+predicted separation relative to the unmodified baseline SA, with the sensitivity coefficient β
+confirmed as the dominant control parameter: increasing β from 3 to 9 advances separation
+onset from x/h ≈ 7.6 to 4.6, deepens the peak negative |Cf | magnitude at the downstream
+hill face by up to 33 %, and progressively widens near-wall velocity deficits, with diminishing
+marginal returns evident between β = 6 and 9; the ν̃ and eddy-viscosity field comparisons
+confirm that this progression reflects increasingly extensive production suppression in the
+rotation-dominated valley interior. Setting Rref = 1.0 effectively deactivates the modification
+and recovers near-baseline SA results, providing a clean implementation verification, while
+the tight-clamp test confirms the clamp bounds are non-binding for this flow. Despite these
+directional improvements, all RANS variants fail to reproduce the continuously negative Cf
+region observed in the DNS reference over the valley floor (x/h ≈ 0.12–4.57); generating a full
+Cf (x/h) comparison overlay against DNS, completing the Rref sensitivity sweep below 0.82,
+14
+
+and incorporating wall-normal velocity profile comparisons at canonical streamwise stations
+represent the most important directions for future work.
+
+A
+
+Reproducibility Details
+
+Solver and software. OpenFOAM (open-source CFD, standard release) was used for all
+simulations. The custom SA model was compiled as a case-local shared library (customModels/)
+without modifying any system OpenFOAM source files.
+Geometry and mesh. The α = 1.0 periodic hill domain is meshed with blockMesh using
+a multi-block structured topology with near-wall grading ratio 1815. The production mesh
+contains 44,749 cells and 61,000 points.
+Boundary conditions. Periodic (cyclic) conditions are applied at the streamwise inlet
+and outlet. No-slip conditions are applied at the bottom hill surface and the flat upper wall.
+A fixed pressure gradient drives the flow to maintain Ub = 0.028 m/s; ν = 5 × 10−6 m2 /s.
+Numerics. Pressure–velocity coupling: PISO algorithm [Issa, 1986]. Finite-volume error
+analysis and estimation follow Jasak [1996]. Convective schemes: second-order upwind
+(linearUpwind). Time integration: pseudo-steady; all runs advanced to t = 5,000 time units.
+Gradient and Laplacian schemes: Gauss linear.
+Turbulence model parameters (custom SA).
+[pMin , pMax ] ∈ {[0.05, 5.0], [0.10, 3.0]}.
+
+β ∈ {3.0, 6.0, 9.0}; Rref ∈ {0.82, 1.00};
+
+Post-processing. Wall shear stress and y + fields extracted at t = 5,000 using the OpenFOAM wallShearStress and yPlus utilities. Cf computed as Cf = τw,x /(0.5 ρ Ub2 ) with
+ρ = 1 kg/m3 . Cross-case analysis and figures generated by a Python post-processing script
+using PyVista for field extraction and Matplotlib for plotting.
+Directory-to-case mapping. Paper case numbers 1–6 map to OpenFOAM directories
+as follows: case 1 → case 001, case 2 → case 002, case 3 → case 003, case 4 → case 004,
+case 5 → case 006, case 6 → case 007. Directories case 005 and case 008 were excluded
+due to configuration propagation errors (Section 4.7).
+
+B
+
+Claim–Evidence Table
+
+References
+P. R. Spalart and S. R. Allmaras, “A one-equation turbulence model for aerodynamic flows,”
+AIAA Paper 92-0439, 1992.
+B. Krank, M. Kronbichler, and W. A. Wall, “Direct numerical simulation of flow over
+periodic hills up to Reh = 10,595,” Research Data Repository, Technical University Munich,
+DOI: 10.14459/2018mp1415670, 2018.
+M. Breuer, N. Peller, Ch. Rapp, and M. Manhart, “Flow over periodic hills — numerical and
+experimental study in a wide range of Reynolds numbers,” Computers & Fluids, vol. 38,
+pp. 433–457, 2009.
+
+15
+
+J. Fröhlich, C. P. Mellen, W. Rodi, L. Temmerman, and M. A. Leschziner, “Highly resolved
+large-eddy simulation of separated flow in a channel with streamwise periodic constrictions,”
+Journal of Fluid Mechanics, vol. 526, pp. 19–66, 2005.
+Y. Patel, V. Mons, O. Marquet, and G. Rigas, “Turbulence model augmented physics-informed
+neural networks for mean-flow reconstruction,” Physical Review Fluids, vol. 9, p. 034605,
+2024.
+C. Yan, H. Li, Y. Zhang, and H. Chen, “Data-driven turbulence modeling in separated flows
+considering physical mechanism analysis,” International Journal of Heat and Fluid Flow,
+vol. 96, p. 109004, 2022.
+L. Ma, L. Lu, J. Fang, and Q. Wang, “A study on turbulence transportation and modification
+of Spalart–Allmaras model for shock-wave/turbulent boundary layer interaction flow,”
+Chinese Journal of Aeronautics, vol. 27, pp. 702–712, 2014.
+M. S. Gritskevich, A. Garbaruk, and F. Menter, “Fine-tuning of DDES and IDDES formulations to the k-ω shear stress transport model,” Progress in Aerospace Sciences, vol. 63,
+pp. 182–197, 2013.
+G. Kumar, S. Lakshmanan, H. Gopalan, and A. De, “Comparative study of hybrid RANS-LES
+models for separated flows,” AIP Conference Proceedings, vol. 1754, p. 050004, 2016.
+D. Paeres, C. Lagares, and G. Araya, “Assessment of turbulence models over a curved hill
+flow with passive scalar transport,” Energies, vol. 15, p. 6013, 2022.
+E. Dikbaş and Ö. Baran, “Towards accurate vortex separation simulations with RANS using
+improved k-kL turbulence model,” Aerospace, vol. 10, p. 377, 2023.
+S. B. Pope, Turbulent Flows. Cambridge University Press, Cambridge, 2000.
+D. C. Wilcox, “Formulation of the k-ω turbulence model revisited,” AIAA Journal, vol. 46,
+pp. 2823–2838, 2008.
+R. I. Issa, “Solution of the implicitly discretised fluid flow equations by operator-splitting,”
+Journal of Computational Physics, vol. 62, pp. 40–65, 1986.
+F. R. Menter, “Two-equation eddy-viscosity turbulence models for engineering applications,”
+AIAA Journal, vol. 32, pp. 1598–1605, 1994.
+Ch. Rapp and M. Manhart, “Flow over periodic hills: an experimental study,” Experiments
+in Fluids, vol. 51, pp. 247–269, 2011.
+L. Temmerman, M. A. Leschziner, C. P. Mellen, and J. Fröhlich, “Investigation of wallfunction approximations and subgrid-scale models in large eddy simulation of separated
+flow in a channel with streamwise periodic constrictions,” International Journal of Heat
+and Fluid Flow, vol. 24, pp. 157–180, 2003.
+J. H. Ferziger and M. Perić, Computational Methods for Fluid Dynamics, 3rd ed. SpringerVerlag, Berlin, 2002.
+H. Jasak, “Error analysis and estimation for the finite volume method with applications to
+fluid flows,” Ph.D. thesis, Imperial College of Science, Technology and Medicine, London,
+1996.
+P. A. Durbin, “On the k-ε stagnation point anomaly,” International Journal of Heat and
+Fluid Flow, vol. 17, pp. 89–90, 1996.
+16
+
+P. R. Spalart, “Strategies for turbulence modelling and simulations,” International Journal
+of Heat and Fluid Flow, vol. 21, pp. 252–263, 2000.
+M. L. Shur, M. K. Strelets, A. K. Travin, and P. R. Spalart, “Turbulence modeling in
+rotating and curved channels: assessing the Spalart–Shur correction,” AIAA Journal,
+vol. 38, pp. 784–792, 2000.
+
+17
+
+Table 4: Claim–evidence mapping. Each major claim is tied to a specific table, figure, or numerical
+result from the experiments.
+
+Claim
+
+Evidence
+
+Baseline SA predicts no valley recirculation
+
+Case 1 Cf near-zero
+for x/h = 1–7 (Section 4.2); single zerocrossing at x/h =
+7.742 (Table 3)
+
+pMult deepens separation relative to baseline
+
+CL
+Ux,min
+decreases
+5.0 % (case 2 vs.
+case 1, Table 3);
+modified valley Ux
+contours (Figure 4);
+wider
+centreline
+velocity
+spread
+across all custom
+SA cases (Table 3)
+
+pMult suppresses production in separated zone
+
+Reduced ν̃ in valley for case 2 vs.
+case 1 (Figure 6); reduced νt for case 2
+vs. case 1 (Figure 7)
+
+β is the dominant control parameter
+
+Monotonic
+decrease
+in
+Umax
+from 0.03283 to
+0.03032 (β = 3 → 9,
+Table 3); Ux field
+progressions in Figures 4–5; monotonic
+ν̃ suppression deepening (Figure 8)
+
+Rref = 1.0 deactivates pMult
+
+Case 5 Umax =
+0.03259 vs. baseline
+0.03283
+(−0.7 %,
+Table 3); case 5 Ux
+field near-identical
+to baseline (Figure 10); case 5 ν̃
+near-identical
+to
+baseline (Figure 11)
+
+Design-case clamp bounds are non-binding
+
+Case 6 (tight) vs.
+case 2 (design):
+∆Umax = +0.6 %,
+∆ peak |Cf |
+=
+−2.8 % (Table 3);
+case 6 visually indistinguishable from
+case 2 in overview
+(Figure 3)
+
+RANS peak |Cf | is at downstream hill face, not valley
+18
+
+Full discussion in
+Section 4.2; zerocrossings at x/h =
+5.7–6.7 for custom
+SA cases; DNS valley Cf ∼ 10−3 ; Table 3 footnote
+
+Mesh independence confirmed at baseline level
+
+QoI
+changes
+baseline→refined
+
+

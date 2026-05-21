@@ -2,7 +2,7 @@
 title: AILA
 parent: Systems
 grand_parent: AI scientists
-nav_order: 3
+nav_order: 4
 affiliation: Indian Institute of Technology Delhi, with Aalborg University, Leibniz Institute of Photonic Technology, and University of Jena
 lifecycle_stages: [Experiment design, Analysis]
 autonomy: Semi-autonomous

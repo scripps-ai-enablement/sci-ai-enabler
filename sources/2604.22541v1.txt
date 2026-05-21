@@ -1,0 +1,2498 @@
+arXiv:2604.22541v1 [hep-ex] 24 Apr 2026
+
+Dr.Sai: An agentic AI for real-world physics
+analysis at BESIII
+Mingfeng He1,2 , Fayu Jiang1 , Junkun Jiao3 , Mingrun Li1,2 ,
+Ke Li1,2*, Yipu Liao1,2*, Beijiang Liu1,2 , Tong Liu1,2 , Fazhi Qi1,2 ,
+Zijie Shang4 , Weimin Song3 , Yue Sun1,2 , Xiongfei Wang4 ,
+Hong Wang1,2 , Dongbo Xiong1,2 , Changzheng Yuan1,2 ,
+Bolun Zhang1,2*, Zhengde Zhang1,2*, Xuliang Zhu5,6,7
+1*
+
+Institute of High Energy Physics, CAS, Beijing, 100049, China.
+University of Chinese Academy of Sciences, Beijing, 100049, China.
+3
+Jilin University, Changchun, Jilin, 130012, China.
+4
+Lanzhou University, Lanzhou, Gansu, 730000, China.
+5
+Tsung-Dao Lee Institute, Shanghai Jiao Tong University, Shanghai,
+201210, China.
+6
+Institute of Nuclear and Particle Physics, School of Physics and
+Astronomy, Shanghai Jiao Tong University, Shanghai, 200240, China.
+7
+Key Laboratory for Particle Astrophysics and Cosmology (MOE),
+Shanghai Key Laboratory for Particle Physics and Cosmology
+(SKLPPC), Shanghai, 200240, China.
+2
+
+*Corresponding author(s). E-mail(s): like@ihep.ac.cn;
+liaoyp@ihep.ac.cn; zhangbolun@ihep.ac.cn; zdzhang@ihep.ac.cn;
+Abstract
+High-energy physics (HEP) analysis traditionally demands extensive manual
+effort to navigate complex software environments and maintain physical rigor. By
+enabling physicists to define high-level physics goals while delegating workflow
+orchestration to autonomous agents, we present Dr.Sai, an AI-driven multiagent system designed to automate the end-to-end physics analysis workflow.
+Dr.Sai is specifically engineered to handle real-world HEP tasks by bridging highlevel physics intent with the intricate software stacks of the BESIII experiment.
+To demonstrate its utility in a production-level environment, Dr.Sai was validated with the re-measurement of branching fractions across ten distinct J/ψ
+decay channels. The system successfully managed the complete chain of physics
+
+1
+
+analysis, from event selection and kinematic fitting to preliminary systematic
+uncertainty estimation, producing results in excellent agreement with Monte
+Carlo simulations and established physical benchmarks. A multi-dimensional performance evaluation reveals that while reflection mechanisms enhance reliability,
+the primary bottlenecks for such autonomous systems remain the precise synthesis and invocation of scientific tools/code and the structural representation of
+domain expertise. This work establishes Dr.Sai as a viable framework for deploying multi-agent systems to accelerate scientific discovery in complex, real-world
+experimental environments.
+Keywords: High Energy Physics (HEP), Large Language Models, Multi-Agent
+Systems, Autonomous Scientific Discovery, BESIII Experiment, AI for Science (AI4S)
+
+1 Introduction
+High Energy Physics (HEP) experiments, such as the BEijing Spectrometer III
+(BESIII) [1] at the Beijing Electron-Positron Collider (BEPCII) [2], are major
+sources of high-dimensional heterogeneous data. Extracting physics results from these
+petabyte- and exabyte-scale datasets involves complex workflows, including Monte
+Carlo (MC) simulation, reconstruction, signal extraction, statistical analysis, and systematic uncertainty evaluation. This process is knowledge-intensive and traditionally
+requires months or years of manual effort by experts.
+The current research paradigm depends almost entirely on human specialists.
+Experts manually design and execute analysis chains to reach specific physics goals.
+While this approach has supported many important discoveries, its labor-intensive
+nature is a bottleneck in the modern data era. Specifically, it is difficult to perform
+large-scale, systematic scans using this manual approach, which can be affected by
+subjective bias and diverts expert time from scientific inquiry to repetitive engineering
+tasks. As the data volume grows, this approach faces scalability limits, slowing down
+the pace of discovery.
+The emergence of Large Language Models (LLMs) offers a new way to address
+these challenges. With their capabilities in natural language understanding, logical
+reasoning, and code generation, LLMs can interpret scientific tasks and translate them
+into executable analysis steps. By integrating LLMs with specialized HEP tools, such
+as CERN ROOT [3] and the BESIII Offline Software System (BOSS) [4], we can build
+an “AI partner” that conducts the full analysis either under expert supervision or
+automatically.
+In this article, we present an implementation of this vision through Dr.Sai [5, 6], an
+LLM-powered multi-agent system designed for autonomous HEP analysis. By using
+a formalized knowledge representation scheme and ensuring alignment with scientific tools and codes, Dr.Sai translates natural language instructions into rigorous
+physics analysis workflows. We validated this approach by performing large-scale remeasurements of ten different branching fractions of J/ψ decays. Without manual
+coding, Dr.Sai successfully navigated the real-world BESIII computing environment
+and produced results in excellent agreement with established benchmarks.
+2
+
+The remainder of this article is structured as follows. We first detail the architecture of the Dr.Sai multi-agent system and the methodology. We then present the
+results of the J/ψ branching fraction re-measurements to demonstrate the system’s
+capability for reproducible and reliable physics analysis. The discussion section evaluates the performance and findings, showing the potential of this paradigm to improve
+HEP workflows. Finally, we conclude that this work provides a technical blueprint for
+autonomous discovery. The framework and principles demonstrated by Dr.Sai are also
+relevant to other data-intensive fields—such as astronomy and genomics—where the
+automation of complex analysis remains a fundamental challenge.
+
+2 The Dr.Sai multi-agent system
+The Dr.Sai system is designed to manage the complete chain of data processing in
+the HEP research. Its architecture, illustrated in Fig. 1, integrates multi-agent collaboration with robust execution modules to bridge the gap between human intent and
+physics discovery.
+
+2.1 Multi-Agent collaboration mechanism
+From a technical perspective, Dr.Sai utilizes a Multi-Agent System (MAS) architecture [7, 8] integrated with a daemon-based message management system. The MAS
+consists of specialized agents that collaborate to decompose and execute complex
+tasks, supported by base LLMs for foundational reasoning and natural language processing. To incorporate domain-specific expertise, Retrieval-Augmented Generation
+(RAG) [9] modules are utilized to feed external knowledge directly into the agents’
+decision-making and code-generation processes. The operations are orchestrated by a
+central controller that assigns tasks to specialized remote workers. A daemon process
+manages message sequences between all components, ensuring an orderly information
+flow and coordinated task progress. This setup allows physicists to submit requests
+in natural language through a dialogue-based interface, triggering an automated
+workflow—from initial planning to execution and visualization—enabling a seamless
+experience without the need for manual coding.
+An agent in this framework is an autonomous computational entity that leverages an LLM to perceive inputs, reason toward predefined goals, and perform actions
+using specialized tools. Dr.Sai is built upon the AutoGen framework [10] and adopts a
+Talker-Reasoner architecture [11]. The Host agent serves as the primary entry point,
+inferring user intent to decide whether to respond independently or coordinate expert
+agents. This architecture constrains agent behaviors, improves response accuracy,
+and supports dynamic prompt adjustments to maintain a consistent system identity.
+Every interaction produces a “Task-Conclusion” message, ensuring transparent session
+management and clear tracking of progress.
+In this study, the Dr.Sai system comprises six agents:
+
+• Host: Routes user requests and manages cross-agent collaboration.
+• Planner: Decomposes and structures complex domain tasks.
+• Coder: Generates codes and maps key parameters using internal tools.
+3
+
+Fig. 1: Architecture of the Dr.Sai system and its multi-agent orchestration. The Host
+agent acts as the central controller, processing user queries to strategically dispatch
+tasks to specific agents within the pool. Each specialized agent is configured with
+optimized base LLMs and domain-specific RAG collections. A distributed deployment system manages the underlying scientific tools and high-performance computing
+environment. To ensure the reliability of long-running tasks and enable asynchronous
+re-engagement, a dedicated daemon process monitors and archives all message flows.
+• Tester: Executes codes with remote workers and retrieves the results.
+• Calculator: Computes branching fractions of the decay chains.
+• Reflector: Validates result rationality against task context.
+To mitigate the risk of disconnection during long-term processing on remote
+clusters (e.g., via HTCondor [12]), we implemented a communication daemon. This
+daemon maintains a persistent connection with the MAS while providing the frontend with decoupled, reusable access. It handles message routing, job termination,
+and caching, allowing the front-end to reconnect seamlessly and manage resources
+efficiently.
+
+4
+
+2.2 Hierarchical task system
+Dr.Sai employs a hierarchical task management system inspired by fractal-like, selfsimilar structures. Under this framework, every task—regardless of duration or
+complexity—follows the same organizational rules. Large-scale research objectives are
+decomposed into a one-to-many hierarchy of sub-tasks, simplifying the management
+of complex workflows and ensuring dependency tracking. Each task record contains
+essential metadata, including a unique ID, timestamp, initiator, and real-time status
+(e.g., queued, in progress, completed ). This architecture ensures a flexible and reliable
+management layer capable of handling the intricacies of real-world HEP research.
+
+2.3 Language Models and RAG Integration
+In this study, the Qwen3-max-2025-09-23 model [13] and the DeepSeek-v3.1 model [14]
+are used as base LLMs for agents. We select specific models based on the nature of
+the task:
+
+• Qwen3-max is primarily used for agents requiring complex reasoning and active
+tool invocation, as it demonstrates a stronger proactivity in function calling.
+• DeepSeek-v3.1 is preferred for straightforward, prompt-based tasks due to its
+superior inference speed and high accuracy.
+Most agents are equipped with custom tools and integrated with RAG modules. More
+detailed agent configurations can be found in the Appendix A.
+A specialized RAG module, HEP-RAG, is integrated into the system using Llamaindex [15] and the Qdrant [16] vector database. HEP-RAG augments the agents’
+parametric memory by providing access to an external text corpus. For the Coder
+agent, specifically, multiple RAG collections are provided to enhance its ability to
+generate precise and executable BESIII-specific analysis scripts, significantly reducing
+hallucinations in domain-specific tasks.
+
+2.4 Remote Worker and BOSS Integration
+To bridge the gap between AI reasoning and physical execution, a server-side Remote
+Worker is implemented based on HaiDDF. Running on the user’s work server or a
+local cluster, the worker supports standard programming environments including C++,
+Python, Shell, and CERN ROOT [3].
+Central to this environment is the BESIII Offline Software System (BOSS) [4],
+the integrated system for simulation, reconstruction, and analysis at BESIII. Within
+Dr.Sai, a specialized BOSS code worker communicates directly with the Tester agent.
+Upon receiving execution commands—such as compiling an analysis algorithm—the
+worker performs the task on the server and returns the results, including logs and
+error information. This completes the transformation of Dr.Sai from a conversational
+assistant into an instruction-driven execution system.
+
+5
+
+2.5 Domain constraints and Knowledge Formalization
+While LLMs excel in general-purpose tasks, their ability to generate HEP-specific code
+is often limited by the high complexity of domain software. To bridge this gap, we
+implemented a series of domain constraints designed to narrow the search space for
+the agents. These constraints significantly refine agent outputs, thereby enhancing the
+overall success rate and stability of the system.
+
+Configuration-Driven code Generation
+Generating BESIII analysis code from scratch is often prohibitively complex for LLMs.
+Dr.Sai utilizes a configuration-driven workflow where analysis components are standardized into reusable templates. The agent provides a high-level JSON configuration
+specifying parameters like decay channels and selection criteria. The system then automatically populates these into templates to produce ready-to-run C++ algorithms. This
+reduces the technical burden and ensures the generated code adheres to experimental
+standards.
+Formalized Analysis Logic: HepScript
+A significant challenge in HEP automation is that expert analytical strategies are
+often rooted in heuristic experience rather than explicit documentation. We developed
+HepScript, a domain-specific language designed to formalize human analytical logic.
+HepScript acts as a structured knowledge representation that defines the “grammar”
+of physics analysis at BESIII. It abstracts the analysis process into rule-based instructions, translating high-level physical intent into standardized executable sequences.
+This ensures the rigor of the analysis and creates a high-quality data foundation for
+training future agents.
+Particle Spelling Variant Database
+To resolve inconsistencies in particle nomenclature, we developed a Particle Spelling
+Variant Database. While tools like PyHEP [17, 18], PDG [19], and Particle [20] provide
+authoritative catalogs, they often lack informal spelling variants found in user queries.
+Our database unifies diverse spellings under a unique MC Identifier, ensuring accurate
+mapping and attribute retrieval for every particle during decay chain parsing.
+
+2.6 System Operational Modules
+Runtime Snapshot and Data Logging
+Dr.Sai incorporates an automated mechanism that captures runtime snapshots of
+agent interactions, reasoning flows, and tool usage. These execution traces enable realtime monitoring and rapid diagnosis, while providing a dataset for historical analysis
+and future model fine-tuning.
+Anchor Word Mechanism
+To resolve semantic ambiguity in specialized HEP tasks, we introduced an Anchor
+Word mechanism. By embedding expert-defined keywords into agent descriptions, we
+
+6
+
+guide the LLM to precisely match user requirements with the appropriate expert
+agents, stabilizing task decomposition.
+
+Adaptive Message Offloading
+To prevent context overflow, we implemented a message offloading strategy. The
+Host agent maintains the complete dialogue history for coordination, while specialized agents receive only the minimal context necessary for their current task stage.
+Critical parameters (e.g., file paths, physical constraints) are preserved as global state
+information to reduce redundancy.
+User Interface and Monitoring
+A web-based interface using the OpenWebUI framework [21] provides near real-time
+monitoring of task progress. By moderately compressing interaction logs, the interface
+generates concise status updates, allowing physicists to oversee the Research process
+effectively.
+
+3 Real-world task: re-measurement of J/ψ branching
+fractions by Dr.Sai
+As a pioneering application, the Dr.Sai system was deployed for the first time in a
+real-world HEP research scenario. Charmonium states have been observed and studied for over fifty years; however, their decay dynamics remain unclear. The “12% rule”
+test in ψ (2S ) and J/ψ decays, defined as Qh = Bψ(2S)→h /BJ/ψ→h ≈ 12%, is affected
+by contamination from continuum processes and interference between charmonium
+decays and continuum production [22, 23]. The ψ (2S ) → π + π − J/ψ decay provides an
+independent, continuum-free sample. Using the “tag-and-probe” method effectively
+reduces interference from continuum processes that is common in traditional e+ e−
+energy scan techniques, offering a reliable and independent check of existing results.
+BESIII can re-measure all the J/ψ branching fractions using ψ (2S ) data in the future.
+Such measurements supply important experimental input for perturbative QCD calculations [24–26] and improve our understanding of charmonium decay mechanisms.
+In this work, we perform the first test using MC samples.
+
+3.1 Task Understanding and Decomposition
+The Dr.Sai system automates the complete BESIII analysis chain—from the initial
+natural language objective to signal extraction and preliminary systematic uncertainty
+estimation—as illustrated in Fig. 2.
+The complex task of branching fraction measurement is decomposed into twelve
+sequential sub-tasks. These encompass data pre-processing, event selection, job management, data parsing, visualization, signal extraction, and the final calculation of
+physical observables for specific decay channels. The execution of these sub-tasks
+demonstrates the core capabilities of the MAS, particularly in specialized code generation, long-term process management, and maintaining logical consistency across a
+complex analysis pipeline.
+
+7
+
+Due to the inherent complexity of systematic uncertainty estimation, the current implementation focuses on primary contributors. In this study, we consider
+uncertainties arising from reconstruction efficiencies and cited input values. A more
+comprehensive systematic framework remains a focus for future development.
+
+Fig. 2: The physical analysis workflow at BESIII.
+
+3.2 Simulation Samples
+To evaluate the system, we analyzed an inclusive MC sample simulated via BOSS [4],
+with statistics equivalent to the 2009 ψ (2S ) dataset collected at BESIII. This sample
+comprises 107.7 × 106 resonant e+ e− → ψ (2S ) events [27], alongside initial-state
+radiation production of the J/ψ and other continuum processes.
+The simulation utilizes a geant4-based [28] framework incorporating the full
+geometric description and detector response of BESIII. Beam energy spread and initialstate radiation effects are modeled using the kkmc generator [29, 30]. Particle decays
+are managed by evtgen [31, 32], with branching fractions sourced from the Particle
+Data Group (PDG) [33] or estimated via lundcharm [34, 35] where experimental
+data are unavailable. Final-state radiation from charged particles is simulated using
+photos [36].
+The reference branching fractions for the targeted final states are determined by
+aggregating all intermediate states within the MC samples, as detailed in Table 1.
+Beyond standard decay modes, we intentionally included rare decay signals and
+potential Beyond-Standard-Model processes to test the mixed branching fraction calculations. These diverse channels provide a rigorous test of the system’s robustness
+
+8
+
+and sensitivity. In addition to the inclusive MC, dedicated signal MC samples were
+generated to determine detection efficiencies—a critical parameter for the automated
+branching fraction measurements discussed in the subsequent sections.
+
+Table 1: Summary of benchmark decay channels used in branching fraction measurement. BNV means the process with Baryon number violation, and CLFV means
+the process with charged lepton number violation. The asterisk on the branching
+fraction indicates that its value is obtained by including the mixed signal yield.
+Decay Channel
++
+
+−
+
+Input Branching fraction (×10−3 )
+
+Comment
+
+59.71
+59.61
+1.89
+2.12
+0.445
+0.026
+2.67*
+2.67*
+2.67*
+2.67*
+
+BNV & CLFV
+Dalitz decay
+CLFV
+CLFV
+
++ −
+
+ψ(2S) → π π [J/ψ → e e ]
+ψ(2S) → π + π − [J/ψ → µ+ µ− ]
+ψ(2S) → π + π − [J/ψ → ΛΛ̄]
+ψ(2S) → π + π − [J/ψ → pp̄]
+ψ(2S) → π + π − [J/ψ → pK − Λ̄]
+ψ(2S) → π + π − [J/ψ → pp̄K + K − ]
+ψ(2S) → π + π − [J/ψ → pe− ]
+0
+0
+ψ(2S) → π + π − [J/ψ → e+ e− KS
+KS
+]
+ψ(2S) → π + π − [J/ψ → π + π + e− e− ]
+ψ(2S) → π + π − [J/ψ → K + K + µ− µ− ]
+
+3.3 Execution Workflow and Analysis
+Using the decay chain ψ (2S ) → π + π − J/ψ (→ e+ e− ) as a benchmark, the execution
+workflow within the Dr.Sai system is summarized below:
+
+Event Selection: The process begins with the user providing high-level information,
+such as the decay chain and desired physics observables, via a natural language
+interface. The Host agent evaluates this input and extracts into a global context.
+This triggers a step-by-step workflow led by the Coder agent; first it synthesizes
+C++ analysis algorithms within the BOSS by populating standardized templates
+with extra information of HepScript from RAG module; second, it identifies paths
+of different datasets and generates signal MC samples using BOSS-integrated generators, automatically ensuring that conservation laws (e.g., quantum numbers) are
+maintained. The complete package of algorithms, configurations, and job scripts is
+then transmitted to the Tester agent, which coordinates the storage and compilation
+on a remote HPC cluster via the controller. This configuration-driven approach effectively decouples high-level physics intent from low-level software implementation,
+significantly improving the system’s generation speed and success rate.
+Execution and monitoring: Given the long-running feature of HEP jobs, the Tester
+agent submits scripts in batches to the HTCondor scheduler [12] and enters a “sleep
+mode” to optimize system resources. A specialized daemon process handles realtime monitoring, employing a gradient-based strategy to dynamically adjust query
+intervals. Once tasks (typically a few hours) are complete, the system automatically
+
+9
+
+resumes the multi-agent session. Users can also oversee progress and trigger subsequent steps via a “continue” command on the web interface, ensuring seamless
+workflow continuity.
+
+Optimization and Visualization: Upon job completion, the Tester agent parses the
+ROOT TTree structures [3] and broadcasts the metadata to the Host agents. The Coder
+agent then identifies key variables and generates plotting scripts to visualize signal
+versus background distributions. Simultaneously, the Tester agent applies optimized
+event-level selection criteria to suppress background events and refine the data sample.
+Signal Extraction: The Coder agent synthesizes a ROOT-based fitting script, modeling
+the signal as the signal MC shape convolved with a Gaussian function to account for
+detector resolution. The background is described by a high-order Chebyshev polynomial. To ensure robust convergence, the system utilizes multiple random seed resets
+during the fitting process. The Tester agent executes the fit and reports the finalized
+parameters back to the message stream. The fit results and plots could be found in
+Appendix B.
+Calculation and Uncertainty Estimation: Using formulas and physical constants
+retrieved from HepScript, the Coder agent generates Python scripts to calculate final
+branching fractions. The system automatically accounts for statistical errors from
+the fit and evaluates common BESIII systematic uncertainties based on the specific
+particle characteristics of the decay chain. By applying standard error propagation,
+the Tester agent executes the calculation to produce the final nominal value along
+with its total estimated uncertainty.
+The signal yield was extracted by fitting the J/ψ invariant mass distribution, from
+which the branching fraction and its associated statistical uncertainty were determined
+using the following formula:
+
+Nsig (σNsig )
+,
+(1)
+Nψ(2S) × ε × Bsub
+where σ denotes the statistical uncertainty, Nsig is the fitted signal yield, Nψ(2S) is
+the total number of produced ψ (2S ) events [27], ε is the detection efficiency estimated
+from signal MC samples, and Bsub is the branching fraction for the subsequent decays.
+The analysis incorporates common BESIII systematic uncertainties, including those
+from charged-track reconstruction, particle identification [37–39], and the total used
+Nψ(2S) count [27]. The resulting measurement shows excellent agreement with the
+input values used in the inclusive MC simulation.
+To further evaluate the system’s performance, we performed simultaneous measurements across ten distinct decay channels, covering the primary J/ψ decay modes at
+BESIII. Channels containing an additional π + π − pair in the final state were excluded
+to avoid high mis-combination rates with the transition pions from ψ (2S ), a complexity
+currently beyond the system’s logic. All channels were processed using the automated
+methodology described above. The consistency between measured and input values
+B (σB ) =
+
+10
+
+was verified through the relative difference δ = (Bout − Bin )/Bin and the pull distributions (Bout − Bin )/σBout . This high-degree of agreement across multiple channels
+validates the robustness and reliability of the Dr.Sai system for large-scale, automated
+physics analysis.
+30
+
+Difference=0
+
+Relative Difference (%)
+
+20
+10
+0
+-10
+-20
+
+Pull
+
+-30
+5
+
+Pull=0
+
+0
+
+ee
+
+_S
+
+K
+J/
+
+J/
+
+ee
+
+K
+
+K_
+SK
+
+e
+p
+J/
+
+Decay Channel
+
+J/
+
+pK
+J/
+
+J/
+
+p
+
+J/
+
+J/
+
+J/
+
+J/
+
+p
+
+K
+
+p
+
+K
+
+p
+
+ee
+
+-5
+
+Fig. 3: The relative branching fraction difference and the pull distribution for the
+benchmark decay channels. The dashed line shows the standard output without fluctuation.
+
+4 Performance study
+A systematic performance evaluation of the Dr.Sai system was conducted to characterize its success rates, failure patterns, and resource consumption across several state-ofthe-art LLMs. The evaluated models include Qwen3-max-2025-09 (Qwen3-max) [13],
+DeepSeek-v3.2 [14], GLM-4.7 [40], DeepSeek-R1 [41], and GPT-4o [42].
+The evaluation dataset consists of ten validated HEP measurement queries. To
+ensure statistical reliability, each query was sampled ten times per model, yielding
+100 test samples for each LLM. All benchmark tasks followed a “plan-first, executelater” workflow (detailed in Table 2). This rigorous multi-model assessment provides a
+comparative analysis of how foundational architectures handle the complex, multi-step
+demands of HEP research.
+
+11
+
+Table 2: Benchmark of high energy physics measurement tasks for the performance
+evaluation in the Dr.Sai system. Each line shows the decay channel and its corresponding generation energy, along with the observable used for display.
+Decay Channel
+ψ(4260) → π + π − [J/ψ → µ+ µ− ]
+ψ(4260) → K + K − [J/ψ → e+ e− ]
+J/ψ → [ρ+ → π + π 0 ]π −
+J/ψ → η[ϕ → K + K − ]
+J/ψ → µ+ µ−
+0
+ψ(2S) → KS
+K + π−
+J/ψ → pp̄K + K −
+J/ψ → p̄K + Λ
+ψ(2S) → π + π − [J/ψ → pp̄η]
+ψ(2S) → π + π − [J/ψ → π + π − π 0 ]
+
+Observable
+
+Energy (GeV)
+
+Invariant mass of J/ψ (→ µ+ µ− )
+Invariant mass of J/ψ (→ e+ e− )
+Invariant mass of ρ+ (→ π + π 0 )
+Momentum distribution of η (→ γγ)
+MUC hit depth of µ+
+Momentum of K +
+cos θ distribution of K +
+cos θ distribution of Λ (→ pπ − )
+Invariant mass distribution of J/ψ (→ pp̄η)
+Energy distribution of π 0 (→ γγ)
+
+4.260
+4.260
+3.097
+3.097
+3.097
+3.686
+3.097
+3.097
+3.686
+3.686
+
+4.1 Evaluation Methodology
+In our framework, the end-to-end HEP measurement task is decomposed into twelve
+domain-specific sub-tasks (labeled QID 1.1 to 1.12), preceded by a top-level task planning step (QID 1). To account for the iterative nature of problem-solving, each sub-task
+is permitted up to nine reflection retries to resolve errors and refine outputs.
+We employ two primary metrics for quantitative performance assessment:
+
+• Overall Success Rate: The proportion of samples that successfully complete
+the entire sequence of sub-tasks.
+• Sub-task Success Rate: The ratio of successfully completed sub-tasks within
+the maximum allowed attempts to the total number of sub-tasks executed.
+For failure mode analysis, we implemented a standardized statistical protocol: if a
+sub-task fails repeatedly, only the first observed failure is recorded for that instance.
+By focusing on the initial error before subsequent retries, this approach enables us
+to pinpoint the root cause of failure more precisely. This methodology ensures a consistent and reliable comparison of workflow robustness across different models and
+experimental rounds, preventing secondary errors (induced by the reflection process
+itself) from masking the primary limitations of the models.
+By cross-referencing key message fields and validating structured arguments within
+agent responses, we identified and classified eight primary failure modes:
+
+• Speaker mismatch: The agent name in the message deviates from the expected
+role. This error typically stems from ambiguous role definitions, the Host
+agent’s misjudgment of the dialogue state, or inherent limitations in the model’s
+instruction-following capabilities..
+• Tool Call Missing: The agent fails to invoke a required tool to resolve a subtask, providing irrelevant natural language or halting the workflow instead. This
+
+12
+
+usually points to a failure in contextual grounding or the model’s inability to
+recognize the necessity of an external function call.
+• Tool Call Mismatch: The agent invokes an incorrect tool, either by hallucinating a non-existent function name or selecting a sub-optimal tool from the available
+registry. This reflects cognitive confusion within complex contexts or limitations
+of the LLMs.
+• Spurious Tool Call: The agent erroneously initiates a tool call when the task
+requires only reasoning or natural language synthesis. Similar to mismatches, this
+indicates an over-reliance on functional triggering or a misunderstanding of the
+task’s current state.
+• Structural Inconsistency: Although a tool is called, the generated arguments
+or output messages fail to adhere to the required schema (e.g., missing mandatory
+keys in JSON configurations for HEP fitting). This highlights a lack of precision
+in generating structured data under domain-specific constraints.
+• Invalid Variables: A system-level error where variable names defined in the
+visualization or analysis configurations do not exist within the ROOT TTree
+branches. This signifies a failure in maintaining state consistency and coordinating
+results across multiple task stages.
+• Planning Formalization Failure: A Planner-specific error where the output
+lacks the system-mandated structured format (e.g., a parsable table) required for
+task decomposition, violating preset processability rules.
+• Refinement Exhaustion: The agent reaches the maximum limit of nine reflection attempts without achieving a successful output. This often indicates a
+“reasoning loop” where the model fails to break out of a specific error pattern
+despite repeated feedback.
+The system performance is quantitatively analyzed through three primary visualizations: a success rate heatmap, a failure mode distribution, and a token consumption
+profile. These figures respectively characterize sub-task-level reliability, model-specific
+vulnerabilities, and the computational efficiency of each LLM during execution.
+
+4.2 Success rates
+Figures 4, 5, and 6 present the success rate heatmaps for the evaluated LLMs across all
+sub-tasks, under maximum retry limits of one, five, and nine, respectively. Statistical
+uncertainties for the success rates are estimated using Bayesian inference with a noninformative Beta(1,1) prior. The posterior standard error is given by:
+
+s
+SE =
+
+(k + 1)(n − k + 1)
+,
+(n + 2)2 (n + 3)
+
+(2)
+
+where n is the total number of entries for a given sub-task and k is the number of
+successful trials.
+These heatmaps collectively illustrate the performance evolution of the models as
+the retry budget increases, providing a granular view of model reliability within the
+HEP measurement workflow. Generally, most models exhibit consistent improvement
+13
+
+in success rates as the retry limit scales from one to nine. This trend suggests that a
+moderate reflection budget effectively mitigates minor execution flubs and transient
+errors, thereby enhancing the overall completion rate.
+The frontier models—Qwen3-max, DeepSeek-v3.2, and GLM-4.7—demonstrate
+exceptional and stable performance. They achieve near-perfect success rates across
+almost all sub-tasks within a single attempt, with their performance remaining robust
+as retries increase. This high baseline reflects their strong alignment with the Dr.Sai
+system’s domain-specific logic and specialized tool-calling requirements.
+In contrast, DeepSeek-R1 exhibits the most marginal gains from the reflection
+mechanism. While its success rate improves slightly with additional retries, the delta
+remains significantly below the cohort average. This stagnation is primarily attributed
+to inherent limitations in its functional calling architecture rather than a lack of
+reasoning depth.
+The GPT-4o model displays a unique failure pattern. While it successfully identifies
+and triggers the correct tool calls, it consistently fails to generate valid structured
+parameters required for execution. Consequently, the model remains stalled on specific
+sub-tasks despite the full nine-retry allowance, highlighting a bottleneck in its ability
+to adhere to complex, HEP-specific data schemas.
+100
+
+Qwen3-max
+
+100.0%
+±1.0%
+
+100.0%
+±1.0%
+
+100.0%
+±1.0%
+
+29.6%
+±4.6%
+
+100.0%
+±1.0%
+
+100.0%
+±1.0%
+
+15.5%
+±3.7%
+
+100.0%
+±1.0%
+
+27.1%
+±4.5%
+
+100.0%
+±1.0%
+
+0.0%
+
+±1.0%
+
+61.3%
+±5.0%
+
+100.0%
+±1.0%
+
+80
+100.0%
+±1.0%
+
+100.0%
+±1.0%
+
+99.0%
+±1.4%
+
+28.0%
+±4.4%
+
+84.0%
+±3.7%
+
+97.0%
+±1.9%
+
+9.0%
+
+64.0%
+±4.7%
+
+±2.9%
+
+0.0%
+
+±1.0%
+
+15.0%
+±3.6%
+
+26.0%
+±4.3%
+
+77.0%
+±4.2%
+
+100.0%
+±1.0%
+
+Model
+
+60
+
+GLM-4.7
+
+100.0%
+±1.0%
+
+100.0%
+±1.1%
+
+98.9%
+±1.5%
+
+81.3%
+±4.1%
+
+97.8%
+±1.8%
+
+96.7%
+±2.1%
+
+5.5%
+
+96.7%
+±2.1%
+
+±2.5%
+
+5.5%
+
+±2.5%
+
+97.8%
+±1.8%
+
+4.4%
+
+±2.4%
+
+87.5%
+±3.6%
+
+100.0%
+±1.1%
+
+40
+
+DeepSeek-R1
+
+100.0%
+±1.0%
+
+34.9%
+±5.1%
+
+36.0%
+±5.1%
+
+25.6%
+±4.7%
+
+29.1%
+±4.8%
+
+26.7%
+±4.7%
+
+25.9%
+±4.7%
+
+25.9%
+±4.7%
+
+25.9%
+±4.7%
+
+26.2%
+±4.7%
+
+26.2%
+±4.7%
+
+26.2%
+±4.7%
+
+Success Rate (%)
+
+DeepSeek-v3.2
+
+100.0%
+±1.1%
+
+20
+
+GPT-4o
+
+100.0%
+±1.0%
+
+100.0%
+±1.0%
+
+0.0%
+
+±1.0%
+
+71.0%
+±4.5%
+
+0.0%
+
+±1.0%
+
+0.0%
+
+±1.0%
+
+0.0%
+
+0.0%
+
+±1.0%
+
+±1.0%
+
+0.0%
+
+±1.0%
+
+0.0%
+
+±1.0%
+
+6.0%
+
+±2.5%
+
+88.0%
+±3.3%
+
+100.0%
+±1.0%
+
+2
+1.1
+
+1
+
+0
+
+1.1
+
+1.9
+
+1.1
+
+QID
+
+1.8
+
+1.7
+
+1.6
+
+1.5
+
+1.4
+
+1.3
+
+1.2
+
+1.1
+
+1
+
+0
+
+Fig. 4: Success rate heatmap of different LLMs across sub-tasks (QID 1.1–1.12) under
+one maximum retry attempt.
+
+14
+
+100
+
+Qwen3-max
+
+100.0%
+±1.0%
+
+100.0%
+±1.0%
+
+100.0%
+±1.0%
+
+100.0%
+±1.0%
+
+100.0%
+±1.0%
+
+100.0%
+±1.0%
+
+100.0%
+±1.0%
+
+100.0%
+±1.0%
+
+100.0%
+±1.0%
+
+100.0%
+±1.0%
+
+8.6%
+
+±3.0%
+
+95.7%
+±2.3%
+
+100.0%
+±1.0%
+
+80
+100.0%
+±1.0%
+
+100.0%
+±1.0%
+
+100.0%
+±1.0%
+
+100.0%
+±1.0%
+
+100.0%
+±1.0%
+
+99.0%
+±1.4%
+
+94.0%
+±2.5%
+
+95.0%
+±2.3%
+
+95.0%
+±2.3%
+
+91.0%
+±2.9%
+
+57.0%
+±4.9%
+
+94.0%
+±2.5%
+
+100.0%
+±1.0%
+
+Model
+
+60
+
+GLM-4.7
+
+100.0%
+±1.0%
+
+100.0%
+±1.1%
+
+100.0%
+±1.1%
+
+97.8%
+±1.8%
+
+97.8%
+±1.8%
+
+98.9%
+±1.5%
+
+98.9%
+±1.5%
+
+100.0%
+±1.1%
+
+98.9%
+±1.5%
+
+98.9%
+±1.5%
+
+55.6%
+±5.2%
+
+95.5%
+±2.4%
+
+100.0%
+±1.1%
+
+40
+
+DeepSeek-R1
+
+100.0%
+±1.0%
+
+36.0%
+±5.1%
+
+37.2%
+±5.1%
+
+29.1%
+±4.8%
+
+29.1%
+±4.8%
+
+31.4%
+±4.9%
+
+25.9%
+±4.7%
+
+25.9%
+±4.7%
+
+25.9%
+±4.7%
+
+26.2%
+±4.7%
+
+28.6%
+±4.9%
+
+36.9%
+±5.2%
+
+Success Rate (%)
+
+DeepSeek-v3.2
+
+100.0%
+±1.1%
+
+20
+
+GPT-4o
+
+100.0%
+±1.0%
+
+100.0%
+±1.0%
+
+0.0%
+
+100.0%
+±1.0%
+
+±1.0%
+
+0.0%
+
+48.0%
+±4.9%
+
+±1.0%
+
+23.0%
+±4.2%
+
+0.0%
+
+0.0%
+
+±1.0%
+
+0.0%
+
+±1.0%
+
+±1.0%
+
+6.0%
+
+±2.5%
+
+100.0%
+±1.0%
+
+100.0%
+±1.0%
+
+0
+
+1
+
+2
+
+1.1
+
+1.1
+
+QID
+
+1.1
+
+1.9
+
+1.8
+
+1.7
+
+1.6
+
+1.5
+
+1.4
+
+1.3
+
+1.2
+
+1
+
+1.1
+
+0
+
+Fig. 5: Success rate heatmap of different LLMs across sub-tasks (QID 1.1–1.12) under
+five maximum retry attempts.
+100
+
+Qwen3-max
+
+100.0%
+±1.0%
+
+100.0%
+±1.0%
+
+100.0%
+±1.0%
+
+100.0%
+±1.0%
+
+100.0%
+±1.0%
+
+100.0%
+±1.0%
+
+100.0%
+±1.0%
+
+100.0%
+±1.0%
+
+100.0%
+±1.0%
+
+100.0%
+±1.0%
+
+25.8%
+±4.5%
+
+98.9%
+±1.5%
+
+100.0%
+±1.0%
+
+80
+100.0%
+±1.0%
+
+100.0%
+±1.0%
+
+100.0%
+±1.0%
+
+100.0%
+±1.0%
+
+100.0%
+±1.0%
+
+99.0%
+±1.4%
+
+94.0%
+±2.5%
+
+95.0%
+±2.3%
+
+95.0%
+±2.3%
+
+96.0%
+±2.1%
+
+82.0%
+±3.8%
+
+95.0%
+±2.3%
+
+100.0%
+±1.0%
+
+Model
+
+60
+
+GLM-4.7
+
+100.0%
+±1.0%
+
+100.0%
+±1.1%
+
+100.0%
+±1.1%
+
+97.8%
+±1.8%
+
+97.8%
+±1.8%
+
+100.0%
+±1.1%
+
+100.0%
+±1.1%
+
+100.0%
+±1.1%
+
+98.9%
+±1.5%
+
+100.0%
+±1.1%
+
+75.6%
+±4.5%
+
+96.6%
+±2.2%
+
+100.0%
+±1.1%
+
+40
+
+DeepSeek-R1
+
+100.0%
+±1.0%
+
+36.0%
+±5.1%
+
+37.2%
+±5.1%
+
+29.1%
+±4.8%
+
+29.1%
+±4.8%
+
+31.4%
+±4.9%
+
+25.9%
+±4.7%
+
+25.9%
+±4.7%
+
+27.1%
+±4.8%
+
+26.2%
+±4.7%
+
+28.6%
+±4.9%
+
+36.9%
+±5.2%
+
+Success Rate (%)
+
+DeepSeek-v3.2
+
+100.0%
+±1.1%
+
+20
+
+GPT-4o
+
+100.0%
+±1.0%
+
+100.0%
+±1.0%
+
+0.0%
+
+±1.0%
+
+100.0%
+±1.0%
+
+0.0%
+
+±1.0%
+
+55.0%
+±4.9%
+
+35.0%
+±4.7%
+
+0.0%
+
+±1.0%
+
+0.0%
+
+±1.0%
+
+0.0%
+
+±1.0%
+
+6.0%
+
+±2.5%
+
+100.0%
+±1.0%
+
+100.0%
+±1.0%
+
+2
+1.1
+
+1
+1.1
+
+0
+
+1.9
+
+1.1
+
+QID
+
+1.8
+
+1.7
+
+1.6
+
+1.5
+
+1.4
+
+1.3
+
+1.2
+
+1
+
+1.1
+
+0
+
+Fig. 6: Success rate heatmap of different LLMs across sub-tasks (QID 1.1–1.12) under
+nine maximum retry attempts.
+
+15
+
+4.3 Failure reasons
+Figure 7 illustrates the distribution of failure modes for each LLM during sub-task
+execution. A prominent trend across all five models is that failure points are primarily
+concentrated within the tool-invocation pipeline, encompassing both the initiation of
+calls and the synthesis of structured arguments. Notably, all models exhibit a robust
+capacity for extracting domain-specific parameters from the context, indicating that
+raw information retrieval is not the primary bottleneck in the current workflow.
+For the high-performing models—Qwen3-max, DeepSeek-v3.2, and GLM4.7—failures are typically characterized by transient errors during initiation, such as
+agent mismatch or minor Tool Call Mismatch. These “soft errors” are highly recoverable through the system’s reflection mechanism. In stark contrast, the failures of
+DeepSeek-R1 are rooted deeply in the initiation of tool calls. This core problem cannot
+be fixed just by increasing the number of reflection attempts, which directly accounts
+for the marginal success rate improvements observed in the previous heatmaps.
+The GPT-4o model presents a distinct failure profile: it excels at tool-call initiation
+and accurately identifies the necessary functions for a given task. However, its performance is severely bottlenecked by its inability to generate valid, schema-compliant
+arguments required for execution. This specific failure, categorized as Structural Inconsistency, suggests that while the model understands “what” to do, it lacks the precision
+to “formulate” the execution parameters required by the HEP-specific software stack.
+Tool call not found
+Speaker mismatch
+Tool call not expected
+
+Discussion count over
+Task planning failed
+
+38.9%
+
+411
+
+60.6%
+
+Qwen3-max
+
+69.2%
+
+DeepSeek-v3.2
+
+Model
+
+Tool arguments or output message structure mismatch
+Tool call mismatch
+
+23.0%
+
+58.7%
+
+GLM-4.7
+
+385
+
+8.8%
+
+54.9%
+
+GPT-4o
+0
+
+20
+
+578
+
+36.9%
+
+86.6%
+
+DeepSeek-R1
+
+7.1%
+
+16.2%
+40
+
+60
+
+Failure Reason Ratio (%)
+
+906
+
+28.6%
+80
+
+674
+100
+
+Fig. 7: Distribution of failure reasons for different LLMs across sub-task execution
+(QID 1.1–1.12).
+
+16
+
+4.4 Token consumption
+Figure 8 illustrates the distribution of token consumption for each LLM during
+sub-task execution. This metric quantifies the computational overhead required to
+complete HEP tasks and elucidates the trade-off between resource efficiency and the
+efficacy of model reflection. Notably, the consumption statistics in this study are based
+on character counts within the model’s context rather than model-specific tokenization
+rules, providing a uniform baseline for comparison.
+Within the Dr.Sai workflow, resource consumption levels are strongly correlated
+with the success of the reflection mechanism. For models that effectively utilize
+reflection to rectify minor execution flubs, the resource overhead remains stable and
+manageable, avoiding significant redundant processing.
+DeepSeek-R1 exhibits the highest resource consumption across all sub-tasks, with
+the maximum character count reaching the order of 105 per sub-task. This disproportionate expenditure is primarily driven by the model’s inability to properly trigger
+tool calls; since additional reflection attempts fail to address the underlying functional
+bottleneck, the system becomes trapped in extensive, non-productive reasoning loops,
+leading to an explosion in character output.
+GPT-4o demonstrates the second-highest consumption, stemming from its struggle
+to generate schema-compliant tool parameters. The model frequently fails to produce
+valid structured data across most sub-tasks, necessitating the exhaustion of the maximum retry budget. This iterative failure pattern causes a sharp, non-linear increase
+in resource usage during the execution cycle.
+In contrast, Qwen3-max, DeepSeek-v3.2, and GLM-4.7 maintain balanced and efficient token consumption while achieving superior success rates. Their character counts
+typically remain within the order of 104 per sub-task. This performance profile highlights the computational efficiency of these frontier models in executing complex HEP
+measurement tasks without incurring excessive reasoning overhead.
+
+4.5 Summary of performance study
+This study presents a multi-dimensional performance evaluation of the Dr.Sai system,
+benchmarking five mainstream LLMs across HEP measurement tasks. By analyzing
+success-rate heatmaps under varying retry budgets, failure-mode distributions, and
+token expenditure, we demonstrate that a moderate reflection allowance significantly
+enhances sub-task reliability for most models. However, the efficacy of this reflection
+mechanism is intrinsically tied to a model’s baseline proficiency in tool-invocation
+logic.
+Our findings reveal that the primary performance bottleneck across all evaluated models is functional calling capability rather than information extraction. For
+DeepSeek-R1, the diminishing returns of iterative reflection stem from a fundamental weakness in tool-call initiation, suggesting that extensive reasoning depth
+cannot compensate for a lack of functional precision. Conversely, GPT-4o excels at
+initiation but falters during the synthesis of schema-compliant parameters, identifying a critical gap in generating complex, structured data. In contrast, the frontier
+
+17
+
+Qwen3-max
+105
+
+104
+
+DeepSeek-v3.2
+105
+
+Token Consumption
+
+104
+
+GLM-4.7
+105
+104
+
+DeepSeek-R1
+
+105
+
+104
+
+GPT-4o
+
+105
+
+2
+1.1
+
+1
+1.1
+
+0
+1.1
+
+1.9
+
+1.8
+
+1.7
+
+1.6
+
+1.5
+
+1.4
+
+1.3
+
+1.2
+
+1.1
+
+1
+
+104
+
+QID
+
+Fig. 8: Token consumption distribution of different LLMs across sub-tasks (QID
+1.1–1.12). Note that the token counts are based on character numbers, not on modelspecific tokenization rules.
+
+models—Qwen3-max, DeepSeek-v3.2, and GLM-4.7—demonstrate superior adaptability to the HEP workflow, maintaining high completion rates and stable performance
+with high computational efficiency.
+
+5 Limitations and Future Outlook
+The systematic evaluation of Dr.Sai indicates that the current bottlenecks in
+autonomous HEP research are the precision of execution and the depth of domain
+integration. Future developments will focus on the following two core dimensions:
+1. Expertise in Tool-Calling and Code Generation: Our observations across multiple
+LLMs reveal a significant gap in the models’ ability to adhere to the rigorous
+structural and logical demands of HEP software stacks. While models can identify
+the “need” for a tool, they frequently falter in synthesizing schema-compliant
+parameters or generating error-free code within complex software system like
+BOSS. Future iterations must move beyond simple prompting toward developing
+
+18
+
+specialized synthesis layers or fine-tuned models that possess a “syntax-level”
+mastery of professional HEP tools.
+2. Representation and Embedding of Domain Knowledge: A deeper challenge lies in
+the current system’s lack of a formal representation of expert heuristics — the
+implicit experience human physicists use to navigate data structures, troubleshoot
+fits, and validate physical consistency. Future research will prioritize how to effectively represent and embed a large amount of domain-specific knowledge into the
+agentic architecture, transforming static information into executable logic that
+mirrors the strategic decision-making of a human expert.
+
+6 Conclusion
+In this work, we have developed and validated Dr.Sai, an autonomous multi-agent system tailored for high-energy physics analysis. By integrating LLMs with specialized
+HEP tools and a domain-specific knowledge base, the system successfully transitioned
+from natural language research objectives to physics measurements. The experimental validation at BESIII confirms that Dr.Sai can maintain physical consistency and
+handle the rigorous demands of real-world experimental frameworks.
+Our systematic evaluation across multiple frontier models highlights a critical
+insight for the AI4S (AI for Science) community: the core challenge for autonomous discovery is no longer the capacity for logical reasoning, but the precision of professional
+tool-calling or code generation and the formal representation of expert experience.
+While current LLMs demonstrate strong general capabilities, they frequently struggle
+with the “last mile” of generating schema-compliant, executable code within complex
+software system like BOSS.
+The transition from a chat-based assistant to a task-driven autonomous scientist
+requires a deeper focus on how expert heuristics are represent and embedded within
+the agentic architecture. Future iterations of Dr.Sai will prioritize the development
+of more sophisticated domain-synthesis layers and the expansion of the underlying
+physics ontology through HepScript-2.0. Ultimately, this research paves the way for a
+new era of collaborative scientific discovery, where AI agents act as competent partners
+in navigating the complexities of the subatomic world.
+The main tasks of physical analysis at BESIII, as well as other high-energy collider
+experiments, are to measure branching ratios and cross sections of various processes
+and to study possible intermediate states. Their analysis workflows are similar to those
+described in this paper. Moreover, the repetitive analysis of the multi-energy data
+collected by BESIII inspires a strong need for automated analysis tools like Dr.Sai.
+Currently, we plan to apply the Dr.Sai system to real physics analyses.
+
+Conflict of interest. The authors declare that they have no conflict of interest.
+Acknowledgements. The authors thank BESIII Collaboration for their support
+on simulation datasets and software. The authors also thank the IHEP computing
+center for their strong support on the computing resources. This work was supported
+by the Strategic Priority Research Program of Chinese Academy of Sciences under
+
+19
+
+Grant XDA0480600. F. Jiang was also supported by 2023 CAS Outstanding Talent
+Program for Library and Information Science (E429C2M1).
+
+20
+
+Appendix A
+
+Agent config
+
+This section presents the core configuration of six specialized agents designed for
+high-energy physics data analysis, particularly tailored to the BESIII experiment.
+Each agent is assigned distinct responsibilities, with coordinated workflows to support
+analysis tasks. A summary of key configuration parameters is provided first, followed
+by detailed descriptions of each agent’s system prompt and available tools.
+
+A.1
+
+Summary of Core Agent Configurations
+
+Agent Name
+Host
+Planner
+Coder
+
+Base Model
+Qwen3-max-preview
+Deepseek-v3-1-250821
+Qwen3-max-preview
+
+Temperature
+0.1
+0.5
+0.1
+
+Tester
+
+Qwen3-max-preview
+
+0.1
+
+Calculator
+Reflector
+
+Deepseek-v3-1-250821
+Deepseek-v3-1-250821
+
+0.5
+0.5
+
+A.2
+
+Tool Registration
+select expert
+create DrawCard,
+create FitCard,
+create AlgorithmCard,
+create JobOptionsCard,
+create FoMCard,
+create TMVACard
+call algorithm mapping,
+call joboption mapping,
+call drawing mapping,
+call fitting mapping,
+call optimizer fom mapping,
+call optimizer tmva mapping,
+call getting branch name,
+run specific code
+-
+
+Detailed Agent Descriptions
+
+Host
+Description: The coordinator of the conversation.
+System prompt:
+You are Dr . Sai , a scientific assistant proficient in high energy physics data analysis . Your core capabilities lie
+in information integration and efficiently advancing
+topic development . You can consult experts with different
+specialties for advice through function calls .
+You will see a chat history that may involve discussions on
+multiple topics . As the moderator of the discussion , you
+need to grasp the overall context of the discussion and
+efficiently promote the development of the latest topic .
+** You can only do two things : first , respond to questions
+directly ; second , call the built - in tool ‘ select_expert ’
+to consult experts .**
+
+21
+
+Please strictly follow the following thinking and action
+steps :
+1. Grasp the context of the discussion , understand the focus
+of the topic and the current status of the discussion .
+2. Judge whether the content of the request is reasonable ,
+especially for professional questions in the field of
+high - energy physics . For example , when seeing a decay
+chain in the form of ‘ parent particle -> daughter
+particle 1 daughter particle 2 ’ , you should verify
+whether it complies with basic physical laws such as
+charge conservation and whether the center - of - mass energy
+meets the production threshold energy , etc . If there are
+obvious problems , directly answer by yourself to point
+out the issues .
+3. Check the tools and capabilities you have , and judge
+whether the content of the latest request is related to
+the professional capabilities of the available experts .
+4. Choose the appropriate action :
+- Consult an expert : If the content of the latest request
+is related to the expert ’ s capabilities , **
+prioritize calling ** the built - in tool ‘ select_expert
+’ to consult that expert .
+- ** You are prohibited from creating or using any tool
+whose name is not ‘ select_expert ’.**
+- ** You should consult only one expert at a time .**
+- Answer by yourself : If you believe you have the
+necessary information to solve the problem or have
+sought the necessary consultation advice , and the
+user also needs a reasonable , appropriate , and
+necessary response , please answer directly in the
+first person .
+Note : It is prohibited to take the initiative to request
+additional information input from the user . If
+necessary , consult an expert first , as experts can
+obtain additional information .
+Guidelines :
+- ** When dealing with professional questions in the field of
+high - energy physics ( such as particle physics analysis ,
+decay chains , generating special - format JSON variable
+cards , drawing variable distribution plots , etc .) , you
+should prioritize calling the tool to consult experts .
+Your feedback must be completely based on information
+provided by the user or experts ; strictly prohibited from
+making independent inferences or extensions , and avoid
+putting forward any unfounded suggestions . Unless
+explicitly instructed by the user or expert , do not add
+any unmentioned details or assumptions .**
+
+22
+
+- Experts possess additional professional knowledge and
+skills , so please prioritize trusting experts ’ judgments .
+Do not consult the same expert consecutively unless
+there are rigid logical errors in their opinions .
+- ** Ensure that your remarks are complete , allowing others to
+fully understand your intentions without relying on any
+additional information independent of your current
+response , even if this means repeating others ’ viewpoints
+.**
+- It is prohibited to state your name at the beginning of the
+response , nor to mention any specific sources of
+information . Use the first person for all responses .
+- When answering , Unless otherwise specified , use the user ’ s
+preferred language for responses .
+I believe in your abilities . Please be sure to think fully
+and step by step , flexibly respond to various situations
+encountered , find a balance between efficient and
+satisfactory responses , and bring the best discussion
+experience to the participants of the topic . This is very
+important to me . Thank you for your help !
+Now , please take a breath and be ready to check the
+discussion history :
+
+Planner
+Description: Excels at breaking down long tasks into smaller steps and creating
+efficient plans for execution. **Consult only upon explicit user request specifically
+for planning purposes; it does not have the capability to perform any other tasks
+such as text summarizing.**
+System prompt:
+You are a High - Energy Physics experiment task planning Expert
+, specialized in physical analysis tasks of the BESIII
+experiment . Responsible for providing structured ,
+operable , and experiment - compliant task planning schemes
+based on users ’ specific needs .
+## Task Planning Principles
+1. ** Relevance Assessment **: First assess whether the user ’ s
+request is relevant to specific physical analysis tasks
+of the BESIII experiment .
+2. ** Template Usage **: For specific BESIII experiment
+physical analysis tasks , ** please forcefully ignore the
+details of the user ’ s request and strictly use the
+standardized task template . Only fill in the template
+based on template requirements and historical messages ;
+do not add any additional content independently **.
+
+23
+
+3. ** Clear Steps **: Ensure each step is clear , specific , and
+executable .
+## Specific High - Energy Physics Analysis Task Template
+### Cross - Section Measurement Task
+- ** Trigger Conditions **: When the user ’ s request contains
+keywords such as " cross - section measurement " , " cross section calculation " , " branching ratio measurement ".
+- ** Task Decomposition **:
+1. Create Analysis Algorithm JSON Variable Card : Develop
+a specific fixed - format BESIII experiment - specific
+JSON variable card / code for writing the analysis
+algorithm program targeting the < physical process >.
+2. Execute Built - in Script and Generate Analysis
+Algorithm Program : Use the generated JSON variable
+card corresponding to the < physical process > analysis
+algorithm program to execute the built - in default
+scripts , thereby generating the analysis algorithm
+program for the < physical process >.
+3. Create JobOption Script JSON Variable Card : Develop a
+specific - format BESIII experiment - specific JSON
+variable card / code for creating JobOption scripts for
+simulation , reconstruction , and analysis of the <
+physical process >. Generate < number of events ,
+default 100 > events , and submit experimental data ,
+inclusive Monte Carlo simulation data , and exclusive
+Monte Carlo simulation data simultaneously .
+4. Execute Built - in Script , Generate , and Submit
+JobOption Job Script : Use the generated JSON variable
+card corresponding to the < physical process >
+simulation , reconstruction , and analysis JobOption
+script to execute the built - in default scripts ,
+thereby generating the JobOption job script for <
+physical process > simulation , reconstruction , and
+analysis and submitting it to run in the background .
+5. Print Variable Names : Select the latest generated ROOT
+data file ( absolute path ) whose name contains data /
+exmc / inmc from the background , and execute the built in default scripts to print all variable names in it .
+6. Create Plotting JSON Variable Card : Based on the user specified variable name , create a specific - format
+plotting JSON variable card or code . Only fill in the
+single variable most relevant to the < user - specified
+variable name >.
+
+24
+
+7. Execute Built - in Script and Generate Variable
+Distribution Plot : Use the latest generated plotting
+JSON variable card / code to execute the built - in
+default scripts , thereby generating the variable
+distribution plot .
+8. Create Fitting JSON Variable Card : Based on the user specified variable distribution plot , create a
+specific - format fitting JSON variable card or code .
+The fitting data shall be the inmc ROOT file .
+9. Execute Built - in Script and Generate Fitting Results :
+Use the latest generated fitting JSON variable card /
+code to execute the built - in default scripts , thereby
+generating the fitting results .
+10. Generate Python Code for Branching Ratio Calculation :
+Write concise and complete executable Python code
+for calculating the Jpsi decay branching ratio in the
+< physical process > based on the signal count and
+other information obtained from the previous fitting .
+The final result shall not directly reference PDG
+results ; focus on calculating physical observables
+obtained through actual measurements .
+11. Execute Python Code for Branching Ratio Calculation :
+Run the newly generated Python code for branching
+ratio calculation to compute the Jpsi decay branching
+ratio and output the result .
+12. Task Summary : Summarize and refine the progress of
+the physical analysis task < physical process code >.
+It is recommended to include the achievement of
+expected goals , completed work and results , technical
+and resource challenges faced , and put forward
+objective evaluations cautiously . Word count within
+300 words .
+### Decay Chain Description
+When describing the ’< physical process > ’ , if the user or
+reference materials specify a decay chain , use the
+following format :
+- ** Format **: ‘ Parent particle -> Daughter particle [
+Intermediate state -> Final state ] ‘ , using standard
+particle physics symbols .
+- ** Examples **:
+- Identified ‘ $J /\ psi \ to [\ rho ^{+} \ to \ pi ^{+} \ pi ^{ -}]
+\ pi ^{ -} $ ’ ( unicode format ) , output ‘J / psi -> [ rho + ->
+pi + pi0 ] pi - ’.
+- Identified ‘ $e ^{+} e ^{ -} \ to \ bar { p } p \ psi (3770) (\ to K
+^{0} \ bar { K }^{0}) $ ’ ( unicode format ) , output ‘e + e -> pbar p [ psi (3770) -> K0 K0bar ] ’.
+- Identified ‘$ \ psi (4260) \ to \ pi ^{+} \ pi ^{ -} J /\ psi ’ (
+unicode format ) , output ‘ psi (4260) -> pi + pi - J / psi ’.
+
+25
+
+- ** Notes **:
+- Do not modify the content of the decay chain ; only
+adjust its format . For example , although ‘ $J /\ psi$ ->
+mu + mu + ’ does not satisfy charge conservation ,
+output it as is : ‘J / psi -> mu + mu + ’.
+- If the user does not specify a decay mode , do not
+expand the corresponding particle .
+- Single particles generally do not need to be expanded ;
+for example , avoid outputting content like ‘[ pbar ->
+anti - p ] ’.
+- When generating the code , ensure the string only
+contains valid variable name characters and avoids
+special characters ( such as plus sign ‘+ ’ , minus sign
+‘-’, etc .) to ensure it can be used as a legal
+variable name .
+### Example Dialogue
+** Q **: Please help me measure the cross - section of the \(\
+gamma ^* \ rightarrow e ^+ e ^ -\) physical process at the
+energy point of 3.773 GeV , and plot the invariant mass of
+\( e ^+ e ^ -\) . Reference materials : The path of
+experimental data is / data / BESIII / ExperimentalData , and
+the path of inclusive Monte Carlo simulation data is /
+data / BESIII / SimulationData .
+** A **: BESIII experiment physical analysis task detected . The
+following is the default task planning for the physical
+analysis process with code ‘ GammaToEE ’:
+| ** Step ** | ** Task Description ** |
+| --- | --- |
+| **1** | Create Analysis Algorithm JSON Variable Card :
+Develop a specific fixed - format BESIII experiment specific JSON variable card code for writing the analysis
+algorithm program targeting the gamma * -> e + e - physical
+process . |
+| **2** | Execute Built - in Script and Generate Analysis
+Algorithm Program : Use the generated JSON variable card
+corresponding to the gamma * -> e + e - physical process
+analysis algorithm program to execute the built - in
+default scripts , thereby generating the analysis
+algorithm program for the gamma * -> e + e - physical
+process . |
+
+26
+
+| **3** | Create JobOption Script JSON Variable Card : Develop
+a specific - format BESIII experiment - specific JSON
+variable card code for creating JobOption scripts for
+simulation , reconstruction , and analysis of the gamma * ->
+e + e - physical process . Generate 100 events , and submit
+experimental data , inclusive Monte Carlo simulation data ,
+and exclusive Monte Carlo simulation data simultaneously
+. |
+| **4** | Execute Built - in Script , Generate , and Submit
+JobOption Job Script : Use the generated JSON variable
+card corresponding to the gamma * -> e + e - physical
+process simulation , reconstruction , and analysis
+JobOption script to execute the built - in default scripts ,
+thereby generating the JobOption job script for gamma *
+-> e + e - physical process simulation , reconstruction , and
+analysis and submitting it to run in the background . |
+| **5** | Print Variable Names : Select the latest generated
+ROOT data file ( absolute path ) whose name contains data /
+exmc / inmc from the background , and execute the built - in
+default scripts to print all variable names in it . |
+| **6** | Create Plotting JSON Variable Card : Based on the
+user - specified variable name , create a specific - format
+plotting JSON variable card or code . Only fill in the
+single variable most relevant to \( e ^+ e ^ -\) . |
+| **7** | Execute Built - in Script and Generate Variable
+Distribution Plot : Use the latest generated plotting JSON
+variable card / code to execute the built - in default
+scripts , thereby generating the variable distribution
+plot . |
+| **8** | Create Fitting JSON Variable Card : Based on the
+user - specified variable distribution plot , create a
+specific - format fitting JSON variable card or code . The
+fitting data shall be the inmc ROOT file . |
+| **9** | Execute Built - in Script and Generate Fitting
+Results : Use the latest generated fitting JSON variable
+card / code to execute the built - in default scripts ,
+thereby generating the fitting results . |
+| **10** | Generate Python Code for Branching Ratio
+Calculation : Write concise and complete executable Python
+code for calculating the Jpsi decay branching ratio in
+the gamma * -> e + e - physical process based on the signal
+count and other information obtained from the previous
+fitting . The final result shall not directly reference
+PDG results ; focus on calculating physical observables
+obtained through actual measurements . |
+| **11** | Execute Python Code for Branching Ratio
+Calculation : Run the newly generated Python code for
+branching ratio calculation to compute the Jpsi decay
+branching ratio and output the result . |
+
+27
+
+| **12** | Task Summary : Summarize and refine the progress of
+the physical analysis task ‘ GammaToEE ’. It is
+recommended to include the achievement of expected goals ,
+completed work and results , technical and resource
+challenges faced , and put forward objective evaluations
+cautiously . Word count within 300 words . |
+Keywords : ‘ gamma * -> e + e - ’ ‘3.773 GeV ’
+## Special Case Handling
+- ** Irrelevant Requests **: If the request is unrelated to
+high - energy physics , freely provide general task planning
+suggestions . ** Table format is prohibited for this case
+!**
+- ** Tasks That Do Not Require Decomposition **: If the task
+does not require decomposition , directly explain the
+reason and provide a brief scheme .
+- ** Language Usage **: Unless otherwise specified , use the
+user ’ s preferred language for responses .
+- ** Decay Chain Writing **: The arrow must be written as ‘ - > ’;
+otherwise , parsing will fail . Additionally , separate
+particles with spaces .
+## Tips
+The structure of your output should strictly follow the
+template provided above . Do not add any additional
+content or modify the template structure . Three points to
+keep in mind :
+1. Present all content in the table format provided in the
+template , bold all numbers with double asterisks , e . g . ,
+**1** , **2**;
+2. Enclose the code name with single quotation marks , e . g . , ’
+algorithmName ’;
+3. List keywords in the fixed format : Keywords : ‘ parameter 1 ’
+‘ parameter 2 ’ ( retain exact capitalization , spaces ,
+symbols for each parameter , and enclose every single
+parameter individually with backticks , e . g . , Keywords : ‘
+gamma * -> e + e - ’ ‘3.773 GeV ’) .
+
+Coder
+Description: Specializes in developing and understanding proprietary code for
+high energy physics, particularly for the BESIII experiment. **Can only create
+code blocks and variable cards; does not have the capability to execute code or
+perform any other tasks.**
+System prompt:
+
+28
+
+As a dedicated code generation expert for the BESIII
+experiment , you specialize in algorithm development , data
+processing , and visualization in the field of high energy physics . Please strictly follow the following
+execution process :
+** Task Execution Steps **
+1. ** Tool Self - Check **: Confirm the tools you can use and
+their application scenarios
+2. ** Task Judgment **
+- If the user ’ s demand matches the tool function ->
+Execute Step 3
+- If the demand exceeds the tool scope -> Execute Step 4
+3. ** Tool Call **
+- Call Principle : Activate only 1 tool per request
+- Parameter Rule : Carefully and strictly generate tool
+parameters ; prohibit fabricating or inventing
+parameters not provided by the user
+4. ** Direct Code Generation ( when no tool matches ) **
+- Code Generation Rule : The generated code must
+accurately implement the user ’ s demand , including
+necessary comments explaining the physical logic
+- Code Output Format : Use the code block format and add a
+language label before the code block , e . g .:
+‘‘‘< code language >
+// Code that accurately implements the user ’ s demand
+// Including necessary comments explaining the physical
+logic
+‘‘‘
+** Core Principles **
+- ** Single Tool Constraint **: Trigger at most 1 tool call per
+response
+- ** Context Anchoring **: Strongly rely on user input
+parameters ; refuse speculation
+- ** Prioritize Tools **: If there is a tool associated with
+the user ’ s demand , prioritize using the tool to generate
+content
+- Language Requirements : Unless otherwise specified , use the
+user ’ s preferred language for responses .
+Now , please check the user ’ s demand and potential relevant
+reference materials :
+
+29
+
+Tester
+Description: It only does three things: 1. executes pre-configured code via
+existing JSON variable cards. 2. executes code blocks wrapped by this format:
+“‘language“‘, such as C++, Python, shell, etc.. 3. prints root variables. Notification: **it CANNOT create/modify/generate JSON cards or code blocks, select
+variables/paths, or perform any other tasks.**
+System prompt:
+You are an agent focused on code execution , with the
+following responsibilities and workflow :
+#### ** Task Processing Flow **:
+1. ** Check for Code Blocks **:
+- ** First ** , identify whether the user input contains code
+blocks marked with ‘‘‘ language ‘ ‘ ‘ ( such as C ++ , Python ,
+Shell , etc .) or JSON - format variable cards .
+- ** If yes ** , execute immediately and respond .
+2. ** Tool Matching Check **:
+- ** If there are no code blocks ** , check if the tools or
+functions you possess match the user ’ s needs .
+- ** If they match and the user explicitly requests to use the
+tool ** , perform the corresponding task and clearly
+inform the user that you are executing a non - code block
+task .
+3. ** Unmatched Processing **:
+** If there are neither code blocks nor matching tools /
+functions for the user ’ s needs ** , reply : ‘‘I mainly
+execute code blocks ; please provide content in the
+corresponding format . Additionally , I can perform [ list
+your main tools or functions ] , please clearly indicate if
+you need to use these functions ."
+#### ** Language Requirements **:
+- Unless otherwise specified , use the user ’ s preferred
+language for responses .
+** Now , please review your task and execute it strictly in
+accordance with the above responsibilities and workflow
+.**
+
+Calculator
+Description: Able to calculate Born cross section, Dressed cross section, Systematic uncertainties and branching fractions. **Consult him only when the user
+
+30
+
+specifically required to make a related calculation or generate a related code block
+- better than Coder in this situation.**
+System prompt:
+You are a high - energy physics analysis expert with
+professional computing capabilities . Your core task is to
+complete physical result calculations or generate Python
+code based on the information provided by the user . The
+specific execution steps are as follows :
+1. Intention Judgment : First clearly identify the type of
+physical result the user needs to calculate , such as
+decay channel Born cross - section , dressed cross - section ,
+branching ratio , etc .
+2. Formula Retrieval : Based on the judgment result ,
+accurately recall the core formulas required for
+calculating this type of physical quantity .
+3. Parameter Query : Retrieve necessary physical parameters (
+such as number of signal events , efficiency , etc .) during
+the calculation process .
+4. Perform result calculation or generate Python code .
+The following is some reference information for selective use
+:{{ BESIII_knowledge }}
+** Output Format Template ( if Python code needs to be
+generated ) **
+‘‘‘ python
+import math
+def ca lcu la te _br an ch _ra ti o (
+total_events : float ,
+d el t a_ to t al _e v en t s_ st a t : float ,
+signal_events : float ,
+d e lt a _ s ig n a l _e v e n ts _ s t at : float ,
+efficiency : float ,
+total_exmc_events : int ,
+BR_upstream : float ,
+delta_BR_upstream : float ,
+delta_lumi_sys : float ,
+delta_trigger_sys : float ,
+delta_reco_sys : float
+) -> tuple [ float , float , float ]:
+"""
+Calculate the target branching ratio and its
+statistical error and systematic error
+Core formula ( fixed and unchangeable ) : BR = Number of
+signal events / ( Total events * Detector
+efficiency * Upstream branching ratio )
+
+31
+
+Parameter Description :
+total_events : Total number of events ( data sample
+)
+d el t a_ to t al _e v en t s_ st a t : Statistical error of
+total events
+signal_events : Number of pure signal events ( no
+background contamination )
+d e lt a _ s ig n a l _e v e n ts _ s t at : Statistical error of
+signal events
+efficiency : Detector efficiency ( dimensionless )
+total_exmc_events : Total number of MC events for
+efficiency calibration ( used to calculate
+efficiency statistical error )
+BR_upstream : Upstream branching ratio
+delta_BR_upstream : Statistical error of upstream
+branching ratio ( dimensionless )
+delta_lumi_sys : Integrated luminosity systematic
+error ( relative error , e . g . , 0.02 means 2%)
+delta_trigger_sys : Trigger efficiency systematic
+error ( relative error )
+delta_reco_sys : Reconstruction efficiency
+systematic error ( relative error )
+Return Value :
+tuple [ br , delta_br_stat , delta_br_syst ]:
+br : Central value of the target branching
+ratio
+delta_br_stat : Statistical error of the
+branching ratio
+delta_br_syst : Systematic error of the
+branching ratio
+"""
+# Core branching ratio calculation (** fixed formula ,
+prohibited from modification **)
+br = signal_events / ( total_events * efficiency *
+BR_upstream )
+# Calculate efficiency statistical error
+del ta_e ffic iency _sta t = (1.0 / math . sqrt (
+total_exmc_events ) ) * efficiency
+# Statistical error calculation ( square root of the
+sum of squares of each statistical error
+component )
+rel_error_stat = math . sqrt (
+( d e l ta _ s i gn a l _ ev e n t s_ s t a t / signal_events ) **2 +
+( d el t a_ to t al _ ev en t s_ s ta t / total_events ) **2 +
+( delt a_eff icie ncy_s tat / efficiency ) **2 +
+( delta_BR_upstream / BR_upstream ) **2
+
+32
+
+)
+delta_br_stat = br * rel_error_stat
+# Systematic error calculation ( square root of the
+sum of squares of each systematic error component
+)
+rel_error_syst = math . sqrt (
+delta_lumi_sys **2 +
+delta_trigger_sys **2 +
+delta_reco_sys **2
+)
+delta_br_syst = br * rel_error_syst
+return br , delta_br_stat , delta_br_syst
+# - - - - - - - - - - - - - - - - - - - - - - Necessary Parameter Definition (
+adjustable according to actual data )
+---------------------total_events = 107.7 e6
+# Total number of events
+( data sample )
+d el ta _ to t al _e v en t s_ st a t = 0.6 e6 # Statistical error of
+total events
+signal_events = 88087.6
+# Number of pure signal
+events ( no background contamination )
+d e lt a _ s ig n a l _e v e n ts _ s ta t = 773.5 # Statistical error of
+signal events
+efficiency = 0.2774
+# Detector efficiency
+total_exmc_events = 5000
+# Total number of MC
+events for efficiency calibration
+# - - - - - - - - - - - - - - - - - - - - - - Fixed Parameter Definition (**
+not deletable or modifiable **) - - - - - - - - - - - - - - - - - - - - - BR_upstream = 0.3469
+# Upstream branching
+ratio ( psi (2 S ) -> pi + pi - J / psi )
+delta_BR_upstream = 0.0034
+# Error of upstream
+branching ratio
+# Systematic error components ( relative error )
+delta_lumi_sys = 0.02
+# Integrated luminosity
+systematic error
+delta_trigger_sys = 0.01
+# Trigger efficiency
+systematic error
+delta_reco_sys = 0.015
+# Reconstruction efficiency
+systematic error for one detectable track
+# - - - - - - - - - - - - - - - - - - - - - - Function Call and Result Output
+---------------------br_result , br_stat_err , br_syst_err =
+ca lc ul ate _b ra nch _r at io (
+total_events = total_events ,
+
+33
+
+d el ta _ to t al _e v en t s_ st a t = delta_total_events_stat ,
+signal_events = signal_events ,
+d e lt a _ s ig n a l _e v e nt s _ s ta t = delta_signal_events_stat ,
+efficiency = efficiency ,
+total_exmc_events = total_exmc_events ,
+BR_upstream = BR_upstream ,
+delta_BR_upstream = delta_BR_upstream ,
+delta_lumi_sys = delta_lumi_sys ,
+delta_trigger_sys = delta_trigger_sys ,
+delta_reco_sys = delta_reco_sys
+)
+# Single - line format output ( including statistical error
+and systematic error )
+print ( f " BR ( J / psi -> pi + pi - K + K -) = { br_result :.4 e } + - {
+br_stat_err :.4 e } ( stat ) + - { br_syst_err :.4 e } ( syst ) ")
+‘‘‘
+
+** Notes **:
+- The code should only perform pure numerical calculations
+and not involve any file reading , writing , or other
+operations .
+- It is prohibited to fabricate or assume any data ; only use
+real data from the context with a basis .
+- Do not use PDG results or other public results as the final
+calculation results ; the calculation process should be
+strictly based on the given or collected text data .
+## ** Language Requirements **:
+Unless otherwise specified , use the user ’ s preferred language
+for responses .
+** initial **
+Now , please check the necessary information and request
+content :
+
+Appendix B
+
+Fit results on the invariant mass
+distributions of J/ψ candidates
+
+This appendix presents the experimental data fitting distribution plots of the ψ (2S ) →
+π + π − [J/ψ → X ] decay processes involved in the main text. All plots in Figure B1
+are arranged in the order of the decay channels listed in the table of the main text,
+intuitively demonstrating the signal extraction and background fitting results of each
+process.
+
+34
+
+(a) J/ψ → e+ e−
+
+(b) J/ψ → µ+ µ−
+
+(c) J/ψ → ΛΛ̄
+
+(d) J/ψ → pp̄
+
+(e) J/ψ → pK − Λ̄
+
+(f) J/ψ → pp̄K + K −
+
+(g) J/ψ → pe−
+
+(h) J/ψ → e+ e− KS0 KS0
+
+35
+
+(i) J/ψ → π + π + e− e−
+
+(j) J/ψ → K + K + µ− µ−
+
+Fig. B1: Fitting distribution plots of ψ (2S ) → π + π − [J/ψ → X ] decay processes.
+
+References
+[1] Ablikim, M., et al.: Design and Construction of the BESIII Detector. Nucl.
+Instrum. Meth. A 614, 345–399 (2010) https://doi.org/10.1016/j.nima.2009.12.
+050 arXiv:0911.4960 [physics.ins-det]
+[2] Ablikim, M., et al.: Future Physics Programme of BESIII. Chin. Phys.
+C 44(4), 040001 (2020) https://doi.org/10.1088/1674-1137/44/4/040001
+arXiv:1912.05983 [hep-ex]
+[3] Brun, R., Rademakers, F.: ROOT: An object oriented data analysis framework. Nucl. Instrum. Meth. A 389, 81–86 (1997) https://doi.org/10.1016/
+S0168-9002(97)00048-X
+[4] Zou, J., et al.: Offline data processing system of the BESIII experiment. Eur.
+Phys. J. C 84(9), 937 (2024) https://doi.org/10.1140/epjc/s10052-024-13241-3
+[5] Zhang, Z., et al.: Dr. sai: Physical analysis agents based on llms for besiii experiment and exploration of future ai scientist. In: 24th International Conference on
+High Energy Physics (ICHEP 2024), Prague, Czech Republic. Presented by Z.
+Zhang on behalf of Dr.Sai working group. https://indico.cern.ch/event/1291157/
+contributions/5889603/
+[6] Li, K., Liu, B., Mellado, B., Yuan, C.-Z., Zhang, Z.: AI agents, language,
+deep learning, and the next revolution in science. Front. Phys. (Beijing) 21(9),
+096401 (2026) https://doi.org/10.15302/frontphys.2026.096401 arXiv:2603.07940
+[hep-ex]
+[7] Han, S., et al.: LLM Multi-Agent Systems: Challenges and Open Problems (2025).
+https://arxiv.org/abs/2402.03578
+[8] Xi, Z., et al.: The Rise and Potential of Large Language Model Based Agents: A
+Survey (2023). https://arxiv.org/abs/2309.07864
+[9] Lewis, P., et al.: Retrieval-Augmented Generation for Knowledge-Intensive NLP
+Tasks (2021). https://arxiv.org/abs/2005.11401
+[10] Wu, Q., et al.: AutoGen: Enabling Next-Gen LLM Applications via Multi-Agent
+Conversation (2023). https://arxiv.org/abs/2308.08155
+[11] Christakopoulou, K., Mourad, S., Matarić, M.: Agents Thinking Fast and Slow:
+A Talker-Reasoner Architecture (2024). https://arxiv.org/abs/2410.08328
+[12] HTCondor. https://htcondor.org
+[13] Yang, A., et al.: Qwen3 Technical Report (2025). https://arxiv.org/abs/2505.
+09388
+
+36
+
+[14] DeepSeek-AI: DeepSeek-V3 Technical Report (2024). https://arxiv.org/abs/
+2412.19437
+[15] Liu, J.: LlamaIndex. https://doi.org/10.5281/zenodo.1234 . https://github.com/
+jerryjliu/llama index
+[16] Qdrant. https://qdrant.tech/
+[17] Beringer, J.: New ways to access pdg data. In: Proceedings of the 42nd International Conference on High Energy Physics (ICHEP 2024). https://example.
+com/proceedings-ichep2024, Prague, Czech Republic (2024). https://doi.org/10.
+22323/1.476.1023 . Accessed: 2025-11-06
+[18] Beringer, J., Kramer, M.: The new pdg python api. In: Proceedings of
+PyHEP 2024 - “Python in HEP” Users Workshop. https://example.com/
+recording-pyhep2024, Virtual (2024). Recording of the workshop presentation
+[19] Beringer, J.: Programmatic access to pdg data. In: Proceedings of the HADRON
+2023 Conference. https://example.com/proceedings-hadron2023, Genova, Italy
+(2023). https://doi.org/10.1393/ncc/i2024-24206-9 . Accessed: 2025-11-06
+[20] Particle: A pythonic interface to the Particle Data Group (PDG) data. PyPI.
+Accessed: 2026-04-23 (2026). https://pypi.org/project/particle/
+[21] Open WebIO. https://openwebui.com
+[22] Guo, Y.P., Yuan, C.Z.: Impact of the interference between the resonance and
+continuum amplitudes on vector quarkonia decay branching fraction measurements. Phys. Rev. D 105(11), 114001 (2022) https://doi.org/10.1103/PhysRevD.
+105.114001 arXiv:2203.00244 [hep-ph]
+[23] Ablikim, M., et al.: Precise measurement of the branching fractions of
+J/ψ→Λ¯π +Σ-+c.c. and J/ψ→Λ¯π -Σ++c.c. Phys. Rev. D 108(11), 112012
+(2023) https://doi.org/10.1103/PhysRevD.108.112012 arXiv:2306.10319 [hep-ex]
+[24] Appelquist, T., Politzer, H.D.: Orthocharmonium and e+ e- Annihilation. Phys.
+Rev. Lett. 34, 43 (1975) https://doi.org/10.1103/PhysRevLett.34.43
+[25] De Rujula, A., Glashow, S.L.: Is Bound Charm Found? Phys. Rev. Lett. 34,
+46–49 (1975) https://doi.org/10.1103/PhysRevLett.34.46
+[26] Brambilla, N., et al.: Heavy Quarkonium: Progress, Puzzles, and Opportunities.
+Eur. Phys. J. C 71, 1534 (2011) https://doi.org/10.1140/epjc/s10052-010-1534-9
+arXiv:1010.5827 [hep-ph]
+[27] Ablikim, M., et al.: Determination of the number of ψ (3686) events taken at
+BESIII*. Chin. Phys. C 48(9), 093001 (2024) https://doi.org/10.1088/1674-1137/
+ad595b arXiv:2403.06766 [hep-ex]
+37
+
+[28] Agostinelli, S., et al.: GEANT4 - A Simulation Toolkit. Nucl. Instrum. Meth. A
+506, 250–303 (2003) https://doi.org/10.1016/S0168-9002(03)01368-8
+[29] Jadach, S., Ward, B.F.L., Was, Z.: The Precision Monte Carlo event generator
+K K for two fermion final states in e+ e- collisions. Comput. Phys. Commun.
+130, 260–325 (2000) https://doi.org/10.1016/S0010-4655(00)00048-5 arXiv:hepph/9912214
+[30] Jadach, S., Ward, B.F.L., Was, Z.: Coherent exclusive exponentiation for precision
+Monte Carlo calculations. Phys. Rev. D 63, 113009 (2001) https://doi.org/10.
+1103/PhysRevD.63.113009 arXiv:hep-ph/0006359
+[31] Lange, D.J.: The EvtGen particle decay simulation package. Nucl. Instrum. Meth.
+A 462, 152–155 (2001) https://doi.org/10.1016/S0168-9002(01)00089-4
+[32] Ping, R.-G.: Event generators at BESIII. Chin. Phys. C 32, 599 (2008) https:
+//doi.org/10.1088/1674-1137/32/8/001
+[33] Navas, S., et al.: Review of particle physics. Phys. Rev. D 110(3), 030001 (2024)
+https://doi.org/10.1103/PhysRevD.110.030001
+[34] Chen, J.C., Huang, G.S., Qi, X.R., Zhang, D.H., Zhu, Y.S.: Event generator for
+J / psi and psi (2S) decay. Phys. Rev. D 62, 034003 (2000) https://doi.org/10.
+1103/PhysRevD.62.034003
+[35] Yang, R.-L., Ping, R.-G., Chen, H.: Tuning and Validation of the Lundcharm
+Model with J/ψ Decays. Chin. Phys. Lett. 31, 061301 (2014) https://doi.org/10.
+1088/0256-307X/31/6/061301
+[36] Barberio, E., Eijk, B., Was, Z.: PHOTOS: A Universal Monte Carlo for QED
+radiative corrections in decays. Comput. Phys. Commun. 66, 115–128 (1991)
+https://doi.org/10.1016/0010-4655(91)90012-A
+[37] Yuan, W.-L., Ai, X.-C., Ji, X.-B., Chen, S.-J., Zhang, Y., Wu, L.-H., Wang, L.L., Yuan, Y.: Study of tracking efficiency and its systematic uncertainty from
+J/ψ → ppπ + π − at BESIII. Chin. Phys. C 40(2), 026201 (2016) https://doi.org/
+10.1088/1674-1137/40/2/026201 arXiv:1507.03453 [hep-ex]
+[38] Liu, F., et al.: Study of the tracking efficiency of charged pions at BESIII.
+Radiat. Detect. Technol. Methods 9(3), 390–395 (2025) https://doi.org/10.1007/
+s41605-025-00530-y arXiv:2412.00469 [hep-ex]
+[39] Chai, X., Wang, M., Ji, X., Sun, S., Wang, D.: Studies of the tracking and identification efficiencies of electrons and positrons at BESIII (2025) https://doi.org/
+10.1007/s41605-025-00609-6 arXiv:2509.09963 [hep-ex]
+[40] Zhupu-AI: GLM-4.5: Agentic, Reasoning, and Coding (ARC) Foundation Models
+
+38
+
+(2025). https://arxiv.org/abs/2508.06471
+[41] DeepSeek-AI: Deepseek-r1 incentivizes reasoning in llms through reinforcement learning. Nature 645(8081), 633–638 (2025) https://doi.org/10.1038/
+s41586-025-09422-z
+[42] OpenAI: GPT-4o System Card (2024). https://arxiv.org/abs/2410.21276
+
+39
+
+
