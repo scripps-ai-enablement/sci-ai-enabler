@@ -13,7 +13,12 @@ Maintain exactly these files under `guide/`:
 | File | Topic |
 |---|---|
 | `guide/README.md` | Index and reading order |
-| `guide/claude-surfaces.md` | Claude.ai vs Claude Desktop vs Claude Code vs Claude API |
+| `guide/claude-surfaces.md` | Parent index — orientation across all surfaces and `has_children: true` |
+| `guide/surfaces/claude-ai.md` | Claude.ai web app (chat, Projects, Connectors, routine viewing) |
+| `guide/surfaces/claude-desktop.md` | Claude Desktop native app (chat + local MCP) |
+| `guide/surfaces/claude-code.md` | Claude Code CLI / IDE / web — agentic coding surface |
+| `guide/surfaces/claude-cowork.md` | Claude Cowork — sandboxed desktop agent for non-coding work |
+| `guide/surfaces/claude-api.md` | Claude API and SDKs |
 | `guide/skills.md` | What a Claude Skill is and how to install one |
 | `guide/mcp-servers.md` | What an MCP server is and how to install one |
 | `guide/plugins.md` | What a Claude Code Plugin is and how it differs from MCP |
@@ -23,7 +28,14 @@ Maintain exactly these files under `guide/`:
 | `guide/advanced/README.md` | Advanced index |
 | `guide/advanced/hooks.md` | Claude Code hooks |
 | `guide/advanced/slash-commands.md` | Custom slash commands and subagents |
+| `guide/advanced/routines.md` | Scheduled remote Claude Code agents (cron jobs in the cloud) |
 | `guide/advanced/authentication.md` | API keys, OAuth, where secrets live |
+
+### Cross-cutting features
+
+Some features touch more than one surface (e.g., routines: created in Claude Code, viewed at `claude.ai/code/routines`, run in cloud Claude Code, attach MCP connectors). Document each such feature **once**, in `guide/advanced/` (or another single location if it's clearly beginner-territory), and **link to it from every surface sub-page where it's relevant** via the `## See also` section. Surface sub-pages should mention cross-cutting features in 1–2 sentences and link out — they should not duplicate the explanation.
+
+**Ongoing discovery directive.** On every run, check Anthropic's news feed, the Claude Code changelog, and named secondary commentary for newly-shipped cross-cutting features that beginners would otherwise miss. Examples that already qualify: routines, background sessions (`claude --bg` / `/resume` / `claude agents`), MCP tunnels, Cowork plugins, Claude Code on the web's `--teleport`. When a new feature qualifies (touches ≥ 2 surfaces, or is a discoverability problem from any single surface), either add it as a section to an existing topic page or create a new `guide/advanced/<feature>.md` page. Note the addition in the changelog with the source that triggered it.
 
 ## Scope
 
@@ -126,7 +138,9 @@ The content above was synthesized from these dated sources, consulted during the
 
 **Advanced pages** use the same shape but with `parent: Advanced` and `grand_parent: Guide`.
 
-The index pages (`guide/README.md` → renders as `/guide/`, `guide/advanced/README.md` → renders as `/guide/advanced/`) use front-matter with `has_children: true` and contain only a short reading-order list, not topic content. The decision tree (`guide/decision-tree.md`) uses a table mapping user goal → recommended component type with one-line rationale.
+**Surface sub-pages** (`guide/surfaces/*.md`) use `parent: Claude surfaces` and `grand_parent: Guide`. They focus on a single surface's specifics; the parent `guide/claude-surfaces.md` is a thin orientation index that compares surfaces and links to each sub-page.
+
+The index pages (`guide/README.md` → renders as `/guide/`, `guide/advanced/README.md` → renders as `/guide/advanced/`, `guide/claude-surfaces.md` → renders as `/guide/claude-surfaces.html` with `has_children: true`) contain only a short reading-order list or thin orientation, not deep topic content. The decision tree (`guide/decision-tree.md`) uses a table mapping user goal → recommended component type with one-line rationale.
 
 **Do not write a `_Last updated: YYYY-MM-DD` line into the page body.** The information about when a page was last verified belongs in each individual source's "verified YYYY-MM-DD" annotation, which the reader does not see at the top of the page. Page-top freshness banners are noise.
 
