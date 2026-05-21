@@ -22,13 +22,19 @@ Official Allen Institute for Neural Dynamics MCP server for querying AIND's V2 m
 | **Pricing** | Free / OSS (MIT) |
 | **Capabilities** | Read-only — public read access to AIND DocDB |
 
-## How to install
+Install the CLI:
 
 ```
 uv tool install aind-data-mcp
 ```
 
-Then add to `claude_desktop_config.json`:
+Then register with Claude Code:
+
+```
+claude mcp add --transport stdio aind_data_access -- aind-data-mcp
+```
+
+Or for Claude Desktop, add to `claude_desktop_config.json`:
 
 ```json
 {

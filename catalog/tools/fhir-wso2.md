@@ -22,14 +22,20 @@ Open-source MCP bridge between Claude and any HL7 FHIR R4 server — Cerner / Or
 | **Pricing** | Free / OSS (Apache-2.0) |
 | **Capabilities** | Read/Write — full FHIR R4 CRUD |
 
-## How to install
+Install the server and start it (defaults to HTTP on `localhost:8000` — keep it running in a separate terminal):
 
 ```
 pip install fhir-mcp-server
 fhir-mcp-server
 ```
 
-Then add to Claude Desktop:
+Then register the HTTP endpoint with Claude Code:
+
+```
+claude mcp add --transport http fhir http://localhost:8000/mcp
+```
+
+Or for Claude Desktop (no native HTTP support — proxy via `mcp-remote`):
 
 ```json
 {

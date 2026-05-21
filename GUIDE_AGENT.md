@@ -31,7 +31,7 @@ Maintain exactly these files under `guide/`:
 
 - Plain-language explanation of each concept (≤ 100 words)
 - When to reach for it (≤ 5 bullet scenarios)
-- Step-by-step install / enable with copy-pasteable commands
+- Step-by-step install / enable with copy-pasteable commands. **Followable verbatim**: a naive reader must be able to paste each command in order without filling in unstated context. Namespace plugin slash commands as `/<plugin>:<skill>` (not bare `/<skill>`), annotate any `/path/to/…` placeholder with how to fill it in, and never write "register via a standard config entry" without showing the literal `claude mcp add` command and the literal `claude_desktop_config.json` JSON.
 - Common pitfalls (≤ 5 bullets)
 - Pointers to canonical docs and to relevant catalog entries
 

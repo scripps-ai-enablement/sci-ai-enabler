@@ -121,6 +121,17 @@ summary: <≤ 25-word plain-language description; used by the category card list
 - "Toggle in **Settings → Connectors**"
 - "Manual `mcp_config.json` entry"
 
+**Followable-verbatim rule.** A naive user must be able to copy every command in **How to install** in order and end up with a working tool. Anything that requires the reader to "figure it out" is a bug. Specifically:
+
+1. **Namespace plugin slash commands.** Skills shipped inside a plugin resolve as `/<plugin>:<skill>`, not bare `/<skill>`. Write `/bio-research:start`, not `/start`. The upstream plugin's README may show the bare form — do not mirror that; correct it and call out the discrepancy in a parenthetical.
+2. **Annotate every `/path/to/…` placeholder.** When an install snippet contains a placeholder path, append a parenthetical telling the user how to fill it in: `(replace /path/to/<repo> with the absolute path of your clone — e.g., /Users/you/repos/<repo>, or $(pwd) if you're still inside it from the previous step)`. Never assume the convention is self-evident.
+3. **Show literal registration snippets.** Do not write "register via a standard `claude_desktop_config.json` stdio entry" or "add as MCP server" as prose. Show the literal command (`claude mcp add …`) and the literal JSON block. If you cannot determine the right snippet, mark the gap explicitly — e.g., `**Registration not documented upstream — see the project's README and adapt the `claude mcp add` form below to match.**` — rather than hand-waving.
+4. **Cover Claude Code and Claude Desktop separately.** If you show a `claude_desktop_config.json` JSON snippet, also show the equivalent `claude mcp add --transport stdio <name> -- <command> <args>` for Claude Code (and vice versa). They are not interchangeable — Claude Desktop has no native HTTP transport, so HTTP servers need an `mcp-remote` proxy entry for Desktop while Claude Code uses `--transport http` directly. Make the difference explicit.
+5. **Distinguish "verify it starts" from "register".** If the install steps include running the server (`scanpy-mcp run`, `python run_server.py`, `uvx <pkg>`), state clearly whether that is a one-shot verification (Ctrl-C after it boots — Claude Code/Desktop will launch the process itself via stdio) or a long-lived service the user must keep running in another terminal (HTTP/SSE servers). Getting this wrong is the most common cause of "I followed the steps and Claude can't see the tool".
+6. **Don't skip prerequisite installs.** If a registration snippet runs `python -m <pkg>` or `<cli> run`, make sure an earlier step actually installs `<pkg>` or `<cli>` (`pip install …`, `uv tool install …`, etc.). A snippet that references a binary the user has not yet installed is broken.
+
+When verifying an existing page, audit it against this list. If any rule is violated and you cannot resolve it from sources, leave the existing text alone and add a `**Unverified —**` parenthetical so the gap is visible to readers and future runs.
+
 ## Tagging by area (the `Categories` field)
 
 Tag every entry with the categories where a researcher in that area would plausibly reach for the tool. The classification is honest: some tools genuinely apply everywhere (use `All`), some apply to a defined subset (enumerate them).

@@ -32,7 +32,7 @@ npm run download:db   # requires you to have obtained the DrugBank XML separatel
 npm run build
 ```
 
-Then add to `claude_desktop_config.json`:
+Then add to `claude_desktop_config.json` (replace `/path/to/drugbank-mcp-server` with the absolute path of your clone — e.g., `/Users/you/repos/drugbank-mcp-server`):
 
 ```json
 {
@@ -40,6 +40,12 @@ Then add to `claude_desktop_config.json`:
     "drugbank": { "command": "node", "args": ["/path/to/drugbank-mcp-server/build/index.js"] }
   }
 }
+```
+
+For Claude Code, the equivalent registration is:
+
+```
+claude mcp add --transport stdio drugbank -- node /path/to/drugbank-mcp-server/build/index.js
 ```
 
 ## What it does

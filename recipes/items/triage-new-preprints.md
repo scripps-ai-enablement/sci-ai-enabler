@@ -34,7 +34,7 @@ This is the canonical entry-level use of an LLM in a scientific workflow. Doing 
 
 ## Recommended approach
 
-1. **Install the [bio-research plugin](../../catalog/tools/bio-research.html)** in Claude Code. One install gives you the bioRxiv connector, the [Anthropic PubMed Connector](../../catalog/tools/pubmed.html), and several others you'll want later. Run `/start` once to confirm the bundled tools loaded.
+1. **Install the [bio-research plugin](../../catalog/tools/bio-research.html)** in Claude Code. One install gives you the bioRxiv connector, the [Anthropic PubMed Connector](../../catalog/tools/pubmed.html), and several others you'll want later. Run `/bio-research:start` once to confirm the bundled tools loaded.
 2. **Define your topic in a system prompt** at the top of the session. Be specific:
 
    ```

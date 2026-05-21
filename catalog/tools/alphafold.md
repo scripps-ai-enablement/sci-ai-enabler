@@ -31,7 +31,7 @@ npm install
 npm run build
 ```
 
-Then add to `claude_desktop_config.json`:
+Then add to `claude_desktop_config.json` (replace `/path/to/AlphaFold-MCP-Server` with the absolute path of your clone — e.g., `/Users/you/repos/AlphaFold-MCP-Server`):
 
 ```json
 {
@@ -42,6 +42,12 @@ Then add to `claude_desktop_config.json`:
     }
   }
 }
+```
+
+For Claude Code, the equivalent registration is:
+
+```
+claude mcp add --transport stdio alphafold-server -- node /path/to/AlphaFold-MCP-Server/build/index.js
 ```
 
 ## What it does

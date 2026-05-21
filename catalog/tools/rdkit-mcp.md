@@ -22,16 +22,35 @@ MCP server that exposes the full RDKit 2025.3.1 surface as discrete tool calls â
 | **Pricing** | Free / OSS (MIT) |
 | **Capabilities** | Read/Write |
 
-## How to install
+Clone, install dependencies, and verify the server starts:
 
 ```
 git clone https://github.com/tandemai-inc/rdkit-mcp-server
 cd rdkit-mcp-server
 pip install -r requirements.txt
-python run_server.py --settings settings.yaml
+python run_server.py --settings settings.yaml   # Ctrl-C once you confirm it boots
 ```
 
-Register with Claude Desktop via a standard `claude_desktop_config.json` stdio entry pointing at `run_server.py`. Enumerate available tools with `python list_tools.py`.
+Then register with Claude Code (replace `/path/to/rdkit-mcp-server` with the absolute path â€” e.g., `$(pwd)` if still in that directory):
+
+```
+claude mcp add --transport stdio rdkit -- python /path/to/rdkit-mcp-server/run_server.py --settings /path/to/rdkit-mcp-server/settings.yaml
+```
+
+Or for Claude Desktop, add to `claude_desktop_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "rdkit": {
+      "command": "python",
+      "args": ["/path/to/rdkit-mcp-server/run_server.py", "--settings", "/path/to/rdkit-mcp-server/settings.yaml"]
+    }
+  }
+}
+```
+
+Enumerate the available tools with `python list_tools.py` from inside the clone.
 
 ## What it does
 

@@ -29,7 +29,7 @@ pip install "mcp[cli]" chatmol
 git clone https://github.com/chatmol/molecule-mcp
 ```
 
-Register three entries in `claude_desktop_config.json` pointing at the bundled scripts:
+Register three entries in `claude_desktop_config.json` pointing at the bundled scripts (replace `/path/to/molecule-mcp` with the absolute path of your clone — e.g., `/Users/you/repos/molecule-mcp`):
 
 ```json
 {
@@ -39,6 +39,14 @@ Register three entries in `claude_desktop_config.json` pointing at the bundled s
     "gromacs_copilot":  { "command": "python", "args": ["/path/to/molecule-mcp/mcp_server.py"] }
   }
 }
+```
+
+For Claude Code, the equivalent registrations are (run all three):
+
+```
+claude mcp add --transport stdio pymol           -- python /path/to/molecule-mcp/pymol_server.py
+claude mcp add --transport stdio chimerax        -- python /path/to/molecule-mcp/ChimeraX_server.py
+claude mcp add --transport stdio gromacs_copilot -- python /path/to/molecule-mcp/mcp_server.py
 ```
 
 ## What it does

@@ -31,7 +31,7 @@ npm install
 npm run build
 ```
 
-Then add to `claude_desktop_config.json`:
+Then add to `claude_desktop_config.json` (replace `/path/to/UniProt-MCP-Server` with the absolute path of your clone — e.g., `/Users/you/repos/UniProt-MCP-Server`):
 
 ```json
 {
@@ -39,6 +39,12 @@ Then add to `claude_desktop_config.json`:
     "uniprot": { "command": "node", "args": ["/path/to/UniProt-MCP-Server/build/index.js"] }
   }
 }
+```
+
+For Claude Code, the equivalent registration is:
+
+```
+claude mcp add --transport stdio uniprot -- node /path/to/UniProt-MCP-Server/build/index.js
 ```
 
 Docker alternative: `docker build -t uniprot-mcp-server . && docker run -i uniprot-mcp-server`.

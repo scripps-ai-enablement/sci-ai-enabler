@@ -70,7 +70,7 @@ Every recipe carries one of three `evidence_level` values:
 **Out of scope** — do not write:
 
 - Opinion essays, vendor comparisons without a concrete problem ("MCP vs Skill — which is better?" — that belongs in the guide).
-- Install tutorials. Linked catalog pages own the install instructions; do not duplicate them.
+- Install tutorials. Linked catalog pages own the install instructions; do not duplicate them. If a recipe step *invokes* something post-install (a slash command, a CLI), it still must be followable verbatim — namespace plugin slash commands as `/<plugin>:<skill>` (e.g., `/bio-research:start`, not bare `/start`), and don't reference a binary or skill the catalog page doesn't actually install.
 - Recipes whose tools are not in `catalog/tools/` or `autonomous-science/systems/`. Defer them to the catalog curator instead.
 - Recipes for problems no working scientist has. "Use ChEMBL to find caffeine" is not a real problem.
 - Hypothetical recipes ("once tool X exists, you could…"). The cookbook only stocks ingredients that are on the shelf today.

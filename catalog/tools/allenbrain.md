@@ -32,7 +32,7 @@ npm run build
 npm start
 ```
 
-Register with Claude Code:
+Register with Claude Code (replace `/path/to/allenbrain-mcp` with the absolute path of the clone — e.g., `$(pwd)` if you're still inside the directory from the previous step):
 
 ```
 claude mcp add --transport stdio allenbrain -- node /path/to/allenbrain-mcp/build/index.js

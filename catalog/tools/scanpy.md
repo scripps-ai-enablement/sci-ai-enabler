@@ -22,12 +22,31 @@ MCP server that exposes the full Scanpy / AnnData workflow as natural-language t
 | **Pricing** | Free / OSS (BSD-3-Clause) |
 | **Capabilities** | Read/Write |
 
-## How to install
+Install the server:
 
 ```
 pip install scanpy-mcp
-scanpy-mcp run                                  # stdio
-scanpy-mcp run --transport shttp --port 8000    # streamable HTTP
+```
+
+The `scanpy-mcp` package exposes two transports:
+
+- `scanpy-mcp run` — stdio
+- `scanpy-mcp run --transport shttp --port 8000` — streamable HTTP
+
+Register with Claude Code (stdio — recommended; Claude Code launches the process itself, so don't run `scanpy-mcp run` separately):
+
+```
+claude mcp add --transport stdio scanpy -- scanpy-mcp run
+```
+
+Or with Claude Desktop, add to `claude_desktop_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "scanpy": { "command": "scanpy-mcp", "args": ["run"] }
+  }
+}
 ```
 
 Compatible with Claude Desktop, Claude Code, Cherry Studio, Cline, and Agno.

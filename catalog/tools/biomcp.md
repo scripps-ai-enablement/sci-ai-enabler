@@ -22,15 +22,21 @@ Unified MCP access to ClinicalTrials.gov, PubMed, MyVariant.info, OpenFDA, NCI C
 | **Pricing** | Free / OSS (MIT); optional API keys (NCBI, OpenFDA, NCI CTS, OncoKB, AlphaGenome) raise rate limits or unlock private sources |
 | **Capabilities** | Read-only |
 
-## How to install
-
-- **Claude Code** — direct MCP add via `uv`:
+- **Claude Code** — install the CLI, then register the server:
   ```
   uv tool install biomcp-cli
-  # then add as MCP server:
-  uv run --with biomcp-python biomcp run
+  claude mcp add --transport stdio biomcp -- biomcp run
   ```
-- **Claude Desktop** — manual `mcp_config.json` entry running `biomcp run` via `uv` or pip-installed CLI.
+  (If you prefer not to install the CLI globally, swap the second command for `claude mcp add --transport stdio biomcp -- uv run --with biomcp-python biomcp run`.)
+- **Claude Desktop** — add to `claude_desktop_config.json`:
+  ```json
+  {
+    "mcpServers": {
+      "biomcp": { "command": "biomcp", "args": ["run"] }
+    }
+  }
+  ```
+  Or, to avoid a global install, use `{ "command": "uv", "args": ["run", "--with", "biomcp-python", "biomcp", "run"] }`.
 
 ## What it does
 

@@ -24,11 +24,19 @@ Read-only MCP wrapper over PubChem's public chemical-compound database. Compleme
 
 ## How to install
 
-- **Claude Desktop / Code** — Smithery one-liner:
+- **Claude Desktop / Code — Smithery one-liner** (handles install + Claude config in one step):
   ```
   npx -y @smithery/cli@latest install @JackKuo666/pubchem-mcp-server --client claude --config "{}"
   ```
-- **Manual `claude_desktop_config.json`**:
+- **Manual install** — pip-install the package first, then register:
+  ```
+  pip install pubchem-mcp-server
+  ```
+  Claude Code:
+  ```
+  claude mcp add --transport stdio pubchem -- python -m pubchem-mcp-server
+  ```
+  Claude Desktop — add to `claude_desktop_config.json`:
   ```json
   {
     "mcpServers": {

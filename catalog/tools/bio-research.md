@@ -12,7 +12,7 @@ summary: Umbrella plugin bundling 5 analysis skills and ~10 MCP connectors (PubM
 
 # bio-research
 
-Anthropic umbrella plugin bundling literature search, single-cell QC, sequencing-pipeline orchestration, drug-discovery lookups, and research-strategy skills behind a single `/start` command.
+Anthropic umbrella plugin bundling literature search, single-cell QC, sequencing-pipeline orchestration, drug-discovery lookups, and research-strategy skills behind a single `/bio-research:start` command.
 
 | | |
 |---|---|
@@ -29,7 +29,7 @@ Anthropic umbrella plugin bundling literature search, single-cell QC, sequencing
   /plugin marketplace add anthropics/knowledge-work-plugins
   /plugin install bio-research@knowledge-work-plugins
   ```
-  Run `/start` to enumerate the bundled tools.
+  Then run `/bio-research:start` to enumerate the bundled tools. (Upstream README still shows the bare `/start`, but plugin skills must be invoked with the `plugin:skill` namespace.)
 - **Claude.ai (Cowork)** — surfaces the same plugin contents via the Cowork plugin browser.
 
 ## What it does

@@ -22,13 +22,19 @@ A single MCP server that fronts 14+ biomedical APIs as a unified retrieval layer
 | **Pricing** | Free / OSS (Apache-2.0). Underlying data sources keep their own licenses; KEGG restricts commercial remote hosting. |
 | **Capabilities** | Read-only |
 
-## How to install
+The server is published as the `biocontext_kb` package and is most easily run with `uv` (which handles its own Python). To verify it starts:
 
-- **stdio (recommended for Claude Desktop / Code)**:
+```
+uvx biocontext_kb@latest
+```
+
+Then register it as an MCP server (Claude Code launches the process itself — don't keep the verification command running):
+
+- **Claude Code (stdio, recommended)**:
   ```
-  uvx biocontext_kb@latest
+  claude mcp add --transport stdio biocontext_kb -- uvx biocontext_kb@latest
   ```
-- **Claude Desktop config** (HTTP):
+- **Claude Desktop (stdio)** — add to `claude_desktop_config.json`:
   ```json
   {
     "mcpServers": {
@@ -40,8 +46,15 @@ A single MCP server that fronts 14+ biomedical APIs as a unified retrieval layer
     }
   }
   ```
-- **Docker**: `docker run -p 127.0.0.1:8000:8000 biocontext_kb:latest`
-- **Remote test endpoint**: `https://biocontext-kb.fastmcp.app/mcp`
+- **Docker (HTTP)** — start the container, then register the HTTP endpoint:
+  ```
+  docker run -p 127.0.0.1:8000:8000 biocontext_kb:latest
+  claude mcp add --transport http biocontext_kb http://127.0.0.1:8000/mcp
+  ```
+- **Remote test endpoint** (no install):
+  ```
+  claude mcp add --transport http biocontext_kb https://biocontext-kb.fastmcp.app/mcp
+  ```
 
 ## What it does
 

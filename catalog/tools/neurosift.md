@@ -31,7 +31,7 @@ npm install
 npm run build
 ```
 
-Register with Claude Code:
+Register with Claude Code (replace `/path/to/neurosift-tools` with the absolute path — e.g., `$(pwd)` if you're still inside `neurosift-mcps/neurosift-tools` from the previous step):
 
 ```
 claude mcp add --transport stdio neurosift-tools -- node /path/to/neurosift-tools/build/index.js
