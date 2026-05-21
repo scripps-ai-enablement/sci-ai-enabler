@@ -11,6 +11,22 @@ Reverse-chronological log of changes to the [catalog](catalog/). Newest at the t
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-05-21
+
+Directed pass on **Molecular and Cellular Biology** (Thursday focus). Four K-Dense scientific skills added — each is a distinct `SKILL.md` directory installable via the `K-Dense-AI/claude-scientific-skills` plugin marketplace or by manual clone of `K-Dense-AI/scientific-agent-skills`. Also created `catalog/curator-state.md` per the new schema.
+
+### Added
+- **AnnData (Claude Skill)** (Categories: Immunology and Microbiology, Molecular and Cellular Biology, Neuroscience) — K-Dense skill teaching the AnnData annotated-data-matrix object model that underpins Scanpy and scvi-tools ([source](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/anndata/SKILL.md)).
+- **PyDESeq2 (Claude Skill)** (Categories: Drug Repurposing and Discovery, Immunology and Microbiology, Molecular and Cellular Biology, Translational Medicine) — K-Dense skill for bulk RNA-seq differential expression via the Python reimplementation of DESeq2 ([source](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/pydeseq2/SKILL.md)).
+- **gget (Claude Skill)** (Categories: Drug Repurposing and Discovery, Immunology and Microbiology, Integrative Structural and Computational Biology, Molecular and Cellular Biology) — K-Dense skill wrapping the gget unified query API over Ensembl, UniProt, NCBI, PDB, COSMIC, and 15+ other genomics databases ([source](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/gget/SKILL.md)).
+- **DepMap (Claude Skill)** (Categories: Drug Repurposing and Discovery, Molecular and Cellular Biology, Translational Medicine) — K-Dense skill for Cancer Dependency Map CRISPR Chronos gene-effect, PRISM drug sensitivity, and OMICS data across hundreds of cancer cell lines ([source](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/depmap/SKILL.md)).
+
+### Updated
+- **`catalog/curator-state.md`** — created per the schema in `AGENT.md`; carries forward `allenbrain-mcp` flag and the prior Deferred queue, with Cellxgene Census / scVelo / Arboreto added as next-run Molecular & Cellular Biology candidates.
+
+### Verified (no changes)
+- Manifest sweep of `anthropics/life-sciences/marketplace.json` re-confirmed: existing entries (`pubmed`, `biorender`, `synapse`, `wiley-scholar-gateway`, `10x-genomics`, `single-cell-rna-qc`, `instrument-data-to-allotrope`, `nextflow-development`, `scvi-tools`, `scientific-problem-selection`, `open-targets`, `adisinsight`) all still present — no diff against the previously catalogued set.
+
 ## 2026-05-20 (topic-focused seeding pass)
 
 A one-time directed sweep across all seven categories, seeded by per-category seed queries newly added to `AGENT.md`. Twenty new tool pages, organized by the day-of-week the rotating focus is now scheduled to revisit each category.
