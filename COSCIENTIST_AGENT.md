@@ -209,9 +209,20 @@ A source older than its tier is presumptively stale. Find a fresher one before r
 
 ## Soft caps and wall clock
 
-- **Hard 10-minute wall** once searches and downloads have begun. The action timeout is longer, but plan around 10 minutes of productive work.
+- **Hard 10-minute wall per phase.** The workflow now runs in two phases (see "Two-phase run" below), each capped at ~10 minutes by the third-party action's internal timeout. Plan each phase's work to fit.
 - **Soft cap: ≤ 5 new entries per run.** Stop adding after the fifth. Move the rest to `Deferred — next-run priority` and let the next scheduled run pick them up.
 - **Soft cap: ≤ 10 new PDF downloads per run.** Keeps repo size bounded. If a system warrants more, defer until a `bootstrap` scope run.
+
+## Two-phase run
+
+The workflow splits each daily / bootstrap run into two consecutive Claude invocations that share a workspace via the per-job checkout. Each invocation runs the full system prompt below, but with a "## This run" stanza appended that says which phase is active.
+
+- **Phase A — search and archive**: do the slow web work. Read the existing tracker state, run paper-search-mcp seed queries, download up to 5 new PDFs into `sources/`, run `pdftotext`, append entries to `sources/manifest.json`, and write a handoff file at `.coscientist-candidates.md` describing the candidates Phase B should turn into system pages. **Do not edit `autonomous-science/systems/`, `summary.md`, or `COSCIENTIST_CHANGELOG.md` in this phase** — that is Phase B's deliverable. Phase A's tools include WebSearch, WebFetch, Write, and the `papers` MCP; Edit is intentionally absent.
+- **Phase B — write and verify**: do the pure file editing. Read `.coscientist-candidates.md`, create each `autonomous-science/systems/<slug>.md` page from the handoff plus the PDF's `.txt` sidecar in `sources/`, update `summary.md` if the landscape has materially shifted, re-verify any system whose `last_verified` is more than 30 days old, append a dated block to `COSCIENTIST_CHANGELOG.md`, and delete the handoff file. Phase B's tool list excludes all web and MCP tools — if you find yourself wanting to fetch something new, log it under `Deferred — next-run priority` in `autonomous-science/curator-state.md` instead.
+
+If Phase A finds no new candidates (`_None._`), Phase B still runs: its job in that case is purely to re-verify aging entries and append a changelog entry stating no new systems were surfaced.
+
+The handoff file format is documented in `.github/workflows/coscientist.yml` (see the Phase A prompt block) — one `### <System Name>` heading per candidate with `slug`, `doi`, `pdf`, `txt`, `one_line`, `lifecycle_stages`, and `rationale` fields. Phase B trusts those fields as Phase A's commitment to scope.
 
 ## Changelog format
 

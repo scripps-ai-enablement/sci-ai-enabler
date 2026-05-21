@@ -26,7 +26,8 @@ concurrency:
 jobs:
   coscientist:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    # Outer envelope covers two Claude phases (each up to 10 min) plus setup.
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
         with:
@@ -51,7 +52,23 @@ jobs:
           }
           JSON
 
-      - name: Compose run prompt
+      # ----- Phase A: search and archive -----
+      #
+      # The claude-code-base-action enforces a 10-minute hard cap on each
+      # Claude invocation that the documented `timeout_minutes` input does
+      # not reliably override. We work within that cap by splitting the
+      # autonomous-science run into two short Claude phases that share the
+      # workspace via the per-job checkout.
+      #
+      # Phase A does all the slow web work (paper search, PDF download,
+      # pdftotext) and writes a small handoff file at .coscientist-candidates.md
+      # describing the candidates Phase B should turn into system pages.
+      #
+      # Phase B is pure file editing — it reads the handoff, writes per-system
+      # pages, updates summary.md and CHANGELOG, verifies aging entries, and
+      # deletes the handoff file. No network needed.
+
+      - name: Compose Phase A prompt (search and archive)
         run: |
           SCOPE="${{ inputs.scope }}"
           SCOPE="${SCOPE:-daily}"
@@ -60,26 +77,103 @@ jobs:
             echo ""
             echo "---"
             echo ""
-            echo "## This run"
+            echo "## This run — Phase A: search and archive"
             echo "- UTC date: $(date -u +%Y-%m-%d)"
             echo "- Scope: ${SCOPE}"
-            if [ "${SCOPE}" = "bootstrap" ]; then
-              echo "- Bootstrap mode: re-scan every PDF in \`sources/\`, rebuild the per-system pages under \`autonomous-science/systems/\` and \`autonomous-science/summary.md\` from scratch, and re-populate \`sources/manifest.json\`."
-            else
-              echo "- Daily mode: normal search-and-update flow. If \`autonomous-science/systems/\` is empty or missing, treat this run as a bootstrap and seed system pages, summary, and manifest from the existing PDFs in \`sources/\`."
-            fi
-            echo "- PDFs in \`sources/\` can be read with \`pdftotext <path>.pdf -\` via the Bash tool; poppler-utils is installed in this runner."
-            echo "- The \`papers\` MCP server provides paper-search-mcp tools (search_pubmed, search_biorxiv, search_arxiv, download_with_fallback, etc.). Use it for discovery and PDF retrieval before falling back to WebSearch/WebFetch."
-          } > .run-prompt.md
+            echo ""
+            echo "**You are in Phase A of a two-phase run.** Your job is to identify candidate systems and archive their source PDFs. A separate Phase B invocation will create the per-system pages and update the landscape/changelog. Do NOT edit \`autonomous-science/systems/\`, \`autonomous-science/summary.md\`, or \`COSCIENTIST_CHANGELOG.md\` in this phase — leave those for Phase B."
+            echo ""
+            echo "**Phase A deliverables**:"
+            echo "1. Run the seed queries via the \`papers\` MCP (\`search_pubmed\`, \`search_biorxiv\`, \`search_medrxiv\`, \`search_arxiv\`), filtered to the last 30 days. Stop searching once you have 1-5 strong candidates not already in \`autonomous-science/systems/\`."
+            echo "2. For each candidate, download the primary paper PDF into \`sources/\` (use \`download_with_fallback\` first, then WebFetch as fallback). Run \`pdftotext\` to produce a \`.txt\` sidecar. Append an entry to \`sources/manifest.json\`."
+            echo "3. Write the handoff file \`.coscientist-candidates.md\` with one block per candidate in this exact shape:"
+            echo ""
+            echo "   \`\`\`markdown"
+            echo "   ### <System Name>"
+            echo "   - slug: <kebab-case-slug>.md"
+            echo "   - doi: <DOI or arXiv ID>"
+            echo "   - pdf: sources/<filename>.pdf"
+            echo "   - txt: sources/<filename>.txt"
+            echo "   - one_line: <reader-facing one-sentence description>"
+            echo "   - lifecycle_stages: <e.g., Multi-stage; or Hypothesis, Analysis>"
+            echo "   - rationale: <2-3 lines on why this belongs in the tracker — what the system does, where it fits in the landscape>"
+            echo "   \`\`\`"
+            echo ""
+            echo "4. If the scope is \`bootstrap\`, instead enumerate every PDF already in \`sources/\` (filter \`sources/manifest.json\`) and write a candidates block for each one — Phase B will then (re)build every system page from scratch. Do not re-download in bootstrap mode."
+            echo ""
+            echo "**Stop conditions** (any one of these means stop and let Phase B run):"
+            echo "- You have 5 candidates already written to \`.coscientist-candidates.md\` (the soft cap from COSCIENTIST_AGENT.md)."
+            echo "- You have searched all seed queries and found no new candidates — in that case write \`.coscientist-candidates.md\` containing the literal text \`_None._\` and exit."
+            echo "- You are approaching 8 minutes of elapsed time. Wrap up: commit what you have to the handoff file and exit."
+            echo ""
+            echo "**Out of scope for Phase A**: do NOT create or edit per-system pages, do NOT touch \`summary.md\`, do NOT touch \`COSCIENTIST_CHANGELOG.md\`. The next phase will read your handoff and do all that."
+            echo ""
+            echo "- PDFs in \`sources/\` can be read with \`pdftotext <path>.pdf -\` via the Bash tool; poppler-utils is installed."
+            echo "- The \`papers\` MCP server provides paper-search-mcp tools. Use it for discovery and PDF retrieval before falling back to WebSearch/WebFetch."
+          } > .phase-a-prompt.md
 
-      - uses: anthropics/claude-code-base-action@beta
+      - name: Phase A — search and archive
+        uses: anthropics/claude-code-base-action@e8132bc5e637a42c27763fc757faa37e1ee43b34
         with:
-          prompt_file: .run-prompt.md
+          prompt_file: .phase-a-prompt.md
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           model: claude-opus-4-7
           mcp_config: .mcp-config.json
           timeout_minutes: "25"
-          allowed_tools: "Read,Edit,Write,Glob,Grep,Bash,WebSearch,WebFetch,mcp__papers__search_papers,mcp__papers__search_pubmed,mcp__papers__search_biorxiv,mcp__papers__search_medrxiv,mcp__papers__search_arxiv,mcp__papers__download_with_fallback,mcp__papers__download_arxiv,mcp__papers__download_pubmed,mcp__papers__download_biorxiv,mcp__papers__download_medrxiv,mcp__papers__read_arxiv_paper,mcp__papers__read_pubmed_paper,mcp__papers__read_biorxiv_paper"
+          allowed_tools: "Read,Write,Glob,Grep,Bash,WebSearch,WebFetch,mcp__papers__search_papers,mcp__papers__search_pubmed,mcp__papers__search_biorxiv,mcp__papers__search_medrxiv,mcp__papers__search_arxiv,mcp__papers__download_with_fallback,mcp__papers__download_arxiv,mcp__papers__download_pubmed,mcp__papers__download_biorxiv,mcp__papers__download_medrxiv,mcp__papers__read_arxiv_paper,mcp__papers__read_pubmed_paper,mcp__papers__read_biorxiv_paper"
+
+      - name: Confirm Phase A handoff exists
+        run: |
+          if [ ! -f .coscientist-candidates.md ]; then
+            echo "Phase A did not produce .coscientist-candidates.md — skipping Phase B."
+            echo "PHASE_B_SKIP=1" >> "$GITHUB_ENV"
+          else
+            echo "Phase A produced .coscientist-candidates.md ($(wc -l < .coscientist-candidates.md) lines)."
+          fi
+
+      # ----- Phase B: write and verify -----
+
+      - name: Compose Phase B prompt (write and verify)
+        if: env.PHASE_B_SKIP != '1'
+        run: |
+          SCOPE="${{ inputs.scope }}"
+          SCOPE="${SCOPE:-daily}"
+          {
+            cat COSCIENTIST_AGENT.md
+            echo ""
+            echo "---"
+            echo ""
+            echo "## This run — Phase B: write and verify"
+            echo "- UTC date: $(date -u +%Y-%m-%d)"
+            echo "- Scope: ${SCOPE}"
+            echo ""
+            echo "**You are in Phase B of a two-phase run.** Phase A has already done the paper search, downloaded any new PDFs into \`sources/\`, updated \`sources/manifest.json\`, and written a handoff file at \`.coscientist-candidates.md\` listing the candidates you should turn into system pages."
+            echo ""
+            echo "**Phase B deliverables**:"
+            echo "1. Read \`.coscientist-candidates.md\`."
+            echo "   - If it contains only \`_None._\`, skip to step 4 (verify aging entries) and step 5 (changelog)."
+            echo "2. For each candidate block, create \`autonomous-science/systems/<slug>.md\` following the COSCIENTIST_AGENT.md schema. Read the PDF's \`.txt\` sidecar at \`sources/<filename>.txt\` for source-grounded details (do not write from pre-training memory). Set \`last_verified\` to today's date in the front-matter."
+            echo "3. If the landscape has materially shifted (a new top-tier system, a new validation result, a new failure mode), update \`autonomous-science/summary.md\`."
+            echo "4. Re-verify any existing system page whose \`last_verified\` is more than 30 days old: confirm the primary paper link resolves, the code repo (if any) still exists, and the affiliation has not been retracted. Bump \`last_verified\` to today on success."
+            echo "5. Append a dated block to \`COSCIENTIST_CHANGELOG.md\` (which has YAML front-matter at the top — preserve it). The new block goes directly after the \`# AI scientist updates\` heading, in the standard format described in COSCIENTIST_AGENT.md."
+            echo "6. Delete \`.coscientist-candidates.md\` (it has served its purpose)."
+            echo ""
+            echo "**Out of scope for Phase B**: do NOT call any web tool, MCP tool, or download anything new — those are Phase A's job. Phase A is done and your tools list intentionally excludes them. If you find yourself wanting to fetch something new, append a note under \`## Deferred — next-run priority\` in \`autonomous-science/curator-state.md\` instead (creating that file if it does not yet exist)."
+            echo ""
+            echo "**Stop condition**: exit when steps 1-6 are done. You have ~8 minutes for this phase."
+            echo ""
+            echo "- PDFs in \`sources/\` can be read with \`pdftotext <path>.pdf -\` via the Bash tool, but the \`.txt\` sidecars from Phase A are usually faster."
+          } > .phase-b-prompt.md
+
+      - name: Phase B — write and verify
+        if: env.PHASE_B_SKIP != '1'
+        uses: anthropics/claude-code-base-action@e8132bc5e637a42c27763fc757faa37e1ee43b34
+        with:
+          prompt_file: .phase-b-prompt.md
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          model: claude-opus-4-7
+          timeout_minutes: "25"
+          allowed_tools: "Read,Edit,Write,Glob,Grep,Bash"
 
       - name: Commit, push, and notify
         env:
@@ -87,7 +181,7 @@ jobs:
           REPO: ${{ github.repository }}
           SERVER_URL: ${{ github.server_url }}
         run: |
-          rm -f .run-prompt.md .mcp-config.json
+          rm -f .phase-a-prompt.md .phase-b-prompt.md .mcp-config.json .coscientist-candidates.md
           git config user.name "coscientist-curator[bot]"
           git config user.email "coscientist-curator@users.noreply.github.com"
 

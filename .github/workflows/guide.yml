@@ -60,7 +60,7 @@ jobs:
             fi
           } > .run-prompt.md
 
-      - uses: anthropics/claude-code-base-action@beta
+      - uses: anthropics/claude-code-base-action@e8132bc5e637a42c27763fc757faa37e1ee43b34
         with:
           prompt_file: .run-prompt.md
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
