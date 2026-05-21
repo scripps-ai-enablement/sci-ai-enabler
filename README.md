@@ -1,12 +1,13 @@
 # sci-ai-enabler
 
-Three agent-maintained resources for Claude users working in life science:
+Four agent-maintained resources for Claude users working in life science:
 
 - **[Catalog](catalog/)** — what Claude Skills, MCP servers, Plugins, and Claude.ai Connectors are available for life-science work, organized into seven research areas.
 - **[Guide](guide/)** — short, beginner-facing pages that explain what those components are and how to install them.
 - **[Autonomous science](autonomous-science/)** — a tracker of AI co-scientist systems: named agents that perform hypothesis generation, experiment design, or analysis with meaningful autonomy. Manuscript writing is treated as a downstream subcomponent.
+- **[Recipes](recipes/)** — a cookbook pairing concrete life-science problems with recommended assemblies of the cataloged components, with explicit evidence labels and availability/compute metadata.
 
-All three are rendered as a [GitHub Pages site](https://goodb.github.io/sci-ai-enabler/) and refreshed by separate scheduled GitHub Actions.
+All four are rendered as a [GitHub Pages site](https://goodb.github.io/sci-ai-enabler/) and refreshed by separate scheduled GitHub Actions.
 
 ## Browse the catalog
 
@@ -41,15 +42,26 @@ A separate track focused on the emerging field of AI co-scientists — systems t
 
 See [`COSCIENTIST_CHANGELOG.md`](COSCIENTIST_CHANGELOG.md) for the autonomous-science update history.
 
+## Browse recipes
+
+A cookbook pairing real problems with recommended assemblies of the cataloged components. Each recipe carries an evidence label (Validated / Reported / Proposed), an explicit availability tag, and a compute-requirements tag so you can decide if it fits your situation.
+
+- [Recipes landing page](recipes/) — section overview, simplicity ladder, evidence labels.
+- [Landscape](recipes/summary.md) — coverage by problem class, where the gaps are.
+- [All recipes](recipes/items/) — every recipe, one page each.
+
+See [`RECIPES_CHANGELOG.md`](RECIPES_CHANGELOG.md) for the cookbook's update history.
+
 ## How it works
 
-Three independent scheduled agents, each a [Claude Code GitHub Action](https://github.com/anthropics/claude-code-base-action) run on a GitHub-hosted runner with web search and fetch enabled. Each posts to its own pinned tracking issue when a run produced changes — that's how update notifications land in your inbox.
+Four independent scheduled agents, each a [Claude Code GitHub Action](https://github.com/anthropics/claude-code-base-action) run on a GitHub-hosted runner with web search and fetch enabled. Each posts to its own pinned tracking issue when a run produced changes — that's how update notifications land in your inbox.
 
 | Resource | Prompt | Workflow | Schedule | Tracking issue |
 |---|---|---|---|---|
-| Catalog | [`AGENT.md`](AGENT.md) | [`curate.yml`](.github/workflows/curate.yml) | Daily 13:00 UTC | "Catalog updates" |
-| Guide | [`GUIDE_AGENT.md`](GUIDE_AGENT.md) | [`guide.yml`](.github/workflows/guide.yml) | Daily 14:30 UTC | "Guide updates" |
-| Autonomous science | [`COSCIENTIST_AGENT.md`](COSCIENTIST_AGENT.md) | [`coscientist.yml`](.github/workflows/coscientist.yml) | Daily 16:00 UTC | "AI co-scientist updates" |
+| Catalog | [`AGENT.md`](AGENT.md) | [`curate.yml`](.github/workflows/curate.yml) | Daily 07:00 UTC | "Catalog updates" |
+| Guide | [`GUIDE_AGENT.md`](GUIDE_AGENT.md) | [`guide.yml`](.github/workflows/guide.yml) | Daily 08:00 UTC | "Guide updates" |
+| Autonomous science | [`COSCIENTIST_AGENT.md`](COSCIENTIST_AGENT.md) | [`coscientist.yml`](.github/workflows/coscientist.yml) | Daily 09:00 UTC | "AI co-scientist updates" |
+| Recipes | [`RECIPE_AGENT.md`](RECIPE_AGENT.md) | [`recipes.yml`](.github/workflows/recipes.yml) | Daily 10:00 UTC | "Recipes updates" |
 
 ## Triggering an on-demand run
 
@@ -64,10 +76,13 @@ gh workflow run guide.yml                        # whole guide
 gh workflow run guide.yml -f topic=skills        # one topic
 gh workflow run coscientist.yml                  # daily autonomous-science update
 gh workflow run coscientist.yml -f scope=bootstrap  # re-seed from sources/
+gh workflow run recipes.yml                      # whole cookbook
+gh workflow run recipes.yml -f scope=chemistry   # one subject area
+gh workflow run recipes.yml -f scope=literature-triage  # one problem class
 ```
 
 ## One-time setup
 
 1. Add an `ANTHROPIC_API_KEY` repository secret (**Settings → Secrets and variables → Actions**).
 2. Enable GitHub Pages from the `main` branch root (**Settings → Pages → Source: Deploy from a branch → main / (root)**).
-3. Watch the repo (or the **Catalog updates**, **Guide updates**, and **AI co-scientist updates** issues once the first runs create them) to receive email notifications.
+3. Watch the repo (or the **Catalog updates**, **Guide updates**, **AI co-scientist updates**, and **Recipes updates** issues once the first runs create them) to receive email notifications.

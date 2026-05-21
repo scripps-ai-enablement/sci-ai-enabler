@@ -7,7 +7,7 @@ permalink: /
 
 # Life Science AI Ecosystem
 
-An information resource for scientists, engineers, and clinicians working at the intersection of AI and the life sciences. Three sections, kept current:
+An information resource for scientists, engineers, and clinicians working at the intersection of AI and the life sciences. Four sections, kept current:
 
 ## [Catalog](catalog/) — what to install
 
@@ -29,6 +29,13 @@ A tracker of named AI systems that take meaningful initiative in hypothesis gene
 [See the landscape →](autonomous-science/){: .btn .btn-primary }
 [Browse systems](autonomous-science/systems/){: .btn }
 
+## [Recipes](recipes/) — what to actually do
+
+A cookbook pairing concrete life-science problems with recommended assemblies of the cataloged components. Each recipe carries an evidence label, an availability tag, and a compute-requirements tag, and starts at the lowest rung of the simplicity ladder that solves the problem.
+
+[Read recipes →](recipes/){: .btn .btn-primary }
+[See coverage](recipes/summary.html){: .btn }
+
 ---
 
 ## Search
@@ -37,4 +44,4 @@ Use the search box at the top of every page to find a specific tool, system, or 
 
 ## Stay current
 
-The catalog, guide, and tracker each refresh daily and post a notice to a pinned GitHub issue when content changes. Watch the [repository](https://github.com/goodb/sci-ai-enabler) on GitHub to subscribe.
+The catalog, guide, tracker, and recipes each refresh daily and post a notice to a pinned GitHub issue when content changes. Watch the [repository](https://github.com/goodb/sci-ai-enabler) on GitHub to subscribe.

@@ -1,0 +1,158 @@
+name: Recipes
+
+on:
+  schedule:
+    # Daily at 10:00 UTC (= 03:00 PDT / 02:00 PST). One hour after the
+    # autonomous-science cron, so the recipe assembler sees a fresh systems
+    # index and catalog state.
+    - cron: '0 10 * * *'
+  workflow_dispatch:
+    inputs:
+      scope:
+        description: 'Scope this run to one subject area, one problem class, or "all"'
+        required: false
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - chemistry
+          - immunology-microbiology
+          - structural-computational-biology
+          - molecular-cellular-biology
+          - neuroscience
+          - translational-medicine
+          - drug-repurposing-discovery
+          - literature-triage
+          - hypothesis-generation
+          - experimental-design
+          - data-analysis
+          - knowledge-synthesis
+          - manuscript-prep
+          - workflow-automation
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: recipes
+  cancel-in-progress: false
+
+jobs:
+  recipes:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install uv (for uvx)
+        run: curl -LsSf https://astral.sh/uv/install.sh | sh
+
+      - name: Compose MCP config
+        run: |
+          cat > .mcp-config.json <<'JSON'
+          {
+            "mcpServers": {
+              "papers": {
+                "command": "/home/runner/.local/bin/uvx",
+                "args": ["paper-search-mcp"]
+              }
+            }
+          }
+          JSON
+
+      - name: Compose run prompt
+        run: |
+          SCOPE="${{ inputs.scope }}"
+          SCOPE="${SCOPE:-all}"
+
+          # Derive today's focus subject area from the UTC weekday (1=Mon … 7=Sun).
+          # Used by the topic-focused rotation described in RECIPE_AGENT.md.
+          DOW=$(date -u +%u)
+          case "${DOW}" in
+            1) FOCUS="Chemistry" ;;
+            2) FOCUS="Immunology and Microbiology" ;;
+            3) FOCUS="Integrative Structural and Computational Biology" ;;
+            4) FOCUS="Molecular and Cellular Biology" ;;
+            5) FOCUS="Neuroscience" ;;
+            6) FOCUS="Translational Medicine" ;;
+            7) FOCUS="Drug Repurposing and Discovery" ;;
+          esac
+
+          {
+            cat RECIPE_AGENT.md
+            echo ""
+            echo "---"
+            echo ""
+            echo "## This run"
+            echo "- UTC date: $(date -u +%Y-%m-%d)"
+            echo "- Scope: ${SCOPE}"
+            echo "- focus_area: ${FOCUS}"
+            if [ "${SCOPE}" = "all" ]; then
+              echo "- Verify aging recipes (oldest \`last_verified\` first, up to the soft cap) AND run the directed pass for the focus subject area. Update any per-recipe pages under \`recipes/items/\` as warranted, plus \`RECIPES_CHANGELOG.md\` per your instructions."
+            else
+              echo "- Limit edits to recipes whose front-matter matches \"${SCOPE}\" — either \`subject_areas\` (for a subject scope) or \`problem_class\` (for a problem-class scope), plus \`RECIPES_CHANGELOG.md\`. Map slug to canonical value: e.g., \`chemistry\` -> subject \"Chemistry\"; \`literature-triage\` -> problem class \"Literature triage\"."
+            fi
+            echo ""
+            echo "Reminders:"
+            echo "- The \`papers\` MCP server provides paper-search-mcp tools. Use it for evidence discovery before falling back to WebSearch/WebFetch."
+            echo "- Only assemble recipes from components that already exist in \`catalog/tools/\` or named systems in \`autonomous-science/systems/\`. If you find a problem that needs a component not yet catalogued, add it to \`## Missing components\` in \`recipes/curator-state.md\` instead of writing the recipe."
+            echo "- Walk the simplicity ladder. The lowest rung that solves the problem is the right answer."
+          } > .run-prompt.md
+
+      - uses: anthropics/claude-code-base-action@e8132bc5e637a42c27763fc757faa37e1ee43b34
+        with:
+          prompt_file: .run-prompt.md
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          model: claude-opus-4-7
+          mcp_config: .mcp-config.json
+          timeout_minutes: "25"
+          allowed_tools: "Read,Edit,Write,Glob,Grep,WebSearch,WebFetch,mcp__papers__search_papers,mcp__papers__search_pubmed,mcp__papers__search_biorxiv,mcp__papers__search_medrxiv,mcp__papers__search_arxiv,mcp__papers__read_pubmed_paper,mcp__papers__read_biorxiv_paper,mcp__papers__read_medrxiv_paper,mcp__papers__read_arxiv_paper"
+
+      - name: Commit, push, and notify
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          SERVER_URL: ${{ github.server_url }}
+        run: |
+          rm -f .run-prompt.md .mcp-config.json
+          git config user.name "recipes-curator[bot]"
+          git config user.email "recipes-curator@users.noreply.github.com"
+
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "No recipes changes this run."
+            exit 0
+          fi
+
+          DATE=$(date -u +%Y-%m-%d)
+          git add -A
+          git commit -m "Recipes update ${DATE}"
+          # Rebase onto any commits that landed during this run (catalog, guide, or coscientist may finish first)
+          git pull --rebase origin main
+          git push
+          SHA=$(git rev-parse HEAD)
+
+          # Find or create the pinned tracking issue
+          ISSUE=$(gh issue list \
+            --state open \
+            --search 'in:title "Recipes updates"' \
+            --json number,title \
+            --jq '[.[] | select(.title == "Recipes updates")][0].number')
+          if [ -z "${ISSUE}" ] || [ "${ISSUE}" = "null" ]; then
+            ISSUE_URL=$(gh issue create \
+              --title "Recipes updates" \
+              --body "Rolling log of recipes cookbook updates. Each scheduled or on-demand run that produced changes posts a comment here.")
+            ISSUE="${ISSUE_URL##*/}"
+            gh issue pin "${ISSUE}" || true
+          fi
+
+          # Extract the top changelog entry (everything from the first '## ' up to the next one)
+          LATEST=$(awk '/^## / {n++} n>=2 {exit} n==1 {print}' RECIPES_CHANGELOG.md)
+
+          {
+            echo "${LATEST}"
+            echo ""
+            echo "[View commit](${SERVER_URL}/${REPO}/commit/${SHA})"
+          } | gh issue comment "${ISSUE}" --body-file -

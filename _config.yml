@@ -32,6 +32,7 @@ exclude:
   - AGENT.md
   - GUIDE_AGENT.md
   - COSCIENTIST_AGENT.md
+  - RECIPE_AGENT.md
   - README.md
   - sources/
   - Gemfile
