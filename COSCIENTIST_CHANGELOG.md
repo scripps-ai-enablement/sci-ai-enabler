@@ -9,6 +9,14 @@ permalink: /updates/ai-scientists.html
 
 Reverse-chronological log of changes to the [AI scientists tracker](autonomous-science/). Newest at the top.
 
+## 2026-05-21 (BiomniBench incorporation)
+
+### Updated
+- **`autonomous-science/summary.md`** — added BiomniBench-DA under "Standardised benchmarks" with concrete cross-harness numbers (best Claude Code + Opus 4.7 = 73.3/100; harness gap 13.5 pts > model-generation gap 3.8 pts; weakest dimensions: method selection, biological interpretation, scientific reasoning). Updated "Evaluation gaps" open-problem item to note BiomniBench narrows the cross-system benchmarking gap for data-analysis tasks specifically. Appended source citation ([source](https://doi.org/10.64898/2026.05.12.724604)).
+- **`autonomous-science/systems/biomni.md`** — added the BiomniBench paper under Other references with a one-line summary of the headline finding; bumped `last_verified`.
+- **`sources/manifest.json`** — added DOI entry for `2026.05.12.724604v1.full.pdf` with `.txt` sidecar.
+- **`autonomous-science/curator-state.md`** — noted BiomniBench under Recently surfaced (benchmark, not system entry per scope rules).
+
 ## 2026-05-21 (Phase B)
 
 ### Added

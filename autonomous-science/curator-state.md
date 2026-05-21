@@ -8,6 +8,7 @@ nav_exclude: true
 
 ## Recently surfaced
 
+- **BiomniBench-DA** (added 2026-05-21, benchmark not system) — Stanford / Phylo process-level benchmark for LLM agents on biomedical data analysis; 100 tasks, six dimensions, expert rubrics; finds agent harness gap (13.5 pts) exceeds Opus 4.6 → 4.7 model-generation gap (3.8 pts). Top configuration (Claude Code + Opus 4.7) = 73.3/100. Cited from `summary.md` and `systems/biomni.md`; not a system entry per scope rules.
 - **Qumus** (added 2026-05-21) — Princeton/Sanfeng Wu embodied multi-agent AI quantum-materials experimentalist; first AI creation of graphene and AI-fabricated vdW field-effect transistors.
 - **Qiushi Discovery Engine** (added 2026-05-21) — Zhejiang University dual-layer agentic system on a real free-space optical platform; autonomously discovered and experimentally validated optical bilinear interaction in a 206-step open-ended study.
 - **Dr.Sai** (added 2026-05-21) — IHEP/CAS AutoGen-based multi-agent system for end-to-end HEP analysis at BESIII; re-measured ten J/ψ branching fractions.

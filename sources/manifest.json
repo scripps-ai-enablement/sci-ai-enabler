@@ -161,6 +161,14 @@
       "source_url": "https://arxiv.org/abs/2604.27092",
       "downloaded": "2026-05-21",
       "txt_sidecar": "2604.27092v1.txt"
+    },
+    {
+      "doi": "10.64898/2026.05.12.724604",
+      "filename": "2026.05.12.724604v1.full.pdf",
+      "title": "BiomniBench: Process-level Evaluation of LLM Agents for Real-world Biomedical Research",
+      "source_url": "https://doi.org/10.64898/2026.05.12.724604",
+      "downloaded": "2026-05-21",
+      "txt_sidecar": "2026.05.12.724604v1.full.txt"
     }
   ]
 }

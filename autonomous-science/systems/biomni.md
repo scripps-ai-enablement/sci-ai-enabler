@@ -8,7 +8,7 @@ lifecycle_stages: [Multi-stage]
 autonomy: Semi-autonomous
 domain: Biomedicine (general purpose)
 availability: Open source
-last_verified: 2026-05-20
+last_verified: 2026-05-21
 ---
 
 # Biomni
@@ -49,6 +49,7 @@ Matched or exceeded expert performance on LAB-Bench DbQA/SeqQA. Autonomously aut
 
 - [Biomni project page](https://biomni.stanford.edu/)
 - [GitHub README and DETAILS.md](https://github.com/snap-stanford/Biomni)
+- [Qu et al., "BiomniBench: Process-level Evaluation of LLM Agents for Real-world Biomedical Research," *bioRxiv* 2026.05.12.724604](https://doi.org/10.64898/2026.05.12.724604) — sibling-lab process-level benchmark; task taxonomy derived from 32,014 queries on the Biomni platform. Best published configuration (Claude Code + Opus 4.7) scores 73.3/100; agent harness shifts scores more than model generation.
 
 ## Code
 
