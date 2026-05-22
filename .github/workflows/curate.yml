@@ -125,3 +125,62 @@ jobs:
             echo ""
             echo "[View commit](${SERVER_URL}/${REPO}/commit/${SHA})"
           } | gh issue comment "${ISSUE}" --body-file -
+
+      - name: Close user-request issues that shipped this run
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          SERVER_URL: ${{ github.server_url }}
+        run: |
+          STATE="catalog/curator-state.md"
+          [ -f "$STATE" ] || exit 0
+
+          # Extract the (closed this run) block.
+          BLOCK=$(awk '
+            /^## User requests \(closed this run\)/ { capture=1; next }
+            /^## / && capture { exit }
+            capture
+          ' "$STATE")
+
+          if [ -z "$BLOCK" ] || echo "$BLOCK" | grep -q '^_None\._'; then
+            echo "No closed user requests this run."
+            exit 0
+          fi
+
+          SHA=$(git rev-parse HEAD)
+          COMMIT_URL="${SERVER_URL}/${REPO}/commit/${SHA}"
+
+          # For each line with an issue number, comment and close.
+          while IFS= read -r LINE; do
+            NUM=$(printf '%s' "$LINE" | grep -oE 'issue=[0-9]+' | head -1 | cut -d= -f2)
+            if [ -z "$NUM" ]; then
+              # Fallback: try the "[#NN ...]" prefix.
+              NUM=$(printf '%s' "$LINE" | grep -oE '\[#[0-9]+' | head -1 | tr -d '[#')
+            fi
+            [ -z "$NUM" ] && continue
+            RESULT=$(printf '%s' "$LINE" | sed -E 's/.*→ //')
+            gh issue comment "$NUM" --repo "$REPO" --body "Shipped in ${COMMIT_URL}. ${RESULT}"$'\n\nClosing — feel free to reopen if this missed the mark.' || true
+            gh issue close "$NUM" --repo "$REPO" --reason completed || true
+          done <<< "$BLOCK"
+
+          # Reset the (closed this run) section to _None._ and commit.
+          python3 - "$STATE" <<'PY'
+          import re, pathlib, sys
+          path = pathlib.Path(sys.argv[1])
+          text = path.read_text()
+          pattern = re.compile(
+              r"(## User requests \(closed this run\)\n\n)(?:.*?)(\n## |\Z)",
+              re.DOTALL,
+          )
+          new_text, n = pattern.subn(lambda m: m.group(1) + "_None._\n" + m.group(2), text, count=1)
+          if n == 1 and new_text != text:
+              path.write_text(new_text)
+              print("reset (closed this run) to _None._")
+          PY
+
+          if ! git diff --quiet "$STATE"; then
+            git add "$STATE"
+            git commit -m "loop-closed: reset closed-this-run section"
+            git pull --rebase origin main
+            git push
+          fi
