@@ -11,6 +11,21 @@ Reverse-chronological log of changes to the [catalog](catalog/). Newest at the t
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-05-22
+
+Directed pass on **Neuroscience** (Friday focus). Three K-Dense scientific skills added — each is a distinct `SKILL.md` directory installable via the `K-Dense-AI/claude-scientific-skills` plugin marketplace or by manual clone of `K-Dense-AI/scientific-agent-skills`. Manifest sweep of `anthropics/life-sciences` shows no new plugin entries since 2026-05-21.
+
+### Added
+- **BIDS (Claude Skill)** (Categories: Neuroscience) — K-Dense skill for the Brain Imaging Data Structure standard: dataset creation, DICOM-to-BIDS conversion (HeuDiConv / dcm2bids / BIDScoin), PyBIDS `BIDSLayout` queries, validation against OpenNeuro / DANDI submission requirements, and BIDS-Apps integration ([source](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/bids/SKILL.md)).
+- **Neuropixels-Analysis (Claude Skill)** (Categories: Neuroscience) — K-Dense skill for end-to-end Neuropixels pipelines: SpikeGLX / Open Ephys / NWB loading, preprocessing, motion correction, and Kilosort4 / SpykingCircus2 / Mountainsort5 spike sorting via SpikeInterface ([source](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/neuropixels-analysis/SKILL.md)).
+- **NeuroKit2 (Claude Skill)** (Categories: Neuroscience, Translational Medicine) — K-Dense skill wrapping NeuroKit2 for ECG / EEG / EDA / RSP / PPG / EMG / EOG analysis, HRV, and multi-modal psychophysiology ([source](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/neurokit2/SKILL.md)).
+
+### Updated
+- **`catalog/curator-state.md`** — Recently surfaced list refreshed with this run's three Neuroscience additions.
+
+### Verified (no changes)
+- Manifest sweep of `anthropics/life-sciences` re-confirmed: no new plugin entries since the 2026-05-21 sweep; deferred queue (Owkin, ChEMBL, Cortellis, ToolUniverse, Consensus, Medidata standalone plugins) retained for next run.
+
 ## 2026-05-21
 
 Directed pass on **Molecular and Cellular Biology** (Thursday focus). Four K-Dense scientific skills added — each is a distinct `SKILL.md` directory installable via the `K-Dense-AI/claude-scientific-skills` plugin marketplace or by manual clone of `K-Dense-AI/scientific-agent-skills`. Also created `catalog/curator-state.md` per the new schema.

@@ -8,11 +8,11 @@ nav_exclude: true
 
 ## Recently surfaced
 
+- **BIDS (Claude Skill)** (added 2026-05-22) — K-Dense skill for organizing, validating, and querying Brain Imaging Data Structure datasets across 11 BIDS modalities.
+- **Neuropixels-Analysis (Claude Skill)** (added 2026-05-22) — K-Dense skill for end-to-end Neuropixels pipelines (SpikeGLX / Open Ephys / NWB → SpikeInterface → Kilosort4 / SpykingCircus2 / Mountainsort5).
+- **NeuroKit2 (Claude Skill)** (added 2026-05-22) — K-Dense skill wrapping the NeuroKit2 toolkit for ECG / EEG / EDA / RSP / PPG / EMG / EOG biosignal processing.
 - **DepMap (Claude Skill)** (added 2026-05-21) — K-Dense skill for Cancer Dependency Map CRISPR / PRISM / mutation / CN queries on cancer cell lines.
 - **gget (Claude Skill)** (added 2026-05-21) — K-Dense skill wrapping the gget unified query API across Ensembl, UniProt, NCBI, PDB, COSMIC, and more.
-- **PyDESeq2 (Claude Skill)** (added 2026-05-21) — K-Dense skill for bulk RNA-seq differential expression via the Python reimplementation of DESeq2.
-- **AnnData (Claude Skill)** (added 2026-05-21) — K-Dense skill teaching the AnnData object model that underpins Scanpy and scvi-tools.
-- **DrugBank MCP Server** (added 2026-05-20) — community MCP over local DrugBank SQLite with 16 query methods.
 
 ## Flagged for review
 
