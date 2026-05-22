@@ -360,3 +360,31 @@ Recipes are read by working scientists, engineers, and clinicians who do not kno
 - If a fact cannot be verified, write `Unknown` rather than guessing.
 - **No emoji.** No marketing copy from vendor pages — paraphrase and cite.
 - Compression is the product. Most recipes should fit on one screen; readers should be able to decide in 30 seconds whether the recipe is for them.
+
+## User requests (consumed each run)
+
+`recipes/curator-state.md` has a `## User requests (open)` section that the inbound responder workflow appends to whenever a user files `claude:recipe-question` or `claude:recipe-feedback`. Each entry looks like one of:
+
+```
+- [#NN @author 2026-MM-DD] queue: recipes | question="…" | author=@x | issue=NN
+- [#NN @author 2026-MM-DD] queue: recipes | feedback-on=<recipe-slug> | sentiment=<choice> | author=@x | issue=NN
+- [#NN @author 2026-MM-DD] (no trailer emitted; needs curator triage) title="…" label=claude:recipe-…
+```
+
+**Each run, process every entry in `## User requests (open)`:**
+
+1. For a `question=` entry: check if an existing recipe in `recipes/items/` already covers it.
+   - If yes, no new page is needed; record that and close.
+   - If no, write a new recipe page following the schema in this file. Stay under the simplicity-ladder rule. The recipe gets `Proposed` evidence unless you find a peer-reviewed or preprint source via the `papers` MCP that documents the assembly.
+2. For a `feedback-on=` entry: read the named `recipes/items/<recipe-slug>.md` and apply the appropriate update based on `sentiment`:
+   - `worked great` — refresh `last_verified`; consider promoting `Proposed` → `Reported` if this is the first field report. Add a one-line **Field reports** subsection under **Evidence** if it adds signal.
+   - `worked but slow` — add a perf note under **Compute requirements**; do not change evidence.
+   - `got stuck` — investigate. Add a one-line **Field reports** note. If multiple users hit the same wall, flag the recipe in `## Flagged for review` and consider raising the rung on the simplicity ladder.
+   - `found a better way` — read the issue body via `gh issue view <NN>`. If the better path uses different cataloged tools, update **Alternatives considered** or write a sibling recipe.
+   - `something else` — read the issue body and exercise judgment.
+3. For `(no trailer emitted; needs curator triage)` entries, read the issue body via `gh issue view <NN>` and decide what to do.
+4. **Move each processed entry** from `## User requests (open)` to `## User requests (closed this run)` and append `→ <result note>` describing what shipped or why nothing did.
+
+Entries not actioned this run stay in `## User requests (open)` and are retried next run. The loop-closer step in `recipes.yml` reads `## User requests (closed this run)` after you exit and resets the section to `_None._` itself.
+
+The soft cap of **≤ 3 new recipes per run** still applies. User-requested new recipes count toward it but get priority over the directed-pass picks.
