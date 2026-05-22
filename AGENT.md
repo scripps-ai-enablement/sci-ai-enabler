@@ -452,3 +452,37 @@ The catalog is read by working scientists, engineers, and clinicians who do not 
 - Prefer specific over vague: "$20/mo Pro tier" beats "paid"; "Beta as of 2026-04-18 release notes" beats "Beta".
 - If a fact cannot be verified, write `Unknown` rather than guessing.
 - The `summary` front-matter field is ≤ 25 words and is what appears on category cards — keep it plain-language and skim-friendly.
+
+## User requests (consumed each run)
+
+`catalog/curator-state.md` has a `## User requests (open)` section that the inbound responder workflow appends to whenever a user files `claude:tool-feedback`. Each entry looks like:
+
+```
+- [#NN @author 2026-MM-DD] queue: catalog | feedback-on=<tool-slug> | sentiment=<choice> | author=@x | issue=NN
+```
+
+Or, if the responder fell back without a trailer:
+
+```
+- [#NN @author 2026-MM-DD] (no trailer emitted; needs curator triage) title="…" label=claude:tool-feedback
+```
+
+**Each run, process every entry in `## User requests (open)`:**
+
+1. Read the linked tool page (`catalog/tools/<tool-slug>.md`).
+2. Apply the appropriate update based on `sentiment`:
+   - `worked great` — consider bumping `availability` evidence in **Notes** and refresh `last_verified`. Add a one-line field-report note in **Notes** if it adds signal.
+   - `worked but slow` — add a perf note in **Notes**; do not change availability.
+   - `got stuck` — investigate. If credible, add to **Notes** with the workaround if the user supplied one. If the install path appears broken, flag the tool in `## Flagged for review`.
+   - `found a better way` — record in **Notes**; if the better path is a different cataloged tool, link it.
+   - `something else` — read the issue body via `gh issue view <NN>` and exercise judgment.
+3. For `(no trailer emitted; needs curator triage)` entries, read the issue body via `gh issue view <NN>` and decide what to do (often: leave alone and let the next run reconsider; or flag the request as unactionable).
+4. **Move each processed entry** from `## User requests (open)` to `## User requests (closed this run)` and append `→ <result note>` describing what shipped or why nothing did. Example:
+
+```
+- [#43 @bob 2026-05-21] queue: catalog | feedback-on=pydeseq2 | sentiment=got-stuck | author=@bob | issue=43 → added Mac M1 conda-forge workaround to pydeseq2 Notes; last_verified bumped.
+```
+
+Entries not actioned this run stay in `## User requests (open)` and are retried next run. If `## User requests (open)` is empty after processing, leave the section as `_None._`.
+
+Do not delete `## User requests (closed this run)` entries — the loop-closer step in `curate.yml` reads them after the curator agent exits and resets the section to `_None._` itself.
