@@ -97,3 +97,9 @@ No peer-reviewed benchmark of "Claude + this skill" against hand-written PyDESeq
 - [PyDESeq2 skill (`SKILL.md`)](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/pydeseq2/SKILL.md) — last updated 2025–2026; verified 2026-05-21 (this run).
 - [`K-Dense-AI/scientific-agent-skills` repository](https://github.com/K-Dense-AI/scientific-agent-skills) — verified 2026-05-21 (this run).
 - [PyDESeq2 documentation](https://pydeseq2.readthedocs.io/) — verified 2026-05-21 (this run).
+
+---
+
+## Tried this recipe?
+
+[Share feedback](https://github.com/goodb/sci-ai-enabler/issues/new?template=recipe-feedback.yml&recipe=run-bulk-rnaseq-differential-expression&details=Filed+from+https%3A%2F%2Fgoodb.github.io%2Fsci-ai-enabler%2Frecipes%2Fitems%2Frun-bulk-rnaseq-differential-expression.html%0A%0A) — what worked, what didn't, what you'd change. The form opens with this recipe pre-selected and a link back to this page.

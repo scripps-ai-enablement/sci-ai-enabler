@@ -112,3 +112,9 @@ The component-level evidence for the underlying tools is robust: SpikeInterface 
 - [`neuropixels-analysis/SKILL.md` (K-Dense)](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/neuropixels-analysis/SKILL.md) — last updated 2026-05; verified 2026-05-22 (this run).
 - [SpikeAgent preprint, doi:10.1101/2025.02.11.637754](https://doi.org/10.1101/2025.02.11.637754) — posted 2025-02-11.
 - [SpikeInterface documentation](https://spikeinterface.readthedocs.io/) — verified 2026-05-22 (this run).
+
+---
+
+## Tried this recipe?
+
+[Share feedback](https://github.com/goodb/sci-ai-enabler/issues/new?template=recipe-feedback.yml&recipe=sort-spikes-from-neuropixels-recording&details=Filed+from+https%3A%2F%2Fgoodb.github.io%2Fsci-ai-enabler%2Frecipes%2Fitems%2Fsort-spikes-from-neuropixels-recording.html%0A%0A) — what worked, what didn't, what you'd change. The form opens with this recipe pre-selected and a link back to this page.

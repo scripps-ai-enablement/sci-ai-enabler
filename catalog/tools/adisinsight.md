@@ -45,3 +45,9 @@ HTTP transport. Data access is gated by an AdisInsight subscription — verify y
 
 - [`anthropics/life-sciences` marketplace manifest](https://github.com/anthropics/life-sciences/blob/main/.claude-plugin/marketplace.json)
 - [AdisInsight plugin manifest](https://github.com/anthropics/life-sciences/blob/main/adisinsight/.claude-plugin/plugin.json)
+
+---
+
+## Installed this tool?
+
+[Share feedback](https://github.com/goodb/sci-ai-enabler/issues/new?template=tool-feedback.yml&tool=adisinsight&details=Filed+from+https%3A%2F%2Fgoodb.github.io%2Fsci-ai-enabler%2Fcatalog%2Ftools%2Fadisinsight.html%0A%0A) — install path, OS, errors, workarounds. The form opens with this tool pre-selected and a link back to this page.

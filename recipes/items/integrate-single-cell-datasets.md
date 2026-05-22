@@ -121,3 +121,9 @@ No peer-reviewed benchmark of "Claude + scvi-tools skill" against a hand-coded s
 - [Hrovatin K. et al., "Integrating single-cell RNA-seq datasets with substantial batch effects" (PMC12577435)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12577435/) — published 2025.
 - [Yi C. et al., scIB-E preprint, doi:10.1101/2024.12.09.627450](https://doi.org/10.1101/2024.12.09.627450) — posted 2024-12-09.
 - [scvi-tools documentation](https://docs.scvi-tools.org/) — verified 2026-05-22 (this run).
+
+---
+
+## Tried this recipe?
+
+[Share feedback](https://github.com/goodb/sci-ai-enabler/issues/new?template=recipe-feedback.yml&recipe=integrate-single-cell-datasets&details=Filed+from+https%3A%2F%2Fgoodb.github.io%2Fsci-ai-enabler%2Frecipes%2Fitems%2Fintegrate-single-cell-datasets.html%0A%0A) — what worked, what didn't, what you'd change. The form opens with this recipe pre-selected and a link back to this page.

@@ -93,3 +93,9 @@ No peer-reviewed benchmark of "Claude + this skill" against a hand-coded Scanpy 
 - [single-cell-rna-qc tutorial (Anthropic)](https://claude.com/resources/tutorials/how-to-use-the-single-cell-rna-qc-skill-with-claude) — published 2025-10; verified 2026-05-21 (this run).
 - [Claude for Life Sciences announcement](https://www.anthropic.com/news/claude-for-life-sciences) — published 2025-10-20; verified 2026-05-21 (this run).
 - [`anthropics/life-sciences` marketplace (`single-cell-rna-qc` skill)](https://github.com/anthropics/life-sciences/blob/main/single-cell-rna-qc/SKILL.md) — last updated 2025-10; verified 2026-05-21 (this run).
+
+---
+
+## Tried this recipe?
+
+[Share feedback](https://github.com/goodb/sci-ai-enabler/issues/new?template=recipe-feedback.yml&recipe=qc-single-cell-rna-seq&details=Filed+from+https%3A%2F%2Fgoodb.github.io%2Fsci-ai-enabler%2Frecipes%2Fitems%2Fqc-single-cell-rna-seq.html%0A%0A) — what worked, what didn't, what you'd change. The form opens with this recipe pre-selected and a link back to this page.

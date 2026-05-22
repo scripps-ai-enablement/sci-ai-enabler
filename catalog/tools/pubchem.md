@@ -62,3 +62,9 @@ stdio transport. Backed by FastMCP. No authentication required. PubChem's broad 
 
 - [`JackKuo666/PubChem-MCP-Server`](https://github.com/JackKuo666/PubChem-MCP-Server)
 - [Alternative TypeScript implementation `@cyanheads/pubchem-mcp-server`](https://www.npmjs.com/package/@cyanheads/pubchem-mcp-server)
+
+---
+
+## Installed this tool?
+
+[Share feedback](https://github.com/goodb/sci-ai-enabler/issues/new?template=tool-feedback.yml&tool=pubchem&details=Filed+from+https%3A%2F%2Fgoodb.github.io%2Fsci-ai-enabler%2Fcatalog%2Ftools%2Fpubchem.html%0A%0A) — install path, OS, errors, workarounds. The form opens with this tool pre-selected and a link back to this page.

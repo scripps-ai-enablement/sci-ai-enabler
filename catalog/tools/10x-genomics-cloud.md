@@ -47,3 +47,9 @@ Local MCPB binary hosted by 10x Genomics, not bundled in `anthropics/life-scienc
 - [10x Genomics Cloud MCP docs](https://www.10xgenomics.com/support/software/cloud-analysis/latest/tutorials/cloud-mcp-server-code)
 - [anthropics/life-sciences marketplace](https://github.com/anthropics/life-sciences)
 - [DeepWiki: 10x Genomics Cloud](https://deepwiki.com/anthropics/life-sciences/3.7-10x-genomics-cloud)
+
+---
+
+## Installed this tool?
+
+[Share feedback](https://github.com/goodb/sci-ai-enabler/issues/new?template=tool-feedback.yml&tool=10x-genomics-cloud&details=Filed+from+https%3A%2F%2Fgoodb.github.io%2Fsci-ai-enabler%2Fcatalog%2Ftools%2F10x-genomics-cloud.html%0A%0A) — install path, OS, errors, workarounds. The form opens with this tool pre-selected and a link back to this page.

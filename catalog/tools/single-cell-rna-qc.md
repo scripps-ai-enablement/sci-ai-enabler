@@ -46,3 +46,9 @@ Reads AnnData `.h5ad` or 10x Cell Ranger `.h5`. Uses median-absolute-deviation t
 - [Skill source (SKILL.md)](https://github.com/anthropics/life-sciences/blob/main/single-cell-rna-qc/SKILL.md)
 - [Anthropic tutorial](https://claude.com/resources/tutorials/how-to-use-the-single-cell-rna-qc-skill-with-claude)
 - [Claude for Life Sciences announcement](https://www.anthropic.com/news/claude-for-life-sciences)
+
+---
+
+## Installed this tool?
+
+[Share feedback](https://github.com/goodb/sci-ai-enabler/issues/new?template=tool-feedback.yml&tool=single-cell-rna-qc&details=Filed+from+https%3A%2F%2Fgoodb.github.io%2Fsci-ai-enabler%2Fcatalog%2Ftools%2Fsingle-cell-rna-qc.html%0A%0A) — install path, OS, errors, workarounds. The form opens with this tool pre-selected and a link back to this page.

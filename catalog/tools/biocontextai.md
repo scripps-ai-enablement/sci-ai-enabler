@@ -79,3 +79,9 @@ stdio (dev) and HTTP/uvicorn (prod) transports. No auth for the server itself, b
 
 - [`biocontext-ai/knowledgebase-mcp`](https://github.com/biocontext-ai/knowledgebase-mcp)
 - [BioContextAI Registry](https://biocontext.ai/registry)
+
+---
+
+## Installed this tool?
+
+[Share feedback](https://github.com/goodb/sci-ai-enabler/issues/new?template=tool-feedback.yml&tool=biocontextai&details=Filed+from+https%3A%2F%2Fgoodb.github.io%2Fsci-ai-enabler%2Fcatalog%2Ftools%2Fbiocontextai.html%0A%0A) — install path, OS, errors, workarounds. The form opens with this tool pre-selected and a link back to this page.

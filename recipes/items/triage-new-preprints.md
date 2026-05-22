@@ -97,3 +97,9 @@ A known issue (`anthropics/claude-code#40106`, March 2026) reports that plugin-b
 - [bio-research plugin README](https://github.com/anthropics/knowledge-work-plugins/tree/main/bio-research) — last updated 2026-05; verified 2026-05-21 (this run).
 - [Anthropic PubMed Connector tutorial](https://claude.com/resources/tutorials/using-the-pubmed-connector-in-claude) — published 2025-10; verified 2026-05-21 (this run).
 - [`anthropics/claude-code` issue #40106](https://github.com/anthropics/claude-code/issues/40106) — opened March 2026; tracking the "Session not found" bundled-MCP issue noted under Evidence.
+
+---
+
+## Tried this recipe?
+
+[Share feedback](https://github.com/goodb/sci-ai-enabler/issues/new?template=recipe-feedback.yml&recipe=triage-new-preprints&details=Filed+from+https%3A%2F%2Fgoodb.github.io%2Fsci-ai-enabler%2Frecipes%2Fitems%2Ftriage-new-preprints.html%0A%0A) — what worked, what didn't, what you'd change. The form opens with this recipe pre-selected and a link back to this page.

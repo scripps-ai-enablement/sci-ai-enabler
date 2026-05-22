@@ -46,3 +46,9 @@ Pure prompt-based skill — no external services or runtime dependencies. Applie
 - [anthropics/life-sciences marketplace](https://github.com/anthropics/life-sciences)
 - [Claude for Life Sciences announcement](https://www.anthropic.com/news/claude-for-life-sciences)
 - [Fischbach & Walsh, *Cell* (2024)](https://www.cell.com/cell/fulltext/S0092-8674(24)00077-3)
+
+---
+
+## Installed this tool?
+
+[Share feedback](https://github.com/goodb/sci-ai-enabler/issues/new?template=tool-feedback.yml&tool=scientific-problem-selection&details=Filed+from+https%3A%2F%2Fgoodb.github.io%2Fsci-ai-enabler%2Fcatalog%2Ftools%2Fscientific-problem-selection.html%0A%0A) — install path, OS, errors, workarounds. The form opens with this tool pre-selected and a link back to this page.

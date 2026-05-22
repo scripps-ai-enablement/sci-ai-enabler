@@ -47,3 +47,9 @@ Remote MCP server hosted at `connector.scholargateway.ai/mcp`. HTTP transport. O
 - [Anthropic tutorial](https://claude.com/resources/tutorials/using-the-scholar-gateway-connector-in-claude)
 - [DeepWiki: Wiley Scholar Gateway](https://deepwiki.com/anthropics/life-sciences/3.5-wiley-scholar-gateway)
 - [Wiley AI Gateway press release (2025)](https://newsroom.wiley.com/press-releases/press-release-details/2025/Wiley-Launches-Interoperable-Platform-to-Power-Scientific-Discovery-in-Worlds-Leading-AI-Technologies/default.aspx)
+
+---
+
+## Installed this tool?
+
+[Share feedback](https://github.com/goodb/sci-ai-enabler/issues/new?template=tool-feedback.yml&tool=scholar-gateway&details=Filed+from+https%3A%2F%2Fgoodb.github.io%2Fsci-ai-enabler%2Fcatalog%2Ftools%2Fscholar-gateway.html%0A%0A) — install path, OS, errors, workarounds. The form opens with this tool pre-selected and a link back to this page.

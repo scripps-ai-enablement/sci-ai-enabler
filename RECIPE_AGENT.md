@@ -165,7 +165,15 @@ For `Proposed`: state explicitly that no documented attempt is known, and list t
 
 - [<Title>](url) — published or last updated YYYY-MM-DD; verified YYYY-MM-DD (this run).
 - [<Title>](url) — published YYYY-MM-DD.
+
+---
+
+## Tried this recipe?
+
+[Share feedback](https://github.com/goodb/sci-ai-enabler/issues/new?template=recipe-feedback.yml&recipe=<slug>&details=Filed+from+https%3A%2F%2Fgoodb.github.io%2Fsci-ai-enabler%2Frecipes%2Fitems%2F<slug>.html%0A%0A) — what worked, what didn't, what you'd change. The form opens with this recipe pre-selected and a link back to this page.
 ```
+
+**The feedback footer** is required on every recipe page. The two `<slug>` placeholders in the URL must be replaced with the page's actual slug — both in the `recipe=` query param (which pre-selects the dropdown) and in the URL-encoded `details` path (which pre-fills the textarea with a link back to this page). Both occurrences are the same slug. Do not omit the footer or change its wording — it's how users find the issue tracker from the rendered page.
 
 **Front-matter rules**:
 

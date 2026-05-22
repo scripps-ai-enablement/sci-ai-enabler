@@ -58,3 +58,9 @@ TypeScript / Node, stdio transport. Calls the public Allen Brain Atlas API — n
 
 - [`maflot/allenbrain-mcp`](https://github.com/maflot/allenbrain-mcp)
 - [Allen Brain Map forum announcement](https://community.brain-map.org/t/allenbrain-mcp-mcp-server-wrapper-for-allen-brain-atlas-api-rma-downloads/4858)
+
+---
+
+## Installed this tool?
+
+[Share feedback](https://github.com/goodb/sci-ai-enabler/issues/new?template=tool-feedback.yml&tool=allenbrain&details=Filed+from+https%3A%2F%2Fgoodb.github.io%2Fsci-ai-enabler%2Fcatalog%2Ftools%2Fallenbrain.html%0A%0A) — install path, OS, errors, workarounds. The form opens with this tool pre-selected and a link back to this page.

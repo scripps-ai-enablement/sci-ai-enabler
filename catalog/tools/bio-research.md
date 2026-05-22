@@ -48,3 +48,9 @@ Each bundled connector authenticates independently (PubMed needs no auth; Benchl
 - [knowledge-work-plugins repo](https://github.com/anthropics/knowledge-work-plugins)
 - [DeepWiki: knowledge-work-plugins](https://deepwiki.com/anthropics/knowledge-work-plugins)
 - [Issue #40106 (Session not found bug)](https://github.com/anthropics/claude-code/issues/40106)
+
+---
+
+## Installed this tool?
+
+[Share feedback](https://github.com/goodb/sci-ai-enabler/issues/new?template=tool-feedback.yml&tool=bio-research&details=Filed+from+https%3A%2F%2Fgoodb.github.io%2Fsci-ai-enabler%2Fcatalog%2Ftools%2Fbio-research.html%0A%0A) — install path, OS, errors, workarounds. The form opens with this tool pre-selected and a link back to this page.

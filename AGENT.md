@@ -104,7 +104,15 @@ summary: <≤ 25-word plain-language description; used by the category card list
 
 - [<title>](url)
 - [<title>](url)
+
+---
+
+## Installed this tool?
+
+[Share feedback](https://github.com/goodb/sci-ai-enabler/issues/new?template=tool-feedback.yml&tool=<slug>&details=Filed+from+https%3A%2F%2Fgoodb.github.io%2Fsci-ai-enabler%2Fcatalog%2Ftools%2F<slug>.html%0A%0A) — install path, OS, errors, workarounds. The form opens with this tool pre-selected and a link back to this page.
 ```
+
+**The feedback footer** is required on every tool page. The two `<slug>` placeholders in the URL must be replaced with the page's actual slug — both in the `tool=` query param (which pre-selects the dropdown) and in the URL-encoded `details` path (which pre-fills the textarea with a link back to this page). Both occurrences are the same slug. Do not omit the footer or change its wording — it's how users find the issue tracker from the rendered page.
 
 **Front-matter rules**:
 

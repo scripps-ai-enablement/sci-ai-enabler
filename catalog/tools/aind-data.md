@@ -60,3 +60,9 @@ stdio transport, public read access, Python 3.11+. The V1 predecessor `aind-meta
 
 - [`AllenNeuralDynamics/aind-data-mcp`](https://github.com/AllenNeuralDynamics/aind-data-mcp)
 - [mcpmarket.com listing](https://mcpmarket.com/server/aind-data)
+
+---
+
+## Installed this tool?
+
+[Share feedback](https://github.com/goodb/sci-ai-enabler/issues/new?template=tool-feedback.yml&tool=aind-data&details=Filed+from+https%3A%2F%2Fgoodb.github.io%2Fsci-ai-enabler%2Fcatalog%2Ftools%2Faind-data.html%0A%0A) — install path, OS, errors, workarounds. The form opens with this tool pre-selected and a link back to this page.

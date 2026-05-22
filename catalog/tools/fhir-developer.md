@@ -47,3 +47,9 @@ Distinct from the WSO2 FHIR MCP — that one *talks to* a FHIR server; this one 
 
 - [`anthropics/healthcare`](https://github.com/anthropics/healthcare)
 - [Marketplace manifest](https://raw.githubusercontent.com/anthropics/healthcare/main/.claude-plugin/marketplace.json)
+
+---
+
+## Installed this tool?
+
+[Share feedback](https://github.com/goodb/sci-ai-enabler/issues/new?template=tool-feedback.yml&tool=fhir-developer&details=Filed+from+https%3A%2F%2Fgoodb.github.io%2Fsci-ai-enabler%2Fcatalog%2Ftools%2Ffhir-developer.html%0A%0A) — install path, OS, errors, workarounds. The form opens with this tool pre-selected and a link back to this page.

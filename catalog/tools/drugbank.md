@@ -69,3 +69,9 @@ Unofficial — verify against DrugBank's current terms before use. The user must
 
 - [`openpharma-org/drugbank-mcp-server`](https://github.com/openpharma-org/drugbank-mcp-server)
 - [LobeHub listing](https://lobehub.com/mcp/openpharma-org-drugbank-mcp-server)
+
+---
+
+## Installed this tool?
+
+[Share feedback](https://github.com/goodb/sci-ai-enabler/issues/new?template=tool-feedback.yml&tool=drugbank&details=Filed+from+https%3A%2F%2Fgoodb.github.io%2Fsci-ai-enabler%2Fcatalog%2Ftools%2Fdrugbank.html%0A%0A) — install path, OS, errors, workarounds. The form opens with this tool pre-selected and a link back to this page.

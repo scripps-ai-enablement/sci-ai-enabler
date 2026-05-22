@@ -103,3 +103,9 @@ Proposed. No published end-to-end benchmark of this exact four-component assembl
 - [`Augmented-Nature/AlphaFold-MCP-Server`](https://github.com/Augmented-Nature/AlphaFold-MCP-Server) — verified 2026-05-21 (this run).
 - [DepMap skill (`SKILL.md`)](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/depmap/SKILL.md) — last updated 2025–2026; verified 2026-05-21 (this run).
 - [Huang et al., "Biomni: A General-Purpose Biomedical AI Agent," *bioRxiv*](https://doi.org/10.1101/2025.05.30.656746) — published 2025-05; closest analogous benchmark.
+
+---
+
+## Tried this recipe?
+
+[Share feedback](https://github.com/goodb/sci-ai-enabler/issues/new?template=recipe-feedback.yml&recipe=build-target-dossier&details=Filed+from+https%3A%2F%2Fgoodb.github.io%2Fsci-ai-enabler%2Frecipes%2Fitems%2Fbuild-target-dossier.html%0A%0A) — what worked, what didn't, what you'd change. The form opens with this recipe pre-selected and a link back to this page.
