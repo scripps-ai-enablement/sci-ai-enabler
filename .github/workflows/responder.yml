@@ -1,0 +1,81 @@
+name: Responder
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: responder-${{ github.event.issue.number }}
+  cancel-in-progress: false
+
+jobs:
+  respond:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Repo-level kill switch
+        env:
+          DISABLED: ${{ vars.RESPONDER_DISABLED }}
+        run: |
+          if [ -n "${DISABLED}" ]; then
+            echo "RESPONDER_DISABLED is set; exiting."
+            exit 0
+          fi
+
+      - name: Form check (label must be present)
+        id: formcheck
+        env:
+          LABELS: ${{ toJson(github.event.issue.labels) }}
+        run: |
+          MATCH=$(echo "$LABELS" | jq -r '.[].name' | grep -E '^claude:(recipe-question|recipe-feedback|tool-feedback)$' | head -1)
+          if [ -z "$MATCH" ]; then
+            echo "No claude:* form label on this issue; exiting silently."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          echo "label=$MATCH" >> "$GITHUB_OUTPUT"
+
+      - name: Spam-label check
+        if: steps.formcheck.outputs.skip != 'true'
+        id: spamcheck
+        env:
+          LABELS: ${{ toJson(github.event.issue.labels) }}
+        run: |
+          if echo "$LABELS" | jq -r '.[].name' | grep -q '^spam$'; then
+            echo "Issue is labeled spam; exiting silently."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Body-length cap
+        if: steps.formcheck.outputs.skip != 'true' && steps.spamcheck.outputs.skip != 'true'
+        id: lencheck
+        env:
+          BODY: ${{ github.event.issue.body }}
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          NUM: ${{ github.event.issue.number }}
+        run: |
+          LEN=${#BODY}
+          echo "Body length: $LEN"
+          if [ "$LEN" -gt 4000 ]; then
+            gh issue comment "$NUM" --repo "$REPO" --body "Please shorten the description to under 4000 characters and reopen — the responder bounds its input size."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Checkout (only if we'll actually respond)
+        if: steps.formcheck.outputs.skip != 'true' && steps.spamcheck.outputs.skip != 'true' && steps.lencheck.outputs.skip != 'true'
+        uses: actions/checkout@v4
+
+      - name: Skeleton reply (placeholder for Claude call in Task 9)
+        if: steps.formcheck.outputs.skip != 'true' && steps.spamcheck.outputs.skip != 'true' && steps.lencheck.outputs.skip != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          NUM: ${{ github.event.issue.number }}
+          LABEL: ${{ steps.formcheck.outputs.label }}
+        run: |
+          gh issue comment "$NUM" --repo "$REPO" --body "Responder skeleton received label $LABEL. (Claude reply lands in Task 9.)"
