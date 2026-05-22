@@ -58,3 +58,15 @@ Each recipe carries one of:
 - Not an install tutorial — each step links to the underlying [catalog](../catalog/) page that owns the install instructions.
 - Not a vendor comparison — see the [guide](../guide/) for "which component type should I use".
 - Not Scripps-specific. Recipes are written for any academic researcher; the `availability` and `compute_requirements` metadata is what a Scripps reader uses to self-filter.
+
+---
+
+## Got a question or feedback?
+
+Use one of our Issue Forms — no Markdown knowledge required:
+
+- [Ask a recipe question](https://github.com/goodb/sci-ai-enabler/issues/new?template=recipe-question.yml) — "How should I do X?"
+- [Share feedback on a recipe](https://github.com/goodb/sci-ai-enabler/issues/new?template=recipe-feedback.yml) — "I tried X and…"
+- [Share feedback on a catalog tool](https://github.com/goodb/sci-ai-enabler/issues/new?template=tool-feedback.yml) — "I installed Y and…"
+
+A bot replies in-thread shortly; the next daily curator run ships any durable changes and closes the issue.
