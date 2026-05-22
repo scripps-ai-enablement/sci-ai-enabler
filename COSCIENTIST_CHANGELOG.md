@@ -9,6 +9,27 @@ permalink: /updates/ai-scientists.html
 
 Reverse-chronological log of changes to the [AI scientists tracker](autonomous-science/). Newest at the top.
 
+## 2026-05-22
+
+### Added
+- **SPARK** (Lifecycle: Multi-stage) — University Hospital Cologne System of Pathology Agents; first *Nature Medicine*-published agentic AI scientist for cancer pathology. Four-module pipeline (idea generation with OpenAI o1, refinement, parameter coding with Claude Sonnet, parameter verification) validated across 18 patient cohorts and >5,400 patients in five cancer types plus a 625-patient spatial-biology breast-cancer dataset; 99.2% of proposed parameters compiled, yielding 1,115 non-redundant prognostic/predictive parameters; open source ([source](https://doi.org/10.1038/s41591-026-04357-y)).
+- **Deep Research (BioAgents)** (Lifecycle: Multi-stage) — bio.xyz open-source interactive multi-agent biomedical system with persistent world state across planning, data-analysis, literature, and novelty-detection agents; minute-scale cycles; state-of-the-art 48.8% on BixBench open response (exceeding K-Dense Analyst by 14.4 pts) and 64.4% on MCQ without refusal ([source](https://arxiv.org/abs/2601.12542)).
+- **EvoScientist** (Lifecycle: Multi-stage) — Huawei multi-agent evolving AI scientist with a Researcher Agent, Engineer Agent, and Evolution Manager Agent sharing persistent ideation and experimentation memories distilled from prior interactions; outperforms seven open-source and commercial AI-scientist baselines (Virtual Scientist, AI-Researcher, InternAgent, AI Scientist-v2, and others) on idea generation across novelty, feasibility, relevance, and clarity, with notable gains in code-execution success rate ([source](https://arxiv.org/abs/2603.08127)).
+- **Jr. AI Scientist** (Lifecycle: Multi-stage, Writing) — University of Tokyo baseline-paper-anchored autoresearch system published in *TMLR* (Feb 2026) with companion risk report; analyzes limitations of a supplied NeurIPS/IJCV/ICLR baseline paper, formulates improvement hypotheses, iterates experiments via modern coding agents, and writes a full manuscript; receives higher DeepReviewer scores than existing fully automated systems and was the basis for Agents4Science submissions ([source](https://arxiv.org/abs/2511.04583)).
+- **ARIS** (Lifecycle: Multi-stage, Writing) — Shanghai Jiao Tong University and Shanghai Innovation Institute open-source autonomous research harness; pairs an executor model (e.g., Claude Code) with a reviewer model from a different family (e.g., GPT-5.4 xhigh) as a default cross-family configuration, treating independent assurance as a first-class workflow layer across five workflows (idea discovery, implement & deploy, auto-review, paper writing, rebuttal) ([source](https://arxiv.org/abs/2605.03042)).
+
+### Updated
+- **`autonomous-science/summary.md`** — promoted SPARK into the top-tier biology section as the fourth peer-reviewed anchor; added Deep Research (BioAgents) as the open-source interactive counterweight to batch-mode systems and surfaced its BixBench numbers in the benchmarks paragraph; introduced two new architectural patterns (EvoScientist's persistent ideation + experimentation memory; ARIS's cross-model adversarial executor/reviewer pairing) and Jr. AI Scientist's baseline-paper-anchored workflow into the ML/scientific-computing section; added Jr. AI Scientist risk-disclosure as a new open-problem item; expanded the wet-lab validations paragraph with SPARK's prospective pathology evaluation; appended five new source citations.
+- **`autonomous-science/systems/`** — renumbered `nav_order` on the existing 19 system pages to preserve alphabetical ordering after inserting the five new entries.
+- **`autonomous-science/curator-state.md`** — replaced `Recently surfaced` with the five new additions.
+- **`sources/manifest.json`** — five new DOI entries with `.txt` sidecars (added by Phase A).
+
+### Flagged
+_None._
+
+### Verified (no changes)
+- All pre-existing system pages were `last_verified` on 2026-05-20 or 2026-05-21 — inside the 30-day re-verification window. No spot-checks performed this run.
+
 ## 2026-05-21 (BiomniBench incorporation)
 
 ### Updated

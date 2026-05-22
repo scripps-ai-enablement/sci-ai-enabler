@@ -2,7 +2,7 @@
 title: OpenScientist
 parent: Systems
 grand_parent: AI scientists
-nav_order: 15
+nav_order: 19
 affiliation: Washington University in St. Louis, with collaborators at Harvard Medical School, Lawrence Berkeley National Laboratory, Stanford, University of Washington
 lifecycle_stages: [Multi-stage]
 autonomy: Semi-autonomous

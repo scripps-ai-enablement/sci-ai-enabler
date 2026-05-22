@@ -2,7 +2,7 @@
 title: Qiushi Discovery Engine
 parent: Systems
 grand_parent: AI scientists
-nav_order: 16
+nav_order: 20
 affiliation: Zhejiang University (Yang and Chen groups), with EPFL, China Jiliang University, and Hangzhou City University
 lifecycle_stages: [Multi-stage]
 autonomy: Fully autonomous

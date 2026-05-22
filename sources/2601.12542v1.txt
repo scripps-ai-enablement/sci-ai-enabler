@@ -1,0 +1,1385 @@
+​Rethinking the AI Scientist: Interactive Multi-Agent​
+​Workflows for Scientific Discovery​
+​Lukas Weidener*​​†​​; Marko Brkić​​†​​; Mihailo Jovanović​​†​​; Ritvik Singh; Chiara Baccin; Emre​
+​Ulgac; Alex Dobrin; Aakaash Meduri​
+​https://github.com/bio-xyz/BioAgents​
+​ bstract​​.​ ​Artificial​ ​intelligence​ ​systems​ ​for​ ​scientific​ ​discovery​ ​have​ ​demonstrated​
+A
+​remarkable​ ​potential,​ ​yet​ ​existing​ ​approaches​ ​remain​ ​largely​ ​proprietary​ ​and​​operate​​in​
+​batch-processing​ ​modes​ ​requiring​ ​hours​ ​per​ ​research​ ​cycle,​ ​precluding​ ​real-time​
+​researcher​​guidance.​​This​​paper​​introduces​​Deep​​Research,​​a​​multi-agent​​system​​enabling​
+​interactive​ ​scientific​ ​investigation​ ​with​ ​turnaround​ ​times​ ​measured​ ​in​ ​minutes.​ ​The​
+​architecture​ ​comprises​ ​specialized​ ​agents​ ​for​ ​planning,​ ​data​ ​analysis,​ ​literature​ ​search,​
+​and​ ​novelty​ ​detection,​ ​unified​ ​through​ ​a​ ​persistent​ ​world​ ​state​ ​that​ ​maintains​ ​context​
+​across​ ​iterative​ ​research​ ​cycles.​ ​Two​ ​operational​ ​modes​ ​support​ ​different​ ​workflows:​
+​semi-autonomous​ ​mode​ ​with​ ​selective​ ​human​ ​checkpoints,​​and​​fully​​autonomous​​mode​
+​for​ ​extended​ ​investigations.​ ​Evaluation​ ​on​ ​the​ ​BixBench​ ​computational​ ​biology​
+​benchmark​ ​demonstrated​ ​state-of-the-art​ ​performance,​ ​achieving​ ​48.8%​ ​accuracy​ ​on​
+​open​​response​​and​​64.4%​​on​​multiple-choice​​evaluation,​​exceeding​​existing​​baselines​​by​
+​14​ ​to​ ​26​ ​percentage​ ​points.​ ​Analysis​ ​of​ ​architectural​​constraints,​​including​​open​​access​
+​literature​ ​limitations​ ​and​ ​challenges​ ​inherent​ ​to​ ​automated​ ​novelty​ ​assessment,​​informs​
+​practical deployment considerations for AI-assisted scientific workflows.​
+
+​1. Introduction​
+​ ecent​​advancements​​in​​artificial​​intelligence​​have​​catalyzed​​unprecedented​​efforts​​to​​accelerate​​scientific​
+R
+​discovery.​ ​Major​ ​technology​ ​companies​ ​have​ ​launched​ ​dedicated​ ​initiatives​ ​to​ ​transform​ ​research​
+​workflows:​ ​OpenAI​ ​introduced​ ​GPT-5​ ​for​ ​science​ ​(OpenAI,​ ​2025a,​ ​2025b),​ ​Google​ ​announced​ ​an​ ​AI​
+​co-scientist​ ​built​ ​on​ ​Gemini​ ​2.0​ ​(Gottweis​ ​&​ ​Natarajan,​ ​2025),​ ​Anthropic​ ​released​ ​Claude​ ​for​ ​Life​
+​Sciences​ ​(Anthropic,​ ​2025),​ ​Microsoft​ ​established​ ​its​ ​AI4Science​ ​team​ ​(Bishop,​ ​2022),​ ​and​ ​emerging​
+​startups​ ​such​ ​as​ ​Edison​ ​Scientific​ ​developed​ ​Kosmos​ ​(Mitchener​ ​et​ ​al.,​ ​2025c).​ ​Early​ ​reports​ ​have​
+​demonstrated​ ​remarkable​ ​success​ ​across​ ​multiple​ ​domains,​ ​from​ ​mathematics​ ​and​ ​materials​ ​science​ ​to​
+​drug​ ​discovery​ ​and​ ​genomics.​ ​This​ ​convergence​ ​of​ ​AI​ ​and​ ​science​ ​achieved​ ​its​​first​​major​​recognition​
+​when​ ​Demis​ ​Hassabis​ ​and​ ​John​ ​Jumper​ ​of​ ​Google​ ​DeepMind​ ​were​ ​awarded​ ​the​ ​2024​ ​Nobel​ ​Prize​ ​in​
+​Chemistry​ ​for​ ​developing​​AlphaFold,​​an​​AI​​system​​that​​solved​​the​​decades-old​​protein​​folding​​problem​
+​*Corresponding author​​:​​lukas@bio.xyz​
+​†​
+
+​Shared first authorship​
+
+​ RCID:​ ​L.​ ​Weidener​ ​(0000-0002-7132-8826);​ ​M.​ ​Brkić​ ​(0009-0008-5296-2697);​ ​M.​ ​Jovanović​
+O
+​(0009-0007-1339-7544);​ ​C.​ ​Baccin​ ​(0000-0003-1251-6947);​ ​R.​ ​Singh​ ​(0009-0003-6612-6685);​ ​E.​ ​Ulgac​
+​(0009-0004-9382-8014); A. Dobrin (0009-0006-8957-3914); A. Meduri (0009-0001-1586-013X)​
+
+​Appendix - A1​
+(​ The​​Nobel​​Committee​​for​​Chemistry,​​2024).​​Academia​​has​​recently​​seen​​a​​surge​​in​​research​​examining​
+​AI's​ ​potential​​to​​accelerate​​discovery,​​with​​comprehensive​​surveys​​mapping​​the​​landscape​​of​​agentic​​AI​
+​systems​​(Gridach​​et​​al.,​​2025;​​Reddy​​&​​Shojaee,​​2025),​​frameworks​​proposing​​fully​​automated​​scientific​
+​workflows​ ​(Lu​ ​et​ ​al.,​ ​2024),​ ​and​ ​empirical​ ​demonstrations​ ​of​ ​AI​ ​systems​ ​making​ ​novel​ ​discoveries​
+​validated​​by​​independent​​researchers​​(Mitchener​​et​​al.,​​2025c).​​The​​field​​has​​evolved​​rapidly​​from​​AI​​as​
+​an​​analytical​​tool​​to​​AI​​as​​an​​autonomous​​research​​collaborator​​capable​​of​​generating​​testable​​hypotheses,​
+​with​​systems​​like​​Edison's​​Kosmos​​reportedly​​accomplishing​​six​​months​​of​​research​​work​​in​​a​​single​​day​
+​(Mitchener​​et​​al.,​​2025c)​​and​​OpenAI's​​GPT-5​​generating​​novel​​mathematical​​proofs​​in​​minutes​​(OpenAI,​
+​2025b).​ ​This​ ​shift​ ​toward​ ​AI-driven​ ​scientific​ ​discovery​ ​represents​ ​what​ ​has​ ​been​ ​characterized​ ​as​ ​a​
+​transformative​ ​research​ ​paradigm,​ ​marking​​the​​emergence​​of​​"AI​​for​​Science"​​(AI4S)​​as​​a​​distinct​​field​
+​(Nature Research Intelligence, 2025).​
+​ hile​ ​these​ ​systems​ ​demonstrate​ ​remarkable​ ​advancements,​ ​significant​ ​limitations​ ​remain​ ​in​ ​terms​ ​of​
+W
+​accessibility​ ​and​ ​workflow​​design.​​A​​critical​​examination​​of​​open-source​​availability​​reveals​​substantial​
+​barriers​ ​to​ ​reproducibility​ ​and​ ​community​ ​development.​ ​OpenAI's​ ​GPT-5​ ​for​ ​science​ ​remains​ ​entirely​
+​proprietary​​(OpenAI,​​2025b),​​as​​does​​Google's​​AI​​co-scientist​​built​​on​​Gemini​​2.0​​(Gottweis​​&​​Natarajan,​
+​2025)​ ​and​ ​Anthropic's​ ​Claude​ ​for​ ​Life​ ​Sciences​ ​(Anthropic,​ ​2025).​ ​Microsoft's​ ​AI4Science​ ​initiative​
+​(Bishop,​ ​2022)​ ​maintains​ ​a​ ​similar​ ​closed​ ​approach​ ​to​ ​its​ ​core​ ​models.​ ​Among​ ​major​ ​initiatives,​ ​only​
+​Google​ ​DeepMind's​ ​AlphaFold​ ​3​ ​has​ ​released​ ​code​ ​for​ ​academic​ ​use,​ ​though​ ​this​ ​release​​occurred​​six​
+​months​​after​​the​​initial​​publication​​and​​requires​​individual​​approval​​for​​model​​weights,​​restricting​​its​​use​
+​to​ ​non-commercial​ ​applications​ ​(Abramson​​et​​al.,​​2024).​​Despite​​its​​impressive​​technical​​achievements,​
+​FutureHouse's​ ​Kosmos​ ​is​ ​not​ ​publicly​ ​available​ ​as​ ​open-source​ ​code​ ​and​ ​is​ ​accessible​ ​only​ ​through​
+​Edison Scientific's commercial platform (Mitchener et al., 2025c).​
+I​ n​​addition​​to​​accessibility​​concerns,​​fundamental​​workflow​​limitations​​constrain​​practical​​utility.​​Current​
+​systems​ ​typically​ ​operate​ ​in​ ​batch​ ​processing​ ​modes,​ ​which​ ​precludes​ ​real-time​ ​collaboration.​ ​For​
+​instance,​​Kosmos​​requires​​up​​to​​12​​hours​​per​​research​​cycle,​​executing​​an​​average​​of​​42,000​​lines​​of​​code​
+​and​​analyzing​​1,500​​papers​​before​​synthesizing​​findings​​into​​standalone​​reports​​(Mitchener​​et​​al.,​​2025c).​
+​Sakana's​ ​AI​ ​Scientist​ ​similarly​ ​exemplifies​ ​this​ ​batch-oriented​ ​paradigm:​ ​the​ ​system​ ​autonomously​
+​generates​​research​​ideas,​​writes​​code,​​executes​​experiments,​​and​​produces​​complete​​scientific​​manuscripts​
+​without​​human​​intervention​​during​​execution,​​completing​​the​​entire​​research​​lifecycle​​for​​approximately​
+​$15​​per​​paper​​(Lu​​et​​al.,​​2024).​​While​​such​​approaches​​may​​produce​​comprehensive​​analyses​​equivalent​
+​to​ ​six​ ​months​ ​of​​human​​research​​effort,​​the​​extended​​runtime​​and​​non-interactive​​output​​format​​prevent​
+​iterative​​refinement​​and​​real-time​​guidance.​​Similarly,​​Google's​​AI​​co-scientist​​generates​​multi-paragraph​
+​research​​plans​​and​​experimental​​protocols​​but​​does​​not​​support​​conversational​​steering​​during​​execution​
+​(Gottweis​ ​&​ ​Natarajan,​ ​2025).​ ​This​ ​batch-oriented​​approach​​fundamentally​​limits​​researchers'​​ability​​to​
+​dynamically adjust research directions based on intermediate findings or emerging insights.​
+​ his​​paper​​introduces​​"Deep​​Research",​​a​​workflow​​for​​advanced​​scientific​​research​​that​​addresses​​these​
+T
+​limitations​ ​through​ ​interactive​ ​agent-based​ ​environments​ ​with​ ​turnaround​ ​times​ ​measured​ ​in​ ​minutes​
+​rather​​than​​hours,​​enabling​​active​​steering​​of​​the​​research​​process.​​The​​BioAgents​​framework​​is​​publicly​
+​available​ ​(https://github.com/bio-xyz/BioAgents),​ ​which​ ​is​ ​the​ ​“orchestrator”​ ​of​ ​the​ ​sub-agents,​ ​though​
+​the​​bio-data-analysis​​and​​bio-literature​​components​​are​​not​​yet​​publicly​​released.​​The​​system​​supports​​two​
+​distinct​ ​operational​ ​modes.​ ​In​ ​semi-autonomous​ ​mode,​ ​human-in-the-loop​ ​interaction​​creates​​a​​genuine​
+​co-scientist​ ​experience,​ ​where​ ​researchers​ ​guide​ ​and​ ​refine​ ​AI​ ​investigations​ ​iteratively​ ​within​ ​single​
+​2​
+
+​Appendix - A1​
+​ orking​ ​sessions,​ ​adjusting​ ​research​ ​directions​ ​as​ ​insights​ ​emerge​ ​rather​ ​than​ ​waiting​ ​hours​ ​for​ ​batch​
+w
+​results​​that​​may​​require​​complete​​reruns​​to​​explore​​alternative​​hypotheses.​​In​​fully​​autonomous​​mode,​​the​
+​system​ ​executes​ ​extended​ ​research​ ​cycles​ ​without​ ​intermediate​ ​human​ ​checkpoints,​ ​enabling​
+​comprehensive​ ​investigations​ ​for​ ​well-defined​ ​research​ ​objectives.​ ​Both​ ​modes​ ​maintain​ ​the​ ​core​
+​architectural​​advantage​​of​​iterative,​​adaptive​​workflows​​over​​monolithic​​batch​​processing.​​The​​objectives​
+​of​​this​​study​​are​​twofold.​​First,​​the​​system​​architecture​​and​​specific​​features​​of​​the​​research​​workflow​​are​
+​presented.​​Second,​​the​​practical​​utility​​of​​Deep​​Research​​is​​demonstrated​​through​​a​​series​​of​​case​​studies​
+​illustrating​ ​how​ ​this​ ​interactive​ ​workflow​ ​can​ ​effectively​ ​advance​ ​scientific​ ​discovery​ ​across​ ​diverse​
+​research domains.​
+
+​2. Methods​
+​ he​ ​methods​ ​for​ ​this​ ​study​ ​primarily​ ​focus​ ​on​ ​the​​benchmark​​used​​to​​evaluate​​the​​Deep​​Research​​data​
+T
+​analysis agent, along with the ethical framework governing data usage.​
+
+​2.1 Benchmarking​
+I​ n​​the​​current​​iteration​​of​​Deep​​Research,​​only​​the​​data​​analysis​​agent​​was​​benchmarked,​​as​​most​​existing​
+​AI​ ​agent​ ​benchmarks​ ​focus​ ​primarily​ ​on​ ​data​ ​analysis​ ​capabilities​ ​rather​ ​than​ ​integrated​ ​research​
+​workflows​ ​(Weidener​ ​et​ ​al.,​ ​2025).​ ​To​ ​evaluate​ ​the​ ​data​ ​analysis​ ​agent's​ ​performance,​ ​BixBench​
+​(Mitchener​​et​​al.,​​2025a)​​was​​used,​​a​​comprehensive​​benchmark​​for​​LLM-based​​agents​​in​​computational​
+​biology​ ​and​ ​bioinformatics.​ ​BixBench​ ​version​ ​v1.5​ ​consists​ ​of​ ​54​ ​capsules​ ​containing​ ​real-world​
+​analytical​ ​scenarios​ ​spanning​ ​genomics,​ ​transcriptomics,​ ​differential​ ​expression​ ​analysis,​ ​RNA​
+​sequencing,​ ​phylogenetics​ ​and​ ​evolutionary​ ​analysis,​ ​whole​ ​genome​ ​sequencing,​ ​genomic​ ​variant​
+​analysis, and other bioinformatics categories (Mitchener et al., 2025a).​
+​ ixBench​ ​defines​ ​three​​evaluation​​regimes​​(Mitchener​​et​​al.,​​2025a):​​(i)​​Open​​Response,​​where​​a​​judge​
+B
+​LLM​ ​compares​ ​the​ ​agent's​ ​free-form​ ​answer​ ​to​ ​an​​expert-derived​​reference​​solution​​and​​assigns​​binary​
+​correctness​​labels;​​(ii)​​MCQ​​with​​Refusal,​​which​​converts​​answers​​to​​multiple-choice​​format​​including​​an​
+​"insufficient​ ​information"​ ​option;​ ​and​ ​(iii)​ ​MCQ​ ​without​ ​Refusal,​​which​​requires​​selection​​among​​only​
+​substantive answer choices.​
+​ o​ ​evaluate​ ​performance​ ​under​ ​open-response​ ​scoring,​ ​the​ ​agent​ ​generated​ ​free-form​ ​answers​ ​to​ ​each​
+T
+​question,​ ​and​ ​a​ ​judge​​LLM​​compared​​each​​answer​​to​​an​​expert-derived​​reference​​solution​​and​​assigned​
+​binary​ ​correctness​ ​labels,​​consistent​​with​​the​​open-answer​​evaluation​​described​​for​​BixBench​​(Figure​​1,​
+​Panel​​A).​​For​​multiple-choice​​reporting,​​BixBench​​defines​​a​​second-stage​​procedure​​in​​which​​a​​separate​
+​LLM​ ​converts​ ​the​ ​agent's​ ​work​ ​into​ ​a​ ​discrete​ ​answer​ ​choice​ ​by​ ​conditioning​ ​on​ ​both​ ​the​ ​agent's​
+​open-response​ ​answer​ ​and​ ​the​ ​executed​​analysis​​context,​​alongside​​the​​list​​of​​answer​​options​​(Figure​​1,​
+​Panel​ ​B1).​ ​In​ ​contrast,​ ​the​ ​present​ ​study​ ​implemented​ ​a​ ​code-free​ ​multiple-choice​ ​mapping​ ​(Figure​ ​1,​
+​Panel​​B2):​​the​​second-stage​​model​​received​​only​​the​​agent's​​open-response​​answer​​and​​the​​answer​​options​
+​(with​​or​​without​​an​​explicit​​"insufficient​​information"​​option,​​depending​​on​​the​​regime)​​and​​returned​​the​
+​selected​ ​option​ ​in​ ​a​ ​constrained​ ​output​ ​format.​ ​This​ ​choice​ ​decouples​ ​multiple-choice​ ​selection​ ​from​
+
+​3​
+
+​Appendix - A1​
+​ otebook-state​​variability​​and​​aligns​​with​​streamlined​​public​​evaluation​​practices​​described​​in​​third-party​
+n
+​reporting.​
+
+​ igure​ ​1.​ ​BixBench​ ​evaluation​ ​process​ ​and​ ​the​ ​simplified​ ​multiple-choice​ ​approach​ ​used​ ​in​ ​this​
+F
+​study.​​(A)​​Open-response​​evaluation:​​the​​agent's​​free-form​​answer​​is​​scored​​by​​a​​judge​​LLM​​against​​an​
+​expert​​reference​​solution.​​(B1)​​Original​​BixBench​​multiple-choice​​protocol:​​a​​second-stage​​LLM​​receives​
+​the​​executed​​analysis​​notebook,​​the​​agent's​​open​​response,​​and​​answer​​options​​to​​select​​the​​correct​​choice.​
+​(B2)​ ​Simplified​ ​multiple-choice​ ​evaluation​ ​used​ ​in​ ​this​ ​study:​ ​the​ ​second-stage​​LLM​​receives​​only​​the​
+​agent's​ ​open-response​ ​answer​ ​and​ ​the​ ​answer​ ​options,​ ​excluding​ ​the​ ​analysis​ ​notebook.​ ​This​ ​approach​
+​isolates​ ​option​ ​selection​ ​from​ ​code​ ​execution​ ​variability​ ​and​ ​aligns​ ​with​ ​streamlined​ ​third-party​
+​evaluation practices. Modified from Mitchener et al. (2025c).​
+
+​2.2 Ethical considerations​
+​ his​​study​​exclusively​​utilized​​existing,​​publicly​​available​​datasets​​without​​the​​collection​​of​​primary​​data​
+T
+​or​ ​involvement​ ​of​ ​human​ ​participants.​ ​Consequently,​ ​ethical​ ​approval​ ​was​ ​not​ ​required.​ ​All​ ​included​
+​sources​ ​were​ ​appropriately​ ​cited​​according​​to​​academic​​standards,​​and​​all​​data​​usage​​complied​​with​​the​
+​original publication licenses and terms of use.​
+
+​4​
+
+​Appendix - A1​
+
+​3. Deep Research System Architecture​
+​ his​ ​section​ ​outlines​ ​the​ ​modular​ ​multi-agent​ ​subsystems​ ​that​ ​constitute​ ​the​ ​Deep​ ​Research​ ​system​
+T
+​architecture,​ ​detailing​ ​how​ ​specialized​ ​agents​ ​for​ ​planning,​ ​data​ ​analysis,​ ​literature​​search,​​and​​novelty​
+​detection are composed through a shared state to enable iterative scientific workflows.​
+
+​3.1 Iterative Bioagent Workflow​
+​ he​ ​Deep​ ​Research​ ​system​ ​operates​ ​through​ ​an​ ​iterative​ ​bioagent​ ​workflow​ ​that​ ​enables​ ​dynamic​
+T
+​human-in-the-loop​​steering​​of​​scientific​​investigations.​​The​​architecture​​consists​​of​​a​​multi-stage​​process​
+​that adapts based on user feedback and intermediate findings, as illustrated in Figure 2.​
+
+​ igure​ ​2.​ ​Overview​ ​of​ ​the​ ​iterative​ ​bioagent​ ​workflow.​ ​The​ ​system​​cycles​​through​​planning,​​parallel​
+F
+​task​​execution,​​and​​reflection​​stages​​while​​maintaining​​a​​persistent​​world​​state.​​User​​input​​enables​​course​
+​correction at each cycle boundary.​
+​ entral​​to​​the​​bioagent​​architecture​​is​​the​​concept​​of​​a​​persistent​​conversation​​world​​state​​that​​maintains​
+C
+​summarized​ ​context​ ​throughout​ ​extended​ ​research​ ​investigations.​ ​This​ ​world​ ​state​ ​encompasses​ ​all​
+​accumulated​ ​findings,​ ​including​ ​the​ ​evolving​ ​research​ ​objective,​ ​current​ ​hypothesis,​ ​documented​
+​discoveries,​​refined​​methodologies,​​key​​insights,​​and​​available​​datasets​​alongside​​their​​descriptions​​from​
+​previous​​iterations.​​This​​structured​​and​​summarized​​state​​representation​​offers​​significant​​advantages​​over​
+​naive​ ​approaches​ ​that​ ​simply​ ​feed​ ​the​ ​entire​ ​conversation​ ​history​ ​as​ ​context.​ ​Raw​ ​conversation​ ​logs​
+​become​ ​diluted​ ​as​ ​investigations​ ​progress,​ ​burying​ ​critical​ ​insights​ ​within​ ​intermediate​ ​steps,​ ​failed​
+​attempts,​​goal​​shifts,​​and​​tangential​​discussions.​​By​​preserving​​this​​curated​​contextual​​information​​across​
+​potentially​​dozens​​of​​research​​cycles,​​the​​agent​​can​​conduct​​truly​​iterative​​investigations​​where​​each​​new​
+​cycle builds meaningfully upon all prior work, rather than treating each interaction as an isolated query.​
+
+​5​
+
+​Appendix - A1​
+​ nalysis​ ​of​ ​scientific​ ​research​ ​workflows​ ​across​ ​disciplines​ ​has​ ​revealed​ ​two​ ​fundamental​ ​tasks:​ ​(1)​
+A
+​literature​​synthesis,​​wherein​​researchers​​systematically​​review​​existing​​publications,​​patents,​​clinical​​trial​
+​databases,​ ​open​ ​source​ ​datasets,​ ​and​ ​other​ ​science​ ​databases​ ​to​ ​establish​ ​the​ ​state​ ​of​ ​knowledge​ ​and​
+​identify​ ​research​ ​gaps,​ ​and​ ​(2)​ ​quantitative​ ​dataset​ ​analysis,​ ​wherein​ ​statistical​ ​and​ ​computational​
+​methods​ ​are​ ​applied​ ​to​ ​generate​ ​empirical​ ​results​ ​and​ ​quantify​ ​experimental​ ​findings.​ ​Domain-specific​
+​requirements,​​such​​as​​patent​​analysis​​or​​clinical​​trial​​reviews​​in​​biomedical​​research,​​are​​accommodated​
+​through modular tool integration.​
+​ he​​bioagent​​workflow​​architecture​​directly​​addresses​​the​​iterative​​nature​​of​​scientific​​discovery​​through​
+T
+​these​ ​components.​ ​The​ ​planning​ ​mini-agent​ ​captures​ ​the​ ​dynamic​ ​nature​ ​of​ ​research​ ​planning,​ ​where​
+​initial​​objectives​​often​​shift​​as​​new​​data​​emerges.​​Rather​​than​​rigidly​​following​​predetermined​​protocols,​
+​this​​component​​enables​​adaptive​​research​​trajectories​​that​​respond​​to​​intermediate​​findings.​​Based​​on​​the​
+​current​​world​​state,​​which​​encompasses​​all​​accumulated​​findings​​from​​the​​deep​​research​​conversation,​​the​
+​agent​ ​dynamically​ ​plans​ ​tasks​ ​for​ ​the​​upcoming​​research​​cycle.​​It​​synthesizes​​task​​goals​​(e.g.,​​"identify​
+​recent​ ​advances​ ​in​ ​protein​ ​folding​ ​prediction"​ ​or​ ​"perform​ ​differential​ ​expression​ ​analysis​ ​to​ ​test​
+​prediction​ ​Z"),​ ​type​​(literature​​or​​analysis),​​and​​selects​​appropriate​​datasets​​if​​the​​task​​is​​analytical.​​The​
+​planning​ ​agent​ ​extends​ ​beyond​ ​task​ ​synthesis​ ​for​ ​the​ ​current​ ​research​ ​cycle​ ​to​ ​propose​ ​subsequent​
+​iterations.​ ​When​ ​iteration​ ​1​ ​includes​ ​dataset​ ​analysis​ ​that​ ​yields​ ​a​ ​discovery​ ​added​ ​to​​the​​conversation​
+​state,​ ​the​ ​planning​ ​agent​ ​recognizes​ ​the​ ​absence​ ​of​ ​novelty​ ​validation​ ​and​ ​proposes​ ​parallel​ ​novelty​
+​searches​ ​for​ ​iteration​ ​2​ ​across​ ​multiple​ ​evidence​ ​types​ ​(patents,​ ​clinical​ ​trials,​ ​and​ ​peer-reviewed​
+​literature)​ ​to​ ​determine​ ​whether​ ​the​ ​finding​​has​​been​​previously​​reported.​​The​​agent's​​forward​​planning​
+​prioritizes​ ​tasks​ ​that​ ​generate​ ​new​ ​discoveries​ ​or​ ​enrich​ ​existing​ ​discoveries​​in​​the​​conversational​​state​
+​through​ ​additional​ ​evidence​ ​gathering​ ​or​ ​validation.​ ​The​ ​system​ ​maintains​ ​human-in-the-loop​ ​control,​
+​allowing​ ​researchers​ ​to​ ​accept​ ​the​ ​proposed​ ​task​ ​sequence​ ​or​ ​redirect​ ​the​ ​workflow​ ​based​ ​on​ ​domain​
+​expertise and strategic research priorities.​
+​ he​ ​file​ ​upload​ ​component​ ​enables​ ​seamless​ ​integration​ ​of​ ​new​ ​datasets​ ​as​ ​research​ ​questions​ ​evolve.​
+T
+​Following​ ​literature​ ​and​ ​analysis​ ​task​ ​execution,​ ​the​ ​hypothesis​ ​refinement​ ​stage​ ​allows​ ​the​ ​agent​ ​to​
+​synthesize​ ​new​ ​findings​ ​with​ ​existing​ ​knowledge,​ ​updating​ ​theoretical​ ​frameworks​ ​based​ ​on​ ​empirical​
+​evidence.​ ​The​ ​critical​ ​reflection​ ​mini-agent​ ​maps​ ​to​ ​researchers'​ ​natural​ ​tendency​ ​to​ ​step​ ​back​ ​and​
+​reassess​​research​​direction.​​The​​agent​​systematically​​updates​​the​​world​​state​​by​​incorporating​​results​​from​
+​completed​ ​tasks,​ ​including​ ​new​ ​discoveries,​ ​refined​ ​methodologies,​ ​and​ ​updated​ ​key​ ​insights.​ ​This​
+​mini-agent​ ​ensures​ ​that​ ​each​ ​research​ ​cycle​ ​builds​ ​meaningfully​​upon​​all​​previous​​work​​from​​the​​same​
+​deep research session rather than operating in isolation.​
+
+​3.1.1 Initial Research Cycle​
+​ he​​workflow​​is​​initiated​​when​​the​​user​​specifies​​(i)​​research​​objectives,​​(ii)​​experimental​​constraints,​​(iii)​
+T
+​preliminary​​hypotheses​​or​​experimental​​ideas,​​(iv)​​available​​datasets,​​and​​(v)​​desired​​output​​formats.​​This​
+​format​​is​​suggested​​by​​the​​system,​​though​​users​​can​​submit​​research​​tasks​​in​​any​​format.​​The​​system​​then​
+​executes the following four-stage pipeline.​
+​ tage​ ​1:​ ​Input​​Processing​​and​​Plan​​Initialization.​​The​​system​​ingests​​user-provided​​datasets​​and​
+​●​ S
+​documents​ ​and​ ​generates​ ​an​ ​initial​ ​research​ ​plan.​ ​The​ ​planning​ ​algorithm​ ​addresses​ ​two​
+
+​6​
+
+​Appendix - A1​
+f​ undamental​ ​questions:​ ​(i)​ ​which​ ​literature​ ​reviews​ ​must​ ​be​ ​conducted​ ​to​ ​address​ ​the​ ​research​
+​objective, and (ii) which analyses must ultimately be performed with which datasets.​
+​●​ S
+​ tage​ ​2:​ ​Parallel​ ​Task​ ​Execution.​ ​The​ ​system​ ​executes​ ​the​ ​planned​ ​literature​ ​and​ ​data​​analysis​
+​tasks in parallel. For the initial cycle, only literature review operations are performed.​
+​ tage​ ​3:​ ​Hypothesis​ ​Formulation​ ​and​ ​Critical​ ​Reflection.​ ​Based​ ​on​ ​the​ ​synthesized​ ​literature​
+​●​ S
+​findings,​ ​the​​system​​generates​​an​​initial​​research​​hypothesis​​grounded​​in​​existing​​knowledge,​​or​
+​updates​​the​​existing​​hypothesis.​​The​​system​​then​​evaluates​​the​​generated​​hypothesis​​and​​assesses​
+​progress​ ​toward​ ​the​ ​stated​ ​research​ ​objective,​​determining​​whether​​the​​current​​findings​​warrant​
+​further​ ​investigation.​ ​Additionally,​ ​the​ ​agent​​reflects​​upon​​the​​world​​state​​by​​incorporating​​new​
+​discoveries​ ​and​​key​​findings,​​ensuring​​that​​accumulated​​knowledge​​is​​properly​​summarized​​and​
+​made available for subsequent research cycles.​
+​●​ S
+​ tage​ ​4:​ ​Plan​ ​Refinement​ ​and​ ​User​ ​Communication.​ ​The​ ​system​​updates​​the​​research​​plan​​and​
+​responds​ ​to​ ​the​ ​user​ ​with​ ​(a)​ ​the​ ​current​ ​working​ ​hypothesis​ ​and​ ​(b)​ ​a​ ​concrete​ ​action​ ​plan​
+​specifying​​proposed​​tasks.​​The​​initial​​response​​format​​includes​​task​​specifications​​such​​as​​"I​​will​
+​run​​a​​literature​​search​​on​​topic​​X​​focusing​​on​​clinical​​trials"​​and​​"I​​will​​run​​a​​code​​execution​​task​
+​for​ ​dataset​​X​​with​​query​​Y."​​If​​the​​reflection​​stage​​determines​​that​​the​​initial​​objective​​has​​been​
+​satisfied, the plan may be empty, signaling successful completion.​
+
+​3.1.2 Subsequent Research Cycles​
+​ pon​ ​receiving​ ​the​ ​system's​ ​hypothesis​ ​and​ ​proposed​ ​plan,​ ​the​ ​user​ ​provides​ ​feedback​ ​through​ ​one​​of​
+U
+​several​ ​modalities:​ ​(i)​ ​approval​ ​to​ ​proceed​ ​with​ ​the​ ​proposed​ ​plan,​ ​(ii)​ ​hypothesis​ ​validation​ ​with​​task​
+​modification​ ​(e.g.,​ ​removing​ ​specific​ ​execution​ ​tasks​ ​deemed​​unnecessary),​​(iii)​​provision​​of​​additional​
+​datasets for analysis, or (iv) complete revision of research objectives.​
+​The system then repeats the four-stage workflow with the following modifications:​
+​●​ ​Modified​​Stage​​1:​​Adaptive​​Replanning.​​Based​​on​​user​​feedback,​​the​​system​​dynamically​​adjusts​
+​the​ ​task​ ​queue​ ​by​ ​incorporating​ ​new​ ​datasets,​ ​removing​ ​specified​ ​analyses,​ ​or​ ​updating​ ​the​
+​research objective as directed.​
+​ tage​​2:​​Task​​Execution.​​Literature​​search​​and​​data​​analysis​​tasks​​proceed​​as​​described​​in​​Section​
+​●​ S
+​3.1.1.​
+​●​ S
+​ tages​ ​3–4:​ ​Iterative​ ​Refinement.​ ​Hypothesis​ ​formulation,​ ​critical​ ​reflection,​ ​and​ ​plan​ ​updates​
+​proceed​​as​​previously​​described,​​but​​are​​now​​informed​​by​​both​​literature​​synthesis​​and​​empirical​
+​analysis​ ​results.​ ​From​​the​​second​​cycle​​onward,​​the​​workflow​​structure​​remains​​identical​​across​
+​all subsequent iterations, simplifying implementation and ensuring consistent system behavior.​
+
+​3.1.3 Convergence Evaluation and Continuation​
+​ he​​system​​supports​​two​​distinct​​operational​​modes​​for​​conducting​​research,​​each​​designed​​for​​different​
+T
+​use cases and levels of human involvement.​
+​7​
+
+​Appendix - A1​
+
+​ emi-autonomous​ ​mode.​ ​In​ ​semi-autonomous​ ​mode,​ ​the​ ​system​ ​employs​ ​a​ ​"continue​ ​research"​ ​agent​
+S
+​that​ ​evaluates​ ​after​ ​each​ ​cycle​ ​whether​ ​to​ ​continue​ ​autonomously​ ​or​ ​pause​ ​for​ ​human​ ​feedback.​ ​This​
+​gatekeeper​ ​balances​ ​autonomous​ ​exploration​ ​with​ ​human​ ​steering.​ ​The​ ​system​ ​has​ ​a​ ​configurable​
+​maximum​ ​iteration​ ​limit​ ​for​ ​each​ ​mode,​ ​with​ ​a​ ​default​ ​of​ ​5​​iterations​​for​​semi-autonomous​​mode.​​The​
+​system pauses for user input when encountering:​
+​●​ C
+​ ontradictions:​ ​Task​ ​outputs​ ​contain​ ​mutually​ ​exclusive​ ​findings​ ​affecting​ ​the​ ​core​ ​hypothesis​
+​(e.g., conflicting claims about whether a mechanism is protective or harmful)​
+​●​ A
+​ mbiguous​ ​user​ ​intent:​ ​The​ ​research​ ​question​ ​could​ ​be​ ​interpreted​ ​multiple​ ​ways,​ ​or​ ​findings​
+​suggest a path that may not align with user goals​
+​●​ F
+​ orked​​research​​paths:​​Suggested​​next​​steps​​represent​​incompatible​​directions​​requiring​​strategic​
+​choice​
+​ esearch​ ​convergence:​ ​The​ ​hypothesis​ ​is​ ​well-supported​ ​and​ ​stable,​ ​with​ ​diminishing​ ​returns​
+​●​ R
+​from additional investigation​
+​●​ ​Low marginal value: The research question has been sufficiently addressed​
+​●​ I​ nterpretive​ ​disagreements:​ ​The​ ​same​ ​evidence​ ​supports​ ​multiple​ ​competing​ ​conclusions​
+​requiring expert judgment​
+​ omplex​​analysis​​without​​explicit​​request:​​Non-trivial​​analysis​​tasks​​(ML​​training,​​genome-wide​
+​●​ C
+​analyses, large dataset processing) that the user did not explicitly request​
+​ onversely,​​the​​system​​continues​​autonomously​​when​​a​​clear​​path​​exists​​for​​continuing​​the​​research,​​with​
+C
+​each iteration adding sufficient new information.​
+​ utonomous​​mode.​​In​​fully​​autonomous​​mode​​(default​​maximum​​iterations:​​20),​​the​​system​​executes​​the​
+A
+​complete​ ​research​ ​loop​ ​without​ ​intermediate​ ​human​ ​checkpoints.​ ​Inspired​ ​by​ ​agentic​ ​coding​ ​tools,​ ​the​
+​agent​​iterates​​through​​hypothesis​​refinement,​​evidence​​gathering,​​and​​analysis​​until​​the​​research​​objective​
+​is​ ​satisfied​ ​or​ ​the​ ​iteration​ ​limit​ ​is​ ​reached​ ​(e.g.,​ ​Ralph​​Wigums​​Plugin;​​Huntley,​​2025).​​This​​approach​
+​inverts​ ​the​ ​traditional​ ​workflow:​ ​instead​ ​of​ ​carefully​ ​reviewing​ ​each​ ​step,​ ​success​ ​criteria​ ​are​ ​defined​
+​upfront​ ​and​ ​the​​system​​iterates​​toward​​them.​​The​​research​​terminates​​when​​the​​planning​​agent​​proposes​
+​zero suggested next steps, indicating that the research objective has been reached.​
+
+​3.1.4 Research Document Generation​
+​ hen​ ​the​ ​convergence​ ​criterion​ ​is​ ​satisfied,​ ​the​​system​​transitions​​from​​iterative​​investigation​​to​​report​
+W
+​synthesis.​​A​​comprehensive​​research​​document​​is​​generated​​directly​​from​​the​​finalized​​conversation​​state,​
+​structured​ ​to​ ​reflect​ ​the​ ​completed​ ​research​ ​workflow:​ ​research​ ​objectives,​ ​key​ ​insights​ ​and​ ​decision​
+​points, current hypothesis, and discoveries with supporting analyses.​
+
+​8​
+
+​Appendix - A1​
+​ he​ ​document​ ​is​ ​authored​ ​by​ ​AI​ ​models​ ​with​ ​strict​ ​grounding​ ​in​ ​completed​ ​work.​ ​A​ ​text-generation​
+T
+​model​ ​produces​ ​the​ ​narrative​ ​sections​ ​and​ ​overall​ ​structure.​ ​A​ ​vision-capable​ ​model​ ​interprets​ ​and​
+​captions​​plots​​and​​graphical​​artifacts.​​Every​​substantive​​claim​​is​​linked​​to​​underlying​​evidence:​​literature​
+​outputs​ ​with​ ​DOI-backed​ ​citations,​ ​analysis​ ​outputs​ ​including​ ​figures​ ​and​ ​quantitative​ ​results,​ ​and​
+​associated artifacts such as plots, tables, and computational notebooks.​
+​ ach​ ​discovery​ ​follows​ ​a​ ​consistent​ ​schema​ ​comprising​ ​four​ ​components:​ ​Background​ ​(relevant​ ​prior​
+E
+​work),​​Results​​and​​Discussion​​(empirical​​findings),​​Novelty​​(relationship​​to​​existing​​literature),​​and​​Tasks​
+​Used​ ​(enumeration​ ​of​ ​exact​ ​task​ ​identifiers​ ​and​ ​job​ ​handles​ ​that​ ​produced​ ​evidence).​ ​This​ ​structure​
+​ensures complete traceability from claims to source data and analysis.​
+​ itations​ ​extracted​ ​from​ ​literature​ ​evidence​ ​are​ ​normalized​ ​into​ ​BibTeX​ ​format​ ​and​ ​compiled​ ​into​ ​a​
+C
+​unified​ ​bibliography.​ ​The​ ​final​ ​report​ ​is​ ​rendered​ ​via​ ​a​ ​LaTeX​ ​pipeline​ ​with​ ​automated​ ​compilation​​to​
+​PDF,​ ​ensuring​ ​consistent​ ​formatting​ ​and​ ​reproducibility​ ​of​ ​builds.​ ​The​ ​output​ ​follows​ ​academic​
+​publication​ ​conventions​ ​in​ ​structure​ ​and​ ​citation​ ​practices,​ ​providing​ ​a​ ​structured​ ​foundation​ ​for​
+​manuscript preparation (Figure 3).​
+
+​ igure​ ​3.​ ​Research​ ​document​ ​generation​ ​pipeline​​.​ ​Following​​convergence,​​the​​finalized​​conversation​
+F
+​state​ ​is​ ​processed​ ​by​ ​text-generation​ ​and​ ​vision-capable​ ​models​ ​to​ ​produce​ ​a​ ​structured​ ​report​ ​with​
+​DOI-backed citations, rendered through automated LaTeX compilation.​
+
+​3.1.5 Architectural Design Principles​
+​ he​ ​Deep​ ​Research​ ​workflow​ ​architecture​ ​embodies​ ​three​ ​foundational​ ​principles.​ ​First,​ ​structural​
+T
+​uniformity:​ ​after​ ​the​ ​initial​ ​cycle,​ ​all​ ​subsequent​ ​iterations​ ​follow​ ​an​ ​identical​ ​computational​​structure,​
+​reducing​ ​implementation​ ​complexity​ ​and​ ​ensuring​ ​reproducible​ ​behavior.​ ​Second,​ ​human-guided​
+​adaptation:​ ​the​ ​system​ ​incorporates​ ​user​ ​feedback​ ​at​ ​each​ ​cycle​ ​boundary,​ ​enabling​ ​course​ ​correction​
+​without​​requiring​​complete​​workflow​​reinitialization.​​Third,​​parallel​​task​​execution:​​literature​​review​​and​
+​data​ ​analysis​​proceed​​simultaneously​​within​​each​​cycle,​​minimizing​​latency​​and​​enabling​​rapid​​iteration​
+​compared with sequential batch-processing architectures employed by existing systems.​
+
+​9​
+
+​Appendix - A1​
+
+​3.2 Data Analysis Agent​
+​ he​ ​Deep​ ​Research​ ​system​ ​incorporates​ ​a​ ​specialized​ ​data​ ​analysis​ ​agent​ ​designed​ ​to​ ​autonomously​
+T
+​process​ ​datasets​ ​through​ ​iterative​ ​code​ ​generation​ ​and​ ​execution.​ ​This​ ​subsystem​ ​operates​ ​through​ ​a​
+​multi-node​ ​workflow​ ​architecture​ ​that​ ​decomposes​​complex​​analytical​​tasks​​into​​discrete​​computational​
+​steps,​​enabling​​robust​​error​​handling​​and​​adaptive​​refinement​​(Figure​​4).​​The​​agent​​consists​​of​​six​​states:​
+​planning,​​code​​generation,​​code​​execution,​​observation,​​reflection,​​and​​answering.​​Tying​​these​​states​​into​
+​a​​feedback​​loop​​provides​​the​​agent​​with​​the​​ability​​to​​iteratively​​update​​and​​refine​​an​​internal​​knowledge​
+​base. This knowledge base enables the agent to correctly and confidently answer user tasks.​
+
+​ igure​ ​4.​ ​Data​ ​analysis​ ​agent​ ​workflow​ ​architecture.​ ​The​ ​agent​ ​cycles​ ​through​ ​planning,​ ​code​
+F
+​generation,​ ​execution,​ ​observation,​ ​and​ ​reflection​ ​states,​ ​progressively​ ​building​ ​a​ ​knowledge​​base​​until​
+​task completion or failure.​
+
+​3.2.1 Task Decomposition and Knowledge-Guided Iteration​
+​ he​​data​​analysis​​pipeline​​is​​initiated​​when​​the​​user​​(in​​this​​case,​​the​​Deep​​Research​​agent)​​provides​​(i)​​a​
+T
+​task​ ​description​ ​specifying​ ​the​ ​analytical​​objective,​​(ii)​​data​​files​​for​​analysis,​​and​​(iii)​​natural​​language​
+​descriptions​​of​​the​​data​​file​​structure​​and​​content.​​These​​inputs​​are​​first​​processed​​by​​the​​planning​​node,​
+​which​ ​serves​ ​as​​the​​starting​​state​​for​​the​​feedback​​loop​​used​​to​​plan​​and​​iterate​​on​​the​​analysis​​strategy.​
+​The​ ​core​ ​planning​ ​state​ ​objective​ ​is​ ​to​ ​decompose​ ​the​ ​overall​ ​task​​into​​sequential​​computational​​steps,​
+​whose​​execution​​results​​expand​​the​​agent's​​knowledge​​base.​​A​​single-step​​iteration​​consists​​of​​a​​pipeline​
+​starting​ ​from​ ​the​ ​planning​ ​state,​ ​generating​ ​code​ ​to​ ​achieve​ ​the​ ​current​ ​step​ ​goal,​ ​executing​ ​the​ ​code,​
+​observing​ ​the​ ​outputs,​ ​and​ ​reflecting​ ​on​ ​findings​ ​with​ ​respect​ ​to​ ​the​ ​knowledge​ ​base.​ ​The​ ​iterative​
+​planning​ ​approach​ ​is​ ​inspired​ ​by​ ​DatawiseAgent's​ ​multi-stage​ ​architecture​ ​for​ ​adaptive​ ​data​ ​science​
+​automation (You et al., 2025).​
+​ he​ ​knowledge​ ​base​ ​is​ ​a​ ​dynamically​ ​generated​ ​list​ ​of​ ​two​ ​kinds​ ​of​ ​findings:​ ​rules​ ​and​ ​context​ ​items​
+T
+​(Figure​​5).​​Rules​​are​​knowledge​​items​​that​​represent​​semantic​​patterns​​and​​computational​​logic​​defined​​in​
+​documentation​​or​​proprietary​​manuals.​​Rules​​describe​​the​​logic​​and​​semantics​​that​​must​​be​​applied​​within​
+​10​
+
+​Appendix - A1​
+t​he​​analysis;​​otherwise,​​the​​analysis​​breaches​​dataset​​protocol​​and​​may​​conflict​​with​​domain​​knowledge,​
+​rendering​ ​overall​ ​results​ ​potentially​ ​flawed.​ ​Context​ ​items​ ​are​ ​pieces​ ​of​ ​information​ ​observed​ ​during​
+​execution​ ​of​ ​computational​​tasks​​on​​the​​dataset.​​Context​​items​​can​​be​​divided​​into​​three​​kinds:​​schema,​
+​fact,​​and​​caveat.​​Schema​​represents​​column​​definitions,​​data​​types,​​value​​mappings,​​or​​relationships;​​fact​
+​represents​​computed​​values,​​counts,​​or​​results​​from​​queries​​or​​data​​exploration;​​caveat​​explains​​warnings,​
+​limitations,​ ​data​ ​quality​ ​issues,​ ​or​ ​problems​ ​encountered.​ ​Each​ ​kind​ ​serves​ ​its​ ​own​ ​purpose:​ ​facts​ ​and​
+​caveats describe state, while schema describes structure. Initially, the knowledge base is empty.​
+
+​ igure​ ​5.​ ​Knowledge​ ​base​ ​structure​ ​differentiating​ ​rules​ ​and​ ​context​ ​items.​​Rules​​encode​​semantic​
+F
+​patterns​​and​​computational​​logic​​from​​documentation,​​while​​context​​items​​(schema,​​fact,​​caveat)​​capture​
+​observations from executed tasks.​
+​ he​ ​planning​ ​state,​ ​in​ ​addition​ ​to​ ​user​ ​inputs,​​takes​​the​​knowledge​​base​​and​​history​​of​​completed​​steps​
+T
+​and​ ​decides​ ​on​ ​the​ ​next​ ​action.​ ​Four​ ​possible​ ​outcomes​ ​exist:​ ​(i)​ ​the​ ​current​ ​step​ ​objective​ ​was​ ​not​
+​satisfied,​​prompting​​a​​reformulated​​step​​goal;​​(ii)​​the​​current​​step​​was​​successfully​​completed,​​prompting​
+​progression​ ​to​ ​the​ ​next​ ​step;​ ​(iii)​ ​the​ ​user​ ​requirement​ ​was​ ​fully​ ​satisfied,​ ​terminating​ ​the​ ​analysis​
+​successfully;​ ​or​ ​(iv)​ ​the​ ​user​​requirement​​could​​not​​be​​satisfied​​after​​exhausting​​reasonable​​approaches,​
+​terminating the analysis with failure.​
+​ ​​step​​goal​​is​​defined​​as​​an​​atomic​​operation​​whose​​purpose​​is​​to​​iteratively​​chunk​​user​​requirements​​into​
+A
+​smaller​​subtasks.​​Each​​step​​goal​​must​​be​​clearly​​defined​​and​​must​​include​​all​​relevant​​information​​needed​
+​for​ ​the​ ​next​ ​state​ ​to​ ​operate​ ​without​ ​the​ ​knowledge​ ​base​ ​or​ ​previous​​outputs.​​The​​planning​​state​​is​​the​
+​main​​domain​​expert​​of​​the​​pipeline​​that​​completely​​understands​​everything​​happening​​in​​the​​environment.​
+​The planning state uses steps to refine and extend the knowledge base.​
+
+​11​
+
+​Appendix - A1​
+
+​3.2.2 Iterative Code Generation, Execution, Observation, and Reflection​
+​ or​​each​​analytical​​step,​​the​​code​​generation​​state​​synthesizes​​executable​​code​​to​​satisfy​​the​​current​​step​
+F
+​goal.​​This​​node​​receives​​(i)​​the​​current​​step​​objective,​​(ii)​​previously​​generated​​code,​​and​​(iii)​​optionally,​
+​the​​last​​execution​​error​​message​​to​​regenerate​​code​​in​​case​​of​​execution​​failure.​​The​​node​​generates​​new​
+​or revised code, incorporating lessons from prior failures when applicable.​
+​ he​ ​generated​ ​code​ ​is​ ​then​ ​passed​ ​to​ ​the​ ​code​ ​execution​​state,​​which​​executes​​the​​code​​in​​a​​controlled​
+T
+​environment.​ ​This​ ​node​ ​produces​ ​an​ ​execution​ ​result​ ​consisting​ ​of​ ​standard​ ​output​​and​​error​​messages​
+​generated during execution.​
+​ he​ ​pipeline​ ​implements​ ​robust​ ​error​ ​recovery​ ​through​ ​bounded​ ​iterations.​ ​If​ ​code​ ​execution​ ​fails,​​the​
+T
+​system​​goes​​back​​to​​the​​code​​generation​​node​​for​​a​​maximum​​of​​N​​attempts,​​providing​​error​​feedback​​for​
+​iterative​ ​refinement.​ ​In​ ​the​ ​event​ ​of​ ​a​ ​complete​ ​environment​ ​error​ ​or​ ​when​ ​the​ ​number​ ​of​ ​retries​ ​is​
+​exhausted,​ ​the​ ​execution​ ​state​ ​transitions​ ​to​ ​the​ ​observation​ ​state​ ​with​ ​a​ ​failure​ ​status​ ​flag.​ ​Upon​
+​successful execution, the system progresses to the observation state.​
+​ he​​observation​​state​​objective​​is​​to​​capture​​all​​execution​​result​​details​​that​​might​​help​​the​​agent​​answer​
+T
+​the​ ​user​ ​requirements.​ ​The​ ​main​ ​idea​ ​for​ ​the​ ​observation​ ​state​ ​is​ ​not​ ​to​ ​understand​ ​the​ ​task,​ ​but​ ​to​
+​understand​ ​that​ ​parts​ ​of​ ​the​ ​execution​ ​output​ ​might​ ​be​ ​key​ ​information​ ​that​ ​refines​ ​and​ ​extends​ ​the​
+​knowledge​ ​base.​ ​The​ ​observation​​state​​acts​​as​​a​​factual​​information​​extractor,​​not​​a​​domain​​expert.​​The​
+​output​​of​​an​​observation​​state​​is​​a​​list​​of​​findings.​​In​​case​​of​​an​​execution​​error,​​observation​​state​​routes​
+​the pipeline back to the planning; otherwise, the pipeline continues to the reflection state.​
+​ he​ ​reflection​ ​state​​uses​​previously​​generated​​findings​​to​​refine​​and​​extend​​the​​knowledge​​base.​​It​​does​
+T
+​information​ ​categorization​ ​and​ ​maps​ ​them​ ​to​ ​the​ ​corresponding​ ​list:​ ​either​ ​rules​ ​or​ ​context​ ​items.​
+​Reflection​ ​can​ ​override​ ​and​ ​refine​​previous​​knowledge​​base​​items​​based​​on​​the​​new​​findings.​​After​​the​
+​reflection​ ​state,​ ​the​ ​feedback​ ​loop​ ​is​ ​closed​ ​and​ ​starts​ ​again​ ​at​ ​the​ ​planning​ ​state​ ​with​ ​the​ ​refined​
+​knowledge base.​
+
+​3.2.3 Convergence and Output Synthesis​
+​ he​ ​iterative​ ​cycle​ ​between​ ​planning,​ ​generation,​ ​execution,​ ​observation,​ ​and​​reflection​​continues​​until​
+T
+​one​ ​of​ ​two​ ​terminal​ ​conditions​ ​is​ ​reached:​ ​either​ ​all​ ​analytical​ ​steps​​are​​successfully​​completed,​​or​​the​
+​system exhausts retry attempts without successful execution.​
+​ pon​​termination,​​the​​answering​​state​​synthesizes​​the​​final​​output​​for​​user​​review.​​This​​node​​receives​​the​
+U
+​completion​ ​status​ ​and​ ​produces​ ​(i)​ ​a​ ​natural​ ​language​ ​answer​ ​summarizing​ ​analytical​ ​findings​ ​and​ ​(ii)​
+​selected​ ​artifacts​ ​containing​ ​relevant​ ​outputs​ ​such​ ​as​ ​visualizations,​ ​statistical​ ​summaries,​ ​or​​processed​
+​datasets.​ ​The​ ​answering​ ​state​ ​translates​ ​technical​ ​execution​​history​​into​​interpretable​​scientific​​insights,​
+​completing the data analysis workflow.​
+
+​12​
+
+​Appendix - A1​
+
+​3.2.4 Architectural Properties​
+​ he​ ​data​ ​analysis​ ​pipeline​​exhibits​​three​​key​​architectural​​properties​​that​​enable​​robust​​and​​autonomous​
+T
+​operation.​ ​First,​ ​hierarchical​ ​decomposition:​ ​complex​ ​analytical​ ​tasks​ ​are​ ​recursively​ ​decomposed​ ​into​
+​manageable​​computational​​steps,​​each​​with​​well-defined​​objectives​​and​​success​​criteria.​​Second,​​bounded​
+​iteration​​with​​error​​feedback:​​The​​system​​attempts​​code​​refinement​​up​​to​​N​​times​​per​​step,​​learning​​from​
+​execution​ ​failures​ ​to​ ​generate​ ​improved​ ​solutions.​ ​Third,​ ​state​ ​preservation:​ ​The​ ​system​ ​maintains​ ​a​
+​complete​​execution​​history​​and​​knowledge​​base,​​enabling​​the​​planning​​state​​to​​make​​informed​​decisions​
+​regarding​ ​the​ ​analytical​ ​strategy​ ​based​ ​on​ ​cumulative​ ​results.​ ​These​ ​properties​ ​collectively​ ​enable​ ​the​
+​system​ ​to​ ​handle​ ​complex​ ​multi-step​ ​data​ ​analyses​ ​while​ ​maintaining​ ​robustness​ ​against​ ​individual​
+​execution failures.​
+
+​3.2.5 Benchmarking​
+​ s​ ​outlined​ ​in​ ​Section​​2.1,​​BixBench​​was​​used​​to​​evaluate​​the​​data​​analysis​​agent's​​performance​​across​
+A
+​three​​evaluation​​regimes.​​The​​agent​​achieved​​state-of-the-art​​performance,​​with​​48.8%​​accuracy​​on​​Open​
+​Response,​​55.1%​​on​​MCQ​​with​​Refusal,​​and​​64.4%​​on​​MCQ​​without​​Refusal.​​The​​full​​details​​underlying​
+​these results are provided in Appendix A1.​
+
+​ igure​ ​6.​ ​BioAgent​ ​Deep​ ​Research​ ​achieves​ ​state-of-the-art​ ​performance​ ​on​ ​the​ ​BixBench​
+F
+​open-answer​ ​benchmark.​ ​The​ ​system​​attains​​48.8%​​accuracy,​​exceeding​​K-Dense​​Analyst​​(34.4%)​​by​
+​14.4​​percentage​​points,​​Kepler​​(33.4%)​​by​​15.4​​percentage​​points,​​and​​GPT-5​​(22.9%)​​by​​25.9​​percentage​
+​points (Li et al., 2025).​
+I​ n​ ​the​ ​Open​ ​Response​ ​regime,​ ​the​ ​agent​ ​must​ ​answer​ ​each​ ​analytical​ ​question​ ​in​ ​a​ ​free-form​ ​manner​
+​without​ ​being​ ​provided​ ​any​ ​answer​ ​choices.​ ​For​ ​example,​ ​when​ ​asked​ ​"What​ ​percentage​ ​of​ ​genes​
+
+​13​
+
+​Appendix - A1​
+​ ifferentially​​expressed​​in​​strain​​97​​are​​also​​differentially​​expressed​​in​​strain​​99?",​​the​​agent​​is​​required​​to​
+d
+​execute​ ​the​ ​full​ ​analysis​ ​workflow​ ​and​ ​report​ ​a​ ​specific​ ​numeric​ ​estimate​ ​(e.g.,​ ​"42.5%"),​ ​typically​
+​alongside​​a​​brief​​justification​​such​​as​​the​​criteria​​used​​for​​calling​​differential​​expression​​and​​the​​relevant​
+​counts.​​The​​submitted​​response​​is​​then​​evaluated​​by​​a​​judge​​LLM​​that​​compares​​the​​agent's​​output​​against​
+​an​ ​expert-derived​ ​reference​ ​solution​ ​and​ ​assigns​ ​a​ ​binary​ ​correctness​ ​label.​ ​This​ ​regime​ ​approximates​
+​real-world​ ​computational​ ​biology​ ​settings​ ​in​ ​which​ ​both​​analytical​​strategy​​and​​interpretation​​of​​results​
+​must be determined without pre-specified answer candidates.​
+I​ n​ ​the​ ​MCQ​ ​with​ ​Refusal​ ​regime,​ ​the​ ​same​ ​underlying​ ​questions​ ​are​ ​additionally​ ​represented​ ​in​
+​multiple-choice​​form​​and​​include​​an​​explicit​​abstention​​option​​(e.g.,​​"Insufficient​​information​​to​​answer").​
+​After​ ​the​ ​agent​ ​completes​ ​its​ ​analysis​ ​and​ ​generates​ ​an​ ​open​ ​response,​ ​a​​second-stage​​model​​maps​​the​
+​response​ ​to​ ​the​ ​most​ ​appropriate​ ​multiple-choice​ ​option​ ​without​ ​using​ ​the​ ​executed​ ​notebook​ ​context,​
+​differing​​from​​the​​original​​BixBench​​evaluation​​procedure​​(Section​​2.1).​​The​​inclusion​​of​​a​​refusal​​option​
+​operationalizes​ ​a​ ​distinct​ ​capability:​ ​recognizing​ ​when​ ​available​ ​data​ ​and​ ​analysis​ ​are​ ​insufficient​ ​to​
+​support​ ​a​ ​definitive​ ​conclusion.​ ​In​ ​the​ ​MCQ​ ​with​ ​Refusal​ ​setting​ ​(Figure​​7),​​BioAgent​​Deep​​Research​
+​achieved an accuracy of 55.1%, exceeding GPT-4o (21%) and Claude (25%).​
+
+​ igure​​7.​​MCQ​​w/​​refusal.​​BixBench​​performance​​in​​the​​MCQ​​with​​refusal​​setting​​(accuracy).​​BioAgent​
+F
+​Deep Research achieves 55%, outperforming Claude (25%) and 4o (21%) (Mitchener et al., 2025a).​
+I​ n​ ​the​ ​MCQ​ ​without​ ​Refusal​ ​regime,​ ​the​ ​abstention​ ​option​ ​is​ ​removed,​ ​forcing​ ​selection​ ​among​ ​only​
+​substantive​ ​answer​ ​choices.​ ​This​ ​setting​ ​reduces​ ​the​ ​ability​ ​to​ ​default​ ​to​ ​non-commitment​ ​under​
+​uncertainty​ ​and​ ​instead​ ​probes​ ​whether​ ​the​​analysis​​performed​​yields​​a​​sufficiently​​discriminative​​basis​
+​for​ ​choosing​ ​among​ ​competing​ ​hypotheses,​ ​even​ ​when​ ​confidence​ ​is​ ​imperfect.​ ​In​ ​the​ ​MCQ​ ​without​
+​Refusal​ ​setting​ ​(Figure​ ​8),​ ​BioAgent​ ​Deep​ ​Research​ ​achieved​ ​an​ ​accuracy​ ​of​ ​64.4%,​ ​outperforming​
+​GPT-4o (33%), Claude (40%), and Edison (46%).​
+
+​14​
+
+​Appendix - A1​
+
+​ igure​ ​8.​ ​MCQ​ ​w/o​ ​refusal.​ ​BixBench​ ​performance​ ​in​ ​the​ ​MCQ​ ​without​ ​refusal​ ​setting​ ​(accuracy).​
+F
+​BioAgent​ ​Deep​ ​Research​ ​achieves​ ​64%,​ ​exceeding​ ​Edison​ ​(46%),​ ​Claude​ ​(40%),​ ​and​ ​4o​ ​(33%)​
+​(Mitchener et al., 2025a; 2025b)​
+​ he​ ​performance​ ​advantage​ ​of​ ​BioAgent​ ​Deep​ ​Research​ ​is​ ​further​ ​illustrated​ ​by​ ​a​ ​representative​ ​case​
+T
+​study​ ​from​ ​BixBench​ ​(Bix-8,​ ​Figure​ ​9),​ ​which​ ​probes​ ​end-to-end​ ​statistical​ ​reasoning​ ​in​ ​a​ ​realistic​
+​computational​​biology​​workflow.​​Correct​​performance​​requires​​constructing​​the​​appropriate​​contingency​
+​table​ ​from​ ​methylation​ ​and​ ​expression​ ​annotations,​ ​computing​ ​derived​ ​summary​ ​quantities​ ​(e.g.,​ ​the​
+​proportion​ ​of​ ​hypermethylated​ ​genes​ ​with​ ​increased​ ​expression​ ​and​ ​the​ ​hyper​ ​versus​ ​hypomethylation​
+​ratio),​ ​and​ ​applying​ ​a​ ​chi-square​ ​independence​ ​test​ ​to​ ​obtain​ ​the​ ​test​ ​statistic,​ ​odds​ ​ratio,​ ​and​
+​corresponding​ ​p-value.​ ​In​ ​this​ ​setting,​ ​BioAgent​ ​Deep​ ​Research​​reproduces​​the​​expert​​reference​​values​
+​across​​all​​six​​sub-questions​​(6/6),​​whereas​​K-Dense​​Analyst​​achieves​​partial​​success​​(4/6)​​and​​GPT-5​​fails​
+​to​ ​recover​ ​any​ ​of​ ​the​ ​required​ ​quantities​ ​(0/6,​ ​Figure​ ​9).​ ​These​ ​case-level​ ​results​ ​complement​ ​the​
+​aggregate​ ​MCQ​ ​accuracy​ ​reported​ ​above​​by​​indicating​​that​​improved​​scores​​are​​associated​​with​​correct​
+​data structuring and statistical execution rather than reliance on answer-option priors.​
+
+​15​
+
+​Appendix - A1​
+
+​ igure​​9.​​Case​​study​​on​​BixBench​​(Bix-8)​​RNA​​m6A​​methylation​​analysis.​​Question-level​​comparison​
+F
+​of​ ​outputs​ ​from​ ​BioAgent​ ​Deep​ ​Research,​ ​K-Dense​ ​Analyst,​ ​and​ ​GPT-5​ ​against​ ​the​ ​expert​ ​reference​
+​(“Correct”),​​with​​summary​​correctness​​across​​six​​sub-questions​​(BioAgent​​Deep​​Research​​6/6;​​K-Dense​
+​Analyst 4/6; GPT-5 0/6) (Modified from Li et al., 2025)​
+​ ollectively,​ ​these​ ​benchmark​ ​results​ ​demonstrate​ ​that​ ​the​ ​data​ ​analysis​ ​agent​ ​achieves​ ​robust​
+C
+​performance​ ​across​ ​evaluation​ ​regimes,​ ​with​ ​particular​ ​strength​ ​in​ ​end-to-end​ ​analytical​ ​workflows​
+​requiring correct data structuring, statistical reasoning, and result interpretation.​
+
+​3.3 Literature Search Agent​
+​ he​ ​literature​ ​search​ ​agent​ ​synthesizes​ ​scientific​ ​knowledge​ ​from​ ​heterogeneous​ ​academic​ ​databases​
+T
+​through​​multi-source​​retrieval,​​machine​​learning-driven​​re-ranking,​​and​​adaptive​​evidence​​synthesis.​​The​
+​agent​​exposes​​a​​programmatic​​interface​​that​​accepts​​three​​inputs:​​(i)​​a​​natural-language​​research​​question,​
+​(ii)​ ​an​ ​operational​ ​mode​​(fast​​or​​deep),​​and​​(iii)​​source-selection​​criteria​​specifying​​which​​databases​​are​
+​eligible for retrieval (Figure 10).​
+
+​16​
+
+​Appendix - A1​
+
+​ igure​ ​10.​ ​Literature​ ​search​ ​agent​ ​architecture​​.​ ​The​ ​three-stage​​pipeline​​comprises​​query​​processing​
+F
+​with​ ​multi-source​ ​retrieval,​​two-stage​​re-ranking,​​and​​adaptive​​evidence​​synthesis​​with​​mode-dependent​
+​depth.​
+
+​3.3.1 Query Processing and Multi-Source Retrieval​
+​ pon​ ​receiving​ ​a​ ​research​ ​question,​ ​a​ ​large​ ​language​ ​model​ ​performs​ ​structured​ ​query​ ​expansion​ ​by​
+U
+​decomposing​​the​​natural​​language​​input​​into​​domain-specific​​concepts,​​temporal​​constraints​​such​​as​​date​
+​ranges,​ ​and​ ​platform-optimized​ ​query​ ​strings​ ​tailored​ ​to​ ​individual​ ​database​ ​syntax​ ​requirements.​ ​The​
+​planner​ ​generates​ ​targeted​ ​searches​ ​across​ ​seven​ ​heterogeneous​ ​sources:​ ​ArXiv​ ​for​ ​preprints,​
+​PubMed/MEDLINE​​for​​biomedical​​literature,​​CrossRef​​for​​DOI​​resolution,​​Semantic​​Scholar​​for​​citation​
+​networks,​ ​Google​ ​Scholar​ ​for​ ​broad​ ​academic​ ​coverage,​ ​ClinicalTrials.gov​ ​for​ ​clinical​ ​studies,​ ​and​
+​UniProt for protein information.​
+​ atabase​​connectors​​execute​​queries​​in​​parallel,​​retrieving​​candidate​​documents​​from​​each​​platform​​with​
+D
+​uniform​ ​date​ ​filtering​ ​to​ ​maintain​ ​temporal​ ​consistency.​ ​Connector-level​ ​error​ ​isolation​ ​ensures​ ​that​
+​failures​ ​in​ ​individual​ ​sources​ ​do​ ​not​ ​cascade​ ​into​ ​the​ ​entire​ ​retrieval​ ​operation.​ ​The​ ​initial​ ​result​ ​set​
+​typically comprises several hundred candidate documents.​
+
+​3.3.2 Two-Stage Re-ranking and Evidence Synthesis​
+​ etrieved​ ​documents​ ​undergo​ ​sequential​ ​re-ranking​ ​to​ ​surface​ ​the​ ​most​ ​relevant​ ​evidence.​ ​First-stage​
+R
+​re-ranking​​employs​​a​​sentence​​transformer​​model​​to​​compute​​semantic​​similarity​​between​​the​​query​​and​
+​document​ ​abstracts,​ ​reducing​ ​the​ ​candidate​ ​set​ ​substantially.​ ​Second-stage​ ​re-ranking​ ​uses​ ​an​ ​LLM​ ​to​
+​assign​​granular​​relevance​​scores​​and​​generate​​rationales​​for​​each​​document,​​producing​​a​​final​​ordered​​list​
+​of 15 to 25 highly relevant sources.​
+​ he​​system​​offers​​two​​operational​​modes​​optimized​​for​​different​​use​​cases.​​Fast​​mode​​prioritizes​​minimal​
+T
+​latency,​​typically​​completing​​within​​seconds,​​and​​processes​​only​​document​​metadata​​(titles,​​abstracts,​​and​
+​citations) without full-text access. Results are cached to serve identical requests without recomputation.​
+
+​17​
+
+​Appendix - A1​
+​ eep​ ​mode​ ​enables​ ​comprehensive​ ​full-text​ ​analysis,​ ​typically​ ​completing​ ​within​ ​one​ ​to​ ​two​ ​minutes.​
+D
+​Following​ ​re-ranking,​ ​the​ ​system​ ​downloads​ ​complete​ ​PDFs​ ​from​ ​open-access​ ​sources​ ​and​
+​direct-publisher​​endpoints.​​Documents​​undergo​​section-aware​​chunking​​to​​preserve​​contextual​​coherence,​
+​and​ ​chunks​ ​are​ ​vectorized​ ​and​ ​indexed​ ​for​ ​similarity​ ​search.​ ​Semantic​ ​retrieval​ ​identifies​ ​the​ ​most​
+​relevant​ ​passages​ ​spanning​ ​multiple​ ​documents.​ ​An​ ​evidence​ ​synthesis​ ​module​ ​then​ ​constructs​ ​an​
+​executive​ ​summary,​ ​a​ ​structured​ ​answer​ ​with​ ​inline​ ​citations,​ ​and​ ​evidence​ ​tables​ ​linking​ ​claims​ ​to​
+​sources.​​When​​synthesis​​fails​​due​​to​​evidence​​sparsity​​or​​query​​ambiguity,​​the​​system​​degrades​​gracefully​
+​to a standard composition mode, returning ranked source lists with key excerpts.​
+
+​3.4 Novelty Detection Agent​
+​ he​ ​novelty​ ​detection​ ​agent​ ​evaluates​ ​whether​ ​a​ ​proposed​ ​research​ ​hypothesis​ ​has​ ​been​ ​previously​
+T
+​investigated​​in​​scientific​​literature.​​The​​system​​implements​​a​​three-stage​​pipeline​​that​​combines​​structured​
+​query​​decomposition,​​high-recall​​retrieval​​with​​multi-stage​​filtering,​​and​​automated​​novelty​​classification​
+​to determine whether an intervention-target combination represents novel research (Figure 11).​
+
+​ igure​ ​11.​ ​Novelty​ ​detection​ ​agent​ ​pipeline​​.​ ​The​ ​system​​progresses​​through​​query​​decomposition​​and​
+F
+​retrieval,​ ​multi-stage​ ​filtering​ ​with​ ​evidence​ ​extraction,​ ​and​ ​novelty​ ​classification​ ​with​ ​rationale​
+​generation.​
+
+​3.4.1 Query Decomposition and High-Recall Retrieval​
+​ he​ ​system​ ​begins​ ​by​ ​extracting​ ​four​ ​key​ ​components​ ​from​ ​the​ ​research​ ​question:​ ​intervention​ ​(the​
+T
+​experimental​​manipulation),​​target​​(the​​biological​​entity​​or​​process),​​metric​​(the​​measured​​outcome),​​and​
+​organism​ ​(the​ ​biological​ ​system).​ ​When​ ​LLM​​capabilities​​are​​available,​​the​​system​​performs​​structured​
+​extraction​ ​with​ ​synonym​ ​generation​ ​for​ ​each​ ​component.​ ​Without​ ​LLM​ ​access,​ ​the​ ​agent​ ​falls​​back​​to​
+​heuristic pattern matching from the request text and previously generated query planner concepts.​
+
+​18​
+
+​Appendix - A1​
+​ uery​ ​decomposition​​produces​​search​​permutations​​by​​systematically​​combining​​intervention​​and​​target​
+Q
+​synonyms,​ ​generating​ ​multiple​ ​search​ ​variants​ ​to​ ​maximize​ ​recall.​ ​The​ ​retrieval​ ​phase​ ​executes​ ​these​
+​query​ ​permutations​ ​across​​all​​enabled​​database​​connectors,​​optionally​​filtered​​by​​user-specified​​sources.​
+​Additionally,​​the​​agent​​probes​​a​​local​​vector​​store​​using​​semantic​​search​​to​​identify​​papers​​that​​may​​use​
+​non-standard​ ​terminology​ ​not​ ​captured​ ​by​ ​keyword-based​​queries,​​ensuring​​comprehensive​​coverage​​of​
+​potentially related work.​
+
+​3.4.2 Multi-Stage Filtering and Evidence Extraction​
+​ he​​filtering​​stage​​applies​​heuristic​​matching​​to​​paper​​titles​​and​​abstracts,​​searching​​for​​co-occurrence​​of​
+T
+​intervention​ ​and​ ​target​ ​terms,​ ​plus​ ​metric​ ​when​ ​specified.​ ​Each​ ​paper​ ​receives​ ​a​ ​preliminary​
+​classification:​ ​exact​ ​match​ ​(both​ ​intervention​ ​and​ ​target​ ​present),​ ​related​ ​method​ ​(intervention​ ​present,​
+​target​ ​absent),​ ​related​ ​target​ ​(target​ ​present,​ ​intervention​ ​absent),​ ​or​ ​irrelevant​ ​(neither​ ​present).​ ​The​
+​system​ ​assigns​ ​relevance​​scores​​based​​on​​term​​frequency​​and​​positional​​weight.​​For​​the​​highest-scoring​
+​candidates,​ ​the​ ​agent​ ​optionally​ ​invokes​​LLM-based​​verdict​​refinement​​to​​tighten​​heuristic​​assignments​
+​based on semantic understanding of abstract content.​
+​ vidence​ ​extraction​ ​then​ ​processes​ ​top​ ​candidates​ ​by​ ​attempting​ ​to​ ​retrieve​ ​stored​ ​full​ ​text​ ​from​ ​the​
+E
+​database.​ ​For​ ​papers​ ​with​ ​available​ ​full​ ​text,​​the​​system​​extracts​​sentences​​containing​​both​​intervention​
+​and​​target​​terms,​​recording​​whether​​evidence​​was​​found​​in​​the​​abstract​​only,​​full​​text​​only,​​or​​both.​​This​
+​full-text​ ​verification​ ​step​ ​reduces​ ​false​ ​positives​ ​from​​papers​​in​​which​​intervention​​and​​target​​appear​​in​
+​different contexts or sections.​
+
+​3.4.3 Novelty Classification and Adjudication​
+​ he​​adjudication​​phase​​performs​​classification​​of​​the​​proposed​​research​​relative​​to​​existing​​literature​​into​
+T
+​five​ ​categories:​ ​identical​ ​(exact​ ​replication​ ​of​ ​existing​ ​work),​ ​subset​ ​(proposed​ ​work​ ​is​ ​narrower​ ​than​
+​existing​ ​study),​ ​superset​ ​(proposed​ ​work​ ​is​ ​broader​ ​than​ ​existing​ ​study),​ ​near​ ​miss​ ​(highly​ ​similar​ ​but​
+​distinct​ ​approach),​ ​and​ ​novel​ ​(no​ ​substantial​ ​overlap​ ​with​ ​existing​ ​literature).​ ​The​ ​classification​ ​logic​
+​examines​ ​the​ ​filtered​ ​evidence​ ​set,​ ​considering​ ​the​ ​number​ ​and​ ​quality​​of​​exact​​matches,​​specificity​​of​
+​interventions and targets, and overlap in measured outcomes.​
+​ hen​ ​LLM​ ​capabilities​ ​are​ ​available,​​the​​system​​refines​​the​​preliminary​​classification​​by​​analyzing​​the​
+W
+​decomposition,​​search​​results,​​and​​extracted​​evidence.​​The​​language​​model​​provides​​a​​final​​classification,​
+​generates​ ​a​ ​natural​ ​language​ ​rationale​ ​explaining​ ​the​ ​novelty​ ​determination,​ ​and​ ​identifies​ ​specific​
+​supporting​ ​papers​ ​(evidence​ ​of​ ​non-novelty)​ ​and​ ​conflicting​ ​papers​ ​(evidence​ ​against​ ​the​ ​proposed​
+​hypothesis).​
+​ he​ ​agent​ ​returns​ ​a​ ​structured​ ​response​ ​containing​​the​​complete​​decomposition,​​search​​plan​​with​​query​
+T
+​permutations,​ ​final​ ​novelty​​classification,​​adjudication​​rationale,​​ranked​​evidence​​candidates​​with​​match​
+​types,​​and​​diagnostic​​counts​​of​​retrieved​​and​​filtered​​papers.​​This​​output​​enables​​researchers​​to​​assess​​the​
+​novelty​ ​of​ ​proposed​ ​work​ ​and​ ​identify​ ​the​ ​most​ ​relevant​ ​prior​ ​studies​ ​requiring​ ​consideration​ ​in​
+​experimental design.​
+
+​19​
+
+​Appendix - A1​
+
+​4. Discussion​
+​ he​ ​Deep​ ​Research​ ​system​ ​demonstrates​ ​state-of-the-art​ ​performance​ ​on​ ​computational​ ​biology​
+T
+​benchmarks​ ​while​ ​offering​ ​interactive,​ ​human-guided​ ​workflows​ ​that​ ​contrast​ ​with​ ​batch-processing​
+​approaches​ ​employed​ ​by​ ​existing​ ​systems.​ ​However,​ ​meaningful​ ​interpretation​​of​​these​​results​​requires​
+​careful​ ​consideration​ ​of​ ​architectural​ ​constraints,​ ​knowledge​ ​boundaries,​​and​​the​​inherent​​limitations​​of​
+​benchmark-based​ ​evaluation.​ ​This​ ​section​​examines​​these​​factors​​and​​presents​​detailed​​case​​studies​​that​
+​illuminate both the strengths and boundaries of automated scientific analysis.​
+
+​4.1 Architectural Constraints and Knowledge Boundaries​
+​ he​​design​​of​​interaction​​modes​​in​​AI-driven​​scientific​​research​​systems​​involves​​fundamental​​tradeoffs​
+T
+​between​ ​autonomous​ ​efficiency​ ​and​ ​research​ ​reliability.​​Theoretical​​frameworks​​characterize​​human-AI​
+​collaboration​​on​​a​​continuum​​from​​fully​​manual​​to​​fully​​autonomous​​operation​​across​​functional​​domains​
+​including​ ​information​ ​acquisition,​ ​analysis,​ ​and​ ​decision​ ​implementation​ ​(Parasuraman​ ​et​ ​al.,​​2000).​​A​
+​comprehensive​ ​meta-analysis​ ​of​ ​106​ ​human-AI​ ​experiments​ ​found​ ​that​ ​human-AI​ ​combinations​
+​underperformed​ ​the​ ​best​ ​single​ ​performer,​ ​though​ ​synergy​ ​emerged​ ​when​ ​task​ ​allocation​ ​appropriately​
+​leveraged​​complementary​​strengths,​​with​​creation​​tasks​​showing​​collaboration​​gains​​while​​decision​​tasks​
+​showed​ ​losses​ ​(Vaccaro​ ​et​ ​al.,​ ​2024).​ ​These​ ​findings​ ​suggest​ ​that​ ​optimal​ ​research​ ​systems​ ​should​
+​dynamically​ ​allocate​ ​subtasks​ ​based​ ​on​ ​demonstrated​ ​human​ ​and​ ​AI​​capabilities​​rather​​than​​adopting​​a​
+​single autonomy level.​
+​ ully​ ​autonomous​ ​AI​ ​research​ ​systems​ ​demonstrate​ ​both​ ​transformative​ ​potential​ ​and​ ​substantial​
+F
+​limitations.​​Sakana​​AI's​​"AI​​Scientist"​​produces​​research​​manuscripts​​at​​approximately​​$15​​per​​paper​​(Lu​
+​et​ ​al.,​ ​2024),​ ​yet​ ​one​ ​of​ ​its​ ​creators​ ​characterized​ ​the​ ​system's​ ​capabilities​ ​as​ ​comparable​ ​to​ ​"an​ ​early​
+​Ph.D.​ ​student"​ ​with​ ​occasional​ ​creative​ ​ideas​ ​vastly​ ​outnumbered​ ​by​ ​poor​ ​ones,​ ​and​ ​independent​
+​evaluation​​found​​42%​​of​​experiments​​failing​​due​​to​​coding​​errors​​(Luo​​et​​al.,​​2025).​​A​​2026​​evaluation​​of​
+​eight​ ​open-source​ ​AI​ ​research​ ​frameworks​ ​found​ ​no​ ​system​ ​completed​ ​a​ ​full​ ​research​ ​cycle​ ​from​
+​literature​ ​understanding​ ​through​ ​validated​ ​results​ ​(Agrawal​ ​et​ ​al.,​ ​2026).​ ​The​ ​fundamental​​challenge​​is​
+​compounding​ ​errors:​ ​even​ ​1%​ ​per-step​ ​error​ ​rates​ ​compound​ ​to​ ​63%​ ​failure​ ​rates​ ​over​ ​100​ ​sequential​
+​operations​​(Kumar,​​2025).​​Tang​​et​​al.​​(2025)​​argue​​in​​Nature​​Communications​​that​​autonomy​​cannot​​be​
+​pursued​​at​​the​​expense​​of​​generating​​serious​​risks​​and​​vulnerabilities,​​proposing​​frameworks​​emphasizing​
+​human regulation and agent alignment.​
+​ hese​ ​considerations​ ​informed​ ​the​ ​Deep​ ​Research​ ​semi-autonomous​ ​architecture,​ ​which​ ​implements​
+T
+​selective​ ​human​ ​checkpoints​ ​at​ ​decision​ ​points​ ​involving​ ​contradictions,​ ​ambiguous​ ​intent,​ ​or​​research​
+​convergence​ ​rather​ ​than​ ​requiring​ ​review​​at​​every​​step​​or​​proceeding​​without​​oversight.​​Addressing​​the​
+​workflow​ ​integration​ ​gap​ ​identified​ ​by​ ​Weidener​ ​et​ ​al.​ ​(2025),​ ​the​ ​system​ ​enables​ ​process-oriented​
+​evaluation​ ​across​ ​four​ ​critical​ ​dimensions​ ​absent​ ​from​ ​component-level​ ​benchmarks:​ ​dialogue​ ​quality,​
+​workflow​ ​orchestration,​​session​​continuity,​​and​​researcher​​experience.​​This​​design​​aligns​​with​​emerging​
+​governance​ ​guidance​ ​recommending​ ​risk-proportionate​ ​oversight​ ​(NIST,​ ​2023;​ ​Shavit​ ​et​ ​al.,​​2023)​​and​
+​empirical​​evidence​​that​​optimal​​human-AI​​collaboration​​requires​​appropriate​​subtask​​allocation​​(Vaccaro​
+​et​ ​al.,​ ​2024).​ ​Beyond​ ​interaction​ ​mode​ ​constraints,​ ​the​ ​system​ ​faces​ ​additional​​architectural​​limitations​
+​warranting explicit acknowledgment.​
+​20​
+
+​Appendix - A1​
+
+​4.2 Open Access Literature Constraints​
+​ ​ ​fundamental​ ​constraint​ ​of​ ​the​ ​Deep​ ​Research​ ​system,​ ​shared​ ​with​​contemporary​​AI-driven​​scientific​
+A
+​agents,​​is​​exclusive​​reliance​​on​​open​​access​​literature​​for​​knowledge​​synthesis.​​The​​literature​​search​​agent​
+​retrieves​ ​documents​ ​from​ ​ArXiv,​ ​PubMed​ ​Central,​ ​Semantic​ ​Scholar,​ ​and​ ​other​ ​openly​ ​accessible​
+​repositories,​ ​but​ ​cannot​ ​access​ ​subscription-based​ ​content​ ​behind​ ​publisher​​paywalls.​​This​​architectural​
+​decision,​​driven​​by​​the​​prohibitive​​cost​​of​​programmatic​​access​​to​​licensed​​content​​(McDonald​​&​​Kelly,​
+​2020; Fiil-Flynn et al., 2022), introduces systematic biases that warrant explicit acknowledgment.​
+​ urrent​ ​estimates​ ​indicate​ ​that​ ​approximately​ ​46​ ​to​ ​50%​ ​of​ ​newly​ ​published​ ​scientific​ ​literature​ ​is​
+C
+​available​ ​through​ ​some​ ​form​ ​of​ ​open​​access​​(Piwowar​​et​​al.,​​2018;​​Springer​​Nature,​​2024),​​though​​this​
+​aggregate​ ​figure​ ​obscures​ ​substantial​ ​disciplinary​ ​variation.​ ​Open​ ​access​ ​prevalence​ ​exceeds​ ​80%​ ​in​
+​astronomy,​ ​tropical​ ​medicine,​ ​and​ ​fertility​ ​research,​ ​while​ ​remaining​ ​below​ ​10%​ ​in​ ​pharmacy​ ​and​
+​chemical​ ​engineering​ ​(Piwowar​ ​et​ ​al.,​ ​2018;​ ​NASEM,​ ​2018).​ ​Biomedical​ ​research​ ​and​ ​computational​
+​biology​​fall​​between​​these​​extremes,​​with​​open​​access​​rates​​of​​approximately​​50​​to​​55%​​(Piwowar​​et​​al.,​
+​2018;​​Basson​​et​​al.,​​2022).​​The​​practical​​implication​​is​​that​​AI​​systems​​restricted​​to​​open​​access​​content​
+​may miss approximately half of potentially relevant literature depending on the research domain.​
+​ he​ ​open​ ​access​ ​landscape​ ​exhibits​ ​additional​ ​structural​ ​biases​ ​that​ ​compound​ ​coverage​ ​limitations.​
+T
+​Research​ ​from​ ​lower-​ ​and​ ​middle-income​ ​countries​ ​is​ ​systematically​ ​underrepresented​ ​in​ ​open​ ​access​
+​venues​​despite​​fee​​waiver​​programs,​​with​​approximately​​80%​​of​​articles​​published​​with​​article​​processing​
+​charges​ ​authored​ ​by​ ​researchers​ ​from​ ​high-income​ ​countries​ ​(Smith​ ​et​ ​al.,​ ​2022;​ ​Borrego,​ ​2023).​ ​This​
+​geographic​​skew​​raises​​concerns​​that​​AI​​systems​​may​​inadvertently​​amplify​​existing​​inequities​​in​​whose​
+​research informs automated knowledge synthesis (Powell et al., 2020; Simard et al., 2022).​
+​ erhaps​ ​most​ ​consequentially​ ​for​ ​research​ ​quality,​ ​the​ ​highest-impact​ ​journals​ ​operate​ ​primarily​ ​under​
+P
+​subscription​​models,​​with​​article​​processing​​charges​​of​​€9,500​​to​​€11,390​​for​​open​​access​​publication​​in​
+​Nature​​and​​Cell​​portfolio​​journals​​(Springer​​Nature,​​2024;​​Falk​​&​​Hagsten,​​2021).​​Field-defining​​research​
+​appearing​​in​​these​​venues​​may​​be​​systematically​​excluded​​from​​AI-accessible​​corpora.​​Recent​​empirical​
+​evaluation​ ​confirms​ ​this​ ​concern:​ ​Lau​ ​and​ ​Golder​ ​(2025)​ ​found​ ​that​ ​AI​​literature​​tools​​limited​​to​​open​
+​access​ ​achieved​ ​only​ ​39.5%​ ​sensitivity​ ​compared​ ​to​ ​94.5%​ ​for​ ​traditional​ ​comprehensive​ ​searches,​ ​a​
+​finding​ ​consistent​ ​with​ ​Cochrane​ ​Handbook​ ​guidance​ ​that​ ​exclusive​ ​reliance​ ​on​ ​any​ ​single​ ​database​
+​yields​ ​unrepresentative​ ​results​ ​(Higgins​ ​et​ ​al.,​ ​2024).​ ​A​ ​recent​ ​review​ ​explicitly​ ​identified​ ​paywall​
+​limitations​ ​as​ ​a​ ​significant​​technical​​limitation​​of​​current​​AI​​research​​tools,​​noting​​that​​such​​restrictions​
+​skew outputs toward less rigorous or outdated sources (Thurzo & Varga, 2025).​
+​ sers​ ​should​ ​interpret​ ​Deep​ ​Research​ ​findings​ ​with​ ​awareness​ ​that​ ​relevant​ ​paywalled​ ​literature​ ​may​
+U
+​exist​​beyond​​the​​system's​​retrieval​​capabilities,​​and​​consider​​supplementing​​AI-generated​​syntheses​​with​
+​manual searches of subscription databases accessible through institutional affiliations.​
+
+​4.3 Limitations of Automated Novelty Assessment​
+​ he​​Novelty​​Detection​​Agent​​faces​​fundamental​​constraints​​that​​extend​​beyond​​technical​​implementation​
+T
+​to​ ​conceptual​ ​and​ ​philosophical​ ​limitations​ ​inherent​ ​in​ ​operationalizing​ ​scientific​ ​novelty.​ ​A​
+​comprehensive​ ​Scientometrics​ ​review​ ​identifies​ ​two​ ​irreducible​ ​novelty​ ​types:​ ​uniqueness​ ​novelty​
+​21​
+
+​Appendix - A1​
+(​ discovery​ ​of​ ​genuinely​ ​new​ ​knowledge​ ​elements)​ ​and​ ​recombinant​ ​novelty​ ​(new​ ​combinations​ ​of​
+​existing​ ​knowledge),​ ​categories​ ​that​ ​cannot​ ​be​ ​collapsed​ ​into​ ​a​ ​single​ ​computational​ ​metric​ ​(Zhao​ ​&​
+​Zhang,​ ​2025).​ ​The​ ​landmark​ ​analysis​ ​by​ ​Uzzi​ ​et​ ​al.​ ​(2013)​ ​of​ ​17.9​​million​​research​​articles​​found​​that​
+​highest-impact​ ​papers​ ​combine​ ​novelty​ ​with​ ​conventional​ ​research​ ​elements,​ ​suggesting​ ​that​ ​systems​
+​flagging​ ​work​ ​as​ ​"known"​ ​based​ ​on​ ​substantial​ ​overlap​ ​with​ ​prior​ ​literature​ ​may​ ​systematically​ ​miss​
+​breakthrough contributions.​
+​ utomated​​novelty​​detection​​encounters​​irreducible​​technical​​limitations​​in​​mapping​​textual​​similarity​​to​
+A
+​conceptual​ ​originality.​ ​Ghosal​ ​et​ ​al.​ ​(2022)​ ​define​ ​the​ ​core​ ​challenge:​ ​detecting​ ​redundancy​ ​at​ ​the​
+​semantic​​level​​is​​not​​straightforward​​because​​text​​may​​have​​minimal​​lexical​​overlap​​yet​​convey​​identical​
+​information,​ ​or​ ​high​ ​overlap​ ​while​ ​representing​​genuinely​​distinct​​contributions.​​Research​​from​​Google​
+​DeepMind​ ​demonstrates​ ​that​ ​vector​ ​embedding​ ​models​ ​have​ ​inherent​ ​mathematical​ ​limitations,​ ​with​
+​state-of-the-art​ ​models​ ​achieving​ ​less​ ​than​ ​60%​ ​Recall@2​ ​on​ ​linguistically​ ​trivial​ ​but​ ​geometrically​
+​complex​​retrieval​​tasks​​(Weller​​et​​al.,​​2025).​​Steck​​et​​al.​​(2024)​​found​​that​​cosine​​similarity,​​the​​standard​
+​metric​ ​for​ ​embedding-based​ ​comparison,​​can​​yield​​arbitrary​​and​​therefore​​meaningless​​similarity​​scores​
+​under common conditions.​
+​ our​ ​well-documented​ ​terminology​ ​problems​ ​compound​ ​these​ ​limitations:​ ​the​ ​synonym​ ​problem​
+F
+​(different​ ​terms​ ​describing​ ​identical​ ​concepts),​ ​polysemy​ ​(identical​ ​terms​ ​with​ ​context-dependent​
+​meanings),​ ​cross-disciplinary​ ​vocabulary​ ​barriers,​ ​and​ ​temporal​ ​terminology​ ​evolution​ ​(Ghosal​ ​et​ ​al.,​
+​2022;​ ​Harman,​ ​2002).​ ​Drug​ ​development​ ​illustrates​ ​these​ ​challenges:​ ​the​ ​same​ ​mechanism​ ​may​ ​be​
+​described​​using​​biochemical​​terminology​​in​​basic​​science​​literature​​and​​clinical​​endpoints​​in​​trial​​reports,​
+​potentially causing text-based systems to classify related work as entirely distinct research domains.​
+​ sers​​should​​interpret​​novelty​​assessments​​as​​probabilistic​​indicators​​rather​​than​​definitive​​classifications,​
+U
+​recognizing​ ​that​ ​superficial​ ​textual​ ​similarity​ ​may​ ​not​ ​represent​ ​genuine​ ​conceptual​ ​overlap,​ ​and​
+​conversely​ ​that​ ​low​ ​similarity​ ​scores​ ​do​ ​not​ ​preclude​ ​meaningful​ ​prior​ ​work​ ​in​ ​related​ ​domains​ ​using​
+​different terminology.​
+
+​4.4 Benchmark Validation Through Task-Level Case Studies​
+​ enchmarking​ ​open-ended​ ​biomedical​ ​data​ ​analysis​ ​is​ ​valuable​ ​precisely​ ​because​ ​it​ ​approximates​ ​the​
+B
+​ambiguity​ ​and​ ​multi-step​ ​reasoning​ ​of​ ​real​ ​analyses.​ ​At​ ​the​ ​same​ ​time,​​this​​realism​​raises​​a​​non-trivial​
+​validation​ ​burden:​ ​if​ ​preprocessing,​ ​normalization,​ ​exclusion​ ​criteria,​ ​or​ ​statistical​ ​conventions​ ​are​
+​underspecified,​ ​a​ ​benchmark​ ​can​ ​inadvertently​ ​convert​ ​a​ ​methodological​ ​choice​ ​into​ ​a​ ​binary​​"right​​or​
+​wrong"​​outcome,​​even​​when​​multiple​​analytic​​instantiations​​are​​defensible.​​BixBench​​explicitly​​positions​
+​itself​ ​as​ ​an​ ​open-ended​ ​scientific​ ​data​ ​analysis​ ​benchmark​ ​in​ ​which​ ​questions​ ​are​ ​intended​ ​to​ ​be​
+​unanswerable​ ​by​ ​recall​ ​and​ ​require​ ​completion​ ​of​ ​a​ ​valid​ ​analysis​ ​trajectory.​ ​The​ ​following​ ​two​ ​case​
+​studies​​illustrate​​complementary​​sources​​of​​benchmark​​ambiguity​​that​​can​​affect​​interpretability​​of​​scores,​
+​even when agent behavior is internally coherent.​
+
+​22​
+
+​Appendix - A1​
+
+​4.4.1 Bix-30: Underspecified Analytic Degrees of Freedom​
+​ ix-30​​is​​derived​​from​​a​​clinically​​grounded​​and​​methodologically​​nuanced​​study​​of​​serum​​microRNAs​
+B
+​(miRNAs;​ ​small​ ​noncoding​ ​RNAs​ ​often​ ​studied​ ​as​ ​circulating​ ​biomarker​ ​candidates)​ ​in​ ​myotonic​
+​dystrophy​ ​type​ ​1​ ​(DM1).​ ​Fernandez-Costa​ ​et​ ​al.​ ​(2016)​ ​profiled​ ​175​ ​serum​ ​miRNAs​ ​using​ ​qPCR​ ​and​
+​emphasized​ ​that​ ​observed​ ​effects​ ​were​ ​modest​ ​and​ ​sensitive​ ​to​ ​pre-analytical​ ​and​ ​analytical​ ​decisions,​
+​including​ ​sample​ ​quality​ ​screening​ ​for​ ​hemolysis​ ​and​ ​careful​ ​handling​ ​of​ ​normalization​ ​and​ ​multiple​
+​testing.​​The​​current​​analysis​​employs​​BixBench​​v1.5,​​which​​retains​​four​​questions​​from​​the​​Bix-30​​task.​
+​Earlier​​versions​​of​​the​​benchmark​​(v1.0)​​included​​additional​​questions​​such​​as​​Q2​​("How​​many​​miRNAs​
+​remain​​significant​​at​​p​​≤​​0.05​​after​​Benjamini-Hochberg​​correction?")​​and​​Q7​​("What​​is​​the​​impact​​on​​the​
+​statistical​ ​analysis​​when​​samples​​P_3​​and​​C_18​​are​​included​​in​​the​​dataset?"),​​which​​were​​subsequently​
+​removed in v1.5.​
+​ able​ ​1.​ ​Bix-30​ ​question​ ​specifications​ ​and​ ​operationalization.​ ​Questions​ ​Q1​ ​and​​Q6​​target​​nominal​
+T
+​discovery​ ​rates​ ​prior​ ​to​ ​multiple​ ​testing​ ​correction,​ ​while​ ​Q3​ ​and​ ​Q5​ ​probe​ ​relative​ ​stringency​ ​and​
+​consensus robustness under specific correction methods.​
+​ID​ ​Question (verbatim)​
+​Q1​ W
+​ hat​​percentage​​of​​miRNAs​​show​​significant​​differential​​expression​​between​​patient​​and​​control​
+​groups before multiple testing correction?​
+​Q3​ W
+​ hat​ ​is​ ​the​ ​ratio​​of​​significant​​(p​​≤​​0.05)​​differentially​​expressed​​miRNAs​​between​​patient​​and​
+​control​ ​groups​ ​identified​ ​following​ ​Bonferroni​ ​correction​ ​compared​ ​to​ ​Benjamini-Yekutieli​
+​correction? Provide your answer as a ratio in the format “Bonferroni:Benjamini-Yekutieli”.​
+​ ow​ ​many​ ​miRNAs​ ​remain​ ​statistically​ ​significant​ ​(p​ ​≤​ ​0.05)​​differentially​​expressed​​between​
+​Q5​ H
+​patient​ ​and​ ​control​ ​groups​ ​after​ ​applying​ ​all​ ​three​ ​methods​ ​of​ ​multiple​ ​testing​ ​correction​
+​(Benjamini-Hochberg, Benjamini-Yekutieli, and Bonferroni)?​
+​ fter​ ​log2​ ​transformation​ ​and​ ​t-test,​ ​but​​before​​multiple​​testing​​correction,​​how​​many​​miRNAs​
+​Q6​ A
+​show a significant difference between patients and controls?​
+​ uestions​​Q3​​and​​Q5​​are​​comparatively​​well-specified:​​they​​explicitly​​constrain​​the​​analysis​​to​​particular​
+Q
+​multiple-testing​ ​correction​ ​procedures​ ​and​ ​require​ ​outputs​ ​that​ ​are​ ​largely​​invariant​​once​​the​​correction​
+​methods​​and​​significance​​threshold​​are​​fixed​​(a​​Bonferroni​​versus​​Benjamini-Yekutieli​​ratio​​in​​Q3,​​and​​an​
+​"all-three-methods"​​intersection​​count​​in​​Q5).​​By​​contrast,​​Q1​​and​​Q6​​are​​less​​constrained.​​Although​​both​
+​refer​ ​to​ ​significance​ ​"before​ ​multiple​ ​testing​ ​correction,"​ ​they​ ​leave​ ​several​ ​practically​ ​consequential​
+​conventions​ ​implicit,​ ​including​ ​the​ ​Ct-to-expression​ ​mapping,​ ​filtering​ ​rules​ ​for​ ​"detected"​ ​versus​
+​"undetected"​​miRNAs,​​denominator​​definition​​for​​the​​percentage​​in​​Q1,​​missing-value​​handling,​​and​​the​
+​choice​ ​between​ ​equal-variance​ ​and​ ​Welch​ ​t-tests.​ ​These​ ​degrees​ ​of​ ​freedom​ ​are​ ​not​ ​cosmetic;​ ​in​
+​circulating​ ​miRNA​ ​studies,​ ​they​ ​can​ ​shift​ ​nominal​ ​discovery​ ​counts,​ ​and​ ​the​ ​originating​ ​paper​
+​operationalizes several of them explicitly.​
+​ mpirically,​ ​BioAgent​ ​Deep​ ​Research​ ​reliably​ ​solves​ ​the​ ​more​ ​tightly​ ​specified​ ​downstream​ ​questions​
+E
+​(Q3​​and​​Q5),​​yet​​repeatedly​​fails​​the​​more​​weakly​​specified​​nominal-yield​​questions​​(Q1​​and​​Q6)​​across​
+​multiple​​attempts.​​Across​​repeated​​runs,​​Q3​​and​​Q5​​are​​consistently​​answered​​correctly,​​whereas​​Q1​​and​
+​23​
+
+​Appendix - A1​
+​ 6​ ​remain​ ​incorrect​ ​in​ ​the​ ​large​ ​majority​ ​of​ ​runs,​ ​despite​ ​otherwise​ ​coherent​ ​execution​ ​traces.​ ​This​
+Q
+​asymmetric​​pattern​​is​​informative​​because​​it​​is​​inconsistent​​with​​a​​broad​​inability​​to​​execute​​the​​analysis.​
+​Instead,​​it​​is​​compatible​​with​​a​​task-to-metric​​mapping​​gap:​​the​​expected​​labels​​for​​Q1​​and​​Q6​​may​​reflect​
+​implicit​ ​preprocessing​ ​and​ ​testing​ ​conventions​ ​that​ ​are​ ​not​ ​uniquely​ ​determined​ ​by​ ​the​ ​question​ ​text,​
+​while​​remaining​​scientifically​​defensible.​​In​​this​​sense,​​Bix-30​​highlights​​a​​general​​challenge​​for​​realistic​
+​benchmarks​ ​with​ ​binary-scored​ ​numeric​ ​targets,​ ​namely​ ​that​ ​"incorrectness"​ ​can​ ​sometimes​ ​reflect​
+​underspecified analytic degrees of freedom rather than a clear absence of analytical competence.​
+​ his​​does​​not​​imply​​that​​BixBench​​is​​incorrect,​​nor​​that​​agents​​should​​be​​expected​​to​​reproduce​​a​​single​
+T
+​canonical​ ​number​ ​under​ ​underspecified​​instructions.​​However,​​the​​Bix-30​​pattern​​suggests​​that,​​without​
+​additional​ ​validation,​ ​BixBench​ ​may​ ​partly​ ​measure​​agreement​​with​​implicit​​analyst​​conventions​​rather​
+​than​ ​the​ ​intended​ ​construct​ ​of​ ​robust​ ​analytical​ ​competence.​ ​In​ ​particular,​ ​binary​ ​scoring​ ​of​ ​a​ ​single​
+​numeric​​target​​can​​be​​overly​​sensitive​​when​​the​​task​​statement​​does​​not​​uniquely​​determine​​preprocessing​
+​and​ ​inference​ ​choices,​ ​and​ ​this​ ​sensitivity​ ​may​ ​be​ ​amplified​ ​by​ ​LLM-based​ ​judging​ ​in​ ​open-response​
+​settings​ ​if​ ​semantically​ ​correct​ ​responses​ ​are​ ​penalized​ ​for​ ​deviating​ ​from​ ​a​ ​narrow​ ​reference​
+​instantiation.​ ​More​ ​broadly,​ ​because​ ​BixBench​ ​questions​ ​are​ ​generated​ ​from​ ​completed​ ​analyses,​ ​the​
+​benchmark​ ​may​ ​privilege​ ​one​ ​analytical​ ​trajectory​ ​among​ ​several​ ​scientifically​ ​defensible​ ​alternatives,​
+​increasing​ ​the​ ​probability​ ​that​​valid​​but​​different​​pipelines​​are​​scored​​as​​incorrect.​​These​​considerations​
+​motivate​ ​benchmark-side​ ​validation​ ​steps​ ​that​ ​are​ ​proportionate​ ​to​ ​question​ ​ambiguity:​ ​(i)​ ​executable​
+​reference​​notebooks​​that​​encode​​the​​precise​​preprocessing​​and​​statistical​​decisions​​assumed​​by​​each​​item,​
+​(ii)​​explicit​​requirements​​for​​QC,​​filtering,​​normalization,​​and​​test​​choice​​where​​these​​materially​​affect​​the​
+​target,​ ​and​ ​(iii)​​scoring​​policies​​that​​incorporate​​numeric​​tolerances​​and​​equivalence​​classes​​for​​answers​
+​that​​differ​​only​​by​​defensible​​conventions​​(e.g.,​​denominator​​definitions​​for​​percentages​​or​​the​​treatment​
+​of​​undetected​​features).​​Finally,​​independent​​re-implementations​​or​​human​​baselines​​for​​a​​subset​​of​​tasks​
+​would​ ​help​ ​distinguish​ ​genuine​ ​analytical​ ​difficulty​ ​from​ ​ambiguity​ ​in​ ​the​ ​ground​ ​truth.​ ​Collectively,​
+​these​​measures​​would​​preserve​​BixBench's​​ecological​​validity​​while​​improving​​interpretability​​of​​failures​
+​on​ ​questions​ ​like​ ​Q1​ ​and​ ​Q6,​ ​where​ ​correctness​ ​may​ ​otherwise​ ​conflate​ ​methodological​ ​choice​ ​with​
+​analytic capability.​
+
+​4.4.2 Bix-60: Unclear Provenance and Selection Logic​
+​ hile​ ​Bix-30​ ​illustrates​ ​ambiguity​ ​arising​ ​from​ ​analytical​ ​degrees​ ​of​ ​freedom,​ ​Bix-60​ ​highlights​ ​a​
+W
+​complementary​ ​challenge​ ​in​ ​which​ ​the​ ​computation​ ​is​ ​well-defined,​ ​but​ ​the​ ​intended​ ​input​ ​set​ ​and​
+​provenance of the task are less explicit.​
+​ able​ ​2.​ ​Bix-60​ ​task​ ​specification​​.​ ​The​ ​task​ ​requires​ ​computing​ ​average​ ​treeness​ ​across​ ​"all​ ​5​ ​trees"​
+T
+​despite providing substantially more than five eligible tree files without explicit selection criteria.​
+​Element​
+
+​Bix-60 content (verbatim)​
+
+​ esearch​
+R
+​hypothesis​
+
+“​ Phylogenetic​​trees​​can​​be​​assessed​​for​​quality​​using​​treeness​​statistics​​that​​measure​
+​the strength of hierarchical phylogenetic signal.”​
+
+​24​
+
+​Appendix - A1​
+
+​ uestion​ ​to​ “​ What​ ​is​ ​the​ ​average​ ​treeness​ ​value​ ​across​ ​all​ ​5​ ​trees​ ​using​ ​PhyKIT's​ ​treeness​
+Q
+​answer​
+​function, multiplied by 1000 and rounded to the nearest integer?”​
+​ vailable​
+A
+​datasets​
+​(examples)​
+
+​ 038775at2759.faa.mafft.clipkit.treefile;​ ​1014314at2759.faa.mafft.clipkit.treefile;​
+1
+​1041560at2759.faa.mafft.clipkit.treefile;​ ​1018517at2759.faa.mafft.clipkit.treefile;​
+​1019762at2759.faa.mafft.clipkit.treefile;​ ​1010730at2759.faa.mafft.clipkit.treefile;​
+​1003258at2759.faa.mafft.clipkit.treefile;​ ​1079827at2759.faa.mafft.clipkit.treefile;​
+​100698at2759.faa.mafft.clipkit.treefile;​ ​1065019at2759.faa.mafft.clipkit.treefile;​ ​…​
+​(plus corresponding non-treefile inputs).​
+
+​ ​ ​complementary​ ​validation​ ​challenge​ ​arises​ ​in​ ​tasks​ ​that​ ​are​ ​computationally​ ​well-posed,​ ​yet​
+A
+​insufficiently​​grounded​​in​​traceable​​provenance​​or​​explicit​​selection​​rationale.​​As​​summarized​​in​​Table​​2,​
+​Bix-60​ ​specifies​ ​the​ ​hypothesis​ ​that​ ​phylogenetic​​tree​​quality​​can​​be​​assessed​​via​​treeness​​statistics​​and​
+​operationalizes​ ​this​ ​through​ ​a​ ​single​ ​quantitative​ ​prompt:​ ​computing​ ​the​ ​average​ ​treeness​ ​across​ ​"all​​5​
+​trees"​​using​​PhyKIT's​​treeness​​function,​​scaled​​and​​rounded.​​In​​repeated​​runs,​​BioAgent​​Deep​​Research​
+​produces​ ​the​ ​expected​ ​answer​ ​consistently,​ ​indicating​ ​that​​the​​treeness​​computation​​itself​​is​​stable​​once​
+​the​ ​intended​ ​inputs​ ​are​ ​fixed.​ ​However,​​the​​task​​provides​​substantially​​more​​than​​five​​eligible​​tree​​files​
+​while​​referencing​​"all​​5​​trees,"​​without​​specifying​​which​​five​​are​​intended​​or​​what​​deterministic​​inclusion​
+​rule​ ​defines​ ​the​ ​evaluated​ ​subset.​ ​This​ ​introduces​ ​an​ ​interpretability​ ​gap​ ​that​ ​is​​distinct​​from​​statistical​
+​underspecification:​ ​even​ ​if​ ​an​ ​agent​ ​executes​ ​the​ ​correct​ ​algorithm,​ ​the​ ​evaluation​ ​target​ ​remains​
+​underdetermined​ ​unless​ ​the​ ​benchmark's​ ​input-selection​ ​logic​ ​is​ ​explicit.​​In​​addition,​​the​​absence​​of​​an​
+​explicit​ ​link​ ​to​ ​an​ ​originating​ ​publication​ ​or​ ​reference​ ​analysis​ ​limits​ ​interpretability​ ​of​ ​what​ ​is​ ​being​
+​measured​ ​beyond​ ​successful​ ​execution​ ​of​ ​a​ ​tool​ ​call.​ ​Together,​ ​these​ ​features​ ​suggest​ ​that​ ​BixBench​
+​would​​benefit​​from​​clearer​​task​​provenance​​(literature-derived​​versus​​de​​novo)​​and​​explicit​​file-selection​
+​rules​ ​when​ ​multiple​ ​candidate​ ​inputs​ ​exist,​ ​ideally​ ​supported​ ​by​ ​reference​ ​implementations​ ​that​​render​
+​these decision points auditable.​
+
+​4.4.3 Interpreting MCQ Performance Under Protocol Differences​
+​ eyond​​task-level​​ambiguities,​​interpretation​​of​​MCQ​​performance​​depends​​on​​the​​adjudication​​protocol​
+B
+​used​ ​to​ ​convert​ ​open​ ​responses​​into​​discrete​​answer​​choices.​​In​​the​​original​​BixBench​​MCQ​​regimes,​​a​
+​second-stage​ ​model​ ​selects​ ​an​ ​answer​ ​option​ ​by​​conditioning​​not​​only​​on​​the​​agent's​​final​​response​​but​
+​also​ ​on​ ​the​ ​executed​ ​analysis​ ​context​ ​(the​ ​notebook​ ​trace).​ ​In​ ​contrast,​ ​the​ ​present​ ​study​ ​applies​ ​a​
+​code-free​ ​mapping​ ​in​ ​which​ ​the​ ​second-stage​ ​model​ ​receives​ ​only​ ​the​ ​agent's​ ​open-response​ ​output​
+​together​ ​with​ ​the​ ​answer​ ​options​ ​(with​ ​or​ ​without​ ​an​ ​explicit​ ​refusal​ ​option​​depending​​on​​the​​regime).​
+​This​ ​design​ ​improves​ ​evaluation​ ​reproducibility​ ​and​ ​decouples​ ​option​ ​selection​ ​from​ ​notebook-state​
+​variability,​​but​​it​​also​​changes​​what​​the​​MCQ​​score​​represents:​​performance​​becomes​​more​​reflective​​of​
+​response-option​ ​consistency​ ​than​ ​of​ ​whether​ ​the​ ​executed​ ​analysis​ ​supports​ ​the​ ​selected​ ​choice.​
+​Accordingly,​ ​MCQ​ ​results​ ​are​ ​best​ ​interpreted​ ​as​ ​an​ ​auxiliary​ ​diagnostic​ ​rather​ ​than​ ​a​ ​strictly​
+​protocol-equivalent replication of the original BixBench MCQ evaluation.​
+​ ​ ​further​ ​regime-level​ ​consideration​ ​concerns​ ​whether​ ​MCQ-with-refusal​ ​is,​ ​in​ ​itself,​ ​an​ ​appropriate​
+A
+​proxy​ ​for​​scientific​​reasoning.​​In​​empirical​​research​​practice,​​conservative​​behavior​​under​​uncertainty​​is​
+​often​ ​normatively​ ​desirable,​ ​and​ ​"insufficient​ ​information"​ ​is​ ​a​ ​legitimate​ ​conclusion​ ​when​ ​data​ ​or​
+
+​25​
+
+​Appendix - A1​
+a​ nalysis​ ​does​ ​not​ ​justify​ ​a​ ​definitive​ ​claim.​ ​However,​ ​as​ ​BixBench​ ​explicitly​ ​observes,​ ​providing​ ​an​
+​abstention​​option​​can​​shift​​evaluation​​away​​from​​analytical​​correctness​​and​​toward​​a​​model's​​willingness​
+​to​ ​commit​ ​under​ ​ambiguity,​ ​with​ ​assessed​ ​frontier​ ​models​ ​performing​ ​close​ ​to​ ​random​​when​​refusal​​is​
+​available.​ ​This​ ​raises​ ​a​ ​construct-validity​ ​question:​ ​MCQ-with-refusal​ ​may​ ​partly​ ​operationalize​ ​risk​
+​aversion​​rather​​than​​scientific​​competence,​​particularly​​if​​refusal​​becomes​​a​​dominant​​strategy​​in​​complex​
+​workflows.​ ​Conversely,​​removing​​refusal​​increases​​accuracy​​but​​may​​also​​encourage​​forced​​guessing​​or​
+​reliance​ ​on​ ​priors​ ​rather​ ​than​ ​notebook-grounded​ ​inference.​ ​For​ ​these​ ​reasons,​ ​MCQ​ ​regimes​ ​are​ ​best​
+​interpreted​​as​​auxiliary​​diagnostics,​​whereas​​open-response​​evaluation​​remains​​the​​closest​​approximation​
+​to​ ​real-world​ ​scientific​ ​analysis,​ ​where​ ​no​ ​answer​ ​candidates​ ​are​ ​provided​ ​and​ ​correctness​ ​depends​​on​
+​executing and justifying an analysis end-to-end.​
+
+​5. Conclusion​
+​ his​ ​paper​ ​introduced​ ​Deep​ ​Research,​ ​a​ ​multi-agent​ ​system​ ​for​ ​interactive​ ​scientific​ ​discovery​ ​that​
+T
+​addresses​ ​critical​ ​limitations​ ​in​ ​existing​ ​AI-driven​ ​research​ ​tools.​ ​By​ ​enabling​ ​iterative,​
+​human-in-the-loop​ ​workflows​ ​with​ ​turnaround​ ​times​​measured​​in​​minutes​​rather​​than​​hours,​​the​​system​
+​offers​ ​researchers​ ​the​​ability​​to​​dynamically​​guide​​investigations​​as​​insights​​emerge,​​rather​​than​​waiting​
+​for​ ​batch​ ​results​ ​that​ ​may​ ​require​ ​complete​ ​reruns​ ​to​ ​explore​ ​alternative​ ​directions.​ ​The​ ​system​
+​architecture​ ​comprises​ ​four​ ​specialized​ ​agents:​ ​(i)​ ​an​ ​orchestrator​ ​agent​ ​that​​maintains​​persistent​​world​
+​state​ ​across​​research​​cycles;​​(ii)​​a​​data​​analysis​​agent​​that​​decomposes​​complex​​analytical​​tasks​​through​
+​iterative​​code​​generation​​and​​knowledge​​base​​construction;​​(iii)​​a​​literature​​search​​agent​​that​​synthesizes​
+​evidence​​from​​heterogeneous​​academic​​databases;​​(iv)​​a​​novelty​​detection​​agent​​that​​evaluates​​proposed​
+​hypotheses​ ​against​ ​existing​ ​literature.​ ​Two​ ​operational​ ​modes​ ​accommodate​ ​different​ ​research​ ​needs:​
+​semi-autonomous​ ​mode​ ​with​ ​selective​ ​human​ ​checkpoints​ ​for​ ​collaborative​ ​exploration,​ ​and​ ​fully​
+​autonomous mode for extended investigations with well-defined objectives.​
+​ valuation​ ​on​ ​the​ ​BixBench​ ​computational​ ​biology​ ​benchmark​ ​demonstrated​ ​state-of-the-art​
+E
+​performance,​​with​​the​​data​​analysis​​agent​​achieving​​48.8%​​accuracy​​on​​open​​response​​questions,​​55.1%​
+​on​ ​multiple-choice​ ​with​ ​refusal,​ ​and​ ​64.4%​ ​on​ ​multiple-choice​ ​without​ ​refusal.​​These​​results​​exceeded​
+​existing​ ​baselines​ ​including​ ​Edison​ ​Analysis,​ ​K-Dense​ ​Analyst,​ ​Kepler,​ ​and​ ​GPT-5,​ ​with​ ​detailed​​case​
+​studies​ ​confirming​ ​that​ ​performance​ ​advantages​ ​reflect​ ​correct​​data​​structuring​​and​​statistical​​execution​
+​rather than reliance on answer-option priors.​
+I​ mportant​ ​limitations​ ​warrant​ ​acknowledgment.​ ​Exclusive​ ​reliance​ ​on​ ​open​ ​access​ ​literature​ ​excludes​
+​approximately​ ​half​ ​of​ ​scientific​ ​publications​ ​depending​ ​on​ ​domain,​ ​potentially​ ​missing​ ​field-defining​
+​research​​in​​high-impact​​subscription​​journals.​​Automated​​novelty​​detection​​faces​​irreducible​​challenges​​in​
+​mapping​ ​textual​ ​similarity​ ​to​ ​conceptual​ ​originality,​ ​compounded​ ​by​ ​synonym,​ ​polysemy,​ ​and​
+​cross-disciplinary​​terminology​​barriers.​​Benchmark​​evaluation​​itself​​presents​​interpretation​​challenges,​​as​
+​demonstrated​​through​​case​​studies​​revealing​​how​​underspecified​​analytic​​degrees​​of​​freedom​​and​​unclear​
+​input selection criteria can conflate methodological choice with analytical capability.​
+​ he​
+T
+​BioAgents​ ​framework​ ​(the​ ​orchestrator​ ​agent)​ ​is​ ​publicly​ ​available​ ​at​
+​https://github.com/bio-xyz/BioAgents​​,​​though​​the​​bio-data-analysis​​and​​bio-literature​​components​​are​​not​
+​yet​ ​publicly​ ​released.​ ​Future​ ​development​ ​will​ ​focus​ ​on​ ​expanding​​database​​coverage,​​refining​​novelty​
+​26​
+
+​Appendix - A1​
+​ etection​ ​through​ ​improved​ ​semantic​ ​representations,​​and​​extending​​benchmark​​validation​​to​​additional​
+d
+​scientific​​domains.​​As​​AI​​systems​​become​​increasingly​​integrated​​into​​scientific​​workflows,​​maintaining​
+​appropriate​ ​human​ ​oversight​ ​while​ ​enabling​ ​efficient​ ​autonomous​ ​operation​ ​remains​ ​essential​ ​for​
+​ensuring research quality, reproducibility, and alignment with investigator intent.​
+​ unding Statement:​
+F
+​All​​authors​​are​​employed​​by​​Bio.xyz​​C/O​​MJP​​Partners​​AG,​​Bahnhofstrasse​​20,​​6300​​Zug,​​Switzerland.​
+​This​​article​​was​​written​​as​​part​​of​​regular​​work​​employment.​​No​​additional​​funding​​was​​received​​for​​this​
+​work.​
+​ I Use Statement:​
+A
+​The​ ​author(s)​ ​declare​ ​that​ ​Generative​ ​AI​ ​was​ ​used​ ​in​ ​the​ ​creation​ ​of​ ​this​ ​manuscript.​ ​During​ ​the​
+​preparation​ ​of​ ​this​ ​manuscript,​ ​the​ ​authors​ ​used​ ​Claude​ ​Opus​ ​4.5​ ​(Anthropic)​ ​to​ ​assist​ ​with​ ​grammar​
+​correction,​ ​spelling,​ ​formatting,​ ​and​ ​reformulation​ ​of​ ​selected​ ​passages​ ​for​ ​clarity​ ​and​ ​style.​ ​Image​
+​generation​ ​was​ ​assisted​ ​by​ ​Nano​ ​Banana​ ​Pro​ ​(Google).​ ​All​ ​content​ ​generated​ ​through​ ​these​ ​tools​ ​was​
+​critically​ ​reviewed,​ ​edited,​ ​and​ ​approved​ ​by​ ​the​ ​authors.​ ​The​ ​authors​ ​take​ ​full​ ​responsibility​ ​for​ ​the​
+​integrity and accuracy of the final manuscript.​
+
+​References​
+​ bramson,​​J.,​​Adler,​​J.,​​Dunger,​​J.,​​Evans,​​R.,​​Green,​​T.,​​Pritzel,​​A.,​​...​​&​​Jumper,​​J.​​M.​​(2024).​​Accurate​
+A
+​structure​ ​prediction​ ​of​ ​biomolecular​ ​interactions​ ​with​ ​AlphaFold​ ​3.​ ​Nature,​ ​630(8016),​ ​493-500.​
+​https://doi.org/10.1038/s41586-024-07487-w​
+​ grawal,​ ​S.,​ ​Anadkat,​ ​H.​ ​B.,​​Athimoolam,​​K.​​K.,​​Bhardwaj,​​H.,​​Chowdhury,​​T.,​​Gao,​​S.,​​Kamat,​​P.​​K.,​
+A
+​Makwana,​​V.,​​Shariff,​​M.​​H.,​​Badkul,​​A.,​​Xie,​​L.,​​&​​Sinitskiy,​​A.​​V.​​(2026).​​Can​​AI​​conduct​​autonomous​
+​scientific​
+​research?​
+​Case​
+​studies​
+​on​
+​two​
+​real-world​
+​tasks.​
+​bioRxiv​​.​
+​https://doi.org/10.64898/2026.01.05.697809​
+​Anthropic. (2025).​​Claude for life sciences​​.​​https://www.anthropic.com/news/claude-for-life-sciences​
+​ asson,​ ​I.,​ ​Simard,​ ​M.​ ​A.,​ ​Ouangré,​ ​Z.​ ​A.,​ ​Sugimoto,​​C.​​R.,​​&​​Larivière,​​V.​​(2022).​​The​​effect​​of​​data​
+B
+​sources​​on​​the​​measurement​​of​​open​​access:​​A​​comparison​​of​​Dimensions​​and​​the​​Web​​of​​Science.​​PLoS​
+​one, 17(3), e0265545. DOI:​​https://doi.org/10.1371/journal.pone.0265545​
+​ ishop,​​C.​​(2022).​​AI4Science​​to​​empower​​the​​fifth​​paradigm​​of​​scientific​​discovery.​​Microsoft​​Research​
+B
+​Blog​​.​
+​https://www.microsoft.com/en-us/research/blog/ai4science-to-empower-the-fifth-paradigm-of-scientific-d​
+​iscovery/​
+​ orrego,​ ​Á.​ ​(2023).​ ​Article​ ​processing​ ​charges​ ​for​ ​open​ ​access​ ​journal​ ​publishing:​ ​A​ ​review.​ ​Learned​
+B
+​Publishing​​,​​36​​(3), 359–378.​​https://doi.org/10.1002/leap.1558​
+
+​27​
+
+​Appendix - A1​
+​ ernandez-Costa,​​J.​​M.,​​Llamusi,​​B.,​​Bargiela,​​A.,​​Zulaica,​​M.,​​Alvarez-Abril,​​M.​​C.,​​Perez-Alonso,​​M.,​
+F
+​...​ ​&​ ​Artero,​ ​R.​ ​(2016).​ ​Six​ ​serum​ ​miRNAs​ ​fail​ ​to​ ​validate​ ​as​ ​myotonic​ ​dystrophy​ ​type​ ​1​​biomarkers.​
+​PLoS One, 11(2), e0150501.​​https://doi.org/10.1371/journal.pone.0150501​
+​ iil-Flynn,​​S.​​M.,​​Butler,​​B.,​​Carroll,​​M.,​​Cohen-Sasson,​​O.,​​Craig,​​C.,​​Guibault,​​L.,​​Jaszi,​​P.,​​Jütte,​​B.​​J.,​
+F
+​Katz,​​A.,​​Quintais,​​J.​​P.,​​Margoni,​​T.,​​de​​Souza,​​A.​​R.,​​Sag,​​M.,​​Samberg,​​R.,​​Schirru,​​L.,​​Senftleben,​​M.,​
+​Tur-Sinai,​ ​O.,​ ​&​ ​Contreras,​ ​J.​​L.​​(2022).​​Legal​​reform​​to​​enhance​​global​​text​​and​​data​​mining​​research.​
+​Science (New York, N.Y.), 378(6623), 951–953. https://doi.org/10.1126/science.add6124​
+​ hosal,​​T.,​​Saikh,​​T.,​​Biswas,​​T.,​​Ekbal,​​A.,​​&​​Bhattacharyya,​​P.​​(2022).​​Novelty​​detection:​​A​​perspective​
+G
+​from​
+​natural​
+​language​
+​processing.​
+​Computational​
+​Linguistics​​,​
+​48​​(1),​
+​77–117.​
+​https://doi.org/10.1162/coli_a_00429​
+​ ottweis,​ ​J.,​ ​&​ ​Natarajan,​ ​V.​ ​(2025).​ ​Accelerating​ ​scientific​ ​breakthroughs​ ​with​ ​an​ ​AI​ ​co-scientist.​
+G
+​Google​
+​Research​
+​Blog​​.​
+​https://research.google/blog/accelerating-scientific-breakthroughs-with-an-ai-co-scientist/​
+​ ridach,​ ​M.,​ ​Nanavati,​ ​J.,​ ​Abidine,​ ​K.​ ​Z.​​E.,​​Mendes,​​L.,​​&​​Mack,​​C.​​(2025).​​Agentic​​AI​​for​​scientific​
+G
+​discovery:​ ​A​ ​survey​ ​of​ ​progress,​ ​challenges,​ ​and​ ​future​ ​directions​ ​[Preprint].​ ​arXiv​​.​
+​https://arxiv.org/abs/2503.08979​
+​ arman,​ ​D.​ ​(2002).​ ​Overview​ ​of​ ​the​ ​TREC​ ​2002​ ​Novelty​ ​Track.​ ​In​ ​Proceedings​ ​of​ ​the​ ​Eleventh​ ​Text​
+H
+​REtrieval​
+​Conference​
+​(TREC​
+​2002)​
+​(NIST​
+​Special​
+​Publication​
+​500-251).​
+​https://trec.nist.gov/pubs/trec11/papers/NOVELTY.OVER.pdf​
+​ iggins,​ ​J.​ ​P.​ ​T.,​ ​Thomas,​ ​J.,​ ​Chandler,​ ​J.,​ ​Cumpston,​ ​M.,​ ​Li,​ ​T.,​ ​Page,​ ​M.​ ​J.,​ ​&​ ​Welch,​ ​V.​ ​A.​ ​(Eds.).​
+H
+​(2024).​ ​Cochrane​ ​handbook​ ​for​ ​systematic​ ​reviews​ ​of​ ​interventions​ ​(version​ ​6.5).​ ​Cochrane.​
+​https://training.cochrane.org/handbook​
+​Huntley, G. (2025).​​Ralph Wiggum as a "software engineer"​​.​​https://ghuntley.com/ralph/​
+​ umar,​ ​R.​ ​(2025).​ ​Taxonomy​ ​of​ ​failure​ ​modes​ ​in​ ​agentic​ ​AI​ ​systems​​.​ ​Microsoft.​
+K
+​https://www.microsoft.com/en-us/security/blog/2025/04/24/new-whitepaper-outlines-the-taxonomy-of-fai​
+​lure-modes-in-ai-agents/​
+​ au,​ ​O.,​ ​&​ ​Golder,​ ​S.​ ​(2025).​ ​Comparison​ ​of​ ​Elicit​ ​AI​ ​and​ ​traditional​ ​literature​ ​searching​ ​in​​evidence​
+L
+​syntheses​ ​using​ ​four​ ​case​ ​studies.​ ​Cochrane​ ​Evidence​ ​Synthesis​ ​and​ ​Methods​​.​
+​https://doi.org/10.1002/cesm.70050​
+​ alk,​ ​M.​ ​T.,​ ​&​ ​Hagsten,​ ​E.​ ​(2021).​ ​The​ ​uneven​ ​distribution​ ​of​ ​fees​ ​for​ ​virtual​ ​academic​ ​conferences.​
+F
+​Journal​
+​of​
+​Convention​
+​&​
+​Event​
+​Tourism​​,​
+​23​​(3),​
+​189–208.​
+​https://doi.org/10.1080/15470148.2021.1975593​
+​ i,​ ​O.,​ ​Agarwal,​ ​V.,​ ​Zhou,​ ​S.,​ ​Gopinath,​ ​A.,​ ​&​ ​Kassis,​ ​T.​ ​(2025).​ ​K-Dense​ ​Analyst:​ ​Towards​ ​fully​
+L
+​automated scientific analysis.​​arXiv​​.​​https://arxiv.org/abs/2508.07043​
+
+​28​
+
+​Appendix - A1​
+​ u,​ ​C.,​ ​Lu,​ ​C.,​ ​Lange,​ ​R.​ ​T.,​ ​Foerster,​ ​J.,​ ​Clune,​ ​J.,​ ​&​ ​Ha,​ ​D.​ ​(2024).​ ​The​ ​AI​ ​scientist:​ ​Towards​​fully​
+L
+​automated open-ended scientific discovery [Preprint].​​arXiv​​.​​https://arxiv.org/abs/2408.06292​
+​ uo,​​Z.,​​Kasirzadeh,​​A.,​​&​​Shah,​​N.​​B.​​(2025).​​The​​more​​you​​automate,​​the​​less​​you​​see:​​Hidden​​pitfalls​
+L
+​of AI scientist systems.​​arXiv​​.​​https://arxiv.org/abs/2509.08713​
+​ cDonald,​ ​D.​ ​&​ ​Kelly,​ ​U.​ ​(2020).​ ​Value​ ​and​
+M
+​https://www.jisc.ac.uk/reports/value-and-benefits-of-text-mining​
+
+​benefits​
+
+​of​
+
+​text​
+
+​mining​​.​
+
+​ itchener,​ ​L.,​ ​Laurent,​ ​J.​ ​M.,​ ​Andonian,​ ​A.,​ ​Tenmann,​ ​B.,​ ​Narayanan,​ ​S.,​ ​Wellawatte,​ ​G.​ ​P.,​ ​...​ ​&​
+M
+​Rodriques,​​S.​​G.​​(2025a).​​Bixbench:​​a​​comprehensive​​benchmark​​for​​llm-based​​agents​​in​​computational​
+​biology. arXiv preprint arXiv:2503.00096.​​https://arxiv.org/abs/2503.00096​
+​ itchener,​ ​L.,​ ​Laurent,​ ​J.,​ ​Yiu,​​A.,​​Sulovari,​​A.,​​Igoe,​​C.,​​&​​Andonian,​​A.​​(2025b).​​Introducing​​Edison​
+M
+​Analysis​​. Edison Scientific.​​https://edisonscientific.com/articles/introducing-edison-analysis​
+​ itchener,​​L.,​​Yiu,​​A.,​​Chang,​​B.,​​Bourdenx,​​M.,​​Nadolski,​​T.,​​Sulovari,​​A.,​​...​​&​​White,​​A.​​D.​​(2025c).​
+M
+​Kosmos:​ ​An​ ​AI​ ​Scientist​ ​for​ ​autonomous​ ​discovery.​ ​arXiv​ ​preprint​ ​arXiv:2511.02824.​
+​https://arxiv.org/abs/2511.02824​
+​ ational​​Academies​​of​​Sciences,​​Engineering,​​and​​Medicine​​(NASEM).​​(2018).​​Open​​science​​by​​design:​
+N
+​Realizing​ ​a​ ​vision​ ​for​ ​21st​ ​century​ ​research​​.​ ​The​ ​National​ ​Academies​ ​Press.​
+​https://doi.org/10.17226/25116​
+​ ational​ ​Institute​ ​of​ ​Standards​ ​and​ ​Technology.​ ​(2023).​ ​Artificial​ ​intelligence​ ​risk​ ​management​
+N
+​framework (AI RMF 1.0)​​. U.S. Department of Commerce.​​https://doi.org/10.6028/NIST.AI.100-1​
+​ ature​ ​Research​​Intelligence,​​Fudan​​University,​​&​​Shanghai​​Academy​​of​​AI​​for​​Science.​​(2025).​​AI​​for​
+N
+​science 2025​​[Special report]. Nature.​​https://www.nature.com/articles/d42473-025-00161-3​
+​OpenAI. (2025a).​​OpenAI for science​​.​​https://openai.com/science/​
+​ penAI.​
+O
+​(2025b).​
+​Early​
+​experiments​
+​in​
+​https://openai.com/index/accelerating-science-gpt-5/​
+
+​accelerating​
+
+​science​
+
+​with​
+
+​GPT-5.​
+
+​ arasuraman,​ ​R.,​ ​Sheridan,​ ​T.​ ​B.,​ ​&​ ​Wickens,​ ​C.​ ​D.​ ​(2000).​ ​A​ ​model​ ​for​ ​types​ ​and​ ​levels​ ​of​ ​human​
+P
+​interaction​​with​​automation.​​IEEE​​Transactions​​on​​Systems,​​Man,​​and​​Cybernetics—Part​​A:​​Systems​​and​
+​Humans​​,​​30​​(3), 286–297.​​https://doi.org/10.1109/3468.844354​
+​ owell,​ ​A.,​ ​Johnson,​ ​R.,​ ​&​ ​Herbert,​ ​R.​ ​(2020).​ ​Achieving​ ​an​ ​equitable​ ​transition​ ​to​ ​open​ ​access​ ​for​
+P
+​researchers​
+​in​
+​lower​
+​and​
+​middle-income​
+​countries.​
+​URL:​
+​https://researchcollaborations.elsevier.com/en/publications/achieving-an-equitable-transition-to-open-acce​
+​ss-for-researchers-/​
+
+​29​
+
+​Appendix - A1​
+​ iwowar,​ ​H.,​ ​Priem,​ ​J.,​ ​Larivière,​ ​V.,​ ​Alperin,​ ​J.​ ​P.,​​Matthias,​​L.,​​Norlander,​​B.,​​Farley,​​A.,​​West,​​J.,​​&​
+P
+​Haustein,​​S.​​(2018).​​The​​state​​of​​OA:​​A​​large-scale​​analysis​​of​​the​​prevalence​​and​​impact​​of​​open​​access​
+​articles.​​PeerJ​​,​​6​, e4375.​​https://doi.org/10.7717/peerj.4375​
+​ eddy,​ ​C.​ ​K.,​ ​&​ ​Shojaee,​ ​P.​ ​(2025).​ ​Towards​ ​scientific​ ​discovery​ ​with​ ​generative​ ​ai:​ ​Progress,​
+R
+​opportunities,​​and​​challenges.​​In​​Proceedings​​of​​the​​AAAI​​Conference​​on​​Artificial​​Intelligence​​(Vol.​​39,​
+​No. 27, pp. 28601-28609). https://arxiv.org/abs/2412.11427​
+​ pringer​ ​Nature.​ ​(2024).​ ​2023​ ​open​ ​access​ ​report:​ ​Building​ ​a​ ​more​ ​open,​ ​inclusive,​ ​and​ ​reproducible​
+S
+​research system. https://stories.springernature.com/oa-report-2023/​
+​ havit,​ ​Y.,​ ​Agarwal,​ ​S.,​ ​Brundage,​ ​M.,​ ​Adler,​ ​S.,​ ​O'Keefe,​ ​C.,​ ​Campbell,​ ​R.,​ ​Lee,​ ​T.,​ ​Mishkin,​ ​P.,​
+S
+​Eloundou,​​T.,​​Hickey,​​A.,​​Slama,​​K.,​​Ahmad,​​L.,​​McMillan,​​P.,​​Beutel,​​A.,​​Passos,​​A.,​​&​​Robinson,​​D.​​G.​
+​(2023).​
+​Practices​
+​for​
+​governing​
+​agentic​
+​AI​
+​systems​​.​
+​OpenAI.​
+​https://cdn.openai.com/papers/practices-for-governing-agentic-ai-systems.pdf​
+​ imard,​​M.-A.,​​Ghiasi,​​G.,​​Mongeon,​​P.,​​&​​Larivière,​​V.​​(2022).​​National​​differences​​in​​dissemination​​and​
+S
+​use of open access literature.​​PLOS ONE​​,​​17​​(8), e0272730.​​https://doi.org/10.1371/journal.pone.0272730​
+​ mith,​​A.​​C.,​​Merz,​​L.,​​Borden,​​J.​​B.,​​Gulick,​​C.​​K.,​​Kshirsagar,​​A.​​R.,​​&​​Bruna,​​E.​​M.​​(2022).​​Assessing​
+S
+​the​ ​effect​ ​of​ ​article​ ​processing​ ​charges​ ​on​ ​the​ ​geographic​ ​diversity​ ​of​ ​authors​ ​using​ ​Elsevier's​ ​"Mirror​
+​Journal" system.​​Quantitative Science Studies​​,​​2​(4),​​1123–1143.​​https://doi.org/10.1162/qss_a_00157​
+​ pringer​
+S
+​Nature.​
+​(2024).​
+​Open​
+​access​
+​https://www.nature.com/nature-portfolio/open-access​
+
+​at​
+
+​the​
+
+​Nature​
+
+​Portfolio​​.​
+
+​ teck,​ ​H.,​ ​Ekanadham,​ ​C.,​ ​&​ ​Kallus,​ ​N.​ ​(2024).​ ​Is​ ​cosine-similarity​ ​of​ ​embeddings​ ​really​ ​about​
+S
+​similarity?​ ​In​ ​Companion​ ​Proceedings​ ​of​ ​the​ ​ACM​ ​Web​ ​Conference​ ​2024​​.​
+​https://doi.org/10.1145/3589335.3651526​
+​ ang,​​X.,​​Jin,​​Q.,​​Zhu,​​K.,​​Yuan,​​T.,​​Zhang,​​Y.,​​Zhou,​​W.,​​...​​&​​Gerstein,​​M.​​(2025).​​Risks​​of​​AI​​scientists:​
+T
+​prioritizing​
+​safeguarding​
+​over​
+​autonomy.​
+​Nature​
+​Communications,​
+​16(1),​
+​8317.​
+​https://doi.org/10.1038/s41467-025-63913-1​
+​ he​ ​Nobel​ ​Committee​ ​for​ ​Chemistry.​ ​(2024).​ ​The​ ​Nobel​ ​Prize​ ​in​ ​Chemistry​ ​2024​ ​[Press​ ​release].​ ​The​
+T
+​Royal Swedish Academy of Sciences.​​https://www.nobelprize.org/prizes/chemistry/2024/summary/​
+​ hurzo,​​A.,​​&​​Varga,​​I.​​(2025).​​Revisiting​​the​​role​​of​​review​​articles​​in​​the​​age​​of​​AI-agents:​​Integrating​
+T
+​AI-reasoning​ ​and​ ​AI-synthesis​ ​reshaping​ ​the​​future​​of​​scientific​​publishing.​​Bratislava​​Medical​​Journal,​
+​1-13. https://doi.org/10.1007/s44411-025-00106-8​
+​ zzi,​ ​B.,​ ​Mukherjee,​ ​S.,​ ​Stringer,​ ​M.,​​&​​Jones,​​B.​​(2013).​​Atypical​​combinations​​and​​scientific​​impact.​
+U
+​Science​​,​​342​​(6157), 468–472.​​https://doi.org/10.1126/science.1240474​
+
+​30​
+
+​Appendix - A1​
+​ accaro,​​M.,​​Almaatouq,​​A.,​​&​​Malone,​​T.​​(2024).​​When​​combinations​​of​​humans​​and​​AI​​are​​useful:​​A​
+V
+​systematic​ ​review​ ​and​ ​meta-analysis.​ ​Nature​ ​Human​ ​Behaviour​​,​ ​8​(12),​ ​2293–2303.​
+​https://doi.org/10.1038/s41562-024-02024-1​
+​ eidener,​​L.,​​Brkić,​​M.,​​Bacci,​​C.,​​Jovanović,​​M.,​​Ulgac,​​E.,​​Dobrin,​​A.,​​&​​Meduri,​​A.​​(2025).​​From​​task​
+W
+​executors​ ​to​ ​research​ ​partners:​ ​Evaluating​ ​AI​ ​co-pilots​ ​through​ ​workflow​ ​integration​ ​in​ ​biomedical​
+​research.​​arXiv​​.​​https://arxiv.org/abs/2512.04854​
+​ eller,​ ​O.,​ ​Boratko,​ ​M.,​ ​Naim,​ ​I.,​ ​&​ ​Lee,​ ​J.​ ​(2025).​​On​​the​​theoretical​​limitations​​of​​embedding-based​
+W
+​retrieval.​​arXiv​​.​​https://arxiv.org/abs/2508.21038​
+​ ou,​ ​Z.,​ ​Zhang,​ ​Y.,​ ​Xu,​ ​D.,​ ​Lou,​ ​Y.,​ ​Yan,​ ​Y.,​ ​Wang,​ ​W.,​ ​...​ ​&​ ​Huang,​ ​Y.​ ​(2025).​ ​DatawiseAgent:​ ​A​
+Y
+​Notebook-Centric​ ​LLM​ ​Agent​ ​Framework​ ​for​ ​Adaptive​ ​and​ ​Robust​ ​Data​ ​Science​ ​Automation.​ ​arXiv​
+​preprint arXiv:2503.07044.​​arXiv​​.​​https://arxiv.org/abs/2503.07044​
+​ hao,​​Y.,​​&​​Zhang,​​C.​​(2025).​​A​​review​​on​​the​​novelty​​measurements​​of​​academic​​papers.​​Scientometrics​​,​
+Z
+​130​​(2), 727–753.​​https://doi.org/10.1007/s11192-025-05234-0​
+
+​31​
+
+​Appendix - A1​
+
+​32​
+
+​Appendix - A1​
+
+​33​
+
+​Appendix - A1​
+
+​34​
+
+​Appendix - A1​
+
+​35​
+
+​Appendix - A1​
+
+​36​
+
+​Appendix - A1​
+
+​37​
+
+​Appendix - A1​
+
+​38​
+
+​Appendix - A1​
+
+​39​
+
+​Appendix - A1​
+
+​40​
+
+

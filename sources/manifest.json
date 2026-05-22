@@ -169,6 +169,46 @@
       "source_url": "https://doi.org/10.64898/2026.05.12.724604",
       "downloaded": "2026-05-21",
       "txt_sidecar": "2026.05.12.724604v1.full.txt"
+    },
+    {
+      "doi": "10.1038/s41591-026-04357-y",
+      "filename": "spark-natmed.pdf",
+      "title": "An agentic framework for autonomous scientific discovery in cancer pathology (SPARK)",
+      "source_url": "https://www.nature.com/articles/s41591-026-04357-y",
+      "downloaded": "2026-05-22",
+      "txt_sidecar": "spark-natmed.txt"
+    },
+    {
+      "doi": "10.48550/arXiv.2603.08127",
+      "filename": "2603.08127v1.pdf",
+      "title": "EvoScientist: Towards Multi-Agent Evolving AI Scientists for End-to-End Scientific Discovery",
+      "source_url": "https://arxiv.org/abs/2603.08127",
+      "downloaded": "2026-05-22",
+      "txt_sidecar": "2603.08127v1.txt"
+    },
+    {
+      "doi": "10.48550/arXiv.2601.12542",
+      "filename": "2601.12542v1.pdf",
+      "title": "Rethinking the AI Scientist: Interactive Multi-Agent Workflows for Scientific Discovery (Deep Research / BioAgents)",
+      "source_url": "https://arxiv.org/abs/2601.12542",
+      "downloaded": "2026-05-22",
+      "txt_sidecar": "2601.12542v1.txt"
+    },
+    {
+      "doi": "10.48550/arXiv.2511.04583",
+      "filename": "2511.04583v1.pdf",
+      "title": "Jr. AI Scientist and Its Risk Report: Autonomous Scientific Exploration from a Baseline Paper",
+      "source_url": "https://arxiv.org/abs/2511.04583",
+      "downloaded": "2026-05-22",
+      "txt_sidecar": "2511.04583v1.txt"
+    },
+    {
+      "doi": "10.48550/arXiv.2605.03042",
+      "filename": "2605.03042v1.pdf",
+      "title": "ARIS: Autonomous Research via Adversarial Multi-Agent Collaboration",
+      "source_url": "https://arxiv.org/abs/2605.03042",
+      "downloaded": "2026-05-22",
+      "txt_sidecar": "2605.03042v1.txt"
     }
   ]
 }
