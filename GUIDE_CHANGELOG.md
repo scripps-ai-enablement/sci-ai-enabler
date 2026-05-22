@@ -11,6 +11,28 @@ Reverse-chronological log of changes to the [guide](guide/). Newest at the top.
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-05-22
+
+### Updated
+- **[advanced/routines] Major corrections from the now-published primary docs.** The official [Automate work with routines](https://code.claude.com/docs/en/routines) page and the [research-preview launch blog](https://claude.com/blog/introducing-routines-in-claude-code) (2026-04-14) supersede the in-session observations the page was previously grounded on. Specifically: cron expressions are interpreted in your **local timezone** and converted to UTC automatically (not "cron is UTC" as the page claimed — flipped); triggers include **schedule, API, and GitHub events** (previously only schedule was named); **daily run caps** are 5 / 15 / 25 for Pro / Max / Team-Enterprise; the API beta header is `experimental-cc-routine-2026-04-01`; the `run_once_at` API field and the API "cannot delete" pitfall were dropped as no longer reflected in the canonical doc. Lede, "When to use it", and Sources rewritten accordingly.
+- **[surfaces/claude-code] Desktop app redesign (2026-04-14) added as a fourth form.** Per the Anthropic [desktop-redesign blog](https://claude.com/blog/claude-code-desktop-redesign), the Claude Code desktop app was rebuilt around parallel sessions: session sidebar across repos, drag-and-drop panes, in-app file editor and diff viewer, SSH on macOS, per-session Git worktree. The "three forms" list became four; the lede was updated; `claude agents` is now described as the single-screen view of running/blocked/finished sessions per v2.1.139–v2.1.142 (Week 20, May 11–15). Sources updated to include the redesign blog post and the changelog range that introduced `/code-review` (renamed from `/simplify` in v2.1.146, 2026-05-21).
+- **[advanced/hooks] New handler type `mcp_tool` and richer hook input.** Per the Claude Code changelog: hooks can now invoke an MCP tool directly via `type: "mcp_tool"` (previously only `command` / `prompt` / `agent` / `http`); `PostToolUse` and `PostToolUseFailure` input includes `duration_ms`; `Stop` and `SubagentStop` input includes `background_tasks` and `session_crons`. Sources verified date refreshed.
+
+### Verified (no changes)
+- claude-surfaces.md — install command (`curl -fsSL https://claude.ai/install.sh | bash`) re-verified against `claude.com/product/claude-code`; Homebrew `claude-code`/`claude-code@latest`, `winget upgrade Anthropic.ClaudeCode`, npm package wraps native binary, and apt/dnf/apk all still current. Background-session / `claude agents` text unchanged.
+- skills.md — `~/.claude/skills/` layout, `SKILL.md` open standard, `/skills` type-to-filter picker unchanged.
+- mcp-servers.md — `claude mcp add --transport http`, scope semantics, MCP tunnels Research Preview unchanged.
+- plugins.md — `claude-plugins-official` pre-registered, `--plugin-dir` zip support, `--plugin-url`, dependency-aware disable, `claude plugin prune`, `/plugin` Discover/Browse previews, Claude for Small Business Cowork example unchanged.
+- marketplaces.md — source forms, seed-managed read-only behavior, pre-registration unchanged.
+- connectors.md — `claude.ai/directory/connectors`, "over 200" count from Anthropic blog, May 12 legal push, Claude for Small Business pointer unchanged.
+- decision-tree.md — table unchanged.
+- surfaces/claude-ai.md, surfaces/claude-desktop.md, surfaces/claude-cowork.md, surfaces/claude-api.md — unchanged this run (Opus 4.7 model claim on claude-api.md confirmed by Anthropic's 2026-05-04 launch announcement; SDK install commands match current README).
+- advanced/slash-commands.md, advanced/authentication.md — unchanged.
+
+### Flagged for review
+- WebFetch was again unavailable this run (404 on `claude-3-5-haiku-20241022`). All primary-source verification went through WebSearch summaries of `claude.com/product/claude-code`, `code.claude.com/docs/en/changelog`, `code.claude.com/docs/en/routines`, `claude.com/blog/introducing-routines-in-claude-code`, `claude.com/blog/claude-code-desktop-redesign`, `anthropic.com/news`, and `platform.claude.com/docs/en/api/claude-code/routines-fire`. A human should spot-check the routines docs page directly to confirm the local-timezone-by-default behavior — one secondary source still reports the older UTC-by-default default for CLI cron tools (vs the web/UI), which suggests there may be a CLI/web split worth surfacing on the next run.
+- **Claude Design** (Anthropic Labs, launched 2026-04-17 at `claude.ai/design`) and the **Stainless acquisition** (2026-05-18) are noted but not yet promoted to surface pages. Claude Design is in research preview and is more of a Labs product than a primary surface; revisit when it exits research preview. Stainless is back-end (Anthropic SDK generation) — no user-facing change to the API surface page is warranted yet.
+
 ## 2026-05-21
 
 ### Added
