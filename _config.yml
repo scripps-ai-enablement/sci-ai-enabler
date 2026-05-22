@@ -33,8 +33,10 @@ exclude:
   - GUIDE_AGENT.md
   - COSCIENTIST_AGENT.md
   - RECIPE_AGENT.md
+  - RESPONDER_AGENT.md
   - README.md
   - sources/
+  - docs/
   - Gemfile
   - Gemfile.lock
   - vendor/
