@@ -36,4 +36,4 @@ _None._
 
 ## User requests (closed this run)
 
-- [#7 @goodb 2026-05-22] queue: recipes | question="How to integrate single cell datasets?" → shipped new recipe `recipes/items/integrate-single-cell-datasets.md` (rung-2 scvi-tools skill; evidence Reported with Hrovatin 2025 / scIB-E 2025 grounding).
+_None._
