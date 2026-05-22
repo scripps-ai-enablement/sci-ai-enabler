@@ -1,0 +1,6 @@
+# .github/ISSUE_TEMPLATE/config.yml
+blank_issues_enabled: false
+contact_links:
+  - name: General discussion
+    url: https://github.com/goodb/sci-ai-enabler/discussions
+    about: For open-ended questions or chatter that doesn't fit a recipe request or feedback report.

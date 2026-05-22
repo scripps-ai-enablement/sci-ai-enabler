@@ -19,3 +19,9 @@ Installable Claude components for neural-data analysis, brain imaging, connectom
 
 {% endif %}
 {% endfor %}
+
+---
+
+## Got feedback on a tool?
+
+Use the [tool-feedback Issue Form](https://github.com/goodb/sci-ai-enabler/issues/new?template=tool-feedback.yml) — pick the tool from a dropdown, describe what happened. A bot replies in-thread shortly; the next daily catalog run incorporates the feedback.

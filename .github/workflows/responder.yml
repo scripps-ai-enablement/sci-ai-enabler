@@ -1,0 +1,190 @@
+name: Responder
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: responder-${{ github.event.issue.number }}
+  cancel-in-progress: false
+
+jobs:
+  respond:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Repo-level kill switch
+        id: killswitch
+        env:
+          DISABLED: ${{ vars.RESPONDER_DISABLED }}
+        run: |
+          if [ -n "${DISABLED}" ]; then
+            echo "RESPONDER_DISABLED is set; exiting."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Form check (label must be present)
+        if: steps.killswitch.outputs.skip != 'true'
+        id: formcheck
+        env:
+          LABELS: ${{ toJson(github.event.issue.labels) }}
+        run: |
+          MATCH=$(echo "$LABELS" | jq -r '.[].name' | grep -E '^claude:(recipe-question|recipe-feedback|tool-feedback)$' | head -1)
+          if [ -z "$MATCH" ]; then
+            echo "No claude:* form label on this issue; exiting silently."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          echo "label=$MATCH" >> "$GITHUB_OUTPUT"
+
+      - name: Spam-label check
+        if: steps.killswitch.outputs.skip != 'true' && steps.formcheck.outputs.skip != 'true'
+        id: spamcheck
+        env:
+          LABELS: ${{ toJson(github.event.issue.labels) }}
+        run: |
+          if echo "$LABELS" | jq -r '.[].name' | grep -q '^spam$'; then
+            echo "Issue is labeled spam; exiting silently."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Body-length cap
+        if: steps.killswitch.outputs.skip != 'true' && steps.formcheck.outputs.skip != 'true' && steps.spamcheck.outputs.skip != 'true'
+        id: lencheck
+        env:
+          BODY: ${{ github.event.issue.body }}
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          NUM: ${{ github.event.issue.number }}
+        run: |
+          LEN=${#BODY}
+          echo "Body length: $LEN"
+          if [ "$LEN" -gt 4000 ]; then
+            gh issue comment "$NUM" --repo "$REPO" --body "Please shorten the description to under 4000 characters and reopen — the responder bounds its input size."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Checkout (only if we'll actually respond)
+        if: steps.killswitch.outputs.skip != 'true' && steps.formcheck.outputs.skip != 'true' && steps.spamcheck.outputs.skip != 'true' && steps.lencheck.outputs.skip != 'true'
+        uses: actions/checkout@v4
+
+      - name: Compose prompt
+        if: steps.killswitch.outputs.skip != 'true' && steps.formcheck.outputs.skip != 'true' && steps.spamcheck.outputs.skip != 'true' && steps.lencheck.outputs.skip != 'true'
+        env:
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+          ISSUE_NUM: ${{ github.event.issue.number }}
+          ISSUE_AUTHOR: ${{ github.event.issue.user.login }}
+          LABEL: ${{ steps.formcheck.outputs.label }}
+        run: |
+          {
+            cat RESPONDER_AGENT.md
+            echo ""
+            echo "---"
+            echo ""
+            echo "## This issue"
+            echo "- Number: #${ISSUE_NUM}"
+            echo "- Author: @${ISSUE_AUTHOR}"
+            echo "- Label: ${LABEL}"
+            echo "- Title: ${ISSUE_TITLE}"
+            echo ""
+            echo "### Body"
+            echo ""
+            echo "${ISSUE_BODY}"
+            echo ""
+            echo "---"
+            echo ""
+            echo "## Available context (read with Read / Glob / Grep as needed)"
+            echo ""
+            echo "- \`recipes/items/\` — existing recipe pages"
+            echo "- \`catalog/tools/\` — installable components"
+            echo "- \`autonomous-science/systems/\` — named systems"
+            echo ""
+            echo "Post your reply with:"
+            echo "  gh issue comment ${ISSUE_NUM} --repo ${{ github.repository }} --body-file <path>"
+            echo ""
+            echo "End the reply with exactly one trailer line per RESPONDER_AGENT.md."
+          } > .responder-prompt.md
+
+      - uses: anthropics/claude-code-base-action@e8132bc5e637a42c27763fc757faa37e1ee43b34
+        if: steps.killswitch.outputs.skip != 'true' && steps.formcheck.outputs.skip != 'true' && steps.spamcheck.outputs.skip != 'true' && steps.lencheck.outputs.skip != 'true'
+        with:
+          prompt_file: .responder-prompt.md
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          model: claude-sonnet-4-6
+          timeout_minutes: "6"
+          allowed_tools: "Read,Glob,Grep,Bash(gh issue comment:*)"
+
+      - name: Parse trailer and append to queue
+        if: steps.killswitch.outputs.skip != 'true' && steps.formcheck.outputs.skip != 'true' && steps.spamcheck.outputs.skip != 'true' && steps.lencheck.outputs.skip != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          NUM: ${{ github.event.issue.number }}
+          AUTHOR: ${{ github.event.issue.user.login }}
+          LABEL: ${{ steps.formcheck.outputs.label }}
+          TITLE: ${{ github.event.issue.title }}
+        run: |
+          rm -f .responder-prompt.md
+          # Fetch the most recent comment authored by github-actions on this issue.
+          LATEST=$(gh api "repos/${REPO}/issues/${NUM}/comments" \
+            --jq '[.[] | select(.user.login == "github-actions[bot]")] | last | .body // empty')
+
+          # Extract the last queue trailer line.
+          TRAILER=$(printf '%s\n' "$LATEST" | grep -E '^<!--\s*queue:' | tail -n 1 || true)
+
+          # Determine target file: trailer says recipes|catalog, fallback derives from label.
+          if [ -n "$TRAILER" ]; then
+            case "$TRAILER" in
+              *"queue: catalog"*) TARGET="catalog/curator-state.md" ;;
+              *)                  TARGET="recipes/curator-state.md" ;;
+            esac
+            # Strip the <!-- --> wrappers for the bullet form.
+            INNER=$(printf '%s' "$TRAILER" | sed -E 's/^<!--\s*//; s/\s*-->$//')
+            BULLET="- [#${NUM} @${AUTHOR} $(date -u +%Y-%m-%d)] ${INNER}"
+          else
+            # Fallback: bot didn't emit a trailer; synthesize a minimal entry from the label.
+            case "$LABEL" in
+              claude:tool-feedback) TARGET="catalog/curator-state.md" ;;
+              *)                    TARGET="recipes/curator-state.md" ;;
+            esac
+            SAFE_TITLE=$(printf '%s' "$TITLE" | tr '\n' ' ' | cut -c1-200)
+            BULLET="- [#${NUM} @${AUTHOR} $(date -u +%Y-%m-%d)] (no trailer emitted; needs curator triage) title=\"${SAFE_TITLE}\" label=${LABEL}"
+          fi
+
+          # Append under "## User requests (open)" — replace the "_None._" placeholder if present,
+          # otherwise insert the bullet immediately before "## User requests (closed this run)".
+          python3 - "$TARGET" "$BULLET" <<'PY'
+          import re, sys, pathlib
+          path = pathlib.Path(sys.argv[1])
+          bullet = sys.argv[2]
+          text = path.read_text()
+          marker_open = "## User requests (open)"
+          marker_closed = "## User requests (closed this run)"
+          if marker_open not in text or marker_closed not in text:
+              sys.stderr.write(f"ERROR: required sections missing in {path}\n")
+              sys.exit(1)
+          # Slice out the (open) block.
+          start = text.index(marker_open)
+          end = text.index(marker_closed)
+          block = text[start:end]
+          # Drop a leading "_None._" placeholder if present.
+          new_block = re.sub(r"_None\._\s*\n", "", block, count=1)
+          # Ensure block ends with a blank line, then append the bullet + blank.
+          if not new_block.endswith("\n"):
+              new_block += "\n"
+          new_block = new_block.rstrip() + "\n\n" + bullet + "\n\n"
+          path.write_text(text[:start] + new_block + text[end:])
+          print(f"appended to {path}")
+          PY
+
+          git config user.name "responder-bot[bot]"
+          git config user.email "responder-bot@users.noreply.github.com"
+          git add "$TARGET"
+          git commit -m "auto-queue: issue #${NUM}"
+          git pull --rebase origin main
+          git push

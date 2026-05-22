@@ -54,3 +54,11 @@ The repo lives at [`goodb/sci-ai-enabler`](https://github.com/goodb/sci-ai-enabl
 ## Updates
 
 See the [updates archive](updates/) for the change history of each section.
+
+## How user requests are handled
+
+Two types of inbound flow are accepted via GitHub Issue Forms: **recipe questions** ("How should I do X?") and **feedback** on a recipe or catalog tool ("I tried X and…").
+
+When you open an issue with one of the forms, a responder bot reads the issue, leaves an in-thread reply within a few minutes (linking the closest existing recipes or tools), and adds the request to the curator's work queue. The next daily scheduled curator run (~24h) ships any durable change — a new recipe, an updated tool note, a flag — and closes the issue with a commit link. If a request needs more than one run to address, it stays in the queue and is retried.
+
+The bot that replies in-thread is **read-only on the repository**; only the scheduled curator agents change content files. That keeps the existing evidence and simplicity-ladder rules in force on every durable change.

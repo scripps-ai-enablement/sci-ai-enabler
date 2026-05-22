@@ -1,0 +1,36 @@
+name: Refresh Issue Form dropdowns
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'recipes/items/**'
+      - 'catalog/tools/**'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-form-dropdowns
+  cancel-in-progress: true
+
+jobs:
+  refresh:
+    # Skip runs whose head commit was made by this bot, to break the self-trigger loop.
+    if: github.event.head_commit.author.email != 'form-refresher@users.noreply.github.com'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Regenerate dropdowns
+        run: .github/scripts/refresh-form-dropdowns.sh
+      - name: Commit if changed
+        run: |
+          if [ -z "$(git status --porcelain .github/ISSUE_TEMPLATE/)" ]; then
+            echo "No dropdown changes."
+            exit 0
+          fi
+          git config user.name "form-refresher[bot]"
+          git config user.email "form-refresher@users.noreply.github.com"
+          git add .github/ISSUE_TEMPLATE/recipe-feedback.yml .github/ISSUE_TEMPLATE/tool-feedback.yml
+          git commit -m "Refresh Issue Form dropdowns"
+          git push

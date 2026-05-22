@@ -1,0 +1,39 @@
+# .github/ISSUE_TEMPLATE/recipe-question.yml
+name: Ask a recipe question
+description: "How should I do X? — we'll reply in-thread and queue a durable recipe for the next scheduled run."
+title: "[Recipe question] "
+labels: ["claude:recipe-question"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for asking. A bot will reply in this thread shortly with the best match from the existing cookbook. The next scheduled curator run (within ~24h) will write up a durable recipe page if one doesn't already exist.
+  - type: textarea
+    id: problem
+    attributes:
+      label: What are you trying to do?
+      description: 1–3 sentences describing the scientific problem you're trying to solve and what "done" looks like for you.
+      placeholder: "e.g., I have a counts matrix from a bulk RNA-seq experiment with 4 conditions and I want to run differential expression with proper batch correction."
+    validations:
+      required: true
+  - type: dropdown
+    id: subject_area
+    attributes:
+      label: Subject area
+      description: Pick the closest match. If you're not sure, pick the last option.
+      options:
+        - Chemistry
+        - Immunology and Microbiology
+        - Integrative Structural and Computational Biology
+        - Molecular and Cellular Biology
+        - Neuroscience
+        - Translational Medicine
+        - Drug Repurposing and Discovery
+        - I'm not sure
+    validations:
+      required: true
+  - type: textarea
+    id: tried
+    attributes:
+      label: What have you already tried? (optional)
+      description: If you've already attempted something, share what worked or didn't. This helps the bot avoid suggesting paths you've ruled out.
