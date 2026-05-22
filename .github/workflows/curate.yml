@@ -149,6 +149,7 @@ jobs:
 
           SHA=$(git rev-parse HEAD)
           COMMIT_URL="${SERVER_URL}/${REPO}/commit/${SHA}"
+          PAGES_BASE="https://goodb.github.io/sci-ai-enabler"
 
           # For each line with an issue number, comment and close.
           while IFS= read -r LINE; do
@@ -159,7 +160,17 @@ jobs:
             fi
             [ -z "$NUM" ] && continue
             RESULT=$(printf '%s' "$LINE" | sed -E 's/.*→ //')
-            gh issue comment "$NUM" --repo "$REPO" --body "Shipped in ${COMMIT_URL}. ${RESULT}"$'\n\nClosing — feel free to reopen if this missed the mark.' || true
+
+            # If the result note names a recipe or tool page, append a direct Pages URL
+            # so the user can read the durable answer without clicking through the commit diff.
+            PAGE_PATH=$(printf '%s' "$RESULT" | grep -oE '(recipes/items|catalog/tools)/[a-z0-9-]+\.md' | head -1)
+            LINK_LINE=""
+            if [ -n "$PAGE_PATH" ]; then
+              PAGE_URL="${PAGES_BASE}/${PAGE_PATH%.md}.html"
+              LINK_LINE=$'\n\nRead the answer here: '"${PAGE_URL}"
+            fi
+
+            gh issue comment "$NUM" --repo "$REPO" --body "Shipped in ${COMMIT_URL}. ${RESULT}${LINK_LINE}"$'\n\nClosing — feel free to reopen if this missed the mark.' || true
             gh issue close "$NUM" --repo "$REPO" --reason completed || true
           done <<< "$BLOCK"
 
