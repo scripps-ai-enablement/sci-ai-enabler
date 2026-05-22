@@ -26,3 +26,4 @@ When you are comfortable with the basics, the [advanced section](advanced/) cove
 ## See also
 
 - [Catalog of life-science components](../catalog/) — concrete tools you can install today.
+- [Contribute](../contribute.html) — file a recipe question or share feedback on a tool to help shape what gets covered next.

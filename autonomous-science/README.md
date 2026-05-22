@@ -23,3 +23,7 @@ Autonomy here is a spectrum:
 - **Fully autonomous** — closed-loop without intervention.
 
 The three primary lifecycle stages are *hypothesis generation*, *experiment design*, and *analysis*. A system may cover one stage, several, or close the full loop.
+
+## See also
+
+- [Contribute](../contribute.html) — file a recipe question if you want to use one of these systems on a concrete problem and aren't sure how.

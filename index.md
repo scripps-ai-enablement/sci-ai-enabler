@@ -36,6 +36,13 @@ A cookbook pairing concrete life-science problems with recommended assemblies of
 [Read recipes →](recipes/){: .btn .btn-primary }
 [See coverage](recipes/summary.html){: .btn }
 
+## [Shape this resource](contribute.html) — file an issue
+
+The catalog, guide, tracker, and recipes grow in response to user input. If the cookbook doesn't answer your question, or you tried something and want to report back, [file an issue](https://github.com/goodb/sci-ai-enabler/issues/new/choose) using one of three short forms — no Markdown required. A bot replies in-thread within minutes; the next daily curator run ships any durable change and closes the issue with a direct link to the new page.
+
+[How and why →](contribute.html){: .btn .btn-primary }
+[File an issue](https://github.com/goodb/sci-ai-enabler/issues/new/choose){: .btn }
+
 ---
 
 ## Search
