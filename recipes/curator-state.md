@@ -29,7 +29,7 @@ _None._
 
 ## User requests (open)
 
-_None._
+- [#7 @goodb 2026-05-22] (no trailer emitted; needs curator triage) title="How to integrate single cell datasets?" label=claude:recipe-question
 
 ## User requests (closed this run)
 
