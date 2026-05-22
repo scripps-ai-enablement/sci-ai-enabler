@@ -1,0 +1,74 @@
+# .github/ISSUE_TEMPLATE/tool-feedback.yml
+name: Share feedback on a catalog tool
+description: "I installed tool Y and… — we'll reply in-thread and queue the feedback for the next scheduled run."
+title: "[Tool feedback] "
+labels: ["claude:tool-feedback"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the field report. The catalog's job is to be accurate about what's installable and what works; concrete reports keep it honest.
+  - type: dropdown
+    id: tool
+    attributes:
+      label: Which tool?
+      description: Auto-synced from the catalog. Pick "Not listed" if your feedback isn't about one of these.
+      options:
+        - 10x-genomics-cloud
+        - adisinsight
+        - aind-data
+        - allenbrain
+        - alphafold
+        - anndata
+        - bio-research
+        - biocontextai
+        - biomcp
+        - biorender
+        - depmap
+        - drugbank
+        - fhir-developer
+        - fhir-wso2
+        - flowio
+        - gget
+        - instrument-data-to-allotrope
+        - molecule-mcp
+        - neurosift
+        - nextflow-development
+        - open-targets
+        - pdb
+        - prior-auth-review
+        - pubchem
+        - pubmed
+        - pydeseq2
+        - rdkit-mcp
+        - rdkit-skill
+        - scanpy
+        - scholar-gateway
+        - scientific-problem-selection
+        - scikit-bio
+        - scvi-tools
+        - single-cell-rna-qc
+        - synapse
+        - uniprot
+        - Not listed
+    validations:
+      required: true
+  - type: dropdown
+    id: sentiment
+    attributes:
+      label: How did it go?
+      options:
+        - worked great
+        - worked but slow
+        - got stuck
+        - found a better way
+        - something else
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: Tell us more
+      description: 40–800 characters. Mention concrete details — install path, OS, error messages, dataset.
+    validations:
+      required: true
