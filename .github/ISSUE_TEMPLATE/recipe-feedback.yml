@@ -1,0 +1,43 @@
+# .github/ISSUE_TEMPLATE/recipe-feedback.yml
+name: Share feedback on a recipe
+description: "I tried recipe X and… — we'll reply in-thread and queue the feedback for the next scheduled run."
+title: "[Recipe feedback] "
+labels: ["claude:recipe-feedback"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for sharing your experience. Concrete details (commands you ran, errors, hardware, datasets) make the next curator run much more useful.
+  - type: dropdown
+    id: recipe
+    attributes:
+      label: Which recipe?
+      description: Auto-synced from the cookbook. Pick "Not listed" if your feedback isn't about one of these.
+      options:
+        - build-target-dossier
+        - qc-single-cell-rna-seq
+        - run-bulk-rnaseq-differential-expression
+        - triage-new-preprints
+        - Not listed
+    validations:
+      required: true
+  - type: dropdown
+    id: sentiment
+    attributes:
+      label: How did it go?
+      options:
+        - worked great
+        - worked but slow
+        - got stuck
+        - found a better way
+        - something else
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: Tell us more
+      description: 40–800 characters. Mention concrete details — commands, errors, dataset size, hardware, wall-clock.
+      placeholder: "I ran the recipe on a 12-sample dataset; PyDESeq2 install failed on Mac M1 with X error, fixed by using the conda-forge build."
+    validations:
+      required: true
