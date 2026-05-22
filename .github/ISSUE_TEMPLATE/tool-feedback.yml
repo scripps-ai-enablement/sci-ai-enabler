@@ -20,6 +20,7 @@ body:
         - allenbrain
         - alphafold
         - anndata
+        - bids
         - bio-research
         - biocontextai
         - biomcp
@@ -32,6 +33,8 @@ body:
         - gget
         - instrument-data-to-allotrope
         - molecule-mcp
+        - neurokit2
+        - neuropixels-analysis
         - neurosift
         - nextflow-development
         - open-targets

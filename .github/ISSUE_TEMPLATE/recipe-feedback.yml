@@ -15,8 +15,10 @@ body:
       description: Auto-synced from the cookbook. Pick "Not listed" if your feedback isn't about one of these.
       options:
         - build-target-dossier
+        - integrate-single-cell-datasets
         - qc-single-cell-rna-seq
         - run-bulk-rnaseq-differential-expression
+        - sort-spikes-from-neuropixels-recording
         - triage-new-preprints
         - Not listed
     validations:
