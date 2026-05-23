@@ -2,7 +2,7 @@
 title: Jr. AI Scientist
 parent: Systems
 grand_parent: AI scientists
-nav_order: 15
+nav_order: 19
 affiliation: The University of Tokyo (Aizawa lab) and Tokyo University of Science
 lifecycle_stages: [Multi-stage, Writing]
 autonomy: Fully autonomous

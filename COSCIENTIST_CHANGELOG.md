@@ -9,6 +9,26 @@ permalink: /updates/ai-scientists.html
 
 Reverse-chronological log of changes to the [AI scientists tracker](autonomous-science/). Newest at the top.
 
+## 2026-05-23
+
+### Added
+- **AIRA (AIRA-Compose and AIRA-Design)** (Lifecycle: Multi-stage) — Meta FAIR dual-agent framework for autonomous foundation-model architecture discovery. AIRA-Compose deploys 11 agents over Attention/MLP/Mamba primitives under a 24-hour budget; AIRA-Design tasks up to 20 agents with writing novel attention mechanisms. Discovered 14 architectures (AIRAformers, AIRAhybrids); at 1B scale, AIRAformer-D and AIRAhybrid-D improve downstream accuracy by 2.4% and 3.8% over Llama 3.2 and scale 54–71% faster ([source](https://arxiv.org/abs/2605.15871)).
+- **AutoTTS** (Lifecycle: Hypothesis, Experiment design, Analysis) — UMD/UVA/WUSTL/UNC/Google/Meta environment-driven agentic framework that discovers test-time-scaling controllers via controller synthesis over an offline replay environment with beta parameterization and execution-trace feedback; improves the accuracy–cost Pareto frontier on math reasoning with a one-time discovery cost of $39.9 / 160 minutes; open source ([source](https://arxiv.org/abs/2605.08083)).
+- **CMBEvolve and CosmoEvolve** (Lifecycle: Multi-stage) — Cambridge cosmology pair of agentic systems. CMBEvolve performs LLM-guided code evolution via typed tree search with score backpropagation for tasks with explicit quantitative metrics; CosmoEvolve simulates a virtual research laboratory with a PI agent and student-scientist agents over a shared blackboard. CosmoEvolve autonomously produced beam-aware split-cross pseudo-Cℓ stability diagnostics and pair-/scale-dependent stability windows on ACT DR6 with no predefined objective ([source](https://arxiv.org/abs/2605.14791)).
+- **AI co-mathematician** (Lifecycle: Multi-stage, Writing) — Google DeepMind agentic workbench for mathematics research built on Gemini. A project-coordinator agent and parallel workstreams coordinate ideation, literature search, computational exploration, theorem proving, and theory building; outputs center on a living "working paper" with explicit provenance, version history, and preservation of failed explorations. **48%** on FrontierMath Tier 4 (Epoch AI evaluation), reported in the paper as a new high score among AI systems on this tier; adds mathematics as a new domain to the catalogue ([source](https://arxiv.org/abs/2605.06651)).
+
+### Updated
+- **`autonomous-science/summary.md`** — added a paragraph in the ML / scientific-computing section covering AIRA (foundation-model architecture discovery) and AutoTTS (automated test-time-scaling controller discovery); created two new domain sections — "Mathematics" (AI co-mathematician with FrontierMath Tier 4 48%) and "Cosmology and astrophysics" (CMBEvolve / CosmoEvolve); appended four new source citations.
+- **`autonomous-science/systems/`** — renumbered `nav_order` on the existing 24 system pages to preserve alphabetical ordering after inserting the four new entries.
+- **`autonomous-science/curator-state.md`** — replaced `Recently surfaced` with the four new additions (SPARK retained as the fifth, dated 2026-05-22).
+- **`sources/manifest.json`** — four new DOI entries with `.txt` sidecars (added by Phase A).
+
+### Flagged
+_None._
+
+### Verified (no changes)
+- All pre-existing system pages were `last_verified` on 2026-05-20 through 2026-05-22 — inside the 30-day re-verification window. No spot-checks performed this run.
+
 ## 2026-05-22
 
 ### Added

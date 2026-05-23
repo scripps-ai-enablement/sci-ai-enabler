@@ -8,11 +8,11 @@ nav_exclude: true
 
 ## Recently surfaced
 
+- **AIRA (AIRA-Compose and AIRA-Design)** (added 2026-05-23) — Meta FAIR dual-agent framework for autonomous foundation-model architecture discovery; 14 novel architectures (AIRAformers, AIRAhybrids) outperform Llama 3.2 at 1B scale; AIRA-Design reaches within 2.3% of human SOTA on LRA document matching.
+- **AutoTTS** (added 2026-05-23) — UMD/UVA/WUSTL/UNC/Google/Meta environment-driven agentic framework that discovers test-time-scaling controllers (BRANCH/CONTINUE/PROBE/PRUNE/STOP) over offline replay environments; improves the accuracy–cost Pareto frontier on math reasoning for a one-time $39.9 / 160-minute discovery cost; open source.
+- **CMBEvolve and CosmoEvolve** (added 2026-05-23) — Cambridge cosmology pair: CMBEvolve performs LLM-guided code evolution via typed tree search; CosmoEvolve simulates a virtual research lab with PI and student-scientist agents over a shared blackboard; CosmoEvolve produced autonomous ACT DR6 stability and coherence diagnostics.
+- **AI co-mathematician** (added 2026-05-23) — Google DeepMind workbench for interactive mathematics research; stateful "working paper" artifact with branching hypotheses and preserved failed explorations; 48% on FrontierMath Tier 4 (Epoch AI), reported as a new high score among AI systems on this tier; adds mathematics as a new domain to the catalogue.
 - **SPARK** (added 2026-05-22) — University Hospital Cologne System of Pathology Agents; first *Nature Medicine*-published autonomous AI scientist for cancer pathology; validated across 18 cohorts and >5,400 patients in five cancer types; open source.
-- **EvoScientist** (added 2026-05-22) — Huawei multi-agent evolving AI scientist with an Evolution Manager Agent and persistent ideation + experimentation memories; outperforms seven SOTA AI-scientist baselines on idea generation.
-- **Deep Research (BioAgents)** (added 2026-05-22) — bio.xyz open-source interactive multi-agent biomedical system; minute-scale cycles; 48.8% BixBench open response, 64.4% MCQ without refusal.
-- **Jr. AI Scientist** (added 2026-05-22) — University of Tokyo baseline-paper-anchored autoresearch system published in *TMLR* with companion risk report; higher DeepReviewer scores than existing fully automated systems on NeurIPS / IJCV / ICLR baselines.
-- **ARIS** (added 2026-05-22) — SJTU / Shanghai Innovation Institute autonomous research harness with cross-model executor/reviewer pairing across five workflows (idea discovery, implement & deploy, auto-review, paper writing, rebuttal).
 
 ## Flagged for review
 

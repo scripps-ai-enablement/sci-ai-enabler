@@ -209,6 +209,38 @@
       "source_url": "https://arxiv.org/abs/2605.03042",
       "downloaded": "2026-05-22",
       "txt_sidecar": "2605.03042v1.txt"
+    },
+    {
+      "doi": "10.48550/arXiv.2605.15871",
+      "filename": "2605.15871v1.pdf",
+      "title": "Agentic Discovery of Neural Architectures: AIRA-Compose and AIRA-Design",
+      "source_url": "https://arxiv.org/abs/2605.15871",
+      "downloaded": "2026-05-23",
+      "txt_sidecar": "2605.15871v1.txt"
+    },
+    {
+      "doi": "10.48550/arXiv.2605.08083",
+      "filename": "2605.08083v1.pdf",
+      "title": "LLMs Improving LLMs: Agentic Discovery for Test-Time Scaling (AutoTTS)",
+      "source_url": "https://arxiv.org/abs/2605.08083",
+      "downloaded": "2026-05-23",
+      "txt_sidecar": "2605.08083v1.txt"
+    },
+    {
+      "doi": "10.48550/arXiv.2605.14791",
+      "filename": "2605.14791v1.pdf",
+      "title": "Beyond AI as Assistants: Toward Autonomous Discovery in Cosmology (CMBEvolve and CosmoEvolve)",
+      "source_url": "https://arxiv.org/abs/2605.14791",
+      "downloaded": "2026-05-23",
+      "txt_sidecar": "2605.14791v1.txt"
+    },
+    {
+      "doi": "10.48550/arXiv.2605.06651",
+      "filename": "2605.06651v1.pdf",
+      "title": "AI co-mathematician: Accelerating mathematicians with agentic AI",
+      "source_url": "https://arxiv.org/abs/2605.06651",
+      "downloaded": "2026-05-23",
+      "txt_sidecar": "2605.06651v1.txt"
     }
   ]
 }

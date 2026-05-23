@@ -2,7 +2,7 @@
 title: CRISPR-GPT
 parent: Systems
 grand_parent: AI scientists
-nav_order: 10
+nav_order: 14
 affiliation: Stanford University (Cong lab), Princeton, UC Berkeley, Google DeepMind
 lifecycle_stages: [Experiment design, Analysis]
 autonomy: Assistive

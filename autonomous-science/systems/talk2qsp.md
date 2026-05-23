@@ -2,7 +2,7 @@
 title: Talk2QSP
 parent: Systems
 grand_parent: AI scientists
-nav_order: 24
+nav_order: 28
 affiliation: Sanofi and bmedx
 lifecycle_stages: [Experiment design]
 autonomy: Assistive

@@ -2,7 +2,7 @@
 title: AI Scientist (Sakana)
 parent: Systems
 grand_parent: AI scientists
-nav_order: 3
+nav_order: 4
 affiliation: Sakana AI, with FLAIR (Oxford), University of British Columbia, Vector Institute
 lifecycle_stages: [Multi-stage, Writing]
 autonomy: Fully autonomous
