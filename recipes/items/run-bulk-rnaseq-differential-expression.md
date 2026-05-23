@@ -2,7 +2,7 @@
 title: Run bulk RNA-seq differential expression from a counts matrix
 parent: All recipes
 grand_parent: Recipes
-nav_order: 3
+nav_order: 5
 problem_class: Data analysis
 subject_areas: [Molecular and Cellular Biology, Immunology and Microbiology, Translational Medicine, Drug Repurposing and Discovery]
 evidence_level: Reported

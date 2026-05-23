@@ -2,7 +2,7 @@
 title: Sort spikes from a Neuropixels recording end-to-end
 parent: All recipes
 grand_parent: Recipes
-nav_order: 5
+nav_order: 7
 problem_class: Data analysis
 subject_areas: [Neuroscience]
 evidence_level: Reported
