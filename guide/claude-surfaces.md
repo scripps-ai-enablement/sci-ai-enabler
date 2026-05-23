@@ -46,10 +46,10 @@ Some features span more than one surface — you start them in one place and vie
 
 ## Sources
 
-- [Claude Code product landing](https://claude.com/product/claude-code) — Anthropic product page; verified 2026-05-21 (this run) — canonical install command and Windows/WinGet/Linux package options.
-- [Set up Claude Code](https://code.claude.com/docs/en/setup) — Anthropic docs; verified 2026-05-21 (this run).
+- [Claude Code product landing](https://claude.com/product/claude-code) — Anthropic product page; verified 2026-05-23 (this run) — canonical install command and Windows/WinGet/Linux package options.
+- [Set up Claude Code](https://code.claude.com/docs/en/setup) — Anthropic docs; verified 2026-05-23 (this run).
 - [Claude Code on the web](https://code.claude.com/docs/en/claude-code-on-the-web) — Anthropic docs; verified 2026-05-19.
 - [Claude Code on the web (announcement)](https://www.anthropic.com/news/claude-code-on-the-web) — published 2025-10-20.
 - [Anthropic announces Claude Cowork](https://www.infoq.com/news/2026/01/claude-cowork/) — published 2026-01-13.
 - [Cowork and plugins for teams across the enterprise](https://claude.com/blog/cowork-plugins-across-enterprise) — Anthropic blog; published 2026-02-24.
-- [Claude Code changelog (v2.1.144 / v2.1.145, May 18–19 2026)](https://code.claude.com/docs/en/changelog) — `claude --bg`, `/resume`, `claude agents --json`; verified 2026-05-21 (this run).
+- [Claude Code changelog (v2.1.144 / v2.1.145, May 18–19 2026)](https://code.claude.com/docs/en/changelog) — `claude --bg`, `/resume`, `claude agents --json`; verified 2026-05-23 (this run).

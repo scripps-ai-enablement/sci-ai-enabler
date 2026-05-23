@@ -46,7 +46,7 @@ Claude Code is where Skills, MCP servers, Plugins, Hooks, and slash commands all
 
 - Claude Code on the web runs in a sandboxed VM with network restrictions; local-only MCP servers won't work there.
 - Skills/plugins/MCP installed in `~/.claude/` (user scope) are global; `.claude/` in a repo (project scope) is per-repo.
-- Background sessions accumulate — list with `claude agents` and clean up.
+- Background sessions accumulate — list with `claude agents` and clean up. Pin one with Ctrl+T in that view if you want it kept alive when idle and restarted in place on updates; un-pinned sessions are shed first under memory pressure.
 
 ## See also
 
@@ -55,8 +55,8 @@ Claude Code is where Skills, MCP servers, Plugins, Hooks, and slash commands all
 
 ## Sources
 
-- [Claude Code product landing](https://claude.com/product/claude-code) — Anthropic; verified 2026-05-22 (this run) — canonical install command and OS-specific options.
-- [Set up Claude Code](https://code.claude.com/docs/en/setup) — Anthropic docs; verified 2026-05-22.
+- [Claude Code product landing](https://claude.com/product/claude-code) — Anthropic; verified 2026-05-23 (this run) — canonical install command and OS-specific options.
+- [Set up Claude Code](https://code.claude.com/docs/en/setup) — Anthropic docs; verified 2026-05-23 (this run).
 - [Claude Code on the web](https://code.claude.com/docs/en/claude-code-on-the-web) — Anthropic docs; verified 2026-05-19.
 - [Redesigning Claude Code on desktop for parallel agents](https://claude.com/blog/claude-code-desktop-redesign) — Anthropic blog; published 2026-04-14 — session sidebar, drag-and-drop panes, SSH on macOS, per-session Git worktrees.
-- [Claude Code changelog (v2.1.139–v2.1.146)](https://code.claude.com/docs/en/changelog) — `claude agents`, `/goal`, `/code-review` (renamed from `/simplify`), `claude --bg`, `/resume`; verified 2026-05-22.
+- [Claude Code changelog (v2.1.139–v2.1.148)](https://code.claude.com/docs/en/changelog) — `claude agents`, `/goal`, `/code-review` (renamed from `/simplify` in v2.1.147, 2026-05-21), `claude --bg`, `/resume`, Ctrl+T pinned background sessions; verified 2026-05-23 (this run).

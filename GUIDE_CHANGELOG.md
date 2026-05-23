@@ -11,6 +11,27 @@ Reverse-chronological log of changes to the [guide](guide/). Newest at the top.
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-05-23
+
+### Updated
+- **[surfaces/claude-api] Claude Managed Agents now occupies real space on the API surface page.** The page previously mentioned Managed Agents in a single sentence; Anthropic moved three advanced capabilities to public beta at Code with Claude on 2026-05-06 (per the [launch blog](https://claude.com/blog/new-in-claude-managed-agents) and follow-up coverage), and beginners reading this page should know they exist. Added: the `/v1/agents` / `/v1/environments` / `/v1/sessions` endpoint family and `managed-agents-2026-04-01` beta header; one-line summaries of **Outcomes** (rubric-graded self-correction; canonical docs at [`platform.claude.com/docs/en/managed-agents/define-outcomes`](https://platform.claude.com/docs/en/managed-agents/define-outcomes)) and **Multi-agent Orchestration** (public beta); and **Dreams** in research preview (async memory consolidation, beta header `dreaming-2026-04-21`, canonical docs at [`platform.claude.com/docs/en/managed-agents/dreams`](https://platform.claude.com/docs/en/managed-agents/dreams)). Added a pitfall noting Managed Agents lives on separate endpoints — calling `/v1/messages` doesn't get you these features. Sources expanded to include the Outcomes and Dreams API doc pages, the launch blog, and Simon Willison's live blog of the keynote.
+- **[surfaces/claude-code] Pinned background sessions.** Per [Claude Code changelog v2.1.147 (2026-05-21)](https://code.claude.com/docs/en/changelog), `claude agents` now supports Ctrl+T to pin a background session — pinned sessions stay alive when idle, are restarted in place on Claude Code updates, and are shed under memory pressure only after un-pinned sessions. Added as a refinement to the existing "background sessions accumulate" pitfall. Sources updated to reflect the v2.1.139–v2.1.148 range (which also confirms `/code-review` was renamed from `/simplify` in v2.1.147).
+
+### Verified (no changes)
+- claude-surfaces.md — install command (`curl -fsSL https://claude.ai/install.sh | bash`) re-verified against `claude.com/product/claude-code` and `code.claude.com/docs/en/setup`; Windows PowerShell `irm https://claude.ai/install.ps1 | iex`, WinGet, Homebrew, apt/dnf/apk, npm wrapper, and Windows CMD `install.cmd` all still current. Sources `verified` dates refreshed.
+- skills.md — `~/.claude/skills/` layout, `SKILL.md` open standard, `/skills` type-to-filter picker unchanged.
+- mcp-servers.md — `claude mcp add --transport http` syntax, scope semantics, MCP tunnels Research Preview unchanged.
+- plugins.md — `claude-plugins-official` pre-registered, `--plugin-dir` zip support, `--plugin-url`, dependency-aware disable, `claude plugin prune`, `/plugin` Discover/Browse previews, Claude for Small Business Cowork example unchanged. The reserved-name list and `claude.com/plugins` catalog URL surfaced in this run's research but adding either would push the page past its budget without informing a beginner's first install.
+- marketplaces.md — source forms, seed-managed read-only behavior, pre-registration unchanged.
+- connectors.md — `claude.ai/directory/connectors`, "over 200" count, May 12 legal push, Claude for Small Business pointer unchanged.
+- decision-tree.md — table unchanged.
+- surfaces/claude-ai.md, surfaces/claude-desktop.md, surfaces/claude-cowork.md — unchanged this run.
+- advanced/hooks.md, advanced/slash-commands.md, advanced/routines.md, advanced/authentication.md — unchanged.
+
+### Flagged for review
+- WebFetch was again unavailable this run (404 on `claude-3-5-haiku-20241022`). All primary-source verification went through WebSearch summaries of `claude.com/product/claude-code`, `code.claude.com/docs/en/changelog`, `code.claude.com/docs/en/setup`, `claude.com/blog/new-in-claude-managed-agents`, `platform.claude.com/docs/en/managed-agents/{define-outcomes,dreams}`, `anthropic.com/news`, and `simonwillison.net/2026/May/6/code-w-claude-2026/`. A human should occasionally spot-check the Managed Agents docs to confirm `client.beta.agents` is still the canonical SDK entry point — it was named in two independent sources this run but not seen directly.
+- **Claude Managed Agents as a dedicated guide topic.** It now hosts Outcomes, Dreams, Multi-agent Orchestration, Memory Stores — enough surface area to merit a dedicated `guide/advanced/managed-agents.md` page rather than a paragraph on `claude-api.md`. Held off this run because (a) the audience is beginners who mostly aren't shipping API products, and (b) the policy is to add a cross-cutting page only when a feature touches ≥ 2 surfaces — Managed Agents currently lives only on the API. Revisit if Claude.ai or Claude Code start surfacing Managed Agents UIs directly (the existing routines page already wraps a related cloud-execution surface).
+
 ## 2026-05-22
 
 ### Updated
