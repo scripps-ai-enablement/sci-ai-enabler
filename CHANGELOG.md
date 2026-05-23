@@ -11,6 +11,23 @@ Reverse-chronological log of changes to the [catalog](catalog/). Newest at the t
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-05-23
+
+Directed pass on **Translational Medicine** (Saturday focus). Manifest sweep of `anthropics/healthcare/.claude-plugin/marketplace.json` (via web search of the release notes and README, since direct fetch is unavailable from the runner) surfaced three new Anthropic-published healthcare components beyond the two already catalogued (`fhir-developer`, `prior-auth-review`). A focused web search for ClinicalTrials.gov MCP servers identified `cyanheads/clinicaltrialsgov-mcp-server` as the highest-quality standalone option, with a hosted public instance and Apache-2.0 license. Four new entries this run — at the 5-entry soft cap minus one — with NPI Registry deferred to next run.
+
+### Added
+- **clinical-trial-protocol (Anthropic Healthcare Plugin)** (Categories: Translational Medicine, Drug Repurposing and Discovery) — Anthropic skill that drafts FDA/NIH-compliant Phase 2/3 clinical-trial protocols via a four-step waypoint workflow (regulatory classification → ClinicalTrials.gov landscape → sample-size calculation → protocol drafting) ([source](https://github.com/anthropics/healthcare), [tutorial](https://claude.com/resources/tutorials/how-to-use-the-clinical-trial-protocol-draft-generation-sample-skill-with-claude)).
+- **CMS Coverage MCP (Anthropic Healthcare)** (Categories: Translational Medicine) — Anthropic-published MCP over the CMS Local and National Coverage Determinations for Medicare prior-auth, appeals, and policy lookup ([source](https://github.com/anthropics/healthcare), [announcement](https://www.anthropic.com/news/healthcare-life-sciences)).
+- **ICD-10 Codes MCP (Anthropic Healthcare)** (Categories: Translational Medicine) — Anthropic-published MCP for ICD-10-CM and ICD-10-PCS diagnosis and procedure code lookup, sourced from CMS and CDC ([source](https://github.com/anthropics/healthcare)).
+- **ClinicalTrials.gov MCP Server (cyanheads)** (Categories: Translational Medicine, Drug Repurposing and Discovery) — Apache-2.0 MCP over the ClinicalTrials.gov v2 API with full study retrieval, outcomes extraction, and patient-to-trial matching; hosted public instance at `clinicaltrials.caseyjhand.com/mcp` ([source](https://github.com/cyanheads/clinicaltrialsgov-mcp-server), [npm](https://www.npmjs.com/package/clinicaltrialsgov-mcp-server)).
+
+### Updated
+- **`catalog/curator-state.md`** — Recently surfaced refreshed with this run's four Translational Medicine additions; Deferred queue gained `NPI Registry MCP` (the fourth healthcare-marketplace MCP, held back to respect the entry cap) and `AACT Clinical Trials MCP` (SQL-over-PostgreSQL alternative to the ClinicalTrials.gov v2 API).
+
+### Verified (no changes)
+- Manifest sweep of `anthropics/life-sciences/marketplace.json` re-confirmed: no diff vs. 2026-05-22; existing Owkin / ChEMBL / Cortellis / ToolUniverse / Consensus / Medidata deferred items carry forward.
+- Existing Translational Medicine pages (`fhir-developer`, `prior-auth-review`, `fhir-wso2`) spot-checked against upstream — install paths still valid; no field drift.
+
 ## 2026-05-22
 
 Directed pass on **Neuroscience** (Friday focus). Three K-Dense scientific skills added — each is a distinct `SKILL.md` directory installable via the `K-Dense-AI/claude-scientific-skills` plugin marketplace or by manual clone of `K-Dense-AI/scientific-agent-skills`. Manifest sweep of `anthropics/life-sciences` shows no new plugin entries since 2026-05-21.
