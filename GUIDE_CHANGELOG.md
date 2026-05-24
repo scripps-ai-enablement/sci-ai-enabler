@@ -11,6 +11,26 @@ Reverse-chronological log of changes to the [guide](guide/). Newest at the top.
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-05-24
+
+### Updated
+- **[skills] Root-level `SKILL.md` plugins now auto-surface as skills; `/usage` adds per-category breakdown.** Per the [Claude Code changelog](https://code.claude.com/docs/en/changelog) (May 2026), a plugin with a root-level `SKILL.md` and no `skills/` subdirectory is now recognized as a skill, and `/usage` shows what's driving limits usage broken down by skill, subagent, plugin, and per-MCP-server cost. Added one sentence each to the install section; sources updated.
+- **[surfaces/claude-code] `claude agents` configuration flags and `/code-review --comment`.** Per the May 2026 changelog, `claude agents` now accepts `--add-dir`, `--settings`, `--mcp-config`, `--plugin-dir`, `--model`, `--effort` for configuring dispatched background sessions; the renamed `/code-review` command takes a `--comment` flag to post findings as inline GitHub PR comments; and fast mode now defaults to Opus 4.7 (previously 4.6). Source line refreshed accordingly.
+- **[connectors] Creative-tools wave (2026-04-28) added; "over 200" framed as Anthropic's published count, not a current total.** Per [9to5Mac coverage](https://9to5mac.com/2026/04/28/anthropic-releases-9-new-claude-connectors-for-creative-tools-including-blender-and-adobe/), Anthropic added nine creative-tool connectors on 2026-04-28 (Blender, Adobe, Ableton, SketchUp, Splice, Affinity by Canva, etc.). The directory has visibly grown beyond Anthropic's last-published "over 200" figure (third-party trackers now list ≈ 414), so the page now explicitly attributes "over 200" to Anthropic's blog and lists the recent waves that have grown it further, rather than implying it's a current total. Source list expanded.
+
+### Verified (no changes)
+- claude-surfaces.md — `curl -fsSL https://claude.ai/install.sh | bash`, WinGet, Homebrew, apt/dnf/apk, npm wrapper, background sessions (`claude --bg`, `/resume`, `claude agents`), MCP tunnels Research Preview re-verified against `claude.com/product/claude-code` and `code.claude.com/docs/en/changelog`.
+- mcp-servers.md — `claude mcp add --transport http`, scope semantics, MCP tunnels Research Preview unchanged.
+- plugins.md — `claude-plugins-official` pre-registration, `--plugin-dir` zip, `--plugin-url`, dependency-aware disable, `claude plugin prune`, `/plugin` Discover/Browse previews, Claude for Small Business example unchanged. The root-level SKILL.md surfacing is captured on the skills page rather than duplicated here.
+- marketplaces.md — source forms, seed-managed read-only behavior, pre-registration unchanged.
+- decision-tree.md — table unchanged.
+- surfaces/claude-ai.md, surfaces/claude-desktop.md, surfaces/claude-cowork.md, surfaces/claude-api.md — unchanged this run; Opus 4.7 pricing/availability and Claude Managed Agents endpoints all still current.
+- advanced/hooks.md, advanced/slash-commands.md, advanced/routines.md, advanced/authentication.md — unchanged.
+
+### Flagged for review
+- WebFetch was again unavailable this run (404 on `claude-3-5-haiku-20241022`). All primary-source verification went through WebSearch summaries of `claude.com/product/claude-code`, `code.claude.com/docs/en/changelog`, `anthropic.com/news/claude-opus-4-7`, `claude.com/blog/connectors-for-everyday-life`, and `9to5mac.com/2026/04/28/anthropic-releases-9-new-claude-connectors-for-creative-tools-including-blender-and-adobe/`. A human should occasionally verify the connector-count discrepancy: third-party trackers now list ~414 connectors but Anthropic's own most recent blog still says "over 200" — if a fresher first-party count appears, the connectors page should adopt it.
+- **Claude Design** (`claude.ai/design`, Anthropic Labs, launched with Opus 4.7 on 2026-04-16) is still in research preview and not yet promoted to a surface sub-page. Revisit when it exits research preview or develops a component model of its own.
+
 ## 2026-05-23
 
 ### Updated

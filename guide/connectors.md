@@ -12,7 +12,7 @@ nav_order: 6
 
 A Connector is a remote MCP server exposed through the Claude.ai UI. Anthropic (or a vendor partner) hosts the server and handles OAuth so you don't run anything yourself. You enable a connector once; it then appears as a toggle in the chat composer. Connectors inherit your permissions in the source system — Claude can only see what your account can.
 
-Since March 2026 the Connectors directory lives at `claude.ai/directory/connectors` (alongside Skills and Plugins tabs in a unified Directory). The catalog spans productivity, design, finance, healthcare, legal, creative, and everyday-life categories — Anthropic's most recent count is "over 200" since the July 2025 launch, and the May 12 2026 "Claude for Legal" push alone added 20+ connectors (DocuSign, LexisNexis, Westlaw, Everlaw, iManage, Harvey, Ironclad, …) plus 12 practice-area plugins. Custom connectors are also supported: point Claude.ai at a remote MCP URL and it walks you through OAuth.
+Since March 2026 the Connectors directory lives at `claude.ai/directory/connectors` (alongside Skills and Plugins tabs in a unified Directory). The catalog spans productivity, design, finance, healthcare, legal, creative, and everyday-life categories. Anthropic's own most-recent published count is "over 200" since the July 2025 launch, but the directory has grown rapidly: the April 28 2026 creative wave added 9 connectors (Blender, Adobe, Ableton, SketchUp, Splice, Affinity by Canva, …) and the May 12 2026 "Claude for Legal" push added 20+ more (DocuSign, LexisNexis, Westlaw, Everlaw, iManage, Harvey, Ironclad, Thomson Reuters CoCounsel) plus 12 practice-area plugins. Custom connectors are also supported: point Claude.ai at a remote MCP URL and it walks you through OAuth.
 
 ## When to use it
 
@@ -57,6 +57,7 @@ On Team/Enterprise, an Owner enables the connector for the org first (Organizati
 - [Get started with custom connectors using remote MCP](https://support.claude.com/en/articles/11175166-get-started-with-custom-connectors-using-remote-mcp) — Anthropic help center; verified 2026-05-19.
 - [Connectors directory](https://claude.com/docs/connectors/directory) — canonical directory listing; verified 2026-05-20.
 - [Claude AI Connectors directory overview](https://www.claude.com/connectors) — verified 2026-05-20.
-- [New connectors in Claude for everyday life](https://claude.com/blog/connectors-for-everyday-life) — Anthropic blog; "over 200 connectors" since July 2025 launch; AllTrails/Uber/Spotify/etc. added; verified 2026-05-21 (this run).
+- [New connectors in Claude for everyday life](https://claude.com/blog/connectors-for-everyday-life) — Anthropic blog; "over 200 connectors" since July 2025 launch; AllTrails/Uber/Spotify/etc. added; verified 2026-05-21.
+- [Anthropic releases 9 Claude connectors for creative tools](https://9to5mac.com/2026/04/28/anthropic-releases-9-new-claude-connectors-for-creative-tools-including-blender-and-adobe/) — 9to5Mac; published 2026-04-28 — Blender, Adobe, Ableton, SketchUp, Splice, Affinity by Canva, etc.
 - [Anthropic Goes All-In on Legal](https://www.lawnext.com/2026/05/anthropic-goes-all-in-on-legal-releasing-more-than-20-connectors-and-12-practice-area-plugins-for-claude.html) — LawSites; published 2026-05-12 — 20+ legal connectors and 12 practice-area plugins.
 - [Introducing Claude for Small Business](https://www.anthropic.com/news/claude-for-small-business) — Anthropic news; published 2026-05-13 — Cowork-plugin bundle of common SMB connectors.

@@ -30,7 +30,7 @@ mkdir -p ~/.claude/skills/my-skill
 # place SKILL.md inside ~/.claude/skills/my-skill/
 ```
 
-To browse and install skills shipped via a plugin marketplace, type `/plugin` inside Claude Code. List active skills with `/skills` — the picker has a type-to-filter search box for long lists.
+To browse and install skills shipped via a plugin marketplace, type `/plugin` inside Claude Code. List active skills with `/skills` — the picker has a type-to-filter search box for long lists. A plugin with a root-level `SKILL.md` (no `skills/` subdirectory) is now surfaced as a skill automatically. `/usage` breaks down current usage by skill, subagent, plugin, and MCP server.
 
 ## Common pitfalls
 
@@ -53,5 +53,5 @@ To browse and install skills shipped via a plugin marketplace, type `/plugin` in
 - [Agent Skills overview](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview) — Anthropic API docs; verified 2026-05-19.
 - [Introducing Agent Skills](https://www.anthropic.com/news/skills) — published 2025-10-16.
 - [Equipping agents for the real world with Agent Skills](https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills) — Anthropic engineering blog; published 2025-10-16.
-- [Claude Code changelog (May 2026)](https://code.claude.com/docs/en/changelog) — type-to-filter `/skills`, nested SKILL.md surfacing; verified 2026-05-19.
+- [Claude Code changelog (May 2026)](https://code.claude.com/docs/en/changelog) — type-to-filter `/skills`, nested SKILL.md surfacing, root-level SKILL.md surfaced as skill, `/usage` per-category breakdown; verified 2026-05-24 (this run).
 - [`anthropics/skills`](https://github.com/anthropics/skills) — canonical examples repo; verified 2026-05-19.

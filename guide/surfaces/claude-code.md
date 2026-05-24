@@ -16,7 +16,7 @@ Claude Code is where Claude takes multi-step actions against code: reading files
 - **CLI** — install on your machine, run `claude` in any repo, work in your terminal.
 - **Desktop app** — redesigned 2026-04-14 around parallel sessions: a session sidebar across repos, drag-and-drop panes (terminal / preview / diff / chat), an in-app file editor and diff viewer, SSH on macOS (already supported on Linux), and one Git worktree per session.
 - **IDE extension** — VS Code and JetBrains, surfacing the same engine in your editor.
-- **Web** — `claude.ai/code` runs the agent in an Anthropic-managed cloud VM that clones your GitHub repo and opens PRs. Use `--teleport` from the CLI to hand off a cloud session into your terminal, or `claude --bg` to run a session in the background and reattach later via `/resume` or `claude agents` (a single-screen view of every running, blocked, and finished session).
+- **Web** — `claude.ai/code` runs the agent in an Anthropic-managed cloud VM that clones your GitHub repo and opens PRs. Use `--teleport` from the CLI to hand off a cloud session into your terminal, or `claude --bg` to run a session in the background and reattach later via `/resume` or `claude agents` (a single-screen view of every running, blocked, and finished session; accepts `--add-dir`, `--settings`, `--mcp-config`, `--plugin-dir`, `--model`, `--effort`).
 
 Claude Code is where Skills, MCP servers, Plugins, Hooks, and slash commands all install.
 
@@ -55,8 +55,8 @@ Claude Code is where Skills, MCP servers, Plugins, Hooks, and slash commands all
 
 ## Sources
 
-- [Claude Code product landing](https://claude.com/product/claude-code) — Anthropic; verified 2026-05-23 (this run) — canonical install command and OS-specific options.
-- [Set up Claude Code](https://code.claude.com/docs/en/setup) — Anthropic docs; verified 2026-05-23 (this run).
+- [Claude Code product landing](https://claude.com/product/claude-code) — Anthropic; verified 2026-05-24 (this run) — canonical install command and OS-specific options.
+- [Set up Claude Code](https://code.claude.com/docs/en/setup) — Anthropic docs; verified 2026-05-24 (this run).
 - [Claude Code on the web](https://code.claude.com/docs/en/claude-code-on-the-web) — Anthropic docs; verified 2026-05-19.
 - [Redesigning Claude Code on desktop for parallel agents](https://claude.com/blog/claude-code-desktop-redesign) — Anthropic blog; published 2026-04-14 — session sidebar, drag-and-drop panes, SSH on macOS, per-session Git worktrees.
-- [Claude Code changelog (v2.1.139–v2.1.148)](https://code.claude.com/docs/en/changelog) — `claude agents`, `/goal`, `/code-review` (renamed from `/simplify` in v2.1.147, 2026-05-21), `claude --bg`, `/resume`, Ctrl+T pinned background sessions; verified 2026-05-23 (this run).
+- [Claude Code changelog (v2.1.139–v2.1.148)](https://code.claude.com/docs/en/changelog) — `claude agents` config flags, `/code-review` (renamed from `/simplify` in v2.1.147, 2026-05-21) with `--comment` for inline PR comments, `claude --bg`, `/resume`, Ctrl+T pinned background sessions, fast mode now Opus 4.7 by default; verified 2026-05-24 (this run).
