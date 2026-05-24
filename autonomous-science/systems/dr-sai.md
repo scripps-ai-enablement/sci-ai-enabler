@@ -2,7 +2,7 @@
 title: Dr.Sai
 parent: Systems
 grand_parent: AI scientists
-nav_order: 16
+nav_order: 18
 affiliation: Institute of High Energy Physics (CAS), with University of Chinese Academy of Sciences, Jilin University, Lanzhou University, and Shanghai Jiao Tong University
 lifecycle_stages: [Analysis, Experiment design]
 autonomy: Semi-autonomous

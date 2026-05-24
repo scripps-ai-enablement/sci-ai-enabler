@@ -2,7 +2,7 @@
 title: AutoTTS
 parent: Systems
 grand_parent: AI scientists
-nav_order: 8
+nav_order: 9
 affiliation: UMD, UVA, WUSTL, UNC, Google, Meta
 lifecycle_stages: [Hypothesis, Experiment design, Analysis]
 autonomy: Semi-autonomous

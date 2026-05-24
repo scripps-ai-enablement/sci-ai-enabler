@@ -2,7 +2,7 @@
 title: CMBEvolve and CosmoEvolve
 parent: Systems
 grand_parent: AI scientists
-nav_order: 11
+nav_order: 12
 affiliation: University of Cambridge (Institute of Astronomy / Kavli Institute for Cosmology / Cavendish Astrophysics)
 lifecycle_stages: [Multi-stage]
 autonomy: Semi-autonomous

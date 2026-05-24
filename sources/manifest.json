@@ -241,6 +241,30 @@
       "source_url": "https://arxiv.org/abs/2605.06651",
       "downloaded": "2026-05-23",
       "txt_sidecar": "2605.06651v1.txt"
+    },
+    {
+      "doi": "10.48550/arXiv.2605.20025",
+      "filename": "2605.20025v1.pdf",
+      "title": "AutoResearchClaw: Self-Reinforcing Autonomous Research with Human-AI Collaboration",
+      "source_url": "https://arxiv.org/abs/2605.20025",
+      "downloaded": "2026-05-24",
+      "txt_sidecar": "2605.20025v1.txt"
+    },
+    {
+      "doi": "10.48550/arXiv.2605.16552",
+      "filename": "2605.16552v1.pdf",
+      "title": "From Prompts to Protocols: An AI Agent for Laboratory Automation (EOS AI agent)",
+      "source_url": "https://arxiv.org/abs/2605.16552",
+      "downloaded": "2026-05-24",
+      "txt_sidecar": "2605.16552v1.txt"
+    },
+    {
+      "doi": "10.48550/arXiv.2605.11359",
+      "filename": "2605.11359v1.pdf",
+      "title": "CVEvolve: Autonomous Algorithm Discovery for Unstructured Scientific Data Processing",
+      "source_url": "https://arxiv.org/abs/2605.11359",
+      "downloaded": "2026-05-24",
+      "txt_sidecar": "2605.11359v1.txt"
     }
   ]
 }

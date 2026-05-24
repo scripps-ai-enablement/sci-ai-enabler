@@ -2,7 +2,7 @@
 title: Kosmos
 parent: Systems
 grand_parent: AI scientists
-nav_order: 20
+nav_order: 23
 affiliation: Edison Scientific Inc., with FutureHouse, University of Oxford, University College London, Washington University in St. Louis, MIT, Stanford, and additional collaborators
 lifecycle_stages: [Multi-stage, Writing]
 autonomy: Semi-autonomous

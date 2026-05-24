@@ -1,0 +1,1350 @@
+GOVERNMENT LICENSE
+
+arXiv:2605.11359v1 [cs.AI] 12 May 2026
+
+The submitted manuscript has been created by UChicago Argonne, LLC, Operator of Argonne National Laboratory
+(“Argonne”). Argonne, a U.S. Department of Energy Office of Science laboratory, is operated under Contract No.
+DE-AC02-06CH11357. The U.S. Government retains for itself, and others acting on its behalf, a paid-up nonexclusive,
+irrevocable worldwide license in said article to reproduce, prepare derivative works, distribute copies to the public,
+and perform publicly and display publicly, by or on behalf of the Government. The Department of Energy will
+provide public access to these results of federally sponsored research in accordance with the DOE Public Access Plan.
+http://energy.gov/downloads/doe-public-access-plan.
+
+CVE VOLVE : AUTONOMOUS A LGORITHM D ISCOVERY FOR
+U NSTRUCTURED S CIENTIFIC DATA P ROCESSING
+
+Ming Du∗ , Xiangyu Yin, Yanqi Luo, Dishant Beniwal, Songyuan Tang, Hemant Sharma, Mathew J. Cherukara†
+Advanced Photon Source
+Argonne National Laboratory
+Lemont, IL, USA
+∗
+mingdu@anl.gov, † mcherukara@anl.gov
+
+A BSTRACT
+Scientific data processing often requires task-specific algorithms or AI models, creating a barrier
+for domain scientists who need to analyze their data but may not have extensive computing or
+image-processing expertise. This barrier is especially pronounced when data are noisy, have a high
+dynamic range, are sparsely labeled, or are only loosely specified. We introduce CVEvolve, an
+autonomous agentic harness with a zero-code interface for scientific data-processing algorithm discovery. CVEvolve combines a multi-round search strategy with tools for code execution, evaluation
+implementation, history management, holdout testing, and optional inspection of scientific data
+and visual outputs. The search alternates between discovery and improvement actions, and uses
+lineage-aware stochastic candidate sampling to balance exploration and exploitation. We demonstrate CVEvolve on x-ray fluorescence microscopy image registration, Bragg peak detection, and
+high-energy diffraction microscopy image segmentation. Across these tasks, CVEvolve discovers
+algorithms that improve over baseline methods, while holdout test tracking helps identify candidates
+that generalize better than later over-optimized alternatives. These results show that zero-code,
+autonomous LLM-powered algorithm development can help domain scientists turn unstructured
+scientific image data into practical algorithms and downstream scientific discoveries.
+Keywords algorithm discovery · scientific data processing · autonomous research
+
+1
+
+Introduction
+
+Scientific instruments and simulations now produce large volumes of images and other high-dimensional data, and
+scientific conclusions often depend on the quality of the processing methods applied before interpretation. In practice,
+this means that researchers routinely need algorithms for tasks such as image registration, denoising, segmentation,
+peak detection, and feature quantification. Over the last two years, agentic AI systems based on large language models
+have rapidly expanded from chat-oriented assistants to systems that can plan, use tools, search the literature, write code,
+and interact with laboratory or computational environments. In science, these capabilities have already been used for
+autonomous experimentation, hypothesis generation, literature synthesis, and even broader computational research
+workflows [1, 2, 3, 4, 5]. A natural next question is whether such systems can go beyond helping scientists implement
+or use existing data-processing methods and begin to autonomously develop new ones.
+AI-assisted research of scientific data-processing algorithms is valuable because this work often falls to domain scientists
+rather than specialists in computer vision, image processing, or software engineering. In image-heavy fields, even
+routine analysis can require a long sequence of decisions: which representation to use, how to preprocess data, which
+assumptions are acceptable, which parameters are stable, and whether a visually plausible output is scientifically
+meaningful. Prior work in bioimage analysis has repeatedly noted that non-expert users face a knowledge gap in
+constructing analysis pipelines, selecting tools, and reproducing custom workflows, and that usability and visual
+feedback are essential for broader adoption of computational methods [6, 7]. These observations motivate autonomous
+systems that do more than write code once: they should be able to inspect data, generate candidates, run them, evaluate
+them, and revise them in a way that remains understandable to scientists in the loop.
+
+CVEvolve: Autonomous Algorithm Discovery for Unstructured Scientific Data Processing
+
+A survey of prior work leads us to group existing systems along three axes: the type of task they target, the type
+of search harness they use, and the degree to which they support inspection of scientific data and outputs. On the
+task axis, many influential systems are designed for structured optimization problems. Automated machine learning
+(AutoML) and neural architecture search methods such as TPOT, neural architecture search, and AutoML-Zero operate
+in settings with well-defined training and validation data, a constrained design space, and a scalar objective such as
+classification accuracy or validation loss [8, 9, 10]. More recent LLM-based systems follow the same pattern at a higher
+level of abstraction. Eureka searches for reward code whose quality is ultimately measured through reinforcement
+learning performance, and The AI Scientist focuses on machine learning research tasks that still benefit from standard
+computational benchmarks, code templates, and explicit evaluator loops [11, 4]. These works are important steps toward
+autonomous method development, but they are built around problems whose components, data interfaces, evaluators,
+and success criteria are relatively well specified.
+Scientific data-processing problems are often much less structured. The input may be one image, a folder of image
+pairs, a diffraction pattern, a set of floating-point arrays, or an acquisition log. The output may be a transformed
+image, a mask, a list of coordinates, or a derived quantitative measurement. Even when a user can describe the
+desired performance metric for the output data, turning that description into a reliable executable evaluator can require
+substantial programming effort. In many cases, visual failure modes also matter: two candidates can obtain similar
+metrics while producing very different artifacts, false detections, or distortions that are immediately obvious to a human
+observer but difficult to capture with a single number. This mismatch between the structured evaluator interfaces
+assumed by many automated method-discovery systems and the messier reality of scientific data processing creates a
+gap that is especially relevant for domain laboratories.
+On the harness axis, existing systems also span a wide range. One family uses relatively direct response–tool–observation
+loops. Popular coding agents such as OpenAI Codex and Anthropic Claude Code show that language models can
+iteratively edit files, execute programs, observe outputs, and self-debug in realistic computational environments. These
+systems are powerful general-purpose coding assistants, but they do not by themselves define a search strategy over
+families of candidate algorithms. A second family adds an explicit optimization mechanism. FunSearch couples a
+code-generating model with a programmatic evaluator and an evolutionary population to discover improved programs on
+formally specified problems [12]. AlphaEvolve extends this idea to broader scientific and algorithmic problems, while
+OpenEvolve provides an open-source implementation of this style of evolutionary coding agent [13, 14]. These systems
+demonstrate the value of search strategies that explicitly balance exploration and exploitation in sequential decision
+making. As discussed above, they often assume a user-provided executable evaluator, and the agent’s role is typically
+organized around a fixed loop: generate or modify code, run the predefined evaluator, and update the candidate pool.
+This structure is efficient when the problem interface is already clean, but it gives the agent limited freedom to configure
+the execution environment, discover underspecified data relationships, repair broken helper scripts, build reusable
+tools, or preserve intermediate utilities that may become useful in later rounds. Recent systems such as DeepEvolve
+move beyond this basic loop by incorporating research, richer code modification, debugging, and search memory [15].
+Nevertheless, they still assume a relatively structured problem setup, including an implemented evaluation function and
+evaluation data, and do not foreground agent-managed workspace preparation as part of the discovery process. For
+unstructured scientific data-processing tasks, broader workspace-level actions are often part of method development
+itself rather than peripheral setup. In addition, these methods typically do not provide a mechanism to track the metric
+on a holdout set, which the development agent is never allowed to see, after each round. For scientific data processing
+tasks, metric-driven algorithm search can encounter over-optimization (similar to overfitting in data-driven algorithms)
+to the development data unless additional holdout test mechanisms are introduced.
+The third axis is the ability to inspect scientific data and outputs in forms that are meaningful for the task. Direct image
+viewing is useful for helping the agent understand data characteristics, check intermediate results, and diagnose obvious
+failure modes. Scientific images can be noisy, contain outliers or anomalous values, exhibit high dynamic ranges, and
+require preserving the absolute positions of features as well as the quantitative meaning of pixel intensities. They are
+also often saved in lossless formats such as TIFF, which are rarely accepted directly by LLM APIs. Thus, visualization
+support is part of the practical infrastructure needed for unstructured scientific data processing. Most existing agentic
+systems for coding or scientific discovery are fundamentally text-and-code-centric. Recent multimodal coding agents,
+such as OpenHands-Versa, incorporate visual inputs to expand their ability to interact with diverse environments and
+improve general task performance, but these systems are not designed as search or optimization frameworks over
+candidate algorithms [16]. A notable domain-specific exception is PtyChi-Evolve, which uses evolutionary LLM
+reasoning to discover regularization strategies for ptychography and demonstrates that image-grounded autonomous
+search can be scientifically useful in a computational imaging setting [17]. This result is encouraging, but it is specialized
+to one reconstruction problem. A more general framework is still needed for the wider class of scientific data-processing
+tasks encountered across imaging and beamline science.
+
+3
+
+CVEvolve: Autonomous Algorithm Discovery for Unstructured Scientific Data Processing
+
+Here we introduce CVEvolve, an autonomous framework for scientific data-processing algorithm discovery. CVEvolve
+is designed for problems where the agent must interact with code, data, metrics, search history, and, when useful,
+visual outputs in a shared loop, without assuming a predefined problem structure or workflow template. The system
+operates directly in the space of executable algorithms, including analytical computer vision and image processing
+methods, and is not restricted to any particular modeling paradigm. It allows an agent to write and run code, implement
+evaluation procedures from user-provided metric descriptions, query prior search history, inspect generated outputs,
+and iteratively improve candidate solutions through multiple search actions with different strategic roles. In this way,
+CVEvolve aims to move autonomous research agents closer to a setting that mirrors how domain scientists actually
+develop data-processing methods: by combining prior knowledge, computational experiments, quantitative feedback,
+optional visual inspection, and repeated refinement.
+The main contributions of this work are as follows:
+
+• We present a general agentic framework for autonomous scientific data-processing algorithm discovery that is
+designed for unstructured problems and does not rely on predefined modeling pipelines or assumptions about
+data, model, or objective formulations.
+
+• We provide visualization support that allows the agent to inspect images, plots, and other visual outputs when
+such inspection is useful during algorithm development. The visualization tools are designed for scientific
+data, supporting high dynamic range, robustness to outliers and anomalous values, and faithful rendering of
+quantitative image information.
+
+• We introduce a long-horizon search harness that combines generate, tune, and evolve with lineage-aware state
+management and an agent-driven holdout test. The lineage-aware design enables structured sampling of parent
+algorithms based on their evolutionary relationships, promoting both diversity and reuse of successful design
+patterns during search. The holdout test step is executed by a separate agent that operates on holdout data
+using only a user-provided data directory and a lightweight description, without requiring predefined holdout
+test scripts or rigid data formats.
+
+• We enable the agent to translate user-provided metric descriptions or hints into executable evaluation procedures,
+removing the need for users to provide a fully specified evaluation harness.
+
+• We relax the specification of the development and evaluation environment by allowing the agent to construct
+and manage its own local runtime within the workspace (e.g., via uv), including dependency installation and
+environment configuration, rather than relying on a pre-configured execution setup.
+
+• We demonstrate the framework on representative scientific imaging problems and show that it can discover
+practically useful algorithms that improve substantially over baseline methods.
+
+Overall, CVEvolve is a meta-algorithm that, given a task and user instructions, produces candidate algorithms for
+downstream use within a finite computational budget, while employing an open-ended search process internally. It is
+intended not as a replacement for domain scientists, but as a tool for lowering the barrier to robust, interpretable, and
+task-specific data-processing methods.
+4
+
+CVEvolve: Autonomous Algorithm Discovery for Unstructured Scientific Data Processing
+
+2
+
+Results
+
+2.1
+
+Algorithm design
+Algorithm development stage
+
+Baseline evaluation
+stage
+
+Generate round
+
+Intake stage
+
+Evolve round
+
+Lineage-aware candidate
+
+Candidate sampling
+
+Performance-based ranking
+>
+
+File system
+
+List, copy, edit...
+
+Environment managing
+& execution
+uv add/remove/run...
+
+Combining multiple existing
+candidates
+
+Sampling from Gibbs distribution
+
+Holdout
+test
+
+Search state database
+Retrievable SQL database storing past candidate
+files and metrics
+
+Holdout
+test
+
+Tune round
+Multi-threaded improvement of
+existing candidates
+
+Harness-guided action selection
+
+Multi-threaded proposal of new
+algorithm types
+
+Holdout
+test
+
+Workspace/data
+preparation stage
+
+Repair round
+Attempting to fix
+candidates that could
+not run
+
+>
+
+Agent tools
+Image rendering
+
+Search state query
+
+Dynamic range/axis ticks/
+color bar
+
+Submit candidate/search history
+
+Web search tool
+
+Literature and general search
+
+Figure 1: The workflow of CVEvolve. At a high level, the workflow is divided into three stages: in the preparation stage,
+the agent prepares the workspace, builds the environment, and implements the performance evaluation; in the baseline
+stage, the agent evaluates user-provided or suggested baseline algorithms; in each round of the algorithm development
+stage, the harness selects one of the generate, tune, and evolve actions with different strategic focuses. For rounds
+involving parent candidates, the candidates are sampled through a lineage-based approach inspired by MAP-Elites. A
+holdout test optionally runs at the end of each round on a holdout dataset, using a separate agent to flexibly handle
+unstructured data and evaluation schemes.
+Overall design. CVEvolve is designed as an autonomous search controller wrapped around an LLM agent that can
+use code, data, evaluation, history, and visualization tools. In each round, the agent proposes, runs, and evaluates a
+candidate through tools, and the controller then uses the accumulated history to decide what to try next. Concretely,
+an algorithm development round chooses from three actions: generate (proposing new algorithms), tune (improving
+existing algorithms), or evolve (hybridizing existing algorithms). This generate-tune-evolve strategy is conceptually
+adapted from the Pty-Chi-Evolve framework for autonomous ptychography algorithm discovery [17] and generalized
+to broader tasks with an expanded toolset and improved state management. To keep the context size under control,
+the agent starts with a fresh context in each round with only the system prompt and the task prompt specific to the
+action executed in that round, without inheriting earlier message history. Generate and tune can optionally be executed
+with multiple parallel workers within the same round, allowing the system to explore several new proposals or several
+parent-specific refinements concurrently before the history is updated.
+Candidate and lineage. At the end of a round, the agent submits the algorithm it developed as a candidate. Candidates
+are grouped into lineages based on their inheritance relationships. A candidate produced in a generate round has no
+parent and becomes the ancestor of its own lineage. A candidate produced in a tune round inherits the lineage of its
+parent. A candidate produced in an evolve round starts its own lineage like a generate candidate, but both of its parents
+are recorded.
+Search state management. To support long-horizon search, CVEvolve stores the search history in a persistent relational
+database that the agent can query through tools during later rounds. The history consists of the candidate pool (including
+design summaries, analyses, and performance metrics), round history, and metric definitions. This design avoids the
+drawbacks of traditional memory storage approaches, namely in-context memory and retrieval-augmented generation
+5
+
+CVEvolve: Autonomous Algorithm Discovery for Unstructured Scientific Data Processing
+
+(RAG) using a vector store. In-context memory does not scale: the context grows across rounds, increases cost, and
+eventually crowds out information the agent needs for the next decision. It also makes it difficult to reliably access
+specific fields, such as lineage identifiers or metric values, without repeatedly rewriting large text blocks. RAG with a
+vector store can help with semantic lookup, but it is not designed for exact, structured record-keeping. Retrieved entries
+can be incomplete or inconsistent, which weakens reproducibility and complicates deterministic ranking and session
+recovery.
+Tools. CVEvolve exposes several tool families to the agent:
+• File system tools: support listing, reading, writing, editing, copying, moving, and deleting files within the
+workspace, allowing the agent to write candidate code, helper scripts, and evaluation harnesses inside the
+session sandbox.
+• Environment management and code execution tools: allow candidates to install or remove dependencies in the
+workspace as well as to execute Python scripts.
+• Image viewing tool: renders images into agent-viewable PNGs. For scientific image data, the rendering tool
+handles floating-point-valued images and supports percentile-based dynamic-range selection, which suppresses
+extreme outliers by mapping display bounds to chosen lower and upper intensity percentiles. The tool also
+supports logarithmic display scaling for high-dynamic-range images. For TIFF images, the tool converts them
+to PNG images. These controls help the agent inspect weak structures, contrast changes, and failure modes
+that may be hidden under naive linear rendering.
+• Search state tools: let the agent set the primary metric, log evaluation results, inspect prior candidates and
+aggregated history, analyze candidate outcomes, record failed attempts, and submit new candidates to the
+SQL-backed search record.
+• Web search tools: provide access to arXiv, Semantic Scholar, and Tavily so that the agent can retrieve relevant
+literature and implementation ideas during algorithm development rounds when external technical context is
+useful.
+A supporting multimodal detail is the image follow-up middleware: whenever a tool returns an image path in its
+structured response, the runtime can inject the rendered image back into the conversation as a follow-up message. This
+mechanism addresses the restriction of common LLM APIs that do not allow tool messages to contain images, enabling
+the agent to inspect images and plots when visual context is useful.
+Workflow. The workflow begins with workspace preparation, where the agent inspects copied task data, examines
+representative images when available, establishes the primary optimization metric from the task description or user
+hints, and constructs a minimal evaluation harness for later rounds. CVEvolve then runs a baseline round that is
+reserved for user-provided baselines, directly supplied baseline metrics, or a very small number of explicitly suggested
+algorithms. Implementing or evaluating user baselines provides benchmarks for later comparison and early candidates
+for improvement in tune/evolve rounds. Because the agent resets each round, dedicating a baseline round and storing its
+results in the search state database prevents redundant reevaluation. After the baseline, CVEvolve enters discovery
+rounds that follow the generate-tune-evolve strategy inherited from PtychiEvolve [17] and organized into three
+categories:
+• Generate: broad exploration. The prompt asks the agent to produce a materially new candidate, informed
+by task characteristics, prior failures, and optionally literature search, while avoiding minor rephrasings of
+existing code.
+• Tune: exploitative refinement. The agent is given one strong parent candidate sampled from the candidate
+pool together with its code, metrics, analysis, and settings, and is asked to tune hyperparameters and make
+fine-grained improvements while keeping the overall design of the algorithm.
+• Evolve: candidate crossover. When multiple candidates exist in the pool, this round samples two parents and
+prompts the agent to combine their strengths into a new algorithm. If only one candidate is available in the
+pool, this round falls back to a “mutate” action that focuses on improving that single candidate, but the agent
+is allowed to make more aggressive changes than tune.
+In every round type, the candidate is evaluated in the workspace, analyzed through a structured result-analysis tool, and
+finally registered through a single formal submission call that stores the candidate artifact path, settings, lineage, and
+performance summary.
+Holdout test. CVEvolve can also perform holdout tests without exposing the holdout data during algorithm design.
+When this mode is enabled, the main search agent only receives a holdout test prompt that describes the contents of a
+6
+
+CVEvolve: Autonomous Algorithm Discovery for Unstructured Scientific Data Processing
+
+separate holdout data folder and is instructed to prepare a compact execution contract for later use. After the round
+ends, CVEvolve materializes a temporary holdout test workspace for the submitted candidate, runs a separate holdout
+test-only agent on that workspace, records the resulting holdout test metric, and then removes the holdout files from the
+sandbox.
+Branching mechanism. The branching mechanism that chooses the next round is history-driven. Early rounds are forced
+into warmup exploration through generate actions. After warmup, the controller can periodically force additional
+generate rounds to further promote exploration. Otherwise, it first checks whether recent sufficiently strong candidates
+agree on a suggested next action and, if so, honors that majority signal. If no such suggestion dominates, the controller
+falls back to scheduled logic based on search progress and performance thresholds: tune is selected only when
+enough excellent candidates exist, while evolve is selected only when enough moderate-or-better candidates exist. If
+neither condition is met, the system falls back to generate. In this way, action selection combines explicit candidate
+self-assessment with controller-side safeguards that preserve exploration.
+Stochastic candidate sampling. For tune and evolve, CVEvolve uses stochastic candidate sampling rather than always
+choosing the current best candidate. Our sampling approach is inspired by MAP-Elites [18], which is also employed
+by design search methods like AlphaEvolve [13]. Candidates are first grouped by lineage and ranked by the primary
+metric. Let ri ∈ {1, 2, . . .} denote the rank of candidate i in the eligible pool, where ri = 1 is best. CVEvolve assigns
+each candidate an unnormalized selection weight
+
+
+ri − 1
+wi = exp −
+,
+(1)
+τ
+where τ > 0 is a temperature parameter controlling exploration. The actual sampling probability is the normalized
+Gibbs distribution
+wi
+pi = P
+.
+(2)
+j wj
+As τ → 0+ , the distribution becomes increasingly greedy and concentrates on the top-ranked candidates; larger τ
+spreads probability mass more broadly across the ranked pool. When stochastic sampling is disabled, CVEvolve falls
+back to deterministic top-k parent selection.
+For tune, the candidate pool for sampling contains one representative per eligible lineage, and parent assignments
+for multiple workers are sampled without replacement so that distinct workers are encouraged to explore different
+promising lineages. For crossover in an evolve round, CVEvolve constructs a broader pool with multiple candidates per
+lineage. The first parent is sampled from the distribution above. If one or more parents have already been selected, the
+weight of a remaining candidate i can be reduced when it belongs to a lineage that has already been chosen:
+w̃i = wi λmi ,
+
+(3)
+
+where λ ∈ [0, 1] is the same-lineage penalty and mi is the number of already selected parents sharing candidate i’s
+lineage. The second parent is then sampled from the renormalized distribution based on w̃i . This mechanism biases
+crossover toward combining different lineages while still allowing same-lineage crossover when the evidence strongly
+favors it. Overall, the stochastic lineage-aware sampling broadens the search around multiple promising trajectories
+instead of collapsing too early onto a single incumbent. Low-level implementation details, including the software
+framework and concrete runtime stack, are described in the Methods section.
+We next present several case studies of CVEvolve on scientific image-processing problems. Claude Opus 4.6 was used
+for all cases.
+2.2
+
+Case study 1: Fluorescence microscopy image registration
+
+We first demonstrate CVEvolve on the task of finding a robust algorithm for translational registration of x-ray fluorescence microscopy (XRF) images. This problem emerges from the process of optimizing the focus of a fluorescence
+microscope, where the challenge is that the image drifts spatially once the focusing optics (a Fresnel zone plate) is
+moved; this necessitates recalibration of the image acquisition position after every move, which requires finding the
+translation offset between the images before and after the drift. This registration problem is complicated by the size,
+noise, and varying sharpness of the images. Fig. S1 in the supplementary document shows an example image pair.
+These images are simulated by applying shifts, varying Poisson noise, scan jittering, and blurring to a real XRF image,
+making them representative of the disparities between images that must be registered. The images are plotted on a log
+scale because the large dynamic range of the image would make most features invisible in a linear-scale plot. The small
+size of the images (10–30 pixels on each side) restricts the number and resolution of overlapping features that can be
+anchored on, which particularly affects feature-based registration methods. Meanwhile, the sharpness of the images can
+7
+
+CVEvolve: Autonomous Algorithm Discovery for Unstructured Scientific Data Processing
+
+Best so far
+Round metric
+Baseline
+Generate
+
+Tune
+Evolve
+Holdout
+
+1.2
+
+Registration error
+
+1.0
+
+Rounds 2-12
+
+0.20
+0.18
+
+0.8
+
+0.16
+0.14
+
+0.6
+
+0.12
+2
+
+0.4
+
+4
+
+6
+
+8
+
+10
+
+12
+
+0.2
+0.0
+
+0
+
+3
+
+6
+
+9
+
+12
+
+15
+
+18
+
+20
+
+Round
+Figure 2: The round types and registration error history throughout the algorithm search for the XRF image registration
+task. Solid dots represent the best metric up to a round, and dots with lower opacity represent candidates whose metrics
+did not improve the best record. Inset shows a magnified view of the history between round 2 and 12.
+
+vary drastically due to movement of the focusing optics. This inconsistency makes the registration task much more
+difficult for common strategies such as phase correlation.
+To develop an interpretable and tunable registration algorithm that works without dedicated GPU resources, we tasked
+CVEvolve with developing an analytical computer vision algorithm for this registration problem. We generated 809
+pairs of test/reference images similar to Fig. S1 and isolated 10% of them as the holdout set, leaving the rest for
+algorithm design.
+In the task prompt, we introduce the problem and describe the test data directory, which contains the test/reference
+image pairs and the ground-truth shifts. Additionally, the test data directory contains scripts for two baseline algorithms:
+phase correlation with a Hanning window preprocessor, and a brute-force algorithm that exhaustively searches for the
+shift that minimizes the test-reference error within a search range. The prompt also suggests that the agent use the
+average Euclidean distance between calculated and ground-truth shifts as the performance metric.
+We ran the algorithm search for 20 rounds. The round types and the evolution of the registration error throughout the
+search are shown in Fig. 2. In the baseline evaluation round (round 0), the brute-force method produced an average
+Euclidean error of 1.25 on the development dataset, while the phase correlation method (not shown) gave an error of 5.8.
+In the second round, generate was run, bringing the error down to 0.8, and a subsequent evolve round further reduced
+the error to 0.43. The performance metric started to plateau after round 9. After that, several generate rounds were run,
+indicating the agent’s attempt to explore the design space and break the plateau. Nevertheless, the error was already low
+at this stage, and further improvement was bounded by the inherent uncertainty of the data. Fig. 2 also plots the error on
+the holdout dataset, which almost coincides with the error on the development dataset. This agreement is expected
+because the development set is relatively large (though still smaller than the typical size requirement for deep learning
+methods), and the analytical, parameter-scarce nature of the algorithm makes it less vulnerable to over-optimization.
+To summarize the workflow of the best candidate found, it performs coarse-to-fine image registration by first locating
+an integer-pixel alignment via multi-scale normalized cross-correlation, then refining to subpixel accuracy using
+spline/optimizer-based estimation across multiple preprocessing configurations, and finally combining these estimates
+with adaptive, axis-wise weighting to produce a robust final shift. The candidate was tested on the holdout set and
+compared with the baseline algorithms in Table 1. The error of the best candidate, 0.12, marks a nearly eightfold
+reduction compared with the better baseline (brute force). This fraction-of-a-pixel average error provides reliable
+calibration in the XRF auto-focusing process.
+8
+
+CVEvolve: Autonomous Algorithm Discovery for Unstructured Scientific Data Processing
+
+Algorithm
+Average Euclidean Distance
+Brute-force error minimization
+0.98
+Phase correlation
+5.59
+Best candidate found by...
+OpenEvolve
+0.23
+CVEvolve
+0.12
+Table 1: Holdout test errors of the baselines and the best candidates found by CVEvolve and prior methods.
+
+Additionally, we compare the candidate found by CVEvolve with one found by OpenEvolve [14], an open-source
+implementation of AlphaEvolve [13]. OpenEvolve uses a fixed-stage pipeline in each round instead of allowing
+multi-turn freeform agentic operations, and thus needs more iterations. We ran OpenEvolve for 500 iterations, by
+which point the score had plateaued. Its error on the holdout dataset, 0.23, is higher than that of the candidate found by
+CVEvolve. We attribute this difference primarily to CVEvolve’s flexible agentic workflow, which allows the agent to
+inspect the task data, build evaluation code, iterate over candidate designs, and use visualizations as needed within each
+development round.
+2.3
+
+Case study 2: Bragg peak detection
+
+We present another example of using CVEvolve to find an algorithm for Bragg peak detection in X-ray diffraction
+images. The images are formed by summing the 2D diffraction patterns of a focused X-ray beam across the sample.
+Bragg peaks are localized bright spots formed by the reflection of X-rays from certain lattice planes of a crystalline
+sample. For a sample consisting of crystal grains with various orientations, the Bragg peaks associated with a given
+lattice plane are distributed along a circle in the diffraction image. The objective of this task is to develop a method that
+identifies and locates Bragg peaks lying on or around the circles corresponding to a series of given lattice planes. The
+shape, size, and relative intensity of Bragg peaks can vary drastically. The diffraction images also often contain strong
+and noisy halo-like background, which diminishes the contrast of Bragg peaks in the background regions and adds
+further challenges to the task (Fig. 4).
+For our experiment, we divided the diffraction images collected from all scan points into two halves and summed the
+images pixel-wise within each half. This produced two images: one used by the agent to evaluate the algorithm during
+the development phase, and the other serving as the holdout test image. The Bragg peaks in both images were manually
+labeled for evaluation.
+Due to the scarcity of the “development set” (only one image), CVEvolve can “overfit”, or over-optimize a candidate to
+improve the metric on the development dataset. This can occur even though the developed algorithm is an analytical,
+non-data-driven method, because the agent may make design decisions based on assumptions about sample-specific
+characteristics or noise structures, or expose too many hyperparameters and tune them to pursue a higher performance
+metric late in the search. As such, we enable the holdout test agent in CVEvolve and closely monitor the holdout test
+metric. In our run, we suggest that the agent use the F1 score as the metric, which balances peak detection and false
+positive reduction. Fig. 3 shows the history of the F1 score on both the image used for development-stage evaluation and
+the one used for holdout testing. The plots reveal that while the F1 score on the development image keeps increasing
+until it reaches a nearly perfect value of 1, the holdout test F1 score peaks at round 5 and starts to drop sharply after
+round 9. This observation highlights the importance of holdout testing when the development set is small. Notably, we
+did not implement any holdout tester specific to the data structure or input/output signatures in this case study; we only
+provided a directory containing the holdout image, a map of reflection angles for determining the pixels corresponding
+to a given lattice plane, a list of reflections for peak detection, and a list of true positions, as well as a holdout test prompt
+describing the contents of the holdout test directory. In the event that the command generated by the development agent
+is inconsistent with the data, the holdout test agent attempts to fix it so the holdout test runs smoothly without assuming
+the structure of the problem.
+We selected the candidate generated in round 5, which had the best holdout test F1 score. This candidate masks
+bad regions, performs arc-polar background subtraction and local noise normalization to form an SNR map, then
+detects peaks through multiple complementary passes (Laplacian of Gaussian/connected components, proximity-based
+recovery, global faint search, and raw-SNR maxima), followed by merging, prominence/shape validation, and centroid
+refinement to produce final peak locations. To facilitate understanding of this complex workflow, we present a workflow
+diagram in Fig. S2. The peak detection result on the holdout image is shown in Fig. 4. The left and right panels of the
+figure show the Bragg peak detection results from the baseline algorithm and the round-5 candidate, respectively. Each
+plot presents the diffraction image and detected peaks (marked by crosses) along with the manually labeled ground-truth
+positions. The image contains a blocked region in the middle, whose borders are anomalously bright. Anomalous
+9
+
+CVEvolve: Autonomous Algorithm Discovery for Unstructured Scientific Data Processing
+
+Best so far
+Round metric
+Baseline
+Generate
+
+Tune
+Evolve
+Holdout
+
+1.0
+0.9
+
+F1 score
+
+0.8
+0.7
+0.6
+0.5
+0.4
+0
+
+3
+
+6
+
+9
+
+12
+
+15
+
+18
+
+20
+
+Round
+Figure 3: Search history for Bragg peak detection using the hotspot-detection workflow. The figure records the
+progression of the search process across iterations and provides a visual summary of how candidate hotspot detections
+evolved during optimization.
+
+intensity is also observed at the edges of the image, contributing to many false detections. This problem is mitigated in
+the best candidate. Meanwhile, false negatives are also reduced, as more labeled peaks are detected. This improvement
+is reflected by the higher F1 score (0.298 to 0.788), precision (0.237 to 0.839; associated with false positives), and recall
+(0.400 to 0.743; associated with false negatives).
+2.4
+
+Case study 3: Diffraction image segmentation
+
+This section presents an example of a polycrystalline diffraction image segmentation task. Diffraction images of a
+powder sample may simultaneously exhibit powder rings and Bragg peaks due to reflection from large crystal grains.
+A significant challenge in this case is that the downstream task requires a strict distinction between powder rings and
+Bragg peaks. As illustrated in the examples in Fig. S3, some features appear to be rings, but closer examination reveals
+that they are in fact formed by overlapping, stretched diffraction peaks with non-uniform width and intensity. These
+features should be classified as diffraction peaks instead of rings, even though their difference from real powder rings is
+very subtle. The problem is further complicated by the background of the images, especially the dark “hole” at the
+center due to blockage of X-rays.
+For our experiments, we use a weighted intersection-over-union (IoU) score combining the IoU of the segmentation
+masks for powder rings and diffraction peaks, given as 0.3IoUring + 0.7IoUpeak , which weights the accuracy of peaks
+more heavily due to their relatively smaller footprint. The development dataset contains 5 images and their manually
+created labels, and the holdout dataset contains 2 samples. We monitored the metric on both the development and
+holdout datasets over 40 rounds, as shown in Fig. 5. Although we did not provide any baseline algorithm, the agent at
+the baseline round (round 0) created a simple baseline candidate that thresholds the image after subtracting a radial
+background as spots, and labels highly uniform full radial bands as powder rings. This yielded a relatively low IoU of
+0.37.
+Due to the high variance across samples, developing a workflow that works for all cases without significant case-specific
+design or parameter tuning is challenging, and this resulted in a gap between the development and holdout test metrics.
+10
+
+CVEvolve: Autonomous Algorithm Discovery for Unstructured Scientific Data Processing
+
+Ground truth
+
+Detection
+
+2-theta arc band
+
+Baseline
+
+Best candidate
+
+F1=0.298, Precision=0.237, Recall=0.400
+
+0
+
+F1=0.788, Precision=0.839, Recall=0.743
+
+0
+
+8.9
+
+8.9
+
+200
+
+200
+
+8.6
+
+8.5
+
+800
+
+400
+8.7
+
+600
+
+8.6
+
+Log (1 + XRD intensity)
+
+600
+
+Detector row (px)
+
+8.7
+
+8.8
+
+Log (1 + XRD intensity)
+
+Detector row (px)
+
+8.8
+
+400
+
+8.5
+
+800
+
+8.4
+
+8.4
+
+1000
+
+1000
+0
+
+200
+
+400
+
+600
+
+800
+
+1000
+
+0
+
+Detector column (px)
+
+200
+
+400
+
+600
+
+800
+
+1000
+
+Detector column (px)
+
+Figure 4: Bragg peak detection results of the baseline and the candidate with the best F1 score on the holdout image.
+The figure shows the detected peak locations over the diffraction image as well as the manually labeled ground-truth
+positions.
+However, holdout metric tracking allowed us to identify the candidate with the best holdout metric at round 16. This
+candidate log-transforms the diffraction image, estimates the beam center and radial background statistics, detects and
+validates ring structures via radial/azimuthal consistency tests, and then thresholds foreground pixels relative to the
+background to separate and refine diffraction peaks from rings and background into a final segmentation mask. The
+result of the candidate on the holdout data is shown in Fig. 6. In the first presented case, the predicted ring masks are
+“thicker” than the ground truth, but closer examination confirms that most rings are detected. Individual Bragg peaks
+are also segmented well, with the predicted mask showing good correlation with the ground truth. In the second case,
+a few rings in the outer region are missed. However, to present the inherent performance of the candidate found by
+CVEvolve, we did not perform any per-case parameter tuning, which is often necessary for best results in analytical
+image processing methods. For Bragg peaks, a few false positives close to the innermost ring are present due to
+ambiguous signals, and the peaks attached to the inner side of the fourth bright ring from the center are missed. The rest
+of the Bragg peaks are well segmented, including those with relatively low contrast in the outer region.
+
+3
+
+Discussion
+
+CVEvolve uses a stochastic candidate sampling mechanism to introduce exploration into tune and evolve rounds,
+preventing them from focusing only on the best-performing candidates seen at that time. To examine the effect of this
+design, we prepared a “toy problem” of finding the maximum of a synthetic numerical function in a 2D space. The
+function is defined in 0 ≤ x ≤ 100 and 0 ≤ y ≤ 100, and was generated by first randomly sampling 100 points within
+the space and then constructing a Gaussian kernel density estimator. The values range from 0 to 10, and the maximum
+is located around (57, 38). CVEvolve is given three initial points: point 1 is closest to the global maximum, but lies in
+a narrow valley where its value is the lowest among the three; the other two points have higher initial values but are
+farther away from the global maximum. In a tune or evolve round, the harness samples one or two “parent points”,
+and the agent is instructed to move from the given point (or from one of the given points) in one of the four cardinal
+directions. No more than 4 moves should be made in a round, and each move should have a distance no greater than 2.
+Two workers are used for tune. This setup is a simple simulation of a search instance where three baselines are given,
+one of which has higher potential to evolve into a strong candidate but is not currently performing well; the movement
+instructions simulate the incremental improvements made to candidates during tune or evolve rounds.
+We conducted 5 trials with τ = 0 and τ = 5. With a higher temperature τ , point 1 and its offspring are more likely to be
+sampled during a tune or evolve round despite their lower “score”. Once selected, the agent can explore in its vicinity,
+which can lead to fast discovery of the global maximum. If τ is low, candidates that perform well at the starting stage
+are more likely to be sampled, which results in a higher risk of missing the truly promising candidate (point 1). The
+11
+
+CVEvolve: Autonomous Algorithm Discovery for Unstructured Scientific Data Processing
+
+Best so far
+Round metric
+Baseline
+
+Generate
+Evolve
+Holdout
+
+0.55
+
+Weighted IOU
+
+0.50
+0.45
+0.40
+0.35
+0.30
+0
+
+6
+
+12
+
+18
+
+24
+
+30
+
+36
+
+40
+
+Round
+
+Figure 5: Search history of the HEDM image segmentation task.
+
+(a) Log-transformed input image
+
+(b) Prediction
+
+(c) Ground truth
+2: powder
+
+1: peaks
+
+0: background
+
+2: powder
+
+1: peaks
+
+0: background
+
+Figure 6: Results of the HEDM segmentation algorithm found by CVEvolve on the holdout dataset. (a) shows the input
+image transformed with log(1 + I). (b) and (c) show the predicted and ground-truth segmentation masks, with classes
+shown in the colorbars.
+
+12
+
+CVEvolve: Autonomous Algorithm Discovery for Unstructured Scientific Data Processing
+
+2
+
+1
+
+(a) 100
+
+(b)
+
+4
+
+3
+
+Initial points
+6
+
+5
+
+5
+
+1
+
+9.0
+
+10
+
+7.5
+
+8
+
+4
+
+80
+2
+
+6
+
+4
+
+3
+
+6.0
+2
+
+8
+
+8
+
+3
+
+6
+
+7
+
+7
+
+40
+
+1
+
+2
+
+8
+7
+
+7
+
+4
+
+5
+
+τ=5
+τ=0
+
+0
+
+1
+
+x
+
+60
+
+1
+
+40
+
+2
+
+3
+
+20
+
+3.0
+
+5
+
+3
+
+0
+
+4
+
+1.5
+
+2
+
+6
+
+0
+
+2
+
+3
+
+2
+
+1
+
+4.5
+
+2
+
+6
+
+5
+
+6
+
+1
+
+54
+6
+
+9
+
+6 5
+
+20
+
+Value
+
+y
+
+3
+
+1
+
+60
+
+Value
+
+1
+
+80
+
+100
+
+0.0
+
+0
+
+5
+
+10
+
+15
+Round
+
+20
+
+25
+
+30
+
+Figure 7: Setup and result of the toy problem. (a) shows the landscape of the search space and the three provided initial
+points. (b) shows the search history with τ = 5 (red) and τ = 0 (blue), each containing 5 trials.
+
+result of the experiment shown in Fig. 7 is consistent with this analysis: when τ = 5, CVEvolve successfully located
+the global maximum within 6 rounds in all 5 trials; when τ = 0, only 2 trials found the maximum within the first 30
+rounds, and both did so much later, at rounds 13 and 29. Despite being a simple mock test, this experiment mirrors
+a possible scenario in real algorithm search, where a currently underperforming candidate may in fact be only a few
+fine-grained tuning steps away from success, and highlights the importance of maintaining a non-zero probability for
+such candidates to be sampled.
+We next discuss the practical security aspects of CVEvolve. To flexibly support unstructured problems, the agents in
+CVEvolve are given tools to read, copy, move, create, edit, and delete files in the workspace. These tools are guarded
+by a path checker that detects and rejects operations on files outside the agent’s workspace, preventing the agent from
+unintentionally accessing or modifying files on the host system. However, an important caveat is that because the agent
+is also given tools to execute Python scripts, it can in fact bypass the guardrail in the file system tools by running file
+operations in Python. This behavior is difficult for the CVEvolve harness to detect and prevent. The most effective
+security approach to address such concerns is to deploy CVEvolve in a containerized environment and mount only the
+workspace directory.
+
+4
+
+Conclusion
+
+The rapid increase in the volume and complexity of data generated by modern scientific facilities presents a significant
+bottleneck for domain researchers. In this paper, we introduced CVEvolve, an autonomous agentic harness for
+discovering and constructing scientific data-processing algorithms. By avoiding rigid problem templates and allowing
+users to describe tasks and data in natural language without the need for custom evaluation scripts, while still supporting
+visual inputs when useful, CVEvolve provides a zero-code interface for algorithm development. This lowers the barrier
+to entry for computational imaging, enabling domain scientists without heavy computing backgrounds to collaborate
+with modern AI.
+CVEvolve distinguishes itself from prior works that employ fixed, deterministic workflows by granting the agent the
+freedom to configure the development environment, edit files, and iteratively run tests over multiple turns. It employs
+a dynamic, multi-round workflow that intelligently selects between generate, tune, and evolve strategies based on
+candidate performance, analysis agent recommendations, and user-specified schedules. Through stochastic candidate
+sampling inspired by evolutionary search, the harness balances the exploration of novel logic with the exploitation
+of high-performing code. Furthermore, we address critical vulnerabilities in autonomous algorithm development,
+including over-optimization and dataset memorization, by introducing an agent-operated holdout test mechanism and
+harness-enforced data isolation. This provides a reliable way to ensure that the algorithms discovered by CVEvolve
+generalize robustly.
+13
+
+CVEvolve: Autonomous Algorithm Discovery for Unstructured Scientific Data Processing
+
+Empirically, we demonstrated the versatility and performance of CVEvolve across a diverse set of unstructured,
+real-world scientific imaging tasks, including X-ray fluorescence (XRF) image registration, Bragg peak detection in
+diffraction patterns, and 2D powder diffraction image segmentation. In these tasks, the agent handled scientific data with
+floating-point data types, high dynamic ranges, specialized lossless formats (e.g., TIFF), and task-specific evaluation
+needs through a combination of code execution, metric construction, search-state management, holdout testing, and
+optional visualization. Ultimately, the harness synthesized algorithms that rival or exceed manual, human-designed
+baselines.
+Looking forward, CVEvolve represents a step toward more autonomous scientific discovery workflows. Future work
+will focus on expanding the harness to support higher-dimensional data (such as tomography reconstructions and
+hyperspectral images), in operando workflow improvement during live data collections, and the integration of physicsinformed constraints into the agent’s reasoning process. By shifting part of the burden from manual trial-and-error
+scripting to autonomous algorithm evolution, systems like CVEvolve can help accelerate the development of practical
+scientific data-processing methods.
+
+5
+
+Methods
+
+Agent application framework. CVEvolve is implemented as a LangGraph-based agent application. The runtime uses a
+compact node graph that separates message ingestion, model reasoning, tool execution, and optional image follow-up
+handling. When an image path is returned by a tool, the image follow-up node can convert it into a multimodal
+observation and feed it back to the model before the next reasoning step.
+Environment management and code execution tools. Candidate evaluation requires controlled access to the Python
+environment and command execution. To support this, CVEvolve exposes tools that allow the agent to execute
+commands of the form uv followed by a subcommand and its arguments. In practice, this enables the agent to add
+dependencies with uv add, remove dependencies with uv remove, and run Python scripts and evaluation harnesses
+with uv run.
+Holdout test workflow. CVEvolve supports an optional holdout test through two user inputs: a configured
+holdout_test_dir and a holdout test prompt file passed to the application. The holdout test directory contains
+data reserved for post-round holdout testing and is not copied into the main search workspace. Instead, the holdout test
+prompt is injected into the context of algorithm-development agents as a textual description of what the holdout test
+folder contains. During generate, tune, and evolve rounds, these agents therefore know the expected folder structure
+and file semantics, but they cannot inspect the holdout data themselves. If a runnable candidate is submitted, the agent
+must also write a holdout_test_info.json file in the candidate root. This JSON file specifies three fields: the
+candidate-root-relative files that must accompany the holdout test, the main execution script among those files, and a uv
+run-style command intended to execute the candidate in the holdout test workspace with necessary dependencies.
+After the round finishes, CVEvolve parses holdout_test_info.json, creates a temporary holdout test subdirectory inside the candidate root, copies the holdout test directory into that location, and adds the files listed in
+holdout_test_info.json. A separate holdout test agent is then spawned. The holdout test agent is instructed to use
+the recorded execution command to run the holdout test, adjusting only environment details or command invocation
+when needed, while treating the algorithm as read-only. It then submits a numeric holdout test metric or an explicit null
+result with a failure note. The metric is stored in the database. After the holdout test completes, CVEvolve deletes the
+temporary holdout test directory immediately so that holdout data do not remain in the sandbox beyond the holdout test
+step.
+SQL state database. Search history is stored in a SQLite database that acts as the persistent state backend for the session.
+The database records rounds, candidate submissions, metric definitions, candidate-level metric values, evaluation
+metrics, session state, and failure records, and candidate records include lineage information, parent IDs, structured
+settings, and model-generated performance analysis. In addition to supporting later reporting, this schema serves as
+the harness’ working memory for ranking candidates, estimating performance tiers, tracking lineages, and recovering
+interrupted sessions. For this reason, candidate submission is treated as part of the search loop rather than passive
+logging: each successful round formally registers the resulting candidate, its main code file, its parentage, and its
+structured analysis in the state store.
+The database contains the following tables:
+• metric_definitions: metric names, optimization directions, descriptions, target values (if given), and the
+primary-metric flag.
+• rounds: round index, action type, status, summary, and linked winning candidate.
+14
+
+CVEvolve: Autonomous Algorithm Discovery for Unstructured Scientific Data Processing
+
+No image
+yielded
+
+Ingest
+
+LLM
+
+Has tool call
+
+Tool
+execution
+
+Tool yields
+image
+
+Image
+follow-up
+
+No tool call
+
+END
+Figure 8: LangGraph execution structure used by CVEvolve. The Ingest node prepares the initial prompt (system and
+round-specific task prompt) and writes it into the state. The state is then passed to the LLM node, where the prompt is
+sent and the LLM response is received. If the response contains a tool call, it is routed to the Tool execution node. If the
+structured return of the tool contains a non-empty image path, it is further routed to the Image follow-up node, where
+the image is loaded, encoded, and appended after the tool response. The tool response and potential image-containing
+message are routed back to LLM. The graph ends if the LLM’s response does not contain any tool call.
+• candidates: submitted candidate records, including round action, description, artifact paths, lineage IDs,
+parent IDs, notes, and structured metadata.
+• metrics: candidate-associated metric values used for ranking and comparison.
+• holdout_test_metrics: candidate-associated holdout test metric values.
+• session_state: current phase, run status, active round, active action, preparation summary, and stopping
+reason for session recovery.
+• candidate_failures: failed attempts, including failing code path, parent IDs, error message, settings, and
+metadata.
+Agent tools related to history retrieval are based on SQL queries with table-joining operations. For example, the
+view_search_history, view_candidate, and view_metric_history tools all rely on cross-table queries. These
+queries join candidate records with metric tables and, when needed, the primary-metric definition. This allows the tools
+to recover the latest top-performing candidates, inspect a selected candidate together with its lineage and current score,
+and map evaluation observations back to candidate identities.
+
+Acknowledgments
+We thank the development and maintenance team of Argo, an LLM inference endpoint at Argonne National Laboratory,
+for supporting the infrastructure used in this project. We also thank arXiv for use of its open access interoperability.
+This research used resources of the Advanced Photon Source, a U.S. Department of Energy (DOE) Office of Science user
+facility at Argonne National Laboratory, and is based on research supported by the U.S. DOE Office of Science-Basic
+Energy Sciences, under Contract No. DE-AC02-06CH11357.
+
+Data availability
+The source code of CVEvolve is available at https://github.com/AdvancedPhotonSource/CVEvolve.
+
+References
+[1] Daniil A. Boiko, Robert MacKnight, Ben Kline, and Gabe Gomes. Autonomous chemical research with large
+language models. Nature, 624:570–578, 2023.
+[2] Juraj Gottweis, Wei-Hung Weng, Alexander Daryin, Tao Tu, Anil Palepu, et al. Towards an ai co-scientist. arXiv
+preprint arXiv:2502.18864, 2025.
+15
+
+CVEvolve: Autonomous Algorithm Discovery for Unstructured Scientific Data Processing
+
+[3] Michael D. Skarlinski, Sam Cox, Jon M. Laurent, James D. Braza, Michaela Hinks, Michael J. Hammerling,
+Manvitha Ponnapati, Samuel G. Rodriques, and Andrew D. White. Language agents achieve superhuman synthesis
+of scientific knowledge. arXiv preprint arXiv:2409.13740, 2024.
+[4] Chris Lu, Cong Lu, Robert Tjarko Lange, Yutaro Yamada, Shengran Hu, Jakob Foerster, David Ha, and Jeff Clune.
+Towards end-to-end automation of ai research. Nature, 651:914–919, 2026.
+[5] Tianshi Zheng, Zheye Deng, Hong Ting Tsang, Weiqi Wang, Jiaxin Bai, Zihao Wang, and Yangqiu Song.
+From automation to autonomy: A survey on large language models in scientific discovery. arXiv preprint
+arXiv:2505.13259, 2025.
+[6] Alexandra R. Ritchie, Suvi L. Laitinen, Pekka Katajisto, and Johanna I. Englund. Tonga: A novel toolbox for
+straightforward bioimage analysis. Frontiers in Computer Science, 4, 2022.
+[7] Perrine Paul-Gilloteaux. Bioimage informatics: Investing in software usability is essential. PLOS Biology,
+21(7):e3002213, 2023.
+[8] Randal S. Olson and Jason H. Moore. TPOT: A tree-based pipeline optimization tool for automating machine
+learning. In Proceedings of the Workshop on Automatic Machine Learning, volume 64 of Proceedings of Machine
+Learning Research, pages 66–74, 2016.
+[9] Barret Zoph and Quoc V. Le. Neural architecture search with reinforcement learning. In International Conference
+on Learning Representations, 2017.
+[10] Esteban Real, Chen Liang, David R. So, and Quoc V. Le. AutoML-Zero: Evolving machine learning algorithms
+from scratch. arXiv preprint arXiv:2003.03384, 2020.
+[11] Yecheng Jason Ma, William Liang, Guanzhi Wang, De-An Huang, Osbert Bastani, Dinesh Jayaraman, Yuke Zhu,
+Linxi Fan, and Anima Anandkumar. Eureka: Human-level reward design via coding large language models. arXiv
+preprint arXiv:2310.12931, 2023.
+[12] Bernardino Romera-Paredes, Mohammadamin Barekatain, Alexander Novikov, Matej Balog, M. Pawan Kumar,
+Emilien Dupont, Francisco J. R. Ruiz, Jordan S. Ellenberg, Pengming Wang, Omar Fawzi, Pushmeet Kohli,
+and Alhussein Fawzi. Mathematical discoveries from program search with large language models. Nature,
+625:468–475, 2024.
+[13] Alexander Novikov, Ngân Vũ, Marvin Eisenberger, Emilien Dupont, Po-Sen Huang, Adam Zsolt Wagner, Sergey
+Shirobokov, Borislav Kozlovskii, Francisco J. R. Ruiz, Abbas Mehrabian, M. Pawan Kumar, Abigail See, Swarat
+Chaudhuri, George Holland, Alex Davies, Sebastian Nowozin, Pushmeet Kohli, and Matej Balog. AlphaEvolve:
+A coding agent for scientific and algorithmic discovery. arXiv preprint arXiv:2506.13131, 2025.
+[14] Asankhaya Sharma. Openevolve: an open-source evolutionary coding agent, 2025.
+[15] Gang Liu, Yihan Zhu, Jie Chen, and Meng Jiang. Scientific algorithm discovery by augmenting AlphaEvolve with
+Deep Research. arXiv preprint arXiv:2510.06056, 2025.
+[16] Aditya Bharat Soni, Boxuan Li, Xingyao Wang, Valerie Chen, and Graham Neubig. Coding agents with
+multimodal browsing are generalist problem solvers. arXiv preprint arXiv:2506.03011, 2025.
+[17] Xiangyu Yin, Ming Du, Junjing Deng, Zhi Yang, Yimo Han, and Yi Jiang. Autonomous algorithm discovery for
+ptychography via evolutionary LLM reasoning. arXiv preprint arXiv:2603.05696, 2026.
+[18] Jean-Baptiste Mouret and Jeff Clune. Illuminating search spaces by mapping elites. arXiv preprint
+arXiv:1504.04909, 2015.
+
+16
+
+CVE VOLVE : AUTONOMOUS A LGORITHM D ISCOVERY FOR
+U NSTRUCTURED S CIENTIFIC DATA P ROCESSING
+Supplementary Information
+
+Ming Du∗ , Xiangyu Yin, Yanqi Luo, Dishant Beniwal, Songyuan Tang, Hemant Sharma, Mathew J. Cherukara†
+Advanced Photon Source
+Argonne National Laboratory
+Lemont, IL, USA
+∗
+mingdu@anl.gov, † mcherukara@anl.gov
+
+1
+
+Example images in the XRF registration problem
+
+(a) Example test image
+
+(b) Example reference image
+
+0
+
+0
+
+5
+
+5
+
+10
+
+10
+
+15
+
+15
+0
+
+5
+
+10
+
+15
+
+20
+
+25
+
+0
+
+5
+
+10
+
+15
+
+20
+
+25
+
+Figure S1: Example test (left) and reference (right) images in the XRF registration problem. The two images are
+generated by applying different amounts of translational shift, noise, scan jittering, and blurring to a real XRF image in
+order to simulate images collected under varying focusing and exposure conditions.
+
+2
+
+Candidate workflow diagram in the Bragg peak detection problem
+
+Inputs
+image, 2θ, reflections
+
+Bad-region mask
++ arc geometry
+
+Per reflection
+2θ band
+
+Arc-polar background
+subtraction
+
+Local MAD noise
+normalization
+
+SNR map
+
+LoG + connected
+components
+
+Proximity
+recovery
+
+Global faint search
+
+Raw-SNR maxima
+
+Merge and
+de-duplicate
+
+Prominence, shape,
+blocked-band checks
+
+Centroid refinement
+
+Final peak
+locations
+
+CSV output
++ optional F1
+
+Figure S2: Workflow diagram of the candidate with the best holdout test metric in the Bragg peak detection problem.
+2
+
+3
+
+Example images in the HEDM segmentation problem
+Raw
+
+Mask
+
+2: powder
+
+1: peaks
+
+0: background
+
+Figure S3: Two examples of the HEDM segmentation problem. The left column shows the raw image, and the right
+column shows the manually labeled ground truth. There are three segmentation classes: background, diffraction
+peaks, and powder rings. Some rings, despite appearing circular and continuous at first glance, are in fact composed
+of overlapping spots, which results in non-uniform width and intensity. These rings are classified as peaks and are
+exemplified in the first case.
+
+3
+
+

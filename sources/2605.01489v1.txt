@@ -1,0 +1,1836 @@
+SciResearcher: Scaling Deep Research Agents for
+Frontier Scientific Reasoning
+
+arXiv:2605.01489v1 [cs.AI] 2 May 2026
+
+Tianshi Zheng∗
+HKUST
+tzhengad@connect.ust.hk
+
+Rui Wang
+CUHK
+ruiwangnlp@outlook.com
+
+Yangqiu Song
+HKUST
+yqsong@cse.ust.hk
+
+Xiyun Li
+Tencent AI Lab
+xiyunli@tencent.com
+
+Tianqing Fang
+Tencent AI Lab
+fangtq229@gmail.com
+
+Abstract
+Frontier scientific reasoning is rapidly emerging as a key foundation for advancing
+AI agents in automated scientific discovery. Deep research agents offer a promising
+approach to this challenge. These models develop robust problem-solving capabilities through post-training on information-seeking tasks, which are typically
+curated via knowledge graph construction or iterative web browsing. However,
+these strategies face inherent limitations in frontier science, where domain-specific
+knowledge is scattered across sparse and heterogeneous academic sources, and
+problem solving requires sophisticated computation and reasoning far beyond
+factual recall. To bridge this gap, we introduce SciResearcher, a fully automated
+agentic framework for frontier-science data construction. SciResearcher synthesizes diverse conceptual and computational tasks grounded in academic evidence,
+while eliciting information acquisition, tool-integrated reasoning, and long-horizon
+capabilities. Leveraging the curated data for supervised fine-tuning and agentic reinforcement learning, we develop SciResearcher-8B, an agent foundation model that
+achieves 19.46% on the HLE-Bio/Chem-Gold benchmark, establishing a new state
+of the art at its parameter scale and surpassing several larger proprietary agents. It
+further achieves 13–15% absolute gains on SuperGPQA-Hard-Biology and TRQALiterature benchmarks. Overall, SciResearcher introduces a new paradigm for
+automated data construction for frontier scientific reasoning and offers a scalable
+path toward future scientific agents.
+HLE-Gold
+Proprietary Agents
+
+35
+
+SuperGPQA-Hard
+
+With Cognitive Kernel-Pro
+
+Proprietary Agents
+
+31.54
+
+Accuracy (%)
+
+30
+25
+
+19.78
+
+20
+
+10.74
+
+9.45
+
+10
+
+31.52
+
+29.35
+
+30
+
+12.75
+
+22.83
+
+.1)
+T-4
+
+GP
+n(
+
+as
+
+iM
+
+Sc
+
+te
+
+)
+
+)
+
+-4.1
+PT
+
+G
+r(
+
+-4.1
+PT
+
+(G
+ni
+
+m
+
+Bio
+
+e
+Op
+
+ee
+ID
+
+nA
+
+rch
+
+ea
+
+es
+pR
+
+Qwen3-8B
+
+49.42
+
+34.88
+
+30
+20
+
+10
+
+0
+
+47.67
+
+41.09
+40
+
+8.05
+
+7.38
+
+47.67
+
+50
+
+35.87
+
+19.46
+
+15
+
+With Cognitive Kernel-Pro
+60.47
+
+51.74
+
+39.13
+
+40
+
+22.82
+
+20
+
+Ge
+
+TRQA
+Proprietary Agents
+60
+
+43.48
+
+5
+
+to
+Au
+
+With Cognitive Kernel-Pro
+51.09
+
+50
+
+SFT
+
+0
+
+SFT+RL Pass@3
+
+10
+
+)
+ch
+.1)
+ar
+-4.1
+T-4
+se
+PT
+GP
+Re
+i (G
+n(
+ep
+mn
+Ge
+De
+to
+Bio
+AI
+Au
+en
+p
+O
+)
+
+.1
+T-4
+
+SciResearcher-8B
+Sc
+
+as
+
+iM
+
+te
+
+GP
+r(
+
+Qwen3-8B
+
+SFT
+
+SFT+RL Pass@3
+
+SciResearcher-8B
+
+0
+
+N/A
+
+)
+ch
+.1)
+.1)
+ar
+-4.1
+T-4
+T-4
+se
+PT
+GP
+GP
+Re
+i (G
+r(
+n(
+ep
+te
+mn
+Ge
+as
+De
+to
+Bio
+iM
+AI
+Au
+Sc
+en
+p
+O
+
+Qwen3-8B
+
+SFT
+
+SFT+RL Pass@3
+
+SciResearcher-8B
+
+Figure 1: Performance comparison on HLE-Bio/Chem-Gold (n = 149), SuperGPQA-Hard-Biology
+(n = 92), and TRQA-Literature (n = 172). Our agent foundation model, SciResearcher-8B,
+outperforms existing proprietary scientific agents and is comparable to OpenAI Deep Research.
+∗ Work done during Tianshi’s internship at Tencent.
+
+Technical Report.
+
+1
+
+Introduction
+
+Frontier scientific reasoning captures an AI system’s ability to solve challenging, expert-level scientific
+problems at the boundaries of human knowledge [29, 38]. Such problems arise in scientific domains
+where relevant knowledge is often incomplete, rapidly evolving, and distributed across diverse sources
+[11, 5]. As AI-driven scientific discovery systems such as LLM-powered research assistants [30, 33]
+and autonomous AI scientists [21, 25, 50] become increasingly prevalent and capable, reasoning
+effectively and reliably in these applications is becoming critical.
+Deep research agents [27, 4, 9] have emerged as a promising approach to frontier scientific reasoning,
+benefiting from their ability to acquire up-to-date knowledge through real-time web search and
+to carry out long-horizon tasks. A central strategy for advancing deep research agents is agent
+post-training on information-seeking tasks. For general factual knowledge, automated construction
+of information-seeking tasks has largely followed two paradigms: (1) knowledge graph constructionbased methods [17, 35, 16], which first build a structured graph over entities or webpages and then
+sample paths or subgraphs to synthesize tasks; and (2) agent-based methods [44, 45, 19], which
+instead allow an agent to iteratively search and browse from seed entities or URLs to construct a
+local information space for task synthesis. Existing instantiations of both paradigms, however, are
+largely grounded in Wikipedia-like, entity-centric factual knowledge, and many of their automatically
+constructed tasks emphasize short-answer, attribute-, or fact-seeking supervision.
+
+Web Presence
+
+EGFR L858R
+
+awards
+
+oncogenic
+activation
+
+birthplace
+
+occupation
+
+frontline
+
+targetability
+
+nationality
+
+Celebrity /
+Person
+
+relatives
+
+career info
+language
+
+Context: NSCLC, Firstline treatment setting.
+
+EGFR T790M
+
+acquired
+
+Ontology:
+EGFR-mutated
+NSCLC
+
+resistance
+treatment
+
+indic
+ates
+elig
+ibili
+ty fo
+r
+
+birth year
+
+ty to
+itivi
+sens
+icts
+pred
+
+Ontology / Schema
+
+While these paradigms have achieved
+General Knowledge
+Frontier Science
+strong results for general-domain inStandardized & Shared
+Heterogeneous & Context Dependent
+formation seeking, they are inherently
+limited in their applicability to frontier
+scientific reasoning (Figure 2). First,
+frontier scientific entities are associated
+with heterogeneous, noisy, and highly
+context-dependent ontologies [49, 7].
+Unlike general-domain entities, which
+Hub-centered and Densely Linked
+Sparsely Distributed and Weakly Linked
+are often described by relatively standardized attributes, scientific entities
+rarely admit a shared attribute schema,
+and even similar attributes require substantial domain-specific context to be
+meaningful. This challenges the feasibility of structured graph construction. Figure 2: Comparison of ontology and web presence beSecond, knowledge relevant to frontier tween general knowledge and frontier science.
+scientific problems is often sparse and
+fragmented across loosely connected academic sources, rather than organized as densely interlinked
+webpages [2, 32]. As a result, frontier scientific concepts rarely have a canonical entry point analogous
+to a Wikipedia page, making continuous web traversal difficult to realize effectively. Moreover, frontier scientific reasoning often requires nontrivial computation over complex scenarios and scientific
+models [29, 38, 26], which is not captured by deep research task construction approaches.
+dependence
+
+Context: NSCLC, After
+prior EGFR-TKI therapy,
+confirmed by Tumor or
+plasma testing.
+
+Osimertinib
+
+EGFR
+L858R
+
+Interview
+
+Event
+
+Paper A
+
+Supplementary
+Material
+
+Dataset
+
+EGFR
+T790M
+
+Award
+
+Filmography
+
+Wikipedia
+Homepage
+
+Paper B
+
+News
+
+Biography
+
+Clinical
+Effect A
+
+Clinical
+Effect B
+
+Database
+
+To address these limitations, we introduce SciResearcher, a fully automated data construction framework for frontier scientific reasoning. The framework operates over heterogeneous scientific concepts,
+integrates evidence scattered across weakly connected sources, and treats scientific computation as
+a core component of reasoning. Built on a curated pool of frontier scientific entities, it comprises
+two data construction pipelines, targeting conceptual and computational questions, respectively. For
+conceptual task construction, we employ web agents to browse from seed scientific entities, gather
+academic evidence, and generate rich, grounded questions. We then apply an iterative anchor2 -based
+task augmentation stage to increase task complexity. For computational task construction, we perform
+a three-level evidence selection process to identify novel and challenging computational models
+(typically comprising governing equations, mechanistic understanding, and required input parameters)
+associated with seed entities, and then generate questions and obtain reference answers through
+voting-based solver verification. Leveraging this framework, we construct SciResearcherQA, a
+2We define an anchor as the key, decisive scientific entity that plays a central role in a question, serving as its signature
+
+referent and the primary handle for reasoning about the problem.
+
+2
+
+challenging scientific reasoning dataset that stress-tests long-horizon, multi-evidence problem solving
+grounded in frontier knowledge and computation.
+Using SciResearcherQA, we perform agent post-training following an established recipe that begins
+with supervised fine-tuning using rejection sampling and followed by reinforcement learning via
+GRPO [31]. Based on Qwen3-8B [47], we train SciResearcher-8B, which achieves strong performance across multiple frontier scientific reasoning benchmarks, including HLE-Bio/Chem-Gold [43],
+SuperGPQA-Hard-Biology [23], and TRQA-Literature [48]. On HLE-Bio/Chem-Gold, our agent
+attains 19.46% pass@1 and 31.54% pass@3, surpassing existing proprietary agents such as SciMaster
+[3] with GPT-4.1 backbone and approaching the performance of frontier proprietary deep research
+systems such as OpenAI Deep Research [27]. Moreover, SciResearcher-8B yields substantial gains
+on SuperGPQA-Bio-Hard and TRQA-Literature, improving absolute performance by 13.04% and
+14.54%, respectively.
+Further analysis shows that post-training leads to substantially more extended and tool-intensive
+reasoning behavior: compared with the baseline, our agent produces trajectories that are 0.3–2.7×
+longer and exhibits correspondingly higher tool-use frequency. Interestingly, reinforcement learning
+induces an adaptive effect relative to the SFT checkpoint: on the more challenging HLE-Bio/ChemGold benchmark, the agent learns to allocate more steps and tool calls, whereas on relatively easier
+benchmarks it uses slightly fewer steps while still achieving stronger performance. These results
+suggest that SciResearcherQA improves frontier scientific reasoning performance together with
+cultivating more adaptive long-horizon information-seeking behavior.
+Overall, SciResearcher offers a new perspective on automated data construction, extending it from
+general factual information-seeking tasks to frontier scientific reasoning. Our results highlight the
+promise of automatically constructed scientific training data for scaling deep research agents toward
+more capable and reliable scientific problem solving.
+
+2
+
+The SciResearcher Data Construction Framework
+
+In this section, we introduce SciResearcher, a fully automated data construction framework (Figure 3)
+for frontier scientific reasoning tasks. Given a curated set of seed entities, SciResearcher generates
+both conceptual and computational reasoning tasks grounded in academic evidence through agentic
+web exploration. Examples of the generated questions are shown in Table 1.
+2.1
+
+Seed Entity Acquisition
+
+High-quality, domain-specific scientific entities are essential for constructing frontier scientific tasks.
+To obtain them, we implement a three-stage seed entity acquisition pipeline. First, we extract an initial
+pool of scientific entities from public datasets, together with their annotated domain and ontology
+information. Second, we use LLMs to generate additional entities within the same ontology, thereby
+expanding the candidate pool. Third, we automatically score all entities in the augmented pool using
+three metrics—frontier relevance, concreteness, and specificity—to filter for quality. Finally, we
+retain the top 5% of entities as seed entities for downstream task curation.
+2.2
+
+Conceptual Task Curation
+
+The detailed curation pipeline for conceptual tasks is illustrated in Figure 3(a). Starting from a
+target seed entity, we employ a web agent with a proprietary LLM backbone to iteratively search for
+and browse academic sources on the web, with the goal of constructing a base conceptual question
+grounded in verifiable scientific evidence. Concretely, the agent first performs iterative scout searches
+to identify promising academic sources relevant to the seed entity. It then uses a url2evidence
+sub-agent to access the selected paper, extract the key supporting evidence, and formulate an initial
+conceptual multiple-choice question together with plausible confounders. This initial question serves
+as the semantic backbone for subsequent augmentation.
+To increase task complexity beyond single-hop retrieval, we further perform anchor-based question
+augmentation. Given the current question, we first extract candidate anchor entities from the question
+text and evaluate them using three criteria: whether the entity is decisive for deriving the final answer,
+whether it is decoupled from the surface form of the answer options, and whether it is sufficiently
+3
+
+Symbols
+
+Seed Entity Acquisition
+Domain/Ontology:
+
+Modules with Web Agent
+
+Entity Name:
+H304A (Histidine
+304 to Alanine)
+
+sample
+
+Life Science -> Genetics -> Sequence Variant
+Nomenclature -> Protein Substitution Variant
+
+Modules with LLMs
+Modules with APIs
+
+Conceptual Task
+Iterative scout searches to identify
+promising academic sources
+
+google_search
+
+Use url2evidence tool to access
+source paper for evidence
+
+entity1
+
+entity2
+
+A
+
+2. Question Generation
+Use the web agent to gather additional
+information about the anchor entity and
+create a new question whose answer is
+exactly the anchor entity.
+entity2
+
+Output: Anchor Question
+
+Use the eval_urls tool to select the
+source with the most suitable model
+
+eval_urls
+
+Use url2evidence tool to extract
+model details and equations
+
+url2evidence
+
+QuestionFusion
+
+Evaluation Metrics:
+- Decisiveness to final answer
+- Decoupled from option text
+- Specificity and Concreteness
+Selected entity as anchor:
+entity2
+
+Q anchor
+
+google_search
+
+<Question> <Answer> <Confounders>
+
+entity3
+
+Iterative scout searches to identify
+promising academic sources
+
+Available Tools
+
+Generate question with confounders
+
+Anchor2Question
+
+Q
+
+Seed2Equation
+
+Available Tools
+
+Input: Previous Question
+1. Anchor Extraction
+
+filter
+
+Rating:
+
+Frontier Level: 9/10
+Concreteness: 7/10
+Specificity: 10/10
+
+Computational Task
+
+Seed2Question
+
+url2evidence
+(sub-agent)
+
+eval
+
+SolverExecution
+
+Equation2Question
+
+Input: Prev. Q + Anchor Question
+
+Input: Model Details + Equations
+
+Input: Raw computational question
+
+Integrate the anchor-generated
+question into the previous question
+by replacing the reference to the
+anchor entity with the query.
+
+- Mechanism Understanding
+- Scenario Curation
+- Input Parameter Setting
+
+- Sample 5 solver code with proprietary
+LLMs, execute to acquire outputs.
+
+entity1
+
+Solver1 Solver2 Solver3 Solver4 Solver5
+
+Background Scenario
+
+Q
+
+Q anchor
+
+A
+
+Q
+
+entity3
+
+Model Equations
+
+A
+
+Output: Fused multi-hop question.
+Output: Raw computational question
+redesign
+
+no
+further extract
+
+execution
+
+Input Parameters
+
+no
+
+pass?
+
+terminate?
+yes
+
+yes
+
+Result1 Result2 Result3 Result4 Result5
+
+Answer Verification:
+- Eliminate if all solvers output identical
+results or yields consistent errors.
+- Eliminate if all solvers produce
+different results.
+- Correct answer decided with majority
+voting (performed by LLMs).
+
+Question Postprocessing
+Diagnostic
+
+- Evidence-Claim Entailment Check
+- Reasoning Shortcut Detection
+- Overall Sanity Check
+
+feedback
+
+Refinement (Conceptual)
+
+- Textual Obfuscation and Proofreading
+- Reasoning Shortcut Mitigation
+- Option/Distractor Balance
+
+Refinement (Computational)
+
+- Textual Obfuscation and Proofreading
+- Selective Model Equation Masking
+- Domain-Specific Search Hints
+
+Figure 3: Overview of our SciResearcher data construction framework.
+specific and concrete to support further evidence-grounded expansion. After selecting the best anchor,
+we invoke a new web agent instance to gather additional academic evidence about that anchor and
+generate a new question whose answer is exactly the anchor entity. This newly generated question
+is then fused back into the previous question by replacing the original anchor mention, thereby
+converting a direct clue into an additional reasoning step. The augmentation process can be repeated
+multiple times, recursively transforming a seed question into a multi-hop question that requires
+long-horizon browsing and evidence aggregation across multiple independent sources. Figure 4
+shows a running example of this question evolution process.
+Unlike prior agent-based approaches such as WebDancer [44] and WebExplorer [19], our conceptual
+task curation instantiates each augmentation step with a separate web agent instance. This design
+reduces dependence on a single search trajectory and more explicitly stress-tests an agent’s ability to
+perform multi-source academic retrieval, cross-source integration, and compositional reasoning.
+2.3
+
+Computational Task Curation
+
+The curation pipeline for computational tasks is illustrated in Figure 3(b). In contrast to conceptual
+tasks, which primarily evaluate information seeking and synthesis, computational tasks additionally
+require agents to apply retrieved scientific knowledge to perform nontrivial quantitative reasoning.
+The pipeline begins with a tailored web agent that identifies and extracts the most appropriate advanced
+computational model associated with the seed entity through a three-level evidence selection process.
+First, multiple scouting searches are performed to identify promising sources based on their titles
+and content snippets. Second, the selected links are evaluated and filtered using the eval_urls tool,
+which applies four metrics—model exclusiveness, search identifiability, computational complexity,
+and LLM unfamiliarity—to support comprehensive assessment. Third, sub-agents are deployed to
+conduct a deep dive into the final selected URLs, extracting the complete model specification together
+with the scenarios and constraints required for its application.
+4
+
+Seed Evidence
+
+IGFBP6 is upregulated in
+hepatic stellate cells during
+fibrosis, and pantothenic acid
+binds IGFBP6 at ASN29 with −4.3 kcal/mol.
+Jin et al. Communications Biology, 2025.
+
+Fused Question
+
+Pantothenic
+acid binds IGFBP6 in
+hepatic fibrosis. What is the
+binding site and interaction
+energy?
+
+Pantothenic acid binds the IGFBP
+family member with 5 N-domain
+disulfides, >100-fold IGF-II selectivity,
+and Ser180 / 181 / Gln182 determinants
+in hepatic fibrosis. What is the binding
+site and interaction energy?
+
+Extract
+
+Anchor Entity1:
+IGFBP6
+
+Final Question
+
+Question:
+
+Extract
+
+Anchor Entity2:
+Pantothenic acid
+
+Browse
+
+Browse
+
+Anchor1 Evidence
+
+Anchor2 Evidence
+
+IGFBP6 uniquely has 5 N-domain
+disulfide bonds, >100-fold IGF-II
+preference, and Ser180 / Ser181 /
+Gln182 driving specificity.
+
+Calcium hopantenate-induced
+deficiency of pantothenic acid
+causes acute encephalopathy
+and hepatic steatosis in dogs.
+
+Forbes et al. Frontiers in Endocrinology, 2012
+
+Integrate
+
+Browse
+
+Seed Question
+
+Integrate
+
+Domain:
+Preclinical drug
+research
+
+Generate
+
+Seed Entity:
+Hepatic Fibrosis
+
+A vitamin whose antagonistinduced deficiency causes acute
+encephalopathy and hepatic
+steatosis binds the IGFBP family
+member with 5 N-domain
+disulfides, >100-fold IGF-II
+selectivity, and Ser180 / 181 /
+Gln182 determinants What is the
+binding site and interaction energy?
+Answer:
+ASN-29; −4.3 kcal/mol
+
+Noda et al. Nutrients, 2021
+
+Figure 4: A running example of a question evolution pipeline for conceptual task curation. Question
+fusion and postprocessing details are omitted.
+Based on the extracted model, the system constructs a scenario-based computational question. This
+process requires understanding the scientific mechanism encoded by the model, curating a realistic
+background scenario, and specifying the necessary input parameters. The resulting question therefore
+tests whether an agent can not only retrieve the relevant scientific source, but also instantiate the
+model correctly in a concrete setting.
+Because such generated questions do not come with a guaranteed correct answer, we further perform
+answer acquisition and verification. Specifically, we sample five candidate Python solvers from
+proprietary LLMs and execute them to obtain candidate outputs. We then filter out low-quality
+questions based on solver agreement patterns: questions are rejected if all solvers return the same
+result, if all solvers yield consistent errors, or if all solvers produce different answers. These cases
+typically indicate that the question is respectively too easy, not executable, or too unstable. For the
+remaining questions, the final answer is determined by majority voting over solver outputs, followed
+by LLM-based verification. Questions that fail this verification process are sent back for redesign.
+2.4
+
+Question Postprocessing
+
+After generating raw questions, we apply a postprocessing stage to improve question quality, reduce
+shortcut-based answering, and increase the amount of retrieval and reasoning required to solve each
+task. We begin with a general diagnostic pass, which includes evidence–claim entailment checking,
+reasoning shortcut detection, and overall sanity checking. Based on diagnostic feedback, we then
+apply category-specific refinement. For conceptual questions, we perform textual obfuscation and
+proofreading, mitigate reasoning shortcuts, and improve the balance of answer options and distractors.
+For computational questions, we additionally perform selective masking of model equations and
+inject domain-specific search hints to encourage agents to retrieve the relevant scientific source and
+reconstruct the appropriate computational model.
+2.5
+
+Analysis on SciResearcherQA
+
+Figure 5(a) visualizes the most frequent words in the two question types of SciResearcherQA. Both
+word clouds contain domain-specific terminology from biology and chemistry, such as cell, reaction,
+and drug. Conceptual questions tend to emphasize more qualitative terms, such as effect, dependent,
+and deficiency, whereas computational questions feature more quantitative terms, such as rate,
+concentration, and parameter.
+Figure 5(b) further presents the trajectory distribution of an agent using Claude-Sonnet-4.5 as the
+backbone. On conceptual questions, the agent achieved an accuracy of 74.9% with an average of
+7.74 macro steps3 , whereas on computational questions it achieved 45.1% accuracy with an average
+of 9.14 macro steps. These results highlight both the substantial difficulty of the benchmark and its
+long-horizon reasoning requirements. Compared with conceptual questions, computational questions
+are markedly more challenging for current agents, requiring more reasoning steps on average while
+yielding substantially lower accuracy.
+3 Since we use the multi-agent framework of Cognitive Kernel-Pro, a macro step denotes one planning step and one action
+
+step of the main agent. On average, one macro step corresponds to 4.1–4.9 total LLM calls in our experiments.
+
+5
+
+Table 1: Examples of questions and supporting evidence for both question types in SciResearcherQA.
+Supporting evidence and its corresponding question content are highlighted using the same color.
+Type
+
+Example Question
+
+Supporting Evidence
+
+Conceptual
+
+A vitamin whose deficiency causes concurrent acute
+encephalopathy and hepatic steatosis when induced by a specific
+antagonist binds to a protein with the following properties: (1)
+contains only 5 N-terminal domain disulfide bonds, unlike other
+family members with 6; (2) exhibits more than 100-fold selectivity
+for IGF-II over IGF-I; and (3) has C-terminal residues Ser180,
+Ser181, and Gln182 determining its IGF-II specificity. What is the
+binding site and interaction energy?
+
+Source 1: Vitamins and Minerals for Energy,
+Fatigue and Cognition: A Narrative Review of
+the Biochemical and Clinical Evidence
+(Nutrients, 2020).
+
+Answer: ASN-29 with binding energy of -4.3 kcal/mol
+
+Computational
+
+Source 2: Insulin-Like Growth Factor Binding
+Proteins: A Structural Perspective (Front.
+Endocrinol., 2012).
+Source 3: Pantothenic acid ameliorates hepatic
+fibrosis by targeting IGFBP6 to regulate the
+TGF-β/SMADs pathway (Commun. Biol.,
+2025).
+
+A 42-year-old patient with a WHO Grade II, 1p/19q-codeleted
+oligodendroglioma is treated with temozolomide (TMZ)
+chemotherapy. Let P (t) denote the volume of proliferative tumor
+cells, D(t) the volume of lethally damaged cells, and C(t) the
+intratumoral TMZ concentration, with total tumor volume
+V (t) = P (t) + D(t). The system follows the standard
+compartmental treatment-response equations with logistic growth
+limitation and two TMZ-induced effects. 〈Initial Conditions
+Omitted〉 The patient completes three full treatment cycles (84
+days total), with dosing on days 1, 2, 3, 4, 5, 29, 30, 31,
+32, 33, 57, 58, 59, 60, 61. What is the total tumor volume V (84)
+in cm3 , immediately after completion of the third cycle?
+
+Source: Computational design of improved
+standardized chemotherapy protocols for
+grade II oligodendrogliomas (PLOS Comput.
+Biol., 2019).
+
+Answer: 62.77 cm3
+
+dC
+= −λ C.
+dt
+
+(a)
+
+Model equations (ODE system):
+
+
+dP
+P +D
+= ρP 1 −
+− α1 P C − α2 P C,
+dt
+K
+
+
+ρ
+P +D
+dD
+= α1 P C − D 1 −
+,
+dt
+κ
+K
+
+(b)
+
+Figure 5: (a) Word clouds of the curated questions from the two pipelines. (b) Distribution and
+performance of Claude-Sonnet-4.5 across the two question types.
+
+3
+
+Experiments
+
+3.1
+
+Experimental Setups
+
+Deep Research Agent Framework In our experiments, we adopt Cognitive Kernel-Pro [9] as the
+foundation of our deep research agent. CK-Pro is a multi-agent framework optimized for GAIAlike [24] information-seeking tasks, consisting of a main agent that coordinates two specialized
+sub-agents for web browsing and file analysis. We further adapt the framework at the prompt and
+instruction levels to better align it with frontier scientific domains, resulting in a 4–8% performance
+improvement in preliminary experiments over the original framework.
+Benchmarks Following prior work [3, 34], we evaluate our method on three frontier scientific
+reasoning benchmarks: 1) HLE-Bio/Chem-Gold [43] is an expert-verified subset of Humanity’s
+Last Exam [29], comprising 149 highly challenging questions in advanced biology and chemistry. 2)
+SuperGPQA-Hard-Biology [23] contains 92 expert-annotated biology questions that emphasize
+difficult, reasoning-intensive scientific problem solving. 3) TRQA-Literature [48] is a knowledgeintensive benchmark grounded in advanced therapeutic research literature. Together, these benchmarks provide complementary coverage of frontier scientific reasoning, ranging from research-level
+scientific understanding to literature-grounded multi-step inference.
+6
+
+Table 3: Performance comparison on HLE-Bio/Chem-Gold (n=149), SuperGPQA-Hard-Biology
+(n=92), and TRQA-Literature (n=172). Results of proprietary agent baselines are reported by Tang
+et al. [34]. *Note: In TRQA experiments, we exclude TRQA from the training data of SciResearcher.
+Agent Framework
+
+LLM Backbone
+
+HLE-Gold
+
+SuperGPQA-Hard
+
+TRQA*
+
+Qwen3-32B
+Kimi-K2
+Deepseek V3.1
+Gemini-2.5 Pro
+
+5.37
+6.71
+13.42
+18.79
+
+31.52
+48.91
+66.30
+65.22
+
+37.79
+38.37
+43.60
+45.93
+
+AutoGen [46]
+SciMaster [3]
+Biomni [13]
+OpenAI Deep Research [27]
+
+GPT-4.1
+GPT-4.1
+GPT-4.1
+o4-mini
+
+7.38
+9.45
+10.74
+22.82
+
+29.35
+19.78
+43.48
+39.13
+
+51.74
+47.67
+41.09
+-
+
+Cognitive Kernel-Pro [9]
+
+Qwen3-8B
+Qwen3-32B
+SciResearcher-8B-SFT
+SciResearcher-8B-RL
+-pass@3
+
+8.05
+10.74
+12.75
+19.46
+31.54
+
+22.83
+38.04
+31.52
+35.87
+51.09
+
+34.88
+46.51
+47.67
+49.42
+60.47
+
+Vanilla LLMs
+–
+–
+–
+–
+Agent Systems
+
+Data and Training The composition of the Table 2: Training data composition. # Tasks inditraining data is summarized in Table 2. In ad- cates number of QA pairs and # Steps indicates
+dition to the two data types generated by SciRe- number of step-level messages for training.
+searcher, we introduce two auxiliary data sources
+to improve distributional balance. First, we in- Dataset
+# Tasks # Steps
+corporate a small subset of SciBench [40] as
+371
+2,872
+a source of relatively simple scientific reason- SciResearcherQA-Concept
+SciResearcherQA-Compute
+104
+951
+ing questions, which helps offset the difficulty
+172
+932
+of SciResearcherQA-Compute and reduce over- TRQA-Literature [48]
+thinking during training. Second, we include
+SciBench [40]
+80
+350
+TRQA as a source of multiple-selection MCQs
+727
+5,105
+to counterbalance the predominance of single- Total
+selection MCQs in SciResearcherQA-Concept.
+For evaluations on TRQA-Literature, we train a separate checkpoint with TRQA removed from the
+training mixture.
+We train our agent foundation model, SciResearcher-8B, based on Qwen3-8B [47], following
+the standard two-stage training paradigm of cold-start supervised fine-tuning (SFT) followed by
+reinforcement learning. In the first stage, we collect agent trajectories using Claude-Sonnet-4.5 [1]
+as the teacher model and perform supervised fine-tuning with rejection sampling to initialize the
+model’s tool-use and long-horizon decision-making abilities. In the second stage, we further optimize
+the model with reinforcement learning using the GRPO algorithm [31] with outcome-only rewards,
+encouraging the agent to discover more effective task-completion strategies through interaction.
+Our training objective is to improve the main agent’s ability to carry out long-horizon scientific
+tasks, particularly in planning, tool use, and multi-step execution. Accordingly, we train only on
+trajectories produced by the main agent. The web-browsing and file-analysis sub-agents are kept
+frozen throughout training and are treated as external tools rather than trainable components.
+3.2
+
+Results and Analyses
+
+Main Result The main experimental results are reported in Table 3. Overall, SciResearcher-8B
+yields substantial improvements over the base Qwen3-8B agent across all three frontier scientific
+reasoning benchmarks, demonstrating the effectiveness of our overall approach. On HLE-Bio/Chem7
+
+(a)
+
+(b)
+
+Figure 6: (a) Distribution of trajectory lengths (in macro steps) for SFT and RL checkpoints. (b)
+Distribution of tool-use frequency for simple web search and web agent.
+Table 4: Ablation study of training data configurations (cumulative) on two benchmarks.
+Training Setting
+
+HLE-Gold
+
+SuperGPQA-Hard
+
+Qwen3-8B (baseline)
++ SciResearcherQA-Concept
++ SciResearcherQA-Compute
++ TRQA & SciBench
+
+8.05
+10.74 (+2.69)
+12.08 (+1.34)
+12.75 (+0.67)
+
+22.83
+25.00 (+2.17)
+28.26 (+3.26)
+31.52 (+3.26)
+
+Gold, SciResearcher-8B-RL achieves 19.46%, improving over the Cognitive Kernel-Pro baseline by
+more than 11 absolute points and clearly outperforming prior proprietary scientific agent systems
+such as SciMaster and Biomni, both built on GPT-4.1. Although it remains below OpenAI Deep
+Research with o4-mini, our result already approaches that of frontier proprietary deep research
+systems despite using a much smaller open 8B backbone. On SuperGPQA-Hard-Biology and TRQALiterature, SciResearcher-8B-RL reaches 35.87% and 49.42%, corresponding to absolute gains
+of 13.04 and 14.54 points over the baseline, respectively. These results indicate that our training
+setup consistently improves performance on both literature-grounded conceptual reasoning and more
+demanding scientific problem solving. We also observe significant gains under pass@3 evaluation,
+suggesting additional headroom for performance improvement through inference-time scaling.
+Ablation Study We further conduct an ablation study to evaluate the contribution of each training
+data component (in the supervised fine-tuning stage). As shown in Table 4, performance improves
+consistently on both HLE-Gold and SuperGPQA-Hard as additional data sources are introduced
+during supervised fine-tuning, indicating that each component provides complementary supervision.
+In particular, SciResearcherQA-Concept contributes gains of 2.17–2.69 points across the two benchmarks, while SciResearcherQA-Compute yields a further 1.34–3.26 points, demonstrating the value
+of both conceptual and computational task curation. Incorporating TRQA and SciBench leads to
+additional improvements, further validating the design of the overall training mixture. Taken together,
+these results show that the two proposed SciResearcherQA components serve as the core source of
+performance gains, while the auxiliary data provides useful complementary coverage.
+Long-Horizon and Tool-Use Figure 6(a) shows the distribution of trajectory lengths for the
+baseline, SFT, and RL agents across the three benchmarks. After training, the agent generally
+produces substantially longer trajectories than the baseline, with trajectory lengths increasing by
+roughly 0.3× to 2.7×, indicating a markedly stronger tendency to sustain multi-step exploration and
+reasoning. A notable pattern emerges when comparing SFT and RL: on the most difficult benchmark,
+HLE-Gold, the RL checkpoint tends to generate even longer trajectories than the SFT checkpoint,
+whereas on the other two comparatively easier benchmarks it produces shorter trajectories. This
+8
+
+suggests that reinforcement learning does not simply encourage more steps indiscriminately, but may
+instead improve the agent’s ability to allocate search and reasoning effort more adaptively based on
+task difficulty.
+Figure 6(b) provides a complementary view through tool-use statistics, comparing the usage distributions of simple web search and the web-agent tool. Across all three benchmarks, both the SFT
+and RL checkpoints invoke tools substantially more often than the baseline, indicating that training
+improves the agent’s willingness and ability to rely on external information sources rather than
+prematurely answering from parametric memory alone. Furthermore, the RL checkpoint typically
+attains higher maximum tool-use counts than the SFT checkpoint, suggesting a stronger capacity
+to maintain extended tool-assisted reasoning chains when necessary. Taken together, these findings
+show that the gains of SciResearcher-8B are accompanied by measurable changes in behavior: the
+model not only answers more accurately, but also exhibits more persistent long-horizon planning and
+more intensive tool use.
+
+4
+
+Related Work
+
+4.1
+
+Deep Research Agents and Data Construction
+
+Initial progress in deep research agents has been led by proprietary systems built on frontier models
+[27, 4, 28]. In the open-source literature, the main thrust has been automated data curation for agentic
+post-training, rather than agent orchestration alone. Existing approaches broadly fall into retrievalcentric pipelines, which synthesize supervision from graph construction, crawling, or traversal over
+webpages and entities [17, 16, 45, 36], and exploration-centric pipelines, which let agents iteratively
+search, browse, and expand local information spaces to construct harder long-horizon tasks and
+trajectories [35, 44, 19, 39]. While these efforts have substantially improved open agents’ ability
+to perform multi-step web information seeking, most synthesized supervision remains centered on
+general-domain, web-grounded retrieval, often with short-answer or fact-seeking targets. A parallel
+line of work improves deep research agents through self-evolving or self-improving mechanisms
+[8, 18, 37, 12]. Finally, several recent benchmarks have been proposed to stress-test long-horizon
+information seeking and research-style agent behavior [41, 10, 6].
+4.2
+
+Agents in Scientific Reasoning and Discovery
+
+Many previous works improve the scientific reasoning of LLMs by designing specialized agent
+frameworks and integrating domain-specific knowledge sources. SciMaster [3] studies general
+scientific reasoning with parallel solution sampling and iterative refinement. Biomni [13] supports
+biomedical reasoning and discovery with tailored tool use and domain-specific databases. Eigen-1
+[34] targets biology and chemistry with adaptive retrieval-augmented generation over a curated
+scientific paper corpus. Meanwhile, as LLM-based agents become more capable, researchers have
+increasingly applied them to scientific research and discovery [50, 22, 51]. These efforts range
+from iterative optimization agents that automatically improve the performance of a specific machine
+learning model based on execution feedback [14, 20, 15] to fully autonomous AI scientists that carry
+out the research loop from ideation to paper writing [21, 42].
+
+5
+
+Conclusion
+
+We presented SciResearcher, a fully automated data construction framework for frontier scientific
+reasoning that moves beyond general-domain information-seeking supervision toward tasks grounded
+in heterogeneous academic evidence, scientific computation, and long-horizon reasoning. Through
+tailored curation pipelines for both conceptual and computational questions, SciResearcher generates high-quality scientific reasoning tasks that support agent post-training. The resulting model,
+SciResearcher-8B, achieves remarkable performance across multiple frontier scientific reasoning
+benchmarks, outperforming several proprietary scientific agents and exhibiting more adaptive, toolintensive reasoning behavior. More broadly, our work offers a new perspective on fully automated
+data construction for frontier scientific reasoning, highlighting the promise of tailored question typologies as a scalable training paradigm for scientific agents. Future work may focus on investigating
+the fundamental yet diverse reasoning taxonomy underlying real-world frontier science, enabling
+more principled and effective scientific task construction.
+9
+
+References
+[1] Anthropic. Introducing claude sonnet 4.5, September 2025. URL https://www.anthropic.com/news
+/claude-sonnet-4-5.
+[2] Vladimir Baulin, Austin Cook, Daniel Friedman, Janna Lumiruusu, Andrew Pashea, Shagor Rahman, and
+Benedikt Waldeck. The discovery engine: A framework for ai-driven synthesis and navigation of scientific
+knowledge landscapes, 2025. URL https://arxiv.org/abs/2505.17500.
+[3] Jingyi Chai, Shuo Tang, Rui Ye, Yuwen Du, Xinyu Zhu, Mengcheng Zhou, Yanfeng Wang, Weinan
+E, Yuzhi Zhang, Linfeng Zhang, and Siheng Chen. Scimaster: Towards general-purpose scientific ai
+agents, part i. x-master as foundation: Can we lead on humanity’s last exam?, 2025. URL https:
+//arxiv.org/abs/2507.05241.
+[4] Dave Citron. Try deep research and our new experimental model in gemini, your ai assistant, December
+2024. URL https://blog.google/products/gemini/google-gemini-deep-research/.
+[5] Ryan Cory-Wright, Cristina Cornelio, Sanjeeb Dash, Bachir El Khadir, and Lior Horesh. Evolving
+scientific discovery by unifying data and background knowledge with ai hilbert. Nature Communications,
+15(1):5922, July 2024. doi: 10.1038/s41467-024-50074-w.
+[6] Mingxuan Du, Benfeng Xu, Chiwei Zhu, Xiaorui Wang, and Zhendong Mao. Deepresearch bench: A
+comprehensive benchmark for deep research agents, 2025. URL https://arxiv.org/abs/2506.117
+63.
+[7] Kathryn Dumschott, Hannah Dörpholz, Marie-Angélique Laporte, Dominik Brilhaus, Andrea Schrader,
+Björn Usadel, Steffen Neumann, Elizabeth Arnaud, and Angela Kranz. Ontologies for increasing the
+fairness of plant research data. Frontiers in Plant Science, Volume 14 - 2023, 2023. ISSN 1664-462X. doi:
+10.3389/fpls.2023.1279694. URL https://www.frontiersin.org/journals/plant-science/art
+icles/10.3389/fpls.2023.1279694.
+[8] Tianqing Fang, Hongming Zhang, Zhisong Zhang, Kaixin Ma, Wenhao Yu, Haitao Mi, and Dong Yu.
+Webevolver: Enhancing web agent self-improvement with coevolving world model, 2025. URL https:
+//arxiv.org/abs/2504.21024.
+[9] Tianqing Fang, Zhisong Zhang, Xiaoyang Wang, Rui Wang, Can Qin, Yuxuan Wan, Jun-Yu Ma, Ce Zhang,
+Jiaqi Chen, Xiyun Li, Yonglin Wang, Jingchen Ni, Tianshi Zheng, Chun Chen, Wenhao Yu, Zhenwen
+Liang, Hongming Zhang, Haitao Mi, and Dong Yu. Cognitive kernel-pro: A framework for deep research
+agents and agent foundation models training, 2026. URL https://arxiv.org/abs/2508.00414.
+[10] FutureSearch, :, Nikos I. Bosse, Jon Evans, Robert G. Gambee, Daniel Hnyk, Peter Mühlbacher, Lawrence
+Phillips, Dan Schwarz, and Jack Wildman. Deep research bench: Evaluating ai web research agents, 2025.
+URL https://arxiv.org/abs/2506.06287.
+[11] Juraj Gottweis, Wei-Hung Weng, Alexander Daryin, Tao Tu, Anil Palepu, Petar Sirkovic, Artiom
+Myaskovsky, Felix Weissenberger, Keran Rong, Ryutaro Tanno, Khaled Saab, Dan Popovici, Jacob
+Blum, Fan Zhang, Katherine Chou, Avinatan Hassidim, Burak Gokturk, Amin Vahdat, Pushmeet
+Kohli, Yossi Matias, Andrew Carroll, Kavita Kulkarni, Nenad Tomasev, Yuan Guan, Vikram Dhillon,
+Eeshit Dhaval Vaishnav, Byron Lee, Tiago R D Costa, José R Penadés, Gary Peltz, Yunhan Xu, Annalisa Pawlosky, Alan Karthikesalingam, and Vivek Natarajan. Towards an ai co-scientist, 2025. URL
+https://arxiv.org/abs/2502.18864.
+[12] Minda Hu, Tianqing Fang, Jianshu Zhang, Junyu Ma, Zhisong Zhang, Jingyan Zhou, Hongming Zhang,
+Haitao Mi, Dong Yu, and Irwin King. Webcot: Enhancing web agent reasoning by reconstructing chain-ofthought in reflection, branching, and rollback, 2025. URL https://arxiv.org/abs/2505.20013.
+[13] Kexin Huang, Serena Zhang, Hanchen Wang, Yuanhao Qu, Yingzhou Lu, Yusuf Roohani, Ryan Li, Lin
+Qiu, Gavin Li, Junze Zhang, et al. Biomni: A general-purpose biomedical ai agent. biorxiv, 2025.
+[14] Zhengyao Jiang, Dominik Schmidt, Dhruv Srikanth, Dixing Xu, Ian Kaplan, Deniss Jacenko, and Yuxiang
+Wu. Aide: Ai-driven exploration in the space of code, 2025. URL https://arxiv.org/abs/2502.131
+38.
+[15] Andrej Karpathy. autoresearch: Ai agents running research on single-gpu nanochat training automatically.
+https://github.com/karpathy/autoresearch, 2026.
+[16] Kuan Li, Zhongwang Zhang, Huifeng Yin, Rui Ye, Yida Zhao, Liwen Zhang, Litu Ou, Dingchu Zhang,
+Xixi Wu, Jialong Wu, Xinyu Wang, Zile Qiao, Zhen Zhang, Yong Jiang, Pengjun Xie, Fei Huang, and
+Jingren Zhou. Websailor-v2: Bridging the chasm to proprietary agents via synthetic data and scalable
+reinforcement learning, 2025. URL https://arxiv.org/abs/2509.13305.
+
+10
+
+[17] Kuan Li, Zhongwang Zhang, Huifeng Yin, Liwen Zhang, Litu Ou, Jialong Wu, Wenbiao Yin, Baixuan Li,
+Zhengwei Tao, Xinyu Wang, Weizhou Shen, Junkai Zhang, Dingchu Zhang, Xixi Wu, Yong Jiang, Ming
+Yan, Pengjun Xie, Fei Huang, and Jingren Zhou. Websailor: Navigating super-human reasoning for web
+agent, 2025. URL https://arxiv.org/abs/2507.02592.
+[18] Mukai Li, Qingcheng Zeng, Tianqing Fang, Zhenwen Liang, Linfeng Song, Qi Liu, Haitao Mi, and Dong Yu.
+Verified critical step optimization for llm agents, 2026. URL https://arxiv.org/abs/2602.03412.
+[19] Junteng Liu, Yunji Li, Chi Zhang, Jingyang Li, Aili Chen, Ke Ji, Weiyu Cheng, Zijia Wu, Chengyu Du, Qidi
+Xu, Jiayuan Song, Zhengmao Zhu, Wenhu Chen, Pengyu Zhao, and Junxian He. Webexplorer: Explore
+and evolve for training long-horizon web agents, 2025. URL https://arxiv.org/abs/2509.06501.
+[20] Zexi Liu, Yuzhu Cai, Xinyu Zhu, Yujie Zheng, Runkun Chen, Ying Wen, Yanfeng Wang, Weinan E, and
+Siheng Chen. Ml-master: Towards ai-for-ai via integration of exploration and reasoning, 2025. URL
+https://arxiv.org/abs/2506.16499.
+[21] Chris Lu, Cong Lu, Robert Tjarko Lange, Jakob Foerster, Jeff Clune, and David Ha. The ai scientist:
+Towards fully automated open-ended scientific discovery, 2024. URL https://arxiv.org/abs/2408
+.06292.
+[22] Ziming Luo, Zonglin Yang, Zexin Xu, Wei Yang, and Xinya Du. Llm4sr: A survey on large language
+models for scientific research, 2025. URL https://arxiv.org/abs/2501.04306.
+[23] M-A-P, Xinrun Du, Yifan Yao, Kaijing Ma, Bingli Wang, Tianyu Zheng, King Zhu, Minghao Liu, Yiming
+Liang, Xiaolong Jin, Zhenlin Wei, Chujie Zheng, Kaixin Deng, Shawn Gavin, Shian Jia, Sichao Jiang,
+Yiyan Liao, Rui Li, Qinrui Li, Sirun Li, Yizhi Li, Yunwen Li, David Ma, Yuansheng Ni, Haoran Que, Qiyao
+Wang, Zhoufutu Wen, Siwei Wu, Tyshawn Hsing, Ming Xu, Zhenzhu Yang, Zekun Moore Wang, Junting
+Zhou, Yuelin Bai, Xingyuan Bu, Chenglin Cai, Liang Chen, Yifan Chen, Chengtuo Cheng, Tianhao Cheng,
+Keyi Ding, Siming Huang, Yun Huang, Yaoru Li, Yizhe Li, Zhaoqun Li, Tianhao Liang, Chengdong Lin,
+Hongquan Lin, Yinghao Ma, Tianyang Pang, Zhongyuan Peng, Zifan Peng, Qige Qi, Shi Qiu, Xingwei
+Qu, Shanghaoran Quan, Yizhou Tan, Zili Wang, Chenqing Wang, Hao Wang, Yiya Wang, Yubo Wang,
+Jiajun Xu, Kexin Yang, Ruibin Yuan, Yuanhao Yue, Tianyang Zhan, Chun Zhang, Jinyang Zhang, Xiyue
+Zhang, Xingjian Zhang, Yue Zhang, Yongchi Zhao, Xiangyu Zheng, Chenghua Zhong, Yang Gao, Zhoujun
+Li, Dayiheng Liu, Qian Liu, Tianyu Liu, Shiwen Ni, Junran Peng, Yujia Qin, Wenbo Su, Guoyin Wang,
+Shi Wang, Jian Yang, Min Yang, Meng Cao, Xiang Yue, Zhaoxiang Zhang, Wangchunshu Zhou, Jiaheng
+Liu, Qunshu Lin, Wenhao Huang, and Ge Zhang. Supergpqa: Scaling llm evaluation across 285 graduate
+disciplines, 2025. URL https://arxiv.org/abs/2502.14739.
+[24] Grégoire Mialon, Clémentine Fourrier, Thomas Wolf, Yann LeCun, and Thomas Scialom. GAIA: a
+benchmark for general AI assistants. In The Twelfth International Conference on Learning Representations,
+ICLR 2024, Vienna, Austria, May 7-11, 2024. OpenReview.net, 2024. URL https://openreview.net
+/forum?id=fibxvahvs3.
+[25] Ludovico Mitchener, Angela Yiu, Benjamin Chang, Mathieu Bourdenx, Tyler Nadolski, Arvis Sulovari,
+Eric C. Landsness, Daniel L. Barabasi, Siddharth Narayanan, Nicky Evans, Shriya Reddy, Martha Foiani,
+Aizad Kamal, Leah P. Shriver, Fang Cao, Asmamaw T. Wassie, Jon M. Laurent, Edwin Melville-Green,
+Mayk Caldas, Albert Bou, Kaleigh F. Roberts, Sladjana Zagorac, Timothy C. Orr, Miranda E. Orr,
+Kevin J. Zwezdaryk, Ali E. Ghareeb, Laurie McCoy, Bruna Gomes, Euan A. Ashley, Karen E. Duff, Tonio
+Buonassisi, Tom Rainforth, Randall J. Bateman, Michael Skarlinski, Samuel G. Rodriques, Michaela M.
+Hinks, and Andrew D. White. Kosmos: An ai scientist for autonomous discovery, 2025. URL https:
+//arxiv.org/abs/2511.02824.
+[26] Nayantara Mudur, Hao Cui, Subhashini Venugopalan, Paul Raccuglia, Michael P. Brenner, and Peter
+Norgaard. Feabench: Evaluating language models on multiphysics reasoning ability, 2025. URL https:
+//arxiv.org/abs/2504.06260.
+[27] OpenAI. Introducing deep research. https://openai.com/index/introducing-deep-research/,
+February 2025.
+[28] Perplexity AI. Introducing perplexity deep research. https://www.perplexity.ai/hub/blog/intro
+ducing-perplexity-deep-research, 2025.
+[29] Long Phan, Alice Gatti, Nathaniel Li, Adam Khoja, Ryan Kim, Richard Ren, and Jason Hausenloy,
+et al. A benchmark of expert-level academic questions to assess ai capabilities. Nature, 649(8099):
+1139–1146, January 2026. ISSN 1476-4687. doi: 10.1038/s41586- 025- 09962-4. URL http:
+//dx.doi.org/10.1038/s41586-025-09962-4.
+
+11
+
+[30] Samuel Schmidgall, Yusheng Su, Ze Wang, Ximeng Sun, Jialian Wu, Xiaodong Yu, Jiang Liu, Michael
+Moor, Zicheng Liu, and Emad Barsoum. Agent laboratory: Using llm agents as research assistants, 2025.
+URL https://arxiv.org/abs/2501.04227.
+[31] Zhihong Shao, Peiyi Wang, Qihao Zhu, Runxin Xu, Junxiao Song, Xiao Bi, Haowei Zhang, Mingchuan
+Zhang, Y. K. Li, Y. Wu, and Daya Guo. Deepseekmath: Pushing the limits of mathematical reasoning in
+open language models, 2024. URL https://arxiv.org/abs/2402.03300.
+[32] Zhihong Shen, Hao Ma, and Kuansan Wang. A web-scale system for scientific knowledge exploration.
+In Fei Liu and Thamar Solorio, editors, Proceedings of ACL 2018, System Demonstrations, pages 87–92,
+Melbourne, Australia, July 2018. Association for Computational Linguistics. doi: 10.18653/v1/P18-4015.
+URL https://aclanthology.org/P18-4015/.
+[33] Chenglei Si, Diyi Yang, and Tatsunori Hashimoto. Can llms generate novel research ideas? a large-scale
+human study with 100+ nlp researchers, 2024. URL https://arxiv.org/abs/2409.04109.
+[34] Xiangru Tang, Wanghan Xu, Yujie Wang, Zijie Guo, Daniel Shao, Jiapeng Chen, Cixuan Zhang, Ziyi
+Wang, Lixin Zhang, Guancheng Wan, Wenlong Zhang, Lei Bai, Zhenfei Yin, Philip Torr, Hanrui Wang,
+and Di Jin. Eigen-1: Adaptive multi-agent refinement with monitor-based rag for scientific reasoning,
+2025. URL https://arxiv.org/abs/2509.21193.
+[35] Zhengwei Tao, Jialong Wu, Wenbiao Yin, Junkai Zhang, Baixuan Li, Haiyang Shen, Kuan Li, Liwen
+Zhang, Xinyu Wang, Yong Jiang, Pengjun Xie, Fei Huang, and Jingren Zhou. Webshaper: Agentically
+data synthesizing via information-seeking formalization, 2025. URL https://arxiv.org/abs/2507.1
+5061.
+[36] MiroMind Team, Song Bai, Lidong Bing, Carson Chen, Guanzheng Chen, Yuntao Chen, Zhe Chen, Ziyi
+Chen, Jifeng Dai, Xuan Dong, Wenhan Dou, Yue Deng, Yunjie Fu, Junqi Ge, Chenxia Han, Tammy
+Huang, Zhenhang Huang, Jerry Jiao, Shilei Jiang, Tianyu Jiao, Xiaoqi Jian, Lei Lei, Ruilin Li, Ryan Luo,
+Tiantong Li, Xiang Lin, Ziyuan Liu, Zhiqi Li, Jie Ni, Qiang Ren, Pax Sun, Shiqian Su, Chenxin Tao,
+Bin Wang, Hellen Wang, Haonan Wang, James Wang, Jin Wang, Jojo Wang, Letian Wang, Shizun Wang,
+Weizhi Wang, Zixuan Wang, Jinfan Xu, Sen Xing, Chenyu Yang, Hai Ye, Jiaheng Yu, Yue Yu, Muyan
+Zhong, Tianchen Zhao, Xizhou Zhu, Yanpeng Zhou, Yifan Zhang, and Zhi Zhu. Mirothinker: Pushing the
+performance boundaries of open-source research agents via model, context, and interactive scaling, 2025.
+URL https://arxiv.org/abs/2511.11793.
+[37] Yuxuan Wan, Tianqing Fang, Zaitang Li, Yintong Huo, Wenxuan Wang, Haitao Mi, Dong Yu, and
+Michael R. Lyu. Inference-time scaling of verification: Self-evolving deep research agents via test-time
+rubric-guided verification, 2026. URL https://arxiv.org/abs/2601.15808.
+[38] Miles Wang, Robi Lin, Kat Hu, Joy Jiao, Neil Chowdhury, Ethan Chang, and Tejal Patwardhan.
+Frontierscience: Evaluating ai’s ability to perform expert-level scientific tasks, 2026. URL https:
+//arxiv.org/abs/2601.21165.
+[39] Rui Wang, Ce Zhang, Jun-Yu Ma, Jianshu Zhang, Hongru Wang, Yi Chen, Boyang Xue, Tianqing
+Fang, Zhisong Zhang, Hongming Zhang, Haitao Mi, Dong Yu, and Kam-Fai Wong. Webaggregator:
+Enhancing compositional reasoning capabilities of deep research agent foundation models, 2026. URL
+https://arxiv.org/abs/2510.14438.
+[40] Xiaoxuan Wang, Ziniu Hu, Pan Lu, Yanqiao Zhu, Jieyu Zhang, Satyen Subramaniam, Arjun R. Loomba,
+Shichang Zhang, Yizhou Sun, and Wei Wang. Scibench: Evaluating college-level scientific problem-solving
+abilities of large language models, 2024. URL https://arxiv.org/abs/2307.10635.
+[41] Jason Wei, Zhiqing Sun, Spencer Papay, Scott McKinney, Jeffrey Han, Isa Fulford, Hyung Won Chung,
+Alex Tachard Passos, William Fedus, and Amelia Glaese. Browsecomp: A simple yet challenging
+benchmark for browsing agents, 2025. URL https://arxiv.org/abs/2504.12516.
+[42] Yixuan Weng, Minjun Zhu, Qiujie Xie, Qiyao Sun, Zhen Lin, Sifan Liu, and Yue Zhang. Deepscientist:
+Advancing frontier-pushing scientific findings progressively, 2025. URL https://arxiv.org/abs/25
+09.26603.
+[43] Andrew White, Michael Skarlinski, Jon Laurent, and Albert Bou. About 30% of humanity’s last exam
+chemistry/biology answers are likely wrong, July 2025. URL https://www.futurehouse.org/rese
+arch-announcements/hle-exam.
+[44] Jialong Wu, Baixuan Li, Runnan Fang, Wenbiao Yin, Liwen Zhang, Zhengwei Tao, Dingchu Zhang, Zekun
+Xi, Gang Fu, Yong Jiang, Pengjun Xie, Fei Huang, and Jingren Zhou. Webdancer: Towards autonomous
+information seeking agency, 2025. URL https://arxiv.org/abs/2505.22648.
+
+12
+
+[45] Jialong Wu, Wenbiao Yin, Yong Jiang, Zhenglin Wang, Zekun Xi, Runnan Fang, Linhai Zhang, Yulan He,
+Deyu Zhou, Pengjun Xie, and Fei Huang. Webwalker: Benchmarking llms in web traversal, 2025. URL
+https://arxiv.org/abs/2501.07572.
+[46] Qingyun Wu, Gagan Bansal, Jieyu Zhang, Yiran Wu, Beibin Li, Erkang Zhu, Li Jiang, Xiaoyun Zhang,
+Shaokun Zhang, Jiale Liu, et al. Autogen: Enabling next-gen llm applications via multi-agent conversations.
+In First conference on language modeling, 2024.
+[47] An Yang, Anfeng Li, Baosong Yang, Beichen Zhang, Binyuan Hui, Bo Zheng, Bowen Yu, Chang Gao,
+Chengen Huang, Chenxu Lv, Chujie Zheng, Dayiheng Liu, Fan Zhou, Fei Huang, Feng Hu, Hao Ge,
+Haoran Wei, Huan Lin, Jialong Tang, Jian Yang, Jianhong Tu, Jianwei Zhang, Jianxin Yang, Jiaxi Yang,
+Jing Zhou, Jingren Zhou, Junyang Lin, Kai Dang, Keqin Bao, Kexin Yang, Le Yu, Lianghao Deng,
+Mei Li, Mingfeng Xue, Mingze Li, Pei Zhang, Peng Wang, Qin Zhu, Rui Men, Ruize Gao, Shixuan
+Liu, Shuang Luo, Tianhao Li, Tianyi Tang, Wenbiao Yin, Xingzhang Ren, Xinyu Wang, Xinyu Zhang,
+Xuancheng Ren, Yang Fan, Yang Su, Yichang Zhang, Yinger Zhang, Yu Wan, Yuqiong Liu, Zekun
+Wang, Zeyu Cui, Zhenru Zhang, Zhipeng Zhou, and Zihan Qiu. Qwen3 technical report, 2025. URL
+https://arxiv.org/abs/2505.09388.
+[48] Zhongyue Zhang, Zijie Qiu, Yingcheng Wu, Shuya Li, Dingyan Wang, Zhuomin Zhou, Duo An, Yuhan
+Chen, Yu Li, Yongbo Wang, Chubin Ou, Zichen Wang, Jack Xiaoyu Chen, Bo Zhang, Yusong Hu, Wenxin
+Zhang, Zhijian Wei, Runze Ma, Qingwu Liu, Bo Dong, Yuexi He, Qiantai Feng, Lei Bai, Qiang Gao, Siqi
+Sun, and Shuangjia Zheng. Origene: A self-evolving virtual disease biologist automating therapeutic target
+discovery. bioRxiv, 2025. doi: 10.1101/2025.06.03.657658. URL https://www.biorxiv.org/conten
+t/early/2025/06/06/2025.06.03.657658.
+[49] Zixuan Zhang, Nikolaus Parulian, Heng Ji, Ahmed Elsayed, Skatje Myers, and Martha Palmer. Finegrained information extraction from biomedical literature based on knowledge-enriched Abstract Meaning
+Representation. In Chengqing Zong, Fei Xia, Wenjie Li, and Roberto Navigli, editors, Proceedings of
+the 59th Annual Meeting of the Association for Computational Linguistics and the 11th International
+Joint Conference on Natural Language Processing (Volume 1: Long Papers), pages 6261–6270, Online,
+August 2021. Association for Computational Linguistics. doi: 10.18653/v1/2021.acl-long.489. URL
+https://aclanthology.org/2021.acl-long.489/.
+[50] Tianshi Zheng, Zheye Deng, Hong Ting Tsang, Weiqi Wang, Jiaxin Bai, Zihao Wang, and Yangqiu Song.
+From automation to autonomy: A survey on large language models in scientific discovery. In Christos
+Christodoulopoulos, Tanmoy Chakraborty, Carolyn Rose, and Violet Peng, editors, Proceedings of the
+2025 Conference on Empirical Methods in Natural Language Processing, pages 17733–17750, Suzhou,
+China, November 2025. Association for Computational Linguistics. ISBN 979-8-89176-332-6. doi:
+10.18653/v1/2025.emnlp-main.895. URL https://aclanthology.org/2025.emnlp-main.895/.
+[51] Tianshi Zheng, Kelvin Kiu-Wai Tam, Newt Hue-Nam K. Nguyen, Baixuan Xu, Zhaowei Wang, Jiayang
+Cheng, Hong Ting Tsang, Weiqi Wang, Jiaxin Bai, Tianqing Fang, Yangqiu Song, Ginny Y. Wong, and
+Simon See. Newtonbench: Benchmarking generalizable scientific law discovery in llm agents, 2026. URL
+https://arxiv.org/abs/2510.07172.
+
+13
+
+A
+
+Technical Details
+
+Agent Framework Details Our agent
+Agent
+Action / Tool
+Observation
+framework is built upon Cognitive
+web_agent(task)
+Web-agent output / log
+Kernel-Pro [9], a two-tier, multi-module
+file_agent(task)
+File-agent output / log
+hierarchical architecture in which a main Main
+simple_web_search(query)
+Search results
+agent is responsible for task decomposistop(answer, summary)
+Final answer
+tion, subtask delegation, evidence aggreclick(id)
+Web text & DOM
+gation, tool invocation, and Python-based
+type(id, text)
+Web text & DOM
+action generation, while specialized subscroll_up() / scroll_down()
+Updated page state
+agents handle grounded interactions with
+wait()
+Updated page state
+external environments. Concretely, we Web
+goback()
+Previous page state
+restart()
+Reset browser state
+instantiate a web agent for live web navgoto(url)
+Web text & DOM
+igation and a file agent for local docusave(remote, local)
+Saved local file / status
+ment processing, following the general
+screenshot(flag, path)
+Screenshot-enabled page
+design of Cognitive Kernel-Pro. Differview
+stop(answer, summary)
+Final sub-agent output
+ent from the original framework, however, we remove the ask_llm function
+load_file(path)
+File metadata / page index
+from the main agent. This modification
+read_text(path, pages)
+Extracted file text
+read_screenshot(path, pages) Visual page content
+prevents the agent from bypassing tool File
+search(path, keywords)
+Matched spans / page hits
+use and producing unsupported shortcut
+stop(answer, summary)
+Final sub-agent output
+answers directly from the base language
+model, thereby encouraging explicit eviTable 5: Tool and action space of our agent framework.
+dence collection through interaction with
+the web and files. To further adapt our agent for frontier scientific reasoning, we refine the system
+prompt of the main agent to encourage proactive acquisition of domain knowledge and careful
+verification.
+Agent Backbone Configuration Across all experiments, we optimize only the main agent and use
+Qwen3-8B (without thinking) as its backbone. The sub-agents—specifically, the web agent and the
+file agent—remain frozen and use Qwen3-32B (without thinking) throughout trajectory sampling,
+reinforcement learning, and benchmark evaluation.
+
+14
+
+B
+
+Further Details of SciResearcherQA
+
+In this section, we include consolidated prompt templates for the four core modules in the construction
+of SciResearcherQA.
+Prompt template for Conceptual Task - seed2question.
+Conceptual Task - seed2question
+## Core Identity
+<Role: Frontier Scientific Question Curation Agent. Your goal is to generate a
+base conceptual scientific reasoning question from a given seed entity, grounded
+in verifiable academic evidence. The target domains include frontier scientific
+areas such as biology, chemistry, biomedicine, and related interdisciplinary
+fields.>
+## Input Format
+<Seed entity, together with its domain and ontology information; illustrative
+examples.>
+## Question Curation Requirements
+<Metric Definition>
+<The generated question should:
+1. Include the seed entity or be directly grounded in it.
+2. Be concise but scientifically meaningful.
+3. Be answerable from a single authoritative academic source at this stage.
+4. Prefer multiple-choice format with plausible confounders, while allowing
+short-answer format when more appropriate.
+5. Avoid shortcuts that can be solved by trivia, superficial keyword matching,
+or generic web search without reading the academic evidence.
+6. Be suitable as the semantic backbone for later anchor-based augmentation.>
+## Pre-Action Protocol: Plan Before Searching
+<Metric Definition>
+<Before browsing, understand the seed entity and its scientific context. Plan
+3--5 diverse search queries that target academic sources such as peer-reviewed
+papers, domain databases, preprints, and reputable scientific venues. Assess
+source quality based on relevance, authority, evidence specificity, and whether
+the source supports a nontrivial scientific claim.>
+## Question Curation Strategies
+<Metric Definition>
+<Scoring Description and Examples for each numbered strategy:>
+1. Meticulousness and persistence in finding high-quality academic evidence.
+2. Task decomposition: search -> evidence extraction -> question generation ->
+verification.
+3. Adaptive error handling and reuse of progress state when searches fail or
+evidence is insufficient.
+4. Multi-query scout search and URL selection based on relevance, venue quality,
+source diversity, and scientific specificity.
+5. Use of the url2evidence sub-agent to access selected academic sources,
+extract key supporting evidence, and distinguish stand-alone scientific facts
+from study-specific artifacts.
+6. Evidence quality checks, including source authority, evidence-answer
+entailment, and avoidance of unsupported assumptions.
+7. Question formulation with plausible, unbiased, and challenging confounders
+for MCQs; clear expected answer for short-answer questions; and final
+quality checks.
+8. Multi-tool coordination following the typical workflow:
+scout search -> source selection -> url2evidence -> question generation ->
+verification.
+## Output Format
+The final output MUST be a JSON object with the following structure:
+’’’json
+{
+"question": "The question text containing or directly grounded in the seed entity",
+
+15
+
+"answer": "The correct answer content, not a letter label",
+"question_type": "mcq",
+"confounders": ["confounder1", "confounder2", "confounder3"],
+"evidence": {
+"url": "https://...",
+"paper_title": "Title of the paper or academic source",
+"evidence_paragraph": "The exact paragraph or quote that supports the answer",
+"context": "Additional background information that explains the broader context of
+the evidence or clarifies details needed to understand it"
+}
+}
+’’’
+**Important Notes on Output Format:**
+- ’answer’: Provide the actual answer content, not an option letter.
+- ’question_type’: Use lowercase "mcq" or "short_answer".
+- ’confounders’: For MCQs, provide 3 or more challenging wrong answers.
+- ’evidence.url’: Must be a real, verified URL.
+- The entire output must be valid JSON and contain no extraneous commentary.
+
+16
+
+Prompt template for Conceptual Task - anchor_extraction.
+Conceptual Task - anchor_extraction
+You are an expert at analyzing scientific reasoning questions.
+Your task is to identify the single most critical "anchor entity" in the question
+body. This anchor will be used for anchor-based question augmentation: a new
+question will later be generated whose answer is exactly this anchor entity, and
+that new question will be fused back into the original question.
+## Definition of Anchor Entity
+An anchor entity is a SPECIFIC scientific term that:
+1. **Domain-specific**: It is a concrete scientific entity, such as a gene,
+protein, pathway, compound, species, technique, disease, mutation, phenotype,
+material, model, or other scientific concept.
+2. **Question-body only**: It appears in the question stem but does NOT appear in
+the correct answer or any confounder.
+3. **Decisive**: The question becomes substantially harder or unanswerable if
+this entity is masked or removed.
+4. **Specific and concrete**: It is sufficiently specific to support further
+evidence-grounded browsing and question generation.
+## Your Task
+Given the question, correct answer(s), and confounders below, you must:
+1. Identify candidate anchor entities in the question body.
+2. Verify that each candidate does NOT appear in the correct answer or any
+confounder.
+3. Evaluate whether each candidate is decisive for deriving the final answer.
+4. Select the most decisive, specific, and concrete entity.
+5. If no valid anchor exists, return an empty string.
+## Selection Criteria (in priority order)
+1. Prefer the MOST SPECIFIC entity, e.g., "AXL" over "receptor tyrosine kinase".
+2. Prefer entities that constrain the answer, such that removing them makes
+multiple answers plausible.
+3. Prefer named entities, such as gene, protein, compound, disease, pathway, or
+model names, over generic scientific terms.
+4. Prefer entities that are decoupled from the surface form of the answer
+options.
+5. If multiple candidates exist, choose the one most central to the scientific
+claim.
+## Output Format
+Return ONLY valid JSON:
+{
+"candidates": [
+{
+"entity": "...",
+"in_question": true,
+"in_options": false,
+"is_decisive": true
+}
+],
+"anchor_entity": "<the single valid anchor entity string, or empty string if none>",
+"entity_type": "<type: gene|protein|pathway|compound|technique|disease|other>",
+"reasoning": "<brief explanation of selection and validation>"
+}
+## Examples
+<Illustrative worked examples omitted here for brevity.>
+---
+
+17
+
+## Question
+{question}
+## Correct Answer(s)
+{answer}
+## Confounders (wrong options)
+{confounders}
+Analyze candidates, verify constraints, and return the valid anchor entity.
+
+18
+
+Prompt template for Computational Task - seed2equation.
+Computational Task - seed2equation
+## Core Identity
+<Frontier Scientific Model Discovery Agent. Your goal is to identify an advanced
+computational or numerical scientific model associated with a given seed entity,
+extract its governing equations and application constraints from academic
+sources, and prepare the model specification for downstream computational
+question generation.>
+## CARDINAL RULE: Precision and Groundedness Above All
+<Metric Definition>
+<All extracted model details must be traceable to the selected academic source.
+Prefer precise, reproducible mathematical definitions over vague model
+descriptions. Abandon a candidate model if its equations, parameters, scenario,
+or source cannot be verified.>
+## Input Format
+<Seed entity, together with its domain and ontology information; illustrative
+examples.>
+## Task Overview -- Three-Level Evidence Selection and Model Extraction
+### Level 1: Scout Search
+Perform multiple scout searches to identify promising academic sources associated
+with the seed entity. Use diverse queries that target computational models,
+numerical simulations, mechanistic equations, kinetic models, ODE/PDE systems,
+statistical models, or other quantitative formulations.
+### Level 2: URL Evaluation with eval_urls
+Use the eval_urls tool to assess selected sources. Prioritize sources according
+to:
+1. Model exclusiveness
+2. Search identifiability
+3. Computational complexity
+4. LLM unfamiliarity
+Also consider URL validity and whether the source clearly contains a usable
+computational or numerical model.
+### Level 3: Detailed Model Extraction with url2evidence
+Use the url2evidence sub-agent to conduct a deep dive into the final selected
+source or sources. Extract the complete model specification, including:
+1. Model name and scientific purpose.
+2. Governing equations.
+3. Variable definitions.
+4. Parameter definitions and units.
+5. Applicable scenario and constraints.
+6. Any assumptions required for correct model use.
+## Model Selection Criteria
+Select a model that satisfies as many of the following criteria as possible:
+1. The model supports calculable numerical outputs.
+2. The model is described in a real, citable academic source.
+3. The equations are nontrivial and not merely standard textbook formulas.
+4. The computation requires meaningful model instantiation or numerical solving.
+5. The model can support a realistic scenario-based scientific question.
+6. The source is relatively recent, niche, or unlikely to be memorized by LLMs.
+7. The model is clearly associated with the seed entity or its scientific domain.
+## What Counts as a Frontier Numerical Model?
+<A model with explicit mathematical structure, such as governing equations,
+ODE/PDE systems, kinetic models, dose-response models, mechanistic simulations,
+quantitative biological or chemical models, or other computational formulations
+that can be instantiated to produce a numerical answer.>
+
+19
+
+## What Does NOT Count
+<Do not select models that are only conceptual diagrams, purely descriptive
+frameworks, simple textbook equations, standard unit conversions, or models whose
+parameters and equations cannot be verified from the source.>
+## Output Format
+The final output MUST be a JSON object with the following structure:
+’’’json
+{
+"seed_entity": "<the seed entity>",
+"selected_model": {
+"title": "<paper title>",
+"url": "<URL of the paper or academic source where the model is described>",
+"description": "<brief description and its applicable scenario>",
+"equations": "<explicit named equations; see Equation Naming Convention below>",
+"variables": "<definitions of variables used in the equations>",
+"parameters": "<definitions, values if available, and units of parameters>",
+"assumptions": "<model assumptions and application constraints>"
+}
+}
+’’’
+**Critical Notes on Output:**
+- ’selected_model.url’ MUST be a real, verified URL, not a fabricated one.
+- ’equations’ MUST contain explicit mathematical definitions, not vague
+descriptions.
+- Include all variables, parameters, units, assumptions, and constraints needed
+for downstream question generation.
+- The entire output must be parsable as JSON and contain no extraneous text or
+commentary.
+## Equation Naming Convention
+<Use bracketed 5--20 word names for each equation. Each name should describe the
+scientific role of the equation, e.g., [Logistic tumor growth with drug-induced
+cell damage]. Avoid generic names such as [Equation 1] or [Main formula].>
+
+20
+
+Prompt template for Computational Task - eval_urls.
+Computational Task - eval_urls
+You are an expert scientific model evaluator. You are given the text content of a
+scientific article or paper. Your task is to evaluate whether this article
+contains a computational or numerical model suitable for generating a benchmark
+question that tests an AI agent’s ability to:
+1. Search for and identify the relevant model.
+2. Extract the model equations and constraints from the paper.
+3. Instantiate the model in a concrete scientific scenario.
+4. Write and execute a Python solver to compute a numerical answer.
+First, perform preliminary validity checks. Then evaluate the article according
+to the four core metrics used for computational task curation.
+## Preliminary Check 1: URL Validity
+<Metric Definition>
+<Determine whether the URL corresponds to a real and accessible academic source,
+such as a peer-reviewed paper, preprint, official proceedings page, or reputable
+scientific database entry.>
+## Preliminary Check 2: Model Presence
+<Metric Definition>
+<Determine whether the article contains an explicit computational or numerical
+model with equations, variables, parameters, or algorithmic procedures that can
+be used to compute a numerical answer.>
+## Core Metric 1: Model Exclusiveness (0-10) -- CRITICAL
+<Metric Definition>
+<Score how specific and source-dependent the model is. High-scoring models have
+equations, assumptions, or parameterizations that are distinctive to this paper
+or research line, rather than generic textbook formulas.>
+## Core Metric 2: Search Identifiability (0-10)
+<Metric Definition>
+<Score whether an agent could plausibly find the source through web search from
+the seed entity, scientific context, or model-related clues. A good source should
+be searchable but not trivially obvious.>
+## Core Metric 3: Computational Complexity (0-10)
+<Metric Definition>
+<Score whether the model requires nontrivial quantitative reasoning, numerical
+simulation, equation solving, or careful parameter instantiation. Avoid models
+that require only simple arithmetic or direct lookup.>
+## Core Metric 4: LLM Unfamiliarity (0-10)
+<Metric Definition>
+<Score how unlikely the model and its exact equations are to be memorized by a
+general-purpose LLM. Niche, recent, specialized, or paper-specific models should
+receive higher scores.>
+## Output Format -- strict JSON
+’’’json
+{
+"is_valid_url": true,
+"includes_model": true,
+"model_exclusiveness": 8,
+"search_identifiability": 7,
+"computational_complexity": 8,
+"llm_unfamiliarity": 9,
+"model_name": "<name of the model if identifiable, else ’N/A’>",
+"model_summary": "<1-2 sentence summary of what the model computes>",
+"rationale": "<brief rationale for your validity checks and scores>"
+}
+’’’
+Return ONLY the JSON object, with no commentary before or after.
+
+21
+
+

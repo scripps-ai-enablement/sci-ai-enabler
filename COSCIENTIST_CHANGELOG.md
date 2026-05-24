@@ -9,6 +9,25 @@ permalink: /updates/ai-scientists.html
 
 Reverse-chronological log of changes to the [AI scientists tracker](autonomous-science/). Newest at the top.
 
+## 2026-05-24
+
+### Added
+- **AutoResearchClaw** (Lifecycle: Multi-stage, Writing) — UNC-led 23-stage Discovery → Experimentation → Writing pipeline combining structured multi-agent debate (Innovator/Pragmatist/Contrarian, then Optimist/Skeptic/Methodologist), a self-healing executor with explicit Pivot/Refine decisions, a numeric registry that whitelists every reported value, seven human-in-the-loop intervention modes including a confidence-driven SmartPause, and a time-decayed cross-run lesson store. On ARC-Bench CoPilot scores 0.648 overall (vs. AI Scientist v2 0.419, AIDE-ML 0.511); end-to-end 87.5% paper-acceptance rate with 19 interventions; sandboxed domain agents extend to HEP-ph, systems biology, and statistics where ML-only baselines collapse to ≤ 0.09; open source ([source](https://arxiv.org/abs/2605.20025)).
+- **CVEvolve** (Lifecycle: Analysis) — Argonne Advanced Photon Source agentic harness for autonomous discovery of analytical image-processing algorithms across synchrotron imaging (XRF registration, Bragg peak detection, polycrystalline diffraction segmentation). Generate/tune/evolve rounds use MAP-Elites-inspired lineage-aware stochastic sampling; an in-loop image viewer handles floating-point and TIFF inputs; a separate holdout-test agent runs without seeing development data. Best XRF registration candidate reaches average Euclidean error 0.12 vs. 0.98 (brute force) and 0.23 (OpenEvolve at 500 iterations); Bragg peak detection holdout F1 0.298 → 0.788 ([source](https://arxiv.org/abs/2605.11359)).
+- **EOS AI agent** (Lifecycle: Experiment design, Analysis) — UNC-Chapel Hill MCP-based agentic layer on top of the Experiment Orchestration System for laboratory automation across chemistry, biology, and materials. Creates, validates, and submits YAML protocols and closed-loop Bayesian optimization campaigns from natural-language prompts; a visual graph editor is bidirectionally synced to the protocol YAML; 40+ MCP tools split into read-only (auto-executed) and mutating (user-approved) classes. 97% first-attempt protocol-generation success across 65 trials at mean $0.50 and 184 s wall-time on Claude Sonnet 4.6; correct standard-curve and solubility-screening protocols on first attempt on UBC's PurPOSE platform ([source](https://arxiv.org/abs/2605.16552)).
+
+### Updated
+- **`autonomous-science/summary.md`** — added a paragraph in the ML / scientific-computing section for AutoResearchClaw, inserted CVEvolve alongside AI CFD Scientist, added EOS AI agent to the chemistry/materials section, and appended three new source citations.
+- **`autonomous-science/systems/`** — renumbered `nav_order` on the existing 21 affected system pages to preserve alphabetical ordering after inserting the three new entries.
+- **`autonomous-science/curator-state.md`** — refreshed `Recently surfaced` with the three new additions plus the two most recent prior entries (AIRA, AutoTTS).
+- **`sources/manifest.json`** — three new DOI entries with `.txt` sidecars (added by Phase A).
+
+### Flagged
+_None._
+
+### Verified (no changes)
+- All pre-existing system pages were `last_verified` on 2026-05-20 through 2026-05-23 — inside the 30-day re-verification window. No spot-checks performed this run.
+
 ## 2026-05-23
 
 ### Added
