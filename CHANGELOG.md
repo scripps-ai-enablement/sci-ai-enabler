@@ -11,6 +11,22 @@ Reverse-chronological log of changes to the [catalog](catalog/). Newest at the t
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-05-24
+
+Directed pass on **Drug Repurposing and Discovery** (Sunday focus). The `anthropics/life-sciences` marketplace gained three first-party drug-discovery surfaces at J.P. Morgan 2026 — **ChEMBL**, **ToolUniverse**, and **Owkin Pathology Explorer** — none of which were yet catalogued; all three were already on the deferred queue. Three new entries this run, at the 5-entry soft cap minus two; Cortellis / Medidata / Consensus standalone plugin entries kept on the deferred queue pending direct install-path confirmation.
+
+### Added
+- **ChEMBL Connector** (Categories: Chemistry, Drug Repurposing and Discovery) — Anthropic-packaged plugin and Claude.ai connector over EMBL-EBI's ChEMBL bioactive-compound database; six tool calls covering compound search, target search, bioactivity, and mechanism-of-action ([Anthropic tutorial](https://claude.com/resources/tutorials/using-the-chembl-connector-in-claude), [marketplace](https://github.com/anthropics/life-sciences)).
+- **ToolUniverse** (Categories: All) — Zitnik Lab / MIT Lincoln Laboratory MCP server bundling 600+ vetted scientific tools across literature, chemistry, omics, clinical trials, and knowledge graphs; installable directly via `uvx tooluniverse` or as a `life-sciences` marketplace plugin ([Claude Code setup guide](https://zitniklab.hms.harvard.edu/bioagent/guide/building_ai_scientists/claude_code.html), [PyPI](https://pypi.org/project/tooluniverse/), [arXiv:2509.23426](https://arxiv.org/abs/2509.23426)).
+- **Owkin Pathology Explorer Connector** (Categories: Drug Repurposing and Discovery, Translational Medicine) — remote MCP connector exposing Owkin's H&E whole-slide image analysis agent for cell-type detection, tumour-microenvironment profiling, and cohort-level survival analysis on TCGA and partner cohorts ([Anthropic tutorial](https://claude.com/resources/tutorials/using-the-owkin-connector-in-claude), [Owkin press release](https://www.owkin.com/newsfeed/owkins-specialized-biological-ai-agent-pathology-explorer-launches-with-anthropics-claude-for-healthcare-and-life-sciences)).
+
+### Updated
+- **`catalog/curator-state.md`** — Recently surfaced refreshed with this run's three Drug Repurposing additions; Deferred queue gained `Augmented-Nature ChEMBL-MCP-Server` (community alternative now superseded for marketplace users by the first-party ChEMBL connector) and broke the previously-bundled "Standalone `anthropics/life-sciences` plugins" line into per-plugin Deferred entries (Cortellis, Medidata, Consensus).
+
+### Verified (no changes)
+- Existing Drug Repurposing entries (`open-targets`, `drugbank`, `pubchem`, `pdb`, `alphafold`, `depmap`, `bio-research`) spot-checked against upstream — install paths and pricing claims still valid; no field drift.
+- Manifest sweep of `anthropics/life-sciences` re-confirmed: the four previously-deferred plugins beyond ChEMBL / ToolUniverse / Owkin (Cortellis, Medidata, Consensus, plus `bio-research`-already-catalogued bundles) carry forward to the deferred queue.
+
 ## 2026-05-23
 
 Directed pass on **Translational Medicine** (Saturday focus). Manifest sweep of `anthropics/healthcare/.claude-plugin/marketplace.json` (via web search of the release notes and README, since direct fetch is unavailable from the runner) surfaced three new Anthropic-published healthcare components beyond the two already catalogued (`fhir-developer`, `prior-auth-review`). A focused web search for ClinicalTrials.gov MCP servers identified `cyanheads/clinicaltrialsgov-mcp-server` as the highest-quality standalone option, with a hosted public instance and Apache-2.0 license. Four new entries this run — at the 5-entry soft cap minus one — with NPI Registry deferred to next run.
