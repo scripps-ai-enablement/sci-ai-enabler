@@ -2,7 +2,7 @@
 title: Co-Scientist (Google)
 parent: Systems
 grand_parent: AI scientists
-nav_order: 13
+nav_order: 14
 affiliation: Google Cloud AI Research / Google DeepMind / Google Research, with Stanford, Imperial College London, Houston Methodist
 lifecycle_stages: [Hypothesis, Experiment design]
 autonomy: Semi-autonomous

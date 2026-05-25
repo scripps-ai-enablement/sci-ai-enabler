@@ -265,6 +265,46 @@
       "source_url": "https://arxiv.org/abs/2605.11359",
       "downloaded": "2026-05-24",
       "txt_sidecar": "2605.11359v1.txt"
+    },
+    {
+      "doi": "10.48550/arXiv.2604.05854",
+      "filename": "2604.05854v1.pdf",
+      "title": "Deep Researcher Agent: An Autonomous Framework for 24/7 Deep Learning Experimentation with Zero-Cost Monitoring",
+      "source_url": "https://arxiv.org/abs/2604.05854",
+      "downloaded": "2026-05-25",
+      "txt_sidecar": "2604.05854v1.txt"
+    },
+    {
+      "doi": "10.48550/arXiv.2603.23951",
+      "filename": "2603.23951v1.pdf",
+      "title": "From AI Assistant to AI Scientist: Autonomous Discovery of LLM-RL Algorithms with LLM Agents (POISE)",
+      "source_url": "https://arxiv.org/abs/2603.23951",
+      "downloaded": "2026-05-25",
+      "txt_sidecar": "2603.23951v1.txt"
+    },
+    {
+      "doi": "10.48550/arXiv.2504.17967",
+      "filename": "2504.17967v1.pdf",
+      "title": "LLM Agent Swarm for Hypothesis-Driven Drug Discovery (PharmaSwarm)",
+      "source_url": "https://arxiv.org/abs/2504.17967",
+      "downloaded": "2026-05-25",
+      "txt_sidecar": "2504.17967v1.txt"
+    },
+    {
+      "doi": "10.48550/arXiv.2508.19383",
+      "filename": "2508.19383v1.pdf",
+      "title": "Aleks: AI powered Multi Agent System for Autonomous Scientific Discovery via Data-Driven Approaches in Plant Science",
+      "source_url": "https://arxiv.org/abs/2508.19383",
+      "downloaded": "2026-05-25",
+      "txt_sidecar": "2508.19383v1.txt"
+    },
+    {
+      "doi": "10.1101/2025.05.25.656020",
+      "filename": "hao25b_perturboagent.pdf",
+      "title": "PerTurboAgent: An LLM-based Agent for Designing Iterative Perturb-Seq Experiments",
+      "source_url": "https://proceedings.mlr.press/v311/hao25b.html",
+      "downloaded": "2026-05-25",
+      "txt_sidecar": "hao25b_perturboagent.txt"
     }
   ]
 }

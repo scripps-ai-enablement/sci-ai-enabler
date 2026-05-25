@@ -9,6 +9,27 @@ permalink: /updates/ai-scientists.html
 
 Reverse-chronological log of changes to the [AI scientists tracker](autonomous-science/). Newest at the top.
 
+## 2026-05-25
+
+### Added
+- **Aleks** (Lifecycle: Multi-stage) — Cornell three-agent multi-agent system (Domain Scientist, Data Analyst, Machine Learning Engineer) that, given only a research question and a tabular dataset, autonomously formulates the problem, iterates ML modeling strategies, and converges on interpretable models. Grapevine red blotch disease case study over a multi-year vineyard grid; ablations show that removing the Domain Scientist agent or restricting shared memory to a single iteration degrades coherence. Adds plant science / agriculture as a new domain to the catalogue ([source](https://arxiv.org/abs/2508.19383)).
+- **Deep Researcher Agent** (Lifecycle: Multi-stage) — University of Tokyo open-source 24/7 framework running LLM agents through a Think → Execute → Reflect loop with Zero-Cost Monitoring (OS-level process/GPU/log-tail checks during training), a Two-Tier Constant-Size Memory provably bounded at ~5,000 characters, and a Minimal-Toolset Leader-Worker architecture. Across 4 concurrent projects on 4 GPU servers logged 500+ autonomous cycles, 30+ days continuous operation, $0.08 LLM cost per 24-hour cycle, and 52% improvement over baseline in the best project from 200+ automated experiments; open source ([source](https://arxiv.org/abs/2604.05854)).
+- **PerTurboAgent** (Lifecycle: Experiment design, Analysis) — Genentech/Tsinghua/Stanford (Regev lab) self-planning LLM agent for iterative Perturb-seq experiments. Multi-step planner at each round combines agent-based (predict/reflect/refine), data-driven (GSEA on control or perturbed cells), and model-driven (perturbation prediction, embeddings, phenotype scores) actions, with an Action Memory storing per-step (action, result) pairs to adapt the plan. Outperforms BioDiscoveryAgent, GeneDisco, DiscoBAX, and IterPert across eleven phenotypes from genome-scale Perturb-seq data with both closed- and open-source LLM backbones ([source](https://proceedings.mlr.press/v311/hao25b.html)).
+- **PharmaSwarm** (Lifecycle: Hypothesis, Analysis) — UAB Systems Pharmacology AI Research Center three-layer LLM agent swarm for hypothesis-driven drug discovery (Terrain2Drug omics, Paper2Drug literature, Market2Drug repurposing signals) coordinated by a TxGemma-based Evaluator over Open Targets, ChEMBL, DrugBank, KEGG, PAGER, and a proprietary PharmAlchemy knowledge graph. Includes a Pharmacological Efficacy and Toxicity Simulation engine and an Interpretable Binding Affinity Map (iBAM) module cross-attending ESM2 and ChemBERTa embeddings. Design + retrospective preprint — no wet-lab validation reported; proposes a four-tier validation roadmap ([source](https://arxiv.org/abs/2504.17967)).
+- **POISE** (Lifecycle: Multi-stage) — Fudan closed-loop framework for autonomous discovery of LLM-RL policy-optimization algorithms. Frames the problem as Epistemic Evolutionary Search over a genealogically linked archive storing (proposal, implementation, training trajectory, metrics, reflection); a lineage acquisition function combines Pareto-frontier strength, normalized performance, diversity, and a GP-UCB term targeting discounted top-K descendant-gain. Starting from GRPO, evaluated 64 candidates and discovered analytic-variance scaling and validity masking; best variant lifts weighted Overall from 47.8 → 52.5 and AIME25 pass@32 from 26.7% → 43.3% ([source](https://arxiv.org/abs/2603.23951)).
+
+### Updated
+- **`autonomous-science/summary.md`** — added a paragraph in the wet-lab/biology section covering PerTurboAgent and PharmaSwarm; added a paragraph in the ML/scientific-computing section covering Deep Researcher Agent and POISE; created a new "Plant science and agriculture" domain section for Aleks; appended five new source citations.
+- **`autonomous-science/systems/`** — renumbered `nav_order` on the existing 25 affected system pages to preserve alphabetical ordering after inserting the five new entries.
+- **`autonomous-science/curator-state.md`** — replaced `Recently surfaced` with the five new additions; removed the pre-existing "Deep Researcher Agent" item from `Deferred — next-run priority` (now added as a full system page).
+- **`sources/manifest.json`** — five new DOI entries with `.txt` sidecars (added by Phase A).
+
+### Flagged
+_None._
+
+### Verified (no changes)
+- All pre-existing system pages were `last_verified` on 2026-05-20 through 2026-05-24 — inside the 30-day re-verification window. No spot-checks performed this run.
+
 ## 2026-05-24
 
 ### Added

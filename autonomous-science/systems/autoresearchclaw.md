@@ -2,7 +2,7 @@
 title: AutoResearchClaw
 parent: Systems
 grand_parent: AI scientists
-nav_order: 8
+nav_order: 9
 affiliation: UNC-Chapel Hill (Liu, Qiu, Yao et al.) with UC Santa Cruz, CMU, NUS, UC Berkeley, Rutgers, NEC Labs America, Meta, Stanford, Google, University of Washington
 lifecycle_stages: [Multi-stage, Writing]
 autonomy: Semi-autonomous

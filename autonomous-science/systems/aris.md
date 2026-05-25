@@ -2,7 +2,7 @@
 title: ARIS
 parent: Systems
 grand_parent: AI scientists
-nav_order: 7
+nav_order: 8
 affiliation: Shanghai Jiao Tong University and Shanghai Innovation Institute
 lifecycle_stages: [Multi-stage, Writing]
 autonomy: Semi-autonomous
