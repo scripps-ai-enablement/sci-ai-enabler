@@ -39,7 +39,7 @@ Claude Code is where Skills, MCP servers, Plugins, Hooks, and slash commands all
 - Windows PowerShell: `irm https://claude.ai/install.ps1 | iex`, or `winget upgrade Anthropic.ClaudeCode`.
 - Homebrew: `brew install --cask claude-code` (stable) or `claude-code@latest` (newest).
 - Linux distros: `apt`, `dnf`, `apk` packages also available.
-- npm package still works and wraps the same native binary.
+- npm install (`npm install -g @anthropic-ai/claude-code`) still works but Anthropic now prints a yellow "npm installation is deprecated" banner. Use the native installer for new setups.
 - Web: `https://claude.ai/code` (Pro, Max, Team, or premium Enterprise seats).
 
 ## Common pitfalls
@@ -55,8 +55,9 @@ Claude Code is where Skills, MCP servers, Plugins, Hooks, and slash commands all
 
 ## Sources
 
-- [Claude Code product landing](https://claude.com/product/claude-code) — Anthropic; verified 2026-05-24 (this run) — canonical install command and OS-specific options.
-- [Set up Claude Code](https://code.claude.com/docs/en/setup) — Anthropic docs; verified 2026-05-24 (this run).
+- [Claude Code product landing](https://claude.com/product/claude-code) — Anthropic; verified 2026-05-25 (this run, via search summary) — canonical install command and OS-specific options.
+- [Set up Claude Code](https://code.claude.com/docs/en/setup) — Anthropic docs; verified 2026-05-25 (this run).
 - [Claude Code on the web](https://code.claude.com/docs/en/claude-code-on-the-web) — Anthropic docs; verified 2026-05-19.
 - [Redesigning Claude Code on desktop for parallel agents](https://claude.com/blog/claude-code-desktop-redesign) — Anthropic blog; published 2026-04-14 — session sidebar, drag-and-drop panes, SSH on macOS, per-session Git worktrees.
-- [Claude Code changelog (v2.1.139–v2.1.148)](https://code.claude.com/docs/en/changelog) — `claude agents` config flags, `/code-review` (renamed from `/simplify` in v2.1.147, 2026-05-21) with `--comment` for inline PR comments, `claude --bg`, `/resume`, Ctrl+T pinned background sessions, fast mode now Opus 4.7 by default; verified 2026-05-24 (this run).
+- [Claude Code changelog (v2.1.139–v2.1.150)](https://code.claude.com/docs/en/changelog) — `claude agents` config flags, `/code-review` (renamed from `/simplify` in v2.1.147, 2026-05-21) with `--comment` for inline PR comments, `claude --bg`, `/resume`, Ctrl+T pinned background sessions, fast mode now Opus 4.7 by default; verified 2026-05-25 (this run).
+- [Install Claude Code the Right Way in 2026](https://vanja.io/install-claude-code/) — secondary; npm-deprecation banner and native-installer migration path; verified 2026-05-25 (this run).

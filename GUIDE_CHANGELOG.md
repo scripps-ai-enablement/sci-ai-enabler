@@ -11,6 +11,27 @@ Reverse-chronological log of changes to the [guide](guide/). Newest at the top.
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-05-25
+
+### Updated
+- **[surfaces/claude-code] npm install path now flagged as deprecated.** Per the [Claude Code v2.1.149 release notes](https://github.com/anthropics/claude-code/releases/tag/v2.1.149) and recent secondary commentary ([vanja.io/install-claude-code](https://vanja.io/install-claude-code/), [DEV community 2026](https://dev.to/vpetreski/how-to-install-claude-code-the-right-way-in-2026-52kb)), Anthropic now prints a yellow "npm installation is deprecated" banner for users on the npm package. The prior wording ("still works and wraps the same native binary") understated this. Updated the install bullet and refreshed the changelog source line to cover v2.1.149 and v2.1.150 (2026-05-22 / 2026-05-23). Added a secondary source.
+- **[surfaces/claude-cowork] Windows is GA, not preview.** Per [eWeek coverage](https://www.eweek.com/news/claude-cowork-general-availability-enterprise-controls/) and the [Anthropic help center](https://support.claude.com/en/articles/13345190-get-started-with-claude-cowork), Claude Cowork went generally available on macOS and Windows on 2026-04-09. The page previously said "Windows in preview" — corrected. Added a one-line note about Cowork's higher token consumption relative to chat and the lack of a Linux desktop client. Sources expanded.
+
+### Verified (no changes)
+- claude-surfaces.md — install command (`curl -fsSL https://claude.ai/install.sh | bash`), WinGet, Homebrew, apt/dnf/apk, background sessions (`claude --bg`, `/resume`, `claude agents`), MCP tunnels Research Preview unchanged. The npm-deprecation note lives on the Claude Code sub-page where the install list is exhaustive; the parent surfaces table does not enumerate install methods so no edit needed here.
+- skills.md — `~/.claude/skills/` layout, `SKILL.md` open standard, `/skills` type-to-filter picker, `/usage` per-category breakdown (which v2.1.149 [release notes](https://github.com/anthropics/claude-code/releases/tag/v2.1.149) reaffirm) unchanged.
+- mcp-servers.md — `claude mcp add --transport http`, scope semantics, MCP tunnels Research Preview unchanged. v2.1.149 added an enterprise-only `allowAllClaudeAiMcps` managed setting; held off documenting it since this page is beginner-facing and the setting is administered through enterprise managed-mcp configuration.
+- plugins.md — `claude-plugins-official` pre-registration, `--plugin-dir` zip, `--plugin-url`, dependency-aware disable, `claude plugin prune`, `/plugin` Discover/Browse previews, Claude for Small Business example unchanged.
+- marketplaces.md — source forms, seed-managed read-only behavior, pre-registration unchanged.
+- connectors.md — Connectors directory at `claude.ai/directory/connectors`, "over 200" attributed to Anthropic blog, creative-tools wave (2026-04-28), legal push (2026-05-12), Claude for Small Business pointer unchanged.
+- decision-tree.md — table unchanged.
+- surfaces/claude-ai.md, surfaces/claude-desktop.md, surfaces/claude-api.md — unchanged this run.
+- advanced/hooks.md, advanced/slash-commands.md, advanced/routines.md, advanced/authentication.md — unchanged this run.
+
+### Flagged for review
+- WebFetch was again unavailable this run (404 on `claude-3-5-haiku-20241022`). Primary-source verification went through WebSearch summaries of `claude.com/product/claude-code`, `code.claude.com/docs/en/changelog`, `github.com/anthropics/claude-code/releases/tag/v2.1.149`, `eweek.com/news/claude-cowork-general-availability-enterprise-controls/`, `support.claude.com/en/articles/13345190-get-started-with-claude-cowork`, `anthropic.com/news`, and secondary commentary on the npm deprecation banner. A human should occasionally verify the deprecation banner text directly (search results report it as "npm installation is deprecated" but the exact wording may have been adjusted across releases).
+- **Enterprise-only `allowAllClaudeAiMcps` managed setting (v2.1.149).** Not yet documented because it lives on Enterprise managed-mcp config rather than the beginner-facing `claude mcp add` path. Revisit if Anthropic surfaces it through the `/mcp` command or as a per-user toggle.
+
 ## 2026-05-24
 
 ### Updated
