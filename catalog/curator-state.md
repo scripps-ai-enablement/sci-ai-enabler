@@ -8,11 +8,11 @@ nav_exclude: true
 
 ## Recently surfaced
 
+- **Datamol (Claude Skill)** (added 2026-05-25) — K-Dense skill wrapping the Datamol RDKit-built library for molecular standardization, transformations, featurization, and parallel processing on large compound libraries.
+- **Molfeat (Claude Skill)** (added 2026-05-25) — K-Dense skill wrapping Molfeat — a unified API over 100+ molecular featurizers (classical fingerprints, descriptors, pretrained ChemBERTa / MolBERT / Uni-Mol embeddings).
+- **MedChem (Claude Skill)** (added 2026-05-25) — K-Dense skill wrapping MedChem — Lipinski / Veber / Egan / Muegge drug-likeness filters, PAINS / BRENK structural alerts, and synthetic-accessibility scoring on top of RDKit.
 - **ChEMBL Connector** (added 2026-05-24) — Anthropic-packaged plugin and Claude.ai connector over EMBL-EBI's ChEMBL bioactive-compound database (compound, target, bioactivity, mechanism-of-action lookup).
 - **ToolUniverse** (added 2026-05-24) — Harvard / MIT MCP server bundling 600+ vetted scientific tools across literature, chemistry, omics, and clinical trials; surfaced via `anthropics/life-sciences`.
-- **Owkin Pathology Explorer Connector** (added 2026-05-24) — remote MCP connector exposing Owkin's H&E whole-slide image analysis agent for tumour-microenvironment profiling.
-- **clinical-trial-protocol (Anthropic Healthcare Plugin)** (added 2026-05-23) — Anthropic skill for drafting FDA/NIH-compliant Phase 2/3 clinical-trial protocols via a four-step waypoint workflow.
-- **CMS Coverage MCP** (added 2026-05-23) — Anthropic-published MCP over the CMS Local and National Coverage Determinations for Medicare prior-auth, appeals, and policy lookup.
 
 ## Flagged for review
 
@@ -27,6 +27,9 @@ nav_exclude: true
 - **Cellxgene Census (K-Dense Skill)** — query CZ CELLxGENE Discover census (61M+ cells, 1000+ datasets) via TileDB-SOMA. Strong Molecular & Cellular Biology candidate.
 - **scVelo (K-Dense Skill)** — RNA velocity analysis on single-cell data; next Thursday's Molecular & Cellular Biology pass.
 - **Arboreto (K-Dense Skill)** — gene regulatory network inference (GRNBoost2, GENIE3) on single-cell expression.
+- **DeepChem (K-Dense Skill)** — deep-learning models for ADMET, virtual screening, and molecular property prediction; next Chemistry-focus pass.
+- **TorchDrug / PyTDC / DiffDock / PyOpenMS / matchms / cobrapy (K-Dense Skills)** — remaining chemistry-stack siblings, surface incrementally.
+- **Retrosynthesis MCP** — no Claude-installable wrapper for AiZynthFinder / ASKCOS / IBM RXN located 2026-05-25; revisit on next Chemistry-focus pass.
 - **OpenClaw Medical Skills Library** — 869-skill MIT-licensed collection; treat each individual skill (pharmacovigilance, adverse-event detection, PyHealth) as a separate entry.
 - **Ensembl MCP servers** (`munch-group/ensembl-mcp`, `effieklimi/ensembl-mcp-server`) — both early-stage; revisit when one stabilises.
 - **UCSC Genome MCP** (`hlydecker/ucsc-genome-mcp`) — 12 tools over the UCSC Genome Browser API.

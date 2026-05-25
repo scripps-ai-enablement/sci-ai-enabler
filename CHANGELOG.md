@@ -11,6 +11,22 @@ Reverse-chronological log of changes to the [catalog](catalog/). Newest at the t
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-05-25
+
+Directed pass on **Chemistry** (Monday focus). Manifest sweep of `anthropics/life-sciences` shows no diff vs. 2026-05-24 — the marketplace's chemistry surface (`chembl`, `tooluniverse`, plus the broader `bio-research` bundle) is fully catalogued. The directed pass picked up three sibling cheminformatics skills from the K-Dense `claude-scientific-skills` marketplace that round out the existing `rdkit-skill` entry into the full RDKit-derived lead-optimisation stack documented in K-Dense's example workflows. Three new entries — at the soft cap minus two — with DeepChem and the remaining chemistry siblings (TorchDrug, PyTDC, DiffDock, PyOpenMS, matchms, cobrapy) carried forward on the deferred queue.
+
+### Added
+- **Datamol (Claude Skill)** (Categories: Chemistry, Drug Repurposing and Discovery) — K-Dense skill wrapping the Datamol RDKit-built library for molecular standardization, tautomer / stereoisomer enumeration, featurization, and parallel processing on large compound libraries ([source](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/datamol/SKILL.md), [Datamol](https://datamol.io/)).
+- **Molfeat (Claude Skill)** (Categories: Chemistry, Drug Repurposing and Discovery) — K-Dense skill wrapping Molfeat, a unified API over 100+ molecular featurizers spanning classical fingerprints (ECFP, MACCS), 2D/3D descriptors, molecular graphs, and pretrained chemical foundation-model embeddings (ChemBERTa, MolBERT, Uni-Mol) ([source](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/molfeat/SKILL.md), [Molfeat docs](https://molfeat.datamol.io/)).
+- **MedChem (Claude Skill)** (Categories: Chemistry, Drug Repurposing and Discovery) — K-Dense skill wrapping MedChem — drug-likeness filters (Lipinski, Veber, Egan, Muegge), PAINS / BRENK structural alerts, complexity metrics, and synthetic-accessibility scoring for hit-list triage ([source](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/medchem/SKILL.md), [MedChem docs](https://medchem.datamol.io/)).
+
+### Updated
+- **`catalog/curator-state.md`** — Recently surfaced refreshed with this run's three Chemistry additions; Deferred queue gained DeepChem, the remaining K-Dense chemistry-stack siblings (TorchDrug, PyTDC, DiffDock, PyOpenMS, matchms, cobrapy) as a bundle line, and a Retrosynthesis MCP entry (no Claude-installable wrapper for AiZynthFinder / ASKCOS / IBM RXN located on this pass).
+
+### Verified (no changes)
+- Existing Chemistry pages (`rdkit-skill`, `rdkit-mcp`, `molecule-mcp`, `chembl`, `pubchem`) spot-checked against upstream — install paths, supplier links, and pricing claims still valid; no field drift.
+- Manifest sweep of `anthropics/life-sciences` re-confirmed: no diff vs. 2026-05-24 sweep; deferred queue (Cortellis, Medidata, Consensus, NPI Registry, Augmented-Nature ChEMBL community alternative) carries forward.
+
 ## 2026-05-24
 
 Directed pass on **Drug Repurposing and Discovery** (Sunday focus). The `anthropics/life-sciences` marketplace gained three first-party drug-discovery surfaces at J.P. Morgan 2026 — **ChEMBL**, **ToolUniverse**, and **Owkin Pathology Explorer** — none of which were yet catalogued; all three were already on the deferred queue. Three new entries this run, at the 5-entry soft cap minus two; Cortellis / Medidata / Consensus standalone plugin entries kept on the deferred queue pending direct install-path confirmation.
