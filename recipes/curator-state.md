@@ -8,11 +8,11 @@ nav_exclude: true
 
 ## Recently surfaced
 
+- **Filter a virtual screening hit list with drug-likeness rules and structural alerts** (added 2026-05-25) — rung-2 MedChem + Datamol cascade (Lipinski → Veber → PAINS → BRENK); first Chemistry-primary recipe; evidence anchored in the K-Dense lead-optimisation workflow and the foundational filter papers (Baell 2010, Brenk 2008, Lipinski 2001, Veber 2002).
+- **Profile a compound's polypharmacology from ChEMBL bioactivity data** (added 2026-05-25) — rung-2 single-tool ChEMBL connector recipe; second Chemistry-primary recipe and compound-centric mirror of the existing target-dossier recipe; evidence grounded in the Anthropic ChEMBL Connector tutorial and Mendez 2019 (NAR).
 - **Scan approved drugs for repurposing candidates against a disease** (added 2026-05-24) — rung-3 toolbelt (Open Targets + ChEMBL + DrugBank); first focused Drug Repurposing and Discovery recipe; evidence grounded in DeepDrug (Li 2025), Robin (Ghareeb 2026), and the DREBIOP LLM-validation benchmark (Zunzunegui Sanz 2025).
 - **Match a patient summary to recruiting clinical trials** (added 2026-05-23) — rung-2 BioMCP / cyanheads-ClinicalTrials.gov-MCP recipe; first Translational-Medicine recipe; evidence grounded in TrialGPT (Jin 2024, 87.3% criterion-matching accuracy).
 - **Interpret a clinical variant from a natural-language query** (added 2026-05-23) — rung-2 BioMCP recipe; `Proposed` evidence, closest benchmark MARRVEL-MCP (2025-11).
-- **Sort spikes from a Neuropixels recording end-to-end** (added 2026-05-22) — rung-2 neuropixels-analysis skill recipe; first Neuroscience-only recipe in the cookbook, surfaced on the Friday focus-area pass.
-- **Integrate multiple single-cell RNA-seq datasets across batches** (added 2026-05-22) — rung-2 scvi-tools skill recipe; answers user request #7 and grounded in Hrovatin 2025 / scIB-E 2025 benchmarks.
 
 ## Flagged for review
 

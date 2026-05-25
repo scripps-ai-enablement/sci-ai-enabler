@@ -2,7 +2,7 @@
 title: Match a patient summary to recruiting clinical trials
 parent: All recipes
 grand_parent: Recipes
-nav_order: 4
+nav_order: 5
 problem_class: Knowledge synthesis
 subject_areas: [Translational Medicine, Drug Repurposing and Discovery]
 evidence_level: Reported

@@ -11,6 +11,28 @@ Reverse-chronological log of changes to the [recipes cookbook](recipes/). Newest
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-05-25
+
+### Added
+
+- **Filter a virtual screening hit list with drug-likeness rules and structural alerts** (Problem class: Data analysis; Evidence: Reported) — rung-2 [MedChem](catalog/tools/medchem.html) + [Datamol](catalog/tools/datamol.html) cascade for Lipinski → Veber → PAINS → BRENK triage of SMILES hit lists. First Chemistry-primary recipe in the cookbook. Evidence anchored in the K-Dense lead-optimisation workflow and the foundational filter papers ([Baell & Holloway PAINS 2010](https://doi.org/10.1021/jm901137j), [Brenk 2008](https://doi.org/10.1002/cmdc.200700139), [Lipinski 2001](https://doi.org/10.1016/S0169-409X(00)00129-0), [Veber 2002](https://doi.org/10.1021/jm020017n)).
+- **Profile a compound's polypharmacology from ChEMBL bioactivity data** (Problem class: Knowledge synthesis; Evidence: Reported) — rung-2 single-tool recipe over the [ChEMBL connector](catalog/tools/chembl.html). Second Chemistry-primary recipe and the compound-centric mirror of the existing target-dossier recipe. Evidence grounded in the [Anthropic ChEMBL Connector tutorial](https://claude.com/resources/tutorials/using-the-chembl-connector-in-claude) and the ChEMBL curation paper ([Mendez et al., *NAR* 2019](https://doi.org/10.1093/nar/gky1075)).
+
+### Updated
+
+- **Integrate multiple single-cell RNA-seq datasets across batches** — nav_order 2 → 3 for alphabetical position after the new Filter recipe.
+- **Interpret a clinical variant from a natural-language query** — nav_order 3 → 4.
+- **Match a patient summary to recruiting clinical trials** — nav_order 4 → 5.
+- **Run bulk RNA-seq differential expression from a counts matrix** — nav_order 5 → 7 (after the new Profile recipe).
+- **Run first-pass QC on a single-cell RNA-seq dataset** — nav_order 6 → 8.
+- **Scan approved drugs for repurposing candidates against a disease** — nav_order 7 → 9.
+- **Sort spikes from a Neuropixels recording end-to-end** — nav_order 8 → 10.
+- **Triage a stack of new preprints in your field** — nav_order 9 → 11.
+
+### Verified (no changes)
+
+- 9 existing recipes spot-checked; all `last_verified` dates within the 30-day window, all linked catalog pages resolve.
+
 ## 2026-05-24
 
 ### Added

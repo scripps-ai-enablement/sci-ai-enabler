@@ -2,7 +2,7 @@
 title: Run first-pass QC on a single-cell RNA-seq dataset
 parent: All recipes
 grand_parent: Recipes
-nav_order: 6
+nav_order: 8
 problem_class: Data analysis
 subject_areas: [Molecular and Cellular Biology, Immunology and Microbiology, Neuroscience]
 evidence_level: Reported
