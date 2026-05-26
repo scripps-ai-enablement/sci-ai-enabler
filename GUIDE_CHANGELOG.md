@@ -11,6 +11,29 @@ Reverse-chronological log of changes to the [guide](guide/). Newest at the top.
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-05-26
+
+### Added
+- **[claude-surfaces, surfaces/claude-ai] Claude Security as a cross-cutting feature.** Per the [Anthropic blog](https://claude.com/blog/claude-security-public-beta) (2026-05-04) and the [getting-started tutorial](https://claude.com/resources/tutorials/getting-started-with-claude-security), Claude Security entered public beta on Enterprise plans: a vulnerability-scanning product at `claude.ai/security` (sidebar icon in Claude.ai) that opens a Claude Code on the web remediation session and drafts a PR for each finding. Touches two surfaces — qualifies for the cross-cutting list. Added a bullet to `claude-surfaces.md` cross-cutting features and a "(Enterprise)" entry in the Claude.ai "When to use it" list pointing back to it; Sources expanded on both pages. Held off creating a dedicated `advanced/` page because the product is Enterprise-gated today.
+
+### Updated
+- **[surfaces/claude-code] `winget install Anthropic.ClaudeCode` for first-time Windows installs.** The page only listed `winget upgrade Anthropic.ClaudeCode`, which fails on a clean machine because there's nothing to upgrade. The `claude.com/product/claude-code` landing page lists `winget install Anthropic.ClaudeCode` as the first-time command. Updated the bullet to show install first with upgrade as a follow-up note; refreshed the landing-page and setup-doc verified dates.
+
+### Verified (no changes)
+- claude-surfaces.md — install command (`curl -fsSL https://claude.ai/install.sh | bash`), background sessions, MCP tunnels Research Preview all current per `claude.com/product/claude-code`. v2.1.150 (2026-05-23, infra-only) and v2.1.149 (2026-05-22, security/stability + `/usage` per-category breakdown) introduce no new beginner-facing claims for this page.
+- skills.md — `~/.claude/skills/` layout, `/skills` type-to-filter picker, `/usage` per-category breakdown unchanged. v2.1.149 reaffirms `/usage`.
+- mcp-servers.md — `claude mcp add --transport http`, scope semantics, MCP tunnels Research Preview unchanged. v2.1.149 added enterprise-only `allowAllClaudeAiMcps` managed setting — still held off documenting for beginners (enterprise-managed config path).
+- plugins.md — `claude-plugins-official` pre-registration, `--plugin-dir` zip, `--plugin-url`, dependency-aware disable, `claude plugin prune`, `/plugin` Discover/Browse previews unchanged.
+- marketplaces.md — source forms, seed-managed read-only behavior, pre-registration unchanged.
+- connectors.md — `claude.ai/directory/connectors`, "over 200" framing, May 12 legal push, creative-tools wave unchanged.
+- decision-tree.md — table unchanged.
+- surfaces/claude-desktop.md, surfaces/claude-cowork.md, surfaces/claude-api.md — unchanged this run.
+- advanced/hooks.md, advanced/slash-commands.md, advanced/routines.md, advanced/authentication.md — unchanged this run.
+
+### Flagged for review
+- WebFetch was again unavailable this run (404 on `claude-3-5-haiku-20241022`). All primary-source verification went through WebSearch summaries of `claude.com/product/claude-code`, `code.claude.com/docs/en/changelog`, `claude.com/blog/claude-security-public-beta`, `claude.com/resources/tutorials/getting-started-with-claude-security`, `helpnetsecurity.com/2026/05/04/anthropic-claude-security-public-beta/`, `anthropic.com/news`, and `dev.classmethod.jp/en/articles/20260524-claude-code-updates-v2-1-150/`. A human should spot-check `claude.ai/security` directly to confirm the sidebar entry point.
+- **Claude Security Team / Max access.** Anthropic announced Team and Max access is "coming soon" but has not yet shipped as of 2026-05-26. When it does, drop the "Enterprise only today" qualifier from both pages and consider promoting Claude Security to a dedicated `guide/advanced/claude-security.md` page.
+
 ## 2026-05-25
 
 ### Updated

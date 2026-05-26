@@ -21,6 +21,7 @@ Account, Projects, and history are shared with Claude Desktop. Connectors enable
 - Browsing and toggling [Connectors](../connectors.html) from the Settings panel.
 - Viewing scheduled [Routines](../advanced/routines.html) you created from Claude Code, at `claude.ai/code/routines`.
 - Resuming a [Claude Code on the web](claude-code.html) session at `claude.ai/code`.
+- (Enterprise) Running vulnerability scans from the **Security** sidebar icon at `claude.ai/security` — see Claude Security under cross-cutting features on [Claude surfaces](../claude-surfaces.html).
 - Anything where you do not need filesystem or terminal access.
 
 ## How to install / enable
@@ -43,6 +44,7 @@ Account, Projects, and history are shared with Claude Desktop. Connectors enable
 
 ## Sources
 
-- [Claude.ai product page](https://claude.com/product/claude) — Anthropic product page; verified 2026-05-21 (this run).
-- [Use Connectors to extend Claude's capabilities](https://support.claude.com/en/articles/11176164-use-connectors-to-extend-claude-s-capabilities) — Anthropic help center; verified 2026-05-21.
+- [Claude.ai product page](https://claude.com/product/claude) — Anthropic product page; verified 2026-05-26 (this run).
+- [Use Connectors to extend Claude's capabilities](https://support.claude.com/en/articles/11176164-use-connectors-to-extend-claude-s-capabilities) — Anthropic help center; verified 2026-05-26.
 - [Claude Code on the web (announcement)](https://www.anthropic.com/news/claude-code-on-the-web) — published 2025-10-20.
+- [Claude Security is now in public beta](https://claude.com/blog/claude-security-public-beta) — Anthropic blog; published 2026-05-04 — Security sidebar icon at `claude.ai/security`, Enterprise public beta.

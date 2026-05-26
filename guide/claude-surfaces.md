@@ -30,6 +30,7 @@ Some features span more than one surface — you start them in one place and vie
 - **[Routines](advanced/routines.html)** — scheduled remote Claude Code agents. Created via the `/schedule` skill in [Claude Code](surfaces/claude-code.html), viewed and edited at `claude.ai/code/routines` (a [Claude.ai](surfaces/claude-ai.html) surface), execute on Anthropic cloud infrastructure with MCP connectors attached.
 - **Background sessions** — `claude --bg` starts a long-running Claude Code task; reattach later via `/resume` or `claude agents`. Spans CLI and `claude.ai/code`.
 - **MCP tunnels (Research Preview)** — outbound-only `cloudflared` tunnels that expose private MCP servers to Claude.ai. Bridges Claude.ai / Claude Desktop and MCP servers running inside private networks. See [MCP servers](mcp-servers.html).
+- **Claude Security (Enterprise public beta)** — vulnerability scanning at `claude.ai/security` (sidebar icon in [Claude.ai](surfaces/claude-ai.html)). Launched 2026-05-04 on Opus 4.7. Each finding has a remediation button that opens a [Claude Code on the web](surfaces/claude-code.html) session, drafts a patch, and opens a PR. Enterprise plans only; Team / Max coming.
 
 ## Common pitfalls
 
@@ -46,10 +47,12 @@ Some features span more than one surface — you start them in one place and vie
 
 ## Sources
 
-- [Claude Code product landing](https://claude.com/product/claude-code) — Anthropic product page; verified 2026-05-23 (this run) — canonical install command and Windows/WinGet/Linux package options.
-- [Set up Claude Code](https://code.claude.com/docs/en/setup) — Anthropic docs; verified 2026-05-23 (this run).
+- [Claude Code product landing](https://claude.com/product/claude-code) — Anthropic product page; verified 2026-05-26 (this run) — canonical install command and Windows/WinGet/Linux package options.
+- [Set up Claude Code](https://code.claude.com/docs/en/setup) — Anthropic docs; verified 2026-05-26 (this run).
 - [Claude Code on the web](https://code.claude.com/docs/en/claude-code-on-the-web) — Anthropic docs; verified 2026-05-19.
 - [Claude Code on the web (announcement)](https://www.anthropic.com/news/claude-code-on-the-web) — published 2025-10-20.
 - [Anthropic announces Claude Cowork](https://www.infoq.com/news/2026/01/claude-cowork/) — published 2026-01-13.
 - [Cowork and plugins for teams across the enterprise](https://claude.com/blog/cowork-plugins-across-enterprise) — Anthropic blog; published 2026-02-24.
-- [Claude Code changelog (v2.1.144 / v2.1.145, May 18–19 2026)](https://code.claude.com/docs/en/changelog) — `claude --bg`, `/resume`, `claude agents --json`; verified 2026-05-23 (this run).
+- [Claude Code changelog (v2.1.144 / v2.1.145, May 18–19 2026)](https://code.claude.com/docs/en/changelog) — `claude --bg`, `/resume`, `claude agents --json`; verified 2026-05-26 (this run).
+- [Claude Security is now in public beta](https://claude.com/blog/claude-security-public-beta) — Anthropic blog; published 2026-05-04 — `claude.ai/security`, Opus 4.7, remediation opens Claude Code on the web, Enterprise public beta.
+- [Getting started with Claude Security](https://claude.com/resources/tutorials/getting-started-with-claude-security) — Anthropic tutorial; verified 2026-05-26 (this run) — sidebar location and remediation-session flow.
