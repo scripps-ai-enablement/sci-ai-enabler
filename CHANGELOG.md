@@ -11,6 +11,20 @@ Reverse-chronological log of changes to the [catalog](catalog/). Newest at the t
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-05-26
+
+Directed pass on **Immunology and Microbiology** (Tuesday focus). Manifest sweep of `anthropics/life-sciences` shows no diff vs. 2026-05-25 — every plugin currently published there is already catalogued. The K-Dense `claude-scientific-skills` directory was scanned for immunology-relevant skills not yet in the catalog; **Glycoengineering** is the strongest fit (therapeutic-antibody and vaccine design via N/O-glycosylation prediction and external glyco-tool orchestration) and is the single new entry this run. A focused look for IEDB and BCR/TCR repertoire MCP servers turned up no Claude-installable wrappers — deferred for the next Immunology pass. Well under the 5-entry soft cap, by design: the directed pass is meant to surface high-fit category entries, not pad the catalog.
+
+### Added
+- **Glycoengineering (Claude Skill)** (Categories: Immunology and Microbiology, Drug Repurposing and Discovery) — K-Dense skill that scans protein sequences for N-glycosylation sequons (N-X-S/T), predicts O-glycosylation hotspots, and orchestrates NetOGlyc / GlycoShield / GlycoWorkbench for therapeutic-antibody Fc engineering, vaccine-immunogen design, and biologics developability ([source](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/glycoengineering/SKILL.md), [K-Dense scientific-skills catalog](https://github.com/K-Dense-AI/claude-scientific-skills/blob/main/docs/scientific-skills.md)).
+
+### Updated
+- **`catalog/curator-state.md`** — Recently surfaced refreshed with this run's Glycoengineering addition; Deferred queue gained `IEDB MCP wrapper`, `BCR/TCR repertoire MCP`, and `Adaptyv (K-Dense Skill)` as Immunology-focus candidates carried forward.
+
+### Verified (no changes)
+- Existing Immunology and Microbiology entries (`scikit-bio`, `flowio`, `uniprot`, `gget`, `pydeseq2`, `nextflow-development`) spot-checked against upstream — install paths, supplier links, and pricing claims still valid; no field drift.
+- Manifest sweep of `anthropics/life-sciences` re-confirmed: no diff vs. 2026-05-25 sweep; deferred queue (Cortellis, Medidata, Consensus, NPI Registry, Augmented-Nature ChEMBL community alternative) carries forward.
+
 ## 2026-05-25
 
 Directed pass on **Chemistry** (Monday focus). Manifest sweep of `anthropics/life-sciences` shows no diff vs. 2026-05-24 — the marketplace's chemistry surface (`chembl`, `tooluniverse`, plus the broader `bio-research` bundle) is fully catalogued. The directed pass picked up three sibling cheminformatics skills from the K-Dense `claude-scientific-skills` marketplace that round out the existing `rdkit-skill` entry into the full RDKit-derived lead-optimisation stack documented in K-Dense's example workflows. Three new entries — at the soft cap minus two — with DeepChem and the remaining chemistry siblings (TorchDrug, PyTDC, DiffDock, PyOpenMS, matchms, cobrapy) carried forward on the deferred queue.

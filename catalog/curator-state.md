@@ -8,11 +8,11 @@ nav_exclude: true
 
 ## Recently surfaced
 
+- **Glycoengineering (Claude Skill)** (added 2026-05-26) — K-Dense skill for protein-glycosylation analysis: N-glycosylation sequon scanning, O-glycosylation hotspot prediction, and orchestration of NetOGlyc / GlycoShield / GlycoWorkbench for antibody and vaccine design.
 - **Datamol (Claude Skill)** (added 2026-05-25) — K-Dense skill wrapping the Datamol RDKit-built library for molecular standardization, transformations, featurization, and parallel processing on large compound libraries.
 - **Molfeat (Claude Skill)** (added 2026-05-25) — K-Dense skill wrapping Molfeat — a unified API over 100+ molecular featurizers (classical fingerprints, descriptors, pretrained ChemBERTa / MolBERT / Uni-Mol embeddings).
 - **MedChem (Claude Skill)** (added 2026-05-25) — K-Dense skill wrapping MedChem — Lipinski / Veber / Egan / Muegge drug-likeness filters, PAINS / BRENK structural alerts, and synthetic-accessibility scoring on top of RDKit.
 - **ChEMBL Connector** (added 2026-05-24) — Anthropic-packaged plugin and Claude.ai connector over EMBL-EBI's ChEMBL bioactive-compound database (compound, target, bioactivity, mechanism-of-action lookup).
-- **ToolUniverse** (added 2026-05-24) — Harvard / MIT MCP server bundling 600+ vetted scientific tools across literature, chemistry, omics, and clinical trials; surfaced via `anthropics/life-sciences`.
 
 ## Flagged for review
 
@@ -38,6 +38,9 @@ nav_exclude: true
 - **Azure FHIR MCP** (`erikhoward/azure-fhir-mcp-server`) — Azure Health Data Services FHIR adapter.
 - **AACT Clinical Trials MCP** (`navisbio/aact_mcp`) — SQL-over-PostgreSQL alternative to the ClinicalTrials.gov v2 API; complementary to the v2-API MCP surfaced 2026-05-23.
 - **Augmented-Nature ChEMBL-MCP-Server** — 22-tool community alternative to the official Anthropic ChEMBL connector; useful for users without marketplace access. Deferred because the first-party connector now covers the same surface.
+- **IEDB MCP wrapper** — no Claude-installable wrapper for the IEDB Query API located on the 2026-05-26 Immunology pass; the IEDB API exposes ~2.2M epitopes and is a natural MCP candidate. Revisit on next Immunology-focus pass.
+- **BCR/TCR repertoire MCP** — no dedicated MCP server for immcantation / VDJdb / McPAS-TCR identified on the 2026-05-26 sweep; awesome-vdj catalogs upstream libraries but no Claude wrapper yet.
+- **Adaptyv (K-Dense Skill)** — wraps NetSolP / SoluProt / SolubleMPNN / ESM / ipTM / pSAE for antibody affinity maturation and developability prep; strong Immunology candidate, surface incrementally.
 
 ## User requests (open)
 
