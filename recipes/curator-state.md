@@ -32,7 +32,7 @@ _None._
 
 ## User requests (open)
 
-_None._
+- [#8 @andrewsu 2026-05-26] (no trailer emitted; needs curator triage) title="[Recipe question] prediction of pharmacokinetic properties" label=claude:recipe-question
 
 ## User requests (closed this run)
 
