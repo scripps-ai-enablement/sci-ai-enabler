@@ -2,7 +2,7 @@
 title: Interpret a clinical variant from a natural-language query
 parent: All recipes
 grand_parent: Recipes
-nav_order: 4
+nav_order: 5
 problem_class: Knowledge synthesis
 subject_areas: [Translational Medicine, Molecular and Cellular Biology]
 evidence_level: Proposed

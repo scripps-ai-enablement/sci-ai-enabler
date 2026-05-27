@@ -2,7 +2,7 @@
 title: Triage a stack of new preprints in your field
 parent: All recipes
 grand_parent: Recipes
-nav_order: 11
+nav_order: 12
 problem_class: Literature triage
 subject_areas: [All]
 evidence_level: Reported

@@ -2,7 +2,7 @@
 title: Filter a virtual screening hit list with drug-likeness rules and structural alerts
 parent: All recipes
 grand_parent: Recipes
-nav_order: 2
+nav_order: 3
 problem_class: Data analysis
 subject_areas: [Chemistry, Drug Repurposing and Discovery]
 evidence_level: Reported
