@@ -79,6 +79,11 @@ jobs:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           model: claude-opus-4-7
           allowed_tools: "Read,Edit,Write,Glob,Grep,WebSearch,WebFetch"
+          # The action defaults to a 10-minute internal timeout, which the
+          # full manifest sweep + directed pass routinely overruns. Match
+          # recipes.yml at 25 min; the job-level timeout-minutes: 30 is the
+          # outer ceiling and leaves headroom for the commit/push steps.
+          timeout_minutes: "25"
 
       - name: Commit, push, and notify
         env:
