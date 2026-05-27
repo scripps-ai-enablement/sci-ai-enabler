@@ -29,6 +29,13 @@ Inside a Claude Code session, add a marketplace by GitHub `owner/repo`:
 /plugin install pubmed@life-sciences
 ```
 
+Other domain marketplaces ship the same way — e.g., finance:
+
+```bash
+/plugin marketplace add anthropics/financial-services
+/plugin install financial-analysis@claude-for-financial-services
+```
+
 Other source forms:
 
 ```bash
@@ -52,6 +59,7 @@ List, remove, or update with `/plugin marketplace list`, `/plugin marketplace re
 - [Plugins](plugins.md) — what marketplaces distribute
 - [Discover plugins reference](https://code.claude.com/docs/en/discover-plugins) — canonical docs
 - [`anthropics/life-sciences`](https://github.com/anthropics/life-sciences) — domain marketplace
+- [`anthropics/financial-services`](https://github.com/anthropics/financial-services) — domain marketplace (10 finance agents shipped 2026-05-05)
 - [`anthropics/claude-plugins-official`](https://github.com/anthropics/claude-plugins-official) — cross-domain marketplace (pre-registered)
 - Catalog examples that install via this marketplace: [Translational Medicine](../catalog/translational-medicine.md)
 
@@ -63,3 +71,6 @@ List, remove, or update with `/plugin marketplace list`, `/plugin marketplace re
 - [`anthropics/claude-plugins-official`](https://github.com/anthropics/claude-plugins-official) — verified 2026-05-19.
 - [`anthropics/life-sciences`](https://github.com/anthropics/life-sciences) — verified 2026-05-19.
 - [`anthropics/claude-plugins-community`](https://github.com/anthropics/claude-plugins-community) — verified 2026-05-19.
+- [Agents for financial services](https://www.anthropic.com/news/finance-agents) — Anthropic news; published 2026-05-05 — 10 finance agent templates shipped as plugins for Cowork and Claude Code.
+- [`anthropics/financial-services`](https://github.com/anthropics/financial-services) — verified 2026-05-27 (this run) — `claude-for-financial-services` marketplace; install `financial-analysis` first (provides shared MCP connectors).
+- [Install financial services plugins for Cowork](https://support.claude.com/en/articles/13851150-install-financial-services-plugins-for-cowork) — Anthropic help center; verified 2026-05-27 — Cowork install path (Customize → Add marketplace from GitHub).

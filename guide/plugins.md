@@ -18,7 +18,7 @@ Plugins are a Claude Code feature only. They don't apply to Claude.ai or Claude 
 
 - You want to install several related components with one command.
 - You want to distribute a workflow to teammates and have everyone end up on the same version.
-- A vendor or open-source project ships their offering as a plugin (e.g., the Anthropic Life Sciences plugins).
+- A vendor or open-source project ships their offering as a plugin (e.g., the Anthropic [Life Sciences](https://github.com/anthropics/life-sciences) and [Financial Services](https://github.com/anthropics/financial-services) plugin sets).
 - You want enable/disable controls per project without uninstalling.
 
 ## How to install / enable
@@ -64,3 +64,4 @@ Manage installs with `/plugin list`, `/plugin enable <name>`, `/plugin disable <
 - [`anthropics/claude-plugins-community`](https://github.com/anthropics/claude-plugins-community) — verified 2026-05-19.
 - [Cowork and plugins for teams across the enterprise](https://claude.com/blog/cowork-plugins-across-enterprise) — Anthropic blog; published 2026-02-24 — Cowork-layer plugins are separate from Claude Code plugins.
 - [Introducing Claude for Small Business](https://www.anthropic.com/news/claude-for-small-business) — Anthropic news; published 2026-05-13 — example of a Cowork toggle plugin bundling connectors + workflows.
+- [Agents for financial services](https://www.anthropic.com/news/finance-agents) — Anthropic news; published 2026-05-05 — 10 finance agent plugins (pitch builder, KYC screener, month-end closer, …) ship to both Cowork and Claude Code from the `anthropics/financial-services` marketplace; installs `financial-analysis` first for shared MCP connectors.

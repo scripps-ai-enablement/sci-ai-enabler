@@ -11,6 +11,26 @@ Reverse-chronological log of changes to the [guide](guide/). Newest at the top.
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-05-27
+
+### Added
+- **[surfaces/claude-code] `/goal` completion-condition loop.** Per the [Anthropic docs](https://code.claude.com/docs/en/goal) and the Claude Code v2.1.139 changelog (released 2026-05-12), `/goal "<condition>"` keeps Claude working across turns until a separate evaluator model confirms the condition holds (e.g., `npm test exits 0`). Added a one-line "When to use it" bullet and refreshed the changelog source line. Beginner-relevant because it's a first-class entry point for unattended Claude Code work; pairs with the existing `claude --bg` / `claude agents` background-session story.
+- **[marketplaces, plugins] Anthropic finance-services marketplace.** Per [Agents for financial services](https://www.anthropic.com/news/finance-agents) (2026-05-05) and the [Cowork install help center page](https://support.claude.com/en/articles/13851150-install-financial-services-plugins-for-cowork), Anthropic shipped 10 finance agent templates (pitch builder, KYC screener, month-end closer, …) as plugins for both Cowork and Claude Code from `anthropics/financial-services`. Added a second domain-marketplace example alongside `anthropics/life-sciences` on `marketplaces.md` (with the canonical `/plugin marketplace add anthropics/financial-services` + `financial-analysis@claude-for-financial-services` install), and noted the marketplace on `plugins.md` under "When to use it" and Sources. Beginner-relevant because finance is the second discipline (after life sciences) where Anthropic ships a curated domain marketplace; helps beginners pattern-match to their own field.
+
+### Verified (no changes)
+- claude-surfaces.md — install command (`curl -fsSL https://claude.ai/install.sh | bash`), background sessions, MCP tunnels Research Preview, Claude Security cross-cutting bullet all current per `claude.com/product/claude-code`. No new launches in the 2026-05-26/27 window — the 2026-05-26 "Claude stays ad-free" post is narrative, not a feature change.
+- skills.md — `~/.claude/skills/` layout, `/skills` type-to-filter picker, root-level `SKILL.md` surfacing unchanged.
+- mcp-servers.md — `claude mcp add --transport http`, scope semantics, MCP tunnels Research Preview unchanged. The v2.1.149 enterprise-only `allowAllClaudeAiMcps` setting and v2.1.150 MCP `--channels` research preview both remain too advanced for the beginner page.
+- connectors.md — `claude.ai/directory/connectors`, "over 200" framing, May 12 legal push, creative-tools wave unchanged. Finance partner connectors (FactSet, Moody's, S&P Capital IQ, …) ship through the new marketplace plugin set rather than as one-click Claude.ai connectors, so they belong on `marketplaces.md`/`plugins.md` and not here.
+- decision-tree.md — table unchanged.
+- surfaces/claude-ai.md, surfaces/claude-desktop.md, surfaces/claude-cowork.md, surfaces/claude-api.md — unchanged this run. The finance push lands on Cowork and Claude Code via the new marketplace; the surface sub-pages link out to `marketplaces.md`/`plugins.md` rather than duplicating the install command.
+- advanced/hooks.md, advanced/slash-commands.md, advanced/routines.md, advanced/authentication.md — unchanged this run.
+
+### Flagged for review
+- WebFetch was again unavailable this run (404 on `claude-3-5-haiku-20241022`). All primary-source verification went through WebSearch summaries of `claude.com/product/claude-code`, `code.claude.com/docs/en/changelog`, `code.claude.com/docs/en/goal`, `anthropic.com/news`, `anthropic.com/news/finance-agents`, `github.com/anthropics/financial-services`, `support.claude.com/en/articles/13851150-install-financial-services-plugins-for-cowork`, `explainx.ai/blog/anthropic-claude-code-agent-view-goal-command`, and `venturebeat.com/orchestration/claude-codes-goals-separates-the-agent-that-works-from-the-one-that-decides-its-done`. A human should occasionally verify `/goal` syntax directly via `claude --help` or by running `/goal` in a session.
+- **`/goal` as a beginner concept vs. an advanced one.** Currently captured only as a one-line bullet on `surfaces/claude-code.md`. If `/goal` continues to expand (e.g., scheduled `/goal` or chained completion conditions), promote to a dedicated `advanced/goal.md` page.
+- **Finance partner connectors.** Several finance data providers (Moody's, FactSet, S&P, PitchBook, Daloopa, Morningstar) are referenced as MCP/connector integrations behind the finance plugins, but they aren't (yet) one-click Claude.ai connectors. If/when Anthropic surfaces them on `claude.ai/directory/connectors`, expand the connectors-page recent-waves list.
+
 ## 2026-05-26
 
 ### Added
