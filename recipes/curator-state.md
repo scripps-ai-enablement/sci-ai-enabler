@@ -40,4 +40,4 @@ _None._
 
 ## User requests (closed this run)
 
-- [#8 @andrewsu 2026-05-26] queue: recipes | question="prediction of pharmacokinetic properties" → Shipped new recipe [`estimate-pk-properties`](items/estimate-pk-properties.html): rung-3 RDKit + MedChem + ChEMBL assembly building a descriptor / rule-based / analog-anchored PK card. `Proposed` evidence because no peer-reviewed benchmark of this exact stack inside Claude Code exists; component-level evidence is solid and closest analogues (ChemCrow, PharmaBench) are cited. Flagged ADMET-AI / AdmetLab / Deep-PK as Missing components for a stronger future revision.
+_None._
