@@ -8,11 +8,11 @@ nav_exclude: true
 
 ## Recently surfaced
 
+- **Molecular Dynamics (Claude Skill)** (added 2026-05-27) — K-Dense skill that runs and analyzes OpenMM-based MD simulations and post-processes trajectories with MDAnalysis (RMSD, RMSF, contact maps, free-energy surfaces) for protein-stability, ligand-binding-pose refinement, and conformational-ensemble work.
 - **Glycoengineering (Claude Skill)** (added 2026-05-26) — K-Dense skill for protein-glycosylation analysis: N-glycosylation sequon scanning, O-glycosylation hotspot prediction, and orchestration of NetOGlyc / GlycoShield / GlycoWorkbench for antibody and vaccine design.
 - **Datamol (Claude Skill)** (added 2026-05-25) — K-Dense skill wrapping the Datamol RDKit-built library for molecular standardization, transformations, featurization, and parallel processing on large compound libraries.
 - **Molfeat (Claude Skill)** (added 2026-05-25) — K-Dense skill wrapping Molfeat — a unified API over 100+ molecular featurizers (classical fingerprints, descriptors, pretrained ChemBERTa / MolBERT / Uni-Mol embeddings).
 - **MedChem (Claude Skill)** (added 2026-05-25) — K-Dense skill wrapping MedChem — Lipinski / Veber / Egan / Muegge drug-likeness filters, PAINS / BRENK structural alerts, and synthetic-accessibility scoring on top of RDKit.
-- **ChEMBL Connector** (added 2026-05-24) — Anthropic-packaged plugin and Claude.ai connector over EMBL-EBI's ChEMBL bioactive-compound database (compound, target, bioactivity, mechanism-of-action lookup).
 
 ## Flagged for review
 
@@ -41,6 +41,9 @@ nav_exclude: true
 - **IEDB MCP wrapper** — no Claude-installable wrapper for the IEDB Query API located on the 2026-05-26 Immunology pass; the IEDB API exposes ~2.2M epitopes and is a natural MCP candidate. Revisit on next Immunology-focus pass.
 - **BCR/TCR repertoire MCP** — no dedicated MCP server for immcantation / VDJdb / McPAS-TCR identified on the 2026-05-26 sweep; awesome-vdj catalogs upstream libraries but no Claude wrapper yet.
 - **Adaptyv (K-Dense Skill)** — wraps NetSolP / SoluProt / SolubleMPNN / ESM / ipTM / pSAE for antibody affinity maturation and developability prep; strong Immunology candidate, surface incrementally.
+- **MDAnalysis (K-Dense Skill)** — standalone trajectory-analysis sibling to the new `molecular-dynamics` skill; may warrant its own entry once the K-Dense catalog confirms whether `mdanalysis` is a distinct `SKILL.md` directory or only the analysis half of `molecular-dynamics`.
+- **Cryo-EM MCP / Skill** — no Claude-installable wrapper for RELION / cryoSPARC / CTFFIND located on the 2026-05-27 Structural pass; revisit on next Integrative Structural and Computational Biology pass.
+- **RFdiffusion / ProteinMPNN Claude Skill** — protein-design model wrappers; not yet packaged as a Claude Skill or MCP server on the 2026-05-27 sweep.
 
 ## User requests (open)
 

@@ -11,6 +11,23 @@ Reverse-chronological log of changes to the [catalog](catalog/). Newest at the t
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-05-27
+
+Directed pass on **Integrative Structural and Computational Biology** (Wednesday focus). Manifest sweep of `anthropics/life-sciences` re-confirmed no diff vs. 2026-05-26 — every plugin currently published there remains catalogued. The K-Dense `claude-scientific-skills` catalog was scanned for structural-biology skills not yet in the catalog; **Molecular Dynamics** (OpenMM + MDAnalysis) is the strongest fit and complements the existing `alphafold` / `pdb` / `molecule-mcp` entries by covering the simulation and trajectory-analysis layer that none of those cover. Focused searches for cryo-EM (RELION / cryoSPARC) and protein-design model (RFdiffusion / ProteinMPNN) Claude wrappers turned up nothing installable today — deferred for the next Structural-focus pass. One new entry this run, well under the 5-entry soft cap.
+
+### Added
+- **Molecular Dynamics (Claude Skill)** (Categories: Integrative Structural and Computational Biology, Drug Repurposing and Discovery) — K-Dense skill that sets up, runs, and analyzes molecular-dynamics simulations end-to-end via OpenMM and MDAnalysis (system prep, force-field assignment, NVT/NPT equilibration, production MD, RMSD / RMSF / contact-map / free-energy-surface analysis) ([source](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/molecular-dynamics/SKILL.md), [K-Dense scientific-skills catalog](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/docs/scientific-skills.md)).
+
+### Updated
+- **`catalog/curator-state.md`** — Recently surfaced refreshed with this run's Molecular Dynamics addition; Deferred queue gained `MDAnalysis (K-Dense Skill)` (pending confirmation of whether it ships as a distinct `SKILL.md`), `Cryo-EM MCP / Skill` (no Claude-installable wrapper located this pass), and `RFdiffusion / ProteinMPNN Claude Skill` (no wrapper located this pass).
+
+### Verified (no changes)
+- Existing Integrative Structural and Computational Biology entries (`alphafold`, `pdb`, `molecule-mcp`, `uniprot`) spot-checked against upstream — install paths, supplier links, and pricing claims still valid; no field drift.
+- Manifest sweep of `anthropics/life-sciences` re-confirmed: no diff vs. 2026-05-26 sweep; deferred queue (Cortellis, Medidata, Consensus, NPI Registry, Augmented-Nature ChEMBL community alternative, AACT, OpenFDA / Azure FHIR MCPs) carries forward.
+
+### User requests
+- **#11** — `[Tool feedback]` with no `tool-feedback` trailer emitted by the responder; issue body not fetchable from the curator runner this run, left open in `## User requests (open)` for next-run triage.
+
 ## 2026-05-26
 
 Directed pass on **Immunology and Microbiology** (Tuesday focus). Manifest sweep of `anthropics/life-sciences` shows no diff vs. 2026-05-25 — every plugin currently published there is already catalogued. The K-Dense `claude-scientific-skills` directory was scanned for immunology-relevant skills not yet in the catalog; **Glycoengineering** is the strongest fit (therapeutic-antibody and vaccine design via N/O-glycosylation prediction and external glyco-tool orchestration) and is the single new entry this run. A focused look for IEDB and BCR/TCR repertoire MCP servers turned up no Claude-installable wrappers — deferred for the next Immunology pass. Well under the 5-entry soft cap, by design: the directed pass is meant to surface high-fit category entries, not pad the catalog.
