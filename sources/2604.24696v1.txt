@@ -1,0 +1,783 @@
+NeuroClaw Technical Report
+Closed-Loop Agentic AI for Executable and Reproducible Neuroimaging Research
+Cheng Wang1,† , Zhibin He2,† , Zhihao Peng1,† , Shengyuan Liu1 , Yufan Hu1 , Lichao Sun3 , Xiang Li4,5∗ , Yixuan
+
+arXiv:2604.24696v1 [cs.CV] 27 Apr 2026
+
+Yuan1∗
+1
+
+Electronic Engineering Department, The Chinese University of Hong Kong, China
+
+2
+
+School of Electronic Information, Northwest University, China
+
+3
+
+Computer Science and Engineering, Lehigh University, Bethlehem, PA, USA
+
+4
+
+Department of Radiology, Massachusetts General Hospital, Boston, MA, USA
+
+5
+
+Kempner Institute for Natural and Artificial Intelligence, Harvard University, Cambridge, MA, USA
+
+†
+
+These authors contributed equally as co-first authors.
+
+*Corresponding authors
+1
+
+Abstract
+
+Agentic artificial intelligence systems promise to accelerate scientific workflows, but neuroimaging poses
+unique challenges: heterogeneous modalities (sMRI, fMRI, dMRI, EEG), long multi-stage pipelines, and persistent reproducibility risks. To address this gap, we present NeuroClaw, a domain-specialized multi-agent
+research assistant for executable and reproducible neuroimaging research. NeuroClaw operates directly on
+raw neuroimaging data across formats and modalities, grounding decisions in dataset semantics and BIDS
+metadata so users need not prepare curated inputs or bespoke model code. The platform combines harness engineering with end-to-end environment management, including pinned Python environments, Docker support,
+automated installers for common neuroimaging tools, and GPU configuration. In practice, this layer emphasizes checkpointing, post-execution verification, structured audit traces, and controlled runtime setup, making
+toolchains more transparent while improving reproducibility and auditability. A three-tier skill/agent hierarchy separates user-facing interaction, high-level orchestration, and low-level tool skills to decompose complex workflows into safe, reusable units. Alongside the NeuroClaw framework, we introduce NeuroBench,
+a system-level benchmark for executability, artifact validity, and reproducibility readiness. Across multiple
+multimodal LLMs, NeuroClaw-enabled runs yield consistent and substantial score improvements compared
+with direct agent invocation. Project homepage: https://cuhk-aim-group.github.io/NeuroCl
+aw/index.html.
+
+1
+
+Xiang Li: xli60@mgh.harvard.edu; Yixuan Yuan: yxyuan@ee.cuhk.edu.hk.
+
+1
+
+2
+
+Introduction
+
+Neuroimaging has become a central paradigm for studying brain organization, disease mechanisms, and treatment response across modern neuroscience and clinical research. These workflows generate high-dimensional
+multimodal data, including structural MRI, functional MRI, diffusion MRI, EEG, MEG, etc., enabling researchers to investigate anatomy, brain activity, connectivity, and microstructure at multiple scales 8 . It is
+these datasets that drive valuable scientific investigation, enabling disease prediction, phenotype analysis, brain
+network analysis, and other downstream studies 8 . However, translating these signals into robust and reproducible neuroscientific findings has remained difficult in practice. Test-retest reliability is often limited, and
+reproducibility can vary substantially across sessions, sites, scanners, analysis choices, and sample sizes 1–7 .
+Existing studies therefore show both the promise and the fragility of current neuroimaging workflows: deeplearning-enabled systems such as DeepPrep improve the speed and scale of preprocessing 8 , whereas reliability
+studies continue to document instability in task fMRI, resting-state fMRI, and longitudinal designs 1–3, 6 . Yet
+these advances remain difficult to operationalize at scale because complex dependencies, fragile runtime environments, and the lack of standardized validation pipelines often prevent promising methods from becoming
+executable and reproducible research workflows 9, 10 .
+At the same time, multi-agent systems have advanced rapidly and are beginning to automate increasingly
+complex scientific workflows. The empowering framework 11 outlines a biomedical AI scientist paradigm in
+which collaborative agents integrate models, domain tools, and experimental platforms to support skeptical
+reasoning and long-horizon discovery. Biomni 12 extends this direction as a general-purpose biomedical agent
+for tasks such as hypothesis generation, protocol design, clinical reasoning, gene prioritization, drug repurposing, rare disease diagnosis, and microbiome analysis. OriGene 13 focuses more narrowly on therapeutic target
+discovery, using a self-evolving multi-agent system to reason over heterogeneous biomedical evidence and
+identify mechanistically grounded disease targets. Outside biomedicine, AutoSOTA 14 automates the pipeline
+from paper understanding to environment repair, experiment execution, and iterative model optimization for
+state-of-the-art AI systems. EvoScientist 15 couples researcher, engineer, and evolution-manager agents with
+persistent ideation and experimentation memory so that research strategies improve over time rather than remaining fixed. The AI Scientist 16 further shows that idea generation, coding, experimentation, and paper
+drafting can be organized into an end-to-end research loop, while Ax-Prover 17 demonstrates that agentic workflows can combine large language models with formal verification tools to solve theorem-proving tasks under
+strict correctness constraints. These studies suggest that role-specialized agents with shared memory, tool access, and iterative feedback can support long-horizon scientific workflows beyond the reach of single-model
+prompting or manual scripting.
+However, existing agentic systems do not fully meet the needs of neuroscience research. Most emphasize
+general interaction fluency, broad task completion rates, or hypothesis generation 12, 13, 18–23 , but pay limited
+attention to strict dataset semantics, BIDS-compliant metadata consistency, stage-wise artifact validity, and
+cross-environment reproducibility 24–26 . In neuroimaging, even small metadata inconsistencies or environment
+drift can invalidate downstream analyses, and these errors may become apparent only in later pipeline stages.
+As a result, current frameworks often produce plausible yet scientifically unusable outputs and do not support
+an automated experimental discovery loop on neuroscience data from raw data preparation to model feedback
+and protocol adjustment.
+To address this gap, we present NeuroClaw, a research assistant for executable and reproducible neuroimaging research. Its design centers on three practical advantages. First, NeuroClaw works directly from
+raw neuroimaging data across formats, modalities, and long multi-stage workflows, so users do not need to
+
+2
+
+manually preprocess inputs or rewrite model-specific data pipelines in advance. Second, NeuroClaw recognizes that neuroimaging experimentation depends not only on model design but also on reliable environment,
+toolchain, and execution management. It manages Python environments, Docker containers, GPU stacks, and
+neuroimaging toolchains such as FSL, FreeSurfer, and fMRIPrep1 so that users do not need to know which
+tool to invoke or how to configure the runtime across both medical-imaging and computational dependencies. This layer is further constrained by harness engineering, including checkpointed execution, structured
+verification, and audit logging, to make model execution and experimental results more reproducible. Third,
+NeuroClaw adopts a hierarchical skill architecture inspired by systems such as Google ADK, but specialized
+for neuroimaging research: a interface layer for intent handling, a sub-agent layer for orchestration, and a
+base-execution layer for concrete operations. Together, these components support a self-driven experimental
+loop in which the agent proposes analysis actions conditioned on dataset semantics, executes tool-grounded
+steps, verifies artifacts and metrics, and revises subsequent actions across a complete neuroscience discovery
+workflow. The framework is intended to support neuroscience experimentation rather than pipeline completion
+alone.
+We also introduce NeuroBench, a benchmark with standardized specifications that assesses executability,
+output validity, and reproducibility readiness under realistic conditions 10, 27, 28 . As illustrated in Figure 1,
+NeuroClaw couples raw-data-aware workflow orchestration, hierarchical skills, environment-aware execution,
+and standardized evaluation into a unified loop. NeuroBench provides a standardized way to test whether an
+agent can produce specification-compliant artifacts across major modalities and representative datasets, and
+whether it can sustain experiment-loop behavior under realistic constraints.
+3
+
+Related Work
+
+Agentic Systems for Biomedical and Scientific Discovery. A series of recent agentic frameworks have shown
+strong capabilities in biomarker discovery, medical diagnosis, and automated scientific research. TriAgent 18
+employs a dedicated agent for novel biomarker discovery from clinical data and a second agent for literature retrieval, validation, and novelty assessment. BRAD 19 delivers an end-to-end pipeline for automatic
+biomarker discovery and enrichment with automated report generation. HEAL-KGGen 20 introduces a hierarchical agentic framework augmented by a constructed medical knowledge graph for genetic biomarker-based
+diagnosis. SAGE 21 proposes an agentic system for interpretable and clinically translatable computational
+pathology biomarker discovery through direct programming. Auto-MedCalc 22 leverages AI agents for automated biomarker discovery and risk score generation from gene datasets. A co-evolving agentic system 23 targets pathology, radiology, and spatial omics with continuous expert feedback. Biomni 12 is a general-purpose
+biomedical agent supporting hypothesis generation, protocol design, clinical reasoning, gene prioritization,
+drug repurposing, rare disease diagnosis, and microbiome analysis. OriGene 13 functions as a self-evolving
+virtual disease biologist for automated target discovery. Additionally, the NBME copilot 9 focuses on enhancing the reliability of large language models as data-science programming assistants for biomedical research.
+Beyond biomedicine, a parallel line of autoresearch systems aims at end-to-end scientific automation.
+AutoSOTA 14 generates improved state-of-the-art AI models directly from published papers with an emphasis
+on harness engineering. The self-evolving recommendation system 29 uses LLM agents for autonomous model
+optimization, throughput improvement, and real-world metric validation. EvoScientist 15 explores multi-agent
+evolving AI scientists for end-to-end discovery. Complementary high-impact works include end-to-end automation of AI research 16 , multi-agent discovery of mathematical concepts 30 , analyses of artificial intelligence
+1
+
+Official project websites: FSL, https://fsl.fmrib.ox.ac.uk/fsl/fslwiki; FreeSurfer, https://surfer.n
+mr.mgh.harvard.edu/; and fMRIPrep, https://fmriprep.org/.
+
+3
+
+a. Multimodal Raw Data Processing
+Structural Outputs
+• Tissue maps
+• Surface meshes
+• Morphometry stats
+
+Structural MRI
+(T1w, T2w)
+Conversion
+& BIDS
+Organization
+
+Functional MRI
+(task/resting-state)
+Diffusion MRI
+(DWI/b-values)
+
+Data QC &
+Verification
+
+Registration &
+Normalization
+
+Diffusion Outputs
+• FA/MD/AD/RD maps
+• Tractography streamlines
+• Structural connectivity
+
+Raw Inputs to Analysis-Ready Data
+
+b. Model Executability and Reproducibility
+
+c. Hierarchical Skill Architecture
+
+Grok-4.2
+
+Interface Layer
+Runtime Environment
+v1.2.1
+v5.3
+v0.1.2
+
+Docker Container
+
+Dockerfile
+Apptainer
+config.yaml
+
+Version Control
+SHA-1 hash
+params.json
+
+Logs
+
+Provenance
+Log
+
+Interprets user intent, explains capabilities, and plans invocation
+Subagent Layer
+Tool
+(invoke
+external tools)
+
+Cross-environment
+reproducibility
+
+MiniMax
+Deepseek-3.2
+GPT-5.4-mini
+
+Dataset
+(data access
+and flow)
+
+Modality
+(handle specific
+pipelines)
+
+Model
+(select and
+execute models)
+
+Base Layer
+Deterministic
+Re-execution
+
+d. Benchmark Evaluation
+
+Execution Monitoring & Status Reporting
+
+Single-command execution
+
+Pinned Dependencies
+
+Preprocessed fMRI Outputs
+• Denoised BOLD
+• ROI/network connectivity
+• Task activation maps
+
+Derivatives
+& Feature
+Construction
+
+score gain by
+NeuroClaw
+
+Gemini-3-flash
+Gemini-3.1-pro
+Qwen3.6-plus
+GPT-5.4
+
+Executes atomic tool calls and low-level functions
+
+Claude-sonnet-4.6
+Claude-opus-4.6
+
+Figure 1: NeuroClaw system framework for executable and reproducible agentic neuroimaging research. (a)
+Multimodal raw data processing pipeline that converts sMRI, fMRI, DWI, and other inputs into analysisready outputs through BIDS organization, quality control, registration, and feature construction. (b) Model
+executability and reproducibility harness, including single-command execution, pinned dependencies, Docker
+support, provenance logging, and cross-environment verification. (c) Hierarchical skill architecture with three
+layers (interface, subagent, and base) that decomposes tasks into tool, modality, dataset, and model skills. (d)
+NeuroBench evaluation showing benchmark scores and performance gains of various multimodal large language models when using NeuroClaw skills compared with vanilla baselines. The overall design enables an
+iterative experimental loop of planning, execution, verification, and refinement rather than one-pass completion.
+and the structure of mathematics 31 , and Ax-Prover 17 , an agentic Lean proving system that combines LLMs
+with MCP-based verifiers. While these systems establish important precedents for tool orchestration, selfevolution, and autonomous discovery, they generally prioritize broad research assistance, hypothesis generation, or model-level optimization. They offer limited support for the strict dataset semantics, BIDS-compliant
+metadata consistency, stage-wise artifact validity, and heterogeneous environment control that are essential for
+reliable neuroimaging pipelines.
+OpenClaw Ecosystems and Autoresearch. Representative frameworks in the OpenClaw ecosystem include
+OmicClaw for omics data analysis, EthoClaw for automated neuroethology workflows, and Dr. Claw for general AI research from idea to paper. Together with extensions such as AutoResearchClaw and hospital-oriented
+OpenClaw variants, these systems show how modular skill libraries and reusable workflows can support longhorizon scientific automation. A related but broader autoresearch line pursues end-to-end scientific automation,
+including AutoResearch for fully autonomous experimentation on single GPUs, AutoSOTA 14 , and EvoScientist 15 . These systems extend the same general paradigm to paper understanding, environment repair, experiment execution, persistent memory, and iterative refinement. Related biomedical agent frameworks reinforce
+this direction. The biomedical AI scientist perspective in Cell 11 , coordinated healthcare-agent architectures
+in Nature Biomedical Engineering 32 , and foundational healthcare-agent designs in Cell Reports Medicine 33
+all emphasize role specialization, structured tool use, and explicit coordination. Clinical systems such as au-
+
+4
+
+tonomous oncology decision agents 34 and EvoMDT 35 further show that deployment depends on traceable
+execution and controllable collaboration. Collectively, these OpenClaw and autoresearch efforts show the
+promise of reusable skills and multi-agent orchestration, while also exposing the need for stronger guarantees
+of executability, auditability, and robustness under real scientific toolchains.
+Recent benchmarks and evaluation frameworks show that this reliability problem remains open. ClawBench 36 is particularly informative because it evaluates 153 everyday online tasks across 144 live platforms
+rather than static sandbox environments, revealing that even frontier models achieve only modest success rates
+(for example, Claude-Sonnet-4.6 37 reaches 33.3%). REPRO-Bench 10 makes a complementary point from the
+reproducibility perspective: beyond producing plausible outputs, agentic systems must assess whether workflows can actually be rerun, verified, and trusted. Studies of executable discovery systems further reinforce
+this distinction between apparent competence and dependable scientific execution. Virtual Lab-style work 38
+demonstrates that AI agents can participate in hypothesis-driven discovery loops with experimental validation,
+while agentic bioinformatics pipelines 39 show how workflow automation can accelerate biomedical analysis at
+scale. Yet these results also underline the central benchmarking gap: current evaluations rarely stress heterogeneous environments, staged artifact validation, and cross-run reproducibility with the granularity required by
+neuroimaging workflows. Collectively, these benchmarks and executable-agent studies motivate NeuroBench
+as a more domain-grounded evaluation setting focused on long-horizon executability, reproducibility readiness,
+and robustness to the practical failures that arise when agents operate directly on scientific data and toolchains.
+4
+
+NeuroClaw
+
+NeuroClaw is a research assistant for neuroscience designed for reliable execution and reproducible neuroimaging workflows. It aims not only to complete individual tasks but also to support a complete neuroscience discovery workflow with iterative scientific experimentation and auditability. The system is designed
+to start from raw data and tool-accessible model assets, without requiring users to prepare preprocessed inputs
+or customized model code in advance. The platform emphasizes three design components: raw-data-aware
+orchestration for complex multimodal neuroimaging data, environment-aware experimentation with harness
+engineering for executable and reproducible runs, and a hierarchical skill architecture that balances modularity
+and control.
+Skill Hierarchy. NeuroClaw organizes its capabilities into a three-layer skill hierarchy that separates concerns
+and scales with task complexity. This design is conceptually aligned with hierarchical agent-development patterns such as Google ADK, but is specialized for neuroimaging research requirements. The core design principle is to decompose long neuroimaging workflows into shorter skills with clear interfaces, so that the agent
+retrieves only the operations needed for the current stage rather than reasoning over a monolithic prompt-sized
+procedure. The base layer provides fine-grained atomic operations such as file conversion, DICOM-to-NIfTI
+transformation, metadata validation, and single-command execution. These operations serve as safe, reusable
+building blocks. The subagent layer implements domain-specific orchestration through four skill types: tool
+skills that wrap external software such as FSL, FreeSurfer, and fMRIPrep; modality skills that encapsulate
+preprocessing pipelines for fMRI, sMRI, and DWI; model skills that handle phenotype prediction and statistical analysis; and dataset skills that coordinate end-to-end multimodal workflows for cohorts such as ADNI,
+HCP Young Adult, and UK Biobank. The interface layer manages high-level user interaction by interpreting
+intent, routing tasks to appropriate subagents, and maintaining workflow continuity without exposing low-level
+implementation details. This hierarchy improves skill selection efficiency, reduces execution drift, enables independent maintenance of evolving toolchains, and keeps iterative updates localized and controllable. It also
+avoids overly long single skills that are harder for models to parse, more likely to dilute retrieval focus, and
+5
+
+more expensive in token usage.
+All skill dependencies are structured as a Directed Acyclic Graph (DAG). This design enforces oneway information flow, prevents cyclic dependencies, and supports efficient skill invocation through minimal
+traversal over only the relevant predecessors and successors for a given task. In practice, the DAG makes
+skill relations explicit, so the agent can compose multi-step workflows by following dependency structure
+instead of repeatedly reinterpreting a large undifferentiated skill description. Combined with the three-layer
+hierarchy, this organization decomposes complex neuroimaging workflows into compact, well-defined units,
+improving execution reliability and decision accuracy in long-horizon tasks while reducing model confusion
+and unnecessary token consumption.
+Raw-Data Compatibility. A core feature of NeuroClaw is its ability to work directly from raw data. Rather
+than assuming preprocessed inputs or routing solely according to tool names or free-form instructions, the
+system conditions planning and skill selection on explicit data context, including data organization, BIDS
+compliance, available modalities, preprocessing stage, and metadata conventions. For example, when a user
+specifies the HCP Young Adult dataset, the corresponding ‘hcp-skill‘ automatically constructs a multimodal
+processing plan spanning structural MRI, functional MRI, and diffusion MRI, then delegates each stage to
+the appropriate modality skill. This approach reduces ambiguity in heterogeneous computing environments,
+where the validity of a command often depends on upstream data conventions. By grounding decisions in data
+semantics from the outset and supporting workflows that begin with raw inputs, NeuroClaw reduces cascading
+errors, helps intermediate artifacts satisfy downstream requirements, and maintains scientific coherence across
+iterative refinements.
+NeuroClaw supports end-to-end workflows across major neuroimaging modalities. For structural MRI
+(sMRI), it handles DICOM-to-NIfTI conversion, BIDS organization, skull stripping, tissue segmentation, cortical surface reconstruction, and ROI-based statistical extraction. For functional MRI (fMRI), it supports preprocessing and denoising pipelines, confound regression, ROI time-series extraction, connectivity analysis, and
+first- to group-level GLM reporting. For diffusion MRI (dMRI), the framework manages preprocessing, tensor
+fitting, microstructural metric computation, tractography, and connectome construction. For EEG, it provides
+standard preprocessing, artifact removal, spectral feature extraction, and feature table generation. This unified harness-driven approach enables consistent workflows across modalities and supports iterative hypothesis
+testing through shared data-model interfaces.
+For dataset-specific workflows, NeuroClaw provides tailored orchestration for ADNI, HCP, and UK
+Biobank cohorts. In ADNI-oriented processing, it guides users through data staging, BIDS-compliant reorganization, modality-aware preprocessing, and specification-aligned generation of ROI features and quality-control
+summaries, while correctly interpreting cohort-specific metadata conventions. In HCP-oriented processing, it
+coordinates long-horizon multimodal pipelines, manages stage dependencies, and preserves consistent intermediate artifacts for downstream analysis and reproducibility verification. For UK Biobank, NeuroClaw supports brain-focused downstream analysis on already available local UKB-derived tables and feature matrices,
+including neurological outcome modeling, cognitive phenotype analysis, brain MRI derived phenotype association, and predictive modeling. Across all three cohorts, the framework emphasizes auditable execution traces,
+validation checkpoints, and standardized outputs, allowing users to conduct repeated experimental cycles from
+raw data or analysis-ready tables to model-ready results with substantially reduced manual effort.
+Reproducibility and Harness Engineering. NeuroClaw promotes reproducibility through a concrete harness
+layer that couples runtime control with post-hoc validation. At the session level, it supports lightweight check-
+
+6
+
+1. Basic Data & Env Preparation
+
+•
+
+2. Neuroscientific Tool Utilization Capability
+
+Data Format Conversion & BIDS Standardization
+
+•
+•
+•
+•
+•
+•
+•
+
+BIDS organization, Modality conversion, metadata extraction, ...
+
+•
+
+Environment Configuration & Engineering Tools
+Conda, dependency resolution, Git, Overleaf
+
+•
+
+Literature & Information Retrieval
+Academic paper retrieval, multi-engine search
+
+•
+•
+
+Single-Modality Workflows
+
+•
+
+sMRI: T1/T2 reconstruction, cortical parcellation, tissue &
+
+sMRI/fMRI/DWI pipelines from raw data to analytical results
+
+•
+
+fMRI: Preprocessing, denoising, ROI extraction, resting-
+
+•
+
+dMRI: Eddy current correction, tensor fitting, FA/MD
+
+Dataset-Specific Workflows
+ADNI or HCP multimodal processing chains and integrate results
+
+•
+
+FreeSurfer Toolkit
+FSL Toolkit
+DIPY
+Harmonized Integrated Processing
+Nilearn
+Preprocessing Frameworks
+Integrated Analysis Tools
+
+Research Output Support
+
+No-Skills Baseline
+
+Direct prompt-to-code
+
+state/task-based connectivity, effective connectivity, GLM
+analysis
+metrics, tractography, connectome generation, multimodal
+integration
+
+• EEG: Spectral analysis, artifact removal, feature extraction
+3. Multimodal Neuroimaging Processing
+
+Literature research, academic writing assistance, and derivative dataset generation
+
+4. End-to-End Research Workflow
+10 Frontiers Models
+
+WMH segmentation, structural preprocessing
+
+Hybrid Evaluation
+Execution &
+Monitoring
+
+Skill-enabled
+
+Hierarchical neuroimaging skills
+
+Result
+Generation
+
+Human Check & LLM-as-a-Judge
+✅ Plan Completeness
+✅ Tool Use Rationality
+✅ Code Correctness
+
+Evaluation Pipeline
+
+Figure 2: Overview of NeuroBench. The benchmark is organized into four modules (top): basic data and environment preparation, neuroscientific tool utilization, multimodal neuroimaging processing, and research-loop
+execution. The bottom panel illustrates the evaluation pipeline, in which frontier multimodal large language
+models are assessed under both baseline (no-skills) and skill-enabled (with NeuroClaw) settings. The pipeline
+includes execution monitoring, standardized result generation, and hybrid evaluation combining human experts
+and MLLM judges across planning completeness, tool usage reasonableness, and command or code correctness.
+pointing and resumability through timestamped state snapshots. At the workflow level, experiment execution
+follows an explicit decomposition-initialization-execution-verification protocol with environment manifests,
+structured logging, per-stage checkpoints, and final audit reports. Across major tool and modality skills, NeuroClaw further standardizes post-execution verification through expected-artifact checks, missing-file detection, NaN/Inf screening, quality-control validation, and structured JSONL audit logs. Complementary runtime
+components add drift logging, checksum-based artifact validation, and container isolation or image-integrity
+checks where needed. Together with installer-managed environments for major neuroimaging toolchains, these
+mechanisms make iterative workflows easier to rerun, inspect, and compare across executions.
+5
+
+NeuroBench Benchmark
+
+NeuroBench is a system-level benchmark designed to evaluate whether an agent can complete realistic neuroimaging research tasks under practical constraints. As shown in Figure 2, it organizes evaluation into four
+modules: basic data and environment preparation, neuroscientific tool utilization, multimodal neuroimaging
+processing, and research-loop execution. The benchmark focuses on closed-loop execution capability, spanning task understanding, planning, command and code generation, artifact validation, and iteration readiness,
+rather than isolated tool calls or static question answering.
+
+7
+
+Benchmark Design. All 100 tasks (T001-T100) are manually designed by experienced neuroimaging researchers, ensuring scientific validity and practical relevance. Each task is paired with a hand-crafted evaluation specification that explicitly defines input assumptions (data organization, BIDS compliance status, and
+metadata requirements), processing objectives, expected output artifacts (processed images, ROI tables, connectomes, and QC reports), naming conventions, and verifiable checkpoints. This specification-driven design
+clarifies the criteria for successful completion and enables reliable automated verification of output conformance. Tasks span major modalities, including structural MRI, functional MRI, diffusion MRI, and EEG, and
+cover representative open-science datasets such as ADNI and HCP Young Adult, with explicit consideration
+of multi-site heterogeneity, scanner harmonization, and clinical preprocessing standards.
+Tasks are organized hierarchically into workflow families: basic utilities (BIDS validation, format conversion, and metadata extraction), core pipelines (ANTs alignment, FSL preprocessing, FreeSurfer cortical
+reconstruction, fMRIPrep, and QSIPrep), advanced analysis (seed-based connectivity, ICA-FIX denoising,
+first-level task fMRI GLM, and ROI-wise statistics), and multimodal integration (structural-to-functional registration, diffusion-to-structural alignment, and multi-modal neuromarker computation). This structure comprehensively tests a wide range of agent capabilities, including fine-grained command composition, complex
+parameter selection, modality-specific domain knowledge, long-horizon planning across preprocessing stages,
+and reproducible output validation. The human-curated design ensures that every task reflects genuine neuroscience research workflows instead of synthetic or overly simplified scenarios.
+Scoring Mechanism. NeuroBench adopts a three-layer scoring structure consisting of LLM-based quality
+scoring, runtime and efficiency statistics, and paired comparison between with-skills and no-skills settings. To
+ensure fairness, scoring is conducted exclusively on the common task subset completed by all models, with
+repeated runs aligned to the minimum common repetition count (typically five). For each run, a fixed GPT-5.4
+judge evaluates the generated report on three dimensions using a 1-10 scale: planning completeness (P ), tool
+and skill usage reasonableness (R), and command or code correctness (C). The weighted score is calculated
+as S10 = 0.30 · P + 0.40 · R + 0.30 · C and converted to a percentage scale via S100 = 10 · S10 .
+Skill call count, runtime, and token consumption are recorded as auxiliary efficiency metrics but are not
+incorporated into the primary quality score. For each model-task pair, we compute the mean and variance of
+the weighted score across repetitions, together with average skill calls, token usage, and elapsed time. Modellevel performance is obtained by averaging across all tasks. Final ranking follows a lexicographic order:
+(1) higher average quality score (descending), (2) fewer average skill calls (ascending), (3) fewer average
+tokens (ascending), and (4) shorter runtime (ascending), thereby prioritizing solution quality before operational
+efficiency.
+For the with-skills versus no-skills comparison on the same base model, we report both absolute gain
+Aabs = Swith − Sno and normalized gain
+(
+g=
+
+∆
+100−Sno
+∆
+Sno
+
+if ∆ ≥ 0,
+if ∆ < 0.
+
+(1)
+
+where Swith and Sno denote the model’s average score under the with-skills and no-skills settings, respectively,
+∆ = Swith − Sno , and g is clipped to the range [−1, 1].
+
+8
+
+Claude-Opus 4.6
+Claude-Sonnet 4.6
+
+GPT-5.4
+
+Gemini-3.1 Pro Qwen3.6-plus
+Gemini-3 Flash
+GPT-5.4 mini
+MiniMax-m2.7
+Claude-opus Claude-sonnet
+4.6
+4.6
+
+GPT-5.4
+
+Qwen3.6
+plus
+
+Gemini-3.1
+pro
+
+Gemini-3
+flash
+
+GPT-5.4
+mini
+
+Deepseek
+3.2
+
+MiniMax
+m2.7
+
+Grok-4.2
+
+Deepseek-3.2
+
+Grok-4.2
+
+Figure 3: Model performance on NeuroBench under with-skills and no-skills settings. Here, with-skills denotes
+the corresponding base model running within the NeuroClaw framework. (Left) Overall benchmark scores for
+each base model under the two settings, shown on a 0–100 scale. (Right) Trade-off between overall performance and efficiency under the with-skills setting, where each base model’s average score is plotted against its
+average token consumption; point labels indicate the corresponding multimodal large language model.
+Table 1: Performance gain from skill usage on NeuroBench. Aabs denotes absolute score improvement over
+the no-skills baseline, and g is the normalized gain.
+Base Model
+Claude-Opus-4.6 37
+Claude-Sonnet-4.6 37
+DeepSeek-3.2 40
+Gemini-3-Flash 41
+Gemini-3.1-Pro 41
+GPT-5.4 42
+GPT-5.4-mini 42
+Grok-4.2 43
+MiniMax-M2.7 44
+Qwen3-plus 45
+
+With Skills (%)
+
+No Skills (%)
+
+Aabs (%)
+
+g
+
+72.10
+70.39
+49.63
+54.10
+56.65
+67.69
+50.61
+37.59
+48.07
+58.12
+
+69.12
+65.37
+45.49
+49.15
+55.43
+64.57
+46.94
+35.97
+35.10
+50.39
+
+2.98
+5.02
+4.14
+4.95
+1.22
+3.12
+3.67
+1.62
+12.97
+7.73
+
+0.0965
+0.1450
+0.0759
+0.0973
+0.0274
+0.0881
+0.0692
+0.0253
+0.1998
+0.1558
+
+Results. Figure 3 compares each base model under the with-skills and no-skills settings, where with-skills
+denotes the same base model running within the NeuroClaw framework. The left panel summarizes overall
+benchmark scores, and the right panel shows the trade-off between score and token consumption under the
+with-skills setting. NeuroBench still evaluates each run on three dimensions, namely planning completeness
+(P ), tool/skill usage reasonableness (R), and command/code correctness (C), and we discuss these component
+scores below together with the aggregate gains reported in Table 1.
+Figure 3 shows clear overall performance differences among models under the with-skills and no-skills
+settings. Claude-Opus-4.6 37 achieves the highest overall score under the NeuroClaw setting (72.10%), followed by Claude-Sonnet-4.6 37 (70.39%) and GPT-5.4 42 (67.69%). Table 1 shows that all ten base models
+improve when run within the NeuroClaw framework, with an average absolute gain of 4.74 points. Larger
+gains are observed for Qwen3-plus 45 (7.73 points) and MiniMax-M2.7 44 (12.97 points), whereas GPT-5.4 42
+shows a gain of 3.12 points with a normalized gain of g = 0.0881. At the same time, the evaluation remains
+grounded in the three component scores P , R, and C, which help explain where the aggregate improvements
+come from even though they are no longer plotted directly in Figure 3.
+
+9
+
+The current benchmark design requires models to complete each task autonomously from a fixed specification without human intervention. Consequently, agents must decide in advance how much contextual
+reasoning, dependency checking, and tool preparation to incorporate. Since NeuroBench explicitly encourages
+broad consultation of available skills, enabling the skill library often leads to increased token consumption
+as models review more guidance, evaluate alternative pipelines, verify environment readiness, and consider
+whether the input data remains raw or partially processed.
+This evaluation protocol may underestimate the effect of skill usage in real deployments. In neuroimaging workflows, explicit reasoning about missing dependencies, environment configuration, and data readiness
+is often necessary and aligned with user expectations. Under the current scoring rubric, however, such cautious
+reasoning can be partially penalized by the judge as extraneous to the narrow task requirement. The gains
+reported in Table 1 should therefore be interpreted conservatively.
+The normalized gain metric (g) provides a compact way to compare proportional improvements across
+models with different baseline strengths. In this evaluation, all models exhibit positive normalized gains,
+with MiniMax-M2.7 (g = 0.1998), Qwen 3 (g = 0.1558), and Claude-Sonnet-4.6 (g = 0.1450) showing the
+largest relative gains from skill integration. Runtime varies considerably across models, reflecting both inherent
+model latency and the additional overhead of skill-grounded reasoning. We plan to complement the current
+LLM-judge setup with multi-reviewer expert evaluations that better reflect user experience and scientific utility.
+Future extensions of NeuroBench will also include reproducibility stress tests on out-of-distribution data, direct
+executability assessment on live datasets, and evaluation of multi-agent collaboration patterns in neuroimaging
+workflows.
+We plan to complement the current LLM-based evaluation with multi-reviewer assessments conducted
+by domain experts, yielding indicators that better reflect real-user experience and scientific utility. Future
+extensions of NeuroBench will also incorporate reproducibility stress tests on out-of-distribution data and corrupted inputs, direct executability evaluations requiring actual tool invocation on real datasets, and systematic
+assessment of multi-agent collaboration patterns in neuroimaging workflows.
+6
+
+Discussion
+
+Practical Value for the Community. Beyond providing an agentic framework and benchmark, this release
+addresses a gap at the intersection of artificial intelligence and neuroimaging research. By offering a modular
+platform that can operate directly on raw data and standardized specifications, NeuroClaw enables neuroscience laboratories to move from fragile, irreproducible pipelines toward auditable, iterative experimental
+loops that more closely reflect scientific practice. Method developers can use NeuroBench to diagnose and improve agent behavior before large-scale deployment, while applied research groups can evaluate whether their
+existing agent stacks can sustain end-to-end data-to-model reasoning across diverse modalities and computing
+environments. Reviewers and editors also gain more transparent criteria for assessing methodological rigor. In
+addition, the released task specifications and harness engineering standards may serve as reusable templates
+for reproducible neuroimaging studies, lowering the barrier for interdisciplinary teams that combine clinical,
+imaging, and machine-learning expertise.
+Current Boundaries. This work does not claim state-of-the-art performance or present exhaustive crosssystem leaderboards. Instead, our focus is on executability, specification-driven validity, and loop-level reliability under realistic constraints. We do not evaluate model quality for clinical outcomes or make regulatory
+claims, as these questions require substantially larger-scale evaluation, prospective clinical trials, and domain10
+
+specific oversight beyond the scope of this study. We also acknowledge that the current NeuroBench tasks,
+while diverse, represent only a subset of real-world neuroimaging complexity. Expanding task difficulty, incorporating greater environmental stochasticity, and covering additional clinical populations remain important
+directions for future work.
+Ethical and Translational Considerations. The automation of neuroimaging analysis carries both promise
+and responsibility. Because these systems interact with sensitive patient data and can influence downstream
+scientific conclusions and clinical decisions, questions of data governance, privacy preservation, bias amplification, and accountability arise even at the benchmark stage. We therefore view reproducibility and auditability
+as mechanisms for traceability, error diagnosis, and oversight. From a translational perspective, strong benchmark performance should be interpreted as infrastructure readiness rather than clinical readiness. Moving
+from reliable execution to safe deployment will require prospective validation, continuous expert supervision,
+characterization of failure modes, and task-specific governance frameworks. As agentic systems become more
+autonomous, the community will also need clearer standards for transparency, human oversight, and shared
+liability.
+7
+
+Conclusion
+
+This paper presents NeuroClaw, a multi-agent system for neuroscience designed for executable and reproducible neuroimaging research, together with NeuroBench, a system-level benchmark with standardized specifications. NeuroClaw integrates raw-data-aware orchestration, a three-level skill hierarchy, and environmentaware runtime control to support an auditable discovery workflow that spans raw data processing, analysis,
+and iterative model-centric investigation without requiring preprocessed inputs or customized model code.
+NeuroBench evaluates these capabilities across major imaging modalities and representative datasets. By prioritizing specification clarity, shared task semantics, and adoption readiness, this work provides a foundation
+for community-wide evaluation and reproducible engineering progress in agentic neuroimaging research.
+
+11
+
+8
+
+References
+1. Brandt et al. Test Retest Reliability of fMRI Brain Activity during Memory Encoding. Frontiers in Psychiatry (2013).
+2. Chen and Small. Test-retest reliability in fMRI of language: Group and task effects. Brain and Language
+(2007).
+3. Hougaard et al. Lack of reproducibility of resting-state functional MRI findings in migraine with aura.
+Cephalalgia (2023).
+4. Taxali et al. Boost in Test-Retest Reliability in Resting State fMRI with Predictive Modeling. Cerebral
+Cortex (2021).
+5. Noble et al. A guide to the measurement and interpretation of fMRI test-retest reliability. Current Opinion
+in Behavioral Sciences (2021).
+6. Herting et al. Test-retest reliability of longitudinal task-based fMRI: Implications for developmental studies. Developmental Cognitive Neuroscience (2018).
+7. Chen et al. Reproducibility of R-fMRI metrics on the impact of different strategies for multiple comparison
+correction and sample sizes. Human Brain Mapping (2018).
+8. Ren, J. et al. DeepPrep: an accelerated, scalable and robust pipeline for neuroimaging preprocessing
+empowered by deep learning. Nat. Methods 22, 473–476 (2025).
+9. Wang, Z. et al. Making large language models reliable data science programming copilots for biomedical
+research. Nature Biomedical Engineering (2026).
+
+10. Hu, C. et al. REPRO-Bench: Can Agentic AI Systems Assess the Reproducibility of Social Science Research? Findings of ACL 2025 (2025).
+11. Gao, S. et al. Empowering biomedical discovery with AI agents. Cell 187, 6125–6151 (2024).
+12. Huang, K. et al. Biomni: A General-Purpose Biomedical AI Agent. bioRxiv:2025.05.30.656746 (2025).
+13. Zhang, Z. et al. OriGene: A Self-Evolving Virtual Disease Biologist Automating Therapeutic Target Discovery. bioRxiv:2025.06.03.657658 (2025).
+14. Li, Y. et al. AutoSOTA: An End-to-End Automated Research System for State-of-the-Art AI Model Discovery. arXiv:2604.05550 (2026).
+15. Lyu, Y. et al. EvoScientist: Towards Multi-Agent Evolving AI Scientists for End-to-End Scientific Discovery. arXiv:2603.08127 (2026).
+16. Lu, C. et al. Towards end-to-end automation of AI research. Nature 651, 914–919 (2026).
+17. Breen, B. et al. Ax-Prover: A Deep Reasoning Agentic Framework for Theorem Proving in Mathematics
+and Quantum Physics. arXiv:2510.12787 (2025).
+18. Delikoyun, K. et al. TriAgent: Automated Biomarker Discovery with Deep Research Grounding for Triage
+in Acute Care by LLM-Based Multi-Agent Collaboration. arXiv:2510.16080 (2025).
+19. Pickard, J. et al. Automatic biomarker discovery and enrichment with BRAD. Bioinformatics 41, btaf159
+(2025).
+20. Zuo, K. et al. HEAL-KGGen: A Hierarchical Multi-Agent LLM Framework with Knowledge Graph Enhancement for Genetic Biomarker-Based Medical Diagnosis. bioRxiv:2025.06.03.657521 (2025).
+
+12
+
+21. Nasser, S. A. et al. SAGE: Agentic Framework for Interpretable and Clinically Translatable Computational
+Pathology Biomarker Discovery. arXiv:2602.00953 (2026).
+22. Ding, S. et al. Auto-MedCalc: Automated Biomarkers Discovery and Risk Score Generation with AI
+Agents. bioRxiv:2025.07.10.664265 (2025).
+23. Li, S. et al. A co-evolving agentic AI system for medical imaging analysis. arXiv:2509.20279 (2025).
+24. Gorgolewski, K. J. et al. The Brain Imaging Data Structure, a format for organizing and describing outputs
+of neuroimaging experiments. Sci. Data 3, 160044 (2016).
+25. Esteban, O. et al. fMRIPrep: a robust preprocessing pipeline for functional MRI. Nat. Methods 16, 111–
+116 (2019).
+26. Cieslak, M. et al. QSIPrep: an integrative platform for preprocessing and reconstructing diffusion MRI
+data. Nat. Methods 18, 775–778 (2021).
+27. Jiang, Y. et al. MedAgentBench: A realistic virtual EHR environment to benchmark medical LLM agents.
+NEJM AI 2, (2025).
+28. Zhu, Y. et al. MedAgentBoard: Benchmarking Multi-Agent Collaboration with Conventional Methods for
+Diverse Medical Tasks. NeurIPS 2025 Datasets & Benchmarks Track (2025).
+29. Wang, H. et al. Self-Evolving Recommendation System: End-To-End Autonomous Model Optimization
+With LLM Agents. arXiv:2602.10226 (2026).
+30. Aggarwal, D. et al. Discovering mathematical concepts through a multi-agent system. arXiv:2603.04528
+(2026).
+31. Barkeshli, M. et al. Artificial Intelligence and the Structure of Mathematics. arXiv:2604.06107 (2026).
+32. Moritz, M., Topol, E. & Rajpurkar, P. Coordinated AI agents for advancing healthcare. Nat. Biomed. Eng.
+9, 432–438 (2025).
+33. Liu, F. et al. A foundational architecture for AI agents in healthcare. Cell Rep. Med. 6, 102374 (2025).
+34. Ferber, D. et al. Development and validation of an autonomous artificial intelligence agent for clinical
+decision-making in oncology. Nat. Cancer 6, 1337–1349 (2025).
+35. Liu, Q. et al. EvoMDT: a self-evolving multi-agent system for structured clinical decision-making in multicancer. npj Digit. Med. (2026).
+36. Zhang, Y. et al. ClawBench: Can AI Agents Complete Everyday Online Tasks? arXiv:2604.08523 (2026).
+37. Anthropic. Claude 4 Opus and Sonnet System Card. (2025). Available at: https://www.anthropi
+c.com.
+38. Swanson, K. et al. The Virtual Lab: AI agents design new SARS-CoV-2 nanobodies with experimental
+validation. Nature (2025).
+39. Zhou, J. et al. Streamline automated biomedical discoveries with agentic bioinformatics. Brief. Bioinform.
+(2025).
+40. DeepSeek-AI. DeepSeek-V3.2: Pushing the Frontier of Open Large Language Models. arXiv:2512.02556
+(2025).
+41. Google. Gemini 3 Pro and Flash Model Cards. (2025). Available at: https://deepmind.google/
+technologies/gemini/.
+
+13
+
+42. OpenAI. GPT-5 System Card. arXiv:2601.03267 (2025).
+43. xAI. Grok-4 Technical Report. (2025).
+44. MiniMax. MiniMax-M2 Technical Report. (2026).
+45. Yang, A. et al. Qwen3 Technical Report. arXiv:2505.09388 (2025).
+
+14
+
+

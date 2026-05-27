@@ -305,6 +305,22 @@
       "source_url": "https://proceedings.mlr.press/v311/hao25b.html",
       "downloaded": "2026-05-25",
       "txt_sidecar": "hao25b_perturboagent.txt"
+    },
+    {
+      "doi": "10.48550/arXiv.2604.17406",
+      "filename": "2604.17406v1.pdf",
+      "title": "EvoMaster: A Foundational Agent Framework for Building Evolving Autonomous Scientific Agents at Scale",
+      "source_url": "https://arxiv.org/abs/2604.17406",
+      "downloaded": "2026-05-27",
+      "txt_sidecar": "2604.17406v1.txt"
+    },
+    {
+      "doi": "10.48550/arXiv.2604.24696",
+      "filename": "2604.24696v1.pdf",
+      "title": "NeuroClaw: Closed-Loop Agentic AI for Executable and Reproducible Neuroimaging Research",
+      "source_url": "https://arxiv.org/abs/2604.24696",
+      "downloaded": "2026-05-27",
+      "txt_sidecar": "2604.24696v1.txt"
     }
   ]
 }

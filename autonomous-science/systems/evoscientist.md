@@ -2,7 +2,7 @@
 title: EvoScientist
 parent: Systems
 grand_parent: AI scientists
-nav_order: 22
+nav_order: 23
 affiliation: Huawei Technologies (with Vrije Universiteit Amsterdam)
 lifecycle_stages: [Multi-stage]
 autonomy: Fully autonomous

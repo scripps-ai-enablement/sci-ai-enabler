@@ -2,7 +2,7 @@
 title: GRAFT-ATHENA
 parent: Systems
 grand_parent: AI scientists
-nav_order: 23
+nav_order: 24
 affiliation: Brown University (Karniadakis group, Division of Applied Mathematics)
 lifecycle_stages: [Multi-stage]
 autonomy: Semi-autonomous

@@ -9,6 +9,24 @@ permalink: /updates/ai-scientists.html
 
 Reverse-chronological log of changes to the [AI scientists tracker](autonomous-science/). Newest at the top.
 
+## 2026-05-27
+
+### Added
+- **EvoMaster** (Lifecycle: Multi-stage) — Shanghai Jiao Tong University / SciLand / DP Technology foundational evolving-agent framework engineered for Agentic Science at Scale. A three-layer execution architecture (Playground orchestration, Exp single-experiment lifecycle, Agent reasoning core) plus a context-managed `reason → tools → observe → self-critique` loop, an MCP-native Capability Layer with hierarchical skill loading, and YAML configuration manifests with JSON trajectory logging let developers build self-evolving scientific agents in ~100 lines of code. Underpins the **SciMaster** ecosystem (ML-Master, X-Master, Browse-Master, PhysMaster, EmboMaster). Reports state-of-the-art scores with GPT-5.4 against OpenClaw on four benchmarks: **HLE 41.1%** (+202%), **MLE-Bench Lite 75.8%** (+316%, 17/22 Kaggle medals), **BrowseComp 73.3%** (+159%), **FrontierScience 53.3%** (+191%); open source at github.com/sjtu-sai-agents/EvoMaster ([source](https://arxiv.org/abs/2604.17406)).
+- **NeuroClaw** (Lifecycle: Experiment design, Analysis) — CUHK / Northwest University / Lehigh / Massachusetts General Hospital / Harvard Kempner Institute domain-specialized multi-agent research assistant for executable and reproducible neuroimaging research. Operates directly on raw sMRI / fMRI / dMRI / EEG data with BIDS-aware orchestration, ADNI / HCP Young Adult / UK Biobank dataset skills, and a harness layer with pinned Python / Docker environments, automated installers for FSL / FreeSurfer / fMRIPrep, expected-artifact / missing-file / NaN-Inf verification, and JSONL audit logs. A three-tier skill hierarchy (interface / subagent / base) with skill dependencies expressed as a DAG decomposes long workflows into reusable units. Companion **NeuroBench** (100 hand-curated tasks T001–T100, GPT-5.4 judge across planning completeness, tool-use reasonableness, code correctness) shows all ten frontier multimodal LLMs improve when run inside NeuroClaw — mean absolute gain **+4.74 points**, Claude-Opus-4.6 top at **72.10%**, MiniMax-M2.7 largest absolute gain **+12.97**; adds neuroimaging as a new domain ([source](https://arxiv.org/abs/2604.24696)).
+
+### Updated
+- **`autonomous-science/summary.md`** — added two paragraphs in the closed-loop multi-domain frameworks section covering EvoMaster (foundational SciMaster harness with cross-benchmark numbers) and NeuroClaw (domain-specialized neuroimaging entry with NeuroBench results); appended two new source citations.
+- **`autonomous-science/systems/`** — renumbered `nav_order` on the 14 affected system pages (EvoScientist → 23, GRAFT-ATHENA → 24, Jr. AI Scientist → 25, Kosmos → 26, MARS → 27, NovelSeek → 29, OpenScientist → 30, PerTurboAgent → 31, PharmaSwarm → 32, POISE → 33, Qiushi Discovery Engine → 34, Qumus → 35, Robin → 36, SPARK → 37, Talk2QSP → 38) to preserve alphabetical ordering after inserting EvoMaster (22) and NeuroClaw (28).
+- **`autonomous-science/curator-state.md`** — added EvoMaster and NeuroClaw at the top of `Recently surfaced`; trimmed the two oldest entries (PharmaSwarm, POISE) to keep the window at five.
+- **`sources/manifest.json`** — two new DOI entries with `.txt` sidecars (added by Phase A): arXiv:2604.17406 (EvoMaster), arXiv:2604.24696 (NeuroClaw).
+
+### Flagged
+_None._
+
+### Verified (no changes)
+- All pre-existing system pages were `last_verified` on 2026-05-20 through 2026-05-25 — inside the 30-day re-verification window. No spot-checks performed this run.
+
 ## 2026-05-25
 
 ### Added
