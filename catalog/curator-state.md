@@ -44,7 +44,7 @@ nav_exclude: true
 
 ## User requests (open)
 
-_None._
+- [#11 @goodb 2026-05-27] (no trailer emitted; needs curator triage) title="[Tool feedback]" label=claude:tool-feedback
 
 ## User requests (closed this run)
 
