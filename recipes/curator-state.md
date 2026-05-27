@@ -36,7 +36,7 @@ _None._
 
 ## User requests (open)
 
-_None._
+- [#12 @goodb 2026-05-27] (no trailer emitted; needs curator triage) title="[Recipe feedback]" label=claude:recipe-feedback
 
 ## User requests (closed this run)
 
