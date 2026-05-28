@@ -53,4 +53,4 @@ nav_exclude: true
 
 ## User requests (closed this run)
 
-- [#11 @goodb 2026-05-27] (no trailer; needs curator triage) → not actioned this run: the curator runner could not fetch the issue body via `gh` CLI or REST API in this environment (auth-gated). Left in `## User requests (open)` for a future run with issue-body fetch capability.
+_None._
