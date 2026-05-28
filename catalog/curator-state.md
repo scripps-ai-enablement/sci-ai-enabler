@@ -8,15 +8,16 @@ nav_exclude: true
 
 ## Recently surfaced
 
+- **Cellxgene Census (Claude Skill)** (added 2026-05-28) — K-Dense skill for querying the CZ CELLxGENE Discover census (50M+ cells, 1,000+ datasets) via TileDB-SOMA, with AnnData / Scanpy integration for reference-atlas construction.
+- **scVelo (Claude Skill)** (added 2026-05-28) — K-Dense skill driving scVelo for RNA-velocity analysis (steady-state / stochastic / dynamical models, latent time, driver-gene identification).
+- **Arboreto (Claude Skill)** (added 2026-05-28) — K-Dense skill for gene-regulatory-network inference with GRNBoost2 / GENIE3, distributed via Dask; standard upstream step for pySCENIC.
 - **Molecular Dynamics (Claude Skill)** (added 2026-05-27) — K-Dense skill that runs and analyzes OpenMM-based MD simulations and post-processes trajectories with MDAnalysis (RMSD, RMSF, contact maps, free-energy surfaces) for protein-stability, ligand-binding-pose refinement, and conformational-ensemble work.
 - **Glycoengineering (Claude Skill)** (added 2026-05-26) — K-Dense skill for protein-glycosylation analysis: N-glycosylation sequon scanning, O-glycosylation hotspot prediction, and orchestration of NetOGlyc / GlycoShield / GlycoWorkbench for antibody and vaccine design.
-- **Datamol (Claude Skill)** (added 2026-05-25) — K-Dense skill wrapping the Datamol RDKit-built library for molecular standardization, transformations, featurization, and parallel processing on large compound libraries.
-- **Molfeat (Claude Skill)** (added 2026-05-25) — K-Dense skill wrapping Molfeat — a unified API over 100+ molecular featurizers (classical fingerprints, descriptors, pretrained ChemBERTa / MolBERT / Uni-Mol embeddings).
-- **MedChem (Claude Skill)** (added 2026-05-25) — K-Dense skill wrapping MedChem — Lipinski / Veber / Egan / Muegge drug-likeness filters, PAINS / BRENK structural alerts, and synthetic-accessibility scoring on top of RDKit.
 
 ## Flagged for review
 
 - **allenbrain-mcp** — upstream license unset; flagged 2026-05-20 before any redistribution.
+- **biorxiv@life-sciences** / **clinical-trials@life-sciences** plugins — flagged 2026-05-28; published in the `anthropics/life-sciences` marketplace per upstream commit `e96556b` but the backing `mcp.deepsense.ai` MCP host returns NXDOMAIN. No catalog entry created until the endpoint is restored.
 
 ## Deferred — next-run priority
 
@@ -24,9 +25,8 @@ nav_exclude: true
 - **Medidata Connector (`anthropics/life-sciences`)** — clinical-operations / EDC platform integration; announced Jan 2026 but install path still gated behind Medidata account onboarding.
 - **Consensus Plugin (`anthropics/life-sciences`)** — Consensus.app evidence-search connector; verify install path.
 - **NPI Registry MCP (Anthropic Healthcare)** — Anthropic-published MCP for NPPES provider lookup; fourth healthcare-marketplace MCP from the 2026-05-23 run, still pending.
-- **Cellxgene Census (K-Dense Skill)** — query CZ CELLxGENE Discover census (61M+ cells, 1000+ datasets) via TileDB-SOMA. Strong Molecular & Cellular Biology candidate.
-- **scVelo (K-Dense Skill)** — RNA velocity analysis on single-cell data; next Thursday's Molecular & Cellular Biology pass.
-- **Arboreto (K-Dense Skill)** — gene regulatory network inference (GRNBoost2, GENIE3) on single-cell expression.
+- **biorxiv@life-sciences plugin** — `anthropics/life-sciences` marketplace entry currently DOA (`mcp.deepsense.ai` NXDOMAIN per upstream issue #42 / commit `e96556b`). Revisit when upstream restores the endpoint.
+- **clinical-trials@life-sciences plugin** — same DOA status as biorxiv@life-sciences; distinct from both the `adisinsight` plugin (Springer Nature) and the `clinicaltrials-gov-mcp` community entry. Revisit when the endpoint is restored.
 - **DeepChem (K-Dense Skill)** — deep-learning models for ADMET, virtual screening, and molecular property prediction; next Chemistry-focus pass.
 - **TorchDrug / PyTDC / DiffDock / PyOpenMS / matchms / cobrapy (K-Dense Skills)** — remaining chemistry-stack siblings, surface incrementally.
 - **Retrosynthesis MCP** — no Claude-installable wrapper for AiZynthFinder / ASKCOS / IBM RXN located 2026-05-25; revisit on next Chemistry-focus pass.
@@ -44,6 +44,8 @@ nav_exclude: true
 - **MDAnalysis (K-Dense Skill)** — standalone trajectory-analysis sibling to the new `molecular-dynamics` skill; may warrant its own entry once the K-Dense catalog confirms whether `mdanalysis` is a distinct `SKILL.md` directory or only the analysis half of `molecular-dynamics`.
 - **Cryo-EM MCP / Skill** — no Claude-installable wrapper for RELION / cryoSPARC / CTFFIND located on the 2026-05-27 Structural pass; revisit on next Integrative Structural and Computational Biology pass.
 - **RFdiffusion / ProteinMPNN Claude Skill** — protein-design model wrappers; not yet packaged as a Claude Skill or MCP server on the 2026-05-27 sweep.
+- **BioPython / Bioservices (K-Dense Skills)** — confirmed present in K-Dense `scientific-skills/`; both span all life-science domains, useful as next-run Molecular & Cellular Biology additions if cellxgene/scvelo/arboreto are not enough coverage.
+- **Aeon / TimesFM (K-Dense Skills)** — time-series forecasting siblings noted in K-Dense docs; only narrowly biomedical (e.g., longitudinal-clinical-data forecasting), revisit if a Translational pass needs more candidates.
 
 ## User requests (open)
 
@@ -51,4 +53,4 @@ nav_exclude: true
 
 ## User requests (closed this run)
 
-_None._
+- [#11 @goodb 2026-05-27] (no trailer; needs curator triage) → not actioned this run: the curator runner could not fetch the issue body via `gh` CLI or REST API in this environment (auth-gated). Left in `## User requests (open)` for a future run with issue-body fetch capability.

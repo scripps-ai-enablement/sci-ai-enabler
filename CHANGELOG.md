@@ -11,6 +11,28 @@ Reverse-chronological log of changes to the [catalog](catalog/). Newest at the t
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-05-28
+
+Directed pass on **Molecular and Cellular Biology** (Thursday focus). Manifest sweep of `anthropics/life-sciences` shows no diff vs. 2026-05-27 sweep among plugins our catalog already covers; an `e96556b` upstream commit and issue #42 indicate that **biorxiv@life-sciences** and **clinical-trials@life-sciences** plugins are now published in the marketplace but currently DOA (the `mcp.deepsense.ai` host returns NXDOMAIN) — held off from cataloguing pending Anthropic / DeepSense restoring the endpoint, and added to the Deferred queue. The directed pass surfaced three K-Dense single-cell skills from the standing Deferred queue — **Cellxgene Census**, **scVelo**, and **Arboreto** — which collectively round out the catalog's single-cell trajectory + GRN coverage that pairs with the existing `scanpy`, `anndata`, `scvi-tools`, and `pydeseq2` entries. Three new entries, well under the 5-entry soft cap.
+
+### Added
+- **Cellxgene Census (Claude Skill)** (Categories: Molecular and Cellular Biology, Immunology and Microbiology, Translational Medicine) — K-Dense skill for querying the CZ CELLxGENE Discover census (50M+ cells, 1,000+ datasets) via TileDB-SOMA, with AnnData / Scanpy integration for reference-atlas construction and meta-analyses ([source](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/cellxgene-census/SKILL.md), [CELLxGENE Census docs](https://chanzuckerberg.github.io/cellxgene-census/)).
+- **scVelo (Claude Skill)** (Categories: Molecular and Cellular Biology, Neuroscience) — K-Dense skill driving scVelo for RNA-velocity analysis: steady-state / stochastic / dynamical models, latent-time inference, driver-gene identification, and velocity-embedding projection on UMAP / t-SNE ([source](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/scvelo/SKILL.md), [scVelo docs](https://scvelo.readthedocs.io/)).
+- **Arboreto (Claude Skill)** (Categories: Molecular and Cellular Biology, Drug Repurposing and Discovery) — K-Dense skill for gene-regulatory-network inference with GRNBoost2 / GENIE3, scaled with Dask; standard upstream step for pySCENIC pipelines and regulator prioritisation ([source](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/arboreto/SKILL.md), [Arboreto docs](https://arboreto.readthedocs.io/)).
+
+### Updated
+- **`catalog/curator-state.md`** — Recently surfaced refreshed with this run's three additions; Deferred queue trimmed (removed `Cellxgene Census`, `scVelo`, `Arboreto`) and extended with the upstream-broken `biorxiv@life-sciences` and `clinical-trials@life-sciences` plugins.
+
+### Flagged
+- **biorxiv@life-sciences** and **clinical-trials@life-sciences** plugins — published in `anthropics/life-sciences` marketplace but the backing `mcp.deepsense.ai` MCP host returns NXDOMAIN as of upstream commit `e96556b` (2026-05-12). Not yet added to the catalog because there is no working install path to document. Watch upstream and revisit on next sweep.
+
+### Verified (no changes)
+- All catalog entries' `last_verified` is within the 30-day window (oldest 2026-05-19); no scheduled re-verification needed this run.
+- Manifest sweep of `anthropics/life-sciences` re-confirmed: catalogued plugins (PubMed, BioRender, Synapse, Wiley Scholar Gateway, 10x Genomics, AdisInsight, single-cell-rna-qc, instrument-data-to-allotrope, nextflow-development, scvi-tools, scientific-problem-selection) still present; other deferred-queue plugins (Cortellis, Medidata, Consensus, NPI Registry) carry forward.
+
+### User requests
+- **#11** — `[Tool feedback]` with no `tool-feedback` trailer; the curator runner cannot fetch issue bodies via the GitHub REST API or `gh` CLI in this environment (auth-gated), so the request stays in `## User requests (open)` for the next run that has issue-body fetch capability. Closed-this-run note records the access constraint.
+
 ## 2026-05-27
 
 Directed pass on **Integrative Structural and Computational Biology** (Wednesday focus). Manifest sweep of `anthropics/life-sciences` re-confirmed no diff vs. 2026-05-26 — every plugin currently published there remains catalogued. The K-Dense `claude-scientific-skills` catalog was scanned for structural-biology skills not yet in the catalog; **Molecular Dynamics** (OpenMM + MDAnalysis) is the strongest fit and complements the existing `alphafold` / `pdb` / `molecule-mcp` entries by covering the simulation and trajectory-analysis layer that none of those cover. Focused searches for cryo-EM (RELION / cryoSPARC) and protein-design model (RFdiffusion / ProteinMPNN) Claude wrappers turned up nothing installable today — deferred for the next Structural-focus pass. One new entry this run, well under the 5-entry soft cap.
