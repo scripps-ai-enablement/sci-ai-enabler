@@ -11,6 +11,25 @@ Reverse-chronological log of changes to the [recipes cookbook](recipes/). Newest
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-05-28
+
+### Added
+
+- **Assemble a tissue reference atlas from the CELLxGENE Census** (Problem class: Data analysis; Evidence: Reported) — rung-2 [cellxgene-census skill](catalog/tools/cellxgene-census.html) recipe pulling a versioned AnnData slice from the CZ CELLxGENE Discover Census with the CZ-trained scVI embedding attached for reference mapping. First Molecular and Cellular Biology focus-day recipe to consume the Census. Evidence anchored in the Census team's [`comp_bio_data_integration_scvi` notebook](https://chanzuckerberg.github.io/cellxgene-census/notebooks/analysis_demo/comp_bio_data_integration_scvi.html), the [scvi-hub paper](https://www.nature.com/articles/s41592-025-02799-9) (Ergen et al., *Nature Methods* 2025), and the [integrated human lung atlas](https://doi.org/10.1038/s41591-023-02327-2) (Sikkema et al., *Nature Medicine* 2023).
+- **Infer a gene-regulatory network from single-cell RNA-seq** (Problem class: Data analysis; Evidence: Reported) — rung-2 [Arboreto skill](catalog/tools/arboreto.html) recipe running GRNBoost2 on a QC'd / integrated AnnData with a TF-restricted regressor and seed-stabilised reruns; produces the ranked TF–target edge table that pySCENIC consumes downstream. Evidence anchored in [Moerman et al. *Bioinformatics* 2019](https://doi.org/10.1093/bioinformatics/bty916) (GRNBoost2), [Van de Sande et al. *Nature Protocols* 2020](https://doi.org/10.1038/s41596-020-0336-2) (SCENIC workflow), and [Bravo González-Blas et al. *Nature Methods* 2023](https://doi.org/10.1038/s41592-023-01938-4) (SCENIC+).
+
+### Updated
+
+- Nav orders rebalanced across the recipe set to keep alphabetical ordering after the two additions: **Assemble Census atlas** → 1, **Build target dossier** → 2, **Estimate PK** → 3, **Filter virtual screening** → 4, **Infer GRN** → 5, **Integrate single-cell** → 6, **Interpret clinical variant** → 7, **Match patient to trials** → 8, **Profile polypharmacology** → 9, **Run bulk RNA-seq DE** → 10, **QC single-cell** → 11, **Scan repurposing** → 12, **Sort spikes** → 13, **Triage preprints** → 14, **Triage AlphaFold** → 15.
+
+### Missing components flagged to the catalog curator
+
+- **pySCENIC wrapper (cisTarget + AUCell)** — would unlock the full SCENIC pipeline downstream of the new GRN-inference recipe (motif filtering against cisTarget databases, per-cell regulon AUCell scoring).
+
+### Verified (no changes)
+
+- All 13 pre-existing recipes have `last_verified` within the 30-day window (oldest 2026-05-21); no aging verifications were due this run.
+
 ## 2026-05-27
 
 ### Added

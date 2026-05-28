@@ -2,7 +2,7 @@
 title: Build a target dossier from gene name to structure to cancer dependency
 parent: All recipes
 grand_parent: Recipes
-nav_order: 1
+nav_order: 2
 problem_class: Knowledge synthesis
 subject_areas: [Molecular and Cellular Biology, Drug Repurposing and Discovery, Translational Medicine]
 evidence_level: Proposed
