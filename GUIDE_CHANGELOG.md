@@ -11,6 +11,23 @@ Reverse-chronological log of changes to the [guide](guide/). Newest at the top.
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-05-29 (later run)
+
+### Added
+- **[surfaces/claude-api] Mid-conversation system messages on Opus 4.8.** Per [Mid-conversation system messages](https://platform.claude.com/docs/en/build-with-claude/mid-conversation-system-messages) (verified 2026-05-29) and Simon Willison's [Opus 4.8 post](https://simonwillison.net/2026/May/28/claude-opus-4-8/) (2026-05-28), the Messages API now accepts `role: "system"` entries inside the `messages` array (placed immediately after a user turn) on Opus 4.8 only. Lets you update instructions mid-conversation without restating the top-level system prompt and without invalidating the cached prefix — useful for long agentic loops. Earlier models 400 on `role: "system"` in `messages`. Available on the Claude API and Claude Platform on AWS; not yet on Bedrock, Vertex, or Foundry. Folded into the prompt-caching pitfall on `surfaces/claude-api.md` and added a source. Beginner-relevant for anyone building on the API who already understands prompt caching.
+
+### Verified (no changes)
+- claude-surfaces.md — Dynamic Workflows, Claude Security, background sessions, MCP tunnels, routines all current. v2.1.155 (Windows/Terminal fixes) and v2.1.156 (MCP/agent bug fixes) introduce no new beginner-facing claims.
+- surfaces/claude-code.md — `curl -fsSL https://claude.ai/install.sh | bash` re-verified against `claude.com/product/claude-code`; install methods, `/goal`, Dynamic Workflows, background sessions, `claude agents`, `claude --bg` all unchanged. v2.1.155/156 are bug-fix patch releases.
+- surfaces/claude-ai.md, surfaces/claude-desktop.md, surfaces/claude-cowork.md — unchanged this run.
+- skills.md, mcp-servers.md, plugins.md, marketplaces.md, connectors.md, decision-tree.md — unchanged this run.
+- advanced/hooks.md, advanced/slash-commands.md, advanced/routines.md, advanced/authentication.md — unchanged.
+
+### Flagged for review
+- WebFetch was again unavailable this run (404 on `claude-3-5-haiku-20241022`). Source verification went through WebSearch summaries of `code.claude.com/docs/en/changelog`, `claude.com/product/claude-code`, `anthropic.com/news`, `simonwillison.net/2026/May/28/claude-opus-4-8/`, `platform.claude.com/docs/en/build-with-claude/mid-conversation-system-messages`, and `releasebot.io/updates/anthropic/claude-code`. A human should spot-check `platform.claude.com/docs/en/build-with-claude/mid-conversation-system-messages` directly to confirm the placement constraints and 400-error behavior on earlier models.
+- **Enterprise connector permissions in custom roles (2026-05-28).** Admin-only and currently captured nowhere in the guide. Held off because the beginner pages don't yet enumerate Team/Enterprise admin controls. Revisit if the same controls reach Pro/Team or surface in the Claude.ai Settings UI rather than the Admin console.
+- **Combined "needs authentication" startup notification** (v2.1.155-ish, May 2026): a small UX consolidation merging the separate MCP-server and connector auth notifications into one. Too internal for a beginner page, but a candidate `Common pitfalls` bullet on `mcp-servers.md` if users start asking about it.
+
 ## 2026-05-29
 
 ### Added
