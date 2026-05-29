@@ -180,7 +180,7 @@ jobs:
 
           SHA=$(git rev-parse HEAD)
           COMMIT_URL="${SERVER_URL}/${REPO}/commit/${SHA}"
-          PAGES_BASE="https://goodb.github.io/sci-ai-enabler"
+          PAGES_BASE="https://scripps-ai-enablement.github.io/sci-ai-enabler"
 
           # For each line with an issue number, comment and close.
           while IFS= read -r LINE; do

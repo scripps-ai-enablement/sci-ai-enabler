@@ -7,7 +7,7 @@ Four agent-maintained resources for Claude users working in life science:
 - **[Autonomous science](autonomous-science/)** — a tracker of AI co-scientist systems: named agents that perform hypothesis generation, experiment design, or analysis with meaningful autonomy. Manuscript writing is treated as a downstream subcomponent.
 - **[Recipes](recipes/)** — a cookbook pairing concrete life-science problems with recommended assemblies of the cataloged components, with explicit evidence labels and availability/compute metadata.
 
-All four are rendered as a [GitHub Pages site](https://goodb.github.io/sci-ai-enabler/) and refreshed by separate scheduled GitHub Actions.
+All four are rendered as a [GitHub Pages site](https://scripps-ai-enablement.github.io/sci-ai-enabler/) and refreshed by separate scheduled GitHub Actions.
 
 ## Browse the catalog
 

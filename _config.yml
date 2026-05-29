@@ -20,13 +20,13 @@ heading_anchors: true
 
 aux_links:
   "GitHub":
-    - "https://github.com/goodb/sci-ai-enabler"
+    - "https://github.com/scripps-ai-enablement/sci-ai-enabler"
 aux_links_new_tab: true
 
 back_to_top: true
 back_to_top_text: "Back to top"
 
-footer_content: 'Maintained by automated curators. <a href="https://github.com/goodb/sci-ai-enabler">Source on GitHub</a>.'
+footer_content: 'Maintained by automated curators. <a href="https://github.com/scripps-ai-enablement/sci-ai-enabler">Source on GitHub</a>.'
 
 exclude:
   - AGENT.md

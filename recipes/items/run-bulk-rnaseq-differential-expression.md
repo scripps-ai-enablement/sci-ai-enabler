@@ -102,4 +102,4 @@ No peer-reviewed benchmark of "Claude + this skill" against hand-written PyDESeq
 
 ## Tried this recipe?
 
-[Share feedback](https://github.com/goodb/sci-ai-enabler/issues/new?template=recipe-feedback.yml&recipe=run-bulk-rnaseq-differential-expression&details=Filed+from+https%3A%2F%2Fgoodb.github.io%2Fsci-ai-enabler%2Frecipes%2Fitems%2Frun-bulk-rnaseq-differential-expression.html%0A%0A) — what worked, what didn't, what you'd change. The form opens with this recipe pre-selected and a link back to this page.
+[Share feedback](https://github.com/scripps-ai-enablement/sci-ai-enabler/issues/new?template=recipe-feedback.yml&recipe=run-bulk-rnaseq-differential-expression&details=Filed+from+https%3A%2F%2Fscripps-ai-enablement.github.io%2Fsci-ai-enabler%2Frecipes%2Fitems%2Frun-bulk-rnaseq-differential-expression.html%0A%0A) — what worked, what didn't, what you'd change. The form opens with this recipe pre-selected and a link back to this page.
