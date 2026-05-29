@@ -14,11 +14,21 @@ body:
       label: Which recipe?
       description: Auto-synced from the cookbook. Pick "Not listed" if your feedback isn't about one of these.
       options:
+        - assemble-reference-atlas-from-cellxgene-census
         - build-target-dossier
+        - compute-hrv-from-ecg-recording
+        - estimate-pk-properties
+        - filter-virtual-screening-hits
+        - infer-gene-regulatory-network-from-scrnaseq
         - integrate-single-cell-datasets
+        - interpret-clinical-variant
+        - match-patient-to-clinical-trials
+        - profile-compound-polypharmacology
         - qc-single-cell-rna-seq
         - run-bulk-rnaseq-differential-expression
+        - scan-drug-repurposing-candidates
         - sort-spikes-from-neuropixels-recording
+        - triage-alphafold-model-for-docking
         - triage-new-preprints
         - Not listed
     validations:

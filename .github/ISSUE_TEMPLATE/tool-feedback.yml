@@ -20,24 +20,38 @@ body:
         - allenbrain
         - alphafold
         - anndata
+        - arboreto
         - bids
         - bio-research
         - biocontextai
         - biomcp
         - biorender
+        - cellxgene-census
+        - chembl
+        - clinical-trial-protocol
+        - clinicaltrials-gov-mcp
+        - cms-coverage
+        - datamol
         - depmap
         - drugbank
         - fhir-developer
         - fhir-wso2
         - flowio
         - gget
+        - glycoengineering
+        - icd-10-codes
         - instrument-data-to-allotrope
+        - medchem
+        - molecular-dynamics
         - molecule-mcp
+        - molfeat
         - neurokit2
         - neuropixels-analysis
         - neurosift
         - nextflow-development
         - open-targets
+        - openneuro
+        - owkin
         - pdb
         - prior-auth-review
         - pubchem
@@ -49,9 +63,11 @@ body:
         - scholar-gateway
         - scientific-problem-selection
         - scikit-bio
+        - scvelo
         - scvi-tools
         - single-cell-rna-qc
         - synapse
+        - tooluniverse
         - uniprot
         - Not listed
     validations:
