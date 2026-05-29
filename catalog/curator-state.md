@@ -55,4 +55,4 @@ _None._
 
 ## User requests (closed this run)
 
-- [#11 @goodb 2026-05-27] (no trailer emitted; needs curator triage) title="[Tool feedback]" label=claude:tool-feedback → still unactionable on the 2026-05-29 run: no `tool-feedback` trailer in the inbound metadata and `gh issue view 11` is not reachable from the curator runner (no `gh` CLI / GitHub-API auth in this environment). Marking closed-this-run so the loop-closer can reset; the inbound responder workflow will re-surface it if the issue is updated.
+_None._
