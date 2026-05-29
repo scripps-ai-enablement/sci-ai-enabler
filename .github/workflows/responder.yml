@@ -118,6 +118,10 @@ jobs:
           model: claude-sonnet-4-6
           timeout_minutes: "6"
           allowed_tools: "Read,Glob,Grep,Write,Bash(gh issue comment:*)"
+        env:
+          # Expose the token to Claude's shell so `gh issue comment` can authenticate.
+          # Without this the in-thread reply silently fails and the issue is only queued.
+          GH_TOKEN: ${{ github.token }}
 
       - name: Parse trailer and append to queue
         if: steps.killswitch.outputs.skip != 'true' && steps.formcheck.outputs.skip != 'true' && steps.spamcheck.outputs.skip != 'true' && steps.lencheck.outputs.skip != 'true'
