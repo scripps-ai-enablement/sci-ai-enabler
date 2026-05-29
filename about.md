@@ -24,7 +24,7 @@ The four sections are kept up to date by four independent scheduled curators run
 | AI scientists | Daily 09:00 | "AI co-scientist updates" |
 | Recipes | Daily 10:00 | "Recipes updates" |
 
-The curator prompts and workflow definitions are in the GitHub repository: [`AGENT.md`](https://github.com/goodb/sci-ai-enabler/blob/main/AGENT.md), [`GUIDE_AGENT.md`](https://github.com/goodb/sci-ai-enabler/blob/main/GUIDE_AGENT.md), [`COSCIENTIST_AGENT.md`](https://github.com/goodb/sci-ai-enabler/blob/main/COSCIENTIST_AGENT.md), [`RECIPE_AGENT.md`](https://github.com/goodb/sci-ai-enabler/blob/main/RECIPE_AGENT.md).
+The curator prompts and workflow definitions are in the GitHub repository: [`AGENT.md`](https://github.com/scripps-ai-enablement/sci-ai-enabler/blob/main/AGENT.md), [`GUIDE_AGENT.md`](https://github.com/scripps-ai-enablement/sci-ai-enabler/blob/main/GUIDE_AGENT.md), [`COSCIENTIST_AGENT.md`](https://github.com/scripps-ai-enablement/sci-ai-enabler/blob/main/COSCIENTIST_AGENT.md), [`RECIPE_AGENT.md`](https://github.com/scripps-ai-enablement/sci-ai-enabler/blob/main/RECIPE_AGENT.md).
 
 ## Running an update on demand
 
@@ -45,7 +45,7 @@ gh workflow run recipes.yml -f scope=chemistry   # one subject area
 
 ## Reproducing this site
 
-The repo lives at [`goodb/sci-ai-enabler`](https://github.com/goodb/sci-ai-enabler) and is rendered as a GitHub Pages site using the [just-the-docs](https://github.com/just-the-docs/just-the-docs) theme. One-time setup if you fork it:
+The repo lives at [`scripps-ai-enablement/sci-ai-enabler`](https://github.com/scripps-ai-enablement/sci-ai-enabler) and is rendered as a GitHub Pages site using the [just-the-docs](https://github.com/just-the-docs/just-the-docs) theme. One-time setup if you fork it:
 
 1. Add an `ANTHROPIC_API_KEY` repository secret (**Settings → Secrets and variables → Actions**).
 2. Enable GitHub Pages from the `main` branch root (**Settings → Pages → Source: Deploy from a branch → main / (root)**).

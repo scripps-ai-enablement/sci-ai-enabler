@@ -12,7 +12,7 @@ The catalog, guide, recipes, and AI-scientist tracker are kept up to date by aut
 
 ### Ask a recipe question — *"How should I do X?"*
 
-[Open the form →](https://github.com/goodb/sci-ai-enabler/issues/new?template=recipe-question.yml)
+[Open the form →](https://github.com/scripps-ai-enablement/sci-ai-enabler/issues/new?template=recipe-question.yml)
 
 Use this when the cookbook doesn't already have a recipe for what you're trying to do. A bot replies in-thread within a few minutes pointing to the closest existing recipes or tools. The next daily Recipes curator run writes a durable recipe page if one doesn't exist yet, then comments on your issue with a direct link to the new page and closes it.
 
@@ -20,7 +20,7 @@ Good prompts here are concrete and goal-shaped: *"I have a counts matrix from a 
 
 ### Share feedback on a recipe — *"I tried X and…"*
 
-[Open the form →](https://github.com/goodb/sci-ai-enabler/issues/new?template=recipe-feedback.yml)
+[Open the form →](https://github.com/scripps-ai-enablement/sci-ai-enabler/issues/new?template=recipe-feedback.yml)
 
 Worked great, worked but slow, got stuck, found a better way, something else — every report tightens the evidence label on the recipe page, adds a field-report note, or flags the recipe for review if multiple people hit the same wall.
 
@@ -28,7 +28,7 @@ Concrete details are what make these reports useful: the commands you ran, datas
 
 ### Share feedback on a catalog tool — *"I installed Y and…"*
 
-[Open the form →](https://github.com/goodb/sci-ai-enabler/issues/new?template=tool-feedback.yml)
+[Open the form →](https://github.com/scripps-ai-enablement/sci-ai-enabler/issues/new?template=tool-feedback.yml)
 
 Same idea, scoped to one tool from the catalog. This is how `last_verified` stays honest and how install-path notes accumulate across operating systems and Python versions. Mention OS, install path, errors, and any workarounds.
 
@@ -54,6 +54,6 @@ The bot will not invent tools or recipes that don't exist. If a question reaches
 
 ## Other ways to engage
 
-- **General discussion** — open-ended questions and chatter that don't fit a form belong in [Discussions](https://github.com/goodb/sci-ai-enabler/discussions).
-- **Track changes** — each section posts to a pinned tracking issue when a daily run produced changes. Watch the [repository](https://github.com/goodb/sci-ai-enabler) on GitHub to subscribe by email.
+- **General discussion** — open-ended questions and chatter that don't fit a form belong in [Discussions](https://github.com/scripps-ai-enablement/sci-ai-enabler/discussions).
+- **Track changes** — each section posts to a pinned tracking issue when a daily run produced changes. Watch the [repository](https://github.com/scripps-ai-enablement/sci-ai-enabler) on GitHub to subscribe by email.
 - **See the machinery** — the [About](about.html) page describes the four scheduled curator agents and how the schedules are wired up.

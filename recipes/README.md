@@ -65,8 +65,8 @@ Each recipe carries one of:
 
 Use one of our Issue Forms — no Markdown knowledge required:
 
-- [Ask a recipe question](https://github.com/goodb/sci-ai-enabler/issues/new?template=recipe-question.yml) — "How should I do X?"
-- [Share feedback on a recipe](https://github.com/goodb/sci-ai-enabler/issues/new?template=recipe-feedback.yml) — "I tried X and…"
-- [Share feedback on a catalog tool](https://github.com/goodb/sci-ai-enabler/issues/new?template=tool-feedback.yml) — "I installed Y and…"
+- [Ask a recipe question](https://github.com/scripps-ai-enablement/sci-ai-enabler/issues/new?template=recipe-question.yml) — "How should I do X?"
+- [Share feedback on a recipe](https://github.com/scripps-ai-enablement/sci-ai-enabler/issues/new?template=recipe-feedback.yml) — "I tried X and…"
+- [Share feedback on a catalog tool](https://github.com/scripps-ai-enablement/sci-ai-enabler/issues/new?template=tool-feedback.yml) — "I installed Y and…"
 
 A bot replies in-thread shortly; the next daily curator run ships any durable changes and closes the issue with a direct link to the new or updated page. See [Contribute](../contribute.html) for the bigger picture on how user input shapes the cookbook.

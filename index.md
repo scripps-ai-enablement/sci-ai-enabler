@@ -38,10 +38,10 @@ A cookbook pairing concrete life-science problems with recommended assemblies of
 
 ## [Shape this resource](contribute.html) — file an issue
 
-The catalog, guide, tracker, and recipes grow in response to user input. If the cookbook doesn't answer your question, or you tried something and want to report back, [file an issue](https://github.com/goodb/sci-ai-enabler/issues/new/choose) using one of three short forms — no Markdown required. A bot replies in-thread within minutes; the next daily curator run ships any durable change and closes the issue with a direct link to the new page.
+The catalog, guide, tracker, and recipes grow in response to user input. If the cookbook doesn't answer your question, or you tried something and want to report back, [file an issue](https://github.com/scripps-ai-enablement/sci-ai-enabler/issues/new/choose) using one of three short forms — no Markdown required. A bot replies in-thread within minutes; the next daily curator run ships any durable change and closes the issue with a direct link to the new page.
 
 [How and why →](contribute.html){: .btn .btn-primary }
-[File an issue](https://github.com/goodb/sci-ai-enabler/issues/new/choose){: .btn }
+[File an issue](https://github.com/scripps-ai-enablement/sci-ai-enabler/issues/new/choose){: .btn }
 
 ---
 
@@ -51,4 +51,4 @@ Use the search box at the top of every page to find a specific tool, system, or 
 
 ## Stay current
 
-The catalog, guide, tracker, and recipes each refresh daily and post a notice to a pinned GitHub issue when content changes. Watch the [repository](https://github.com/goodb/sci-ai-enabler) on GitHub to subscribe.
+The catalog, guide, tracker, and recipes each refresh daily and post a notice to a pinned GitHub issue when content changes. Watch the [repository](https://github.com/scripps-ai-enablement/sci-ai-enabler) on GitHub to subscribe.

@@ -64,7 +64,7 @@ Expected: each prints a version. If `actionlint` is missing on a CI runner, the 
 blank_issues_enabled: false
 contact_links:
   - name: General discussion
-    url: https://github.com/goodb/sci-ai-enabler/discussions
+    url: https://github.com/scripps-ai-enablement/sci-ai-enabler/discussions
     about: For open-ended questions or chatter that doesn't fit a recipe request or feedback report.
 ```
 
@@ -144,7 +144,7 @@ Expected: clean.
 
 - [ ] **Step 3: Sanity-check that GitHub parses the schema**
 
-Push the branch and open it in the browser — `https://github.com/goodb/sci-ai-enabler/issues/new?template=recipe-question.yml` should render the form once the branch is pushed. (Skip if not yet pushing; validation happens in Task 8.)
+Push the branch and open it in the browser — `https://github.com/scripps-ai-enablement/sci-ai-enabler/issues/new?template=recipe-question.yml` should render the form once the branch is pushed. (Skip if not yet pushing; validation happens in Task 8.)
 
 - [ ] **Step 4: Commit**
 
@@ -457,7 +457,7 @@ You are an in-thread responder. A user has filed a GitHub Issue using one of thr
 1. Grep `recipes/items/*.md` for the strongest matches against the user's problem. Read the candidate pages.
 2. If one or more strong matches exist (subject area and problem-class both align), open the reply with:
    > "The closest existing recipes are:"
-   > followed by a bulleted list of links to the rendered Pages URLs (`https://goodb.github.io/sci-ai-enabler/recipes/items/<slug>.html`) with a one-line "use this when…" for each.
+   > followed by a bulleted list of links to the rendered Pages URLs (`https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/<slug>.html`) with a one-line "use this when…" for each.
 3. If no strong match exists, give a best-effort answer drawn from `catalog/tools/*.md`. Name only tools that have a `catalog/tools/<slug>.md` page; **never invent a tool**.
 4. Always close with: "I've queued this so the recipe assembler can write it up properly in the next scheduled run."
 
@@ -1117,9 +1117,9 @@ Add at the bottom of `recipes/README.md`:
 
 Use one of our Issue Forms — no Markdown knowledge required:
 
-- [Ask a recipe question](https://github.com/goodb/sci-ai-enabler/issues/new?template=recipe-question.yml) — "How should I do X?"
-- [Share feedback on a recipe](https://github.com/goodb/sci-ai-enabler/issues/new?template=recipe-feedback.yml) — "I tried X and…"
-- [Share feedback on a catalog tool](https://github.com/goodb/sci-ai-enabler/issues/new?template=tool-feedback.yml) — "I installed Y and…"
+- [Ask a recipe question](https://github.com/scripps-ai-enablement/sci-ai-enabler/issues/new?template=recipe-question.yml) — "How should I do X?"
+- [Share feedback on a recipe](https://github.com/scripps-ai-enablement/sci-ai-enabler/issues/new?template=recipe-feedback.yml) — "I tried X and…"
+- [Share feedback on a catalog tool](https://github.com/scripps-ai-enablement/sci-ai-enabler/issues/new?template=tool-feedback.yml) — "I installed Y and…"
 
 A bot replies in-thread shortly; the next daily curator run ships any durable changes and closes the issue.
 ```
@@ -1181,7 +1181,7 @@ To each of the seven files, append at the bottom:
 
 ## Got feedback on a tool?
 
-Use the [tool-feedback Issue Form](https://github.com/goodb/sci-ai-enabler/issues/new?template=tool-feedback.yml) — pick the tool from a dropdown, describe what happened. A bot replies in-thread shortly; the next daily catalog run incorporates the feedback.
+Use the [tool-feedback Issue Form](https://github.com/scripps-ai-enablement/sci-ai-enabler/issues/new?template=tool-feedback.yml) — pick the tool from a dropdown, describe what happened. A bot replies in-thread shortly; the next daily catalog run incorporates the feedback.
 ```
 
 Do this in a single commit. (Be careful not to insert it inside the Liquid `{% raw %}…{% endraw %}` loop — it must come **after** the `{% endraw %}` close tag at the file end.)
@@ -1236,7 +1236,7 @@ In **Settings → Secrets and variables → Actions → Variables**, set `RESPON
 ## Definition of done
 
 - All four Phases merged to `main`.
-- The three Issue Forms are accessible from `https://github.com/goodb/sci-ai-enabler/issues/new/choose` and render correctly.
+- The three Issue Forms are accessible from `https://github.com/scripps-ai-enablement/sci-ai-enabler/issues/new/choose` and render correctly.
 - A user can file any of the three forms; the responder bot replies within ~6 min with a relevant comment ending in a queue trailer; a bullet appears in the right `curator-state.md`.
 - The next scheduled `recipes.yml` or `curate.yml` run consumes the bullet, ships the durable change, and the loop-closer step comments on the issue with the commit link and closes the issue.
 - The `RESPONDER_DISABLED` kill switch works.
