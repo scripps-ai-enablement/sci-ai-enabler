@@ -20,6 +20,7 @@ Directed pass on **Neuroscience** (Friday focus). Manifest sweep of `anthropics/
 
 ### Updated
 - **`catalog/curator-state.md`** — Recently surfaced refreshed with this run's OpenNeuro MCP addition (oldest of the prior five rolled off). Deferred queue gained `NeuroClaw` (install path gap + license unconfirmed) and a watch item on the K-Dense v2.43.0 `scientific-skills/` → `skills/` path migration that may affect future K-Dense skill page edits.
+- **Feedback-footer URL backfill** — five tool pages added on / since 2026-05-27 (`openneuro`, `cellxgene-census`, `molecular-dynamics`, `scvelo`, `arboreto`) still pointed their `Installed this tool?` feedback links at the pre-migration `goodb/sci-ai-enabler` org / `goodb.github.io` pages host. The org-rename commit (`4d703fe`) ran on a branch that forked before today's earlier catalog commit (`c102ee7`), so these five files were not rewritten by the migration. Rewrote both occurrences in each footer to `scripps-ai-enablement/sci-ai-enabler` and `scripps-ai-enablement.github.io` to restore the working feedback path. No content changes outside the footer URLs ([migration commit](https://github.com/scripps-ai-enablement/sci-ai-enabler/commit/4d703fe)).
 
 ### Verified (no changes)
 - All Neuroscience catalog entries' `last_verified` is within the 30-day window (oldest 2026-05-20) — no scheduled re-verification needed this run.
