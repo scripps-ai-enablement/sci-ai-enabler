@@ -53,6 +53,8 @@ nav_exclude: true
 
 - [#15 @goodb 2026-05-29] (no trailer emitted; needs curator triage) title="[Tool feedback] migration smoke test — chembl" label=claude:tool-feedback
 
+- [#17 @goodb 2026-05-29] queue: catalog | feedback-on=chembl | sentiment=worked fine | author=@goodb | issue=17
+
 ## User requests (closed this run)
 
 _None._
