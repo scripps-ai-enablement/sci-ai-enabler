@@ -2,7 +2,7 @@
 title: Integrate multiple single-cell RNA-seq datasets across batches
 parent: All recipes
 grand_parent: Recipes
-nav_order: 6
+nav_order: 7
 problem_class: Data analysis
 subject_areas: [Molecular and Cellular Biology, Immunology and Microbiology, Neuroscience]
 evidence_level: Reported

@@ -2,14 +2,14 @@
 title: Run first-pass QC on a single-cell RNA-seq dataset
 parent: All recipes
 grand_parent: Recipes
-nav_order: 11
+nav_order: 12
 problem_class: Data analysis
 subject_areas: [Molecular and Cellular Biology, Immunology and Microbiology, Neuroscience]
 evidence_level: Reported
 complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Laptop
-last_verified: 2026-05-21
+last_verified: 2026-05-29
 summary: Use Anthropic's single-cell-rna-qc skill to MAD-filter a 10x .h5 or AnnData .h5ad file and emit standard QC figures before downstream Scanpy or scvi-tools work.
 ---
 

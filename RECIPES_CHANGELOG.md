@@ -11,6 +11,24 @@ Reverse-chronological log of changes to the [recipes cookbook](recipes/). Newest
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-05-29
+
+### Added
+
+- **Compute HRV from an ECG recording** (Problem class: Data analysis; Evidence: Proposed) — rung-2 [NeuroKit2 Claude skill](catalog/tools/neurokit2.html) recipe taking a single-lead ECG to validated R-peaks plus time-domain, frequency-domain, and non-linear HRV indices, with `nk.signal_quality`-driven epoch exclusion. Second Neuroscience-primary recipe in the cookbook (joins the Neuropixels spike-sorting recipe). Component evidence: [Makowski et al. *Behavior Research Methods* 2021](https://doi.org/10.3758/s13428-020-01516-y) (NeuroKit2 reference) and [Pham et al. *Sensors* 2021](https://doi.org/10.3390/s21123998) (HRV indices tutorial). Closest LLM-orchestrated analogue: [EEGAgent (Yan et al., arXiv:2511.09947, 2025-11-12)](https://arxiv.org/abs/2511.09947), AAAI-26 — different signal modality and custom toolbox, not NeuroKit2.
+
+### Updated
+
+- Nav orders rebalanced across the recipe set to keep alphabetical ordering after the addition: **Assemble Census atlas** → 1, **Build target dossier** → 2, **Compute HRV** → 3, **Estimate PK** → 4, **Filter virtual screening** → 5, **Infer GRN** → 6, **Integrate single-cell** → 7, **Interpret clinical variant** → 8, **Match patient to trials** → 9, **Profile polypharmacology** → 10, **Run bulk RNA-seq DE** → 11, **QC single-cell** → 12, **Scan repurposing** → 13, **Sort spikes** → 14, **Triage preprints** → 15, **Triage AlphaFold** → 16.
+
+### Verified (no changes)
+
+- 4 recipes spot-checked at the 30-day boundary and bumped to `last_verified: 2026-05-29` — **Triage preprints**, **QC single-cell**, **Build target dossier**, **Run bulk RNA-seq DE**. All linked catalog tools (bio-research, pubmed, single-cell-rna-qc, pydeseq2, open-targets, uniprot, alphafold, depmap) remain present and unflagged.
+
+### User requests
+
+- **#12** (`claude:recipe-feedback`) — remains in `## User requests (open)`; `gh` CLI is not available in this run's environment so the issue body still cannot be inspected. Retry on the next run that has `gh` access.
+
 ## 2026-05-28
 
 ### Added

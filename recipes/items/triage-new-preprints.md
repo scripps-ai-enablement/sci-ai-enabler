@@ -2,14 +2,14 @@
 title: Triage a stack of new preprints in your field
 parent: All recipes
 grand_parent: Recipes
-nav_order: 14
+nav_order: 15
 problem_class: Literature triage
 subject_areas: [All]
 evidence_level: Reported
 complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Laptop
-last_verified: 2026-05-21
+last_verified: 2026-05-29
 summary: Use the bio-research plugin in Claude Code to pull last-week bioRxiv and PubMed hits, rank by relevance, and produce a one-paragraph readout per paper.
 ---
 
