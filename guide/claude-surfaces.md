@@ -31,6 +31,7 @@ Some features span more than one surface — you start them in one place and vie
 - **Background sessions** — `claude --bg` starts a long-running Claude Code task; reattach later via `/resume` or `claude agents`. Spans CLI and `claude.ai/code`.
 - **MCP tunnels (Research Preview)** — outbound-only `cloudflared` tunnels that expose private MCP servers to Claude.ai. Bridges Claude.ai / Claude Desktop and MCP servers running inside private networks. See [MCP servers](mcp-servers.html).
 - **Claude Security (Enterprise public beta)** — vulnerability scanning at `claude.ai/security` (sidebar icon in [Claude.ai](surfaces/claude-ai.html)). Launched 2026-05-04 on Opus 4.7. Each finding has a remediation button that opens a [Claude Code on the web](surfaces/claude-code.html) session, drafts a patch, and opens a PR. Enterprise plans only; Team / Max coming.
+- **Dynamic Workflows (Research Preview)** — spans CLI, Desktop, and the VS Code extension of [Claude Code](surfaces/claude-code.html). Claude writes an orchestration script on the fly and runs up to 1,000 parallel subagents (16 concurrent) to tackle migrations, audits, and other large jobs. Trigger by including the word `workflow` in a prompt or via `/effort ultracode`. Launched 2026-05-28 alongside Opus 4.8; requires Claude Code v2.1.154+. On by default on Max and Team; admin-gated on Enterprise; off by default on Pro (toggle in `/config`). Burns substantially more tokens than a normal session.
 
 ## Common pitfalls
 
@@ -55,4 +56,7 @@ Some features span more than one surface — you start them in one place and vie
 - [Cowork and plugins for teams across the enterprise](https://claude.com/blog/cowork-plugins-across-enterprise) — Anthropic blog; published 2026-02-24.
 - [Claude Code changelog (v2.1.144 / v2.1.145, May 18–19 2026)](https://code.claude.com/docs/en/changelog) — `claude --bg`, `/resume`, `claude agents --json`; verified 2026-05-26 (this run).
 - [Claude Security is now in public beta](https://claude.com/blog/claude-security-public-beta) — Anthropic blog; published 2026-05-04 — `claude.ai/security`, Opus 4.7, remediation opens Claude Code on the web, Enterprise public beta.
-- [Getting started with Claude Security](https://claude.com/resources/tutorials/getting-started-with-claude-security) — Anthropic tutorial; verified 2026-05-26 (this run) — sidebar location and remediation-session flow.
+- [Getting started with Claude Security](https://claude.com/resources/tutorials/getting-started-with-claude-security) — Anthropic tutorial; verified 2026-05-26 — sidebar location and remediation-session flow.
+- [Introducing dynamic workflows in Claude Code](https://claude.com/blog/introducing-dynamic-workflows-in-claude-code) — Anthropic blog; published 2026-05-28 — research preview, 1,000-agent cap, 16 concurrent, plan availability and defaults.
+- [Orchestrate subagents at scale with dynamic workflows](https://code.claude.com/docs/en/workflows) — Anthropic docs; verified 2026-05-29 (this run) — `workflow` keyword trigger, `/effort ultracode`, v2.1.154 requirement.
+- [Introducing Claude Opus 4.8](https://www.anthropic.com/news/claude-opus-4-8) — Anthropic news; published 2026-05-28 — Opus 4.8 ship date, paired Dynamic Workflows + effort-control launch.

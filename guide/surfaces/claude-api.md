@@ -45,7 +45,7 @@ The API also hosts **Claude Managed Agents** — long-running agentic sessions A
 ## Common pitfalls
 
 - API usage is metered and billed separately from a Pro/Max subscription — even if you're a Pro user, API calls draw from your API credit balance.
-- Default model IDs change. The current Claude 4 family includes Opus 4.7, Sonnet 4.6, and Haiku 4.5; check the SDK README before pinning a model in production.
+- Default model IDs change. The current Claude 4 family is Opus 4.8 (shipped 2026-05-28; the `opus` alias now resolves to it on the Anthropic API, with a 1M-token context by default and no beta header or premium pricing), Sonnet 4.6, and Haiku 4.5. On Bedrock / Vertex / Foundry the aliases lag — pin the full model ID (`claude-opus-4-8`) or set `ANTHROPIC_DEFAULT_OPUS_MODEL` to override.
 - Prompt caching is opt-in but cheap to enable; turn it on when you reuse the same system prompt or tool schema across many calls.
 - Don't put API keys in client-side code — keys are bearer tokens.
 - Managed Agents lives on its own endpoints; calling `/v1/messages` won't give you Outcomes, Dreams, or multi-agent orchestration. Use the SDK's `client.beta.agents` namespace (which sets beta headers automatically).
@@ -67,3 +67,5 @@ The API also hosts **Claude Managed Agents** — long-running agentic sessions A
 - [Dreams](https://platform.claude.com/docs/en/managed-agents/dreams) — Anthropic API docs; verified 2026-05-23 — async memory-consolidation job, research preview, `dreaming-2026-04-21` beta header.
 - [New in Claude Managed Agents: dreaming, outcomes, and multi-agent orchestration](https://claude.com/blog/new-in-claude-managed-agents) — Anthropic blog; published 2026-05-06 — Code with Claude 2026 launch announcement.
 - [Live blog: Code w/ Claude 2026](https://simonwillison.net/2026/May/6/code-w-claude-2026/) — Simon Willison; published 2026-05-06 — independent coverage of the keynote announcements.
+- [Introducing Claude Opus 4.8](https://www.anthropic.com/news/claude-opus-4-8) — Anthropic news; published 2026-05-28 — Opus 4.8 ship date, 1M context default, no premium pricing, available on Claude API / Bedrock / Vertex / Foundry.
+- [What's new in Claude Opus 4.8](https://platform.claude.com/docs/en/about-claude/models/whats-new-claude-4-8) — Anthropic API docs; verified 2026-05-29 (this run) — `opus` alias resolution per surface, `claude-opus-4-8` model ID, `ANTHROPIC_DEFAULT_OPUS_MODEL` env var.

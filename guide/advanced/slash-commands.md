@@ -43,7 +43,7 @@ For a subagent, write `.claude/agents/<name>.md` with `name`, `description`, `to
 ## Common pitfalls
 
 - Forgetting YAML frontmatter — slash commands work without it; subagents need at least `name` and `description`.
-- Granting too many `allowed-tools`. Scope tightly.
+- Granting too many `allowed-tools`. Scope tightly. As of v2.1.152 (May 2026) slash commands and skills can also set `disallowed-tools:` in frontmatter to remove specific tools while the command is active — useful for read-only review commands.
 - Expecting subagents to share context with the parent — they don't.
 - Putting team-shared commands in `~/.claude/` instead of `.claude/` (they won't be committed).
 
@@ -59,3 +59,4 @@ For a subagent, write `.claude/agents/<name>.md` with `name`, `description`, `to
 - [Slash Commands in the SDK](https://code.claude.com/docs/en/agent-sdk/slash-commands) — Anthropic docs; verified 2026-05-19 (this run).
 - [Slash Commands (platform docs)](https://platform.claude.com/docs/en/agent-sdk/slash-commands) — Anthropic docs; verified 2026-05-19.
 - [Claude Code customization guide](https://alexop.dev/posts/claude-code-customization-guide-claudemd-skills-subagents/) — Alex Op; verified 2026-05-19.
+- [Claude Code changelog (v2.1.152)](https://code.claude.com/docs/en/changelog) — `disallowed-tools` frontmatter on slash commands and skills; verified 2026-05-29 (this run).

@@ -11,6 +11,32 @@ Reverse-chronological log of changes to the [guide](guide/). Newest at the top.
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-05-29
+
+### Added
+- **[claude-surfaces, surfaces/claude-code] Dynamic Workflows in Claude Code.** Per [Introducing dynamic workflows in Claude Code](https://claude.com/blog/introducing-dynamic-workflows-in-claude-code) (2026-05-28) and the [official workflows doc](https://code.claude.com/docs/en/workflows), Anthropic shipped Dynamic Workflows in research preview on 2026-05-28 alongside Opus 4.8 and v2.1.154. Claude writes an orchestration script on the fly and runs up to 1,000 parallel subagents (16 concurrent) for migrations, audits, and other large jobs. Trigger via the keyword `workflow` in a prompt or `/effort ultracode`. On by default on Max / Team, admin-gated on Enterprise, off by default on Pro (toggle in `/config`). Spans CLI / Desktop / VS Code extension — qualifies as cross-cutting. Added a bullet to `claude-surfaces.md` cross-cutting features and a "When to use it" bullet on `surfaces/claude-code.md` pointing back to it; Sources expanded on both. Beginner-relevant because the `workflow` keyword now changes Claude Code behavior even for users who don't opt in deliberately.
+- **[surfaces/claude-api] Claude Opus 4.8.** Per [Introducing Claude Opus 4.8](https://www.anthropic.com/news/claude-opus-4-8) (2026-05-28) and the [What's new in Opus 4.8 doc](https://platform.claude.com/docs/en/about-claude/models/whats-new-claude-4-8), the `opus` alias on the Anthropic API now resolves to `claude-opus-4-8` with 1M-token context by default (no beta header, no premium pricing). On Bedrock / Vertex / Foundry aliases lag; pin the full ID or set `ANTHROPIC_DEFAULT_OPUS_MODEL`. Updated the "Default model IDs change" pitfall and added two sources.
+- **[surfaces/claude-ai] Claude Design.** Per [Introducing Claude Design by Anthropic Labs](https://www.anthropic.com/news/claude-design-anthropic-labs) (2026-04-17), Anthropic shipped a quick-visuals tool at `claude.ai/design` covering prototypes, slides, and one-pagers. Available to Pro / Max / Team / Enterprise (off by default on Enterprise until admin enables). Added a one-line "When to use it" bullet and a source. Beginner-relevant because `claude.ai/design` is now a new top-level destination alongside `/code`, `/security`, `/directory/connectors`, and most beginners arriving via `claude.ai` should know it exists.
+
+### Updated
+- **[skills, advanced/slash-commands] `/reload-skills` and `disallowed-tools` frontmatter.** Per the Claude Code v2.1.152 changelog (2026-05-27), skills and slash commands can set `disallowed-tools:` in YAML frontmatter to remove specific tools while active, and `/reload-skills` re-scans skill directories without restarting. Replaced the prior "restart session to reload" guidance on `skills.md` and added the new frontmatter option on both `skills.md` and `advanced/slash-commands.md`. Sources refreshed.
+- **[advanced/hooks] `MessageDisplay` event + `SessionStart.reloadSkills` + `sessionTitle`.** Per the v2.1.152 changelog, hooks gained a `MessageDisplay` event (transform / hide assistant message text) and `SessionStart` hooks can return `reloadSkills: true` or set the session title via `hookSpecificOutput.sessionTitle`. Added to the events list and source line.
+
+### Verified (no changes)
+- claude-surfaces.md — install command, Claude Security cross-cutting bullet, background sessions, routines, MCP tunnels unchanged. The Dynamic Workflows addition above is the only structural change.
+- mcp-servers.md — `claude mcp add --transport http`, scope semantics, MCP tunnels Research Preview unchanged. v2.1.153 stateful-MCP reconnect-loop fix is internal stability; no beginner-facing change.
+- plugins.md — `claude-plugins-official` pre-registration, `--plugin-dir` zip, `--plugin-url`, dependency-aware disable, `claude plugin prune`, `/plugin` Discover/Browse previews unchanged.
+- marketplaces.md — source forms, seed-managed read-only behavior, finance + life-sciences marketplaces unchanged.
+- connectors.md — `claude.ai/directory/connectors`, "over 200" framing, May 12 legal push, creative-tools wave unchanged.
+- decision-tree.md — table unchanged.
+- surfaces/claude-desktop.md, surfaces/claude-cowork.md — unchanged this run. Effort control launching on Claude.ai and Cowork on 2026-05-28 is captured implicitly via the Dynamic Workflows / Opus 4.8 entries; deliberate not to over-instrument beginner pages with `/effort` mechanics yet.
+- advanced/routines.md, advanced/authentication.md — unchanged this run.
+
+### Flagged for review
+- WebFetch was again unavailable this run (404 on `claude-3-5-haiku-20241022`). All primary-source verification went through WebSearch summaries of `claude.com/product/claude-code`, `code.claude.com/docs/en/changelog`, `code.claude.com/docs/en/workflows`, `claude.com/blog/introducing-dynamic-workflows-in-claude-code`, `anthropic.com/news/claude-opus-4-8`, `platform.claude.com/docs/en/about-claude/models/whats-new-claude-4-8`, `anthropic.com/news/claude-design-anthropic-labs`, `dev.classmethod.jp/en/articles/20260524-claude-code-updates-v2-1-152/`, and `dev.classmethod.jp/en/articles/20260528-claude-code-updates-v2-1-153/`. A human should occasionally verify the `claude.com/blog/introducing-dynamic-workflows-in-claude-code` blog post directly to confirm the Pro-plan default (sources disagree on whether Pro gets workflows off-by-default in `/config` or not at all).
+- **Dynamic Workflows as a dedicated `advanced/workflows.md` page.** Currently captured as a cross-cutting bullet on `claude-surfaces.md` and a single line on `surfaces/claude-code.md`. If usage settles (it leaves research preview, the `workflow` keyword trigger or `/effort ultracode` ergonomics change, or the 1,000-agent cap becomes relevant for routine work), promote to a dedicated `guide/advanced/workflows.md` page alongside hooks / slash-commands / routines.
+- **Effort control on Claude.ai and Cowork.** Anthropic announced effort control extending beyond Claude Code on 2026-05-28 but the per-surface ergonomics aren't yet documented; revisit when the `claude.ai` and Cowork UIs surface an `/effort` equivalent or model-selector.
+
 ## 2026-05-27
 
 ### Added

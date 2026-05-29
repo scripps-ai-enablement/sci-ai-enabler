@@ -30,7 +30,9 @@ mkdir -p ~/.claude/skills/my-skill
 # place SKILL.md inside ~/.claude/skills/my-skill/
 ```
 
-To browse and install skills shipped via a plugin marketplace, type `/plugin` inside Claude Code. List active skills with `/skills` — the picker has a type-to-filter search box for long lists. A plugin with a root-level `SKILL.md` (no `skills/` subdirectory) is now surfaced as a skill automatically. `/usage` breaks down current usage by skill, subagent, plugin, and MCP server.
+To browse and install skills shipped via a plugin marketplace, type `/plugin` inside Claude Code. List active skills with `/skills` — the picker has a type-to-filter search box for long lists. A plugin with a root-level `SKILL.md` (no `skills/` subdirectory) is now surfaced as a skill automatically. `/usage` breaks down current usage by skill, subagent, plugin, and MCP server. After editing a `SKILL.md`, run `/reload-skills` to re-scan directories without restarting the session (v2.1.152, May 2026).
+
+Skills can narrow Claude's tool access while active. Add a `disallowed-tools:` list to the YAML frontmatter (v2.1.152+) to remove specific tools — useful for read-only or audit skills that should not touch `Edit` / `Write`.
 
 ## Common pitfalls
 
@@ -53,5 +55,5 @@ To browse and install skills shipped via a plugin marketplace, type `/plugin` in
 - [Agent Skills overview](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview) — Anthropic API docs; verified 2026-05-19.
 - [Introducing Agent Skills](https://www.anthropic.com/news/skills) — published 2025-10-16.
 - [Equipping agents for the real world with Agent Skills](https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills) — Anthropic engineering blog; published 2025-10-16.
-- [Claude Code changelog (May 2026)](https://code.claude.com/docs/en/changelog) — type-to-filter `/skills`, nested SKILL.md surfacing, root-level SKILL.md surfaced as skill, `/usage` per-category breakdown; verified 2026-05-24 (this run).
+- [Claude Code changelog (May 2026)](https://code.claude.com/docs/en/changelog) — type-to-filter `/skills`, nested SKILL.md surfacing, root-level SKILL.md surfaced as skill, `/usage` per-category breakdown, `/reload-skills` + `disallowed-tools` frontmatter (v2.1.152, 2026-05-27); verified 2026-05-29 (this run).
 - [`anthropics/skills`](https://github.com/anthropics/skills) — canonical examples repo; verified 2026-05-19.
