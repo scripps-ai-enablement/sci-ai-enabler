@@ -11,6 +11,24 @@ Reverse-chronological log of changes to the [recipes cookbook](recipes/). Newest
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-05-29 (second pass — Neuroscience directed)
+
+### Added
+
+- **Discover NWB recordings on DANDI and prepare them for sorting** (Problem class: Knowledge synthesis; Evidence: Reported) — rung-3 [Neurosift Tools MCP](catalog/tools/neurosift.html) + [neuropixels-analysis skill](catalog/tools/neuropixels-analysis.html) toolbelt taking a semantic query about extracellular recordings to a filtered list of DANDI assets — Claude calls `dandi_semantic_search`, `dandi_search_by_neurodata_type`, `dandiset_assets`, and `nwb_file_info` over the public DANDI API, applies user-supplied hypothesis constraints (probe model, session duration, presence of a `Units` table), and emits `dandi download` / `pynwb` streaming snippets ready for the [Sort spikes from a Neuropixels recording](recipes/items/sort-spikes-from-neuropixels-recording.html) recipe. Third Neuroscience-primary recipe; resolves a previously deferred candidate. Evidence anchored in [Magland, Ly, Rübel, Dichter. *Scientific Data* 12:1988 (2025), doi:10.1038/s41597-025-06285-x](https://doi.org/10.1038/s41597-025-06285-x), which documents an LLM-driven agentic chat assistant and notebook-generation pipeline for DANDI exploration from the same Flatiron lab that ships the Neurosift Tools MCP; reviewed by neurophysiology specialists with most generated notebooks rated "very helpful." Canonical Neurosift citation: [Magland, Soules, Baker, Dichter. *JOSS* 9(97):6590 (2024), doi:10.21105/joss.06590](https://doi.org/10.21105/joss.06590).
+
+### Updated
+
+- Nav orders rebalanced across the recipe set to keep alphabetical ordering after the addition: **Assemble Census atlas** → 1, **Build target dossier** → 2, **Compute HRV** → 3, **Discover NWB on DANDI** → 4, **Estimate PK** → 5, **Filter virtual screening** → 6, **Infer GRN** → 7, **Integrate single-cell** → 8, **Interpret clinical variant** → 9, **Match patient to trials** → 10, **Profile polypharmacology** → 11, **Run bulk RNA-seq DE** → 12, **QC single-cell** → 13, **Scan repurposing** → 14, **Sort spikes** → 15, **Triage preprints** → 16, **Triage AlphaFold** → 17.
+
+### Verified (no changes)
+
+- No aging recipes this run — every `last_verified` date is within the 30-day window. The recipe set's verification floor sits at 2026-05-22 (`integrate-single-cell-datasets`, `sort-spikes-from-neuropixels-recording`); next aging boundary is 2026-06-21.
+
+### User requests
+
+- **#12** (`claude:recipe-feedback`) — remains in `## User requests (open)`; `gh` CLI still unavailable in this run's environment so the issue body cannot be inspected. Retry next run with `gh` access.
+
 ## 2026-05-29
 
 ### Added

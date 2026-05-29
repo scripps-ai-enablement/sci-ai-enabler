@@ -2,7 +2,7 @@
 title: Estimate pharmacokinetic properties of a small molecule
 parent: All recipes
 grand_parent: Recipes
-nav_order: 4
+nav_order: 5
 problem_class: Knowledge synthesis
 subject_areas: [Chemistry, Drug Repurposing and Discovery]
 evidence_level: Proposed
