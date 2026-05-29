@@ -8,11 +8,11 @@ nav_exclude: true
 
 ## Recently surfaced
 
+- **OpenNeuro MCP** (added 2026-05-29) — Community MCP server (QuentinCody) wrapping the OpenNeuro GraphQL API; hosted Cloudflare Workers SSE endpoint, MIT + Academic Citation Requirement license. Complements the Neurosift Tools MCP (DANDI + NWB) by covering OpenNeuro's MRI / MEG / EEG / iEEG / ECoG archive.
 - **Cellxgene Census (Claude Skill)** (added 2026-05-28) — K-Dense skill for querying the CZ CELLxGENE Discover census (50M+ cells, 1,000+ datasets) via TileDB-SOMA, with AnnData / Scanpy integration for reference-atlas construction.
 - **scVelo (Claude Skill)** (added 2026-05-28) — K-Dense skill driving scVelo for RNA-velocity analysis (steady-state / stochastic / dynamical models, latent time, driver-gene identification).
 - **Arboreto (Claude Skill)** (added 2026-05-28) — K-Dense skill for gene-regulatory-network inference with GRNBoost2 / GENIE3, distributed via Dask; standard upstream step for pySCENIC.
 - **Molecular Dynamics (Claude Skill)** (added 2026-05-27) — K-Dense skill that runs and analyzes OpenMM-based MD simulations and post-processes trajectories with MDAnalysis (RMSD, RMSF, contact maps, free-energy surfaces) for protein-stability, ligand-binding-pose refinement, and conformational-ensemble work.
-- **Glycoengineering (Claude Skill)** (added 2026-05-26) — K-Dense skill for protein-glycosylation analysis: N-glycosylation sequon scanning, O-glycosylation hotspot prediction, and orchestration of NetOGlyc / GlycoShield / GlycoWorkbench for antibody and vaccine design.
 
 ## Flagged for review
 
@@ -46,11 +46,13 @@ nav_exclude: true
 - **RFdiffusion / ProteinMPNN Claude Skill** — protein-design model wrappers; not yet packaged as a Claude Skill or MCP server on the 2026-05-27 sweep.
 - **BioPython / Bioservices (K-Dense Skills)** — confirmed present in K-Dense `scientific-skills/`; both span all life-science domains, useful as next-run Molecular & Cellular Biology additions if cellxgene/scvelo/arboreto are not enough coverage.
 - **Aeon / TimesFM (K-Dense Skills)** — time-series forecasting siblings noted in K-Dense docs; only narrowly biomedical (e.g., longitudinal-clinical-data forecasting), revisit if a Translational pass needs more candidates.
+- **NeuroClaw** (`CUHK-AIM-Group/NeuroClaw`) — 81-skill neuroimaging library (BIDS, FreeSurfer, FSL, fMRIPrep, CONN, DIPY, QSIPrep, MNE, nilearn integrations; sMRI / fMRI / DWI / EEG / ADNI / HCP / UKB pipelines; arXiv 2604.24696). Repo README explicitly positions `skills/`, `materials/`, `USER.md`, `SOUL.md` as installable into Claude Code, but a copy-pasteable `~/.claude/skills/` snippet is not published upstream and the license file's terms could not be confirmed via WebSearch on 2026-05-29. Strong neuroscience candidate — revisit on next Neuroscience-focus pass once upstream documents an exact Claude Code install command or ships a `marketplace.json`.
+- **K-Dense `scientific-skills/` → `skills/` path migration** — search results indicate K-Dense moved skill directories from `scientific-skills/<name>/` to `skills/<name>/` as of v2.43.0 to match the Agent Skills CLI layout, but both paths still appear in upstream search indexes. Verify on next K-Dense pass and update existing K-Dense skill pages (`bids`, `neurokit2`, `neuropixels-analysis`, `scanpy`, `anndata`, `pydeseq2`, `scvi-tools`, etc.) if the old path no longer resolves.
 
 ## User requests (open)
 
-- [#11 @goodb 2026-05-27] (no trailer emitted; needs curator triage) title="[Tool feedback]" label=claude:tool-feedback
+_None._
 
 ## User requests (closed this run)
 
-_None._
+- [#11 @goodb 2026-05-27] (no trailer emitted; needs curator triage) title="[Tool feedback]" label=claude:tool-feedback → still unactionable on the 2026-05-29 run: no `tool-feedback` trailer in the inbound metadata and `gh issue view 11` is not reachable from the curator runner (no `gh` CLI / GitHub-API auth in this environment). Marking closed-this-run so the loop-closer can reset; the inbound responder workflow will re-surface it if the issue is updated.

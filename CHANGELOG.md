@@ -11,6 +11,23 @@ Reverse-chronological log of changes to the [catalog](catalog/). Newest at the t
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-05-29
+
+Directed pass on **Neuroscience** (Friday focus). Manifest sweep of `anthropics/life-sciences` shows no diff vs. 2026-05-28 — no new neuro plugins shipped upstream this week; the `biorxiv@life-sciences` / `clinical-trials@life-sciences` DOA situation continues. Existing Neuroscience entries (`allenbrain`, `aind-data`, `neurosift`, `neurokit2`, `neuropixels-analysis`, `bids`) all within the 30-day verification window — no re-verification needed. Directed search turned up two strong candidates: **OpenNeuro MCP** (QuentinCody) — a hosted Cloudflare Workers SSE server wrapping the OpenNeuro GraphQL API, with a clean copy-pasteable install path documented upstream — and **NeuroClaw** (CUHK-AIM Group), an 81-skill neuroimaging library with FreeSurfer / FSL / fMRIPrep / MNE / nilearn / DIPY integrations. OpenNeuro MCP was added; NeuroClaw was deferred because the upstream README positions skills/ as Claude-Code-installable but does not publish a copy-pasteable `~/.claude/skills/` snippet and the license terms could not be confirmed under today's WebFetch reliability. One new entry, well under the 5-entry soft cap.
+
+### Added
+- **OpenNeuro MCP** (Categories: Neuroscience) — Community MCP server wrapping the OpenNeuro GraphQL API for MRI / MEG / EEG / iEEG / ECoG dataset, snapshot, and file-listing queries; hosted Cloudflare Workers SSE endpoint, MIT + Academic Citation Requirement license. Complements the Neurosift Tools MCP (DANDI + NWB) by covering OpenNeuro's archive ([source](https://github.com/QuentinCody/open-neuro-mcp-server), [OpenNeuro](https://openneuro.org/)).
+
+### Updated
+- **`catalog/curator-state.md`** — Recently surfaced refreshed with this run's OpenNeuro MCP addition (oldest of the prior five rolled off). Deferred queue gained `NeuroClaw` (install path gap + license unconfirmed) and a watch item on the K-Dense v2.43.0 `scientific-skills/` → `skills/` path migration that may affect future K-Dense skill page edits.
+
+### Verified (no changes)
+- All Neuroscience catalog entries' `last_verified` is within the 30-day window (oldest 2026-05-20) — no scheduled re-verification needed this run.
+- Manifest sweep of `anthropics/life-sciences` re-confirmed: no new neuro plugins; `biorxiv` / `clinical-trials` plugins still DOA per upstream issue #42 (`mcp.deepsense.ai` NXDOMAIN). Deferred queue (Cortellis, Medidata, Consensus, NPI Registry, Augmented-Nature ChEMBL, AACT, OpenFDA / Azure FHIR MCPs) carries forward.
+
+### User requests
+- **#11** — `[Tool feedback]` with no `tool-feedback` trailer; still unactionable from the curator runner (no `gh` CLI / GitHub-API auth in this environment). Closed this run with that note; inbound responder will re-surface if the issue is updated.
+
 ## 2026-05-28
 
 Directed pass on **Molecular and Cellular Biology** (Thursday focus). Manifest sweep of `anthropics/life-sciences` shows no diff vs. 2026-05-27 sweep among plugins our catalog already covers; an `e96556b` upstream commit and issue #42 indicate that **biorxiv@life-sciences** and **clinical-trials@life-sciences** plugins are now published in the marketplace but currently DOA (the `mcp.deepsense.ai` host returns NXDOMAIN) — held off from cataloguing pending Anthropic / DeepSense restoring the endpoint, and added to the Deferred queue. The directed pass surfaced three K-Dense single-cell skills from the standing Deferred queue — **Cellxgene Census**, **scVelo**, and **Arboreto** — which collectively round out the catalog's single-cell trajectory + GRN coverage that pairs with the existing `scanpy`, `anndata`, `scvi-tools`, and `pydeseq2` entries. Three new entries, well under the 5-entry soft cap.
