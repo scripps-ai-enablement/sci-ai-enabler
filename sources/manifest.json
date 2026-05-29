@@ -321,6 +321,32 @@
       "source_url": "https://arxiv.org/abs/2604.24696",
       "downloaded": "2026-05-27",
       "txt_sidecar": "2604.24696v1.txt"
+    },
+    {
+      "doi": "10.48550/arXiv.2603.29727",
+      "filename": "2603.29727v1.pdf",
+      "title": "Latent-Y: A Lab-Validated Autonomous Agent for De Novo Drug Design",
+      "source_url": "https://arxiv.org/abs/2603.29727",
+      "downloaded": "2026-05-29",
+      "txt_sidecar": "2603.29727v1.txt"
+    },
+    {
+      "doi": "10.64898/2026.02.26.707870",
+      "filename": "2026.02.26.707870v1_metadata.json",
+      "title": "PantheonOS: An Evolvable Multi-Agent Framework for Automatic Genomics Discovery",
+      "source_url": "https://doi.org/10.64898/2026.02.26.707870",
+      "downloaded": "2026-05-29",
+      "txt_sidecar": "2026.02.26.707870v1.full.txt",
+      "notes": "PDF blocked by Cloudflare; metadata + abstract archived via bioRxiv API"
+    },
+    {
+      "doi": "10.64898/2026.02.23.707551",
+      "filename": "2026.02.23.707551v1_metadata.json",
+      "title": "The Virtual Biotech: A Multi-Agent AI Framework for Therapeutic Discovery and Development",
+      "source_url": "https://doi.org/10.64898/2026.02.23.707551",
+      "downloaded": "2026-05-29",
+      "txt_sidecar": "2026.02.23.707551v1.full.txt",
+      "notes": "PDF blocked by Cloudflare; metadata + abstract archived via bioRxiv API"
     }
   ]
 }

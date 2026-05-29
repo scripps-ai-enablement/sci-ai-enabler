@@ -2,7 +2,7 @@
 title: SPARK
 parent: Systems
 grand_parent: AI scientists
-nav_order: 37
+nav_order: 39
 affiliation: University Hospital Cologne and collaborators (Tolkach group)
 lifecycle_stages: [Multi-stage]
 autonomy: Fully autonomous

@@ -9,6 +9,25 @@ permalink: /updates/ai-scientists.html
 
 Reverse-chronological log of changes to the [AI scientists tracker](autonomous-science/). Newest at the top.
 
+## 2026-05-29
+
+### Added
+- **Latent-Y** (Lifecycle: Multi-stage) — Latent Labs (London / San Francisco) lab-validated autonomous agent for de novo biologics design that executes complete antibody design campaigns from text prompts, covering literature review, target / epitope analysis, candidate generation via the Latent-X2 generative model, computational validation (iPTM, DockQ), and selection of lab-ready sequences; supports both fully autonomous and collaborative modes and can write custom generative code under bounded platform access (e.g. for cross-species TNFL9 reactivity). Across nine therapeutic targets, Latent-Y produced lab-confirmed nanobody binders against six (**67% target-level success rate**, per-target hit rates 1–28%), with single-digit nanomolar affinities (PRL 5.44 nM, IL-6 12.5 nM, IL-6R 517 nM) validated by five-point SPR, and a user study against PhD-level protein designers reports a **56× acceleration** of expert-led campaigns ([source](https://arxiv.org/abs/2603.29727)).
+- **PantheonOS** (Lifecycle: Multi-stage) — Stanford (Qiu lab) evolvable, privacy-preserving multi-agent framework for end-to-end single-cell and multi-omics genomics analysis spanning RL-augmented gene panel design, raw FASTQ processing, multimodal data integration, and 3D spatial genomics reconstruction. **Pantheon-Evolve** enables agentic code evolution that autonomously rewrites the system's own batch-correction and gene-panel-design algorithms beyond manually designed baselines; an intelligent model-routing mechanism adaptively selects optimal virtual-cell models across heterogeneous tasks. Demonstrated biology includes 3D reconstruction of mouse embryonic-day-six expression revealing **asymmetric Cer1–Nodal inhibition** along the proximal–distal axis, integration of human fetal-heart single-cell multi-omics with whole-heart 3D MERFISH+ at post-conception week 12, and adaptive virtual-cell-model selection for cardiogenesis perturbation prediction. Open ecosystem at github.com/aristoteleo; project at pantheonos.stanford.edu ([source](https://doi.org/10.64898/2026.02.26.707870)).
+- **The Virtual Biotech** (Lifecycle: Multi-stage) — Stanford (Zou lab) multi-agent AI framework that mirrors the structure of a human therapeutic research organization: a **Chief Scientific Officer** agent receives scientific queries and delegates to domain-specialized scientist agents (statistical genetics, functional genomics, pathways and interactions, chemoinformatics, disease biology, clinical data), integrating outputs through data-driven reasoning. Three reported translational case studies: (1) **>37,000 clinical-trialist agents** autonomously annotated outcomes from **55,984 clinical trials** and found drugs targeting cell-type-specific genes are **40% more likely to advance Phase I → II**, **48% more likely to reach Phase IV**, with **32% lower adverse event rates**; (2) end-to-end B7-H3 lung-cancer target evaluation proposing an ADC strategy; (3) re-analysis of a terminated OSMRβ ulcerative-colitis trial inferring failure mechanisms and proposing biomarker-guided enrollment strategies ([source](https://doi.org/10.64898/2026.02.23.707551)).
+
+### Updated
+- **`autonomous-science/summary.md`** — appended a paragraph in the wet-lab and data-driven biology section covering Latent-Y, The Virtual Biotech, and PantheonOS; added three new source citations.
+- **`autonomous-science/systems/`** — renumbered `nav_order` on the 10 affected system pages (MARS → 28, NeuroClaw → 29, NovelSeek → 30, OpenScientist → 31, PerTurboAgent → 33, PharmaSwarm → 34, POISE → 35, Qiushi Discovery Engine → 36, Qumus → 37, Robin → 38, SPARK → 39, Talk2QSP → 40) to preserve alphabetical ordering after inserting Latent-Y (27), PantheonOS (32), and The Virtual Biotech (41).
+- **`autonomous-science/curator-state.md`** — added Latent-Y, PantheonOS, and The Virtual Biotech at the top of `Recently surfaced`; trimmed Aleks, Deep Researcher Agent, and PerTurboAgent (each dated 2026-05-25) to keep the window at five.
+- **`sources/manifest.json`** — three new DOI entries added by Phase A (arXiv:2603.29727 for Latent-Y, bioRxiv 2026.02.26.707870 for PantheonOS, bioRxiv 2026.02.23.707551 for The Virtual Biotech). Note: the two bioRxiv preprints were blocked by Cloudflare on the PDF fetch; the `.txt` sidecars are derived from the bioRxiv API metadata (title, authors, abstract, extended summary).
+
+### Flagged
+_None._
+
+### Verified (no changes)
+- All pre-existing system pages were `last_verified` on 2026-05-20 through 2026-05-27 — inside the 30-day re-verification window. No spot-checks performed this run.
+
 ## 2026-05-27
 
 ### Added

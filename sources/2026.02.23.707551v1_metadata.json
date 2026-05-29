@@ -1,0 +1,15 @@
+{
+  "title": "The Virtual Biotech: A Multi-Agent AI Framework for Therapeutic Discovery and Development",
+  "authors": "Zhang, H. G.; Eckmann, P.; Miao, J.; Mahon, A. B.; Zou, J.",
+  "author_corresponding": "James Zou",
+  "author_corresponding_institution": "Stanford University",
+  "doi": "10.64898/2026.02.23.707551",
+  "date": "2026-02-23",
+  "version": "1",
+  "type": "new results",
+  "license": "cc_by_nd",
+  "category": "genomics",
+  "jatsxml": "https://www.biorxiv.org/content/early/2026/02/23//2026.02.23.707551.source.xml",
+  "abstract": "Drug discovery and development requires integrating diverse evidence across biological scales and data modalities. However, relevant data, tools, and expertise remain fragmented across teams and organizations, making integration difficult. To address these challenges, we introduce the Virtual Biotech, a coordinated team of AI agents that mirrors the structure of human therapeutic research organizations to support end-to-end computational discovery. The Virtual Biotech is led by a Chief Scientific Officer agent that receives scientific queries, delegates them to domain-specialized scientist agents, and integrates their outputs through data-driven reasoning. Scientist agents leverage complementary tools and knowledge sources spanning statistical genetics, functional genomics, pathways and interactions, chemoinformatics, disease biology, and clinical data. We showcase the Virtual Biotech across three translational applications. First, the agents autonomously annotated and analyzed outcomes from 55,984 clinical trials to identify genomic features of drug targets associated with trial success. More than 37,000 clinical-trialist agents curated structured trial outcomes and linked targets to multi-omic annotations, including cell-type-specific features derived by the agents from single-cell RNA-sequencing atlases. The agents discovered that drugs targeting cell-type-specific genes were 40% more likely to progress from Phase I to Phase II and 48% more likely to reach market (Phase IV), while exhibiting 32% lower adverse event rates. Second, the Virtual Biotech evaluated B7-H3 as a lung cancer target, integrating statistical genetics, single-cell, spatial, and clinicogenomic evidence to propose an antibody-drug conjugate strategy while identifying key liabilities and differentiation opportunities. Third, the platform analyzed a terminated ulcerative colitis trial targeting OSMR{beta} to infer potential failure mechanisms and proposed biomarker-guided enrollment strategies to address precision-medicine gaps. Together, these results illustrate how the Virtual Biotech can enable more transparent, efficient, and comprehensive multi-scale therapeutic analyses, helping to accelerate early-stage drug discovery workflows while keeping human scientists in the loop.",
+  "server": "bioRxiv"
+}

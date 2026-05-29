@@ -2,7 +2,7 @@
 title: POISE
 parent: Systems
 grand_parent: AI scientists
-nav_order: 33
+nav_order: 35
 affiliation: Fudan University (Xia, Zhang, Chen, Wu, Yuan, Xiao)
 lifecycle_stages: [Multi-stage]
 autonomy: Semi-autonomous
