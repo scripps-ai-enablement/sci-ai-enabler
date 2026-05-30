@@ -55,5 +55,4 @@ _None._
 
 ## User requests (closed this run)
 
-- [#15 @goodb 2026-05-29] (no trailer emitted; needs curator triage) title="[Tool feedback] migration smoke test — chembl" label=claude:tool-feedback → triaged from title only (issue body not fetchable from runner). Title indicates a post-migration feedback-form smoke test against `chembl`; treated as a no-op test signal and combined with #17's structured `worked fine` trailer below to refresh `chembl` only once. No content change driven by #15 specifically.
-- [#17 @goodb 2026-05-29] queue: catalog | feedback-on=chembl | sentiment=worked fine | author=@goodb | issue=17 → added a dated field-report note to `chembl` Notes (`/plugin marketplace add anthropics/life-sciences` + `/plugin install chembl@life-sciences` reported working without modification) and bumped `last_verified` 2026-05-24 → 2026-05-30.
+_None._
