@@ -2,7 +2,7 @@
 title: Triage an AlphaFold model for structure-based drug design
 parent: All recipes
 grand_parent: Recipes
-nav_order: 17
+nav_order: 18
 problem_class: Knowledge synthesis
 subject_areas: [Integrative Structural and Computational Biology, Drug Repurposing and Discovery]
 evidence_level: Proposed

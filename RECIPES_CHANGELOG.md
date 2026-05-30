@@ -11,6 +11,24 @@ Reverse-chronological log of changes to the [recipes cookbook](recipes/). Newest
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-05-30
+
+### Added
+
+- **Draft a Phase 2/3 clinical-trial protocol from an indication brief** (Problem class: Manuscript prep; Evidence: Reported) — rung-2 [`clinical-trial-protocol`](catalog/tools/clinical-trial-protocol.html) Anthropic Healthcare plugin recipe that walks an indication / endpoint paragraph through the four-waypoint flow — regulatory classification, ClinicalTrials.gov competitive landscape, sample-size calculation, FDA/NIH-template drafting — emerging with a reviewable draft Phase 2/3 protocol scaffold. First Translational Medicine focus-day recipe of the new run; resolves a previously deferred candidate. Evidence anchored in the [Anthropic plugin tutorial](https://claude.com/resources/tutorials/how-to-use-the-clinical-trial-protocol-draft-generation-sample-skill-with-claude) (Claude for Healthcare launch, January 2026) and class-level validation in [Markey et al. *Clinical Trials* 2025](https://journals.sagepub.com/home/ctj) (80% content relevance, >99% terminology accuracy with RAG), [Shin et al. *Clinical Pharmacology & Therapeutics* 2026](https://ascpt.onlinelibrary.wiley.com/journal/15326535) (100% accuracy on disease/intervention/comparator extraction, 14/15 trials for sample-size identification), [Hauptman et al. *JMIR Dermatology* 2026](https://derma.jmir.org/), and [Maleki, *arXiv* 2404.05044 (2024)](https://arxiv.org/abs/2404.05044).
+
+### Updated
+
+- Nav orders rebalanced across the recipe set to keep alphabetical ordering after the addition: **Assemble Census atlas** → 1, **Build target dossier** → 2, **Compute HRV** → 3, **Discover NWB on DANDI** → 4, **Draft a Phase 2/3 clinical-trial protocol** → 5 (new), **Estimate PK** → 6, **Filter virtual screening** → 7, **Infer GRN** → 8, **Integrate single-cell** → 9, **Interpret clinical variant** → 10, **Match patient to trials** → 11, **Profile polypharmacology** → 12, **Run bulk RNA-seq DE** → 13, **QC single-cell** → 14, **Scan repurposing** → 15, **Sort spikes** → 16, **Triage preprints** → 17, **Triage AlphaFold** → 18.
+
+### Verified (no changes)
+
+- No aging recipes due — every `last_verified` date is within the 30-day window. The recipe set's verification floor sits at 2026-05-22 (`integrate-single-cell-datasets`, `sort-spikes-from-neuropixels-recording`); next aging boundary is 2026-06-21.
+
+### User requests
+
+- **#12** (`claude:recipe-feedback`) — remains in `## User requests (open)`; `gh` CLI is still not available in this run's environment so the issue body cannot be inspected. Retry next run with `gh` access.
+
 ## 2026-05-29 (second pass — Neuroscience directed)
 
 ### Added
