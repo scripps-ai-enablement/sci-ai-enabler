@@ -41,6 +41,8 @@ For other marketplaces (community, vendor, your own), add the source first, then
 
 Manage installs with `/plugin list`, `/plugin enable <name>`, `/plugin disable <name>`, `/plugin uninstall <name>`. Open the tabbed manager with `/plugin`; the Discover and Browse panes now preview a plugin's commands, agents, skills, hooks, and MCP/LSP servers before you install. Run `/reload-plugins` after editing files in a local marketplace. Try a plugin without installing it first via `claude --plugin-dir ./my-plugin` (also accepts a `.zip` archive) or `claude --plugin-url https://…/plugin.zip`. Remove orphaned dependencies with `claude plugin prune`.
 
+**Author a plugin without a marketplace (v2.1.157, May 2026).** Any plugin placed inside a `.claude/skills/` directory (project or user) is auto-loaded — no marketplace registration step. Scaffold one with `claude plugin init <name>`, which creates a starter plugin under `.claude/skills/<name>/` for you to fill in. Use this for one-off internal plugins; promote to a marketplace when you want to share.
+
 ## Common pitfalls
 
 - Forgetting the `@marketplace-name` suffix on `/plugin install` — Claude Code needs to know the source.
@@ -59,7 +61,7 @@ Manage installs with `/plugin list`, `/plugin enable <name>`, `/plugin disable <
 ## Sources
 
 - [Discover and install prebuilt plugins through marketplaces](https://code.claude.com/docs/en/discover-plugins) — Anthropic docs; verified 2026-05-21 (this run).
-- [Claude Code changelog (May 2026)](https://code.claude.com/docs/en/changelog) — `--plugin-dir` zip support, `--plugin-url`, dependency enforcement, `claude plugin prune`, `/plugin` Discover/Browse component previews; verified 2026-05-21.
+- [Claude Code changelog (May 2026)](https://code.claude.com/docs/en/changelog) — `--plugin-dir` zip support, `--plugin-url`, dependency enforcement, `claude plugin prune`, `/plugin` Discover/Browse component previews, and (v2.1.157, 2026-05-29) auto-loading of plugins in `.claude/skills/` plus `claude plugin init <name>` scaffolding; verified 2026-05-30 (this run).
 - [`anthropics/claude-plugins-official`](https://github.com/anthropics/claude-plugins-official) — verified 2026-05-21; pre-registered with Claude Code; includes `claude-code-setup`.
 - [`anthropics/claude-plugins-community`](https://github.com/anthropics/claude-plugins-community) — verified 2026-05-19.
 - [Cowork and plugins for teams across the enterprise](https://claude.com/blog/cowork-plugins-across-enterprise) — Anthropic blog; published 2026-02-24 — Cowork-layer plugins are separate from Claude Code plugins.

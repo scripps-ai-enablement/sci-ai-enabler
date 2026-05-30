@@ -11,6 +11,24 @@ Reverse-chronological log of changes to the [guide](guide/). Newest at the top.
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-05-30
+
+### Updated
+- **[plugins] Plugin auto-loading from `.claude/skills/` and `claude plugin init` scaffolding.** Per the [Claude Code v2.1.157 changelog](https://code.claude.com/docs/en/changelog) (released 2026-05-29), any plugin placed inside a `.claude/skills/` directory (project or user) is now auto-loaded with no marketplace registration step, and `claude plugin init <name>` scaffolds a starter plugin there. Added a "Author a plugin without a marketplace" paragraph to the install section on `plugins.md` and refreshed the changelog source line. Beginner-relevant because it collapses the "create a marketplace just to try out a local plugin" hurdle into a single command.
+
+### Verified (no changes)
+- claude-surfaces.md — install command (`curl -fsSL https://claude.ai/install.sh | bash`), Dynamic Workflows, Claude Security, background sessions, MCP tunnels, routines all current. v2.1.156 (bug fixes; combined auth notification) and v2.1.158 (auto mode on Bedrock/Vertex/Foundry behind `CLAUDE_CODE_ENABLE_AUTO_MODE=1`) introduce no new beginner-facing claims.
+- surfaces/claude-code.md — `/goal`, Dynamic Workflows, background sessions, `claude agents`, `claude --bg`, install methods all unchanged.
+- surfaces/claude-ai.md, surfaces/claude-desktop.md, surfaces/claude-cowork.md, surfaces/claude-api.md — unchanged this run.
+- skills.md — `~/.claude/skills/` layout, `/skills` picker, `/reload-skills`, `disallowed-tools` frontmatter unchanged. The v2.1.157 plugin-auto-loading change touches plugin authoring rather than skill authoring, so it belongs on `plugins.md` not `skills.md`.
+- mcp-servers.md, marketplaces.md, connectors.md, decision-tree.md — unchanged this run.
+- advanced/hooks.md, advanced/slash-commands.md, advanced/routines.md, advanced/authentication.md — unchanged.
+
+### Flagged for review
+- WebFetch was again unavailable this run (404 on `claude-3-5-haiku-20241022`). All primary-source verification went through WebSearch summaries of `code.claude.com/docs/en/changelog`, `github.com/anthropics/claude-code/releases`, `releasebot.io/updates/anthropic/claude-code`, `claude.com/product/claude-code`, `anthropic.com/news`, and `simonwillison.net/2026/`. A human should spot-check the v2.1.157 entry on `code.claude.com/docs/en/changelog` directly to confirm `.claude/skills/` (not `.claude/plugins/`) is the auto-load directory — older plugin docs scaffolded into `.claude-plugin/` and the rename is easy to miss.
+- **`CLAUDE_CODE_ENABLE_AUTO_MODE=1` on Bedrock/Vertex/Foundry (v2.1.158, 2026-05-30).** Held off documenting — Auto mode is already enabled by default on the Anthropic API, and the env-var workaround is a cloud-provider specific configuration that doesn't belong in beginner-facing prose. Revisit if Anthropic flips the default on those clouds and the env var becomes legacy.
+- **`claude doctor` last-update-result reporting + status-line `COLUMNS`/`LINES` env vars (v2.1.156).** Both are observability / TUI niceties below the threshold for beginner pages.
+
 ## 2026-05-29 (later run)
 
 ### Added
