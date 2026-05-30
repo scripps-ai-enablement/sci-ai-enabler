@@ -11,6 +11,25 @@ Reverse-chronological log of changes to the [catalog](catalog/). Newest at the t
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-05-30
+
+Directed pass on **Translational Medicine** (Saturday focus). Manifest sweep of `anthropics/life-sciences` shows no diff vs. 2026-05-29 — the DOA `biorxiv@life-sciences` / `clinical-trials@life-sciences` plugins still un-restored, no other new plugins this week. The directed pass cleared **NPI Registry MCP** from the standing Deferred queue (third Anthropic Healthcare MCP-marketplace entry alongside `cms-coverage` and `icd-10-codes`, plus the existing `pubmed` connector — completes the four Healthcare-marketplace MCPs published with the Jan 2026 Claude for Healthcare launch). Two user-feedback issues processed: #17 with a structured `worked fine` trailer for `chembl`, and #15 a no-trailer migration smoke-test against the same tool. One new entry, well under the 5-entry soft cap; both user requests closed this run.
+
+### Added
+- **NPI Registry MCP (Anthropic Healthcare)** (Categories: Translational Medicine) — Anthropic-published MCP server over the CMS NPPES NPI Registry API v2.1 with `npi_validate` / `npi_lookup` / `npi_search` tools for US healthcare-provider credential verification, network construction, and clinical-trial-investigator validation. Pairs with the existing `cms-coverage`, `icd-10-codes`, and `prior-auth-review` entries for end-to-end prior-auth review workflows ([Anthropic tutorial](https://claude.com/resources/tutorials/using-the-npi-registry-connector-in-claude), [`anthropics/healthcare`](https://github.com/anthropics/healthcare), [CMS NPPES](https://npiregistry.cms.hhs.gov/)).
+
+### Updated
+- **`chembl`** — added a dated field-report note in Notes (`/plugin marketplace add anthropics/life-sciences` + `/plugin install chembl@life-sciences` reported working without modification per user feedback issue #17); `last_verified` bumped 2026-05-24 → 2026-05-30.
+- **`catalog/curator-state.md`** — Recently surfaced refreshed with the NPI Registry addition (oldest of the prior five — `molecular-dynamics` — rolled off). Removed `NPI Registry MCP (Anthropic Healthcare)` from the Deferred queue (surfaced this run); added `easysolutions906 Healthcare MCP` (`@easysolutions906/mcp-healthcare` — 10-tool ICD-10 / NPI / NDC / DEA community bundle) to Deferred as a single-install alternative to the four discrete Anthropic Healthcare MCPs.
+
+### Verified (no changes)
+- Existing Translational Medicine entries (`fhir-developer`, `prior-auth-review`, `fhir-wso2`, `cms-coverage`, `icd-10-codes`, `clinical-trial-protocol`, `clinicaltrials-gov-mcp`) all within the 30-day verification window (oldest 2026-05-23) — no scheduled re-verification needed this run.
+- Manifest sweep of `anthropics/life-sciences` re-confirmed: no diff vs. 2026-05-29; `biorxiv` / `clinical-trials` plugins still DOA per upstream issue #42 (`mcp.deepsense.ai` NXDOMAIN). Deferred queue (Cortellis, Medidata, Consensus, Augmented-Nature ChEMBL, AACT, OpenFDA / Azure FHIR MCPs) carries forward.
+
+### User requests
+- **#15** — `[Tool feedback] migration smoke test — chembl` with no `tool-feedback` trailer; closed this run with a note that the title-derived intent is a post-migration form-plumbing smoke test, no content action needed beyond the chembl refresh already driven by #17.
+- **#17** — structured trailer `feedback-on=chembl | sentiment=worked fine`; closed this run by adding a field-report Notes line on the chembl page and refreshing `last_verified`.
+
 ## 2026-05-29
 
 Directed pass on **Neuroscience** (Friday focus). Manifest sweep of `anthropics/life-sciences` shows no diff vs. 2026-05-28 — no new neuro plugins shipped upstream this week; the `biorxiv@life-sciences` / `clinical-trials@life-sciences` DOA situation continues. Existing Neuroscience entries (`allenbrain`, `aind-data`, `neurosift`, `neurokit2`, `neuropixels-analysis`, `bids`) all within the 30-day verification window — no re-verification needed. Directed search turned up two strong candidates: **OpenNeuro MCP** (QuentinCody) — a hosted Cloudflare Workers SSE server wrapping the OpenNeuro GraphQL API, with a clean copy-pasteable install path documented upstream — and **NeuroClaw** (CUHK-AIM Group), an 81-skill neuroimaging library with FreeSurfer / FSL / fMRIPrep / MNE / nilearn / DIPY integrations. OpenNeuro MCP was added; NeuroClaw was deferred because the upstream README positions skills/ as Claude-Code-installable but does not publish a copy-pasteable `~/.claude/skills/` snippet and the license terms could not be confirmed under today's WebFetch reliability. One new entry, well under the 5-entry soft cap.

@@ -8,11 +8,11 @@ nav_exclude: true
 
 ## Recently surfaced
 
+- **NPI Registry MCP (Anthropic Healthcare)** (added 2026-05-30) — Anthropic-published MCP server over the CMS NPPES NPI Registry API v2.1; validate, look up, and search US healthcare providers by NPI. Fourth Anthropic Healthcare MCP catalogued, completing the `cms-coverage` / `icd-10-codes` / `pubmed` set.
 - **OpenNeuro MCP** (added 2026-05-29) — Community MCP server (QuentinCody) wrapping the OpenNeuro GraphQL API; hosted Cloudflare Workers SSE endpoint, MIT + Academic Citation Requirement license. Complements the Neurosift Tools MCP (DANDI + NWB) by covering OpenNeuro's MRI / MEG / EEG / iEEG / ECoG archive.
 - **Cellxgene Census (Claude Skill)** (added 2026-05-28) — K-Dense skill for querying the CZ CELLxGENE Discover census (50M+ cells, 1,000+ datasets) via TileDB-SOMA, with AnnData / Scanpy integration for reference-atlas construction.
 - **scVelo (Claude Skill)** (added 2026-05-28) — K-Dense skill driving scVelo for RNA-velocity analysis (steady-state / stochastic / dynamical models, latent time, driver-gene identification).
 - **Arboreto (Claude Skill)** (added 2026-05-28) — K-Dense skill for gene-regulatory-network inference with GRNBoost2 / GENIE3, distributed via Dask; standard upstream step for pySCENIC.
-- **Molecular Dynamics (Claude Skill)** (added 2026-05-27) — K-Dense skill that runs and analyzes OpenMM-based MD simulations and post-processes trajectories with MDAnalysis (RMSD, RMSF, contact maps, free-energy surfaces) for protein-stability, ligand-binding-pose refinement, and conformational-ensemble work.
 
 ## Flagged for review
 
@@ -24,7 +24,6 @@ nav_exclude: true
 - **Cortellis Plugin (`anthropics/life-sciences`)** — Clarivate Cortellis drug-pipeline / deals data; standalone marketplace entry beyond `adisinsight`.
 - **Medidata Connector (`anthropics/life-sciences`)** — clinical-operations / EDC platform integration; announced Jan 2026 but install path still gated behind Medidata account onboarding.
 - **Consensus Plugin (`anthropics/life-sciences`)** — Consensus.app evidence-search connector; verify install path.
-- **NPI Registry MCP (Anthropic Healthcare)** — Anthropic-published MCP for NPPES provider lookup; fourth healthcare-marketplace MCP from the 2026-05-23 run, still pending.
 - **biorxiv@life-sciences plugin** — `anthropics/life-sciences` marketplace entry currently DOA (`mcp.deepsense.ai` NXDOMAIN per upstream issue #42 / commit `e96556b`). Revisit when upstream restores the endpoint.
 - **clinical-trials@life-sciences plugin** — same DOA status as biorxiv@life-sciences; distinct from both the `adisinsight` plugin (Springer Nature) and the `clinicaltrials-gov-mcp` community entry. Revisit when the endpoint is restored.
 - **DeepChem (K-Dense Skill)** — deep-learning models for ADMET, virtual screening, and molecular property prediction; next Chemistry-focus pass.
@@ -38,6 +37,7 @@ nav_exclude: true
 - **Azure FHIR MCP** (`erikhoward/azure-fhir-mcp-server`) — Azure Health Data Services FHIR adapter.
 - **AACT Clinical Trials MCP** (`navisbio/aact_mcp`) — SQL-over-PostgreSQL alternative to the ClinicalTrials.gov v2 API; complementary to the v2-API MCP surfaced 2026-05-23.
 - **Augmented-Nature ChEMBL-MCP-Server** — 22-tool community alternative to the official Anthropic ChEMBL connector; useful for users without marketplace access. Deferred because the first-party connector now covers the same surface.
+- **easysolutions906 Healthcare MCP** (`@easysolutions906/mcp-healthcare`) — 10-tool community bundle covering ICD-10, NPI, NDC, and DEA in a single server; complementary to the four discrete Anthropic Healthcare MCPs. Revisit on next Translational pass if users want a single-install alternative.
 - **IEDB MCP wrapper** — no Claude-installable wrapper for the IEDB Query API located on the 2026-05-26 Immunology pass; the IEDB API exposes ~2.2M epitopes and is a natural MCP candidate. Revisit on next Immunology-focus pass.
 - **BCR/TCR repertoire MCP** — no dedicated MCP server for immcantation / VDJdb / McPAS-TCR identified on the 2026-05-26 sweep; awesome-vdj catalogs upstream libraries but no Claude wrapper yet.
 - **Adaptyv (K-Dense Skill)** — wraps NetSolP / SoluProt / SolubleMPNN / ESM / ipTM / pSAE for antibody affinity maturation and developability prep; strong Immunology candidate, surface incrementally.
@@ -51,10 +51,9 @@ nav_exclude: true
 
 ## User requests (open)
 
-- [#15 @goodb 2026-05-29] (no trailer emitted; needs curator triage) title="[Tool feedback] migration smoke test — chembl" label=claude:tool-feedback
-
-- [#17 @goodb 2026-05-29] queue: catalog | feedback-on=chembl | sentiment=worked fine | author=@goodb | issue=17
+_None._
 
 ## User requests (closed this run)
 
-_None._
+- [#15 @goodb 2026-05-29] (no trailer emitted; needs curator triage) title="[Tool feedback] migration smoke test — chembl" label=claude:tool-feedback → triaged from title only (issue body not fetchable from runner). Title indicates a post-migration feedback-form smoke test against `chembl`; treated as a no-op test signal and combined with #17's structured `worked fine` trailer below to refresh `chembl` only once. No content change driven by #15 specifically.
+- [#17 @goodb 2026-05-29] queue: catalog | feedback-on=chembl | sentiment=worked fine | author=@goodb | issue=17 → added a dated field-report note to `chembl` Notes (`/plugin marketplace add anthropics/life-sciences` + `/plugin install chembl@life-sciences` reported working without modification) and bumped `last_verified` 2026-05-24 → 2026-05-30.
