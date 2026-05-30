@@ -2,7 +2,7 @@
 title: PerTurboAgent
 parent: Systems
 grand_parent: AI scientists
-nav_order: 33
+nav_order: 35
 affiliation: Genentech / Tsinghua / Stanford (Hao, Lee, Wang, Scalia, Regev)
 lifecycle_stages: [Experiment design, Analysis]
 autonomy: Semi-autonomous

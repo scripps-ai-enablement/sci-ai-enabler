@@ -2,7 +2,7 @@
 title: CVEvolve
 parent: Systems
 grand_parent: AI scientists
-nav_order: 17
+nav_order: 19
 affiliation: Advanced Photon Source, Argonne National Laboratory (Du, Cherukara et al.)
 lifecycle_stages: [Analysis]
 autonomy: Semi-autonomous

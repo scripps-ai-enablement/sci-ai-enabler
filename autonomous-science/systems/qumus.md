@@ -2,7 +2,7 @@
 title: Qumus
 parent: Systems
 grand_parent: AI scientists
-nav_order: 37
+nav_order: 39
 affiliation: Princeton University (Sanfeng Wu group, with Princeton AI Lab and ECE), with University of Michigan, NIMS Tsukuba, and California State University Northridge
 lifecycle_stages: [Multi-stage]
 autonomy: Fully autonomous

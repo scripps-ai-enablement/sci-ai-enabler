@@ -2,7 +2,7 @@
 title: Deep Researcher Agent
 parent: Systems
 grand_parent: AI scientists
-nav_order: 19
+nav_order: 21
 affiliation: University of Tokyo (Xiangyue Zhang)
 lifecycle_stages: [Multi-stage]
 autonomy: Fully autonomous

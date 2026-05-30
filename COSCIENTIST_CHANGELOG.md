@@ -9,6 +9,23 @@ permalink: /updates/ai-scientists.html
 
 Reverse-chronological log of changes to the [AI scientists tracker](autonomous-science/). Newest at the top.
 
+## 2026-05-30
+
+### Added
+- **AMASE** (Lifecycle: Multi-stage) — University of Maryland (Takeuchi lab) and NIST autonomous materials search engine that closes the loop on combinatorial thin-film phase mapping. A **Variable Generation Planning Controller** (LLM-driven) orchestrates Bayesian active learning over composition–temperature space, YOLO-based XRD peak detection, and CALPHAD-informed phase identification, with explicit end-point detection. On a Sn-Bi thin-film library, AMASE autonomously selected **66 XRD measurements at 11 temperatures in 8 h 22 min** and predicted a thin-film eutectic at **53.3 ± 2 at% Sn / 133.1 ± 1 °C** — agreeing within **3%** of independent dedicated experiments (55.5 ± 1.5 at% Sn, 133.2 ± 10 °C) and exposing a thin-film vs. bulk eutectic shift from the standard 59.5 at% Sn / 140.7 °C; a **~6× reduction** in measurements over uniform sampling. Data and code released with the manuscript ([source](https://arxiv.org/abs/2410.17430)).
+- **BORA** (Lifecycle: Experiment design, Hypothesis) — University of Liverpool (Cooper lab) language-based Bayesian-optimization research assistant pairing a Matérn-kernel Gaussian process with GPT-4o-mini. Three actions — **a₁** vanilla BO, **a₂** LLM-only hypotheses, **a₃** LLM filtering of BO candidates — are governed by an adaptive heuristic policy with a **trust mechanism** that monitors LLM-suggested improvement and a structured **Experiment Card** that grounds the language model in problem context. On the 10-D Hydrogen Production benchmark BORA reduces cumulative regret by **47%** versus ColaBO, and a sign test versus HypBO across three synthetic and four real campaigns gives **p = 0.02**; ablations show both the LLM hypothesis action and the trust mechanism are load-bearing. IJCAI 2025; open source at github.com/Ablatif6c/bora-the-explorer ([source](https://arxiv.org/abs/2501.16224)).
+
+### Updated
+- **`autonomous-science/summary.md`** — added two sentences in the Chemistry and materials section covering AMASE (closed-loop Sn-Bi phase mapping with ~6× measurement reduction) and BORA (hybrid BO–LLM optimization with 47% cumulative-regret reduction); removed the BORA preview from the "Other notable systems being tracked for inclusion" line; appended two new source citations.
+- **`autonomous-science/systems/`** — renumbered `nav_order` on 37 affected system pages to preserve alphabetical ordering after inserting **AMASE** (nav_order 5) and **BORA** (nav_order 13). AILA, AIRA, Aleks, ARIS, AutoResearchClaw, AutoTTS, Biomni shifted by +1 for AMASE; all entries from ChemCrow through Virtual Biotech shifted by +2 for both insertions.
+- **`autonomous-science/curator-state.md`** — added AMASE and BORA at the top of `Recently surfaced`; trimmed EvoMaster and NeuroClaw (both 2026-05-27) to keep the window at five.
+
+### Flagged
+_None._
+
+### Verified (no changes)
+- All pre-existing system pages were `last_verified` on 2026-05-20 or later — inside the 30-day re-verification window. No spot-checks performed this run.
+
 ## 2026-05-29
 
 ### Added

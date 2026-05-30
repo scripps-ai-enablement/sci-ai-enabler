@@ -2,7 +2,7 @@
 title: NovelSeek
 parent: Systems
 grand_parent: AI scientists
-nav_order: 30
+nav_order: 32
 affiliation: Shanghai Artificial Intelligence Laboratory
 lifecycle_stages: [Multi-stage]
 autonomy: Semi-autonomous

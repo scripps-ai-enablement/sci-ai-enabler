@@ -2,7 +2,7 @@
 title: Latent-Y
 parent: Systems
 grand_parent: AI scientists
-nav_order: 27
+nav_order: 29
 affiliation: Latent Labs (London, UK; San Francisco, USA)
 lifecycle_stages: [Multi-stage]
 autonomy: Fully autonomous

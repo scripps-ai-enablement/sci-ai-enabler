@@ -2,7 +2,7 @@
 title: PantheonOS
 parent: Systems
 grand_parent: AI scientists
-nav_order: 32
+nav_order: 34
 affiliation: Stanford (Department of Genetics, Qiu lab) and collaborators
 lifecycle_stages: [Multi-stage]
 autonomy: Semi-autonomous

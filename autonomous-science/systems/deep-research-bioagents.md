@@ -2,7 +2,7 @@
 title: Deep Research (BioAgents)
 parent: Systems
 grand_parent: AI scientists
-nav_order: 18
+nav_order: 20
 affiliation: bio.xyz / BioAgents
 lifecycle_stages: [Multi-stage]
 autonomy: Semi-autonomous

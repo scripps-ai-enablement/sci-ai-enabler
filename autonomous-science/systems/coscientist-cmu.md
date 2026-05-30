@@ -2,7 +2,7 @@
 title: Coscientist (CMU)
 parent: Systems
 grand_parent: AI scientists
-nav_order: 15
+nav_order: 17
 affiliation: Carnegie Mellon University, Gomes Lab
 lifecycle_stages: [Experiment design, Analysis]
 autonomy: Fully autonomous

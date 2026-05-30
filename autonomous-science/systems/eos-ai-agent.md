@@ -2,7 +2,7 @@
 title: EOS AI agent
 parent: Systems
 grand_parent: AI scientists
-nav_order: 21
+nav_order: 23
 affiliation: UNC-Chapel Hill (Angelopoulos, Cahoon, Alterovitz)
 lifecycle_stages: [Experiment design, Analysis]
 autonomy: Semi-autonomous

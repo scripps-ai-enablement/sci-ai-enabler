@@ -347,6 +347,22 @@
       "downloaded": "2026-05-29",
       "txt_sidecar": "2026.02.23.707551v1.full.txt",
       "notes": "PDF blocked by Cloudflare; metadata + abstract archived via bioRxiv API"
+    },
+    {
+      "doi": "10.48550/arXiv.2410.17430",
+      "filename": "2410.17430v1.pdf",
+      "title": "Real-time experiment-theory closed-loop interaction for autonomous materials science (AMASE)",
+      "source_url": "https://arxiv.org/abs/2410.17430",
+      "downloaded": "2026-05-30",
+      "txt_sidecar": "2410.17430v1.txt"
+    },
+    {
+      "doi": "10.48550/arXiv.2501.16224",
+      "filename": "2501.16224v1.pdf",
+      "title": "Language-Based Bayesian Optimization Research Assistant (BORA)",
+      "source_url": "https://arxiv.org/abs/2501.16224",
+      "downloaded": "2026-05-30",
+      "txt_sidecar": "2501.16224v1.txt"
     }
   ]
 }
