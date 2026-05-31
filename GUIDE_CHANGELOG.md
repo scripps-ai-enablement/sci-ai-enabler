@@ -11,6 +11,23 @@ Reverse-chronological log of changes to the [guide](guide/). Newest at the top.
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-05-31
+
+### Added
+- **[claude-surfaces] Sandboxing differs by surface — cross-cutting note.** Per Anthropic's engineering post [How we contain Claude across products](https://www.anthropic.com/engineering/how-we-contain-claude) (late May 2026, surfaced 2026-05-30 on [Simon Willison's link blog](https://simonwillison.net/2026/May/30/how-we-contain-claude/)), each Claude surface uses a different containment stack: gVisor for Claude.ai, Seatbelt (macOS) / Bubblewrap (Linux) for Claude Code running locally with reads allowed / writes scoped to the workspace / network denied by default, and a full VM (Apple Virtualization on macOS, HCS on Windows) for Cowork. Local MCP servers wired into Claude Desktop run with the user's permissions, not inside a sandbox. Added as a cross-cutting bullet on `claude-surfaces.md` with sources. Beginner-relevant because it answers "what can Claude actually touch on my machine?" — a question several existing pitfalls (Claude Desktop MCP, Cowork VM, Claude Code on the web) hint at but none answered coherently.
+
+### Verified (no changes)
+- claude-surfaces.md — install command, Dynamic Workflows, Claude Security, background sessions, MCP tunnels, routines all current. The sandboxing addition above is the only structural change.
+- surfaces/claude-code.md — `curl -fsSL https://claude.ai/install.sh | bash` re-verified against `claude.com/product/claude-code`. v2.1.158 (2026-05-30, Auto mode env var on Bedrock/Vertex/Foundry) remains too internal for beginner pages — already flagged 2026-05-30. No new releases through 2026-05-31.
+- surfaces/claude-ai.md, surfaces/claude-desktop.md, surfaces/claude-cowork.md, surfaces/claude-api.md — unchanged this run.
+- skills.md, mcp-servers.md, plugins.md (`.claude/skills/` auto-load + `claude plugin init` from v2.1.157), marketplaces.md, connectors.md, decision-tree.md — unchanged this run.
+- advanced/hooks.md, advanced/slash-commands.md, advanced/routines.md, advanced/authentication.md — unchanged.
+
+### Flagged for review
+- WebFetch was again unavailable this run (404 on `claude-3-5-haiku-20241022`). All primary-source verification went through WebSearch summaries of `code.claude.com/docs/en/changelog`, `code.claude.com/docs/en/whats-new`, `claude.com/product/claude-code`, `anthropic.com/news`, `anthropic.com/engineering/how-we-contain-claude`, `simonwillison.net/2026/May/30/how-we-contain-claude/`, `releasebot.io/updates/anthropic/claude-code`, and `claudefa.st/blog/guide/changelog`. A human should spot-check the engineering post directly to confirm the per-surface containment stack (gVisor / Seatbelt / Bubblewrap / Apple Virtualization / HCS) and the late-May publication date.
+- **Dedicated `advanced/sandboxing.md` page.** Today the containment model is a single cross-cutting bullet on `claude-surfaces.md`. If Anthropic ships per-surface sandbox controls users can configure (e.g., a `--no-sandbox` flag, custom egress allowlists, or trust-prompt overrides) the bullet should be promoted to its own advanced page.
+- **`How we contain Claude` exact publication date.** The engineering post lacks an explicit datestamp on the page in search-index excerpts; placeholder is "late May 2026". A human should verify the exact date by viewing the page directly.
+
 ## 2026-05-30
 
 ### Updated
