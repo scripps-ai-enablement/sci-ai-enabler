@@ -363,6 +363,46 @@
       "source_url": "https://arxiv.org/abs/2501.16224",
       "downloaded": "2026-05-30",
       "txt_sidecar": "2501.16224v1.txt"
+    },
+    {
+      "doi": "10.48550/arXiv.2605.24002",
+      "filename": "2605.24002v1.pdf",
+      "title": "Harnessing AtomisticSkills for Agentic Atomistic Research",
+      "source_url": "https://arxiv.org/abs/2605.24002",
+      "downloaded": "2026-05-31",
+      "txt_sidecar": "2605.24002v1.txt"
+    },
+    {
+      "doi": "10.48550/arXiv.2605.26340",
+      "filename": "2605.26340v1.pdf",
+      "title": "ScientistOne: Towards Human-Level Autonomous Research via Chain-of-Evidence",
+      "source_url": "https://arxiv.org/abs/2605.26340",
+      "downloaded": "2026-05-31",
+      "txt_sidecar": "2605.26340v1.txt"
+    },
+    {
+      "doi": "10.48550/arXiv.2605.02092",
+      "filename": "2605.02092v1.pdf",
+      "title": "NORA: A Harness-Engineered Autonomous Research Agent for Spatial Data Science",
+      "source_url": "https://arxiv.org/abs/2605.02092",
+      "downloaded": "2026-05-31",
+      "txt_sidecar": "2605.02092v1.txt"
+    },
+    {
+      "doi": "10.48550/arXiv.2604.27297",
+      "filename": "2604.27297v1.pdf",
+      "title": "Machine Collective Intelligence for Explainable Scientific Discovery (MCI)",
+      "source_url": "https://arxiv.org/abs/2604.27297",
+      "downloaded": "2026-05-31",
+      "txt_sidecar": "2604.27297v1.txt"
+    },
+    {
+      "doi": "10.48550/arXiv.2605.07306",
+      "filename": "2605.07306v1.pdf",
+      "title": "BioProVLA-Agent: An Affordable, Protocol-Driven, Vision-Enhanced VLA-Enabled Embodied Multi-Agent System for Biological Laboratory Manipulation",
+      "source_url": "https://arxiv.org/abs/2605.07306",
+      "downloaded": "2026-05-31",
+      "txt_sidecar": "2605.07306v1.txt"
     }
   ]
 }

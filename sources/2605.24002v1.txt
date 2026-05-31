@@ -1,0 +1,2090 @@
+Harnessing AtomisticSkills for Agentic Atomistic Research
+
+arXiv:2605.24002v1 [physics.chem-ph] 18 May 2026
+
+Bowen Deng ,1 Bohan Li ,1, ∗ Matthew Cox ,2, ∗ Hoje Chun ,1, 3 Juno Nam ,1 Artur Lyssenko ,4, 1 Sathya
+Edamadaka ,1 Jurgis Ruza ,1 Xiaochen Du ,2 Nofit Segal ,1 Jesus Diaz Sanchez ,5 Mingrou Xie ,2 Ty
+Perez ,1 Yu Yao ,6 Miguel Steiner ,1 Sauradeep Majumdar ,1 Charles B. Musgrave III ,1 Anirban Chandra
+,7 Abhirup Patra ,8 Detlef Hohl ,7 Connor W. Coley ,2 Ju Li ,1, 6 and Rafael Gómez-Bombarelli 1, †
+1
+Department of Materials Science and Engineering,
+Massachusetts Institute of Technology, Cambridge, MA 02139, USA
+2
+Department of Chemical Engineering, Massachusetts Institute of Technology, Cambridge, MA 02139, USA
+3
+Department of Chemistry, Kookmin University, Seoul 02707, Republic of Korea
+4
+Harvard University, Department of Chemistry and Chemical Biology, Cambridge, MA, 02138, USA
+5
+Department of Chemistry, Massachusetts Institute of Technology, Cambridge, MA 02139, USA
+6
+Department of Nuclear Science and Engineering,
+Massachusetts Institute of Technology, Cambridge, MA 02139, USA
+7
+Shell Information Technology International Inc., Texas 77082, United States
+8
+Shell International Exploration & Production Inc., Texas 77079, United States
+(Dated: May 26, 2026)
+
+Computational materials science and chemistry span vast knowledge domains and fractured software ecosystems. Although large language models (LLMs) have demonstrated research capabilities, scaling monolithic agents to manage the rigor and complexity of atomistic research remains
+a challenge. Here, we introduce AtomisticSkills, an open-source harness framework that empowers
+general-purpose AI coding agents to conduct atomistic research across materials science, chemistry,
+and drug discovery. By hierarchically decomposing scientific workflows into agent skills and tools,
+AtomisticSkills provides agents with modular, extensible, and plug-and-play research capabilities.
+The framework integrates more than 100 human-curated multidisciplinary skills, including database
+access, thermodynamics and kinetics modeling, and diverse simulation engines employing machine
+learning interatomic potentials (MLIPs) and density functional theory (DFT). We validate its functional coverage against scientific literature and demonstrate robust orchestration capabilities across
+diverse scientific campaigns: generative design of Li-ion solid-state electrolytes, high-throughput
+screening of metal-organic frameworks for CO2 capture, autonomous MLIP benchmarking and finetuning, multi-stage structure-based virtual screening for drug design, multimodal X-ray diffraction
+pattern analysis, and screening of Fe-oxide catalysts for oxygen evolution reaction. AtomisticSkills
+provides a critical agent infrastructure towards building fully autonomous AI scientists.
+
+I.
+
+INTRODUCTION
+
+The integration of computational workflows is central to modern chemical, materials, and biological research, enabling the efficient screening and design of
+novel batteries [1], semiconductors [2], catalysts [3], and
+drugs [4]. Despite its profound impact, the execution
+of these simulations involves significant operational overhead. Researchers must possess deep domain expertise not only in physics and chemistry but also in navigating fractured software ecosystems: parsing opaque
+parameters, handling runtime and convergence errors,
+and extracting data from complex, unstructured outputs. To automate these computational procedures,
+conventional high-throughput workflow frameworks have
+been developed [5–10]. These non-LLM-driven orchestrators are fundamentally hard-coded: while they provide exceptional reliability and reproducibility when executed under expected conditions, they remain nonexpandable and require explicit programmatic definition
+
+∗ These authors contributed equally as co-second authors.
+† rafagb@mit.edu
+
+for every new task. Consequently, they are primarily
+used for large-scale, systematic materials screening and
+deterministic data generation efforts, famously driving
+the creation of expansive databases like the Materials
+Project [11].
+Recent advances in artificial intelligence (AI) and large
+language models (LLMs) are reshaping how scientific
+workflows are orchestrated, allowing systems to handle
+procedural steps that previously required human judgment and to adapt workflows dynamically in response
+to intermediate results. Indeed, numerous end-to-end
+architectures have emerged to tackle diverse challenges
+across different scientific domains. Hardware-integrated
+autonomous agents were reported focusing on closing
+the loop between digital planning and physical experimentation by orchestrating agentic reasoning, materials
+synthesis, and robotic characterizations [12–15]. Moreover, knowledge retrieval and workflow navigation agents
+leverage structured databases, multi-disciplinary knowledge, and unbounded web search to dynamically read
+documentation, answer complex scientific examinations,
+generate hypotheses, and navigate pipelines with reduced hallucination rates [16–19]. In addition, agents
+also deployed in silico simulation pipelines with various toolboxes to automate computational tasks, rang-
+
+2
+
+Workﬂow
+
+MCP Tool Box
+
+Is Li₃MCl₆ a good Li-ion conductor?
+FairChem
+
+MatGL
+
+Base Server
+
+MACE
+
+I’ll review literature and create a research plan
+MCP tool: create_research_dir
+MCP tool: search_literature
+here is the research plan for you to review:
+
+create
+research
+search
+literature
+
+Atomate2
+
+Smol
+
+Drug
+
+search
+chemsys
+
+Tool 1
+
+search
+formula
+
+ORCA
+
+DiﬀCSP
+
+visualize
+structure
+
+MatterGen
+
+Skill 1
+
+Materials Science(53)
+Chemistry(23)
+
+Coding Agents
+
+mat-amorphization
+
+Melting MD
+
+Relaxation
+
+Quenching MD
+
+Convex Hull
+
+Equilibration MD
+
+Energy above hull
+
+research_plan.md
+
+SKILL: ml-foundation-potentials
+Analyzed:
+
+SKILL.md
+SKILL: general-molecular-dynamics
+
+mat-stability
+query MP
+
+Edited:
+
+MCP tool: search_materials_project
+
+General(11)
+
+Supercell Expand
+
+Open
+
+Let’s study Li₃YCl₆, run 300-700K MD
+MCP tool: search_literature
+
+Machine Learning(14)
+
+Drug Discovery(18)
+
+Skill 3
+
+Tool 2
+Proceed
+
+Skill Library
+
+Skill 2
+
+Ran background command
+~/…/AtomisticSkills $ conda run -n matgl-agent python ...
+
+Rules
+
+SKILL: mat-diﬀusion-analysis
+
+Research Standards
+
+Skill Standards
+
+Workflow Standards
+
+MCP environments
+
+FIG. 1. Architecture of AtomisticSkills. The Model Context Protocol (MCP) toolbox provides fundamental research
+tools to the agent. Skill library contains mid-level, semi-flexible atomistic research skills that are each constructed with MCP
+tools, scripts, markdown files, and examples. Rules define research standards that the agent needs to follow. This hierarchical
+research infrastructure can be adopted by any general-purpose coding agent and enable its capability to perform atomistic
+research. In this way, complicated and versatile scientific research workflows can be hierarchically decomposed into skills and
+tools, and executed by coding agents under the supervision of human researchers.
+
+ing from automated backend package deployment and
+multi-agent graph reasoning to orchestrating molecular
+dynamics (MD) simulations and first-principles calculations [20–29].
+Despite these successes, deploying end-to-end, domainspecific AI agents poses significant infrastructural bottlenecks. Most scientific agents were built as monolithic, standalone platforms atop orchestration frameworks such as LangChain [30]. Consequently, developers of these platforms are forced to reinvent fundamental software infrastructure: engineering system prompts
+for individual sub-agents, defining complex inter-agent
+communication boundaries, building custom user interfaces, and implementing persistent state tracking. In
+comparison to pre-LLM scientific computation management systems [5, 6, 8], these agent platforms are difficult to transfer and deploy across different hardware environments due to additional dependency requirements
+on heavy agentic infrastructure and LLM calls. Furthermore, this monolithic design limits agility. It is challenging for end-to-end scientific agents to keep pace with
+the fast-evolving ecosystem of general-purpose agents,
+such as Claude Code [31], Aider [32], Codex [33], Gemini CLI [34], Cursor [35], Google Antigravity [36], and
+
+Windsurf [37]. These agents rapidly introduce novel LLM
+endpoints, refine orchestration graphs, and develop new
+standards for persistent memory and long-horizon tasks.
+These limitations have motivated a complementary
+approach that builds on top of general-purpose coding agents rather than rebuilding their infrastructure:
+harness engineering [38]. A harness is the non-model
+software infrastructure that wraps an LLM’s reasoning
+loop and coordinates tool dispatch, context management,
+memory, and safety enforcement. Under the harness engineering approach, frontier coding agents serve as the
+substrate, and domain-specific capability is layered on
+as modular extensions. Recent work has shown that,
+for a fixed model, the choice of agent harness can be
+a primary determinant of end-to-end performance, capable of shifting outcomes by margins comparable to
+or exceeding model upgrades on agentic coding benchmarks [39, 40]. It is useful to disentangle two layers of
+this harness, defined here as the inner harness and outer
+harness. The inner harness, built by the agent provider,
+is the general-purpose machinery of the agent loop itself: system prompts, context compaction, built-in tool
+dispatch, and generic error handling (e.g., Claude Code
+or the Claude Agent SDK). The outer harness, built by
+
+3
+Materials Science (53)
+amorphization
+
+calphad-phase-diagram
+
+dft-electron-phonon
+diffusion-analysis
+
+disorder
+
+elasticity
+
+grain-boundary
+
+grand-canonical-mc
+
+magnetic-density
+
+md-monitors
+
+phase-field-non-conservative
+reaction-network
+
+calphad-property-diagram
+
+dft-electronic-transport
+
+dft-ferroelectric
+
+electrochemical-window
+intercalation-voltage
+
+md-probability-density
+pourbaix-diagram
+
+sample-pes-by-md
+
+solid-free-energy
+
+xrd-calculator
+
+ionic-substitution
+
+db-optimade
+
+kinetic-monte-carlo
+
+defect-energy-dft
+
+dielectric-response
+equation-of-state
+
+lammps-md
+
+lattice-thermal-conductivity
+
+phase-field-conservative
+
+raman-spectra
+
+structure-novelty
+
+xrd-phase-analysis
+
+defect-energy
+
+dft-vasp
+
+elemental-energies
+
+phase-diagram
+
+qha-thermal-expansion
+stability
+
+xrd-digitizer
+
+db-nist-janaf
+
+dft-mixing-functionals
+
+electronic-structure
+
+melting-point
+
+phonon
+
+synthesis-recommendation
+
+db-mp
+
+dft-lobster
+
+random-structure-search
+
+surface-adsorption
+
+surface-energy
+
+xrd-refinement
+
+Chemistry (23)
+bond-dissociation
+
+conformer-search
+
+db-mof
+
+dft-orca-singlepoint
+
+docking-void
+
+hazard-toxicity
+
+solution-md
+
+sorption-gcmc
+
+sorption-relax
+
+db-qmof
+
+db-spectra
+
+irc-verification
+
+sorption-widom
+
+dft-orca-advanced-calculation
+
+neb-barrier
+
+thermochemistry
+
+dft-orca-optimization
+
+nmr-analysis
+
+nmr-predict
+
+ts-optimization
+
+vibration
+
+db-chembl
+
+db-pdb
+
+react-ot
+
+similarity-search
+
+Drug Discovery (18)
+admet-prediction
+
+binding-site-definition
+
+docking-vina
+
+ligand-prep
+
+retrosynthesis
+
+trajectory-analysis
+
+bioactivity-assay
+
+mmgbsa
+
+molecular-fingerprints
+
+complex-system-builder
+pose-validation
+
+protein-ligand-md
+
+db-pubchem
+
+protein-prep
+
+docking-analysis
+
+redocking-rmsd
+
+Machine Learning (14)
+cluster-expansion
+
+committee-uncertainty
+
+generative-mattergen
+
+mace-finetune
+
+fairchem-finetune
+
+matgl-finetune
+
+foundation-potentials
+
+generative-adit
+
+generative-diffcsp
+property-predict-scd
+
+mlip-automl
+
+mlip-benchmark
+
+mlip-speed
+
+deep-research
+
+patent-search
+
+peer-review
+
+property-predictor
+
+General (11)
+arxiv-search
+property-units
+
+chemical-literature
+
+chemical-pricing
+
+query-literature-database
+
+plot-digitizer
+
+presentation
+
+workflow-planner
+
+FIG. 2. Skill library in AtomisticSkills. AtomisticSkills provides comprehensive coverage of agentic research skills in
+materials science, chemistry, drug discovery, and machine learning. These skills serve as composable research units that can be
+built into full research workflows.
+
+the domain user, sits on top and supplies domain-specific
+procedural knowledge that informs the agent’s reasoning
+before it acts. A highly beneficial way to shape the outer
+harness is via the construction of a library of domainspecific agent skills, which were first introduced in this
+setting by Anthropic in late 2025 [41]. Skills are procedural documents that facilitate structured and controlled
+knowledge injection to the agent’s context without the
+heavy pre-indexing required by conventional retrievalaugmented generation (RAG) [42]. This dynamic loading pattern is designed to address two well-documented
+LLM failure modes: performance degradation as context length grows [43–46], which persists even in modern
+frontier models with million-token windows, and the distractibility induced by irrelevant context even at short
+lengths [47]. With agent skills, only a minimal SKILL.md
+documentation is loaded into the agent’s context, as opposed to loading full multi-package documentation simultaneously.
+The skill convention is very well-suited to the computational sciences, where workflows are typically highly
+procedural, environment-dependent, and tightly coupled
+to specialized tooling. Researchers can package transferable scientific procedures and toolsets as skill artifacts
+that work with any general-purpose coding agent. Each
+
+skill bundles natural-language procedures with actionable scripts and model context protocol (MCP) [48] tools.
+The result is robust execution and cross-platform transferability without duplicating core infrastructural functionality like local file management and web search. Several projects have already moved in this direction, building curated modular skill libraries for domain-specific scientific work—among them ToolUniverse [49], Scientific
+Agent Skills [50], and MolClaw [51]. However, these efforts are almost exclusively concentrated in bioinformatics and clinical science. An open, systematic, and extensible skill framework dedicated to atomistic materials
+science and computational chemistry remains a critical
+open challenge.
+To bridge this gap, we introduce AtomisticSkills, an
+open-source agentic research infrastructure designed for
+complex atomistic research. AtomisticSkills targets the
+outer harness for atomistic science. In this way, instead
+of reinventing the core agent loop itself, it layers atomistic research knowledge on top of any general-purpose
+coding agent. A critical challenge in deploying agentic
+research lies in resolving the inherent conflict between the
+deterministic reliability of traditional automation scripts
+and the unbounded, often hallucination-prone flexibility
+of free-form coding agents. AtomisticSkills addresses this
+
+4
+by grounding unstructured LLM reasoning through a rigorous hierarchical decomposition of scientific knowledge
+into workflows, skills, and tools, as shown in Fig. 1.
+Workflows represent comprehensive research campaigns targeted at high-level scientific objectives. As
+shown in the right panel of Fig. 1, research directives
+such as “Is Li3MCl6 a good Li-ion conductor?” are consolidated into modularized research plans by the coding
+agent with the aid of AtomisticSkills. Instead of uninformed execution, the agent first hypothesizes solutions,
+retrieves pertinent literature, and down-selects an appropriate sequence of skills to formulate a transparent plan.
+Following user review and approval, the agent then autonomously orchestrates the prolonged execution campaign.
+Skills function as mid-level modular, semi-flexible research tutorials. Rather than standalone executables,
+skills consist of sequences of tools designed to solve specific scientific questions. For example, as detailed in the
+lower left of Fig. 1, the mat-amorphization skill [52]
+consists of a supercell expansion and three MD simulations, each corresponding to an MCP tool call. Similarly, the mat-stability skill involves an MCP-based
+database query [11], ionic relaxation, and script-based
+construction and analysis of the convex hull phase diagram [53]. Most skills in our library are implemented
+based on established methods documented in the literature and are explicitly paired with a markdown manual,
+executable scripts, and concrete example usages. To validate their reliability, execution results from these skills
+have been compared to literature-reported values whenever available. Additionally, to ensure complete scientific reproducibility, all hyperparameters and arguments
+invoked during a skill’s execution are persistently logged
+into standardized configuration files alongside the generated outputs.
+The current skill library features more than 100 skills,
+spanning 53 skills in material science, 23 skills in chemistry, 18 skills in drug discovery, 14 skills in machine
+learning, and 11 general research skills. Fig. 2 catalogs
+the detailed skill coverages of current AtomisticSkills,
+which involve multi-disciplinary database access, simulation methods, machine learning models, experimental
+analysis, etc. To our best knowledge, AtomisticSkills
+presents the first agent skill infrastructure designed for
+general-purpose atomistic research.
+Tools constitute low-level, strictly structured operations exposed as Python functions, representing frequent,
+reusable fundamental research units that can be picked
+off-the-shelf to construct mid-level skills. They feature
+rigorous input/output type definitions and facilitate reliable, programmatic calls. Tools live in independent, separately operating environments (MCP servers) to avoid
+dependency conflicts. The top left panel of Fig. 1 shows
+a list of available MCP servers. In total, we provide
+more than 10 tool servers and 50 MCP tools. These include FairChem [54], MatGL [55], and MACE [56], which
+provide machine learning interatomic potential (MLIP)
+
+support for simulations; Atomate2 [5], which provides remote simulation management; Smol [57], which provides
+lattice thermodynamics analysis; materials and molecular generative models [58, 59], and a drug server that
+provides drug discovery tools, etc. In addition to these
+universally reusable research tools implemented globally
+as MCP servers, AtomisticSkills also provides auxiliary
+tool environments that support specific and less reusable
+skill scripts that are not configured as persistently exposed MCP tools. Through these individual servers,
+the framework executes programmatic operations such as
+database retrieval, static energy calculations, and MDs
+via local or remote high-performance computing (HPC)
+tool calls. Because these tool payloads are strictly typechecked by the MCP protocol, deployed LLMs experience
+near-zero hallucination rates when configuring input parameters during these routine procedures. Their foundational reliability is continually guaranteed by unit testing
+(pytest).
+In addition, rules form the guidelines and constraints
+of the agent’s behavior. As shown in the lower center
+of Fig. 1, rules establish formal research standards, such
+as mandating preliminary literature reviews, enforcing
+MLIP registry checks, managing simulation outputs, and
+defining the standards to create new tools, skills, and
+workflows. These agentic constraints ensure AtomisticSkills executes systematic and reproducible research.
+This hierarchical decomposition empowers the agent
+to build complex scientific workflows dynamically from
+tested skills and tools, without sacrificing the deterministic reliability required for rigorous atomistic research.
+By leveraging the built-in code generation and localized
+tool-execution capability of general-purpose agents, AI
+scientists with AtomisticSkills can autonomously execute
+atomistic research workflows, spanning from ad-hoc literature retrieval to programmatic data analysis, while
+generating localized, human-readable state artifacts that
+permanently ensure step-by-step scientific reproducibility. In the next section, we will show several end-toend case studies demonstrating how the framework seamlessly manages rigorous operational complexity across
+computational materials science, chemistry, biology, and
+experimental characterization analysis.
+
+II.
+A.
+
+RESULTS
+
+AtomisticSkills Coverage in Literature
+
+To benchmark the functional capabilities of AtomisticSkills, we conducted a systematic coverage analysis
+by text-mining and randomly sampling 500 papers published in npj Computational Materials. By decomposing
+the computational workflows reported in each manuscript
+into their constituent skills (see Methods IV C), we systematically compared the literature-used skills against
+our library and quantitatively evaluated how effectively
+AtomisticSkills supports real-world materials research
+
+5
+(a)
+
+(b)
+
+(c)
+
+FIG. 3. Coverage analysis of AtomisticSkills compared to literature (a) Histogram of the number of skills used in
+each paper, text-mined from 500 published research articles from npj Computational Materials. (b) The 30 most frequently
+used scientific skills. The histogram indicates their frequency appeared in literature, and the color scheme indicates whether
+the skill is covered by AtomisticSkill. (c) Histogram of the skill coverage percentage of AtomisticSkills in each paper. The
+result indicates that AtomisticSkills can fully cover around 15% of computational materials journal articles. And on average,
+AtomisticSkills covers 56.2% of computational materials skills usage.
+
+demands.
+Fig. 3(a) illustrates the number of skills we identified
+from each article in npj Computational Materials. The
+distribution indicates that typical computational studies rely on fewer than 10 interconnected skills. Crucially,
+evaluating these operations against our repository reveals
+a notably high degree of functional coverage. Fig. 3(b)
+highlights the 30 most frequently used skills found in the
+articles. The bar length indicates usage frequency, while
+the color denotes whether the literature-mined research
+operation is functionally supported by a skill in our library. The result shows that the frequently used skills
+in literature are mostly covered by AtomisticSkills. Finally, in Fig. 3(c), we plot the distribution of the percentage skill coverage in the 500 articles, which demonstrates that the framework provides reasonable support
+for the vast majority of computational materials science
+articles, with an average of 56.2% coverage, and approximately 15% of the evaluated literature reaching 100%
+operational mapping. Notably, there are around 12% of
+
+journal articles with 0 coverage. These missing coverages mainly correspond to articles with novel algorithmic developments [60], experimental methods [61], and
+special domains that require less frequent computational
+skills [62, 63].
+
+Furthermore, to validate the framework’s broader applicability in computational chemistry, we conducted a
+similar skill coverage analysis on 500 open-access articles
+from The Journal of Physical Chemistry Letters. For
+computational drug discovery, we collected 500 openaccess articles filtered with keywords from PubMed and
+arXiv. The results show that AtomisticSkills have 44.9%
+coverage of computational chemistry journal articles and
+62.4% coverage of computational drug discovery articles.
+These analyses are detailed in Supplementary Figs. S1
+and S2.
+
+6
+(a)
+
+(b)
+
+(c)
+
+Tool: search_literature (0)
+Skill: generative-mattergen (500)
+Script: filter-composition (352)
+Tool: UMA-relax-structure (352)
+Skill: stability (10)
+Tool: atomate2-vasp (10)
+Skill: stability (9)
+
+Stage1:
+Stage2:
+
+UMA
+VASP
+
+Skill: electrochemical-window (5)
+Tool: fairchem-run-md (5)
+Skill: diffusion-analysis (2)
+Skill: structure-novelty (2)
+
+UMA-MD
+
+(d)
+Composition
+
+LiErCl4
+
+$%&
+𝐸!"##
+(meV/atom)
+
+0
+
+'()
+𝐸!"##
+(meV/atom)
+
+0
+
+0
+
+Electrochemical
+Window (V)
+
+0.744.31
+
+0.7-3.8
+
+𝐸* (eV)
+
+0.14
+
+0.237
+
+𝜎+& (mS/cm)
+
+63.4
+
+4.5
+
+Li
+
+Er
+
+Cl
+
+LiErBr4
+0
+
+Li
+
+Er
+
+Br
+
+Skill: md-probability-density (2)
+
+FIG. 4. Generative design of Li-ion solid state electrolyte. (a) Agentic workflow that involves candidate materials
+generation with MatterGen, screening of thermodynamic stability and electrochemical stability with foundation MLIPs and
+DFT, and diffusion analysis through MD simulation. The number of candidates after each step is indicated in parentheses. (b)
+Distribution of UMA-calculated energy above hull of 352 MatterGen-generated halide-based Li-ion SSE candidates. The inset
+plot illustrates how Eh and µ range are determined from constructing a convex hull phase diagram. (c) Arrhenius plot and
+extracted room-temperature Li-ion conductivity of two candidate materials from the MD simulation with -s-1p2-omat. (d)
+Structures and calculated properties of two top halide Li-ion SSEs.
+
+B.
+
+Generative design of Li-ion solid conductor
+
+Identifying novel superionic solid-state electrolytes
+(SSEs) is pivotal to advancing safe, high-energy-density
+solid-state batteries. Discovering materials that are simultaneously thermodynamically stable and highly ionically conductive involves exploring a vastly uncharted
+chemical space. To address this, we demonstrate an
+end-to-end AtomisticSkills agentic workflow to discover
+halide-based Li-ion SSEs, illustrated in Fig. 4(a). This
+high-throughput computational screening pipeline integrates generative models, foundation MLIPs (FPs), and
+DFT. The pool of material candidates is progressively
+narrowed after each operational step, with the remaining
+subset sizes denoted in parentheses. In Fig. 4(a) and all
+subsequent workflow charts, box colors indicate skill categories, consistent with the schema in Fig. 2. For clarity,
+category prefixes such as ’ml-’ and ’mat-’ are omitted in
+the plots but included in the manuscript.
+With the ml-generative-mattergen [58] skill, the
+agent first generated 500 hypothetical Li-containing
+halide structures across 10 ternary chemical spaces:
+Li-Er-Br, Li-Er-Cl, Li-Hf-Cl, Li-In-Br, Li-In-Cl, Li-ScBr, Li-Sc-Cl, Li-Y-Br, Li-Y-Cl, and Li-Zr-Cl. Then,
+a composition filter was applied to remove all generated materials that were not charge-neutral according
+to common elemental valence states. These candidates
+
+were subsequently filtered using the mat-stability
+and mat-electrochemical-window skills, which evaluated thermodynamic stability (Ehull ) [53] and the
+intrinsic electrochemical window (ECW) [64] against
+UMA-s-1p2-omat [54] and DFT constructed convex hulls.
+Specifically, only structures with Ehull = 0 meV atom−1
+and ECW < 2 V [64] were retained.
+Fig. 4(b) shows the distribution of energies above
+the hull (Ehull ) calculated by the UMA-s-1p2-omat [54],
+where candidates with lower Ehull are thermodynamically
+more stable. The inset schematic plot illustrates how the
+Ehull and stable chemical potential (µ) ranges are calculated from the 0 K computational convex hull phase
+diagram [53]. The top candidates then underwent MCPtool-triggered multi-temperature MD simulations with
+UMA-s-1p2-omat [54] and the mat-diffusion-analysis
+skill to extract ionic conductivities and activation barriers. Top candidates were filtered with an extrapolated
+room-temperature ionic conductivity < 1 mS cm−1 .
+The Arrhenius plot in Fig. 4(c) demonstrates the extraction of activation energy (Ea ) and room-temperature
+Li-ion conductivity (σRT ) for the simulated candidates.
+The ionically conductive SSE candidate (green) exhibits
+lower Ea and higher σRT compared to the poorly conducting SSE candidate (red). Finally, Fig. 4(d) displays
+the structural configurations and quantitative properties
+of the top two halide Li-ion SSEs discovered in this ex-
+
+7
+ploration. Notably, the agent discovered two previously
+unreported SSE compounds, LiErCl4 and LiErBr4, which
+are thermodynamically stable according to the DFTconstructed convex hull phase diagram and exhibit high
+predicted conductivities of 63.4 and 4.5 mS cm−1 with
+low activation barriers of 0.14 and 0.237 eV, respectively.
+It should be noted that the simulation hyperparameters used in this workflow, such as MD simulation lengths
+(∼20 to 100 ps based on early-convergence stopping)
+and screening thresholds, were suggested by the agent
+and reviewed by human researchers during the research
+planning (see Fig. 1) to align with reported SSE highthroughput screening studies [1, 65]. As a result, the simulated conductivities serve strictly as literature-standard
+computational screening metrics rather than rigorously
+converged values targeted for direct experimental validation. Nevertheless, this abbreviated workflow demonstrates the capacity to construct fully agentic, rigorous
+materials discovery pipelines with AtomisticSkills. Ultimately, by seamlessly chaining machine learning algorithms, thermodynamic stability analyses, and advanced
+simulation methods, the modularized skill design enables
+the potential for fully autonomous materials discovery at
+vast scales.
+
+C.
+
+Computational screening of MOF for CO2
+capture
+
+Metal-Organic Frameworks (MOFs) exhibit profound
+structural and chemical tunability, making them premier candidates for both point-source (industrial flue
+gas) and dilute source (Direct Air Capture (DAC)) CO2
+capture technologies [66, 67]. While end-to-end agentic MOF pipelines have recently been demonstrated in
+literature [24, 68], we demonstrate that similar agentic discovery pipelines can be constructed in AtomisticSkills without explicit predefined orchestration graphs.
+Discovering optimal MOFs requires screening massive
+structural databases to identify optimal pore geometries and chemical environments that maximize selective gas uptake. To address this MOF screening challenge, the AtomisticSkills agent planned a hierarchical screening workflow shown in Fig. 5(a). It first
+deployed the chem-db-mof skill to autonomously retrieve candidate architectures from curated databases,
+specifically QMOF [69] and ARC-MOF [70], then used
+the chem-sorption-relax and chem-sorption-widom
+skills to perform rapid Widom insertions [71] on these
+queried frameworks using UMA-s-1p2-odac. The highcapacity candidates were subsequently passed into the
+chem-sorption-gcmc skill for rigorous, multi-pressure
+grand canonical Monte Carlo (GCMC) isotherm evaluations.
+Fig. 5(b) plots the Henry coefficients (KH ) alongside
+the CO2 heat of adsorption at infinite-dilution (Qst ) for
+ten MOFs queried from the QMOF and ARC-MOF libraries. Here, heuristic filtering thresholds indicative of
+
+thermodynamically viable physisorbents (KH > 10−8
+mol kg−1 Pa−1 and Qst < 0 kJ mol−1 ) are used to
+identify promising structures for DAC. Subsequently,
+Fig. 5(c) shows the GCMC-calculated CO2 adsorption
+isotherm for the top candidate qmof-004080b, with
+50,000 GCMC steps used at each pressure. The starting point of the isotherm, also known as the Henry’s
+regime, represents ultra-dilute atmospheric CO2 relevant
+for DAC purposes [72]. In comparison, the 1 bar region
+caters more to post-combustion applications, such as flue
+gas point-source capture [73].
+Notably, the candidate qmof-004080b exhibits a calculated Henry coefficient of 4.64 × 10−5 mol kg−1 Pa−1
+(log10 KH ≈ −4.33) and a heat of adsorption (Qst )
+of −26.0 kJ mol−1 , hitting the “sweet spot” of modern CO2 physisorbents [74] by balancing robust uptake
+with manageable regeneration energy. While its simulated CO2 working capacity of ∼ 3.0 mmol g−1 (1.0–
+0.01 bar) demonstrates promising performance for postcombustion capture, the GCMC result at the ultra-dilute
+0.0004 bar regime reveals a negligible loading, indicating
+qmof-004080b is not ideal for DAC application. This
+screening workflow on a small candidate pool demonstrates the capability of AtomisticSkills to bridge structural curation to sorption evaluation. To acquire additional high-fidelity results, the agentic workflow can be
+seamlessly extended to assess humidity stability via MD
+or adsorption kinetics via DFT.
+
+D.
+
+Agentic MLIP benchmark and fine-tuning
+
+Foundation MLIPs, also known as FPs, have demonstrated broad applicability and generalizability across
+chemical spaces [54, 56, 75–80]. However, they can suffer
+from degraded accuracy when extrapolating to out-ofdistribution atomistic configurations, such as those encountered during high-temperature MD [81, 82]. To ensure their reliability, systematic benchmarking [83] and
+data-efficient fine-tuning are often required [84]. However, divergent syntaxes, incompatible data pipeline formats, and conflicting environment dependencies across
+MLIP architectures pose a technical barrier for practitioners. These challenges motivate agentic orchestrations
+of complex machine learning workflows entirely via natural language [85].
+In this section, we showcase a fully agentic MLIP
+benchmarking and fine-tuning workflow focused on the
+superionic SSE Li10GeP2S12 [86].
+Fig. 5(d) illustrates this automated machine learning (AutoML) cycle. The agent initially sampled 200 structures from the
+Li10GeP2S12 potential energy surface (PES) by utilizing
+the mat-sample-pes-by-md skill [84]. Subsequently, remote HPC-DFT jobs with MatPES-VASP settings [79]
+were submitted via the atomate2-vasp MCP tool to acquire high-fidelity energy and force labels for the sampled structures. The ml-foundation-potentials skill
+guided the agent to identify the most relevant FPs for the
+
+8
+(a)
+
+(b)
+
+(c)
+
+Skill: db-mof
+Skill: sorption-relax
+Skill: sorption-widom
+Skill: sorption-gcmc
+
+(d)
+
+(e)
+
+(f)
+
+Skill: sample-pes-by-md
+Tool: atomate2-vasp
+Skill: foundation-potentials
+Skill: mlip-benchmark
+Skill: mace-finetune
+
+MatGL
+
+MACE
+
+Fairchem
+
+FIG. 5. Agentic screening of MOFs and MLIP AutoML workflows. (a) Agentic computational screening workflow for
+MOF-based CO2 capture. (b) Calculated Henry coefficient and CO2 heat of adsorption at 298 K, for 10 MOF candidates queried
+from QMOF and ARC-MOF databases. (c) CO2 adsorption isotherm calculated at 298 K via GCMC simulation leveraging
+UMA-s-1p2-odac. (d) Agentic MLIP workflow composed of automatic sampling of potential energy surface, DFT calculations
+on remote HPC, selection of FPs, benchmarking, and fine-tuning. (e) Parity plot and force MAE for 4 FPs compared to DFT
+ground-truth labels on the Li10GeP2S12 dataset. (f ) Agentic fine-tuning MAE history of MACE-OMAT-0-small on the sampled
+dataset.
+
+Li10GeP2S12 system, which was followed by the execution
+of the ml-mlip-benchmark skill. Here, the agent benchmarked the energy and force prediction accuracy of four
+selected FPs: TensorNet [55], CHGNet [78], MACE [56],
+and UMA [54]. The resulting force parity plots and force
+mean absolute errors (MAEs) are shown in Fig. 5(e).
+AtomisticSkills further facilitated the agentic fine-tuning
+of these models. Following the instructions provided
+by the ml-mace-finetune skill, the agent autonomously
+fine-tuned the MACE-OMAT-0-small architecture using
+the prepared structures and labels. Fig. 5(f) charts the
+energy and force validation MAE history during this
+agent-triggered fine-tuning, demonstrating a gradual decrease in validation MAEs over a brief 30-epoch training
+run.
+
+These findings demonstrate that atomistic ML models,
+such as FPs, can be efficiently benchmarked and finetuned using the AtomisticSkills framework. Through the
+autonomous management of training data preparation,
+remote HPC job submission, and complex machine learning pipelines, AtomisticSkills significantly reduces the
+learning curve and operational complexity of advanced
+scientific computing infrastructures.
+
+E.
+
+Structure-based high-throughput virtual
+screening for drug discovery
+
+Structure-based virtual screening (SBVS) is commonly
+used to prioritize small molecules against a protein target before experimental assay [87, 88], and in practice, each campaign requires an expert to orchestrate a
+chain of specialized tools (receptor preparation, docking,
+scoring, pose refinement) with judgment calls at every
+stage that make simple, deterministic automation difficult [89]. We tested whether an AI agent using AtomisticSkills can drive this workflow autonomously by running
+the DUD-E CDK2 benchmark (474 actives and 27,850
+property-matched decoys) [90] end-to-end. From a single
+user prompt, the agent retrieved the holo CDK2 structure (PDB: 1H1S [91, 92]) using drug-db-pdb, repaired
+and protonated the receptor with drug-protein-prep,
+and defined the docking box from the co-crystal ligand via drug-binding-site-definition. It then generated 3D conformers and AutoDock-readable PDBQT
+files for the full library with drug-ligand-prep (RDKit ETKDG [93] / MMFF94 [4] / Meeko [94]), ran
+AutoDock Vina [95] at exhaustiveness 32 through
+drug-docking-vina, and combined the resulting affinities into a ranked hit list. To determine whether
+
+9
+(b)
+
+(c)
+
+Skill: db-pdb
+
+(d) 
+
+
+Skill: protein-prep
+
+Validation Gate
+(Redocking)
+
+Skill: ligand-prep
+
+Skill: docking-vina
+
+(e)
+ 
+  
+
+ 
+
+
+
+Skill: binding-site-definition
+
+Docking
+
+Target Retrieval
+and Preparation
+
+(a)
+
+
+
+
+
+Skill: docking-vina
+
+
+
+Skill: redocking-rmsd
+
+(f)
+
+
+
+
+ 
+
+        
+
+(g)
+
+Skill: docking-analysis
+Skill: pose-validation
+
+Post-Docking
+Refinement
+
+Skill: ligand-prep
+Skill: complex-system-builder
+Skill: protein-ligand-md
+Skill: trajectory-analysis
+Skill: mmgbsa
+
+FIG. 6. Agentic high-throughput virtual screening for drug discovery (a) Computational docking pipeline as executed
+by the agent on the DUD-E CDK2 benchmark, separated into four main stages: target retrieval and preparation, redocking
+known actives for docking protocol validation, the primary docking run, and post-docking refinement. (b) Prepared CDK2
+receptor (PDB: 1H1S) with autodefined docking box (drug-binding-site-definition) around the ATP-binding site; co-crystal
+ligand shown in orange. (c) Top-ranked Vina pose for the rank-1 active CHEMBL104526 in the CDK2 ATP-binding site. (d)
+Best-pose Vina docking-score distributions for the 474 known actives (blue) and 25,606 decoys (red) of the DUD-E CDK2
+library, shown as kernel density estimates overlaid on normalized histograms. (e) ROC curve for Vina-based active/decoy
+classification on the DUD-E CDK2 benchmark (AUC = 0.70). Ligand heavy-atom RMSD over 5 ns of explicit-water MD after
+protein-Cα alignment for four strong-Vina actives (ranks 1, 2, 3, 5; blue) and four weak-Vina decoys (ranks 20,000, 22,413,
+24,022, 25,629; red). Each trace is the mean across four independent replicates with different integrator seeds, with a 110
+ps centered rolling mean applied for visual smoothing. Marker shape identifies the compound and is shared with panel (g).
+(g) Per-replicate single-trajectory MM-GBSA binding free energy (∆Gbind ; GBn2 implicit solvent, no entropy correction) for
+the same eight compounds, with mean ± 1 s.d. error bars across the four MD replicates; stronger binding is plotted upward.
+Marker shape matches panel (f). The replicate means show clear class separation (active mean −42.9 ± 3.6 vs. decoy mean
+−29.7 ± 5.7 kcal mol−1 ; Welch’s t-test p = 0.011).
+
+the docked poses remain stable under explicit-solvent
+MDs, the agent built parameterized protein-ligand systems with drug-complex-system-builder (OpenFF
+Sage 2.2.0 [96] + Amber ff14SB [97] + TIP3P [98]),
+ran 5 ns of explicit-water MD per compound via
+drug-protein-ligand-md (OpenMM [99], using a 4
+fs time step enabled by hydrogen mass repartitioning [100]), computed ligand heavy-atom RMSD trajectories with drug-trajectory-analysis, and estimated
+relative binding free energies with single-trajectory
+MM-GBSA [101] in GBn2 implicit solvent [102] via
+drug-mmgbsa.
+The screen is summarized in Fig. 6. Panel (a) shows
+the skill-call sequence executed by the agent. Panel (b)
+shows the prepared receptor with the autodefined docking box, and panel (c) shows the top-ranked docked pose
+in the CDK2 ATP-binding site. Panel (d) shows the
+Vina score distributions for the 474 actives and 25,606
+decoys separately, where the actives’ density is shifted
+
+toward stronger predicted binding by ∼1 kcal mol−1 but
+with substantial overlap, the visual basis for the AUC
+= 0.70 in panel (e). Panel (e) shows the receiver operating characteristic (ROC) curve and reports two standard SBVS metrics. The area under the curve (AUC) is
+the probability that a randomly drawn active is ranked
+above a randomly drawn decoy, where 0.5 corresponds to
+random ranking and 1.0 to perfect; here, AUC = 0.70.
+The enrichment factor at the top 1% of the ranked list
+(EF1%) is the fold-enrichment of actives in the top 1%
+relative to the population active rate; here, EF1% = 7.0.
+Both values fall within the range typically reported for
+Vina on DUD-E targets [103]. To probe pose stability
+across the Vina ranking, the agent ran four independent
+5 ns explicit-water MD replicates for each of four strongVina actives (ranks 1, 2, 3, 5) and four weak-Vina decoys (ranks 20,000, 22,413, 24,022, 25,629). Panel (f)
+shows the replicate-mean ligand heavy-atom RMSD: the
+actives all stabilize below 0.5 Å, while the decoys spread
+
+10
+between 0.5 and 1.4 Åwith one (C03359783) drifting upward over the trajectory. The MD step thus contributes
+pose-stability information that is not present in the docking score alone. Panel (g) shows the per-replicate MMGBSA binding free energy (∆Gbind ) for the same eight
+compounds, with each compound’s four replicate means
+displayed individually and error bars showing ±1 s.d.
+across replicates. The class means are well-separated (actives −42.9±3.6 vs decoys −29.7±5.7 kcal mol−1 ; Welch’s
+t-test p = 0.011), thereby corroborating the RMSD-based
+pose-stability analysis with an independent energetic signal.
+These results show how AtomisticSkills can autonomously drive a complete SBVS funnel, going from
+a raw PDB file to ranked hits with downstream stability filtering, which was able to successfully separate actives from decoys at a statistically significant level. The
+AUC and early-enrichment values are consistent with
+the published Vina literature, and the rank-stratified
+RMSD/MM-GBSA result demonstrates that the agent
+can compose multiple skills to complete post-docking refinement and ranking procedure from structural and energetic signals.
+
+F.
+
+Multimodal analysis of XRD patterns
+
+In contrast to highly standardized simulation outputs,
+the automated analysis of experimental characterization
+data presents a profound challenge for both human researchers and emerging AI scientists. This bottleneck
+is primarily driven by two factors: first, raw data formats are often dictated by proprietary characterization
+hardware and differ substantially between facilities; second, existing data within the broader literature is frequently presented in un-digitized figures rather than raw
+numerical arrays. Extracting actionable representations
+from these graphical data is a critical challenge in datadriven analysis. Overcoming this requires a truly multimodal approach capable of transforming unstructured visual data into machine-readable numerical arrays. While
+most agentic scientific frameworks restrict their operational scope to purely textual environments, AtomisticSkills natively integrates multimodal capabilities through
+its integration in general-purpose agents. This enables
+assimilation of the diverse, non-standardized visual data
+formats that are inherent to scientific research.
+To demonstrate this, we used AtomisticSkills to analyze an X-ray diffraction pattern (XRD) reported in
+a recent study [105]. Fig. 7(a) shows the complete
+workflow. We began by sending the AtomisticSkills
+agent a screenshot of Fig. 2 from Turayev [105], which
+provides an experimental XRD profile of the authorsynthesized orthorhombic YBa2 Cu3 O7−δ (YBCO-123)
+high-temperature superconductor. AtomisticSkills agent
+used the mat-xrd-digitizer skill, invoking integral
+Vision-Language Models (VLMs) to process the screenshot and digitize localized 2θ peak intensities into a nu-
+
+merical array xrd.xy. The agent then translated this
+array into the data-driven automated Rietveld analysis
+(Dara) [106] by routing the extracted arrays through the
+mat-xrd-phase-analysis in the Y-Ba-Cu-O chemical
+space, which autonomously and correctly identified the
+YBa2 Cu3 O7−δ structure as the globally dominant crystalline phase.
+Armed with this compositional hypothesis, the agent
+routed the data to the mat-xrd-refinement skill to
+perform a multiphase Rietveld refinement encompassing
+the primary YBa2 Cu3 O7−δ phase alongside secondary
+phases Y2BaCuO5, CuO, and BaCuO2. Fig. 7(b) displays the agent-digitized XRD refinement plot, together
+with the Dara-calculated contributions from the multiphase mixture and their corresponding weight fraction
+in the legend. Notably, these results aligned with the reported impurity phases in Turayev [105], which suggested
+Y2BaCuO5 is a common impurity from the incomplete
+solid-state synthesis of YBCO-123, and CuO BaCuO2
+present as unreacted leftover precursors.
+Finally, in Fig. 7(c), we demonstrate the usage of the
+mat-synthesis-recommendation skill [107–109] to retrieve laboratory synthesis pathways for the identified
+target phase YBCO-123. This end-to-end orchestration exemplifies how AtomisticSkills seamlessly transitions between vision, numerical physical simulation, and
+natural language, transcending the text-only limitations
+of traditional agentic systems.
+The alignment between the literature-reported phase
+identification and our agentic refinement analysis highlights the potential of VLM-assisted multimodality. By
+interpreting unstructured, heterogeneous visual data and
+bridging it with rigorous characterization analysis, AtomisticSkills reduced the barrier to studying and reproducing experimental data. This agentic translation of static
+images into vectorized experimental data and synthesis
+recipes highlights the expanding multi-modal capabilities
+of agentic scientific discovery.
+
+G.
+
+Screening of Fe-oxide for oxygen evolution
+reaction
+
+The development of Earth-abundant catalysts for the
+oxygen evolution reaction (OER) is critical for electrochemical water splitting. Here, we demonstrate the autonomous screening of the iron oxide chemical space
+across diverse stoichiometries and Miller indices using AtomisticSkills. Crucially, this workflow serves to
+demonstrate the integration of AtomisticSkills with private scientific software. Specifically, we use an in-house
+computational pipeline, htvs, which supports the surface
+screening protocol and remote HPC job submission and
+asynchronous job handling on the MIT HPC cluster [110].
+The workflow is shown in Fig. 7(d). It started
+with the mat-db-mp skill, which queried the Materials Project database to identify 15 thermodynamically
+stable (Ehull < 0.05 eV atom−1 ), magnetically ordered
+
+11
+(b)
+
+(a)
+
+(c)
+## Precursors
+- BaCO₃, CuO, Y₂O₃
+
+Skill: xrd-digitizer
+xrd.xy
+
+Rwp
+Skill: xrd-refinement
+
+## Steps
+1.Ground: 45.0 min
+3.Fired: 900.0 °C for 24.0 h
+4.Reground: 45.0 min
+5.Sintered: 900.0 °C for 24.0 h
+6.Ground and repressed
+7.Fired: 900.0 °C for 24.0 h
+8.Oxygen annealed: 550.0 °C
+
+intensity
+
+Skill: xrd-phase-analysis
+
+Skill: synthesisrecommendation
+
+(d)
+
+(e)
+
+2𝛉
+
+(f)
+
+Skill: db-mp
+Skill: htvs-cutcleansurface
+Skill: htvs-autopilot
+
+Skill: htvs-mlip-relax
+
+Fe
+O
+H
+
+Skill: htvs-addadsorbate
+Skill: htvs-catalysisactivity-analysis
+
+Skill: htvs-mlip-relax
+
+FIG. 7. Agentic Analysis of XRD spectrum and screening of catalytic surfaces. (a) AtomisticSkills workflow
+for analyzing experimental XRD spectrum. The user first sends a screenshot of an XRD pattern from an experimental
+characterization journal article to the agent. The xrd-digitizer skill then invokes the vision language model backend to
+digitize the screenshot into curve data, and passes the data into xrd-phase-analysis and xrd-refinement skills. Finally,
+synthesis-recommendation skill is called to propose a synthesis recipe for the target material. (b) The agentic XRD refinement
+result shows material compositions matching literature results. (c) Synthesis recommendation with precursors and synthesis
+steps. (d) Agentic workflow for screening Fe-oxide surfaces for oxygen evolution reaction (OER) with htvs remote job manager.
+(e) Representative atomic configuration of OH* on Fe3O4 (100) surface with Materials Project id mp-19306. (f ) Volcano plot
+of MLIP prediction illustrating the OER overpotential as a function of the binding energy descriptor ∆GO∗ − ∆GOH∗ , with
+colored markers denoting distinct bulk polymorphs. The black dashed lines represent the empirical fit of the sampled data,
+while the grey dashed lines represent the universal theoretical limits [104].
+
+Fe–O bulk polymorphs. These structures were subsequently processed by the mat-htvs-cutcleansurface
+skill, performing symmetry-aware cleavage to generate
+a library of 80 unique low-Miller index (100), (110),
+and (111) pristine surface terminations. To resolve
+the computational bottlenecks in local simulations, the
+agent is incorporated with a remote simulation management skill in mat-htvs-autopilot. This autopilot skill can orchestrate DFT and MLIP-based calculations through sub-skills such as mat-htvs-mlip-relax
+and mat-htvs-vasp. Specifically, the orchestrator uses
+a priority sub-queue daemon to manage asynchronous
+UMA-s-1p2-omat [54] jobs and data streams and promotes promising candidates to the next stage of evaluation without awaiting the completion of the entire
+pristine surface batch. Following surface stabilization,
+the mat-htvs-addadsorbate skill was deployed to identify optimal coordination sites and place O*, OH*, and
+OOH* reaction intermediates. An example atomic configuration of the mp-19306 (100) facet with identified reaction site is illustrated in Fig. 7(e).
+The resulting MLIP-predicted energetics were final-
+
+ized by the mat-htvs-catalysis-activity-analysis
+skill to construct the four-step OER free energy profiles and the final activity volcano plot (Fig. 7(f)). The
+promising candidates approaching the theoretical overpotential limit of 0.37 V [104, 111], such as the (100)
+facet of mp-19306 with the overpotential value of 0.428
+V. This demonstrates the versatile extendability of the
+framework with the users’ private scientific software and
+skills, leveraging asynchronous HPC job orchestration to
+enable electrocatalyst discovery at scale.
+
+III.
+
+DISCUSSION
+
+Scientific discovery is inherently exploratory. As a result, the balance between exploiting curated standards
+and exploring novel methodologies is critical to achieving reliable and novel results. In AtomisticSkills, we
+propose an agentic harness infrastructure to construct
+end-to-end reliable scientific workflows through combining modularized skills and tools. As a result, creative
+workflows can be designed without sacrificing scientific
+
+12
+rigor, which would otherwise pose a great challenge
+given the hallucination tendency of LLMs in complicated tasks. The decomposable framework of AtomisticSkills also makes an ideal sandbox for building workflow
+prototypes and deployable pipelines. For example, mature text-based workflows can be documented as semiprogrammatic skills, and frequently used skills can be
+hardened into deterministic, programmatic tools. This
+provides the agent with freedom to test hypotheses and
+create prototypes, while being able to distill emergent
+problem-solving patterns back into formal, reproducible
+research pipelines.
+The development of AtomisticSkills illuminates several critical trajectories for the future of agentic materials computation. Currently, the framework’s operational paradigm functions predominantly in a “co-pilot”
+modality, where human researchers provide high-level directives, supervise the autonomous orchestration of tool
+usage, and intervene to validate complex experimental
+runs. Importantly, this modality is not an intrinsic limitation of AtomisticSkills itself, but rather reflects the
+current state of general-purpose coding agents, which are
+primarily optimized and restricted to short-horizon tasks.
+Our experience demonstrates that human supervision remains critical to guide the agent through complex, multiday scientific workflows. However, rapid advancements
+in long-running agent capabilities are continuously improving their capacity for sustained, autonomous execution [112, 113]. This evolving research frontier precisely
+motivates our initial design philosophy: rather than engineering an end-to-end research agent from scratch, we
+have built a modular research infrastructure that can
+evolve with general-purpose agents. As underlying agentic frameworks become increasingly capable of long-time
+execution, AtomisticSkills can seamlessly adapt these capabilities to perform fully self-driving, closed-loop discovery and ultimately drive towards AI scientists.
+Another critical challenge in scientific agentic harness
+engineering lies in the full transition into cloud-based scientific computing. While AtomisticSkills natively embeds remote HPC job managers like Atomate2 [5] and
+htvs, many conventional scientific tools were initially
+designed and bottlenecked by local compute. Migrating the entire scientific compute infrastructure to cloudbased endpoints requires redesigning agentic job management systems as well as dedicated hardware efforts.
+We believe this is an essential next step to scale highperformance scientific computing to the vast reasoning
+capability of LLM agents.
+Beyond advancing the underlying execution infrastructure, there is immense potential in combining AtomisticSkills with high-level research agents designed to
+autonomously generate hypotheses [21] and dynamically evolve their own scientific objective functions [114].
+Because these reasoning-focused agents often lack the
+domain-specific execution pathways required to computationally verify their proposed candidates, AtomisticSkills provides the critical execution scaffold needed to
+
+rigorously explore, simulate, and experimentally validate
+their abstract scientific reasoning.
+As the first public atomistic skill repository, AtomisticSkills provides the necessary scaffolding for the community to continually expand scientific skills through
+manual human curation, literature text-mining, and automated agentic skill acquisition [115], such as collective skill evolution [116] or on-the-fly tool generation [117, 118]. While these sophisticated frameworks
+demonstrate that agents can successfully self-evolve functional skills, recent benchmarks caution that naive, unguided automated skill generation [119] and unstructured tool retrieval [120] often fail to outperform carefully human-authored procedural knowledge. As a result, effective automated skill acquisition still requires a
+robust baseline of domain expertise, thereby highlighting
+the critical value of the human-curated and thoroughly
+tested skill library released in AtomisticSkills. Furthermore, with only limited benchmarks for scientific agents
+currently available [121], the evaluation of autonomous
+research, especially for complex atomistic simulations, remains an open challenge. AtomisticSkills offers an opportunity to benchmark scientific agents and autonomous
+skill acquisition by providing a benchmarking baseline
+with its documented skill outputs, workflows, and reasoning traces.
+
+IV.
+A.
+
+METHODS
+
+Integration into General-Purpose Coding
+Agents
+
+AtomisticSkills is designed as a modular extension that
+can be added to general-purpose AI coding agents, such
+as Google Antigravity, Claude Code, Cursor, OpenClaw,
+Gemini CLI, etc. This integration is realized by including
+the text description of tools, skills, and rules in the LLM’s
+system prompt and providing executables to the agent.
+These incorporations of tools and skills are a standard
+procedure in all modern coding agents. We demonstrate
+the example user interface of AtomisticSkills in Google
+Antigravity [36] and OpenClaw in Supplementary Fig.
+S3 and S4.
+
+B.
+
+Simulation Infrastructure
+
+AtomisticSkills integrates all the FP checkpoints under MACE [56], FairChem [54], and MatGL [55] libraries.
+Target property prediction, PES inference, and AutoML
+pipelines were standardized using the Atomic Simulation Environment (ASE) [122], pymatgen [123], and RDKit [124] to enable unified tool invocation by the LLM
+agents. The DFT mentioned in this manuscript is calculated by VASP [125] with Atomate2 [5], in compatible settings with Materials Project [11] and MatPES
+dataset [79].
+
+13
+C.
+
+Literature Mining and Skill Identification
+
+Coverage analysis of the AtomisticSkills framework
+was performed by text-mining a corpus of scientific literature to identify the distribution of used simulations, characterization techniques, and workflows. Specifically, for
+the materials science benchmark, the underlying computational skills used in each of the 500 npj Computational
+Materials articles were systematically extracted, defined,
+and categorized by an external LLM instructed to distill
+its skills.
+To automate skill identification, we started by defining the granularity and skill boundary with a set of predefined skills (e.g., dft-mlip-structure-relaxation,
+dft-electronic-structure-calculation) that are independent of AtomisticSkills. Then, each downloaded
+journal article was decomposed using GPT-5.4-mini into
+this predefined skill set and newly proposed skills. In this
+way, around 8 skills were collected on average from each
+of the 500 npj Computational Materials articles, as shown
+in Fig. 3(a). These independently collected skills were
+further deduplicated and merged by LLMs and reviewed
+by human experts, which resulted in a set of 95 proposed
+new skills, such as those shown in Fig. 3(b). Finally, we
+re-decompose the 500 articles by using this cleaned set
+of skills that combines predefined and newly proposed
+skills. AtomisticSkills’ coverage of each re-decomposed
+skill is then determined by GPT-5.4-mini and reviewed
+by human experts. The resulting percentage skill coverage was plotted in Fig. 3(c).
+
+V.
+
+CODE AVAILABILITY
+
+The source code of AtomisticSkills is available at http
+s://github.com/learningmatter-mit/AtomisticSk
+ills.
+VI.
+
+support from the Mathworks Fellowship. S.M. is supported by the Postdoctoral Mobility Fellowship from the
+Swiss National Science Foundation (SNSF), grant number P500PN 222184. M.S. gratefully acknowledges the
+Postdoctoral Mobility fellowship P500PN 225736 from
+the SNSF. J.R. and S.E. would like to acknowledge the
+funding support of the SK Telecom-MIT Generative AI
+Impact Consortium (MGAIC) grant. N.S. acknowledges
+support from the Eli and Dorothy Berman Fellowship.
+M.X. acknowledges funding support from the Agency
+for Science, Technology and Research (A*STAR). T.P.
+and J.D.S. acknowledge support from the National Science Foundation Graduate Research Fellowship Program
+(NSF-GRFP). A.L. and X.D. acknowledge funding from
+Amazon as part of the MIT Climate and Sustainability Consortium (MCSC). C.B.M. was supported by the
+Energy Storage Research Alliance (ESRA, DE-AC0206CH11357), an Energy Innovation Hub funded by the
+U.S. Department of Energy, Office of Science, Basic Energy Sciences.
+
+VII.
+
+AUTHOR CONTRIBUTIONS
+
+B.D. and R.G.-B. conceived the project. B.D. developed the AtomisticSkills architecture, integrated the
+MCP servers, skill library, workflows, and led the
+manuscript drafting. B.L. contributed to the skill coverage analysis. M.C. contributed the drug-discovery workflow and skills. H.C. contributed to the htvs-based catalysis workflow and skills. J.N., A.L., H.C., S.E., J.R.,
+X.D., N.S., J.D.S., M.X., T.P., Y.Y., M.S., S.M., and
+C.B.M. contributed to other atomistic skills, computational workflows, and integration testing. A.C., A.P.,
+D.H., C.W.C., J.L., and R.G.-B. provided supervision
+and strategic guidance. All authors discussed the results and contributed to the scientific narrative of the
+manuscript.
+
+ACKNOWLEDGMENTS
+VIII.
+
+B.D., B.L., M.C., and Y.Y would like to acknowledge
+the funding support by Shell Inc. J.N. acknowledges
+
+[1] K. Jun, Y. Sun, Y. Xiao, Y. Zeng, R. Kim, H. Kim,
+L. J. Miara, D. Im, Y. Wang, and G. Ceder, Lithium
+superionic conductors with corner-sharing frameworks,
+Nature Materials 21, 924–931 (2022).
+[2] C. G. V. d. Walle and J. Neugebauer, First-principles
+calculations for defects and impurities: Applications to
+iii-nitrides, Journal of Applied Physics 95, 3851–3879
+(2004).
+[3] B. Qiao, A. Wang, X. Yang, L. F. Allard, Z. Jiang,
+Y. Cui, J. Liu, J. Li, and T. Zhang, Single-atom catalysis of co oxidation using pt1/feox, Nature Chemistry 3,
+634–641 (2011).
+
+COMPETING INTERESTS
+
+R.G.-B. is Chief Scientific Officer at Lila Sciences.
+
+[4] T. A. Halgren, Merck molecular force field. I. Basis, form, scope, parameterization, and performance of
+MMFF94, Journal of Computational Chemistry 17, 490
+(1996).
+[5] A. M. Ganose, H. Sahasrabuddhe, M. Asta, K. Beck,
+T. Biswas, A. Bonkowski, J. Bustamante, X. Chen,
+Y. Chiang, D. C. Chrzan, J. Clary, O. A. Cohen, C. Ertural, M. C. Gallant, J. George, S. Gerits, R. E. A.
+Goodall, R. D. Guha, G. Hautier, M. Horton, T. J.
+Inizan, A. D. Kaplan, R. S. Kingsbury, M. C. Kuner,
+B. Li, X. Linn, M. J. McDermott, R. S. Mohanakrishnan, A. N. Naik, J. B. Neaton, S. M. Parmar, K. A.
+
+14
+Persson, G. Petretto, T. A. R. Purcell, F. Ricci, B. Rich,
+J. Riebesell, G.-M. Rignanese, A. S. Rosen, M. Scheffler, J. Schmidt, J.-X. Shen, A. Sobolev, R. Sundararaman, C. Tezak, V. Trinquet, J. B. Varley, D. VigilFowler, D. Wang, D. Waroquiers, M. Wen, H. Yang,
+H. Zheng, J. Zheng, Z. Zhu, and A. Jain, Atomate2:
+modular workflows for materials science, Digital Discovery 4, 1944–1973 (2025).
+[6] S. Curtarolo, W. Setyawan, G. L. Hart, M. Jahnatek,
+R. V. Chepulskii, R. H. Taylor, S. Wang, J. Xue,
+K. Yang, O. Levy, M. J. Mehl, H. T. Stokes, D. O. Demchenko, and D. Morgan, Aflow: An automatic framework for high-throughput materials discovery, Computational Materials Science 58, 218–226 (2012).
+[7] M. Uhrin, S. P. Huber, J. Yu, N. Marzari, and G. Pizzi,
+Workflows in AiiDA: Engineering a high-throughput,
+event-based engine for robust and modular computational workflows, Computational Materials Science 187,
+110086 (2021).
+[8] A. Jain, S. P. Ong, W. Chen, B. Medasani, X. Qu,
+M. Kocher, M. Brafman, G. Petretto, G.-M. Rignanese,
+G. Hautier, D. Gunter, and K. A. Persson, FireWorks: a
+dynamic workflow system designed for high-throughput
+applications, Concurrency and Computation: Practice
+and Experience 27, 5037 (2015).
+[9] G. Wang, L. Peng, K. Li, L. Zhu, J. Zhou, N. Miao,
+and Z. Sun, ALKEMIE: An intelligent computational
+platform for accelerating materials discovery and design,
+Computational Materials Science 186, 110064 (2021).
+[10] T. Weymuth, J. P. Unsleber, P. L. Türtscher,
+M. Steiner, J.-G. Sobez, C. H. Müller, M. Mörchen,
+V. Klasovita, S. A. Grimmel, M. Eckhoff, K.-S. Csizi,
+F. Bosia, M. Bensberg, and M. Reiher, SCINE—
+Software for chemical interaction networks, J. Chem.
+Phys. 160 (2024).
+[11] M. K. Horton, P. Huck, R. X. Yang, J. M. Munro,
+S. Dwaraknath, A. M. Ganose, R. S. Kingsbury,
+M. Wen, J. X. Shen, T. S. Mathis, A. D. Kaplan,
+K. Berket, J. Riebesell, J. George, A. S. Rosen,
+E. W. C. Spotte-Smith, M. J. McDermott, O. A. Cohen, A. Dunn, M. C. Kuner, G.-M. Rignanese, G. Petretto, D. Waroquiers, S. M. Griffin, J. B. Neaton, D. C.
+Chrzan, M. Asta, G. Hautier, S. Cholia, G. Ceder, S. P.
+Ong, A. Jain, and K. A. Persson, Accelerated datadriven materials science with the materials project, Nature Materials , 1–11 (2025).
+[12] D. A. Boiko, R. MacKnight, B. Kline, and G. Gomes,
+Autonomous chemical research with large language
+models, Nature 624, 570–578 (2023).
+[13] T. Song, M. Luo, X. Zhang, L. Chen, Y. Huang, J. Cao,
+Q. Zhu, D. Liu, B. Zhang, G. Zou, G. Zhang, F. Zhang,
+W. Shang, Y. Fu, J. Jiang, and Y. Luo, A multiagentdriven robotic ai chemist enabling autonomous chemical
+research on demand, Journal of the American Chemical
+Society 147, 12534–12545 (2025).
+[14] Y. Fei, B. Rendy, X. Yang, J. Woo, X. Huang, C. Li,
+S. Wang, D. Milsted, Y. Zeng, and G. Ceder, Agentic llm
+reasoning in a self-driving laboratory for air-sensitive
+lithium halide spinel conductors, arXiv (2026).
+[15] Z. Zhang, Z. Ren, C.-W. Hsu, W. Chen, Z.-W. Hong, C.F. Lee, A. Penn, H. Xu, D. J. Zheng, S. Miao, Y. Huang,
+Y. Gao, W. Chen, H. Smith, Y. Niu, Y. Tian, Y.-R. Lu,
+Y.-C. Shao, S. Li, H.-T. Wang, I. I. Abate, P. Agrawal,
+Y. Shao-Horn, and J. Li, A multimodal robotic platform
+
+for multi-element electrocatalyst discovery, Nature , 1–3
+(2025).
+[16] Y. Chiang, E. Hsieh, C.-H. Chou, and J. Riebesell,
+Llamp: Large language model made powerful for highfidelity materials knowledge retrieval, Proceedings of
+the 2025 Conference on Empirical Methods in Natural
+Language Processing , 25200–25232 (2025).
+[17] Y. Zou, A. H. Cheng, A. Aldossary, J. Bai, S. X. Leong,
+J. A. Campos-Gonzalez-Angulo, C. Choi, C. T. Ser,
+G. Tom, A. Wang, Z. Zhang, I. Yakavets, H. Hao,
+C. Crebolder, V. Bernales, and A. Aspuru-Guzik, El
+agente: An autonomous agent for quantum chemistry,
+Matter 8, 102263 (2025).
+[18] I. Gustin, L. M. Calderón, J. B. Pérez-Sánchez, J. F.
+Gonthier, Y. Nakamura, K. Panicker, M. Ramprasad,
+Z. Zhang, Y. Zou, V. Bernales, and A. Aspuru-Guzik,
+El agente cuántico: Automating quantum simulations,
+arXiv (2025).
+[19] T. Marwitz, A. Colsmann, B. Breitung, C. Brabec,
+C. Kirchlechner, E. Blasco, G. C. Marques, H. Hahn,
+M. Hirtz, P. A. Levkin, Y. M. Eggeler, T. Schlöder, and
+P. Friederich, Predicting new research directions in materials science using large language models and concept
+graphs, Nature Machine Intelligence , 1–10 (2026).
+[20] A. M. Bran, S. Cox, O. Schilter, C. Baldassari, A. D.
+White, and P. Schwaller, Augmenting large language
+models with chemistry tools, Nature Machine Intelligence 6, 525–535 (2024).
+[21] A. Ghafarollahi and M. J. Buehler, Sciagents: Automating scientific discovery through bioinspired multiagent intelligent graph reasoning, Advanced Materials
+37, 2413523 (2025).
+[22] J. Hu, H. Nawaz, Y.-F. Hou, Y. Rui, L. Chi, Y. Chen,
+A. Ullah, and P. O. Dral, Aitomia: Your intelligent assistant for ai-driven atomistic and quantum chemical
+simulations, arXiv preprint arXiv:2505.08195 (2025).
+[23] L. Mitchener, A. Yiu, B. Chang, M. Bourdenx,
+T. Nadolski, A. Sulovari, E. C. Landsness, D. L.
+Barabasi, S. Narayanan, N. Evans, S. Reddy, M. Foiani,
+A. Kamal, L. P. Shriver, F. Cao, A. T. Wassie, J. M.
+Laurent, E. Melville-Green, M. Caldas, A. Bou, K. F.
+Roberts, S. Zagorac, T. C. Orr, M. E. Orr, K. J.
+Zwezdaryk, A. E. Ghareeb, L. McCoy, B. Gomes, E. A.
+Ashley, K. E. Duff, T. Buonassisi, T. Rainforth, R. J.
+Bateman, M. Skarlinski, S. G. Rodriques, M. M. Hinks,
+and A. D. White, Kosmos: An ai scientist for autonomous discovery, arXiv (2025).
+[24] Z. Zheng, N. Rampal, T. J. Inizan, C. Borgs, J. T.
+Chayes, and O. M. Yaghi, Large language models
+for reticular chemistry, Nature Reviews Materials 10,
+369–381 (2025).
+[25] Y. Wang, Z. Huang, Z. Ding, R. Liao, Y. Huang, X. Liu,
+J. Xie, S. Chen, and L. Zhang, Deploy-master: Automating the deployment of 50,000+ agent-ready scientific tools in one day, arXiv (2026).
+[26] L. Zhang, S. Chen, Y. Cai, J. Chai, J. Chang, K. Chen,
+Z. X. Chen, Z. Ding, Y. Du, Y. Gao, Y. Gao, J. Gao,
+Z. Gao, Q. Gu, Y. Hong, Y. Huang, X. Fang, X. Ji,
+G. Ke, Z. Lei, X. Li, Y. Li, R. Liao, H. Lin, X. Lin,
+Y. Liu, X. Liu, Z. Liu, J. Lu, T. Miao, H. Que, W. Sun,
+Y. Wang, B. Wu, T. Xue, R. Ye, J. Zeng, D. Zhang,
+J. Zhang, L. Zhang, T. Zhang, W. Zhang, Y. Zhang,
+Z. Zhang, H. Zheng, H. Zhou, T. Zhu, X. Zhu, Q. Zhou,
+and W. E, Bohrium + scimaster: Building the infras-
+
+15
+tructure and ecosystem for agentic science at scale,
+arXiv 10.48550/arxiv.2512.20469 (2025).
+[27] J. Ruža and R. Gomez-Bombarelli, Reasoning-tosimulation: An agentic framework for discovery of electrolyte materials, in AI for Accelerated Materials Design
+- ICLR 2026 (2026).
+[28] M. Soleymanibrojeni, R. Aydin, D. Guedes-Sobrinho,
+A. C. Dias, M. J. Piotrowski, W. Wenzel, and C. R. C.
+Rêgo, Genius: an agentic ai framework for autonomous
+design and execution of simulation protocols, Communications Materials 7, 115 (2026).
+[29] S. G. H. Kumar, Y. Zou, A. Wang, J. ValdésHernández, T. W. Ko, N. Yue, O. Leng, H. Xu, C. Crebolder, A. Aspuru-Guzik, and V. Bernales, El agente
+sólido: A new age(nt) for solid state simulations, arXiv
+10.48550/arxiv.2602.17886 (2026).
+[30] H. Chase, LangChain (2022).
+[31] Anthropic, Claude code, https://www.anthropic.com/
+claude-code (2025).
+[32] P. Gauthier, Aider: AI pair programming in your terminal, https://aider.chat (2023), open-source software,
+https://github.com/Aider-AI/aider.
+[33] OpenAI, Introducing Codex, https://openai.com/i
+ndex/introducing-codex/ (2025), codex CLI released
+April 2025; cloud agent research preview May 2025; generally available October 6, 2025.
+[34] Google, Gemini CLI: Your open-source AI agent, https:
+//blog.google/technology/developers/introducin
+g-gemini-cli-open-source-ai-agent/ (2025), opensource software, https://github.com/google-gemini/
+gemini-cli.
+[35] Anysphere, Cursor: The AI Code Editor, https://cu
+rsor.com (2023).
+[36] Google, Build with Google Antigravity, our new agentic
+development platform, https://developers.googleb
+log.com/build-with-google-antigravity-our-new
+-agentic-development-platform/ (2025).
+[37] Codeium, Windsurf Editor, https://windsurf.com
+(2024), codeium rebranded to Windsurf in April 2025;
+acquired by OpenAI in May 2025.
+[38] C. Zhou, H. Chai, W. Chen, Z. Guo, R. Shan, Y. Song,
+T. Xu, Y. Yang, A. Yu, W. Zhang, C. Zheng, J. Zhu,
+Z. Zheng, Z. Zhang, X. Lou, C. Zhang, Z. Fu, J. Wang,
+W. Liu, J. Lin, and W. Zhang, Externalization in llm
+agents: A unified review of memory, skills, protocols and
+harness engineering, arXiv 10.48550/arxiv.2604.08224
+(2026).
+[39] S. Kapoor, B. Stroebl, Z. S. Siegel, N. Nadgir, and
+A. Narayanan, AI agents that matter, Transactions on
+Machine Learning Research (2025).
+[40] S. Kapoor, B. Stroebl, P. Kirgis, N. Nadgir, Z. S. Siegel,
+B. Wei, T. Xue, Z. Chen, F. Chen, S. Utpala, F. Ndzomga, D. Oruganty, S. Luskin, K. Liu, B. Yu, A. Arora,
+D. Hahm, H. Trivedi, H. Sun, J. Lee, T. Jin, Y. Mai,
+Y. Zhou, Y. Zhu, R. Bommasani, D. Kang, D. Song,
+P. Henderson, Y. Su, P. Liang, and A. Narayanan, Holistic agent leaderboard: The missing infrastructure for AI
+agent evaluation, in The Fourteenth International Conference on Learning Representations (2026).
+[41] Anthropic, Equipping agents for the real world with
+Agent Skills, https://www.anthropic.com/engine
+ering/equipping-agents-for-the-real-world-wit
+h-agent-skills (2025).
+
+[42] P. Lewis, E. Perez, A. Piktus, F. Petroni, V. Karpukhin,
+N. Goyal, H. Küttler, M. Lewis, W.-t. Yih,
+T. Rocktäschel, S. Riedel, and D. Kiela, Retrievalaugmented generation for knowledge-intensive nlp
+tasks, arXiv 10.48550/arxiv.2005.11401 (2020).
+[43] N. F. Liu, K. Lin, J. Hewitt, A. Paranjape, M. Bevilacqua, F. Petroni, and P. Liang, Lost in the middle:
+How language models use long contexts, Transactions of
+the Association for Computational Linguistics 12, 157
+(2024).
+[44] C.-P. Hsieh, S. Sun, S. Kriman, S. Acharya, D. Rekesh,
+F. Jia, Y. Zhang, and B. Ginsburg, Ruler: What’s the
+real context size of your long-context language models?,
+arXiv preprint arXiv:2404.06654 (2024).
+[45] A. Modarressi, H. Deilamsalehy, F. Dernoncourt,
+T. Bui, R. A. Rossi, S. Yoon, and H. Schütze, Nolima: Long-context evaluation beyond literal matching,
+in Forty-second International Conference on Machine
+Learning (2025).
+[46] K. Hong, A. Troynikov, and J. Huber, Context Rot: How
+Increasing Input Tokens Impacts LLM Performance,
+Tech. Rep. (Chroma, 2025).
+[47] F. Shi, X. Chen, K. Misra, N. Scales, D. Dohan, E. Chi,
+N. Schärli, and D. Zhou, Large language models can be
+easily distracted by irrelevant context, in Proceedings of
+the 40th International Conference on Machine Learning,
+ICML’23 (JMLR.org, 2023).
+[48] Anthropic, Introducing the Model Context Protocol, ht
+tps://www.anthropic.com/news/model-context-pro
+tocol (2024), accessed: 2026-04-28.
+[49] S. Gao, R. Zhu, P. Sui, Z. Kong, S. Aldogom, Y. Huang,
+A. Noori, R. Shamji, K. Parvataneni, T. Tsiligkaridis,
+and M. Zitnik, Democratizing ai scientists using tooluniverse, arXiv 10.48550/arxiv.2509.23426 (2025).
+[50] K-Dense Inc., Scientific agent skills: A comprehensive
+collection of scientific tools for ai agents (2026), 133
+skills covering databases, packages, integrations, and
+analysis tools.
+[51] L. Zhang, L. Wang, X. Sun, W. Tang, H. Su, Y. Qian,
+Q. Yang, Q. Li, Z. Tang, H. Sun, Y. Han, Y. Jiang,
+W. Lou, B. Zhou, X. Wang, L. Bai, and Z. Xie, Molclaw:
+An autonomous agent with hierarchical skills for drug
+molecule evaluation, screening, and optimization, arXiv
+(2026).
+[52] M. Ishimaru, S. Munetoh, and T. Motooka, Generation of amorphous silicon structures by rapid quenching: A molecular-dynamics study, Physical Review B
+56, 15133–15138 (1997).
+[53] W. Sun, S. T. Dacek, S. P. Ong, G. Hautier, A. Jain,
+W. D. Richards, A. C. Gamst, K. A. Persson, and
+G. Ceder, The thermodynamic scale of inorganic crystalline metastability, Science Advances 2, e1600225
+(2016).
+[54] B. M. Wood, M. Dzamba, X. Fu, M. Gao,
+M. Shuaibi, L. Barroso-Luque, K. Abdelmaqsoud,
+V. Gharakhanyan, J. R. Kitchin, D. S. Levine,
+K. Michel, A. Sriram, T. Cohen, A. Das, A. Rizvi,
+S. J. Sahoo, Z. W. Ulissi, and C. L. Zitnick,
+Uma: A family of universal models for atoms, arXiv
+10.48550/arxiv.2506.23971 (2025).
+[55] T. W. Ko, B. Deng, M. Nassar, L. Barroso-Luque,
+R. Liu, J. Qi, A. C. Thakur, A. R. Mishra, E. Liu,
+G. Ceder, S. Miret, and S. P. Ong, Materials graph library (matgl), an open-source graph deep learning li-
+
+16
+brary for materials science and chemistry, npj Computational Materials 11, 253 (2025).
+[56] I. Batatia, P. Benner, Y. Chiang, A. M. Elena, D. P.
+Kovács, J. Riebesell, X. R. Advincula, M. Asta,
+M. Avaylon, W. J. Baldwin, F. Berger, N. Bernstein,
+A. Bhowmik, F. Bigi, S. M. Blau, V. Cărare, M. Ceriotti, S. Chong, J. P. Darby, S. De, F. D. Pia, V. L.
+Deringer, R. Elijošius, Z. El-Machachi, E. Fako, F. Falcioni, A. C. Ferrari, J. L. A. Gardner, M. J. Gawkowski,
+A. Genreith-Schriever, J. George, R. E. A. Goodall,
+J. Grandel, C. P. Grey, P. Grigorev, S. Han, W. Handley, H. H. Heenen, K. Hermansson, C. H. Ho, S. Hofmann, C. Holm, J. Jaafar, K. S. Jakob, H. Jung,
+V. Kapil, A. D. Kaplan, N. Karimitari, J. R. Kermode, P. Kourtis, N. Kroupa, J. Kullgren, M. C. Kuner,
+D. Kuryla, G. Liepuoniute, C. Lin, J. T. Margraf, I.B. Magdău, A. Michaelides, J. H. Moore, A. A. Naik,
+S. P. Niblett, S. W. Norwood, N. O’Neill, C. Ortner,
+K. A. Persson, K. Reuter, A. S. Rosen, L. A. M. Rosset,
+L. L. Schaaf, C. Schran, B. X. Shi, E. Sivonxay, T. K.
+Stenczel, C. Sutton, V. Svahn, T. D. Swinburne, J. Tilly,
+C. v. d. Oord, S. Vargas, E. Varga-Umbrich, T. Vegge,
+M. Vondrák, Y. Wang, W. C. Witt, T. Wolf, F. Zills,
+and G. Csányi, A foundation model for atomistic materials chemistry, The Journal of Chemical Physics 163,
+184110 (2025).
+[57] L. Barroso-Luque, J. H. Yang, F. Xie, T. Chen, R. L.
+Kam, Z. Jadidi, P. Zhong, and G. Ceder, smol: A
+python package for cluster expansions and beyond,
+Journal of Open Source Software 7, 4504 (2022).
+[58] C. Zeni, R. Pinsler, D. Zügner, A. Fowler, M. Horton, X. Fu, Z. Wang, A. Shysheya, J. Crabbé, S. Ueda,
+R. Sordillo, L. Sun, J. Smith, B. Nguyen, H. Schulz,
+S. Lewis, C.-W. Huang, Z. Lu, Y. Zhou, H. Yang,
+H. Hao, J. Li, C. Yang, W. Li, R. Tomioka, and T. Xie,
+A generative model for inorganic materials design, Nature , 1–3 (2025).
+[59] R. Jiao, W. Huang, Y. Liu, D. Zhao, and Y. Liu, Space
+group constrained crystal generation, in The Twelfth
+International Conference on Learning Representations
+(2024).
+[60] G. S. Na, Cross-modality material embedding loss for
+transferring knowledge between heterogeneous material descriptors, npj Computational Materials 11, 235
+(2025).
+[61] T. Ueno, H. Hino, A. Hashimoto, Y. Takeichi,
+M. Sawada, and K. Ono, Adaptive design of an x-ray
+magnetic circular dichroism spectroscopy experiment
+with gaussian process modelling, npj Computational
+Materials 4, 4 (2018).
+[62] C. Liu, Y. Bai, J. Zhou, Q. Zhao, Y. Yang, H. Chen, and
+L. Qiao, High-performance bifunctional polarization
+switch chiral metamaterials by inverse design method,
+npj Computational Materials 5, 93 (2019).
+[63] T. Zhao, Y. Zhang, Q. Wei, X. Shi, P. Zhao, L.-Q. Chen,
+and S. Zhang, Active cell-matrix coupling regulates cellular force landscapes of cohesive epithelial monolayers,
+npj Computational Materials 4, 10 (2018).
+[64] Y. Zhu, X. He, and Y. Mo, Origin of outstanding stability in the lithium solid electrolyte materials: Insights
+from thermodynamic analyses based on first-principles
+calculations, ACS Applied Materials & Interfaces 7,
+23685–23693 (2015).
+
+[65] C. Chen, D. T. Nguyen, S. J. Lee, N. A. Baker, A. S.
+Karakoti, L. Lauw, C. Owen, K. T. Mueller, B. A.
+Bilodeau, V. Murugesan, and M. Troyer, Accelerating
+computational materials discovery with machine learning and cloud high-performance computing: from largescale screening to experimental validation, Journal of
+the American Chemical Society 10.1021/jacs.4c03849
+(2024).
+[66] S. Majumdar, S. M. Moosavi, K. M. Jablonka, D. Ongari, and B. Smit, Diversifying databases of metal organic frameworks for high-throughput computational
+screening, ACS applied materials & interfaces 13, 61004
+(2021).
+[67] H. Park, S. Majumdar, X. Zhang, J. Kim, and B. Smit,
+Inverse design of metal–organic frameworks for direct
+air capture of co 2 via deep reinforcement learning, Digital Discovery 3, 728 (2024).
+[68] Y. Kang and J. Kim, Chatmof: an artificial intelligence system for predicting and generating metalorganic frameworks using large language models, Nature
+Communications 15, 4705 (2024).
+[69] A. S. Rosen, S. M. Iyer, D. Ray, Z. Yao, A. AspuruGuzik, L. Gagliardi, J. M. Notestein, and R. Q. Snurr,
+Machine learning the quantum-chemical properties of
+metal–organic frameworks for accelerated materials discovery, Matter 4, 1578 (2021).
+[70] J. Burner, J. Luo, A. White, A. Mirmiran, O. Kwon,
+P. G. Boyd, S. Maley, M. Gibaldi, S. Simrod, V. Ogden, et al., Arc–mof: a diverse database of metal-organic
+frameworks with dft-derived partial atomic charges and
+descriptors for machine learning, Chemistry of Materials 35, 900 (2023).
+[71] B. Widom, Some topics in the theory of fluids, The Journal of Chemical Physics 39, 2808–2812 (1963).
+[72] A. Kumar, D. G. Madden, M. Lusi, K.-J. Chen, E. A.
+Daniels, T. Curtin, J. J. Perry, and M. J. Zaworotko, Direct air capture of co2 by physisorbent materials, Angewandte Chemie International Edition 54, 14372–14377
+(2015).
+[73] A. Samanta, A. Zhao, G. K. H. Shimizu, P. Sarkar, and
+R. Gupta, Post-combustion co2 capture using solid sorbents: A review, Industrial & Engineering Chemistry
+Research 51, 1438–1463 (2012).
+[74] L. Jiang, W. Liu, R. Wang, A. Gonzalez-Diaz, M. RojasMichaga, S. Michailos, M. Pourkashanian, X. Zhang,
+and C. Font-Palma, Sorption direct air capture with co2
+utilization, Progress in Energy and Combustion Science
+95, 101069 (2023).
+[75] C. Chen and S. P. Ong, A universal graph deep learning interatomic potential for the periodic table, Nature
+Computational Science 2, 718–728 (2022).
+[76] R. Jacobs, D. Morgan, S. Attarian, J. Meng, C. Shen,
+Z. Wu, C. Y. Xie, J. H. Yang, N. Artrith, B. Blaiszik,
+G. Ceder, K. Choudhary, G. Csanyi, E. D. Cubuk,
+B. Deng, R. Drautz, X. Fu, J. Godwin, V. Honavar,
+O. Isayev, A. Johansson, S. Martiniani, S. P. Ong,
+I. Poltavsky, K. Schmidt, S. Takamoto, A. P. Thompson, J. Westermayr, B. M. Wood, and B. Kozinsky, A
+practical guide to machine learning interatomic potentials – status and future, Current Opinion in Solid State
+and Materials Science 35, 101214 (2025).
+[77] E. C.-Y. Yuan, Y. Liu, J. Chen, P. Zhong, S. Raja,
+T. Kreiman, S. Vargas, W. Xu, M. Head-Gordon,
+C. Yang, S. M. Blau, B. Cheng, A. Krishnapriyan,
+
+17
+and T. Head-Gordon, Foundation models for atomistic
+simulation of chemistry and materials, Nature Reviews
+Chemistry 10, 212–230 (2026).
+[78] B. Deng, P. Zhong, K. Jun, J. Riebesell, K. Han, C. J.
+Bartel, and G. Ceder, Chgnet as a pretrained universal
+neural network potential for charge-informed atomistic
+modelling, Nature Machine Intelligence , 1–11 (2023).
+[79] A. D. Kaplan, R. Liu, J. Qi, T. W. Ko, B. Deng,
+J. Riebesell, G. Ceder, K. A. Persson, and S. P. Ong, A
+foundational potential energy surface dataset for materials, arXiv 10.48550/arxiv.2503.04070 (2025).
+[80] T. Perez and R. Gomez-Bombarelli, Self-conditioned
+denoising for atomistic representation learning, arXiv
+10.48550/arXiv.2603.17196 (2026), arXiv:2603.17196.
+[81] B. Deng, Y. Choi, P. Zhong, J. Riebesell, S. Anand,
+Z. Li, K. Jun, K. A. Persson, and G. Ceder, Systematic softening in universal machine learning interatomic
+potentials, npj Computational Materials 11, 9 (2025).
+[82] X. Fu, Z. Wu, W. Wang, T. Xie, S. Keten, R. GomezBombarelli, and T. Jaakkola, Forces are not enough:
+Benchmark and critical evaluation for machine learning
+force fields with molecular simulations, Transactions on
+Machine Learning Research 10.48550/arxiv.2210.07237
+(2022).
+[83] J. Riebesell, R. E. A. Goodall, P. Benner, Y. Chiang,
+B. Deng, G. Ceder, M. Asta, A. A. Lee, A. Jain, and
+K. A. Persson, A framework to evaluate machine learning crystal stability predictions, Nature Machine Intelligence 7, 836–847 (2025).
+[84] J. Qi, T. W. Ko, B. C. Wood, T. A. Pham, and S. P.
+Ong, Robust training of machine learning interatomic
+potentials with dimensionality reduction and stratified
+sampling, npj Computational Materials 10, 43 (2024).
+[85] A. Lahouari, J. Rogal, and M. E. Tuckerman,
+Automated machine learning pipeline for training
+and analysis using large language models, arXiv
+10.48550/arxiv.2509.21647 (2025).
+[86] S. P. Ong, Y. Mo, W. D. Richards, L. Miara, H. S. Lee,
+and G. Ceder, Phase stability, electrochemical stability
+and ionic conductivity of the li 10±1 mp 2 x 12 (m
+= ge, si, sn, al or p, and x = o, s or se) family of
+superionic conductors, Energy & Environmental Science
+6, 148–156 (2012).
+[87] E. Lionta, G. Spyrou, D. Vassilatis, and Z. Cournia,
+Structure-Based Virtual Screening for Drug Discovery:
+Principles, Applications and Recent Advances, Current
+Topics in Medicinal Chemistry 14, 1923 (2014).
+[88] J. Lyu, S. Wang, T. E. Balius, I. Singh, A. Levit, Y. S.
+Moroz, M. J. O’Meara, T. Che, E. Algaa, K. Tolmachova, A. A. Tolmachev, B. K. Shoichet, B. L. Roth,
+and J. J. Irwin, Ultra-large library docking for discovering new chemotypes, Nature 566, 224 (2019).
+[89] B. J. Bender, S. Gahbauer, A. Luttens, J. Lyu, C. M.
+Webb, R. M. Stein, E. A. Fink, T. E. Balius, J. Carlsson,
+J. J. Irwin, and B. K. Shoichet, A practical guide to
+large-scale docking, Nature Protocols 16, 4799 (2021).
+[90] M. M. Mysinger, M. Carchia, John. J. Irwin, and B. K.
+Shoichet, Directory of Useful Decoys, Enhanced (DUDE): Better Ligands and Decoys for Better Benchmarking, Journal of Medicinal Chemistry 55, 6582 (2012).
+[91] H. M. Berman, The Protein Data Bank, Nucleic Acids
+Research 28, 235 (2000).
+[92] T. G. Davies, J. Bentley, C. E. Arris, F. T. Boyle, N. J.
+Curtin, J. A. Endicott, A. E. Gibson, B. T. Golding,
+
+R. J. Griffin, I. R. Hardcastle, P. Jewsbury, L. N. Johnson, V. Mesguiche, D. R. Newell, M. E. Noble, J. A.
+Tucker, L. Wang, and H. J. Whitfield, Structure-based
+design of a potent purine-based cyclin-dependent kinase
+inhibitor, Nature Structural Biology 9, 745 (2002).
+[93] S. Riniker and G. A. Landrum, Better Informed Distance Geometry: Using What We Know To Improve
+Conformation Generation, Journal of Chemical Information and Modeling 55, 2562 (2015).
+[94] D. Santos-Martins, Y. He, J. Eberhardt, P. Sharma,
+N. Bruciaferri, M. Holcomb, M. A. Llanos, A. HanselHarris, A. P. Barkdull, A. F. Tillack, G. Bianco, M.L. Paulsen, J. Mato, I. Taneja, and S. Forli, Meeko:
+Molecule Parametrization and Software Interoperability
+for Docking and Beyond, Journal of Chemical Information and Modeling 65, 13045 (2025).
+[95] O. Trott and A. J. Olson, AutoDock Vina: Improving
+the speed and accuracy of docking with a new scoring function, efficient optimization, and multithreading,
+Journal of Computational Chemistry 31, 455 (2010).
+[96] S. Boothroyd, P. K. Behara, O. C. Madin, D. F. Hahn,
+H. Jang, V. Gapsys, J. R. Wagner, J. T. Horton, D. L.
+Dotson, M. W. Thompson, J. Maat, T. Gokey, L.-P.
+Wang, D. J. Cole, M. K. Gilson, J. D. Chodera, C. I.
+Bayly, M. R. Shirts, and D. L. Mobley, Development
+and Benchmarking of Open Force Field 2.0.0: The Sage
+Small Molecule Force Field, Journal of Chemical Theory
+and Computation 19, 3251 (2023).
+[97] J. A. Maier, C. Martinez, K. Kasavajhala, L. Wickstrom, K. E. Hauser, and C. Simmerling, ff14SB: Improving the Accuracy of Protein Side Chain and Backbone Parameters from ff99SB, Journal of Chemical Theory and Computation 11, 3696 (2015).
+[98] W. L. Jorgensen, J. Chandrasekhar, J. D. Madura,
+R. W. Impey, and M. L. Klein, Comparison of simple potential functions for simulating liquid water, The
+Journal of Chemical Physics 79, 926 (1983).
+[99] P. Eastman, R. Galvelis, R. P. Peláez, C. R. A. Abreu,
+S. E. Farr, E. Gallicchio, A. Gorenko, M. M. Henry,
+F. Hu, J. Huang, A. Krämer, J. Michel, J. A. Mitchell,
+V. S. Pande, J. P. Rodrigues, J. Rodriguez-Guerra,
+A. C. Simmonett, S. Singh, J. Swails, P. Turner,
+Y. Wang, I. Zhang, J. D. Chodera, G. De Fabritiis, and
+T. E. Markland, OpenMM 8: Molecular Dynamics Simulation with Machine Learning Potentials, The Journal
+of Physical Chemistry B 128, 109 (2024).
+[100] C. W. Hopkins, S. Le Grand, R. C. Walker, and
+A. E. Roitberg, Long-Time-Step Molecular Dynamics through Hydrogen Mass Repartitioning, Journal of
+Chemical Theory and Computation 11, 1864 (2015).
+[101] S. Genheden and U. Ryde, The MM/PBSA and
+MM/GBSA methods to estimate ligand-binding affinities, Expert Opinion on Drug Discovery 10, 449 (2015).
+[102] H. Nguyen, D. R. Roe, and C. Simmerling, Improved
+Generalized Born Solvent Model Parameters for Protein
+Simulations, Journal of Chemical Theory and Computation 9, 2020 (2013).
+[103] J. Eberhardt, D. Santos-Martins, A. F. Tillack, and
+S. Forli, AutoDock Vina 1.2.0: New Docking Methods,
+Expanded Force Field, and Python Bindings, Journal of
+Chemical Information and Modeling 61, 3891 (2021).
+[104] I. C. Man, H.-Y. Su, F. Calle-Vallejo, H. A. Hansen, J. I.
+Martı́nez, N. G. Inoglu, J. Kitchin, T. F. Jaramillo, J. K.
+Nørskov, and J. Rossmeisl, Universality in oxygen evolu-
+
+18
+tion electrocatalysis on oxide surfaces, ChemCatChem
+3, 1159–1165 (2011).
+[105] O. Turayev, X-ray structural analysis and superconducting properties of yba2cu3o7–δ (ybco) synthesized
+via solid-state reaction, INTERNATIONAL JOURNAL
+OF SCIENCE AND TECHNOLOGY 2, 138 (2025).
+[106] Y. Fei, M. J. McDermott, C. L. Rom, S. Wang, and
+G. Ceder, Dara: Automated multiple-hypothesis phase
+identification and refinement from powder x-ray diffraction, Chemistry of Materials 38, 1364–1376 (2026).
+[107] E. Kim, K. Huang, A. Saunders, A. McCallum,
+G. Ceder, and E. Olivetti, Materials synthesis insights
+from scientific literature via text extraction and machine
+learning, Chemistry of Materials 29, 9436–9444 (2017).
+[108] S. Lee, K. Cruse, V. Baibakova, G. Ceder, and A. Jain,
+Text-mined dataset of solid-state syntheses with impurity phases using large language model, Scientific Data
+12, 1969 (2025).
+[109] Z. Wang, K. Cruse, Y. Fei, A. Chia, Y. Zeng, H. Huo,
+T. He, B. Deng, O. Kononova, and G. Ceder, Ulsa: unified language of synthesis actions for the representation
+of inorganic synthesis protocols, Digital Discovery 1,
+313–324 (2022).
+[110] J. R. Lunger, J. Karaguesian, H. Chun, J. Peng,
+Y. Tseo, C. H. Shan, B. Han, Y. Shao-Horn, and
+R. Gómez-Bombarelli, Towards atom-level understanding of metal oxide catalysts for the oxygen evolution
+reaction with machine learning, npj Computational Materials 10, 80 (2024).
+[111] M. J. Kolb and F. Calle-Vallejo, The bifunctional volcano plot: thermodynamic limits for single-atom catalysts for oxygen reduction and evolution, Journal of
+Materials Chemistry A 10, 5937 (2022).
+[112] Y. Zhang, S. Jiang, R. Li, J. Tu, Y. Su, L. Deng,
+X. Guo, C. Lv, and J. Lin, Deepplanning: Benchmarking long-horizon agentic planning with verifiable constraints, arXiv 10.48550/arxiv.2601.18137 (2026).
+[113] S. Feng, R. Ma, X. Yan, Y. Fan, Y. Hu, S. Huang,
+S. Zhang, Z. Cao, T. Peng, J. Yuan, Z. Guo, Z. Zhong,
+S. Du, W. Wang, J. Shi, Y. Zhou, X. He, Z. Yu, F. Yu,
+Q. Zheng, J. Wu, M. Liu, C. Zhang, S. Hou, S. Li,
+Y. Jiang, W. Lou, L. Wang, Z. Wang, J. Wang, W. Xu,
+Y. Deng, D. Liu, Y. Wang, W. Zhang, F. Ling, S. Zhang,
+X. Wang, S. Zheng, X. Huang, S. Sun, S. Hu, P. Ye,
+C. Song, B. Wang, C. He, Y. Liu, X. Li, Q. Hou,
+T. Chen, X. Yue, B. Wang, L. He, D. Lin, B. Zhou,
+B. Zhang, and L. Bai, Internagent-1.5: A unified agentic
+framework for long-horizon autonomous scientific discovery, arXiv 10.48550/arxiv.2602.08990 (2026).
+[114] Y. Du, B. Yu, T. Liu, T. Shen, J. Chen, J. G. Rittig,
+K. Sun, Y. Zhang, Z. Song, B. Zhou, C. Masschelein,
+Y. Wang, H. Wang, H. Jia, C. Zhang, H. Zhao, M. Ester, T. Head-Gordon, C. P. Gomes, H. Sun, C. Duan,
+P. Schwaller, and W. Jin, Accelerating scientific discovery with autonomous goal-evolving agents, arXiv
+(2025).
+[115] X. Huang, J. Chen, Y. Fei, Z. Li, P. Schwaller, and
+G. Ceder, Cascade: Cumulative agentic skill creation
+through autonomous development and evolution, arXiv
+10.48550/arxiv.2512.23880 (2025).
+[116] Z. Ma, S. Yang, Y. Ji, X. Wang, Y. Wang, Y. Hu,
+T. Huang, and X. Chu, Skillclaw: Let skills evolve collectively with agentic evolver, arXiv (2026).
+
+[117] Z. Zhang, A. Yin, A. Baweja, J. Bai, I. Gustin,
+V. Bernales, and A. Aspuru-Guzik, El agente forjador:
+Task-driven agent generation for quantum simulation,
+arXiv (2026).
+[118] H. Zhang, S. Fan, H. P. Zou, Y. Chen, Z. Wang,
+J. Zhou, C. Li, W.-C. Huang, Y. Yao, K. Zheng,
+X. Liu, X. Li, and P. S. Yu, Coevoskills: Selfevolving agent skills via co-evolutionary verification,
+arXiv 10.48550/arxiv.2604.01687 (2026).
+[119] X. Li, W. Chen, Y. Liu, S. Zheng, X. Chen, Y. He, Y. Li,
+B. You, H. Shen, J. Sun, S. Wang, Q. Zeng, D. Wang,
+X. Zhao, Y. Wang, R. B. Chaim, Z. Di, Y. Gao, J. He,
+Y. He, L. Jing, L. Kong, X. Lan, J. Li, S. Li, Y. Li,
+Y. Lin, X. Liu, X. Liu, H. Lyu, Z. Ma, B. Wang,
+R. Wang, T. Wang, W. Ye, Y. Zhang, H. Xing, Y. Xue,
+S. Dillmann, and H.-c. Lee, Skillsbench: Benchmarking
+how well agent skills work across diverse tasks, arXiv
+(2026).
+[120] Y. Liu, J. Ji, L. An, T. Jaakkola, Y. Zhang, and
+S. Chang, How well do agentic skills work in the wild:
+Benchmarking llm skill usage in realistic settings, arXiv
+(2026).
+[121] L. Mitchener, J. M. Laurent, A. Andonian, B. Tenmann,
+S. Narayanan, G. P. Wellawatte, A. White, L. Sani, and
+S. G. Rodriques, Bixbench: a comprehensive benchmark
+for llm-based agents in computational biology, arXiv
+10.48550/arxiv.2503.00096 (2025).
+[122] A. H. Larsen, J. J. Mortensen, J. Blomqvist, I. E.
+Castelli, R. Christensen, M. Dulak, J. Friis, M. N.
+Groves, B. Hammer, C. Hargus, E. D. Hermes, P. C.
+Jennings, P. B. Jensen, J. Kermode, J. R. Kitchin, E. L.
+Kolsbjerg, J. Kubal, K. Kaasbjerg, S. Lysgaard, J. B.
+Maronsson, T. Maxson, T. Olsen, L. Pastewka, A. Peterson, C. Rostgaard, J. Schiøtz, O. Schütt, M. Strange,
+K. S. Thygesen, T. Vegge, L. Vilhelmsen, M. Walter,
+Z. Zeng, and K. W. Jacobsen, The atomic simulation
+environment—a python library for working with atoms,
+Journal of Physics: Condensed Matter 29, 273002
+(2017).
+[123] S. P. Ong, W. D. Richards, A. Jain, G. Hautier,
+M. Kocher, S. Cholia, D. Gunter, V. L. Chevrier, K. A.
+Persson, and G. Ceder, Python materials genomics (pymatgen): A robust, open-source python library for materials analysis, Computational Materials Science 68,
+314–319 (2013).
+[124] G. Landrum, Rdkit: Open-source cheminformatics
+(2026).
+[125] G. Kresse and J. Furthmüller, Efficient iterative schemes
+for ab initio total-energy calculations using a plane-wave
+basis set, Physical Review B 54, 11169–11186 (1996).
+
+19
+
+Supplementary Information:
+Harnessing AtomisticSkills for Agentic Atomistic Research
+
+CONTENTS
+
+I. Introduction
+
+1
+
+II. Results
+A. AtomisticSkills Coverage in Literature
+B. Generative design of Li-ion solid conductor
+C. Computational screening of MOF for CO2 capture
+D. Agentic MLIP benchmark and fine-tuning
+E. Structure-based high-throughput virtual screening for drug discovery
+F. Multimodal analysis of XRD patterns
+G. Screening of Fe-oxide for oxygen evolution reaction
+
+4
+4
+6
+7
+7
+8
+10
+10
+
+III. Discussion
+
+11
+
+IV. Methods
+A. Integration into General-Purpose Coding Agents
+B. Simulation Infrastructure
+C. Literature Mining and Skill Identification
+
+12
+12
+12
+13
+
+V. Code Availability
+
+13
+
+VI. Acknowledgments
+
+13
+
+VII. Author Contributions
+
+13
+
+VIII. Competing Interests
+
+13
+
+References
+Supplementary Information: Harnessing AtomisticSkills for Agentic Atomistic Research
+
+13
+19
+
+Coverage Analysis for Chemistry Literature
+
+20
+
+Coverage Analysis for Drug Discovery Literature
+
+20
+
+Integration in Agentic IDEs
+
+21
+
+20
+COVERAGE ANALYSIS FOR CHEMISTRY LITERATURE
+
+(a)
+
+(b)
+
+(c)
+
+FIG. S1. Coverage analysis of AtomisticSkills compared to chemistry literature. (a) Histogram of the number of
+skills used in each paper, text-mined from 500 published research articles from The Journal of Physical Chemistry Letters. (b)
+The 30 most frequently used scientific skills. The histogram indicates their frequency appeared in literature, and the color
+scheme indicates whether the skill is covered by AtomisticSkill. (c) Histogram of the skill coverage percentage of AtomisticSkills
+in each paper. The result indicates that AtomisticSkills can fully cover around 8% of computational chemistry journal articles.
+And on average, AtomisticSkills covers 44.9% of computational chemistry skills usage.
+
+To evaluate the applicability of the AtomisticSkills framework in the domain of chemistry and drug discovery, we
+performed a skill coverage analysis on 500 randomly sampled journal articles from The Journal of Physical Chemistry Letters. Similar to the materials science literature analysis, we decomposed the publications into skills and
+benchmarked them to AtomisticSkills. Supplementary Fig. S1 (a) illustrates the number of skills identified from each
+article. Supplementary Fig. S1 (b) highlights the 30 most frequently utilized skills found in these articles, and whether
+they’re covered by AtomisticSkills. Supplementary Fig. S1 (c) shows the distribution of coverage percentage of the
+500 articles from The Journal of Physical Chemistry Letters.
+COVERAGE ANALYSIS FOR DRUG DISCOVERY LITERATURE
+
+We also present a benchmark for drug-discovery skills. Because no single flagship journal is exclusively dedicated
+to computational drug discovery, we curated a dataset of 500 open-access articles retrieved via keyword filtering from
+PubMed and arXiv. The specific search queries used for each repository were as follows:
+arXiv Search Queries:
+• all:"molecular docking" AND (cat:q-bio.BM OR cat:physics.chem-ph OR cat:physics.comp-ph OR
+cat:q-bio.QM OR cat:cs.LG)
+
+21
+• all:"virtual screening" AND (cat:q-bio.BM OR cat:physics.chem-ph OR cat:physics.comp-ph OR
+cat:q-bio.QM OR cat:cs.LG)
+• all:("MM-GBSA" OR "MM/GBSA" OR "MM-PBSA" OR "MM/PBSA")
+• all:("free energy perturbation" OR "FEP+" OR "alchemical free energy")
+• all:"binding free energy" AND (all:"molecular dynamics" OR all:"simulation")
+• all:"protein-ligand" AND (all:"docking" OR all:"molecular dynamics")
+• all:("HTVS" OR "high-throughput virtual screening")
+• all:("absolute binding free energy" OR "relative binding free energy")
+• all:"drug discovery" AND (all:"molecular dynamics" OR all:"docking")
+PubMed Search Queries:
+• ("molecular docking"[tiab]) AND ("protein-ligand"[tiab] OR "drug discovery"[tiab] OR "lead
+optimization"[tiab])
+• ("virtual screening"[tiab]) AND ("drug discovery"[tiab] OR "hit"[tiab] OR "lead"[tiab])
+• ("MM-GBSA"[tiab] OR "MM/GBSA"[tiab] OR "MM-PBSA"[tiab] OR "MM/PBSA"[tiab])
+• ("free energy perturbation"[tiab] OR "alchemical free energy"[tiab] OR "FEP+"[tiab])
+• ("binding free energy"[tiab]) AND ("molecular dynamics"[tiab] OR "simulation"[tiab])
+• ("absolute binding free energy"[tiab] OR "relative binding free energy"[tiab])
+• ("HTVS"[tiab] OR "high-throughput virtual screening"[tiab])
+• ("molecular dynamics"[tiab]) AND ("protein-ligand"[tiab] OR "drug-target"[tiab])
+• ("metadynamics"[tiab] OR "umbrella sampling"[tiab]) AND ("ligand"[tiab] OR "binding"[tiab])
+Supplementary Fig. S2 presents a similar coverage analysis for drug discovery. Supplementary Fig. S2 (a) illustrates
+the number of skills identified from each article. Supplementary Fig. S2 (b) highlights the 30 most frequently utilized
+skills in the drug-discovery articles, and whether they’re covered by AtomisticSkills. Supplementary Fig. S2 (c) shows
+the distribution of coverage percentage of the 500 open-access articles retrieved from PubMed and arXiv.
+
+INTEGRATION IN AGENTIC IDES
+
+The AtomisticSkills framework is designed to be natively integrated into general-purpose agentic Integrated Development Environments (IDEs). By embedding the skills, tools, and rules into the system prompt of the underlying
+large language models, these IDEs gain specialized atomistic research capabilities. Supplementary Figure S3 presents
+screenshots of AtomisticSkills in Google Antigravity. Supplementary Figure S4 presents screenshots of AtomisticSkills
+in OpenClaw.
+
+22
+(a)
+
+(b)
+
+(c)
+
+FIG. S2. Coverage analysis of AtomisticSkills compared to drug discovery literature. (a) Histogram of the number
+of skills used in each paper, text-mined from 500 published research articles from PubMed and arXiv. (b) The 30 most
+frequently used scientific skills. The histogram indicates their frequency appeared in literature, and the color scheme indicates
+whether the skill is covered by AtomisticSkill. (c) Histogram of the skill coverage percentage of AtomisticSkills in each paper.
+The result indicates that AtomisticSkills can fully cover around 14% of computational drug-discovery articles. And on average,
+AtomisticSkills covers 62.4% of computational drug-discovery skills usage.
+
+23
+
+FIG. S3. AtomisticSkills in Google Antigravity. Screenshots demonstrating the usage of AtomisticSkills in Google
+Antigravity
+
+24
+
+(a)
+
+(b)
+
+FIG. S4. AtomisticSkills in OpenClaw. Screenshots demonstrating the usage of AtomisticSkills in (a) OpenClaw computer
+interface. (d)OpenClaw phone interface
+
+
