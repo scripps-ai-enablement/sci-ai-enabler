@@ -11,6 +11,23 @@ Reverse-chronological log of changes to the [catalog](catalog/). Newest at the t
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-05-31
+
+Directed pass on **Drug Repurposing and Discovery** (Sunday focus). Manifest sweep of `anthropics/life-sciences` shows no diff vs. 2026-05-30 — the DOA `biorxiv@life-sciences` / `clinical-trials@life-sciences` plugins (upstream issue #42, `mcp.deepsense.ai` NXDOMAIN) still un-restored; no other new plugins this week. The directed pass surfaced **PyTDC** from the standing Deferred queue — the K-Dense skill wrapper around Therapeutics Data Commons (Harvard `mims-harvard/TDC`), the canonical benchmark suite for ADMET, drug-target / drug-drug interactions, drug response, molecular generation, and retrosynthesis. PyTDC complements the existing `chembl`, `drugbank`, `open-targets`, `pubchem`, `medchem`, `datamol`, `molfeat`, and `rdkit-skill` Drug Repurposing entries by providing the labelled benchmark splits and generation oracles those upstream tools then featurize / model. One new entry, well under the 5-entry soft cap; no user-feedback issues in the open queue this run.
+
+### Added
+- **PyTDC (Claude Skill)** (Categories: Drug Repurposing and Discovery, Chemistry, Translational Medicine) — K-Dense skill driving the PyTDC Python client for Therapeutics Data Commons benchmarks: `single_pred` (ADMET, toxicity), `multi_pred` (DTI, DDI, drug response, PPI), and `generation` (de-novo molecules with 17+ oracles incl. QED / SA / DRD2 / GSK3B / JNK3, plus retrosynthesis and reaction yield). Bundled scripts (`load_and_split_data.py`, `benchmark_evaluation.py`, `molecular_generation.py`) plus `datasets.md` / `oracles.md` / `utilities.md` references ([source](https://github.com/K-Dense-AI/scientific-agent-skills), [TDC](https://tdcommons.ai/), [`mims-harvard/TDC`](https://github.com/mims-harvard/TDC), [Huang et al. NeurIPS 2021](https://arxiv.org/abs/2102.09548)).
+
+### Updated
+- **`catalog/curator-state.md`** — Recently surfaced refreshed with the PyTDC addition (oldest of the prior five — `arboreto` — rolled off; `cellxgene-census`, `scvelo`, `openneuro`, `npi-registry` carried forward). Deferred queue updated: removed `PyTDC` from the `TorchDrug / PyTDC / DiffDock / PyOpenMS / matchms / cobrapy (K-Dense Skills)` chemistry-stack-siblings line (PyTDC now surfaced).
+
+### Verified (no changes)
+- Existing Drug Repurposing and Discovery entries (`open-targets` last_verified 2026-05-20, `drugbank` 2026-05-20, `chembl` 2026-05-30, `pubchem`, `medchem`, `datamol`, `molfeat`, `rdkit-skill`, `rdkit-mcp`, `molecule-mcp`, `adisinsight`, `owkin`, `depmap`) all within the 30-day verification window — no scheduled re-verification needed this run.
+- Manifest sweep of `anthropics/life-sciences` re-confirmed: no diff vs. 2026-05-30; `biorxiv` / `clinical-trials` plugins still DOA per upstream issue #42 (`mcp.deepsense.ai` NXDOMAIN). Deferred queue (Cortellis, Medidata, Consensus, Augmented-Nature ChEMBL, AACT, OpenFDA / Azure FHIR / DeepChem / TorchDrug / DiffDock MCPs and skills) carries forward.
+
+### User requests
+- `## User requests (open)` was empty entering this run — nothing to action; section remains `_None._`.
+
 ## 2026-05-30
 
 Directed pass on **Translational Medicine** (Saturday focus). Manifest sweep of `anthropics/life-sciences` shows no diff vs. 2026-05-29 — the DOA `biorxiv@life-sciences` / `clinical-trials@life-sciences` plugins still un-restored, no other new plugins this week. The directed pass cleared **NPI Registry MCP** from the standing Deferred queue (third Anthropic Healthcare MCP-marketplace entry alongside `cms-coverage` and `icd-10-codes`, plus the existing `pubmed` connector — completes the four Healthcare-marketplace MCPs published with the Jan 2026 Claude for Healthcare launch). Two user-feedback issues processed: #17 with a structured `worked fine` trailer for `chembl`, and #15 a no-trailer migration smoke-test against the same tool. One new entry, well under the 5-entry soft cap; both user requests closed this run.

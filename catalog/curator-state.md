@@ -8,11 +8,11 @@ nav_exclude: true
 
 ## Recently surfaced
 
+- **PyTDC (Claude Skill)** (added 2026-05-31) — K-Dense skill for Therapeutics Data Commons benchmarks: ADMET, DTI, DDI, drug response, molecular generation (17+ oracles), retrosynthesis. Surfaced from the Deferred queue on the Drug Repurposing and Discovery focus pass.
 - **NPI Registry MCP (Anthropic Healthcare)** (added 2026-05-30) — Anthropic-published MCP server over the CMS NPPES NPI Registry API v2.1; validate, look up, and search US healthcare providers by NPI. Fourth Anthropic Healthcare MCP catalogued, completing the `cms-coverage` / `icd-10-codes` / `pubmed` set.
 - **OpenNeuro MCP** (added 2026-05-29) — Community MCP server (QuentinCody) wrapping the OpenNeuro GraphQL API; hosted Cloudflare Workers SSE endpoint, MIT + Academic Citation Requirement license. Complements the Neurosift Tools MCP (DANDI + NWB) by covering OpenNeuro's MRI / MEG / EEG / iEEG / ECoG archive.
 - **Cellxgene Census (Claude Skill)** (added 2026-05-28) — K-Dense skill for querying the CZ CELLxGENE Discover census (50M+ cells, 1,000+ datasets) via TileDB-SOMA, with AnnData / Scanpy integration for reference-atlas construction.
 - **scVelo (Claude Skill)** (added 2026-05-28) — K-Dense skill driving scVelo for RNA-velocity analysis (steady-state / stochastic / dynamical models, latent time, driver-gene identification).
-- **Arboreto (Claude Skill)** (added 2026-05-28) — K-Dense skill for gene-regulatory-network inference with GRNBoost2 / GENIE3, distributed via Dask; standard upstream step for pySCENIC.
 
 ## Flagged for review
 
@@ -27,7 +27,7 @@ nav_exclude: true
 - **biorxiv@life-sciences plugin** — `anthropics/life-sciences` marketplace entry currently DOA (`mcp.deepsense.ai` NXDOMAIN per upstream issue #42 / commit `e96556b`). Revisit when upstream restores the endpoint.
 - **clinical-trials@life-sciences plugin** — same DOA status as biorxiv@life-sciences; distinct from both the `adisinsight` plugin (Springer Nature) and the `clinicaltrials-gov-mcp` community entry. Revisit when the endpoint is restored.
 - **DeepChem (K-Dense Skill)** — deep-learning models for ADMET, virtual screening, and molecular property prediction; next Chemistry-focus pass.
-- **TorchDrug / PyTDC / DiffDock / PyOpenMS / matchms / cobrapy (K-Dense Skills)** — remaining chemistry-stack siblings, surface incrementally.
+- **TorchDrug / DiffDock / PyOpenMS / matchms / cobrapy (K-Dense Skills)** — remaining chemistry-stack siblings, surface incrementally. (PyTDC promoted 2026-05-31.)
 - **Retrosynthesis MCP** — no Claude-installable wrapper for AiZynthFinder / ASKCOS / IBM RXN located 2026-05-25; revisit on next Chemistry-focus pass.
 - **OpenClaw Medical Skills Library** — 869-skill MIT-licensed collection; treat each individual skill (pharmacovigilance, adverse-event detection, PyHealth) as a separate entry.
 - **Ensembl MCP servers** (`munch-group/ensembl-mcp`, `effieklimi/ensembl-mcp-server`) — both early-stage; revisit when one stabilises.
