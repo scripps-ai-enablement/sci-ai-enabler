@@ -11,6 +11,21 @@ Reverse-chronological log of changes to the [recipes cookbook](recipes/). Newest
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-05-31
+
+### Added
+
+- **Prioritize targets within a disease via Open Targets** (Problem class: Knowledge synthesis; Evidence: Reported) — rung-2 [Open Targets plugin](catalog/tools/open-targets.html) recipe taking a disease (EFO/MONDO) to a ranked target shortlist across the four prioritisation pillars (precedence, tractability, doability, safety) with cited GraphQL fields per cell. First DR&D focus-day recipe of this run; complements the existing gene-in [Build a target dossier](recipes/items/build-target-dossier.html) and disease-in/drug-out [Scan approved drugs for repurposing candidates](recipes/items/scan-drug-repurposing-candidates.html) recipes. Anchored in [Buniello et al. *NAR* 53(D1):D1467–D1475 (2025)](https://doi.org/10.1093/nar/gkae1128) and [Minikel et al. *Nature* 629:624–629 (2024)](https://doi.org/10.1038/s41586-024-07316-0); closest LLM-driven application: [Zunzunegui Sanz et al. *bioRxiv* 2025-06-13](https://doi.org/10.1101/2025.06.13.659527) and [More et al. *npj Precision Oncology* 10:95 (2025)](https://doi.org/10.1038/s41698-025-01265-1).
+- **Benchmark an ADMET property with PyTDC** (Problem class: Data analysis; Evidence: Reported) — rung-2 [PyTDC skill](catalog/tools/pytdc.html) recipe driving the official TDC `ADMET_Group` benchmark (frozen scaffold splits, canonical metric per task, 5-seed leaderboard row format) so a new model gets a directly comparable number. Second DR&D focus-day recipe; first cookbook entry that produces leaderboard-comparable ADMET metrics. Anchored in [Huang et al. *NeurIPS Datasets and Benchmarks* (2021)](https://arxiv.org/abs/2102.09548), the published TDC-2 framework [Velez-Arce et al. NeurIPS 2024](https://openreview.net/forum?id=kL8dlYp6IM), and recent LLM-driven workflows ([Hao et al. *Scientific Data* 11:864 (2024)](https://doi.org/10.1038/s41597-024-03793-0); [Yuan et al. arXiv:2406.06316 (2024)](https://arxiv.org/abs/2406.06316)).
+
+### Verified (no changes)
+
+- No aging recipes due — every `last_verified` date is within the 30-day window. The recipe set's verification floor sits at 2026-05-22 (`integrate-single-cell-datasets`, `sort-spikes-from-neuropixels-recording`); next aging boundary is 2026-06-21.
+
+### User requests
+
+- **#12** (`claude:recipe-feedback`) — remains in `## User requests (open)`; `gh` CLI is still not available in this run's environment so the issue body cannot be inspected. Retry next run with `gh` access.
+
 ## 2026-05-30
 
 ### Added
