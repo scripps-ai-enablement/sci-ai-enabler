@@ -1,0 +1,1689 @@
+LEAP: A closed-loop framework for perovskite precursor
+additive discovery
+Xin-De Wang1,: , Zhi-Rui Chen2,: , Ze-Feng Gao1,:* , Peng-Jie Guo1 , Cheng Mu2,* , Zhong-Yi
+Lu1,*
+
+arXiv:2605.20242v1 [cs.LG] 18 May 2026
+
+1
+
+2
+
+School of Physics, Renmin University of China, Beijing, China
+School of Chemistry and Life Resource, Renmin University of China, Beijing, China
+*
+
+e-mail: zfgao@ruc.edu.cn; cmu@ruc.edu.cn; zlu@ruc.edu.cn
+:
+These authors contributed equally
+
+Abstract
+Efficient discovery of precursor additives is essential for improving the performance of perovskite solar cells, yet the large chemical space makes conventional trial-and-error screening
+inefficient. We develop LEAP (LLM-driven Exploration via Active Learning for Perovskites), an
+expert-in-the-loop closed framework that couples a domain-specialized large language model (LLM)
+with active learning for iterative additive prioritization. The LLM is trained to extract mechanismrelevant knowledge from the perovskite additive literature and to represent candidate molecules
+through interpretable descriptors, which are further integrated into a Bayesian optimization
+workflow for uncertainty-aware prioritization under low-data conditions. Benchmark results on
+unseen literature show that the domain-specialized model outperforms general-purpose models
+in mechanism-consistent reasoning. Experimental validation in an expert-in-the-loop proof-ofconcept study suggests improved additive prioritization across three screening rounds, leading
+to average device PCEs of 20.13% and 20.87% for the later-round 6-CDQ- and 2-CNA-treated
+devices, respectively, compared with 19.25% for the control, with a champion PCE of 21.32%.
+These results provide preliminary evidence that literature-grounded mechanistic descriptors,
+when coupled with Bayesian optimization and expert feasibility review, can support mechanismaware additive prioritization in perovskite photovoltaics.
+
+Keywords:
+discovery
+
+active learning, closed-loop optimization, perovskite solar cells, precursor additives
+
+Introduction
+Perovskite solar cells (PSCs) have rapidly emerged as one of the most promising photovoltaic
+technologies because of their outstanding optoelectronic properties, solution processability, and
+rapidly rising power conversion efficiencies (PCEs) [1–3]. However, despite this progress, the practical development of PSCs remains constrained by the intrinsic complexity of perovskite crystallization
+and defect formation [4]. During film formation, undercoordinated ions, halide vacancies, and interfacial trap states are readily generated in the bulk and at surfaces [5], which exacerbate non-radiative
+recombination, reduce operational stability, and ultimately limit device performance [6–9].
+Additive engineering has become one of the most effective strategies to address these challenges [10]. By incorporating functional molecules into precursor solutions, it is possible to regulate
+1
+
+crystallization kinetics, modulate intermediate phases [11], passivate bulk and interfacial defects [12],
+and improve film morphology and energy-level alignment [13, 14]. As a result, additive design has
+played a central role in advancing both the efficiency and stability of PSCs. Yet the chemical space
+of potentially useful additives is extremely broad, spanning diverse functional groups, interaction
+motifs, and physicochemical properties. This combinatorial complexity makes experimental exploration highly resource-intensive, while conventional trial-and-error screening is poorly matched to
+the scale of the search problem [15, 16].
+Recent advances in artificial intelligence (AI), including AI-driven inverse design frameworks,
+offer a potential route to more efficient materials discovery [17–19], but existing approaches remain
+limited for additive development in PSCs [20]. Most machine-learning frameworks in perovskite
+research are designed for property prediction within predefined datasets [21], while general-purpose
+large language models (LLMs) lack sufficiently specialized mechanistic understanding of additiveprecursor interactions, defect chemistry, and crystallization control [22]. What is needed is not
+only predictive ranking, but a domain-informed system that can translate literature-scale chemical
+knowledge into experimentally actionable hypotheses and iteratively improve from real validation
+outcomes [23].
+Here we develop LEAP (LLM-driven Exploration via Active Learning for Perovskites), an iterative framework for perovskite precursor additive discovery that couples a domain-specialized
+LLM, Perovskite-RL, with active learning (AL) [24]. In LEAP, Perovskite-RL is trained to extract
+mechanism-relevant knowledge from the additive literature and to represent candidate molecules
+through interpretable descriptors linked to additive function in PSCs. These knowledge-guided descriptors are then integrated into a Bayesian Optimization (BO) workflow to prioritize candidates
+for experimental validation, while newly obtained experimental results are fed back into the model
+loop to refine subsequent selection. In this way, LEAP implements an expert-in-the-loop closed
+workflow that combines domain-specific reasoning, uncertainty-aware prioritization, experimental
+feasibility review, and feedback from device validation. In this proof-of-concept study, the workflow
+prioritized additives across three screening rounds and identified later-round candidates that improved device-level performance relative to the control. Rather than establishing a fully autonomous
+or generally optimized discovery platform, these results show how literature-grounded mechanistic
+representations can be coupled with Bayesian optimization to support experimentally actionable
+additive prioritization under low-data conditions.
+Distinct from using LLMs only for text mining or molecular description, LEAP follows the
+broader direction of language-representation-based materials discovery by converting literaturederived mechanistic reasoning into interpretable descriptors that can be coupled to Bayesian optimization and experimental feedback [25].
+
+Results
+Framework of LEAP
+LEAP is an expert-in-the-loop, closed-workflow framework for perovskite precursor additive
+prioritization that integrates literature-grounded mechanistic reasoning with uncertainty-aware experimental selection [26]. In this proof-of-concept implementation, domain knowledge extracted
+from the perovskite additive literature is combined with active learning to prioritize candidate
+molecules [27], guide experimental validation, and update subsequent rounds of selection. The
+overall workflow is summarized in Figure 1.
+At the core of LEAP is a domain-specialized LLM, Perovskite-RL, which is trained through
+supervised fine-tuning (SFT) and reinforcement learning (RL) on the perovskite precursor additive
+2
+
+Figure 1: Overview of the LEAP expert-in-the-loop workflow for perovskite precursor additive prioritization.
+Literature-derived domain knowledge and a curated molecular database are used to construct Perovskite-RL, while
+hot-start additives with measured ∆PCE values initialize the GP surrogate model. In each iteration, Perovskite-RL
+evaluates candidate molecules and generates soft mechanistic descriptors, which are integrated with hard molecular
+features to form a hybrid LEAP representation for GP-based expected-improvement acquisition. Prioritized candidates are reviewed by domain experts and experimentally validated in perovskite solar cells. Device-level readouts,
+including PCE, film quality, and defect suppression, are fed back to update the dataset, descriptors, and surrogate
+model for the next iteration.
+
+literature [28]. Perovskite-RL is used to assess candidate molecules in a mechanism-relevant manner
+and to generate descriptors linked to additive function. These descriptors are then combined with
+molecular features and used as the input to a Bayesian optimization (BO) workflow [29]. Specifically,
+a Gaussian process (GP) regressor serves as the probabilistic surrogate model [30] to estimate both
+the expected performance gain and the associated predictive uncertainty for untested candidates,
+and the expected improvement (EI) acquisition function is used to prioritize molecules for each
+round of selection [31]. At the current stage, LEAP operates in an expert-in-the-loop mode: modelprioritized candidates are not automatically sent for validation, but are first reviewed by domain
+experts for chemical plausibility, commercial availability, precursor-solution compatibility, safety,
+cost, and device-fabrication feasibility. Newly obtained experimental results are then fed back into
+the workflow to refine the next round of prioritization. In each feedback cycle, the newly measured
+device performance is appended to the existing hot-start dataset and used together with previous
+experimental data to retrain the GP surrogate model. At the same time, the prompting template
+used for Perovskite-RL evaluation is updated to incorporate the latest experimental observations, so
+that soft mechanistic descriptors for the accumulated training set and candidate pool are regenerated
+under the updated reasoning context. The retrained surrogate and updated descriptors are then
+used to recompute acquisition scores for the next round of candidate selection.
+Because LEAP relies on literature-grounded mechanistic assessments as the basis for downstream
+candidate representation and prioritization, the reliability of this reasoning component must first
+
+3
+
+Performance on the Mechanism Consistency Benchmark
+
+(a)
+
+78.1%
+
+Perovskite-RL
+50.0%
+
+gemini-3-flash
+
+46.9%
+
+DeepSeek-V3.2
+
+43.8%
+
+GPT-5
+
+37.5%
+
+Qwen3-32B
+28.1%
+
+llama-3.3-70b-instruct
+0
+
+10
+
+20
+
+30
+
+40
+
+50
+
+60
+
+70
+
+80
+
+Accuracy (%)
+
+Pairwise Exact McNemar Comparison Against Baselines
+
+(b)
+
++16 (p < 0.001)
+
+llama-3.3-70b-instruct
+
++13 (p < 0.01)
+
+Qwen3-32B
+
++11 (p < 0.05)
+
+GPT-5
+
++10 (p < 0.05)
+
+DeepSeek-V3.2
+
++9 (p < 0.05)
+
+gemini-3-flash
+0.0
+
+2.5
+
+5.0
+
+7.5
+
+10.0
+
+12.5
+
+15.0
+
+17.5
+
+20.0
+
+Win Difference
+
+Figure 2: Mechanism-consistency benchmark performance. (a) Accuracy of Perovskite-RL and baseline models on
+32 questions from 16 unseen additive papers. The 95% Wilson confidence interval for Perovskite-RL accuracy is
+reported in the main text. (b) Pairwise exact McNemar comparisons between Perovskite-RL and each baseline. Bars
+show win differences and Holm-Bonferroni-adjusted exact McNemar P values.
+
+be established. We therefore constructed a mechanism consistency benchmark using 16 recently
+selected studies on perovskite precursor additives that were strictly excluded from the training
+corpus. From these unseen papers, we curated 32 multiple-choice questions to test whether the
+model could generate mechanistically consistent judgments aligned with the interpretations reported
+in the original literature.
+As shown in Figure 2a, the reasoning component used in LEAP answered 25 of 32 questions correctly, corresponding to an accuracy of 78.1%, with a 95% Wilson confidence interval from 61.2%
+to 89.0%. This accuracy was higher than those of the evaluated backbone and general-purpose
+baseline models on the same mechanism-consistency benchmark. Pairwise exact McNemar tests
+were used to compare Perovskite-RL with each baseline, followed by Holm-Bonferroni correction
+across the five pairwise comparisons, as shown in Figure 2b [32]. Because the benchmark contains
+only 32 paired questions, these statistical results should be interpreted as a focused sanity check of
+mechanism-consistent reasoning rather than as an exhaustive model ranking. This benchmark there4
+
+fore provides preliminary support for using Perovskite-RL as the reasoning module for downstream
+candidate representation and prioritization.
+
+Mechanistic representation in LEAP
+Conventional molecular descriptors can capture basic physicochemical properties of candidate
+additives [33], but they do not explicitly encode the higher-level mechanisms through which additives
+influence perovskite crystallization, defect passivation, interfacial protection, and environmental
+stability [34]. For additive discovery in PSCs, however, these mechanism-level effects are often
+more directly related to function than structural descriptors alone. LEAP therefore constructs
+a mechanism-aware representation of candidate molecules that is designed for prioritization in a
+closed-loop discovery setting rather than for structural description alone.
+To achieve this, LEAP derives soft mechanistic descriptors from literature-grounded reasoning
+over candidate molecules [35]. Instead of directly using high-dimensional latent embeddings from
+the LLM, which are difficult to interpret and may obscure the contribution of physically meaningful
+features [36], LEAP represents each molecule through explicit scores along five mechanism-relevant
+dimensions: binding mode, interfacial shielding, hydrophobic protection, ion-interaction potential,
+and electronic modulation [37, 38]. In this way, domain knowledge extracted from the additive
+literature is translated into an interpretable descriptor space that is directly linked to additive
+function in PSCs.
+To improve robustness, these descriptors are obtained through repeated probabilistic reasoning and aggregation [39], allowing the representation to capture not only dominant mechanistic
+tendencies but also inference variability across candidates. The resulting soft descriptors are then
+integrated with deterministic hard features, including standard molecular physicochemical properties, to form a hybrid representation for downstream modelling. By combining explicit molecular
+constraints with mechanism-level semantic information, LEAP establishes a feature space suitable
+for subsequent uncertainty-aware candidate prioritization.
+
+LEAP for candidate prioritization
+To identify experimentally actionable additives under low-data conditions, LEAP uses the hybrid
+molecular representation as the input space for surrogate modelling [40]. Starting from a hotstart set of experimentally characterized additives, a GP surrogate model is trained to map the
+combined soft and hard descriptors to the target performance metric. This probabilistic surrogate
+allows LEAP to estimate, for each untested candidate, both the expected performance gain and the
+associated predictive uncertainty [41]. In this way, candidate evaluation is performed not only in
+terms of predicted benefit, but also in terms of how confidently that benefit can be assessed from
+the currently available data.
+Candidate prioritization is then guided by the EI acquisition function, which balances exploitation of molecules predicted to perform well against exploration of under-sampled regions of the
+candidate space. LEAP therefore does not simply rank candidates by predicted mean response, but
+instead prioritizes molecules that are jointly promising and informative for subsequent rounds of
+optimization. At the current stage, this process operates in an expert-in-the-loop mode, that is,
+model-prioritized candidates are further reviewed for chemical plausibility and experimental feasibility before validation [42]. By combining uncertainty-aware model guidance with expert assessment,
+LEAP converts mechanism-aware molecular representation into an experimentally practical strategy
+for iterative additive prioritization.
+
+5
+
+Representation ablation
+Spearman
+
+Top-20% overlap
+
+Hybrid (LEAP)
+
+0.394
+
+0.375
+
+Full soft
+
+0.393
+
+0.375
+
+Mechanism soft
+
+0.335
+
+Hard
+0.0
+
+0.1
+
+0.2
+
+0.274
+0.3
+0.4
+
+RMSE improvement
++0.001
+
+-0.008
+
+0.500 -0.013
+
+0.0
+
+0.125
+0.2
+
+0.4
+
+0.02
+
+0.01
+
+0.00
+
++0.000
+0.01
+
+RMSE improvement is defined as RMSE(hard-only) RMSE(current); larger values indicate lower prediction error.
+Figure 3: Retrospective representation ablation for LEAP candidate prioritization. GP surrogate models were
+evaluated on 36 hot-start additives using relative PCE change as the target. Hard features, mechanism-aware soft
+descriptors, full soft descriptors, and the hybrid LEAP representation were compared using Spearman correlation,
+top-20% overlap, and RMSE improvement relative to the hard-feature baseline. Larger RMSE improvement indicates
+lower prediction error.
+
+To examine whether the representation design contributes useful information beyond conventional molecular descriptors [43], we performed a retrospective representation ablation on the 36
+experimentally characterized hot-start additives. We compared GP surrogate models trained with
+conventional hard molecular features [44], mechanism-aware soft descriptors derived from repeated
+probabilistic reasoning, full soft descriptors that additionally include the overall predicted-effect
+score, and the hybrid LEAP representation combining hard and soft information. Model performance was evaluated using Spearman rank correlation, top-20% overlap, and RMSE improvement
+relative to the hard-feature baseline, thereby capturing ranking quality, recovery of high-performing
+candidates, and prediction error, respectively, as shown in Figure 3 [45]. Bootstrap confidence
+intervals for these metrics are provided in Table S3.
+The representation ablation suggests that literature-derived soft descriptors provide prioritizationrelevant information beyond hard molecular features alone, although the effect size is modest and
+metric-dependent. In the 36-additive retrospective analysis, the hard-feature baseline gave a Spearman correlation of 0.274 and a top-20% overlap of 0.125, whereas the hybrid LEAP representation
+gave a Spearman correlation of 0.394 and a top-20% overlap of 0.375. These results support the
+possible value of mechanism-aware information for candidate prioritization under low-data conditions [46]. The hybrid representation also showed only a small RMSE improvement relative to the
+hard-feature baseline. We therefore use the hybrid representation as a balanced and chemically
+interpretable feature space, but do not interpret it as evidence of uniform superiority across all
+metrics.
+
+Experimental validation of LEAP-selected additives
+To examine the practical behavior of LEAP-guided prioritization in an expert-in-the-loop validation setting, we selected one representative candidate from each round for device testing. Figure 4a,b
+6
+
+(c)
+
+(d)
+
+Figure 4: LEAP-prioritized additives and representative champion-device results. (a) Device architecture. (b)
+Molecular structures of Boc-DCPy, 6-CDQ, and 2-CNA. (c) Representative J -V curves. (d) Champion PCE values
+for the control and the three expert-reviewed LEAP validation rounds.
+
+show the inverted device architecture and the molecular structures of the tested LEAP-prioritized
+additives. Across three consecutive rounds, Boc-DCPy, 6-CDQ, and 2-CNA were selected after
+model-guided prioritization and expert feasibility review for testing in inverted perovskite solar
+cells with the structure ITO/NiOx /4PADCB/perovskite/C60 /BCP/Ag [47]. Figure 4c shows the
+representative J –V responses obtained from the three validation rounds. The first-round candidate,
+Boc-DCPy, did not improve device efficiency and yielded a champion PCE of 17.60%, lower than
+the 19.85% champion PCE of the control device. After the Boc-DCPy result was incorporated into
+the accumulated training set, the surrogate model was retrained and the Perovskite-RL prompting
+template was updated to reflect the newly observed experimental outcome. In the second round,
+the updated workflow prioritized 6-CDQ, which yielded a champion PCE of 20.57%. In the third
+round, 2-CNA yielded the highest champion-device performance among the tested additives, with a
+PCE of 21.32%, a V OC of 1.128 V, a J SC of 23.92 mA cm´2 , and a fill factor of 0.790. As shown in
+Figure S3, the integrated current densities from the external quantum efficiency (EQE) spectra were
+consistent with the J –V results [48]. These representative champion-device results indicate that
+the later-round candidates were experimentally promising, but population-level device statistics are
+needed to assess whether the performance trend is reproducible.
+To assess reproducibility, we fabricated 24 devices for each condition, including the control,
+Boc-DCPy-, 6-CDQ-, and 2-CNA-treated groups. As shown in Figure 5 and Table S5, the mean
+PCE values were 19.25 ± 0.28% for the control, 16.76 ± 0.58% for Boc-DCPy, 20.13 ± 0.25% for
+6-CDQ, and 20.87 ± 0.25% for 2-CNA. Relative to the control, Boc-DCPy decreased the mean
+7
+
+(a)
+
+(b)
+24.0
+
+JSC (mA cm−2)
+
+VOC (V)
+
+1.12
+1.10
+1.08
+1.06
+
+23.5
+23.0
+22.5
+22.0
+21.5
+
+1.04
+
+trol
+
+Con
+
+CPy
+
+-D
+Boc
+
+DQ
+
+6-C
+
+trol
+
+NA
+
+2-C
+
+Con
+
+(c)
+
+Py
+-DC
+
+6-C
+
+Py
+DC
+
+6-C
+
+Boc
+
+NA
+
+DQ
+
+2-C
+
+DQ
+
+2-C
+
+(d)
+
+80
+
+21
+
+PCE (%)
+
+FF (%)
+
+20
+75
+
+70
+
+19
+18
+17
+16
+
+65
+
+trol
+
+Con
+
+Control
+
+CPy
+
+-D
+Boc
+
+DQ
+
+6-C
+
+Boc-DCPy
+
+trol
+
+NA
+
+2-C
+
+Con
+
+6-CDQ
+
+2-CNA
+
+Boc
+
+IQR / median
+
+NA
+
+Mean
+
+Figure 5: Device statistics for control and additive-treated perovskite solar cells. Distributions of (a) VOC , (b) JSC ,
+(c) FF, and (d) PCE are shown for 24 devices per group. Colored points denote individual devices, violins show
+distribution density, boxes indicate interquartile ranges with median lines, and black diamonds indicate mean values.
+
+PCE by 2.49 percentage points, whereas 6-CDQ and 2-CNA increased the mean PCE by 0.89 and
+1.62 percentage points, respectively. Welch’s t-tests using the raw device-level values supported the
+same trend, with two-sided P values of 2.23 × 10´19 for Boc-DCPy, 4.44 × 10´15 for 6-CDQ, and
+4.78 × 10´25 for 2-CNA compared with the control. These population-level results support the
+performance trend observed in the representative champion devices and provide a more robust basis
+for evaluating the LEAP-prioritized candidates.
+To provide a practical reference for the LEAP-guided validation route, we also evaluated a
+non-LEAP comparison route. In this route, three representative additives, including 4-hydroxy-8(trifluoromethyl)quinoline, sodium m-hydroxybenzenesulfonate, and 5-bromo-2-chloro-4-fluoroaniline,
+were selected by domain experts from the same candidate library used by LEAP. The same availability and experimental-feasibility constraints were applied, and all three additives were evaluated
+under the same device architecture, fabrication procedure, and testing conditions. The three tested
+non-LEAP candidates did not show a comparable performance trend and did not reach the device
+performance obtained for the later-round LEAP-prioritized candidates. Because this comparison
+8
+
+Figure 6: Molecular interactions and film characterization of LEAP-selected additives. (a,b) FTIR spectra of 6CDQ and 2-CNA with FAI. (c) XRD patterns of control and additive-treated films. (d,e) FTIR spectra of 6-CDQ
+and 2-CNA with PbI2 . (f) UV–Vis absorption spectra. (g–i) Top-view SEM images.
+
+involved only three expert-selected candidates and was not a randomized or exhaustive benchmark
+of the candidate space, it should be interpreted as a practical reference rather than as a definitive
+comparison between LEAP and expert selection.
+To examine possible materials-level factors associated with the improved performance of the
+later-round LEAP-prioritized additives, we next investigated additive-precursor interactions and
+film properties. As shown in Figure 6a,b,d,e, Fourier-transform infrared (FTIR) measurements
+showed spectral changes consistent with coordination between both 6-CDQ and 2-CNA and PbI2 ,
+whereas 2-CNA also showed spectral evidence of interaction with formamidinium iodide (FAI). This
+additional interaction is consistent with a broader precursor-interaction profile for 2-CNA [49], which
+may contribute to more favorable coordination and crystallization behavior. Consistent with this
+interpretation, Figure 6c,f-i show that additive-treated films had enhanced crystallinity, stronger
+optical absorption, and enlarged grains relative to the control, with the effect most pronounced for
+2-CNA. These observations support, but do not by themselves prove, a link between the later-round
+
+9
+
+(a)
+
+(b)
+
+(c)
+
+(d)
+
+(e)
+
+(f)
+
+Figure 7: Defect suppression and operational stability of control, 6-CDQ-, and 2-CNA-treated devices. (a) Dark
+J -V characteristics, (b) light-intensity-dependent VOC analysis, and (c) SCLC analysis of electron-only devices. PCE
+retention of unencapsulated devices during storage in a nitrogen-filled glovebox at (d) 25 ˝ C for 528 h and (e) 65 ˝ C
+for 528 h, and (f) ambient-air exposure at 20 ˝ C and 45 ˘ 5% RH for 480 h.
+
+candidates, precursor interactions, and improved film formation.
+The device-level consequences of these differences were further supported by electrical and stability measurements. As shown in Figure 7a-c, compared with the control, the 6-CDQ- and 2-CNAtreated devices exhibited lower dark current, reduced light-intensity-dependent V OC slopes [50],
+and lower trap-state densities [51], with Nt decreasing from 8.07 × 1015 cm´3 for the control to 5.44
+× 1015 and 4.96 × 1015 cm´3 for 6-CDQ- and 2-CNA-treated devices, respectively. Stability tests
+under nitrogen storage, thermal stress, and ambient humidity further showed improved retention
+for the effective LEAP-selected additives [52, 53], as summarized in Figure 7d-f. After storage in a
+nitrogen-filled glovebox at 25 °C for 528 h, the control, 6-CDQ-, and 2-CNA-treated devices retained
+92.8%, 94.0%, and 95.7% of their initial PCE, respectively. Under continuous thermal aging at 65
+°C in nitrogen for 528 h, the corresponding PCE retentions were 88.1%, 92.9%, and 94.9%. After
+exposure to ambient air at 20 °C and 45 ± 5% relative humidity (RH) for 480 h, the devices retained
+71.1%, 73.8%, and 80.4% of their initial PCE, respectively. Together with the reduced dark current,
+lower light-intensity-dependent V OC slopes, and decreased trap-state densities, these results suggest that 2-CNA is associated with the most favorable defect-suppression and operational-stability
+characteristics among the tested additives.
+
+Discussion
+LEAP is best understood as a closed-loop discovery framework rather than as a stand-alone
+language-model application. In this workflow, literature-grounded mechanistic reasoning serves as
+an intermediate layer that is translated into interpretable molecular representation and coupled to
+uncertainty-aware candidate prioritization. This design is particularly useful for perovskite pre10
+
+cursor additive discovery, where candidate quality depends not only on molecular structure, but
+also on mechanism-level effects on precursor coordination, crystallization, defect passivation, and
+environmental tolerance. By linking domain-specialized reasoning, hybrid molecular descriptors,
+Bayesian optimization, and experimental feedback, LEAP provides a practical route for converting
+literature-scale knowledge into experimentally actionable hypotheses.
+The present study also defines the current scope and limitations of the framework. First, the
+experimental validation was limited to three LEAP-prioritized additives and one device architecture,
+although 24 devices were fabricated for each tested condition. Second, LEAP currently operates
+in an expert-in-the-loop mode, and candidate selection still depends on expert review for chemical
+plausibility, commercial availability, precursor compatibility, safety, cost, and device-fabrication
+feasibility. Third, the mechanism-aware representation used here is tailored to perovskite additive
+engineering and has not yet been shown to generalize to other perovskite compositions, device
+structures, or materials-discovery domains. In addition, although the retrospective ablations provide
+diagnostic support for the usefulness of mechanism-aware descriptors, domain-adapted reasoning,
+and EI-based acquisition, these analyses were performed on a limited experimental dataset and
+should not be viewed as exhaustive proof of optimal representation or acquisition design. Further
+experimental-scale comparisons will be needed to quantify how these components affect discovery
+efficiency across broader candidate spaces.
+More broadly, LEAP suggests a potentially transferable workflow for data-limited scientific
+problems in which prior knowledge is distributed across the literature and candidate validation
+remains experimentally costly. With appropriate domain adaptation and further validation, similar
+literature-grounded, expert-in-the-loop optimization workflows could be explored in other molecular
+and materials discovery tasks.
+
+Conclusion
+In summary, we developed LEAP as an expert-in-the-loop proof-of-concept workflow for perovskite precursor additive prioritization. The workflow integrates literature-grounded mechanistic
+reasoning, interpretable molecular representation, Bayesian optimization, expert feasibility review,
+and experimental feedback. By converting domain knowledge from the additive literature into
+mechanism-aware descriptors and combining them with uncertainty-aware candidate prioritization,
+LEAP provides a practical route for experimentally actionable molecular selection under low-data
+conditions.
+In this case study, three rounds of validation identified later-round additives that improved device
+performance relative to the control, while materials and device characterizations were consistent with
+more favorable precursor interactions, film formation, defect suppression, and operational stability.
+These results provide preliminary evidence that literature-grounded reasoning can support additive
+prioritization when coupled with active learning and expert review. Further studies across larger
+candidate spaces, additional perovskite compositions, and different device architectures will be
+needed to establish the broader generality of this workflow.
+
+Methods
+Data curation, model training, and benchmark construction
+To construct the domain-specific reasoning module used in LEAP, we curated a training corpus
+from 1,264 literature articles on perovskite precursor additives together with a candidate-molecule
+11
+
+library assembled by domain experts. From these sources, we extracted information relevant to
+additive identity, mechanism of action, reaction pathways, stability-related effects, and molecular
+physicochemical properties, thereby forming two complementary data components: a literaturederived mechanistic dataset and a molecular property dataset. After data cleaning, validation-set
+construction, and oversampling of the mechanistic component to alleviate token imbalance, the final
+SFT dataset contained 90,749 entries, together with an independent validation set of 1,000 entries.
+In addition, a reinforcement-learning dataset of 5,800 entries was assembled from the same literature
+source base.
+The domain-specialized language model in LEAP, Perovskite-RL, was obtained by adapting
+Qwen3-32B [54] through a two-stage training procedure consisting of SFT followed by RL [55]. The
+SFT stage was used to inject domain knowledge related to perovskite precursor additives, whereas
+the RL stage was designed to improve reasoning performance within this specialized knowledge
+domain. Both stages were implemented with low-rank adaptation (LoRA)-based fine-tuning [56].
+In the RL stage, Group Relative Policy Optimization (GRPO) was used with a reward design that
+jointly considered answer correctness, format compliance, content recall, and reasoning quality [57].
+Detailed hyperparameter settings are provided in the Supplementary Information.
+To evaluate whether the resulting model could provide reliable mechanistic assessments for
+downstream use in LEAP, we further constructed a mechanism-consistency benchmark from 16
+perovskite-additive studies that were strictly excluded from the training corpus. From these unseen
+papers, we curated 32 multiple-choice questions to test whether the model could produce judgments
+consistent with the mechanistic interpretations reported in the original literature. The performance
+of the domain-specialized model was compared against its backbone model and several generalpurpose baselines, and pairwise statistical comparisons were performed using exact McNemar tests
+followed by Holm-Bonferroni correction across the five baseline comparisons. This benchmark was
+used as a focused sanity check of the literature-grounded reasoning capability of the knowledge
+module before its deployment in downstream molecular representation and candidate prioritization.
+
+LEAP workflow for molecular representation and candidate prioritization
+In LEAP, candidate molecules are represented through a mechanism-aware framework designed
+for additive discovery rather than structural description alone. Instead of relying solely on conventional molecular descriptors or high-dimensional latent embeddings from the language model,
+LEAP derives explicit soft descriptors that capture five mechanism-relevant dimensions of additive
+function: binding mode, interfacial shielding, hydrophobic protection, ion-interaction potential, and
+electronic modulation. These descriptors are obtained through repeated literature-grounded reasoning and aggregation, allowing the representation to capture both dominant mechanistic tendencies
+and inference variability across candidate molecules.
+The resulting soft descriptors are integrated with deterministic hard features, including standard
+molecular physicochemical properties, to form a hybrid representation for downstream modelling.
+Starting from a hot-start set of experimentally characterized additives, LEAP uses a GP surrogate model as the probabilistic surrogate model to map the combined feature space to the target
+performance metric. This surrogate provides, for each untested candidate, both the expected performance gain and the associated predictive uncertainty, thereby enabling candidate evaluation under
+low-data conditions.
+Candidate prioritization in LEAP is guided by the expected improvement acquisition function,
+which balances exploitation of candidates predicted to perform well against exploration of undersampled regions of the candidate space. At the current stage, the workflow operates in an expert-inthe-loop mode, in which model-prioritized candidates are further reviewed for chemical plausibility
+12
+
+and experimental feasibility before device validation. Newly acquired experimental results are then
+incorporated into the next round of surrogate modelling and candidate selection, forming an expertin-the-loop feedback process for iterative additive prioritization. For comparison, a non-LEAP
+selection route was also evaluated under the same device architecture and testing conditions, as
+described in the Results section.
+Retrospective computational ablations were performed to assess the contributions of molecular representation, reasoning source, and decision policy. Unless otherwise specified, Gaussianprocess surrogate models were trained using the 36 hot-start additives with relative PCE change as
+the target. Representation and reasoning-source ablations were evaluated by leave-one-out crossvalidation using ranking- and error-based metrics, including Spearman correlation, top-k overlap,
+and RMSE [58]. The decision-policy ablation was performed over a generated candidate pool using
+the same trained surrogate, and compared candidate shortlists obtained by EI, predicted mean,
+predictive uncertainty, and random selection. These ablations were intended to analyze model and
+policy behavior retrospectively and did not constitute experimental validation of all shortlisted
+candidates.
+Implementation details for the hard descriptors, feature standardization, Gaussian-process surrogate, expected-improvement calculation, and relative PCE-change target are provided in the Supplementary Information.
+
+Materials, device fabrication, and characterization
+Perovskite precursor solutions were prepared based on a Cs0.05 MA0.1 FA0.85 PbI3 formulation
+in mixed DMF/DMSO solvent. Candidate additives were introduced directly into the precursor
+solution at fixed concentration prior to film deposition. Detailed information on chemical sources,
+purities, and precursor preparation is provided in the Supplementary Information.
+Devices were fabricated on patterned ITO substrates with the structure ITO/NiOx /4PADCB/
+perovskite/C60 /BCP/Ag. After substrate cleaning and surface treatment, NiOx , 4PADCB, and
+perovskite layers were sequentially deposited by spin coating, followed by thermal annealing and
+evaporation of the electron-transport and metal-electrode layers. Film and device properties were
+characterized by FTIR, X-ray diffraction (XRD), UV–Vis absorption spectroscopy, scanning electron
+microscopy (SEM), J –V, EQE, dark J –V, light-intensity-dependent V OC , and space-charge-limited
+current (SCLC) measurements. J –V curves were recorded under standard AM 1.5G illumination
+using the same scan protocol for all control and additive-treated devices. EQE spectra were measured independently to verify the photocurrent response, and the integrated current densities were
+compared with the J –V -derived J SC values. Operational stability was evaluated under nitrogen
+storage, thermal stress, and ambient-humidity conditions. For all device comparisons, including
+the non-LEAP reference route, the same device architecture, fabrication conditions, and photovoltaic testing procedures were used. Detailed fabrication procedures and measurement settings are
+provided in the Supplementary Information.
+
+Data analysis and statistics
+Photovoltaic performance was evaluated using both champion-device metrics and population
+statistics. For each device condition, 24 independent devices were fabricated and measured unless
+otherwise specified, and the results are reported as mean ˘ standard deviation where applicable. Box
+plots were used to summarize the distributions of V OC , J SC , FF, and PCE, with boxes representing
+the 25th-75th percentiles and center lines indicating the medians.
+For the mechanism-consistency benchmark, model accuracy was calculated over the full set of
+13
+
+curated multiple-choice questions, and the 95% confidence interval for Perovskite-RL accuracy was
+estimated using the Wilson method. Pairwise comparisons against baseline models were assessed
+using exact McNemar tests, followed by Holm-Bonferroni correction across the five pairwise comparisons. For the retrospective representation ablation, bootstrap confidence intervals were calculated
+over the 36 experimentally characterized hot-start additives, as described in the Supplementary
+Information. Device statistics were calculated from raw device-level values and are reported as
+mean ˘ standard deviation. Differences in PCE relative to the control group were evaluated using
+two-sided Welch’s t-tests, with mean differences and 95% confidence intervals reported in the Supplementary Information. Trap-state densities were derived from electron-only SCLC measurements
+using the standard trap-filled-limit-voltage formalism. For all comparisons between LEAP-guided
+and non-LEAP routes, the same device architecture, fabrication conditions, and testing procedures
+were used to ensure consistency.
+
+Data availability
+The data supporting the findings of this study are available within the article, the Supplementary
+Information, and the accompanying public data repository at https://github.com/WD928/LEAP.
+The repository contains the hot-start additive dataset, mechanism-consistency benchmark questions
+and model outputs, benchmark statistical summaries including Holm-Bonferroni-adjusted exact
+McNemar comparisons, representation-ablation source data including bootstrap confidence intervals,
+reasoning-source and decision-policy ablation tables, and cleaned round-specific top-50 validation
+shortlists. The SFT and GRPO training datasets for Perovskite-RL are available at https://
+huggingface.co/datasets/JH976/Perovskite-RL.
+
+Code availability
+The code used to package the released data tables, evaluate the mechanism-consistency benchmark, compute statistical summaries, and reproduce the computational ablation analyses is available
+in the public repository at https://github.com/WD928/LEAP. The Perovskite-RL model weights
+are available at https://huggingface.co/JH976/Perovskite-RL.
+
+References
+[1] Akihiro Kojima, Kenjiro Teshima, Yasuo Shirai, and Tsutomu Miyasaka. Organometal halide
+perovskites as visible-light sensitizers for photovoltaic cells. Journal of the american chemical
+society, 131(17):6050–6051, 2009.
+[2] Michael Grätzel. The light and shade of perovskite solar cells. Nature materials, 13(9):838–842,
+2014.
+[3] Qi Jiang and Kai Zhu. Rapid advances enabling high-performance inverted perovskite solar
+cells. Nature Reviews Materials, 9:399–419, 2024.
+[4] Xueping Liu, Deying Luo, Zheng-Hong Lu, Jae Sung Yun, Michael Saliba, Sang Il Seok, and
+Wei Zhang. Stabilization of photoactive phases for perovskite photovoltaics. Nature Reviews
+Chemistry, 7:462–479, 2023.
+
+14
+
+[5] Nuo Xu, Xinrui Qi, Zhenqiang Shen, Lianghe Hu, Jun Lv, Yufei Zhong, Bing Wang, and
+Zhigang Zou. Point defects in metal halide perovskites. Nature Reviews Physics, 7:554–564,
+2025.
+[6] Zhuang Xiong, Qian Zhang, Kai Cai, Haitao Zhou, Qi Song, Zhaoyang Han, Shuaiqing Kang,
+Yaowen Li, Qi Jiang, Xingwang Zhang, et al. Homogenized chlorine distribution for> 27%
+power conversion efficiency in perovskite solar cells. Science, 390(6773):638–642, 2025.
+[7] Qi Jiang, Robert Tirawat, Ross A Kerner, E Ashley Gaulding, Yeming Xian, Xiaoming Wang,
+Jimmy M Newkirk, Yanfa Yan, Joseph J Berry, and Kai Zhu. Towards linking lab and field
+lifetimes of perovskite solar cells. Nature, 623(7986):313–318, 2023.
+[8] Jiahua Tao, Chunhu Zhao, Zhaojin Wang, You Chen, Lele Zang, Guang Yang, Yang Bai, and
+Junhao Chu. Suppressing non-radiative recombination for efficient and stable perovskite solar
+cells. Energy & Environmental Science, 18(2):509–544, 2025.
+[9] Hongwei Zhu, Sam Teale, Muhammad Naufal Lintangpradipto, Suhas Mahesh, Bin Chen,
+Michael D. McGehee, Edward H. Sargent, and Osman M. Bakr. Long-term operating stability
+in perovskite photovoltaics. Nature Reviews Materials, 8:569–586, 2023.
+[10] Hong Zhang, Lukas Pfeifer, Shaik M Zakeeruddin, Junhao Chu, and Michael Grätzel. Tailoring
+passivators for highly efficient and stable perovskite solar cells. Nature Reviews Chemistry,
+7(9):632–652, 2023.
+[11] Qilin Zhou, Renjun Guo, Shunchang Liu, Nengxu Li, Menglei Xu, Xinyu Zhang, Xianyuan
+Jiang, Lu Wang, Laura-Isabelle Dion-Bertrand, Zhuojie Shi, et al. Additive-assisted perovskite
+crystallization on industrial topcon silicon for tandem solar cells with improved efficiency.
+Nature Energy, 2026.
+[12] Sam Teale, Matteo Degani, Bin Chen, Edward H. Sargent, and Giulia Grancini. Molecular
+cation and low-dimensional perovskite surface passivation in perovskite solar cells. Nature
+Energy, 9:779–792, 2024.
+[13] Junke Wang, Shuaifeng Hu, Xinyu Gu, Minh Anh Truong, Yi Yang, Cheng Liu, Gunnar Kusch,
+Zhongcheng Yuan, Manuel Kober-Czerny, Zuhong Zhang, et al. Homogenized optoelectronic
+properties in perovskites: Achieving high-efficiency solar cells with common chloride additives.
+Journal of the American Chemical Society, 148(6):6229–6237, 2026.
+[14] Furkan H. Isikgor, Shynggys Zhumagali, Luis V. T. Merino, Michele De Bastiani, Iain McCulloch, and Stefaan De Wolf. Molecular engineering of contact interfaces for high-performance
+perovskite solar cells. Nature Reviews Materials, 8:89–108, 2023.
+[15] Chi Y Cheng, Josh E Campbell, and Graeme M Day. Evolutionary chemical space exploration
+for functional materials: computational organic semiconductor discovery. Chemical science,
+11(19):4922–4933, 2020.
+[16] Henry C. Herbol, Weici Hu, Peter I. Frazier, Paulette Clancy, and Matthias Poloczek. Efficient
+search of compositional space for hybrid organic-inorganic perovskites via Bayesian optimization. npj Computational Materials, 4:51, 2018.
+[17] Zhirui Chen, Xinde Wang, Jiaqi Wang, Youcai Hu, Huiji Hu, Junyu Nie, Ziyue Jiao, Yi Wang,
+Qi Li, Zhihai Cheng, et al. Large language model-assisted additive selection for synergistic
+15
+
+defect and crystallization control in efficient inverted perovskite solar cells. ChemSusChem,
+19(3):e202502563, 2026.
+[18] Kevin Maik Jablonka, Philippe Schwaller, Andres Ortega-Guerrero, and Berend Smit. Leveraging large language models for predictive chemistry. Nature Machine Intelligence, 6:161–169,
+2024.
+[19] Xiao-Qi Han, Xin-De Wang, Meng-Yuan Xu, Zhen Feng, Bo-Wen Yao, Peng-Jie Guo, Ze-Feng
+Gao, and Zhong-Yi Lu. Ai-driven inverse design of materials: Past, present, and future. Chinese
+Physics Letters, 42(2):027403, 2025.
+[20] Xin-De Wang, Zhi-Rui Chen, Wen-Kao Li, Peng-Jie Guo, Cheng Mu, Ze-Feng Gao, and ZhongYi Lu. Artificial intelligence for perovskite additive engineering: From molecular screening to
+autonomous discovery. Molecules, 31(3):440, 2026.
+[21] Qiuling Tao, Pengcheng Xu, Minjie Li, and Wencong Lu. Machine learning for perovskite
+materials design and discovery. npj Computational Materials, 7:23, 2021.
+[22] Xin-De Wang, Zhi-Rui Chen, Peng-Jie Guo, Ze-Feng Gao, Cheng Mu, and Zhong-Yi Lu.
+Perovskite-r1: a domain-specialized large language model for intelligent discovery of precursor
+additives and experimental design. Communications Materials, 7(86), 2026.
+[23] John Dagdelen, Alexander Dunn, Sanghoon Lee, Nicholas Walker, Andrew S. Rosen, Gerbrand
+Ceder, Kristin A. Persson, and Anubhav Jain. Structured information extraction from scientific
+text with large language models. Nature Communications, 15:1418, 2024.
+[24] A. Gilad Kusne, Heshan Yu, Changming Wu, Huairuo Zhang, Jason Hattrick-Simpers, Brian
+DeCost, Suchismita Sarker, Corey Oses, Cormac Toher, Stefano Curtarolo, Albert V. Davydov,
+Ritesh Agarwal, Leonid A. Bendersky, Mo Li, Apurva Mehta, and Ichiro Takeuchi. On-the-fly
+closed-loop materials discovery via Bayesian active learning. Nature Communications, 11:5966,
+2020.
+[25] Jiaxing Qu, Yuxuan Richard Xie, Kamil M. Ciesielski, Claire E. Porter, Eric S. Toberer, and
+Elif Ertekin. Leveraging language representation for materials exploration and discovery. npj
+Computational Materials, 10:58, 2024.
+[26] Florian Häse, Loïc M. Roch, and Alán Aspuru-Guzik. Next-generation experimentation with
+self-driving laboratories. Trends in Chemistry, 1(3):282–291, 2019.
+[27] Turab Lookman, Prasanna V. Balachandran, Dezhen Xue, and Ruihao Yuan. Active learning
+in materials science with emphasis on adaptive sampling using uncertainties for targeted design.
+npj Computational Materials, 5:21, 2019.
+[28] Jaewoong Choi and Byungju Lee. Accelerating materials language processing with large language models. Communications Materials, 5:13, 2024.
+[29] Abdoulatif Cissé, Max E. Cooper, Mengjia Zhu, Xenophon Evangelopoulos, and Andrew I.
+Cooper. Can we automate scientific reasoning in closed-loop experiments using large language
+models? Digital Discovery, 5:1132–1160, 2026.
+[30] Carl Edward Rasmussen and Christopher K. I. Williams. Gaussian Processes for Machine
+Learning. MIT Press, Cambridge, MA, 2006.
+16
+
+[31] Donald R. Jones, Matthias Schonlau, and William J. Welch. Efficient global optimization of
+expensive black-box functions. Journal of Global Optimization, 13(4):455–492, 1998.
+[32] Quinn McNemar. Note on the sampling error of the difference between correlated proportions
+or percentages. Psychometrika, 12(2):153–157, 1947.
+[33] Hirotomo Moriwaki, Yu-Shi Tian, Norihito Kawashita, and Tatsuya Takagi. Mordred: a molecular descriptor calculator. Journal of Cheminformatics, 10:4, 2018.
+[34] Maria Vasilopoulou, Azhar Fakharuddin, Athanassios G. Coutsolelos, Polycarpos Falaras,
+Panagiotis Argitis, Abd. Rashid bin Mohd Yusoff, and Mohammad Khaja Nazeeruddin. Molecular materials as interfacial layers and additives in perovskite solar cells. Chemical Society
+Reviews, 49:4496–4526, 2020.
+[35] Tanishq Gupta, Mohd Zaki, N. M. Anoop Krishnan, and Mausam. MatSciBERT: A materials domain language model for text mining and information extraction. npj Computational
+Materials, 8:102, 2022.
+[36] Miguel Gallegos, Valentin Vassilev-Galindo, Igor Poltavsky, Ángel Martín Pendás, and Alexandre Tkatchenko. Explainable chemical artificial intelligence from accurate machine learning of
+real-space chemical descriptors. Nature Communications, 15:4345, 2024.
+[37] Xiaoyu Deng, Zhiyuan Cao, Yuan Yuan, Mason Oliver Lam Chee, Lisha Xie, Aili Wang,
+Yong Xiang, Tingshuai Li, Pei Dong, Liming Ding, and Feng Hao. Coordination modulated
+crystallization and defect passivation in high quality perovskite film for efficient solar cells.
+Coordination Chemistry Reviews, 420:213408, 2020.
+[38] Jarla Thiesbrummel, Jovana V. Milić, Carsten Deibel, Erik C. Garnett, Shuxia Tao, Thomas
+Kirchartz, Antonio Guerrero, Petra Cameron, Wolfgang Tress, M. Saiful Islam, and Bruno
+Ehrler. Ion migration in perovskite solar cells. Nature Reviews Chemistry, 10:179–195, 2026.
+[39] Xuezhi Wang, Jason Wei, Dale Schuurmans, Quoc V. Le, Ed H. Chi, Sharan Narang, Aakanksha
+Chowdhery, and Denny Zhou. Self-consistency improves chain of thought reasoning in language
+models. In International Conference on Learning Representations, 2023.
+[40] Ke Wang and Alexander W. Dowling. Bayesian optimization for chemical products and functional materials. Current Opinion in Chemical Engineering, 36:100728, 2022.
+[41] Hengrui Zhang, Wei Chen, Akshay Iyer, Daniel W. Apley, and Wei Chen. Uncertainty-aware
+mixed-variable machine learning for materials design. Scientific Reports, 12:19760, 2022.
+[42] Felix Adams, Austin McDannald, Ichiro Takeuchi, and A. Gilad Kusne. Human-in-the-loop for
+Bayesian autonomous materials phase mapping. Matter, 7(2):697–709, 2024.
+[43] Mahyar Rajabi-Kochi, Negareh Mahboubi, Aseem Partap Singh Gill, and Seyed Mohamad
+Moosavi. Adaptive representation of molecules and materials in Bayesian optimization. Chemical Science, 16:5464–5474, 2025.
+[44] Qiaohao Liang, Aldair E. Gongora, Zekun Ren, Armi Tiihonen, Zhe Liu, Shijing Sun, James R.
+Deneault, Daniil Bash, Flore Mekki-Berrada, Saif A. Khan, Kedar Hippalgaonkar, Benji
+Maruyama, Keith A. Brown, John Fisher, and Tonio Buonassisi. Benchmarking the performance of Bayesian optimization across multiple experimental materials science domains. npj
+Computational Materials, 7:188, 2021.
+17
+
+[45] Brian Rohr, Helge S. Stein, Dan Guevarra, Yu Wang, Joel A. Haber, Muratahan Aykol, Santosh K. Suram, and John M. Gregoire. Benchmarking the acceleration of materials discovery
+by sequential learning. Chemical Science, 11:2696–2706, 2020.
+[46] Pengcheng Xu, Xiaobo Ji, Minjie Li, and Wencong Lu. Small data machine learning in materials
+science. npj Computational Materials, 9:42, 2023.
+[47] Wang Li, Junjun Zhang, Li Zeng, Wanhai Wang, Zhou Fang, Xinxing Liu, Zengyang Ma,
+et al. Efficient perovskite/Cu(In,Ga)Se2 tandem solar cells with a composite intermediate
+recombination layer. Nature Communications, 17:711, 2026.
+[48] Jeffrey A. Christians, Joseph S. Manser, and Prashant V. Kamat. Best practices in perovskite
+solar cell efficiency measurements. avoiding the error of making bad cells look good. The Journal
+of Physical Chemistry Letters, 6(5):852–857, 2015.
+[49] Yirong Wang, Yaohui Cheng, Chunchun Yin, Jinming Zhang, Jingxuan You, Jizheng Wang,
+Jinfeng Wang, and Jun Zhang. Manipulating crystal growth and secondary phase PbI2 to
+enable efficient and stable perovskite solar cells with natural additives. Nano-Micro Letters,
+16:183, 2024.
+[50] Wolfgang Tress, Mozhgan Yavari, Konrad Domanski, Pankaj Yadav, Bjoern Niesen, Juan Pablo
+Correa-Baena, Anders Hagfeldt, and Michael Gratzel. Interpretation and evolution of opencircuit voltage, recombination, ideality factor and subgap defect states during reversible lightsoaking and irreversible degradation of perovskite solar cells. Energy & Environmental Science,
+11:151–165, 2018.
+[51] Vincent M. Le Corre, Elisabeth A. Duijnstee, Omar El Tambouli, James M. Ball, Henry J.
+Snaith, Jongchul Lim, and L. Jan Anton Koster. Revealing charge carrier mobility and defect
+densities in metal halide perovskites via space-charge-limited current measurements. ACS
+Energy Letters, 6(3):1087–1094, 2021.
+[52] Zuhong Zhang, Rui Zhu, Guixiang Li, Ying Tang, Hongzhuo Wu, Jinbo Zhao, Jiaxin Wu,
+Thomas W Gries, Artem Musiienko, Shengnan Zuo, et al. Photoswitchable isomers to improve
+grain boundary resilience and perovskite solar cells stability under light cycling. Nature Energy,
+11:623–632, 2026.
+[53] Mark V. Khenkin, Eugene A. Katz, Antonio Abate, Giorgio Bardizza, Joseph J. Berry, et al.
+Consensus statement for stability assessment and reporting for perovskite photovoltaics based
+on ISOS procedures. Nature Energy, 5:35–49, 2020.
+[54] An Yang, Anfeng Li, Baosong Yang, Beichen Zhang, Binyuan Hui, Bo Zheng, Bowen Yu, Chang
+Gao, Chengen Huang, Chenxu Lv, Chujie Zheng, Dayiheng Liu, et al. Qwen3 technical report.
+arXiv preprint arXiv:2505.09388, 2025.
+[55] Long Ouyang, Jeffrey Wu, Xu Jiang, Diogo Almeida, Carroll L. Wainwright, Pamela Mishkin,
+Chong Zhang, Sandhini Agarwal, Katarina Slama, Alex Ray, John Schulman, Jacob Hilton,
+Fraser Kelton, Luke Miller, Maddie Simens, Amanda Askell, Peter Welinder, Paul Christiano,
+Jan Leike, and Ryan Lowe. Training language models to follow instructions with human
+feedback. In Advances in Neural Information Processing Systems, volume 35, pages 27730–
+27744, 2022.
+
+18
+
+[56] Edward J. Hu, Yelong Shen, Phillip Wallis, Zeyuan Allen-Zhu, Yuanzhi Li, Shean Wang,
+Lu Wang, and Weizhu Chen. LoRA: Low-rank adaptation of large language models. In International Conference on Learning Representations, 2022.
+[57] Zhihong Shao, Peiyi Wang, Qihao Zhu, Runxin Xu, Junxiao Song, Xiao Bi, Haowei Zhang,
+Mingchuan Zhang, Y. K. Li, Y. Wu, and Daya Guo. DeepSeekMath: Pushing the limits of
+mathematical reasoning in open language models. arXiv preprint arXiv:2402.03300, 2024.
+[58] Charles Spearman. The proof and measurement of association between two things. The American Journal of Psychology, 15(1):72–101, 1904.
+
+Acknowledgement: The work is supported by the National Natural Science Foundation of China
+(No.62476278, No.11934020), Beijing Natural Science Foundation(No.Z250005) and the National
+Key R&D Program of China (Grants No. 2024YFA1408601). Computational resources have been
+provided by the Physical Laboratory of High Performance Computing at Renmin University of
+China.
+Author contributions: Z.F.G., C.M., and Z.Y.L. contributed to the ideation and design of the
+research; X.D.W., Z.R.C., and Z.F.G. performed the research; X.D.W., Z.R.C., P.J.G., Z.F.G.,
+C.M., and Z.Y.L. wrote and edited the paper; all authors contributed to the research discussions.
+Corresponding authors: Correspondence and requests for materials should be addressed to ZeFeng Gao (zfgao@ruc.edu.cn), Cheng Mu (cmu@ruc.edu.cn), and Zhong-Yi Lu (zlu@ruc.edu.cn).
+Competing interests: The authors declare no competing interests.
+Supplementary information: The supplementary information is attached.
+
+19
+
+Supplementary Information for:
+LEAP: A closed-loop framework for perovskite precursor additive
+discovery
+
+S1
+
+Training configuration of Perovskite-RL
+
+Perovskite-RL was developed from the Qwen3-32B model through a two-stage training procedure
+consisting of supervised fine-tuning (SFT) followed by reinforcement learning (RL). The SFT stage
+was designed to inject domain-specific knowledge related to perovskite precursor additives, whereas
+the RL stage was used to further improve the model’s reasoning performance within this specialized
+knowledge domain. The datasets used in both stages were derived from the curated literature and
+molecular datasets described in the main Methods.
+For the SFT stage, Qwen3-32B was fine-tuned using Low-Rank Adaptation (LoRA). The LoRA
+configuration employed a rank of 32, an alpha of 64, and a dropout rate of 0.05, and was applied
+to the query, key, value, output, gate, and up projection matrices. Training was performed with a
+learning rate of 3×10´5 , a cosine scheduler, and a warmup ratio of 0.03. A per-device batch size of
+1 was used with gradient accumulation steps of 16, corresponding to an effective batch size of 16.
+Model selection was based on the convergence behavior of the training and validation losses, and
+training was terminated at approximately 1.76 epochs, where the training loss had largely converged
+and the validation loss had plateaued.
+The RL stage was carried out using Group Relative Policy Optimization (GRPO) based on the
+merged model obtained after SFT. In this stage, LoRA fine-tuning was again applied, with rank
+16, alpha 32, and dropout 0.05, targeting the query, key, value, and output projection matrices.
+Training used a learning rate of 2×10´5 , together with a cosine scheduler and a warmup ratio of
+0.05. Key GRPO settings included 8 generations per prompt, a maximum completion length of 5200
+tokens, a total sequence length of 8192, a KL penalty coefficient β of 0.05, and gradient clipping at
+0.5.
+The reward design in the RL stage jointly considered answer correctness, format compliance,
+content recall, and reasoning quality. Correct answers were assigned the highest reward weight,
+while additional reward terms were introduced to encourage proper output formatting and coverage of reference-related content. To further promote coherent reasoning, a logic-density score was
+incorporated as a heuristic shaping signal by rewarding the presence of logical connectives and inferential structure. Partial credit was also assigned to outputs exhibiting reasonable intermediate
+logic even when the final answer was incorrect. In addition, anti-repetition penalties were applied
+to discourage redundant generations, and mild length penalties were introduced to favor outputs
+within a practically useful range.
+The final Perovskite-RL model obtained through this two-stage procedure was used as the
+domain-specialized reasoning module in LEAP, providing the mechanistic basis for downstream
+molecular representation and candidate prioritization.
+
+S1
+
+S2
+
+Data curation and benchmark construction
+
+The datasets used for training and evaluation were constructed from a curated corpus of 1,264 literature articles related to perovskite precursor additives together with a candidate-molecule library
+assembled by domain experts. To build a domain-specific training resource suitable for both knowledge injection and reasoning enhancement, information was extracted from these sources across
+multiple dimensions, including additive identity, mechanism of action, chemical reaction pathways,
+stability-related effects, and molecular physicochemical properties. This process produced two complementary components: a literature-derived mechanistic dataset and a molecular property dataset.
+For the literature-derived mechanistic dataset, structured information was extracted from the
+1,264 articles, yielding 29,554 entries. Each entry was designed to capture mechanistic knowledge
+relevant to additive function in perovskite precursor systems. In parallel, 33,141 entries were extracted from the candidate-molecule library using the same general extraction framework, forming
+the molecular property dataset. Each molecular entry included physicochemical descriptors and
+the occurrence of key functional groups relevant to additive evaluation. In addition, a separate
+dataset containing 5,800 entries was assembled for the RL stage. To monitor model development,
+500 records were selected from each of the two main datasets to form a validation set of 1,000
+entries. Because token-distribution analysis showed that the mechanistic dataset contained substantially fewer tokens than the molecular property dataset, an oversampling strategy was applied
+to the mechanistic component before final integration in order to increase the statistical weight of
+domain-specific mechanistic knowledge during training. The final SFT dataset contained 90,749
+entries.
+To evaluate whether the resulting model could provide reliable mechanistic judgments for downstream use in LEAP, we further constructed a mechanism-consistency benchmark from literature
+that was strictly excluded from the training corpus. Sixteen newly selected studies on perovskite precursor additives were used as the source documents for this benchmark. From these unseen papers,
+we curated 32 multiple-choice questions with a single correct answer. The questions were designed
+to assess whether the model could produce mechanistically consistent interpretations aligned with
+the conclusions reported in the original studies, rather than simply recalling isolated facts or general
+chemical knowledge.
+For benchmark evaluation, the performance of Perovskite-RL was compared with that of its
+backbone model and several general-purpose large language models. Accuracy was calculated over
+the full set of benchmark questions, and the 95% confidence interval for Perovskite-RL accuracy
+was estimated using the Wilson method. Pairwise comparisons between Perovskite-RL and each
+baseline were performed using exact McNemar tests, followed by Holm-Bonferroni correction across
+the five baseline comparisons. This benchmark was used as a focused sanity check of the literaturegrounded mechanistic reasoning capability required for the downstream molecular representation
+and candidate prioritization steps in LEAP.
+
+S3
+
+LEAP workflow and candidate prioritization details
+
+LEAP was designed as an expert-in-the-loop proof-of-concept workflow for perovskite precursor
+additive prioritization by coupling a domain-specialized reasoning module with active learning.
+In this workflow, candidate molecules were first evaluated in a mechanism-aware manner, then
+represented in a hybrid feature space for surrogate modelling, and finally prioritized for experimental
+validation after expert feasibility review. Newly acquired experimental results were incorporated
+into subsequent rounds of modelling and selection, thereby forming an iterative feedback workflow
+
+S2
+
+for additive prioritization.
+The candidate pool was assembled from commercially accessible or experimentally feasible smallmolecule additives selected by domain experts. Molecules that were incompatible with precursorsolution processing, difficult to procure, or chemically unsuitable for the device-fabrication workflow
+were excluded before model-based prioritization. This filtering step ensured that the active-learning
+loop operated on candidates that were not only computationally promising but also experimentally
+actionable.
+To represent candidate additives in a way that is more closely related to functional behavior than
+conventional structural descriptors alone, LEAP derived soft mechanistic descriptors from literaturegrounded model reasoning. Rather than directly using high-dimensional latent embeddings from
+the language model, each molecule was represented through explicit scores along five mechanismrelevant dimensions: binding mode, interfacial shielding, hydrophobic protection, ion-interaction
+potential, and electronic modulation. These dimensions were intended to capture whether a candidate molecule is likely to coordinate with precursor species, shield interfaces or grain boundaries,
+suppress moisture ingress, immobilize mobile ions, or modulate local electronic structure in a way
+beneficial to device performance. In this way, LEAP translated literature-derived mechanistic knowledge into an interpretable descriptor space for additive evaluation.
+For each candidate molecule, the reasoning module performed repeated probabilistic evaluation
+with N=10 sampled reasoning trajectories at a sampling temperature of T=0.7 to estimate the above
+mechanism-level properties. For each reasoning trajectory, the model assigned binary or categorical
+judgments for the predefined mechanistic dimensions according to the same descriptor schema. The
+mean values of repeated outputs were used as soft descriptor scores, whereas the corresponding
+standard deviations were retained as uncertainty-aware descriptors reflecting inference variability.
+The outputs for each mechanism were quantified as binary scores and then aggregated to produce
+a robust statistical representation for each molecule. This procedure allowed the feature space
+to reflect not only the dominant mechanistic tendency of a candidate, but also the variability
+associated with repeated model inference. These soft descriptors were subsequently combined with
+deterministic hard features, including standard molecular physicochemical properties, to form a
+hybrid representation used for downstream modelling.
+A hot-start active-learning framework was initialized using 36 additives that had already been
+experimentally characterized in our laboratory. Based on the hybrid molecular representation,
+LEAP employed a Gaussian process (GP) regressor as the probabilistic surrogate model to learn
+the relationship between molecular descriptors and the target performance metric. For unseen candidates, the GP model returned both the predicted mean response and the predictive uncertainty,
+thereby enabling evaluation under low-data conditions. Candidate selection was then guided by
+the expected improvement (EI) acquisition function, which balanced exploitation of candidates predicted to deliver strong performance against exploration of under-sampled regions of the candidate
+space. In each round, the candidate pool was globally screened by maximizing the EI acquisition
+function, and the top 50 candidates were shortlisted for expert review and downstream experimental
+consideration.
+For reproducibility, hard molecular descriptors were calculated with RDKit and project-defined
+SMARTS/fragment rules, including molecular weight, LogP, topological polar surface area, hydrogenbond donor and acceptor counts, rotatable-bond count, and functional-group counts for predefined
+perovskite-relevant motifs. These hard descriptors were concatenated with Perovskite-RL soft descriptors, defined as the mean and standard deviation of repeated model outputs for binding mode,
+interfacial shielding, hydrophobic protection, ion-interaction potential, electronic modulation, and
+predicted effect. Constant features were removed, and the remaining features were z-score standardized using the current training set before Gaussian-process modelling. The optimization target was
+S3
+
+relative PCE change, defined as ∆rel “ pPCEadditive ´PCEcontrol q{PCEcontrol . The Gaussian-process
+surrogate used a constant-scaled Matérn kernel with ν “ 1.5 and a learnable WhiteKernel noise
+term. Kernel hyperparameters were optimized by maximizing the log marginal likelihood with five
+optimizer restarts. Expected improvement was calculated from the GP-predicted mean and standard deviation using a robust current-best reference, defined as the 80th percentile of the relative
+PCE changes in the current training set, with an exploration offset ξ “ 0.05.
+At the current stage, LEAP operated in an expert-in-the-loop mode. Rather than directly dispatching all model-prioritized molecules for synthesis or device testing, the workflow first narrowed
+the candidate space through surrogate-guided ranking, after which domain experts reviewed the
+shortlisted molecules for chemical plausibility and experimental feasibility. Specifically, after each
+experimental round, the measured relative power conversion efficiency (PCE) changes of the newly
+tested additives were appended to the existing hot-start dataset. The Gaussian-process surrogate
+was then retrained using the accumulated experimental dataset. In parallel, the Perovskite-RL
+prompting template was revised to include the latest experimental feedback and mechanistic interpretation from the preceding round. Soft mechanistic descriptors were regenerated under this
+updated prompting context, and the updated hybrid representation was used to rescore candidates
+and recompute expected-improvement values for the next selection round. This iterative procedure
+allowed the workflow to update candidate scores and selection priorities after each validation round.
+To improve transparency of the candidate-selection route, we summarized the round-specific
+candidate pools and validation-shortlist positions of the experimentally tested additives in Table S1.
+In each round, candidate molecules were scored using the Gaussian-process surrogate model and
+Table S1: Round-specific candidate pools and validation-shortlist positions for the LEAP-selected additives. The
+shortlist rank denotes the position of the experimentally tested molecule in the corresponding round-level top-50
+validation shortlist.
+
+Round
+1
+2
+3
+
+Scored
+25,639
+13,380
+20,630
+
+Selection pool
+25,639
+13,380
+5,187
+
+Selection rule
+All scored candidates
+All scored candidates
+Prioritized candidates
+
+Additive
+Boc-DCPy
+6-CDQ
+2-CNA
+
+Shortlist rank
+25
+1
+10
+
+expected-improvement acquisition function. The top-ranked candidates were then organized into a
+round-level validation shortlist for expert feasibility review and experimental consideration.
+The three validation rounds used different candidate pools because the molecular library and
+feasibility filters were updated during the iterative workflow. Round 1 contained 25,639 scored candidates, round 2 contained 13,380 scored candidates, and round 3 contained 20,630 scored candidates.
+In the third round, an additional functional-group-based prioritization step was applied before final
+shortlist construction, giving a prioritized selection pool of 5,187 candidates. Boc-DCPy, 6-CDQ,
+and 2-CNA were included at ranks 25, 1, and 10, respectively, in their corresponding round-level
+validation shortlists.
+The experimentally tested additives were selected from the corresponding top-50 validation
+shortlists through expert feasibility review rather than by automatically testing the highest-ranked
+EI candidate in every round. Domain experts prioritized candidates that were chemically plausible,
+commercially available, compatible with precursor-solution processing, and practical for device fabrication under the established workflow. Thus, the shortlist ranks report where the tested additives
+appeared within the model-guided top-50 lists, while the final experimental choices also reflected
+expert assessment of experimental feasibility.
+To check whether the soft-descriptor extraction procedure was reproducible under a bounded
+S4
+
+rerun setting, we reran the Perovskite-RL descriptor prompt on a representative round-specific
+molecule panel. For each validation round, the panel included 50 top-ranked shortlist molecules, 50
+randomly sampled candidates from the corresponding selection pool, and the experimentally tested
+additive for that round. Each molecule was sampled 10 times using the same descriptor schema.
+This produced 302 molecule-round entries and 3020 model responses, all of which were successfully
+parsed into the predefined soft-descriptor fields.
+The descriptor means for the experimentally tested additives are summarized in Table S2.
+Boc-DCPy showed high hydrophobic-protection and ion-interaction scores, 6-CDQ showed high
+Table S2: Soft-descriptor means for the experimentally tested additives in the representative Perovskite-RL rerun.
+Each molecule was sampled 10 times, and all responses were successfully parsed.
+Round
+1
+2
+3
+
+Additive
+Boc-DCPy
+6-CDQ
+2-CNA
+
+Parsed samples
+10/10
+10/10
+10/10
+
+Binding
+0.80
+0.90
+1.00
+
+Interfacial shielding
+0.40
+0.20
+0.00
+
+Hydrophobic protection
+1.00
+1.00
+0.00
+
+Ion interaction
+0.90
+1.00
+1.00
+
+Electronic modulation
+0.00
+0.20
+0.00
+
+Predicted effect
+0.40
+0.30
+0.60
+
+binding, hydrophobic-protection, and ion-interaction scores, and 2-CNA showed high binding and
+ion-interaction scores but low interfacial-shielding and hydrophobic-protection scores. The 2-CNA
+descriptor profile was therefore dominated by coordination and ionic-defect-passivation terms, consistent with a small polar additive whose expected contribution is not primarily based on hydrophobic interfacial shielding. Despite this narrower descriptor profile, 2-CNA showed the highest
+predicted-effect score among the three tested additives in this rerun.
+In addition to the LEAP-guided route, a non-LEAP comparison route was also evaluated under
+the same device architecture and testing conditions, as described in the main text.
+
+S4
+
+Retrospective representation ablation uncertainty
+
+To quantify the uncertainty associated with the retrospective representation ablation in Figure 3,
+we calculated bootstrap confidence intervals for Spearman rank correlation, top-20% overlap, and
+RMSE improvement relative to the hard-feature baseline. Bootstrap resampling was performed
+over the 36 experimentally characterized hot-start additives. For each bootstrap replicate, the same
+representation-specific predictions used in the retrospective ablation were resampled at the additive
+level, and the corresponding evaluation metrics were recomputed. The resulting 2.5th and 97.5th
+percentiles were used as the 95% confidence interval.
+The bootstrap results are summarized in Table S3. Consistent with the point estimates in FigTable S3: Bootstrap confidence intervals for retrospective representation ablation. Spearman rank correlation, top20% overlap, and RMSE improvement were evaluated using the same 36-additive retrospective setting as in Figure 3.
+RMSE improvement is defined as RMSE(hard-only) ´ RMSE(current), so larger values indicate lower prediction
+error than the hard-feature baseline.
+
+Representation
+Hard
+Mechanism soft
+Full soft
+Hybrid (LEAP)
+
+Spearman
+(95% CI)
+0.274 (-0.042 to 0.541)
+0.335 (0.027 to 0.590)
+0.393 (0.073 to 0.648)
+0.394 (0.109 to 0.625)
+
+Top-20% overlap
+(95% CI)
+0.125 (0.000 to 0.500)
+0.500 (0.125 to 0.625)
+0.375 (0.000 to 0.750)
+0.375 (0.000 to 0.625)
+
+RMSE improvement
+(95% CI)
+0.000
+-0.0131 (-0.0422 to 0.0106)
+-0.0080 (-0.0329 to 0.0120)
+0.0007 (-0.0134 to 0.0088)
+
+ure 3, the hybrid LEAP representation showed the highest Spearman correlation point estimate and
+a small positive RMSE improvement relative to the hard-feature baseline. However, the confidence
+S5
+
+intervals were broad because the retrospective analysis contained only 36 additives. These results
+therefore support the use of the hybrid representation as a balanced and chemically interpretable
+feature space, but should not be interpreted as evidence of uniform superiority across all metrics.
+
+S5
+
+Retrospective reasoning-source ablation
+
+To examine whether the source of soft-descriptor generation affected downstream candidate
+prioritization, we performed a reasoning-source ablation using the 36 experimentally characterized
+hot-start additives. Soft descriptors were generated either by Perovskite-RL or by its Qwen332B backbone, while keeping the descriptor schema, Gaussian-process surrogate model, leave-oneout cross-validation protocol, and target variable fixed within this reasoning-source comparison.
+The hard-only baseline in this analysis was used as an internal reference for the same reasoningsource ablation setting and is not intended to be numerically identical to the hard-feature baseline
+reported in the main-text representation ablation. For both reasoning sources, each molecule was
+represented using the same five mechanism-relevant dimensions, namely binding mode, interfacial
+shielding, hydrophobic protection, ion-interaction potential, and electronic modulation, together
+with the overall predicted-effect score. The resulting comparison is shown in Figure S1, including
+both predefined evaluation metrics and a top-k enrichment sweep. Repeated reasoning outputs
+were aggregated into mean and standard-deviation descriptors before being combined with hard
+molecular features.
+
+A Predefined evaluation metrics
+
+Hard
+
+0.361
+
+Hybrid + Qwen3-32B backbone
+
+B Enrichment across top-k cutoffs
+
+Top-20% overlap RMSE improvement
+0.375
+
+0.386
+
+1.0
+
+0.000
+
+0.250
+
+-0.001
+
+Hard
+Hybrid + Qwen3-32B backbone
+Hybrid + Perovskite-RL
+
+0.8
+
+Top-k overlap
+
+Spearman
+
+0.6
+0.45
+0.36
+
+0.4
+
+0.27
+
+0.2
+
+Hybrid + Perovskite-RL
+
+0.429
+
+0.0
+
+0.5
+
+0.250
+
+0.00
+
+0.25
+
+-0.004
+
+0.0025 0.0000
+
+0.0
+
+10
+
+15
+
+20
+
+25
+
+30
+
+Top fraction (%)
+
+40
+
+50
+
+Figure S1: Reasoning-source ablation for LEAP soft descriptors. Perovskite-RL- and Qwen3-32B-derived descriptors
+were compared under the same hybrid Gaussian-process leave-one-out setting using 36 hot-start additives. (A)
+Spearman correlation, top-20% overlap, and RMSE improvement. (B) Top-k overlap across enrichment cutoffs.
+
+Under this controlled hybrid-representation setting, Perovskite-RL-derived descriptors showed a
+higher Spearman rank correlation than descriptors generated by the Qwen3-32B backbone, suggesting better global ranking consistency in this retrospective analysis. However, this difference did not
+translate into consistent gains in the strict top-20% overlap or RMSE improvement relative to the
+hard-feature baseline. Because the 36-additive retrospective set makes strict top-k recovery sensitive
+to one-candidate changes, we further evaluated top-k overlap across a range of enrichment cutoffs.
+This sweep showed that the apparent enrichment advantage of Perovskite-RL was more visible at
+broader cutoffs, particularly around the top-30% region, while both hybrid representations showed
+higher overlap than the hard-only representation at broader top-40% and top-50% cutoffs. These
+results suggest that domain-adapted reasoning may provide a modest and cutoff-dependent ranking
+S6
+
+or enrichment advantage, rather than a uniform improvement across all prioritization metrics.
+
+S6
+
+Retrospective decision-policy ablation
+
+To examine whether the acquisition rule used in LEAP affected candidate prioritization, we performed a retrospective computational decision-policy ablation over the generated candidate pool.
+The same hybrid LEAP representation and Gaussian-process surrogate model were used for all policies. The surrogate was trained on the 36 experimentally characterized hot-start additives, and each
+candidate in the pool was assigned a predicted mean response µ, a predictive uncertainty σ, and
+an expected improvement (EI) value. Candidate shortlists were then obtained by ranking the same
+pool according to EI, predicted mean response, predictive uncertainty, or random selection. The resulting decision-policy landscape, score distributions, and shortlist-overlap analysis are summarized
+in Figure S2. This analysis was designed to compare the behavior of different decision policies under
+a fixed surrogate model, rather than to claim experimental validation of all shortlisted candidates.
+B Predicted mean,
+
+A Decision-policy landscape
+All candidates
+Top-50 predicted mean
+Top-50 uncertainty
+Top-50 EI
+
+0.05
+0.10
+0.15
+0.20
+
+0.14
+
+C Predictive uncertainty,
+
+0.16
+0.14
+0.12
+0.10
+0.08
+
+EI Mean Unc. ndom
+Ra
+
+EI Mean Unc. ndom
+Ra
+
+D Expected improvement E Shortlist overlap
+
+0.12
+
+1.0
+
+0.04
+
+0.10
+
+0.08
+0.20
+
+0.15
+
+0.10
+
+Predicted mean,
+
+0.05
+
+0.03
+
+Overlap with EI
+
+Expected improvement
+
+Predictive uncertainty,
+
+0.16
+
+0.18
+
+Predictive uncertainty,
+
+0.00
+
+Predicted mean,
+
+0.18
+
+0.02
+0.01
+0.00
+
+0.00
+
+EI Mean Unc. ndom
+Ra
+
+0.8
+0.60
+
+0.6
+0.4
+0.2
+0.0
+
+0.24
+
+0.18
+
+Mean Unc. Random
+
+Figure S2: Retrospective decision-policy ablation for LEAP candidate prioritization. Using the same hybrid representation and Gaussian-process surrogate, candidates were ranked by expected improvement, predicted mean response, predictive uncertainty, or random selection. (A) Decision-policy landscape. (B–D) Distributions of predicted
+mean, uncertainty, and expected improvement for top-50 shortlists. (E) Overlap with the expected-improvement
+shortlist.
+
+The mean-only policy selected candidates with the highest average predicted response, but
+with substantially lower predictive uncertainty. In contrast, the uncertainty-only policy selected
+candidates with the highest average uncertainty, but with lower predicted response. EI produced
+the highest average expected improvement while maintaining an intermediate predicted mean–
+uncertainty profile. Specifically, the EI-selected top-50 shortlist had a mean predicted response of
+´0.019, a mean predictive uncertainty of 0.163, and a mean EI of 0.0377. The mean-only shortlist
+had a higher mean predicted response (´0.0009) but lower uncertainty (0.122) and lower mean
+EI (0.0293), whereas the uncertainty-only shortlist had the highest uncertainty (0.171) but lower
+predicted response (´0.033). Random top-50 shortlists showed lower average EI (0.0252 ˘ 0.0014),
+S7
+
+providing a background reference for the candidate pool.
+The shortlist overlap analysis further showed that EI was not equivalent to either pure exploitation or pure exploration. The predicted-mean shortlist overlapped with the EI shortlist by 24%,
+whereas the uncertainty-only shortlist showed 60% overlap with the EI shortlist. Random shortlists showed an average overlap of 18% with the EI shortlist. These results are consistent with
+EI incorporating exploration through predictive uncertainty while still retaining predicted-response
+information, supporting its use as a balanced exploitation-exploration decision policy in this LEAP
+implementation.
+
+S7
+
+Experimental materials and procedures
+
+Patterned indium tin oxide (ITO) glass, lead iodide (PbI2 , 99.999%), and NiOx nanoparticles (99.5%) were purchased from Advanced Election Technology Co., Ltd. Bathocuproine (BCP,
+99%), fullerene (C60 , 99%), methylammonium chloride (MACl, 99.5%), cesium iodide (CsI, 99.99%),
+methylammonium iodide (MAI, 99.5%), and formamidinium iodide (FAI, 99.5%) were purchased
+from Xi’an Yuri Solar Co., Ltd. (4-(7H-dibenzo[c,g]carbazol-7-yl)butyl)phosphonic acid (4PADCB,
+>98%) was purchased from TCI Corporation. N-Boc-4,6-dichloropyridin-2-amine (Boc-DCPy, 97%),
+6-chloro-1,2,3,4-tetrahydroquinolin-2-one (6-CDQ, 97%), and 2-cyanoacetamide (2-CNA, 98%) were
+purchased from Jiangsu Aikon Biopharmaceutical R&D Co., Ltd. Chlorobenzene (CB, 99.8%), isopropanol (IPA, 99.8%), N,N-dimethylformamide (DMF, 99.8%), and dimethyl sulfoxide (DMSO,
+99.8%) were purchased from Beijing J&K Technology Co., Ltd. All reagents were used as received
+without further purification.
+The perovskite precursor solution (1.67 M Cs0.05 MA0.1 FA0.85 PbI3 ) was prepared by dissolving
+16.63 mg MACl, 21.63 mg CsI, 26.5 mg MAI, 243.63 mg FAI, and 807.3 mg PbI2 in 1 mL of mixed
+DMF/DMSO (4:1, v/v). For additive-treated precursor solutions, Boc-DCPy, 6-CDQ, and 2-CNA
+were each introduced at a loading amount of 0.3 mg mL´1 .
+All perovskite solar-cell devices were fabricated on patterned ITO substrates. The ITO substrates were sequentially ultrasonicated in detergent, deionized water, acetone, and isopropanol for
+30 min each, followed by drying at 65 °C overnight. Before use, the cleaned substrates were treated
+by UV–ozone for 5 min. A NiOx nanoparticle layer was deposited by spin coating an aqueous NiOx
+dispersion (10 mg mL´1 ) at 3000 rpm for 30 s, followed by annealing at 150 °C in air for 30 min. The
+substrates were then transferred into a nitrogen-filled glovebox. A 4PADCB solution (0.5 mg mL´1
+in anhydrous ethanol) was spin-coated onto the NiOx layer at 3000 rpm for 30 s and annealed at
+100 °C for 10 min. The perovskite precursor solution was deposited on the NiOx /4PADCB-modified
+substrates by a two-step spin-coating process: 1000 rpm for 10 s with an acceleration rate of 200
+rpm s´1 , followed by 5000 rpm for 35 s with an acceleration rate of 1000 rpm s´1 . During the second
+spin-coating step, 150 µL chlorobenzene was dropped onto the film 15 s before the end of spinning.
+The films were then annealed at 120 °C for 10 min. Finally, C60 (26 nm), BCP (6 nm), and Ag (100
+nm) were sequentially deposited by thermal evaporation under vacuum, yielding devices with the
+structure ITO/NiOx /4PADCB/perovskite/C60 /BCP/Ag.
+For trap-density analysis, electron-only devices were fabricated with the structure ITO/SnO2 /
+perovskite/C60 /BCP/Ag. Infrared spectra of 6-CDQ, 2-CNA, FAI, 6-CDQ`FAI, 2-CNA+FAI,
+6-CDQ+PbI2 , and 2-CNA+PbI2 were collected on a Bruker Vertex 70 spectrometer. X-ray diffraction (XRD) measurements were performed using a Shimadzu XRD-7000 diffractometer. Top-view
+scanning electron microscopy (SEM) images were acquired on a Hitachi SU8010 microscope. The
+J -V characteristics of non-encapsulated devices with an active area of 0.1 cm2 were measured on a
+Keithley 2400 Source Meter under AM 1.5G one-sun illumination at room temperature. External
+S8
+
+quantum efficiency (EQE) spectra were recorded using an EnliTech QE-R instrument. Dark J -V
+and SCLC measurements were both carried out on the Keithley 2400 system under dark conditions.
+Light-intensity-dependent V OC measurements were used to evaluate recombination behavior in the
+devices.
+Operational stability was evaluated for unencapsulated devices under nitrogen-storage, thermalaging, and ambient-humidity conditions, corresponding to the stability measurements described in
+the main text. The detailed aging times and PCE retention values are reported together with the
+corresponding stability results. For all device comparisons, including the non-LEAP reference route,
+the same device architecture, fabrication procedure, and photovoltaic testing conditions were used
+to ensure experimental consistency.
+
+S8
+
+Supplementary photovoltaic and defect-analysis data
+
+The EQE spectra of the control and additive-treated devices were measured to verify the photocurrent response obtained from the J -V measurements. As shown in Figure S3, the integrated
+
+Figure S3: EQE spectra of control and additive-treated perovskite solar cells. Integrated current densities are
+consistent with the J -V -derived JSC values.
+
+current densities derived from the EQE spectra are consistent with the corresponding J -V results, supporting the reliability of the photovoltaic parameters reported in the main text. The
+photovoltaic parameters of the representative champion devices are summarized in Table S4. The
+statistical photovoltaic parameters extracted from 24 independent devices for each group are summarized in Table S5. Trap-state densities were calculated from the trap-filled limit voltage obtained
+from the SCLC measurements, and the corresponding parameters are summarized in Table S6.
+
+S9
+
+Table S4: Photovoltaic parameters of representative champion PSCs with different additives.
+
+Sample
+Control
+Boc-DCPy
+6-CDQ
+2-CNA
+
+VOC (V)
+1.090
+1.068
+1.101
+1.128
+
+JSC (mA cm´2 )
+23.77
+22.85
+23.87
+23.92
+
+FF (%)
+76.57
+72.13
+78.24
+79.00
+
+PCE (%)
+19.85
+17.60
+20.57
+21.32
+
+Table S5: Photovoltaic statistics of PSCs incorporating various additives (n “ 24 each). Values are reported as
+mean ˘ standard deviation. ∆PCE, 95% confidence intervals, and two-sided Welch’s t-test P values were calculated
+relative to the control group using raw device-level PCE values.
+Sample
+Control
+Boc-DCPy
+6-CDQ
+2-CNA
+
+VOC (V)
+1.082 ˘ 0.007
+1.053 ˘ 0.008
+1.100 ˘ 0.006
+1.123 ˘ 0.004
+
+JSC (mA cm´2 )
+23.35 ˘ 0.17
+22.26 ˘ 0.41
+23.86 ˘ 0.15
+23.84 ˘ 0.16
+
+FF (%)
+74.30 ˘ 1.08
+69.06 ˘ 2.38
+77.05 ˘ 0.60
+78.30 ˘ 0.99
+
+PCE (%)
+19.25 ˘ 0.28
+16.76 ˘ 0.58
+20.13 ˘ 0.25
+20.87 ˘ 0.25
+
+∆PCE vs control
+–
+´2.49
+`0.89
+`1.62
+
+95% CI for ∆PCE
+–
+´2.75 to ´2.22
+0.73 to 1.04
+1.47 to 1.77
+
+Welch P value
+–
+2.23 ˆ 10´19
+4.44 ˆ 10´15
+4.78 ˆ 10´25
+
+Table S6: Trap density (Nt ) derived from electron-only SCLC measurements.
+
+Sample
+Control
+6-CDQ
+2-CNA
+
+S9
+
+ε0 (10´12 F m´1 )
+8.85
+8.85
+8.85
+
+ε
+46.5
+46.5
+46.5
+
+VTFL (V)
+0.883
+0.595
+0.542
+
+e (10´19 C)
+1.6
+1.6
+1.6
+
+L (nm)
+750
+750
+750
+
+Nt (1015 cm´3 )
+8.07
+5.44
+4.96
+
+Details of the non-LEAP comparison route
+
+To provide a practical reference for the LEAP-guided workflow, we additionally evaluated a nonLEAP comparison route in which candidate additives were selected from the same candidate library
+without model-guided active-learning prioritization. The three non-LEAP additives were chosen
+by domain experts based on prior chemical intuition and practical experimental feasibility. The
+same constraints on commercial availability, precursor-solution compatibility, and device-fabrication
+conditions were applied as in the LEAP-guided route. Because this route included only three expertselected candidates, it was intended as a practical reference rather than as a randomized, exhaustive,
+or definitive benchmark against expert-guided selection.
+Three representative additives were selected in the non-LEAP route, corresponding to three sequential validation rounds: 4-hydroxy-8-(trifluoromethyl)quinoline, sodium m-hydroxybenzenesulfonate,
+and 5-bromo-2-chloro-4-fluoroaniline. The representative J -V curves of these non-LEAP-selected
+additives are shown in Figure S4. For 4-hydroxy-8-(trifluoromethyl)quinoline, the representative
+device exhibited a forward-scan V OC of 1.083 V, a J SC of 23.20 mA cm´2 , a fill factor of 70.85%,
+and a PCE of 17.79%. For sodium m-hydroxybenzenesulfonate, the representative device showed
+a forward-scan V OC of 1.081 V, a J SC of 22.63 mA cm´2 , a fill factor of 73.93%, and a PCE of
+18.09%. For 5-bromo-2-chloro-4-fluoroaniline, the representative device yielded a forward-scan V OC
+of 1.089 V, a J SC of 23.08 mA cm´2 , a fill factor of 72.64%, and a PCE of 18.26%. These results
+show that, within this limited three-candidate reference route, the tested non-LEAP candidates did
+not reach the device performances obtained for the later-round LEAP-prioritized candidates.
+Although this comparison route does not constitute an exhaustive benchmark over the full candidate space, it provides a practical reference for interpreting the LEAP-guided validation results.
+In this limited comparison, the LEAP-guided route moved from an initially ineffective candidate to
+later-round additives with improved device performance, whereas the three tested non-LEAP candi-
+
+S10
+
+(a)
+
+(b)
+
+(c)
+
+Figure S4: Representative J -V curves of non-LEAP-selected additives. (a) 4-Hydroxy-8-(trifluoromethyl)quinoline,
+(b) sodium m-hydroxybenzenesulfonate, and (c) 5-bromo-2-chloro-4-fluoroaniline.
+
+dates did not show a comparable enhancement trajectory. This contrast is consistent with a possible
+benefit of literature-grounded, feedback-driven prioritization, but it should not be interpreted as a
+definitive demonstration of superiority over expert-guided selection.
+
+S11
+
+

@@ -403,6 +403,30 @@
       "source_url": "https://arxiv.org/abs/2605.07306",
       "downloaded": "2026-05-31",
       "txt_sidecar": "2605.07306v1.txt"
+    },
+    {
+      "doi": "10.48550/arXiv.2605.20242",
+      "filename": "2605.20242v1.pdf",
+      "title": "LEAP: A closed-loop framework for perovskite precursor additive discovery",
+      "source_url": "https://arxiv.org/abs/2605.20242",
+      "downloaded": "2026-06-01",
+      "txt_sidecar": "2605.20242v1.txt"
+    },
+    {
+      "doi": "10.48550/arXiv.2605.28655",
+      "filename": "2605.28655v1.pdf",
+      "title": "AutoScientists: Self-Organizing Agent Teams for Long-Running Scientific Experimentation",
+      "source_url": "https://arxiv.org/abs/2605.28655",
+      "downloaded": "2026-06-01",
+      "txt_sidecar": "2605.28655v1.txt"
+    },
+    {
+      "doi": "10.48550/arXiv.2605.11518",
+      "filename": "2605.11518v1.pdf",
+      "title": "AutoLLMResearch: Training Research Agents for Automating LLM Experiment Configuration",
+      "source_url": "https://arxiv.org/abs/2605.11518",
+      "downloaded": "2026-06-01",
+      "txt_sidecar": "2605.11518v1.txt"
     }
   ]
 }
