@@ -11,6 +11,26 @@ Reverse-chronological log of changes to the [recipes cookbook](recipes/). Newest
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-06-01
+
+### Added
+
+- **Convert raw analytical instrument data to Allotrope ASM JSON** (Problem class: Workflow automation; Evidence: Reported) — rung-2 [instrument-data-to-allotrope skill](catalog/tools/instrument-data-to-allotrope.html) recipe taking a vendor-format file (cell counter, plate reader, HPLC, MS, qPCR) through auto-detect → `allotropy` native parse → ASM JSON-LD + flattened CSV + exportable Python parser, with strict-validation of the raw-vs-derived split before LIMS / data-lake handoff. First Chemistry focus-day recipe of this run; cookbook's first workflow-automation recipe spanning the Anthropic life-sciences plugin family. Anchored in the [Claude for Life Sciences launch (October 2025)](https://www.anthropic.com/news/claude-for-life-sciences), the [Anthropic Vi-CELL tutorial](https://claude.com/resources/tutorials/getting-started-with-claude-for-life-sciences), and the underlying [`Benchling-Open-Source/allotropy`](https://github.com/Benchling-Open-Source/allotropy) reference parser.
+- **Set up a protein molecular dynamics simulation in GROMACS from a PDB ID** (Problem class: Experimental design; Evidence: Proposed) — rung-2 [molecule-mcp](catalog/tools/molecule-mcp.html) recipe driving the GROMACS Copilot server end-to-end (topology → solvation → ion neutralisation → minimisation → NVT/NPT → 50 ns production → RMSD/RMSF/Rg) with explicit force-field / water-model / GPU-offload flags. Second Chemistry focus-day recipe; first cookbook entry exercising the GROMACS path of the molecule-mcp bundle. `Proposed` because no documented end-to-end attempt of this exact assembly exists; closest peer-reviewed class-level evidence is [MDCrow (Campbell et al., *Mach. Learn. Sci. Technol.* 2025, DOI:10.1088/2632-2153/ae4b07)](https://iopscience.iop.org/article/10.1088/2632-2153/ae4b07) — OpenMM rather than GROMACS but same architecture — plus GROMACS-supporting follow-ons [DynaMate (arXiv:2512.10034)](https://arxiv.org/abs/2512.10034) and [NAMD-Agent (arXiv:2507.07887)](https://arxiv.org/abs/2507.07887), and the [MDGym benchmark (arXiv:2605.08941)](https://arxiv.org/abs/2605.08941) as a reality check (Claude Code / Codex / OpenHands all solve <21% of easy GROMACS/LAMMPS tasks).
+
+### Updated
+
+- Nav orders rebalanced to restore strict alphabetical title ordering after the two additions and to correct two prior off-by-many drifts (Benchmark ADMET was at 20 instead of 2; Prioritize Targets was at 19 instead of 14): **Assemble Census atlas** → 1, **Benchmark ADMET** → 2, **Build target dossier** → 3, **Compute HRV** → 4, **Convert instrument data** → 5 (new), **Discover NWB on DANDI** → 6, **Draft a Phase 2/3 clinical-trial protocol** → 7, **Estimate PK** → 8, **Filter virtual screening** → 9, **Infer GRN** → 10, **Integrate single-cell** → 11, **Interpret clinical variant** → 12, **Match patient to trials** → 13, **Prioritize targets** → 14, **Profile polypharmacology** → 15, **Run bulk RNA-seq DE** → 16, **QC single-cell** → 17, **Scan repurposing** → 18, **Set up protein MD in GROMACS** → 19 (new), **Sort spikes** → 20, **Triage preprints** → 21, **Triage AlphaFold** → 22.
+- `recipes/curator-state.md` — `## Missing components` entry for "DeepChem (K-Dense Skill)" removed; DeepChem is now catalogued at [`catalog/tools/deepchem.md`](catalog/tools/deepchem.html).
+
+### Verified (no changes)
+
+- No aging recipes due — every `last_verified` date is within the 30-day window. The recipe set's verification floor sits at 2026-05-22 (`integrate-single-cell-datasets`, `sort-spikes-from-neuropixels-recording`); next aging boundary is 2026-06-21.
+
+### User requests
+
+- **#12** (`claude:recipe-feedback`) — remains in `## User requests (open)`; `gh` CLI is still not available in this run's environment so the issue body cannot be inspected. Retry next run with `gh` access.
+
 ## 2026-05-31
 
 ### Added

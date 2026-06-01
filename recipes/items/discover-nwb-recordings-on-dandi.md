@@ -2,7 +2,7 @@
 title: Discover NWB recordings on DANDI and prepare them for sorting
 parent: All recipes
 grand_parent: Recipes
-nav_order: 4
+nav_order: 6
 problem_class: Knowledge synthesis
 subject_areas: [Neuroscience]
 evidence_level: Reported

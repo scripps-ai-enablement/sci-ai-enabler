@@ -2,7 +2,7 @@
 title: Compute HRV from an ECG recording
 parent: All recipes
 grand_parent: Recipes
-nav_order: 3
+nav_order: 4
 problem_class: Data analysis
 subject_areas: [Neuroscience, Translational Medicine]
 evidence_level: Proposed

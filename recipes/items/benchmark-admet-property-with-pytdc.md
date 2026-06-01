@@ -2,7 +2,7 @@
 title: Benchmark an ADMET property with PyTDC
 parent: All recipes
 grand_parent: Recipes
-nav_order: 20
+nav_order: 2
 problem_class: Data analysis
 subject_areas: [Drug Repurposing and Discovery, Chemistry]
 evidence_level: Reported
