@@ -8,11 +8,11 @@ nav_exclude: true
 
 ## Recently surfaced
 
+- **DeepChem (Claude Skill)** (added 2026-06-01) — K-Dense skill driving DeepChem for molecular machine learning: GCN / GAT / MPNN / AttentiveFP graph neural nets, featurization, and the MoleculeNet benchmarks (Tox21, ClinTox, SIDER, BBBP, QM7/8/9). Surfaced from the Deferred queue on the Chemistry focus pass.
 - **PyTDC (Claude Skill)** (added 2026-05-31) — K-Dense skill for Therapeutics Data Commons benchmarks: ADMET, DTI, DDI, drug response, molecular generation (17+ oracles), retrosynthesis. Surfaced from the Deferred queue on the Drug Repurposing and Discovery focus pass.
 - **NPI Registry MCP (Anthropic Healthcare)** (added 2026-05-30) — Anthropic-published MCP server over the CMS NPPES NPI Registry API v2.1; validate, look up, and search US healthcare providers by NPI. Fourth Anthropic Healthcare MCP catalogued, completing the `cms-coverage` / `icd-10-codes` / `pubmed` set.
 - **OpenNeuro MCP** (added 2026-05-29) — Community MCP server (QuentinCody) wrapping the OpenNeuro GraphQL API; hosted Cloudflare Workers SSE endpoint, MIT + Academic Citation Requirement license. Complements the Neurosift Tools MCP (DANDI + NWB) by covering OpenNeuro's MRI / MEG / EEG / iEEG / ECoG archive.
 - **Cellxgene Census (Claude Skill)** (added 2026-05-28) — K-Dense skill for querying the CZ CELLxGENE Discover census (50M+ cells, 1,000+ datasets) via TileDB-SOMA, with AnnData / Scanpy integration for reference-atlas construction.
-- **scVelo (Claude Skill)** (added 2026-05-28) — K-Dense skill driving scVelo for RNA-velocity analysis (steady-state / stochastic / dynamical models, latent time, driver-gene identification).
 
 ## Flagged for review
 
@@ -26,9 +26,9 @@ nav_exclude: true
 - **Consensus Plugin (`anthropics/life-sciences`)** — Consensus.app evidence-search connector; verify install path.
 - **biorxiv@life-sciences plugin** — `anthropics/life-sciences` marketplace entry currently DOA (`mcp.deepsense.ai` NXDOMAIN per upstream issue #42 / commit `e96556b`). Revisit when upstream restores the endpoint.
 - **clinical-trials@life-sciences plugin** — same DOA status as biorxiv@life-sciences; distinct from both the `adisinsight` plugin (Springer Nature) and the `clinicaltrials-gov-mcp` community entry. Revisit when the endpoint is restored.
-- **DeepChem (K-Dense Skill)** — deep-learning models for ADMET, virtual screening, and molecular property prediction; next Chemistry-focus pass.
-- **TorchDrug / DiffDock / PyOpenMS / matchms / cobrapy (K-Dense Skills)** — remaining chemistry-stack siblings, surface incrementally. (PyTDC promoted 2026-05-31.)
-- **Retrosynthesis MCP** — no Claude-installable wrapper for AiZynthFinder / ASKCOS / IBM RXN located 2026-05-25; revisit on next Chemistry-focus pass.
+- **TorchDrug / DiffDock / PyOpenMS / matchms / cobrapy (K-Dense Skills)** — remaining chemistry-stack siblings; surface incrementally. (PyTDC promoted 2026-05-31; DeepChem promoted 2026-06-01.) `DiffDock` is the strongest next pick for the Drug-Repurposing slice, `cobrapy` is the strongest next pick for the metabolism slice.
+- **Retrosynthesis MCP** — no Claude-installable wrapper for AiZynthFinder / ASKCOS / IBM RXN located on the 2026-05-25 or 2026-06-01 Chemistry passes; revisit on next Chemistry-focus pass.
+- **MCP_Vina** (`shogo-d-nakamura/MCP_Vina`) — AutoDock Vina MCP server with `dock_molecule` / `get_available_targets` tools; currently single-target (AKT1 only) with `uv`-based local install. Surfaced on the 2026-06-01 Chemistry pass but deferred because the target list is too narrow to justify a catalog entry today; revisit once additional targets or a docking-grid-builder workflow lands upstream.
 - **OpenClaw Medical Skills Library** — 869-skill MIT-licensed collection; treat each individual skill (pharmacovigilance, adverse-event detection, PyHealth) as a separate entry.
 - **Ensembl MCP servers** (`munch-group/ensembl-mcp`, `effieklimi/ensembl-mcp-server`) — both early-stage; revisit when one stabilises.
 - **UCSC Genome MCP** (`hlydecker/ucsc-genome-mcp`) — 12 tools over the UCSC Genome Browser API.
