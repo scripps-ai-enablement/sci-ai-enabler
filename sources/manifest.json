@@ -427,6 +427,38 @@
       "source_url": "https://arxiv.org/abs/2605.11518",
       "downloaded": "2026-06-01",
       "txt_sidecar": "2605.11518v1.txt"
+    },
+    {
+      "doi": "10.48550/arXiv.2605.31468",
+      "filename": "2605.31468v1.pdf",
+      "title": "AutoSci: A Memory-Centric Agentic System for the Full Scientific Research Lifecycle",
+      "source_url": "https://arxiv.org/abs/2605.31468",
+      "downloaded": "2026-06-02",
+      "txt_sidecar": "2605.31468v1.txt"
+    },
+    {
+      "doi": "10.48550/arXiv.2605.21825",
+      "filename": "2605.21825v1.pdf",
+      "title": "Toward AI VIS Co-Scientists: A General and End-to-End Agent Harness for Solving Complex Data Visualization Tasks",
+      "source_url": "https://arxiv.org/abs/2605.21825",
+      "downloaded": "2026-06-02",
+      "txt_sidecar": "2605.21825v1.txt"
+    },
+    {
+      "doi": "10.48550/arXiv.2605.21820",
+      "filename": "2605.21820v1.pdf",
+      "title": "Beyond Scalar Objectives: Expert-Feedback-Driven Autonomous Experimentation for Scientific Discovery at the Nanoscale (DKPL)",
+      "source_url": "https://arxiv.org/abs/2605.21820",
+      "downloaded": "2026-06-02",
+      "txt_sidecar": "2605.21820v1.txt"
+    },
+    {
+      "doi": "10.48550/arXiv.2605.18033",
+      "filename": "2605.18033v1.pdf",
+      "title": "Real-time Multi-instrument Autonomous Discovery of Novel Phase-change Memory Materials (MAD)",
+      "source_url": "https://arxiv.org/abs/2605.18033",
+      "downloaded": "2026-06-02",
+      "txt_sidecar": "2605.18033v1.txt"
     }
   ]
 }

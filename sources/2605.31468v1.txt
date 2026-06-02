@@ -1,0 +1,1506 @@
+PKUDAIR · AutoSci
+
+May 29, 2026
+
+arXiv:2605.31468v1 [cs.AI] 29 May 2026
+
+AUTO S CI : A M EMORY-C ENTRIC AGENTIC S YSTEM
+FOR THE F ULL S CIENTIFIC R ESEARCH L IFECYCLE
+Weitong Qian*,† , Beicheng Xu*,† , Zhongao Xie*,† , Bowen Fan† , Guozheng Tang† , Jiale Chen† ,
+Xinzhe Wu† , Mingtian Yang† , Chenyang Di† , Jiajun Li† , Lingching Tung† , Peichao Lai† ,
+Yifei Xia† , Ziyi Guo† , Yanwei Xu† , Yanzhao Qin† , Shaoduo Gan† , Xupeng Miao† , Bin Cui†,B
+†
+Peking University, Beijing, China
+*
+Equal contribution. B Corresponding author.
+*
+{weitong.qian, beichengxu, zaxie25}@stu.pku.edu.cn, B bin.cui@pku.edu.cn
+
+A BSTRACT
+Scientific research has traditionally been human-intensive, requiring researchers
+to coordinate literature, ideas, experiments, manuscripts, and review responses
+across long project cycles. The rise of LLM-based scientific agents creates an opportunity to automate this process. Such a system must support the full research
+lifecycle, maintain structured persistent memory across projects, and improve its
+own research procedures over time. However, existing systems either partially satisfy or fail to satisfy these requirements, leaving a gap for a unified automated scientific research system. As a result, we present AutoSci, a memory-centric agentic
+system for the full scientific research lifecycle. AutoSci is organized around four
+modules. SciMem provides schema-governed research memory, separating LongTerm Knowledge Memory for reusable scientific knowledge from Active Research
+Memory for project-level artifacts such as ideas, experiments, manuscripts, and
+reviews. SciFlow executes a five-stage lifecycle from literature understanding to
+rebuttal through a harness that controls state, context, verification, feedback, and
+orchestration. SciDAG augments difficult skills with DAG-shaped multi-agent operators and reusable stage-specific templates. SciEvolve converts feedback signals
+from users, experiments, reviews, and external environments into versioned updates to SciMem organization, SciFlow skills, and SciDAG templates. Together,
+these modules make AutoSci a persistent research environment that can execute,
+remember, and evolve across research projects. The code repository is available
+at https://github.com/skyllwt/AutoSci.
+
+1
+
+I NTRODUCTION
+
+Scientific research has long been a heavily human-driven process: researchers must manually track
+literature, formulate hypotheses, implement methods, run experiments, analyze evidence, write papers, and respond to reviews. This process is labor-intensive, especially when projects require broad
+literature coverage, experimentation, and careful coordination across many intermediate artifacts.
+The rise of large language models and multi-agent systems has begun to change this picture. When
+coupled with tools, code execution, external scientific resources, and coordinated workflows, these
+systems can automate the research lifecycle and support systematic exploration, validation, monitoring, and manuscript production (Huang et al., 2025; Chai et al., 2025; Zhang, 2026).
+One line focuses on particular scientific capabilities rather than a whole paper-production pipeline.
+The AI co-scientist (Gottweis et al., 2025) targets scientist-in-the-loop hypothesis generation and
+biomedical validation; POPPER (Huang et al., 2025) studies automated falsification of free-form
+1
+
+PKUDAIR · AutoSci
+
+System
+AI Scientist series
+(Lu et al., 2024; Yamada et al., 2025)
+AI-Researcher (Tang et al., 2025)
+Agent Laboratory
+(Schmidgall et al., 2025)
+CycleResearcher (Weng et al., 2024)
+EvoScientist (Lyu et al., 2026)
+DeepScientist (Weng et al., 2025)
+ARIS (Yang et al., 2026)
+NORA (Zhou et al., 2026)
+Deep Researcher Agent
+(Zhang, 2026)
+AutoSci
+
+May 29, 2026
+
+Structured
+
+Persistent
+
+System
+
+Sci. Mem.
+
+Sci. Mem.
+
+Evolution
+
+◦
+
+–
+
+–
+
+–
+
+◦
+◦
+
+–
+
+–
+
+–
+
+–
+
+–
+
+–
+
+◦
+◦
+✓
+✓
+✓
+✓
+
+–
+
+–
+
+–
+
+◦
+◦
+◦
+◦
+◦
+
+✓
+◦
+◦
+◦
+◦
+
+◦
+
+✓
+
+✓
+
+✓
+
+✓
+
+Harness
+
+–
+–
+–
+–
+
+Table 1: Feature-level comparison of representative full-loop scientific-agent systems and research
+harnesses. Symbols denote full support (✓), partial or project-local support (◦), and features that
+are not a primary focus (–). Here, persistent memory refers to research memory that survives
+across complete research or paper-generation pipelines and can be reused by later pipelines, rather
+than state retained only within a single run. Full system evolution further requires modifying the
+scientific-agent system itself, such as its skills, workflow protocols, prompts, or artifact contracts;
+accumulating reusable textual experience alone is counted as partial support.
+
+hypotheses; AutoSciLab (Desai et al., 2024) develops self-driving laboratory workflows; bilevel
+LLM–simulation optimization connects LLM reasoning with scientific simulation (Ma et al., 2024);
+SciMaster/X-Master (Chai et al., 2025) uses code and tool-augmented reasoning for scientific problem solving; and Deep Researcher Agent (Zhang, 2026) emphasizes sustained experiment execution, monitoring, and reflection. These works demonstrate the value of LLM agents for individual
+scientific operations, but they do not by themselves define a complete research lifecycle.
+More ambitious systems move beyond individual capabilities and target complete research workflows. The AI Scientist series (Lu et al., 2024; Yamada et al., 2025) and AI-Researcher (Tang et al.,
+2025) automate idea generation, experiment execution, paper writing, review, and later template-free
+agentic search; while Agent Laboratory (Schmidgall et al., 2025) supports research workflows starting from a user-provided idea. Related full-loop systems further model research–review–refinement,
+goal-oriented cumulative findings, and memory-augmented discovery, as in CycleResearcher (Weng
+et al., 2024), DeepScientist (Weng et al., 2025), and EvoScientist (Lyu et al., 2026). As these workflows become longer-running, research harness design becomes central, since scientific agents need
+durable state, tool contracts, review gates, and recoverable execution in addition to stronger models. Representative harness-oriented systems include ARIS (Yang et al., 2026), NORA (Zhou et al.,
+2026), and Deep Researcher Agent (Zhang, 2026), which add persistent state, monitoring, provenance or claim checks, review gates, domain guardrails, and recoverable long-running execution.
+These systems move scientific agents toward end-to-end automation, but most remain organized
+around a single project or a paper-generation pipeline.
+From a system perspective, an automated scientific research system should satisfy four requirements: 1) Full-lifecycle support. Since scientific research spans literature understanding, idea
+generation, experimental validation, manuscript writing, and rebuttal, an automated system should
+provide stage-specific skills and artifact handoffs throughout the entire process. Table 1 therefore focuses on representative full-loop scientific agents and compares how well they satisfy the remaining
+system requirements. 2) Execution harness. Long-running research cannot rely on unconstrained
+conversations alone; it requires persistent state, controlled context, verification gates, feedback routing, and recoverable orchestration. However, some earlier systems mainly coordinate research with
+lighter runtime control. 3) Structured and persistent memory. Memory must be structured to
+2
+
+PKUDAIR · AutoSci
+
+May 29, 2026
+
+Figure 1: Overview of AutoSci.
+
+make scientific information semantically interpretable, extensible, and organized by its dependencies rather than stored as undifferentiated text. However, existing systems mostly store summaries,
+logs, strategies, or artifacts rather than organizing scientific information as typed objects with explicit dependencies. Moreover, most prior systems retain memory only within a single research
+project or paper-generation pipeline, rather than preserving reusable cross-project experience for
+future workflows. 4) Self-evolution. An automated research system should not only accumulate
+textual experience, but also use user feedback and experimental outcomes to iteratively improve
+its own skills and workflows. Although EvoScientist distills prior experience into reusable textual
+memories, existing systems generally do not revise the agent system itself, such as its skills and
+workflow protocols. Overall, the comparison shows that existing systems remain fragmented: they
+improve different parts of automated science, but do not yet form a unified research system that can
+execute, remember, and evolve across projects.
+To address this gap, we introduce AutoSci, a memory-centric agentic system for the full scientific
+research lifecycle. AutoSci is built around four modules: SciMem, a structured persistent research
+memory that stores scientific knowledge, active project artifacts, and cross-project experience; SciFlow, a harness-based execution framework for the full scientific research lifecycle, coordinating
+literature, ideation, experimentation, writing, and rebuttal; SciDAG, a DAG-based multi-agent augmentation mechanism for stages that require broader search, debate, verification, or refinement; and
+SciEvolve, a full-system evolution layer that converts user feedback, experimental outcomes, and
+review signals into versioned updates to memory, skills, and orchestration templates. Figure 1 provides an overview of the AutoSci architecture. Our main contributions are summarized as follows:
+• We formulate automated scientific research as a long-lifecycle system problem that requires
+execution, memory, and evolution across projects, rather than isolated task automation.
+• We design a memory-centric architecture in which structured persistent scientific memory serves
+as the shared substrate for research workflows, multi-agent execution, and self-improvement.
+• We implement an end-to-end AutoSci system that integrates lifecycle skills, harnessed execution,
+DAG-based multi-agent augmentation, and versioned self-evolution.
+• We conduct two end-to-end case studies in GPU kernel optimization and biomedical drug discovery, where AutoSci generates reviewable paper-level artifacts that receive automated ICLRreview scores of 6.3/10 and 5.8/10, respectively.
+3
+
+PKUDAIR · AutoSci
+
+May 29, 2026
+
+Table 2: AutoSci system overview (v1.0.0, May 2026).
+Component
+
+Scope
+
+System modules
+Persistent memory
+
+4 modules: SciMem, SciFlow, SciDAG, and SciEvolve
+2 regions (Long-Term Knowledge + Active Research); 10 typed entities;
+20+ typed relations
+/research (Literature → Ideation → Experiment → Writing → Rebuttal)
+30+ skill, spanning the five lifecycle stages and self-evolution
+9 reusable operators (generate, variation, debate, refine, review, etc.)
+3 evolution skills
+
+Research workflows
+Research Skills
+Multi-agent operators
+Self-evolution
+
+2
+
+S YSTEM OVERVIEW
+
+AutoSci targets long-lifecycle scientific research: a system should not only complete one research
+project, but also accumulate knowledge, experimental experience, submission feedback, and execution strategies across many projects. This goal requires the agent to behave less like a single-session
+assistant and more like a persistent research environment that can interact with users, external resources, and experimental systems over time. We follow four design principles:
+• Environment interaction. AutoSci should interact with the full research environment, including user instructions, literature and codebases, and the experimental runtime.
+• Structured persistent memory. AutoSci should maintain structured long-term scientific memory, so that papers, concepts, methods, experiments, reviews, and their relations can persist and
+be reused across complete research projects.
+• Harnessed execution. AutoSci should run through an explicit harness to make the research
+lifecycle interruptible, reviewable, and reusable across sessions..
+• Full-system evolution. AutoSci should go beyond accumulating reusable experience by turning recurring feedback into controlled updates to its own skills, protocols, and prompts.
+These principles lead to four modules. SciMem provides schema-governed research memory; SciFlow executes the full scientific lifecycle over that memory; SciDAG optionally augments difficult
+stages with DAG-shaped multi-agent operators; and SciEvolve converts traces and feedback into
+versioned system updates. Together, the modules form a closed loop in which research artifacts
+are produced, checked, stored, reused, and eventually used to improve the system itself. Table 2
+summarizes the implemented system scope before we describe each module in detail.
+
+3
+
+S CI M EM : S CHEMA -G OVERNED R ESEARCH M EMORY
+
+SciMem is designed for long-lifecycle scientific memory: memory should not disappear after a
+single experiment, paper, or research project, but should remain reusable across future projects.
+To support this goal, SciMem separates memory into two regions with different responsibilities.
+Long-Term Knowledge Memory preserves consolidated scientific knowledge that should accumulate
+across projects, while Active Research Memory tracks the fast-changing state of an ongoing research
+paper or experimental report. Below, we first introduce the two memory regions and then describe
+how SciMem grows and flows across them over time.
+3.1
+
+L ONG -T ERM K NOWLEDGE M EMORY
+
+Long-Term Knowledge Memory is to preserve the scientific knowledge that AutoSci has accumulated from external sources and prior research cycles, so that later projects can reuse it without
+reconstructing the same context from scratch. The region is populated by literature ingestion skills
+from sources such as arXiv, Semantic Scholar, GitHub, and user-provided documents, and can be
+refined by consolidated experience from completed projects. The region is organized by a typed
+entity schema rather than by flat documents or vector chunks. Table 3 summarizes the long-term
+entity types. In implementation, each entity is stored as a .md page.
+4
+
+PKUDAIR · AutoSci
+
+Entity
+Topic
+Paper
+Foundation
+Concept
+Method
+People
+
+May 29, 2026
+
+Typical Content
+Domain scope, key observations
+Structured reading notes that capture the essence of the paper
+Consolidated background knowledge used as a stable basis
+Reusable descriptions of scientific notions or terminology
+Detailed implementation and functional role of a reusable technical approach
+Research profiles of researchers
+
+Table 3: Entity types in Long-Term Knowledge Memory.
+
+(a) Long-Term Knowledge Memory.
+
+(b) Active Research Memory.
+
+Figure 2: Two memory regions in SciMem.
+
+Beyond defining entity types, the long-term schema also governs how these entities are connected. For example, Topic entities provide the coarsest organizing layer: Paper, Foundation,
+Concept, Method, and People entities can be placed within one or more topics. Paper entities act as evidence-bearing sources that introduce or critique Concept entities, apply or extend
+Method entities, and contribute to Foundation entities. Foundation entities provide stable background knowledge that grounds Concept and Method entities. These typed relations
+turn Long-Term Knowledge Memory from a set of structured pages into a traversable scientific
+knowledge graph. In implementation, typed links are stored as schema-constrained bidirectional
+cross-references between entity pages, making the graph navigable and mechanically checkable.
+Figure 2a visualizes the entity schema and typed connections of Long-Term Knowledge Memory.
+Long-Term Knowledge Memory has two defining properties: 1) semantic addressability, which
+lets downstream skills retrieve typed scientific objects and relations directly; and 2) incremental
+extensibility, which lets new literature and validated findings be appended across research pipelines,
+making the memory a reusable scientific substrate rather than a project-local cache.
+3.2
+
+ACTIVE R ESEARCH M EMORY
+
+Active Research Memory is the project-level workspace for producing a research paper or experimental report from start to finish. It records the key active artifacts of the current project, including
+Idea, Experiment, Manuscript, and Review entities, as AutoSci advances the project. Each
+active entity carries an explicit lifecycle state. Idea entities move from proposed to testing,
+then to tested, validated, or failed; Experiment entities move from planned and
+running to completed or abandoned; Manuscript entities move through drafting,
+revised, submitted, and final version; and Review entities record received feedback,
+rebuttal drafting, revision, and final decision. These lifecycle states make Active Research Memory
+a structured progress map rather than a loose project folder. In implementation, each active entity
+is stored as a .md page with a schema-defined lifecycle state. Figure 2b visualizes the active entity
+schema and lifecycle structure of Active Research Memory.
+The significance of recording Active Research Memory is that AutoSci can recover and audit the
+state of a research project without relying on chat history. At any moment, the system can identify
+which Idea entities are still viable, which Experiment entities produced evidence, and which
+Review concerns remain unresolved. Terminal active artifacts also become the bridge back to
+Long-Term Knowledge Memory as reusable knowledge for future projects.
+5
+
+PKUDAIR · AutoSci
+
+May 29, 2026
+
+Figure 3: Memory growth and flow in SciMem.
+
+3.3
+
+M EMORY G ROWTH AND F LOW
+
+The previous sections define what SciMem stores. We next describe how the memory grows.
+SciMem expands through three complementary flow paths: aggregation within Long-Term Knowledge Memory, bidirectional flow between Long-Term Knowledge Memory and Active Research
+Memory, and temporal accumulation of cross-cycle experience, as illustrated in Figure 3.
+Long-term aggregation. Long-Term Knowledge Memory grows through internal aggregation.
+Newly ingested Paper entities do not remain isolated reading notes. Their key observations can
+update the domain-level understanding of a Topic; recurring definitions or mechanisms can refine
+a Concept; implementation details and empirical behavior can enrich a Method; and repeatedly
+supported background knowledge can strengthen a Foundation. This flow turns low-level source
+material into higher-level scientific memory, allowing long-term entities to become progressively
+more informative as more literature and project experience accumulate.
+Cross-region flow. SciMem supports cross-region activation and consolidation. 1) Long-Term
+→ Active. During activation, an active entity draws on related long-term memory: a Idea
+entity is grounded in Topic entities, prior evidence, Concept entities, and Method entities; an Experiment entity activates the Method entities and assumptions it relies on; and a
+Manuscript or Review entity activates the evidence it relies on. 2) Active → Long-Term. During consolidation, terminal active artifacts write back reusable scientific traces. validated Idea
+entities, completed experimental findings, failed attempts, and unresolved limitations can update the
+corresponding long-term entries, especially the relevant Topic pages.
+Cross-cycle accumulation. SciMem accumulates methodological memory across cycles. Reviewer
+concerns and rebuttal outcomes are retained as cross-cycle notes that can be consulted when later
+projects enter writing or rebuttal stages. As a result, SciMem grows not only in what AutoSci knows
+about a topic, but also in how AutoSci conducts future research, experiments, writing, and rebuttal.
+Trust-guarded writes. All SciMem writes pass through Trust Guard before entering the usable
+graph, since memory errors can propagate to future projects. Trust Guard checks both form validity
+(schema fields, lifecycle states, link types, and bidirectional links) and content validity (evidence
+support and consistency with existing memory). Form checks are handled by deterministic linting,
+while content checks are handled by an independent reviewer agent. Each write is assigned PASS,
+WARN, or B LOCK; blocked artifacts are quarantined until resolved.
+6
+
+PKUDAIR · AutoSci
+
+May 29, 2026
+
+Figure 4: SciFlow research lifecycle and harness organization.
+
+4
+
+S CI F LOW: M EMORY-G ROUNDED R ESEARCH L IFECYCLE
+
+SciFlow is the lifecycle executor that runs AutoSci over a complete research project. Its goal is to
+make long-horizon research executable, resumable, and memory-grounded rather than a sequence
+of free-form agent conversations. To this end, SciFlow decomposes a project into five stages, Literature, Ideation, Experiment, Writing, and Rebuttal. Each stage is implemented as a harness-based
+skill contract. Figure 4 illustrates how the five-stage skills and harness guarantees are organized.
+4.1
+
+F IVE -S TAGE R ESEARCH L IFECYCLE
+
+SciFlow follows the natural lifecycle of a scientific project: it first builds the knowledge base, then
+proposes candidate directions, turns selected ideas into experimental evidence, writes the evidence
+into a paper, and finally handles reviewer feedback after submission. In implementation, SciFlow is
+supported by more than 30 research skills spanning the five lifecycle stages.
+Memory-grounded execution. The research lifecycle is memory-grounded because each stage is
+coupled to SciMem through explicit read and write operations. Literature writes external knowledge
+into long-term memory. Ideation reads long-term memory and writes Idea entities. Experiment
+reads selected ideas, then writes evidence-bearing Experiment entities. Writing reads provenance
+and evidence chains to produce Manuscript artifacts. Rebuttal reads the submitted manuscript,
+review records, and prior rebuttal lessons, then writes new Review records. This read-write loop
+makes SciFlow memory-grounded: stages communicate through SciMem rather than transient conversation, and the memory used by later stages is already enriched by earlier stages.
+4.2
+
+H ARNESS G UARANTEES
+
+The five-stage lifecycle describes what scientific work is performed, while the SciFlow harness
+controls how this work is executed across stages. The harness is the cross-stage control layer around
+skills to make the lifecycle interruptible, reviewable, and reusable across sessions.
+• State. SciFlow records stage outputs, lifecycle states, links, and pipeline-level progress outside
+the transient LLM context, making projects resumable from a specified stage.
+7
+
+PKUDAIR · AutoSci
+
+May 29, 2026
+
+Figure 5: SciEvolve self-evolution loop.
+
+• Context. Before each skill runs, SciFlow equips it with a tailored SciMem view, providing the
+evidence, prior failures or lessons needed for that skill without exposing the full memory graph.
+• Verification. Trust Guard checks memory writes and high-stakes handoffs through schema/link
+validation and evidence-oriented review before downstream stages consume them.
+• Feedback. Failures and critiques are treated as process signals: insufficient evidence can trigger
+/refine or self-evolution.
+• Orchestration. The /research loop invokes stage skills, records progress, handles stopping
+points, and supports long-running experiments through non-blocking execution and monitoring.
+
+5
+
+S CI DAG: DAG-BASED M ULTI -AGENT AUGMENTATION
+
+SciDAG is an optional augmentation for SciFlow. A selected skill can call a directed acyclic graph
+of reusable multi-agent operators as a tool to strengthen its execution. Given a stage task z, the
+SciMem-compiled context, and the artifact schema expected by SciFlow, SciDAG executes an operator graph G = (V, E) and returns the final result to the same artifact contract, so downstream
+SciFlow stages remain unchanged.
+Adaptive operator graph. SciDAG represents each tool call as an operator graph. Each node
+vi ∈ V instantiates an operator oi ∈ O with a specialized sub-agent and produces an intermediate
+output from upstream node outputs. Directed edges specify information flow, while conditional
+edges call a router over the current execution state to decide whether to continue, retry, branch,
+prune, or stop. Thus, SciDAG is not a fixed multi-agent chain: it adapts execution according to
+intermediate quality, cost, and convergence signals.
+Evolving templates. To make such graphs reusable, SciDAG stores common operator graphs as
+stage-aware templates. For example, Ideation templates emphasize diverse generation and debate,
+experimentation templates emphasize reliability checks, and writing templates emphasize evidence
+fidelity and refinement. The template repository stores reusable graphs together with lightweight
+metadata and past execution experience. For a new skill call, SciDAG retrieves a suitable template,
+executes it, and writes the resulting trace and feedback back to the repository. Appendix A lists the
+operator library and shows stage-specific templates for ideation, experimentation, and writing.
+8
+
+PKUDAIR · AutoSci
+
+6
+
+May 29, 2026
+
+S CI E VOLVE : F ULL -S YSTEM E VOLUTION
+
+SciEvolve implements the second part of AutoSci’s self-improvement mechanism. Beyond the
+reusable textual experience accumulated through SciMem, SciEvolve turns feedback signals from
+research practice into auditable updates to SciMem organization, SciFlow skills, and SciDAG orchestration templates. In implementation, the three evolution paths are exposed as separate skills:
+/dream for SciMem evolution, /forge for SciFlow evolution, and /morph for SciDAG evolution. Figure 5 illustrates this signal-to-update loop.
+Evolution signals. SciEvolve collects signals from three environments. The user environment
+provides instructions, corrections, and research preferences. The task environment provides stage
+outcomes, experimental evidence, and failure reasons. The open environment provides new papers, codebases, and venue expectations. These signals are first stored in a signal repository, where
+SciEvolve detects recurring patterns and uses them to trigger updates to the relevant system module.
+SciMem evolution. Memory evolution maintains the usefulness of SciMem as it grows. /dream
+periodically reviews recent traces and related memory neighborhoods. It can down-weight or archive
+stale entries, compress redundant material, consolidate related entities, and propose new associations
+across Concept, Method, Paper, Idea, and Experiment entities.
+SciFlow evolution. Skill evolution treats SciFlow skills as versioned research protocols. A skill
+is not only a prompt, but a structured procedure that specifies inputs, required SciMem context,
+execution steps, checks, output artifacts, and handoff rules. After a research episode, SciEvolve
+analyzes repeated failure modes, user corrections, review warnings, unsupported claims, high-cost
+stages, and successful ad hoc repairs. When the evidence is stable enough, it proposes patches
+such as strengthening claim-evidence checks in writing skills, revising handoff requirements, or
+promoting a successful repair strategy into a reusable skill step.
+SciDAG evolution. /morph uses SciDAG traces to improve multi-agent templates across executions. When an operator repeatedly underperforms, SciEvolve can revise its prompt, role, or tool
+configuration. When a graph shows stable failure or success patterns, SciEvolve can prune weak
+branches, add verification nodes, or specialize the template for a stage and problem type. Thus,
+SciEvolve improves SciDAG across executions.
+
+7
+
+C ASE S TUDIES AND E VALUATION
+
+7.1
+
+E XPERIMENTAL S ETUP
+
+We evaluate AutoSci through two end-to-end research case studies that span different scientific domains: GPU kernel optimization and biomedical drug discovery. The goal is not to test an isolated
+skill, but to examine whether AutoSci can run a complete research cycle, including literature organization, idea generation, novelty checking, feasibility analysis, experiment design, execution, result
+interpretation, and paper-oriented artifact production. Both case studies use the same AutoSci system, including SciMem for persistent research memory, SciFlow for lifecycle execution, SciDAG
+for multi-agent augmentation when needed, and SciEvolve for recording reusable feedback signals.
+Case Study 1: GPU Kernel Optimization. AutoSci explores iterative GPU operator optimization
+with Claude Code guided by performance feedback. The experiment is executed on a 4× NVIDIA
+A40 environment with Triton 3.2.0 and PyTorch 2.6.0+cu124 in the TritonBench workspace.
+Case Study 2: Biomedical Drug Discovery. AutoSci explores structure-aware post-translational
+modification (PTM) modeling for degrader target nomination. The real executed blocks run on a
+single NVIDIA RTX 4060 using public DeepTernary v1.0.0 and PROTAC-STAN inference repositories, with additional Boltz-2-conditioned cross-checks on selected protein-of-interest cases.
+For each case study, the user provides an initial research direction and a small set of relevant seed
+papers. We instantiate the AutoSci agents with Claude Code powered by Opus 4.7. The user
+then invokes the /research workflow, which first ingests the seed papers into SciMem, uses
+/discover to retrieve and ingest additional related papers, and constructs a structured Long-Term
+Knowledge Memory over papers, topics, concepts, methods, foundations, and researchers. After this
+memory-building stage, /research proceeds through ideation, novelty and feasibility screening,
+9
+
+PKUDAIR · AutoSci
+
+May 29, 2026
+
+Figure 6: Example Long-Term Knowledge Memory built from the GPU kernel generation domain.
+
+experiment design, experiment execution, result analysis, and manuscript-oriented artifact generation. Because these case studies are simulated research submissions rather than papers undergoing
+real external peer review, we do not evaluate the rebuttal stage.
+7.2
+
+S TRUCTURED M EMORY C ONSTRUCTION
+
+We first examine whether AutoSci produces a structured and reusable Long-Term Knowledge Memory rather than a flat collection of notes. Figure 6 shows an example memory graph constructed in
+the GPU kernel optimization case study. The graph contains typed entities such as topics, papers,
+concepts, methods, foundations, and researchers, with links recording how papers support concepts,
+how methods instantiate technical approaches, and how people connect to related research areas.
+This structure allows later skills to retrieve scientific context by entity type and relation, instead of
+relying only on unstructured keyword search. Appendix B provides concrete entity-page examples
+from this memory.
+7.3
+
+I DEA E VOLUTION AND S ELECTION
+
+We first analyze the idea pipeline in the GPU kernel optimization case study. Given the user direction
+of iterative GPU operator optimization with Claude Code and performance feedback, AutoSci generates five candidate paths, performs novelty checking, refines the surviving ideas, evaluates feasibility
+under the project hardware budget, and selects one idea for full experimentation. Figure 7 summarizes this process. Specifically, /ideate first proposes five candidate directions. After /novelty
+checking, candidate A is removed as a duplicate of timing-only feedback approaches, while B, C, D,
+and E remain for refinement. The refined candidates are then checked by /exp-pilot-run under
+the 4×A40 budget: B and C are eliminated because their pilot plans exceed the available cost envelope, D is deferred because its upstream Optimization-Rewind mining would consume the main-run
+budget, and E is selected for full experimentation. The final selected path is profiling-guided Claude
+Code agent optimization, represented as claude-code-agent-profiling-guided-gpu.
+10
+
+PKUDAIR · AutoSci
+
+May 29, 2026
+
+Stage 0 | /ideate – direction: iterative GPU operator optimization with Claude Code based on performance feedback
+A
+lightweight
+timing-only
+optimizer
+
+B
+learned behavioral
+descriptors for
+kernel search
+
+C
+parallel path
+explorer
+(MAP-Elites
++ agents)
+
+E
+profiling-guided
+Claude Code
+agent
+
+D
+experience-aug.
+iterative kernel
+refinement
+
+Stage 1 | /novelty – Semantic Scholar + WebSearch + wiki cross-verification
+A : eliminated
+duplicate approach:
+execution timing as
+the sole performance
+feedback signal
+
+B : refined
+CodeT5+ encoder on
+MAP-Elites traces;
+contrastive vs
+hand-crafted 3-D
+
+C : refined
+30-variant population
++ bottleneckspecialised
+Verifier agents on a
+3-D behavioral grid
+
+D : refined
+Optimization-Rewind
+mining →
+retrieval-augmented
+refinement loop
+
+E : refined
+Claude Code tool-use:
+nsys/ncu → JSON →
+single-hypothesis
+targeted edits
+
+Stage 2 | /exp-pilot-run – feasibility pilot on the project hardware
+Hardware: 4× NVIDIA A40 (sm 86, 696 GB/s, 149.7 TFLOPS FP16 TC, 48 GB) · Triton 3.2.0 / PyTorch 2.6.0+cu124 · pilot budget ≈ 250 GPU-hr
+B : eliminated (cost)
+MAP-Elites
+pilot yields
+∼120 triples
+/ 8 GPU-hr;
+contrastive
+needs ∼10 k
+samples ⇒ > 250
+GPU-hr just to train
+the encoder
+
+C : eliminated (cost)
+30-variant pop. × pervariant ncu ≈
+6 GPU-hr/op
+× 200 ops
+⇒ 1.2 k GPU-hr;
+profiler overhead ∼3×
+A100 on A40
+
+D : deferred
+Optimization-Rewind
+mining at 4–6 hr/op;
+a 200-tuple bank costs
+∼1 k GPU-hr upfront
+– exhausts main-run
+budget. Off-deadline
+
+E : pilot passed
+pilot ops
+dequantize
+rowwise +
+kldiv compute:
+5-iter loop
+∼30 min/op.
+Full sweep
+∼40 GPU-hr
+– fits budget
+
+Selected idea →
+claude-code-agent-profiling-guided-gpu
+(NeurIPS 2026 target; addresses repair-biased-iterativerefinement & correctness-efficiency-gap-kernel-generation)
+
+Figure 7: Idea screening pipeline for the kernel optimization case. AutoSci filters candidate directions through novelty checking and pilot experimentation to select one path.
+The Stage-2 outcomes in the figure are a demonstrative reconstruction projected onto the actual
+hardware ceiling consumed by the selected idea, rather than a formal pre-experiment screen. Appendix C provides the corresponding pipeline for the biomedical drug discovery case.
+7.4
+
+E XPERIMENT E XECUTION AND A NALYSIS
+
+After selecting the profiling-guided Claude Code agent direction, AutoSci expands the idea into an
+executable experiment suite rather than a single benchmark run. Figure 8 summarizes the four experiment blocks. The sensitivity analysis first fixes the experimental protocol using two reference
+operators and screens 184 operator prompts into 156 feasible operators. The main experiment then
+runs 157 operators for five iterations on the 4×A40 environment; by iteration 5, all 157 generated
+kernels are executable and correct, with a geometric-mean speedup of 1.52× over matched baselines, or 1.18× after excluding degenerate baselines. The ablation experiment isolates the value of
+metric feedback by replaying two 60-operator cohorts with a blind autotuning baseline; feedback
+contributes a 1.58× gain on the high-headroom cohort and a 1.22× gain on the broader cohort.
+Finally, the intermediate-data analysis audits 628 iteration transitions and shows that most structural changes occur early, while later iterations increasingly become small autotuning adjustments.
+The numerical results are reproduced from result.md, claude ablation summary.md,
+and claude iter changes.md in the TritonBench workspace. Appendix D provides the corresponding experiment-suite view for the biomedical case, where AutoSci distinguishes executed
+validation blocks from pre-registered follow-up benchmarks after a negative result.
+
+11
+
+PKUDAIR · AutoSci
+
+May 29, 2026
+
+Experiment suite for claude-code-agent-profiling-guided-gpu
+executed on 4×NVIDIA A40 (sm 86, 696 GB/s, 149.7 TFLOPS FP16 TC, 48 GB) · Triton 3.2.0 / PyTorch 2.6.0+cu124 · TritonBench-G workload
+
+Sensitivity Analysis
+(protocol validation)
+
+Main Experiment
+(full workload sweep)
+
+Ablation Experiments
+(feedback vs blind)
+
+Intermediate
+Data Analysis
+(transition audit)
+
+Reference ops –
+dequantize rowwise,
+kldiv compute.
+Lock the 5-iter
+loop and per-op
+eval harness.py.
+
+Scope – 157 operators × 5
+iterations on 4×A40, workstealing dispatcher;
+prompt = comp instru
+only.
+
+Blind baseline – replay iter1 and widen
+@triton.autotune
+without metric feedback.
+
+Transition classification
+– 157 ops × 4 transitions
+= 628 events; 14 edit categories.
+
+Feasibility triage – 184
+op prompts → 156 feasible; 28 screened by workload mismatch or underspecification.
+
+Baseline matching – 101
+valid matches; invalid
+matches screened after
+iter5.
+
+Two cohorts – 60 ops × 5
+iterations; high-headroom
+and broad-headroom bands.
+
+Patterns – 96/157 ops
+add @autotune at
+iter1→iter2; structural
+rewrites concentrate early;
+late iters = warps/stages
+tweaks.
+
+Outcome: defined the
+iter1→iter5 protocol used
+downstream; no metric
+or baseline access during
+iter1–5.
+
+Result: 157/157
+exe acc = 1.00 at iter5;
+geomean speedup 1.52×
+(1.18× excl. degenerate
+baselines); 25 wins ≥1.1×,
+7 losses <0.9×.
+
+Metric-feedback bonus:
+1.58× on the highheadroom cohort; 1.22×
+on the broader cohort.
+
+Stabilisation: TRIVIAL
+transitions grow monotonically (0→29→66→105);
+iter5 is a near-no-op for
+∼67% of ops.
+
+ablation cohort bands
+drawn from per-op M5/M1
+
+Figure 8: Experiment suite for the selected kernel optimization idea. AutoSci organizes the selected
+idea into sensitivity analysis, main evaluation, ablation, and intermediate-data analysis.
+7.5
+
+PAPER -L EVEL E VALUATION
+
+For each case study, AutoSci runs the Literature, Ideation, Experiment, and Writing stages to produce a manuscript-oriented artifact, taking 27.3 hours for GPU kernel optimization and 22.6 hours
+for biomedical drug discovery. To evaluate whether AutoSci can produce complete paper-level artifacts rather than isolated ideas or experiments, we further conduct an automated review evaluation.
+For each case study, AutoSci generates a manuscript-oriented artifact, and we submit the generated
+paper to PaperReview.ai1 with ICLR as the target venue. The resulting reviews are used as a paperlevel review proxy, not as a replacement for formal peer review. Table 4 summarizes the reviews.
+The reviews suggest that AutoSci can produce reviewable paper-level artifacts rather than only local
+experimental outputs. The kernel case is evaluated as a relatively mature empirical paper, while
+the biomedical case is evaluated as a transparent but incomplete negative-result paper. Importantly,
+both reviews expose actionable weaknesses, including limited external validity, missing comparator
+runs, measurement-noise concerns, and presentation gaps. These review signals can be stored as
+submission-stage feedback in SciMem to improve future research workflows.
+
+8
+
+R ELATED W ORK
+
+8.1
+
+AGENT M EMORY
+
+Long-horizon agents require memory beyond the fixed context window of an LLM. Prior systems
+store and retrieve past interactions, user events, or episodic traces to support continuity over time, as
+in Generative Agents (Park et al., 2023), MemoryBank (Zhong et al., 2024), and MemGPT (Packer
+et al., 2023). These works show that memory is a core part of agent behavior rather than a passive cache, especially because longer context alone does not guarantee reliable use of relevant information (Liu et al., 2024). Recent work further moves from flat logs toward structured memory. A-MEM (Xu et al., 2025) links memory notes in an agentic network, AriGraph (Anokhin
+et al., 2024) and Zep (Rasmussen et al., 2025) build graph-based world or temporal memories, HippoRAG (Jimenez Gutierrez et al., 2024) combines knowledge graphs with retrieval.
+1
+
+https://paperreview.ai/
+
+12
+
+PKUDAIR · AutoSci
+
+May 29, 2026
+
+Case Study
+GPU kernel
+optimization
+
+Generated Paper Topic
+Agent-driven iterative optimization
+of Triton GPU kernels
+
+Score
+6.3 / 10
+
+Biomedical drug
+discovery
+
+PTM-aware degrader target
+nomination through calibrated
+ternary-complex scoring
+
+5.8 / 10
+
+Review Takeaway
+Assessed as a careful empirical
+study with strong per-iteration
+traces, controlled ablation, and
+edit-behavior analysis, but limited
+by a single model, hardware family,
+and benchmark suite.
+Assessed as a transparent
+negative-result paper with useful
+per-POI calibration and
+pre-registered follow-up
+benchmarks, but limited by one
+main scorer/readout and deferred
+comparator experiments.
+
+Table 4: Automated paper-level review outcomes for the two AutoSci-generated case-study
+manuscripts. Scores are reported by PaperReview.ai under the ICLR target-venue setting.
+8.2
+
+AGENT E VOLUTION
+
+Agent evolution has mainly developed along two complementary directions. The first improves an
+agent through accumulated experience while keeping the base model fixed. Reflexion (Shinn et al.,
+2023) stores verbal feedback as lessons, ExpeL (Zhao et al., 2024) extracts reusable experiential
+knowledge, and Voyager (Wang et al., 2023) grows an executable skill library through exploration
+and feedback. This form of evolution is non-parametric: the agent becomes more capable by reusing
+memories, strategies, and skills from previous tasks.
+The second direction treats the agent system itself as an optimization target. Promptbreeder (Fernando et al., 2023) evolves prompts, GPTSwarm (Zhuge et al., 2024) and AFlow (Zhang et al.,
+2024) search agent graphs or code-represented workflows, and symbolic learning (Zhou et al., 2024)
+frames prompts, tools, and their composition as learnable symbolic parameters. Recent self-evolving
+systems further adapt memories, tool libraries, templates, or model behavior, as in SAGE (Liang
+et al., 2024), STELLA (Jin et al., 2025), and SEAL (Zweiger et al., 2025).
+
+9
+
+C ONCLUSION
+
+In this paper, we presented AutoSci, a memory-centric agentic system for the full scientific research
+lifecycle. AutoSci combines schema-governed scientific memory, a harnessed research workflow,
+DAG-based multi-agent augmentation, and auditable self-evolution. Together, these modules allow
+the system to conduct research across literature understanding, ideation, experimentation, writing,
+and submission feedback while preserving reusable knowledge and experience across projects. Our
+case studies in GPU kernel optimization and biomedical drug discovery show that AutoSci can
+produce reviewable paper-level artifacts from end-to-end research processes.
+AutoSci also has important limitations. First, the current implementation is built as a skill package
+on top of general-purpose coding and reasoning agents. This makes the system easy to deploy and
+inspect, but it is not yet a science-specialized agent foundation. Future work can develop a researchnative agent substrate with models, tools, memory interfaces, and execution protocols designed
+specifically for scientific work. Second, evaluation remains underdeveloped. Existing benchmarks
+do not yet adequately measure the separate capabilities required by a full research system, including
+literature understanding, ideation, experimentation, and writing. We therefore rely on end-to-end
+case studies and automated review as a paper-level proxy. A promising direction is to accumulate
+benchmark tasks from real user workflows, so that future versions of AutoSci can be evaluated both
+end-to-end and at the level of individual research skills.
+
+R EFERENCES
+Petr Anokhin, Nikita Semenov, Artyom Sorokin, Dmitry Evseev, Mikhail Burtsev, and Evgeny Burnaev. AriGraph: Learning knowledge graph world models with episodic memory for LLM agents.
+13
+
+PKUDAIR · AutoSci
+
+May 29, 2026
+
+arXiv preprint arXiv:2407.04363, 2024.
+Jingyi Chai, Shuo Tang, Rui Ye, Yuwen Du, Xinyu Zhu, Mengcheng Zhou, Yanfeng Wang, Weinan
+E, and Siheng Chen. Scimaster: Towards general-purpose scientific AI agents, part I. X-master
+as foundation: Can we lead on humanity’s last exam? arXiv preprint arXiv:2507.05241, 2025.
+Saaketh Desai, Sadhvikas Addamane, Jeffrey Y. Tsao, Igal Brener, Laura P. Swiler, Remi Dingreville, and Prasad P. Iyer. Autoscilab: A self-driving laboratory for interpretable scientific
+discovery. arXiv preprint arXiv:2412.12347, 2024.
+Chrisantha Fernando, Dylan Banarse, Henryk Michalewski, Simon Osindero, and Tim Rocktaschel. Promptbreeder: Self-referential self-improvement via prompt evolution. arXiv preprint
+arXiv:2309.16797, 2023.
+Juraj Gottweis, Wei-Hung Weng, Alexander Daryin, Tao Tu, Anil Palepu, Petar Sirkovic, Artiom
+Myaskovsky, Felix Weissenberger, Keran Rong, Ryutaro Tanno, et al. Towards an AI co-scientist.
+arXiv preprint arXiv:2502.18864, 2025.
+Kexin Huang, Ying Jin, Ryan Li, Michael Y. Li, Emmanuel Candès, and Jure Leskovec. Automated
+hypothesis validation with agentic sequential falsifications. arXiv preprint arXiv:2502.09858,
+2025.
+Bernal Jimenez Gutierrez, Yiheng Shu, Yu Gu, Michihiro Yasunaga, and Yu Su. HippoRAG: Neurobiologically inspired long-term memory for large language models. Advances in Neural Information Processing Systems, 37:59532–59569, 2024.
+Ruofan Jin, Zaixi Zhang, Mengdi Wang, and Le Cong. STELLA: Self-evolving LLM agent for
+biomedical research. arXiv preprint arXiv:2507.02004, 2025.
+Xuechen Liang, Yangfan He, Yinghui Xia, Xinyuan Song, Jianhui Wang, Meiling Tao, Li Sun,
+Xinhang Yuan, Jiayi Su, Keqin Li, Siyuan Chen, and Tianyu Shi. Self-evolving agents with
+reflective and memory-augmented abilities. arXiv preprint arXiv:2409.00872, 2024.
+Nelson F. Liu, Kevin Lin, John Hewitt, Ashwin Paranjape, Michele Bevilacqua, Fabio Petroni, and
+Percy Liang. Lost in the middle: How language models use long contexts. Transactions of the
+Association for Computational Linguistics, 12:157–173, 2024.
+Chris Lu, Cong Lu, Robert Tjarko Lange, Jakob Foerster, Jeff Clune, and David Ha. The AI scientist: Towards fully automated open-ended scientific discovery. arXiv preprint arXiv:2408.06292,
+2024.
+Yougang Lyu, Xi Zhang, Xinhao Yi, Yuyue Zhao, Shuyu Guo, Wenxiang Hu, Jan Piotrowski, Jakub
+Kaliski, Jacopo Urbani, Zaiqiao Meng, Lun Zhou, and Xiaohui Yan. Evoscientist: Towards multiagent evolving AI scientists for end-to-end scientific discovery. arXiv preprint arXiv:2603.08127,
+2026.
+Pingchuan Ma, Tsun-Hsuan Wang, Minghao Guo, Zhiqing Sun, Joshua B. Tenenbaum, Daniela
+Rus, Chuang Gan, and Wojciech Matusik. LLM and simulation as bilevel optimizers: A new
+paradigm to advance physical scientific discovery. arXiv preprint arXiv:2405.09783, 2024. URL
+https://arxiv.org/abs/2405.09783.
+Charles Packer, Vivian Fang, Shishir G. Patil, Kevin Lin, Sarah Wooders, and Joseph E. Gonzalez.
+MemGPT: Towards LLMs as operating systems. CoRR, abs/2310.08560, 2023. doi: 10.48550/
+ARXIV.2310.08560.
+Joon Sung Park, Joseph O’Brien, Carrie Jun Cai, Meredith Ringel Morris, Percy Liang, and
+Michael S. Bernstein. Generative agents: Interactive simulacra of human behavior. In Proceedings of the 36th Annual ACM Symposium on User Interface Software and Technology, pp. 1–22,
+2023.
+Preston Rasmussen, Pavlo Paliychuk, Travis Beauvais, Jack Ryan, and Daniel Chalef. Zep: A
+temporal knowledge graph architecture for agent memory. CoRR, abs/2501.13956, 2025. doi:
+10.48550/ARXIV.2501.13956.
+14
+
+PKUDAIR · AutoSci
+
+May 29, 2026
+
+Samuel Schmidgall, Yusheng Su, Ze Wang, Ximeng Sun, Jialian Wu, Xiaodong Yu, Jiang Liu,
+Zicheng Liu, and Emad Barsoum. Agent laboratory: Using LLM agents as research assistants.
+arXiv preprint arXiv:2501.04227, 2025.
+Noah Shinn, Federico Cassano, Ashwin Gopinath, Karthik Narasimhan, and Shunyu Yao. Reflexion:
+Language agents with verbal reinforcement learning. Advances in Neural Information Processing
+Systems, 36:8634–8652, 2023.
+Jiabin Tang, Lianghao Xia, Zhonghang Li, and Chao Huang. AI-researcher: Autonomous scientific
+innovation. arXiv preprint arXiv:2505.18705, 2025.
+Guanzhi Wang, Yuqi Xie, Yunfan Jiang, Ajay Mandlekar, Chaowei Xiao, Yuke Zhu, Linxi Fan,
+and Anima Anandkumar. Voyager: An open-ended embodied agent with large language models.
+arXiv preprint arXiv:2305.16291, 2023.
+Yixuan Weng, Minjun Zhu, Guangsheng Bao, Hongbo Zhang, Jindong Wang, Yue Zhang, and Linyi
+Yang. Cycleresearcher: Improving automated research via automated review. arXiv preprint
+arXiv:2411.00816, 2024.
+Yixuan Weng, Minjun Zhu, Qiujie Xie, Qiyao Sun, Zhen Lin, Sifan Liu, and Yue Zhang.
+Deepscientist: Advancing frontier-pushing scientific findings progressively. arXiv preprint
+arXiv:2509.26603, 2025.
+Wujiang Xu, Zujie Liang, Kai Mei, Hang Gao, Juntao Tan, and Yongfeng Zhang. A-MEM: Agentic
+memory for LLM agents. CoRR, abs/2502.12110, 2025. doi: 10.48550/ARXIV.2502.12110.
+Yutaro Yamada, Robert Tjarko Lange, Cong Lu, Shengran Hu, Chris Lu, Jakob Foerster, Jeff Clune,
+and David Ha. The AI scientist-v2: Workshop-level automated scientific discovery via agentic
+tree search. arXiv preprint arXiv:2504.08066, 2025.
+Ruofeng Yang, Yongcan Li, and Shuai Li. ARIS: Autonomous research via adversarial multi-agent
+collaboration. arXiv preprint arXiv:2605.03042, 2026.
+Jiayi Zhang, Jinyu Xiang, Zhaoyang Yu, Fengwei Teng, Xionghui Chen, Jiaqi Chen, Mingchen
+Zhuge, Xin Cheng, Sirui Hong, Jinlin Wang, et al. AFlow: Automating agentic workflow generation. arXiv preprint arXiv:2410.10762, 2024.
+Xiangyue Zhang. Deep researcher agent: Autonomous deep learning experiment framework. arXiv
+preprint arXiv:2604.05854, 2026. URL https://arxiv.org/abs/2604.05854.
+Andrew Zhao, Daniel Huang, Quentin Xu, Matthieu Lin, Yong-Jin Liu, and Gao Huang. Expel:
+LLM agents are experiential learners. In Proceedings of the AAAI Conference on Artificial Intelligence, volume 38, pp. 19632–19642, 2024.
+Wanjun Zhong, Lianghong Guo, Qiqi Gao, He Ye, and Yanlin Wang. Memorybank: Enhancing large
+language models with long-term memory. In Proceedings of the AAAI Conference on Artificial
+Intelligence, pp. 19724–19731, 2024.
+Bing Zhou, Qiusheng Wu, Xiao Huang, Huan Ning, Diya Li, and Ziyi Zhang. NORA: Night
+owl research agent — autonomous AI research for geoscience, remote sensing, and GIScience. https://github.com/GRIND-Lab-Core/night_owl_research_agent,
+2026. URL https://arxiv.org/abs/2605.02092.
+Wangchunshu Zhou, Yixin Ou, Shengwei Ding, Long Li, Jialong Wu, Tiannan Wang, Jiamin Chen,
+Shuai Wang, Xiaohua Xu, Ningyu Zhang, et al. Symbolic learning enables self-evolving agents.
+arXiv preprint arXiv:2406.18532, 2024.
+Mingchen Zhuge, Wenyi Wang, Louis Kirsch, Francesco Faccio, Dmitrii Khizbullin, and Juergen
+Schmidhuber. GPTSwarm: Language agents as optimizable graphs. In Proceedings of the 41st
+International Conference on Machine Learning, 2024.
+Adam Zweiger, Jyothish Pari, Han Guo, Ekin Akyurek, Yoon Kim, and Pulkit Agrawal. Selfadapting language models. arXiv preprint arXiv:2506.10943, 2025.
+
+15
+
+PKUDAIR · AutoSci
+
+May 29, 2026
+
+Operator
+generate
+
+Role
+Exploratory generation
+
+variation
+
+Exploratory diversification
+
+debate
+
+Multi-view critique
+
+ensemble
+
+Candidate aggregation
+
+test
+
+Reliability check
+
+refine
+
+Test-guided refinement
+
+review
+
+Structured review
+
+polish
+
+Review-guided polish
+
+early-stop
+
+Control action
+
+Typical Use
+Produce an initial idea, design, or draft
+candidate.
+Create alternatives that solve the same task
+through different assumptions or mechanisms.
+Let specialized agents challenge and refine a
+candidate through structured disagreement.
+Select or synthesize a stronger output from
+multiple branches.
+Check code feasibility, experiment design,
+small-scale execution, or artifact consistency.
+Revise a candidate according to test
+feedback before rechecking or downstream use.
+Critique a candidate before final editing,
+focusing on correctness, evidence support, and
+coherence.
+Improve presentation, wording, formatting, or
+local organization according to review
+feedback.
+Terminate a low-value or already converged
+branch.
+
+Table 5: Reusable operators in SciDAG.
+
+Figure 9: Stage-specific SciDAG templates for ideation, experimentation, and writing.
+
+A
+
+S CI DAG O PERATORS AND T EMPLATES
+
+Table 5 lists the reusable operators used by SciDAG, and Figure 9 shows three stage-specific DAG
+templates for ideation, experimentation, and writing.
+
+B
+
+L ONG -T ERM K NOWLEDGE M EMORY E NTITY E XAMPLES
+
+The examples below show representative Long-Term Knowledge Memory entity pages generated from the same memory used in Figure 6. These examples illustrate how Topic, Paper,
+Foundation, Concept, Method, and People entities are stored as schema-governed pages
+with frontmatter, body sections, and typed cross-references.
+
+16
+
+PKUDAIR · AutoSci
+
+May 29, 2026
+
+concept | repair-biased-iterative-refinement
+Frontmatter (selected)
+title: Repair-Biased Iterative Refinement
+aliases: [repair-vs-optimization-iteration,
+iterative-refinement-repair-bias]
+tags:
+[llm-code-generation, gpu-kernels, iterative-refinement,
+agent-systems]
+maturity: emerging
+first introduced: 2026-05
+key papers: kernelbenchx-benchmark-evaluating-llm-generated
+related concepts:
+iterative-kernel-refinement,
+correctness-efficiency-gap-kernel-generation
+...
+## Definition (excerpt)
+The empirical observation that iterative refinement loops in LLM-based kernel generation systems (such
+as GEAK) operate primarily as repair mechanisms rather than optimization mechanisms. Across GEAK
+iterations, compile success rises from 52.3% to 68.8% and correctness from 18.2% to 30.7%, but average
+speedup falls from 1.58× to 1.44× . . .
+## Intuition (excerpt)
+The underlying asymmetry is structural: repair responds to explicit, local error signals (compile errors,
+shape mismatches), while performance improvement requires plan-level decisions about tiling, memory
+layout and kernel boundaries – decisions not recoverable from the feedback available in current iterative
+pipelines . . .
+## ...
+
+Concept entry. A stable named idea synthesised from one or more papers. Lives in
+wiki/concepts/; the related concepts and key papers fields drive most of the ingraph edges to other concepts and to papers.
+topic | llm-kernel-generation
+Frontmatter (selected)
+title: LLM-Based Kernel Generation
+tags: [llm, kernel-generation, gpu, code-generation, compiler]
+related topics: [] (none yet)
+key people: [] (populated via reverse-xref from people pages)
+linked ideas: [] (populated when an idea declares origin gaps pointing here)
+...
+## Overview (excerpt)
+LLM-based kernel generation is the task of using language models to automatically produce highperformance GPU or accelerator kernels from high-level specifications. It combines code generation with
+hardware-aware optimization.
+## SOTA tracker (excerpt)
+Method
+Benchmark
+Correctness / Speedup
+Frontier reasoning models
+KernelBench
+<20% match PyTorch baseline
+kernelfoundry-...
+KernelBench
+97% (SYCL), 2.32× avg
+AscendOptimizer
+101 AscendC ops
+1.21× geo-mean
+## Open problems (excerpt)
+Fusion tasks: 72% failure rate across all methods (KernelBenchX). Correctness vs. efficiency disconnect:
+46.6% of correct kernels are slower than baseline. Cross-hardware variance: speedup ratio reaches 21.4×
+across NVIDIA GPUs . . .
+## ...
+
+Topic entry. A research area that aggregates many concepts, methods and papers. Lives in
+wiki/topics/. The body sections (Timeline, Seminal works, SOTA tracker, Open
+problems) make a topic page the natural landing point for new readers and the place where
+cross-paper synthesis is recorded.
+17
+
+PKUDAIR · AutoSci
+
+May 29, 2026
+
+method | optimization-rewind
+Frontmatter (selected)
+name: Optimization Rewind
+type: optimization
+tags:
+[self-supervised, kernel-optimization, experience-mining,
+de-optimization, knowledge-scarcity]
+source papers: ascendoptimizer-episodic-agent-ascend-npu-operator
+parent methods: []
+child methods: []
+code repo: https://github.com/KernelHive
+date updated: 2026-05-24
+...
+## Mechanism (excerpt)
+A self-supervised technique for mining reusable optimization knowledge from existing high-performance
+implementations. It works by systematically removing recognizable optimization motifs from strong kernels and retaining only the removals that measurably degrade hardware performance . . .
+## Procedure (excerpt)
+1. Start from the strongest available implementation of an operator.
+2. An inverse agent proposes semantically meaningful de-optimizations (removing pipelining,
+breaking vectorized paths, reintroducing synchronization, . . . ).
+3. Each de-optimized candidate is compiled, correctness-checked and profiled on real hardware.
+4. Validated degradations are distilled into experience tuples (Title, Bottleneck,
+Applicability, Effect, Diff).
+5. . . .
+## Assumptions (excerpt)
+Optimization motifs are compositional – they can be removed and added independently, so a single-factor
+screen (∆m = Lat(KA\{m} ) − Lat(KA )) recovers each motif’s marginal contribution. The profiling
+noise threshold τnoise is taken to be stable across de-optimizations . . .
+## ...
+
+Method entry. A concrete system, algorithm or benchmark that realises one or more concepts.
+Lives in wiki/methods/. source papers pins it to its paper of record; parent methods
+/ child methods capture method lineage when a system extends or specialises another.
+paper | kernelbench-llms-write-efficient-gpu-kernels
+Frontmatter (selected)
+title: KernelBench: Can LLMs Write Efficient GPU Kernels?
+arxiv: 2502.10517
+year: 2025
+importance: 4
+source type: tex
+date added: 2025-05-24
+contribution type: [benchmark, method]
+datasets: [KernelBench]
+tldr: Introduces KernelBench, a benchmark of 250 PyTorch workloads showing frontier reasoning
+models match the PyTorch baseline on <20% of tasks.
+...
+## Key idea (excerpt)
+A standardised evaluation framework with 250 PyTorch workloads at three difficulty levels (single ops,
+op sequences, full architectures). The fast p metric – percentage of kernels both correct and faster than
+baseline by factor p – captures correctness and performance in a single adjustable-threshold measure . . .
+## Experiment & Results (excerpt)
+One-shot fast 1 over PyTorch eager: Level 1: DeepSeek-R1 12% (others 3–10%); Level 2: DeepSeek-
+
+18
+
+PKUDAIR · AutoSci
+
+May 29, 2026
+
+R1 36% (others 0–24%); Level 3: OpenAI o1 12% (others 0–8%). Iterative refinement (10 turns) lifts
+DeepSeek-R1 Level 2 from 36% to 72% . . .
+## Limitations (excerpt)
+Limited to NVIDIA GPUs; CUDA is low-resource in pre-training (≈0.07% of The Stack v1.2); models rarely use tensor cores / wmma; functional-correctness errors are hard to fix via feedback; few-shot
+examples degrade fast 1 by encouraging aggressive but error-prone optimisations . . .
+## ...
+
+Paper entry. A first-class citizen – each paper has its own page rather than only an entry in
+a bibliography. Lives in wiki/papers/. importance (1–5) drives sort order in the index; contribution type lets /discover and /survey retrieve “benchmark papers” vs.
+“method papers” without re-reading the bodies.
+people | jun-zhu
+Frontmatter (selected)
+name: Jun Zhu
+affiliation: (unset)
+research areas: [llm-code-generation, gpu-kernels, systems]
+type.kind: researcher
+homepage: (unset)
+scholar: (unset)
+date updated: 2026-05-24
+...
+## Research areas (excerpt)
+LLM-based code generation, GPU kernel generation, systems . . .
+## Recent work (excerpt)
+• [[kernelbenchx-comprehensive-benchmark-evaluating-llm-generated]]
+• ...
+(populated by the papers → people reverse-xref rule whenever a paper body wikilinks this author
+slug.)
+## ...
+
+People entry. Lightweight by design – only the fields needed to attribute and disambiguate. Lives
+in wiki/people/. The Recent work section is populated automatically by the papers →
+people reverse-xref rule, so the page stays in sync with the literature without manual edits.
+foundation | operator-fusion
+Frontmatter (selected)
+title: Operator Fusion
+domain: compilers and high-performance computing
+status: mainstream
+aliases: [kernel fusion, op fusion, loop fusion]
+first introduced: 1980s loop fusion; revived in TVM (2018) / XLA (2017)
+date updated: 2026-05-27
+source url: (unset)
+...
+## Definition (excerpt)
+The program-transformation technique of combining the bodies of two or more separately specified operators into a single executable kernel, so that intermediate values flowing between them are not materialised
+in main memory. Semantics are preserved; only the schedule changes . . .
+## Intuition (excerpt)
+
+19
+
+PKUDAIR · AutoSci
+
+May 29, 2026
+
+GPU kernels are bandwidth-bound: moving an element from DRAM to a register dwarfs the arithmetic
+on it. Fusing y=f(x) and z=g(y) into z=g(f(x)) keeps y on-chip, killing one DRAM round-trip
+per element and one kernel-launch overhead per call – pushing the kernel from bandwidth-bound toward
+compute-bound . . .
+## Relevance to active research (excerpt)
+A
+load-bearing
+assumption
+of
+every
+downstream
+concept
+in
+this
+wiki:
+[[gpu-kernel-generation]],
+[[iterative-kernel-refinement]],
+and
+the
+[[correctness-efficiency-gap-kernel-generation]] all sit on top of “good fusion is the primary lever for GPU performance.” FlashAttention is a tour-de-force application;
+KernelBench Level 2 is essentially a fusion benchmark . . .
+## ...
+
+Foundation entry. Textbook background that newer research builds on, separated from activeresearch concepts/ so the rest of the wiki can wikilink to “well-known prerequisites” without
+inflating the concept list. Lives in wiki/foundations/.
+
+C
+
+B IOMEDICAL D RUG D ISCOVERY I DEA P IPELINE
+
+Figure 10 shows the idea screening and lifecycle pipeline for the biomedical drug discovery case
+study. Unlike the kernel case in the main text, this case produces a negative result that becomes useful: the refuted premise and a deferred sibling idea jointly define the next feasible research direction.
+Specifically, /ideate first proposes five candidate directions for structure-aware PTM modelling.
+After /novelty checking, A is removed because the PTM-site disorder-prediction subspace is
+already saturated, and B is removed because the required AF3 fine-tuning is infeasible under the
+available constraints. C, D, and E remain as refined candidates. The /exp-design stage then
+prioritizes these survivors: C and D are deferred, while E, PTM-aware degrader target nomination,
+is selected for execution because its Phase-0 floor test is cheap, fast, and feasible on the available
+RTX 4060 environment. The selected idea is decomposed into two sub-claims and evaluated with
+real operator runs. The result refutes the load-bearing premise under current PTM-blind scorers,
+and the post-mortem combines this negative evidence with the deferred PTM-conditioning idea to
+regenerate a feasible follow-up plan.
+
+20
+
+PKUDAIR · AutoSci
+
+May 29, 2026
+
+Stage 0 | /ideate – direction: structure-aware PTM modelling for drug discovery
+
+A
+PTM-site
+disorder predictor
+(pLDDT + IDR)
+
+C
+PTM-resolved
+structural
+interactome
+(∆pDockQper-PTM)
+
+B
+chirality-aware
+AF3 diffusion
+noise schedule
+
+D
+PTM-conditioned
+ensemble (pair-rep
+scaling adapter)
+
+E
+PTM-aware
+degrader
+target nomination
+(∆pTernary)
+
+Stage 1 | /novelty – Semantic Scholar + WebSearch + PubMed + wiki cross-verification
+A : eliminated
+subspace saturated:
+SAPP / PhosAF /
+GraphPhos /
+AstraPTM2 /
+DeepPCT /
+MTPrompt-PTM
+(≥5 2024–25 entries)
+
+B : eliminated
+not feasible:
+AF3 weights are
+non-commercial; an
+external group cannot
+fine-tune the diffusion head
+
+C : refined
+restrict to PTM-nearinterface edges; preregister 4-case holdout
+(14-3-3/Cdc25C,
+HIF1α/
+pVHL, PCNAK164, FOXO3a)
+
+D : refined
+PTM adapter on a
+frozen Boltz2 backbone;
+train to ensemble
+populations;
+Boltz-sample
+is the head-tohead baseline
+
+E : refined
+per-POI noise-floor
+calibration as the
+load-bearing fail-fast
+gate; MDrelaxed route
+decouples from
+a PTM-Cfold
+
+Stage 2 | /exp-design – composite-score prioritisation of the three survivors
+C : deferred
+composite 10.
+Proteomescale AF2Multimer fold
+is off-budget;
+AF3-phospho
+collapse risk on the
+conformational cases
+
+D : deferred
+composite 13.
+Scoop risk:
+Boltz-sample
+(Jan 2026)
+already does
+PTM-blind
+pair-rep scaling; needs an
+ensemblelabelled trainset
+
+E : selected
+composite 16,
+priority 5.
+Phase-0 floor
+is cheap and
+kills-or-de-risks fast;
+public weights,
+GREEN
+feasibility on
+an RTX 4060
+
+Stage 3 | /exp-design → /exp-run → /exp-eval – selected idea decomposed into 2 sub-claims and executed
+Real blocks executed on 1× NVIDIA RTX 4060 (8 GB) · DeepTernary v1.0.0 + PROTAC-STAN inference repos · pre-registered blocks frozen, not executed
+sub-claim 2
+MD-relaxed
+phospho route
+≈ native CCDPTM token
+(decouples from a
+PTM-Cfold, cf. idea D)
+
+sub-claim 1
+noise-floor-calibrated
+∆pTernary improves ranking
+
+Real-operator pilot ⇒ load-bearing premise REFUTED (bounded to current PTM-blind scorers).
+15 POIs / 189 interface sites: phospho 14.5%, alanine 15.9%, Kme3 15.7%
+clear the per-POI floor vs 13.4% chance (p > 0.3; effect-size CIs include 0; 0/69 survive BH-FDR / Bonferroni). Dose-response control proves
+the operator is non-inert → the bottleneck is the scorer’s dynamic range.
+Post-mortem
+the limit is the structure→score chain,
+not the readout or the threshold: a PTMblind scorer cannot be wrapped into a
+PTM-selective one. Null-matching must
+use the identical operation as the signal.
+
+idea D re-enters
+(deferred)
+PTM-conditioning
+supplies
+the missing scorer
+
+Regenerated feasible plan (new idea from two)
+next-gen idea = a PTM-sensitive ternary
+scorer — the explicit prerequisite. Deliverable = the negative bound + the frozenthreshold benchmark a future scorer must clear.
+
+Figure 10: Idea screening and lifecycle pipeline for the biomedical case. AutoSci filters candidate
+directions, executes selected paths, and converts negative evidence into a regenerated follow-up plan.
+
+21
+
+PKUDAIR · AutoSci
+
+D
+
+May 29, 2026
+
+B IOMEDICAL D RUG D ISCOVERY E XPERIMENT S UITE
+
+Figure 11 shows the experiment suite for the selected biomedical idea,
+ptm-aware-degrader-target-nomination.
+The suite separates executed experiments from frozen follow-up benchmarks. The executed blocks reproduce the base DeepTernary
+scorer, calibrate a per-protein noise floor, and test whether PTM-like interface perturbations produce
+signal beyond that floor. The result is negative: the perturbations do not exceed chance-level
+clearance under the current PTM-blind scorer, and no site survives multiplicity correction. Rather
+than discarding this outcome, AutoSci turns the negative bound into a pre-registered benchmark
+that a future PTM-sensitive scorer must clear.
+Experiment suite for ptm-aware-degrader-target-nomination
+real blocks on 1×NVIDIA RTX 4060 (8 GB) · DeepTernary v1.0.0 + PROTAC-STAN · solid = executed, dashed = frozen benchmark
+
+Precondition / Baseline
+(scorer reproduction)
+
+Calibration / Sensitivity
+(per-POI noise floor)
+
+Core Operator
+(primary negative finding)
+
+Pre-registered Benchmark
+(frozen follow-up)
+
+DeepTernary reproduction
+– v1.0.0 on the 22-complex
+unbound PROTAC test set.
+
+Phase-0 noise floor –
+N =200 size-matched surface perturbations per tuple
+across 6 POIs.
+
+Real ∆pTernary operator
+– 15 POIs / 189 interface
+sites with phospho, alaninescan, and Kme3 perturbations.
+
+Validation track – calibrated ∆pTernary phosphoPROTAC ranking; frozen
+top-K AUC threshold.
+
+Reproduction metric –
+DockQ top-1 0.397 vs authors’ 0.429; AcceptableRate 1.0.
+
+Sensitivity ablation – perturbation count, displacement size, and chemistryaware vs geometric perturbations.
+
+Cross-checks – PROTACSTAN control, Boltz-2conditioned route on 2
+POIs, and dose-response
+Ala control.
+
+Ablations and robustness
+– calibration, route comparison, scorer comparison, PTM type, and mutant
+tracks.
+
+Outcome: base scorer reproduced, so downstream
+null results are not attributed to pipeline failure.
+
+Outcome: per-POI σ is
+0.037–0.18; the null is
+POI-specific and chemistrysensitive.
+
+Result (negative):
+14.5/15.9/15.7% clear vs
+13.4% chance; 0/69 survive
+FDR/Bonferroni.
+
+Status: six frozen-threshold
+experiments await a qualifying PTM-sensitive scorer.
+
+calibrated floor
+defines the null
+
+negative bound
+defines the benchmark
+
+Figure 11: Experiment suite for the biomedical drug discovery case.
+
+22
+
+
