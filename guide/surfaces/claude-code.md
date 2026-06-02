@@ -49,6 +49,7 @@ Claude Code is where Skills, MCP servers, Plugins, Hooks, and slash commands all
 - Claude Code on the web runs in a sandboxed VM with network restrictions; local-only MCP servers won't work there.
 - Skills/plugins/MCP installed in `~/.claude/` (user scope) are global; `.claude/` in a repo (project scope) is per-repo.
 - Background sessions accumulate — list with `claude agents` and clean up. Pin one with Ctrl+T in that view if you want it kept alive when idle and restarted in place on updates; un-pinned sessions are shed first under memory pressure.
+- **`claude -p` (headless / non-interactive mode) moves to a separate Agent SDK credit on 2026-06-15.** Interactive `claude` in the terminal still draws from your subscription. `claude -p`, Claude Code GitHub Actions, and any third-party harness that auths via the Agent SDK draw from a new dollar-denominated credit pool billed at standard API rates (one-time opt-in, no rollover). See [Claude API](claude-api.html) for the per-plan credit amounts.
 
 ## See also
 
@@ -66,3 +67,4 @@ Claude Code is where Skills, MCP servers, Plugins, Hooks, and slash commands all
 - [Introducing dynamic workflows in Claude Code](https://claude.com/blog/introducing-dynamic-workflows-in-claude-code) — Anthropic blog; published 2026-05-28 — research preview, 1,000-agent cap, 16 concurrent, plan availability (Max/Team on by default, Enterprise admin-gated, Pro toggle in `/config`).
 - [Orchestrate subagents at scale with dynamic workflows](https://code.claude.com/docs/en/workflows) — Anthropic docs; verified 2026-05-29 (this run) — `workflow` keyword trigger, `/effort ultracode`, v2.1.154 requirement, `CLAUDE_CODE_DISABLE_WORKFLOWS` env var.
 - [Install Claude Code the Right Way in 2026](https://vanja.io/install-claude-code/) — secondary; npm-deprecation banner and native-installer migration path; verified 2026-05-25.
+- [Anthropic puts Claude agents on a meter across its subscriptions](https://www.infoworld.com/article/4171274/anthropic-puts-claude-agents-on-a-meter-across-its-subscriptions.html) — InfoWorld; published 2026-05-14 — `claude -p` and Agent SDK move off subscription limits onto a separate credit pool 2026-06-15; verified 2026-06-02 (this run).

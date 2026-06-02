@@ -11,6 +11,24 @@ Reverse-chronological log of changes to the [guide](guide/). Newest at the top.
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-06-02
+
+### Added
+- **[surfaces/claude-api, surfaces/claude-code] Agent SDK / `claude -p` billing split, effective 2026-06-15.** Per Anthropic's 2026-05-14 announcement ([InfoWorld 2026-05-14](https://www.infoworld.com/article/4171274/anthropic-puts-claude-agents-on-a-meter-across-its-subscriptions.html), [The New Stack 2026-05-15](https://thenewstack.io/anthropic-agent-sdk-credits/)), Claude Agent SDK usage, `claude -p` (headless Claude Code), Claude Code GitHub Actions, and third-party harnesses that auth via the Agent SDK leave the subscription rate-limit pool on 2026-06-15 and move to a separate dollar-denominated "Agent SDK credit" billed at standard API rates (Pro $20, Max 5x $100, Max 20x $200, Team $100/seat, Enterprise $200/seat; one-time opt-in, no rollover, refreshes monthly). Interactive `claude` in the terminal, Claude.ai chat, and Cowork stay on subscription limits. Added a pitfall on `surfaces/claude-api.md` (full per-plan amounts) and a pointer pitfall on `surfaces/claude-code.md` (which surface is affected and where to read the detail). Beginner-relevant because the change directly affects whether agentic usage is "included" in a Pro/Max plan as of 2026-06-15 — touches the API and Claude Code surfaces both.
+- **[surfaces/claude-api] Sonnet 4 / Opus 4 retirement on 2026-06-15.** Per [`platform.claude.com/docs/en/about-claude/model-deprecations`](https://platform.claude.com/docs/en/about-claude/model-deprecations), `claude-sonnet-4-20250514` and `claude-opus-4-20250514` retire on 2026-06-15 at 9am PT and will return errors after that date. Added a dedicated pitfall under "Default model IDs change" naming the retiring IDs, the recommended replacements (`claude-sonnet-4-6` / `claude-opus-4-7`), and that `budget_tokens` for extended thinking is deprecated in favor of `thinking: {type: "adaptive"}`. Beginner-relevant because hard-coded model IDs from a year-old tutorial break in two weeks.
+
+### Verified (no changes)
+- claude-surfaces.md — install command (`curl -fsSL https://claude.ai/install.sh | bash`), Dynamic Workflows, Claude Security, background sessions, MCP tunnels, routines, sandboxing all current. v2.1.157 (.claude/skills auto-load, `claude plugin init`), v2.1.158 (Auto mode on Bedrock/Vertex/Foundry), and v2.1.159 (internal infra) introduce no new beginner-facing claims for this page.
+- surfaces/claude-ai.md, surfaces/claude-desktop.md, surfaces/claude-cowork.md — unchanged this run. The 2026-06-01 IPO filing is a corporate milestone, not a product change.
+- skills.md, mcp-servers.md, plugins.md (`.claude/skills/` auto-load + `claude plugin init` from v2.1.157 already documented 2026-05-30), marketplaces.md, connectors.md, decision-tree.md — unchanged this run.
+- advanced/hooks.md, advanced/slash-commands.md, advanced/routines.md, advanced/authentication.md — unchanged.
+
+### Flagged for review
+- WebFetch was again unavailable this run (404 on `claude-3-5-haiku-20241022`). All primary-source verification went through WebSearch summaries of `code.claude.com/docs/en/changelog`, `github.com/anthropics/claude-code/releases`, `claude.com/product/claude-code`, `anthropic.com/news`, `platform.claude.com/docs/en/about-claude/model-deprecations`, `infoworld.com/article/4171274/anthropic-puts-claude-agents-on-a-meter-across-its-subscriptions.html`, `thenewstack.io/anthropic-agent-sdk-credits/`, and `simonwillison.net/2026/Jun/1/may-newsletter/`. A human should spot-check the Agent SDK credit terms directly via the Anthropic Help Center once the 2026-06-08 credit-claim email goes out — the per-plan amounts and the one-time-opt-in step are consistent across multiple independent sources but worth confirming on the first-party page.
+- **Dedicated `advanced/agent-sdk-credits.md` or `surfaces/claude-api.md` reorg.** Today the billing split is two pitfalls (one on `claude-api.md`, one on `claude-code.md`). If the credit pool becomes the default way beginners think about agentic usage (e.g., Anthropic ships a Console page showing credit balance separately), promote to its own advanced page next to `authentication.md`.
+- **Sonnet 4 / Opus 4 retirement follow-up after 2026-06-15.** Once those IDs are off the platform, drop the dated pitfall and fold the lesson into the existing "default model IDs change" bullet.
+- **Claude Mythos public release.** Anthropic's Opus 4.8 announcement hinted Mythos-class models will reach customers "in the coming weeks". When they ship, the `surfaces/claude-api.md` model-family list will need a fourth tier.
+
 ## 2026-05-31
 
 ### Added
