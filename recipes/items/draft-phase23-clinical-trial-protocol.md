@@ -2,7 +2,7 @@
 title: Draft a Phase 2/3 clinical-trial protocol from an indication brief
 parent: All recipes
 grand_parent: Recipes
-nav_order: 7
+nav_order: 8
 problem_class: Manuscript prep
 subject_areas: [Translational Medicine, Drug Repurposing and Discovery]
 evidence_level: Reported

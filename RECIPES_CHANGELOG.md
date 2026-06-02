@@ -11,6 +11,25 @@ Reverse-chronological log of changes to the [recipes cookbook](recipes/). Newest
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-06-02
+
+### Added
+
+- **Compute 16S microbiome alpha/beta diversity from a BIOM table** (Problem class: Data analysis; Evidence: Proposed) — rung-2 [scikit-bio skill](catalog/tools/scikit-bio.html) recipe taking a BIOM feature table + sample metadata + Newick tree through rarefaction → Shannon/Simpson/Faith's PD → weighted/unweighted UniFrac → PCoA → PERMANOVA with explicit grouping-column and permutation-count flags. First Immunology and Microbiology focus-day recipe of this run; cookbook's first dedicated microbiome / community-ecology recipe. `Proposed` because no documented end-to-end attempt of this exact assembly exists; closest class-level evidence is [Huang et al. *Biomni* (bioRxiv 2025.05.30.656746)](https://doi.org/10.1101/2025.05.30.656746) whose published benchmark includes microbiome disease-taxa bioinformatics across five datasets (HMP, MetaPhlAn2 human metagenomics, drinking-water OTU matrices) at ~4× over base-LLM accuracy.
+- **Parse FCS flow-cytometry files for downstream immunophenotyping** (Problem class: Data analysis; Evidence: Proposed) — rung-2 [FlowIO skill](catalog/tools/flowio.html) recipe taking a directory of vendor-emitted FCS 2.0/3.0/3.1 files through `FlowData` parsing → per-file metadata harvest → scatter/fluorescence/time channel categorisation → optional log/gain transforms → concatenated long-format events Parquet, with explicit failure surfacing for partial-acquisition files. Second Immunology and Microbiology focus-day recipe; cookbook's first cytometry / FCS recipe. `Proposed` because no documented end-to-end attempt of this exact assembly exists; closest class-level evidence is ["Enhancing Clinical Workflow Efficiency in Flow Cytometry Reporting with LLMs" (PMC13053331, *J. Clin. Immunol.* 2026)](https://pubmed.ncbi.nlm.nih.gov/?term=PMC13053331), which demonstrates pathologist-level accuracy of fine-tuned LLMs on the downstream report-generation step the parsed-events output feeds into.
+
+### Updated
+
+- Nav orders rebalanced to keep alphabetical title ordering after the two additions: **Assemble Census atlas** → 1, **Benchmark ADMET** → 2, **Build target dossier** → 3, **Compute 16S microbiome diversity** → 4 (new), **Compute HRV** → 5, **Convert instrument data** → 6, **Discover NWB on DANDI** → 7, **Draft Phase 2/3 clinical-trial protocol** → 8, **Estimate PK** → 9, **Filter virtual screening** → 10, **Infer GRN** → 11, **Integrate single-cell** → 12, **Interpret clinical variant** → 13, **Match patient to trials** → 14, **Parse FCS flow-cytometry files** → 15 (new), **Prioritize targets** → 16, **Profile polypharmacology** → 17, **Run bulk RNA-seq DE** → 18, **Run first-pass QC** → 19, **Scan repurposing** → 20, **Set up protein MD** → 21, **Sort spikes** → 22, **Triage preprints** → 23, **Triage AlphaFold** → 24.
+
+### Verified (no changes)
+
+- No aging recipes due — every `last_verified` date is within the 30-day window. The recipe set's verification floor sits at 2026-05-22 (`integrate-single-cell-datasets`, `sort-spikes-from-neuropixels-recording`); next aging boundary is 2026-06-21.
+
+### User requests
+
+- **#12** (`claude:recipe-feedback`) — remains in `## User requests (open)`; `gh` CLI is still not available in this run's environment so the issue body cannot be inspected. Retry next run with `gh` access.
+
 ## 2026-06-01
 
 ### Added

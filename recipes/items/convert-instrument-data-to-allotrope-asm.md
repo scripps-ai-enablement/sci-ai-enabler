@@ -2,7 +2,7 @@
 title: Convert raw analytical instrument data to Allotrope ASM JSON
 parent: All recipes
 grand_parent: Recipes
-nav_order: 5
+nav_order: 6
 problem_class: Workflow automation
 subject_areas: [Chemistry, Drug Repurposing and Discovery, Molecular and Cellular Biology, Translational Medicine]
 evidence_level: Reported
