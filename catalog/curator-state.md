@@ -8,11 +8,11 @@ nav_exclude: true
 
 ## Recently surfaced
 
+- **Adaptyv (Claude Skill)** (added 2026-06-02) — K-Dense skill that closes the design–build–test loop on the Adaptyv cloud lab: in-silico pre-screening (NetSolP / SoluProt / SolubleMPNN / ESM / ipTM / pSAE) feeding wet-lab binding / expression / thermostability / activity assays. Surfaced from the Deferred queue on the Immunology and Microbiology focus pass.
 - **DeepChem (Claude Skill)** (added 2026-06-01) — K-Dense skill driving DeepChem for molecular machine learning: GCN / GAT / MPNN / AttentiveFP graph neural nets, featurization, and the MoleculeNet benchmarks (Tox21, ClinTox, SIDER, BBBP, QM7/8/9). Surfaced from the Deferred queue on the Chemistry focus pass.
 - **PyTDC (Claude Skill)** (added 2026-05-31) — K-Dense skill for Therapeutics Data Commons benchmarks: ADMET, DTI, DDI, drug response, molecular generation (17+ oracles), retrosynthesis. Surfaced from the Deferred queue on the Drug Repurposing and Discovery focus pass.
 - **NPI Registry MCP (Anthropic Healthcare)** (added 2026-05-30) — Anthropic-published MCP server over the CMS NPPES NPI Registry API v2.1; validate, look up, and search US healthcare providers by NPI. Fourth Anthropic Healthcare MCP catalogued, completing the `cms-coverage` / `icd-10-codes` / `pubmed` set.
 - **OpenNeuro MCP** (added 2026-05-29) — Community MCP server (QuentinCody) wrapping the OpenNeuro GraphQL API; hosted Cloudflare Workers SSE endpoint, MIT + Academic Citation Requirement license. Complements the Neurosift Tools MCP (DANDI + NWB) by covering OpenNeuro's MRI / MEG / EEG / iEEG / ECoG archive.
-- **Cellxgene Census (Claude Skill)** (added 2026-05-28) — K-Dense skill for querying the CZ CELLxGENE Discover census (50M+ cells, 1,000+ datasets) via TileDB-SOMA, with AnnData / Scanpy integration for reference-atlas construction.
 
 ## Flagged for review
 
@@ -38,9 +38,9 @@ nav_exclude: true
 - **AACT Clinical Trials MCP** (`navisbio/aact_mcp`) — SQL-over-PostgreSQL alternative to the ClinicalTrials.gov v2 API; complementary to the v2-API MCP surfaced 2026-05-23.
 - **Augmented-Nature ChEMBL-MCP-Server** — 22-tool community alternative to the official Anthropic ChEMBL connector; useful for users without marketplace access. Deferred because the first-party connector now covers the same surface.
 - **easysolutions906 Healthcare MCP** (`@easysolutions906/mcp-healthcare`) — 10-tool community bundle covering ICD-10, NPI, NDC, and DEA in a single server; complementary to the four discrete Anthropic Healthcare MCPs. Revisit on next Translational pass if users want a single-install alternative.
-- **IEDB MCP wrapper** — no Claude-installable wrapper for the IEDB Query API located on the 2026-05-26 Immunology pass; the IEDB API exposes ~2.2M epitopes and is a natural MCP candidate. Revisit on next Immunology-focus pass.
-- **BCR/TCR repertoire MCP** — no dedicated MCP server for immcantation / VDJdb / McPAS-TCR identified on the 2026-05-26 sweep; awesome-vdj catalogs upstream libraries but no Claude wrapper yet.
-- **Adaptyv (K-Dense Skill)** — wraps NetSolP / SoluProt / SolubleMPNN / ESM / ipTM / pSAE for antibody affinity maturation and developability prep; strong Immunology candidate, surface incrementally.
+- **IEDB MCP wrapper** — no Claude-installable wrapper for the IEDB Query API located on the 2026-05-26 or 2026-06-02 Immunology passes; the IEDB API exposes ~2.2M epitopes and ~6.8M assays (Nucleic Acids Research 2024 update) and remains a natural MCP candidate. Revisit on next Immunology-focus pass.
+- **BCR/TCR repertoire MCP / Immcantation skill** — no Claude-installable wrapper for Immcantation (Change-O / SHazaM / Alakazam / SCOPer / Dowser), nf-core/airrflow, VDJdb, or McPAS-TCR identified on the 2026-05-26 or 2026-06-02 sweeps. Immcantation 4.7.0-2026.01.21 and nf-core/airrflow are stable upstream — the gap is purely a missing skill/MCP wrapper. Revisit on next Immunology-focus pass.
+- **Metagenomics / microbiome MCP** — no Claude-installable wrapper for QIIME2 / Kraken2 / MetaPhlAn located on the 2026-06-02 sweep. Revisit on next Immunology-focus pass.
 - **MDAnalysis (K-Dense Skill)** — standalone trajectory-analysis sibling to the new `molecular-dynamics` skill; may warrant its own entry once the K-Dense catalog confirms whether `mdanalysis` is a distinct `SKILL.md` directory or only the analysis half of `molecular-dynamics`.
 - **Cryo-EM MCP / Skill** — no Claude-installable wrapper for RELION / cryoSPARC / CTFFIND located on the 2026-05-27 Structural pass; revisit on next Integrative Structural and Computational Biology pass.
 - **RFdiffusion / ProteinMPNN Claude Skill** — protein-design model wrappers; not yet packaged as a Claude Skill or MCP server on the 2026-05-27 sweep.
