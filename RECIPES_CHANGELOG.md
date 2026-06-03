@@ -11,6 +11,24 @@ Reverse-chronological log of changes to the [recipes cookbook](recipes/). Newest
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-06-03
+
+### Added
+
+- **Dock a ligand library into a target structure with DiffDock** (Problem class: Data analysis; Evidence: Proposed) — rung-2 [DiffDock skill](catalog/tools/diffdock.html) recipe taking a PDB or AlphaFold target + ligand SMILES CSV through batch-CSV prep → diffusion sampling (20–40 samples/complex) → confidence-thresholded filtering (`> 0` trustworthy, −1.5–0 inspect, < −1.5 drop) → top-K SDF export, with explicit handoffs to [MedChem](catalog/tools/medchem.html) / [DeepChem](catalog/tools/deepchem.html) / [molecular-dynamics](catalog/tools/molecular-dynamics.html) downstream. First Integrative Structural and Computational Biology focus-day recipe of this run; cookbook's first dedicated docking recipe and natural downstream of the existing [AlphaFold triage](recipes/items/triage-alphafold-model-for-docking.html) recipe. `Proposed` because no documented end-to-end LLM-orchestrated DiffDock virtual screen exists; closest component-level evidence is [Corso et al., DiffDock-L (ICLR 2024, arXiv:2402.18396)](https://arxiv.org/abs/2402.18396) (38%→80% RMSD<2Å on top one-third by confidence), [Buttenschoen et al., PoseBusters (*Chem. Sci.* 15:3130, 2024)](https://doi.org/10.1039/D3SC04185A), and [Karelina et al., AF2-target docking (*JCIM* 63:6219, 2023)](https://doi.org/10.1021/acs.jcim.3c00601) (~21% RMSD<2Å on AF2 models, motivating the upstream-triage gate in step 2).
+
+### Updated
+
+- Nav orders rebalanced to keep alphabetical title ordering after the new addition. "Dock a ligand library…" inserted at 8; everything from "Draft Phase 2/3…" downward shifted by +1: **Draft Phase 2/3 clinical-trial protocol** → 9, **Estimate PK** → 10, **Filter virtual screening** → 11, **Infer GRN** → 12, **Integrate single-cell** → 13, **Interpret clinical variant** → 14, **Match patient to trials** → 15, **Parse FCS flow-cytometry files** → 16, **Prioritize targets** → 17, **Profile polypharmacology** → 18, **Run bulk RNA-seq DE** → 19, **Run first-pass QC** → 20, **Scan repurposing** → 21, **Set up protein MD** → 22, **Sort spikes** → 23, **Triage preprints** → 24, **Triage AlphaFold** → 25.
+
+### Verified (no changes)
+
+- No aging recipes due — every `last_verified` date is within the 30-day window. The recipe set's verification floor sits at 2026-05-22 (`integrate-single-cell-datasets`, `sort-spikes-from-neuropixels-recording`); next aging boundary is 2026-06-21.
+
+### User requests
+
+- **#12 @goodb** — still cannot access the issue body (no `gh` permission for the repo in this run); leaving the request open in `recipes/curator-state.md` for the next run with `gh` access.
+
 ## 2026-06-02
 
 ### Added
