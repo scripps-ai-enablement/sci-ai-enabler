@@ -11,6 +11,28 @@ Reverse-chronological log of changes to the [guide](guide/). Newest at the top.
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-06-04
+
+### Added
+- **[plugins] `security-guidance` plugin as recommended first install.** Per [Catch security issues as Claude writes code](https://code.claude.com/docs/en/security-guidance) (Anthropic docs) and the [Week 22 release notes](https://code.claude.com/docs/en/whats-new/2026-w22) (2026-05-25 – 2026-05-29), Anthropic shipped a free `security-guidance` plugin to `claude-plugins-official` that has Claude review its own code edits for common vulnerabilities (injection, unsafe deserialization, unsafe DOM APIs) and fix findings in the same session. Three layers: deterministic per-edit pattern check (no model call, no cost), end-of-turn diff review by a separate Claude instance, and an agentic commit review (capped 20 / rolling hour). Install via `/plugin install security-guidance@claude-plugins-official` then `/reload-plugins`. Requires Claude Code v2.1.144+ and Python 3.8+. Reportedly cut security-related PR comments by 30–40% in Anthropic's internal rollout; 157k downloads in the first 24 hours. Added a sentence to the install section of `plugins.md` next to the existing `claude-code-setup` recommendation, plus two new source lines. Beginner-relevant because it's free, pre-registered, no separate marketplace step, and answers a question every new Claude Code user has ("how do I keep Claude from writing unsafe code?"). Surfaced via the discovery directive — the launch was 2026-05-27 and the guide had simply missed it.
+
+### Verified (no changes)
+- claude-surfaces.md — install command (`curl -fsSL https://claude.ai/install.sh | bash`) and the existing cross-cutting features (Channels, Dynamic Workflows, Claude Security, background sessions, MCP tunnels, routines, sandboxing) all current. v2.1.162 (published ~2026-06-03) is a 28-change CLI release dominated by bug fixes and a refinement to `WebFetch(domain:NAME)` deny/ask/allow precedence — below the threshold for this page.
+- surfaces/claude-code.md — `/code-review --comment` (added 2026-06-03), `/goal`, Dynamic Workflows, background sessions, install methods all unchanged. v2.1.162 introduces no new beginner-facing user-visible features.
+- surfaces/claude-ai.md, surfaces/claude-desktop.md, surfaces/claude-cowork.md, surfaces/claude-api.md — unchanged this run.
+- skills.md, mcp-servers.md, marketplaces.md, connectors.md, decision-tree.md — unchanged this run. (`security-guidance` is a plugin, so the addition lives on `plugins.md`.)
+- advanced/hooks.md, advanced/slash-commands.md, advanced/routines.md, advanced/authentication.md — unchanged.
+
+### Flagged for review
+- WebFetch was unavailable again this run (404 on `claude-3-5-haiku-20241022`). All primary-source verification went through WebSearch summaries of `code.claude.com/docs/en/security-guidance`, `code.claude.com/docs/en/whats-new/2026-w22`, `code.claude.com/docs/en/changelog`, `claude.com/plugins/security-guidance`, `github.com/anthropics/claude-plugins-official/tree/main/plugins/security-guidance`, `helpnetsecurity.com/2026/05/27/anthropic-claude-code-security-guidance-plugin/`, `cybersecuritynews.com/free-security-plugin-for-claude-code/`, `securityweek.com/anthropic-releases-new-claude-sandbox-security-guidance-plugin/`, and `claudefa.st/blog/guide/changelog`. A human should spot-check `claude.com/plugins/security-guidance` directly to confirm the install command is still `/plugin install security-guidance@claude-plugins-official` (some secondary sources show variations).
+- **Promote `security-guidance` to its own `advanced/security-guidance.md` page?** Today it's a sentence on `plugins.md`. If Anthropic ships analogous plugins for other domains (lint, performance, accessibility) the pattern starts to look like a class of feature, not a single plugin, and would warrant its own advanced page. Hold off until then.
+- **Claude Mythos public release** — carried over from 2026-06-03.
+- **Project Glasswing expansion 2026-06-02** — carried over.
+- **`--channels` allowlist expansion** — carried over from 2026-06-03.
+- **`/code-review --comment` lock-in** — carried over.
+- **Sonnet 4 / Opus 4 retirement follow-up after 2026-06-15** — carried over.
+- **`claude -p` / Agent SDK billing split lands 2026-06-15** — carried over.
+
 ## 2026-06-03
 
 ### Added

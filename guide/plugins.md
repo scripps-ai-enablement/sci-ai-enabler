@@ -30,7 +30,7 @@ The Anthropic-managed marketplace `claude-plugins-official` is registered automa
 /plugin install <plugin-name>@claude-plugins-official
 ```
 
-A good first install is `claude-code-setup`, which scans your project and recommends hooks, skills, MCP servers, and subagents that fit your stack.
+A good first install is `claude-code-setup`, which scans your project and recommends hooks, skills, MCP servers, and subagents that fit your stack. A second worth installing on day one is `security-guidance` — a free Anthropic-built plugin that has Claude review its own code edits for common vulnerabilities (injection, unsafe deserialization, unsafe DOM APIs) and fix findings in the same session. Per-edit pattern check is free; end-of-turn and commit reviews use normal token budget. Requires Claude Code v2.1.144+ and Python 3.8+. Activate without restart by running `/reload-plugins`.
 
 For other marketplaces (community, vendor, your own), add the source first, then install:
 
@@ -67,3 +67,5 @@ Manage installs with `/plugin list`, `/plugin enable <name>`, `/plugin disable <
 - [Cowork and plugins for teams across the enterprise](https://claude.com/blog/cowork-plugins-across-enterprise) — Anthropic blog; published 2026-02-24 — Cowork-layer plugins are separate from Claude Code plugins.
 - [Introducing Claude for Small Business](https://www.anthropic.com/news/claude-for-small-business) — Anthropic news; published 2026-05-13 — example of a Cowork toggle plugin bundling connectors + workflows.
 - [Agents for financial services](https://www.anthropic.com/news/finance-agents) — Anthropic news; published 2026-05-05 — 10 finance agent plugins (pitch builder, KYC screener, month-end closer, …) ship to both Cowork and Claude Code from the `anthropics/financial-services` marketplace; installs `financial-analysis` first for shared MCP connectors.
+- [Catch security issues as Claude writes code](https://code.claude.com/docs/en/security-guidance) — Anthropic docs; verified 2026-06-04 (this run) — `/plugin install security-guidance@claude-plugins-official` install path, three-layer review (per-edit pattern check, end-of-turn diff review, agentic commit review), `.claude/claude-security-guidance.md` and `.claude/security-patterns.yaml` customization, v2.1.144+ and Python 3.8+ prerequisites.
+- [Week 22 (May 25–29 2026) release notes](https://code.claude.com/docs/en/whats-new/2026-w22) — Anthropic docs; verified 2026-06-04 — `security-guidance` shipped as part of the Week 22 release alongside Opus 4.8 + Dynamic Workflows.
