@@ -6,7 +6,7 @@ tool_type: Claude Skill
 supplier: K-Dense
 availability: GA
 tool_categories: [Neuroscience, Translational Medicine]
-last_verified: 2026-05-22
+last_verified: 2026-06-04
 summary: Claude skill for biosignal processing — ECG, EEG, EDA, RSP, PPG, EMG, and EOG analysis including HRV, event-related responses, and multi-modal physiological insights.
 ---
 
@@ -24,15 +24,15 @@ Claude skill wrapping the NeuroKit2 biosignal processing toolkit — analysis pi
 
 ## How to install
 
-- **Claude Code** — plugin marketplace:
+- **Claude Code / Claude.ai** — Skills CLI (recommended):
   ```
-  /plugin marketplace add K-Dense-AI/claude-scientific-skills
-  /plugin install neurokit2@claude-scientific-skills
+  npx skills add K-Dense-AI/scientific-agent-skills
   ```
+  Installs the K-Dense collection; enable the `neurokit2` skill when prompted (also works in Cursor/Codex via the Agent Skills spec; requires Node ≥ 18).
 - **Claude Code / Claude Desktop** — manual clone:
   ```
   git clone https://github.com/K-Dense-AI/scientific-agent-skills
-  cp -r scientific-agent-skills/scientific-skills/neurokit2 ~/.claude/skills/
+  cp -r scientific-agent-skills/skills/neurokit2 ~/.claude/skills/
   pip install neurokit2
   ```
 
@@ -54,7 +54,7 @@ Pure Python; pairs with the BIDS skill for organizing the raw signals beforehand
 
 ## Sources
 
-- [`scientific-skills/neurokit2/SKILL.md`](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/neurokit2/SKILL.md)
+- [`skills/neurokit2/SKILL.md`](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/neurokit2/SKILL.md)
 - [`K-Dense-AI/scientific-agent-skills`](https://github.com/K-Dense-AI/scientific-agent-skills)
 - [NeuroKit2 docs](https://neuropsychology.github.io/NeuroKit/)
 

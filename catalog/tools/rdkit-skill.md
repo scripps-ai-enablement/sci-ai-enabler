@@ -6,7 +6,7 @@ tool_type: Claude Skill
 supplier: K-Dense
 availability: GA
 tool_categories: [Chemistry]
-last_verified: 2026-05-20
+last_verified: 2026-06-04
 summary: Claude skill providing RDKit recipes for SMILES parsing, descriptors, fingerprints, substructure search, reactions, and 2D/3D molecular generation.
 ---
 
@@ -24,9 +24,11 @@ Claude skill providing Python recipes for the full RDKit cheminformatics stack â
 
 ## How to install
 
+Install via the Skills CLI (recommended): `npx skills add K-Dense-AI/scientific-agent-skills`, then enable the `rdkit` skill. Or clone the repo manually:
+
 ```
 git clone https://github.com/K-Dense-AI/scientific-agent-skills
-cp -r scientific-agent-skills/scientific-skills/rdkit ~/.claude/skills/
+cp -r scientific-agent-skills/skills/rdkit ~/.claude/skills/
 pip install rdkit
 ```
 
@@ -52,7 +54,7 @@ Skill is documentation plus Python recipes â€” Claude executes RDKit locally via
 ## Sources
 
 - [`K-Dense-AI/scientific-agent-skills`](https://github.com/K-Dense-AI/scientific-agent-skills)
-- [`scientific-skills/rdkit/SKILL.md`](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/rdkit/SKILL.md)
+- [`skills/rdkit/SKILL.md`](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/rdkit/SKILL.md)
 
 ---
 

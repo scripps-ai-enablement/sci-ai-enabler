@@ -6,7 +6,7 @@ tool_type: Claude Skill
 supplier: K-Dense
 availability: GA
 tool_categories: [Chemistry, Drug Repurposing and Discovery]
-last_verified: 2026-05-25
+last_verified: 2026-06-04
 summary: Claude skill wrapping Datamol — an RDKit-based Python library for molecular standardization, transformations, featurization, and parallel processing on large compound libraries.
 ---
 
@@ -24,15 +24,15 @@ Claude skill providing Python recipes for [Datamol](https://datamol.io/), an RDK
 
 ## How to install
 
-- **Claude Code** — plugin marketplace:
+- **Claude Code / Claude.ai** — Skills CLI (recommended):
   ```
-  /plugin marketplace add K-Dense-AI/claude-scientific-skills
-  /plugin install datamol@claude-scientific-skills
+  npx skills add K-Dense-AI/scientific-agent-skills
   ```
+  Installs the K-Dense collection; enable the `datamol` skill when prompted (also works in Cursor/Codex via the Agent Skills spec; requires Node ≥ 18).
 - **Claude Code / Claude Desktop** — manual clone:
   ```
   git clone https://github.com/K-Dense-AI/scientific-agent-skills
-  cp -r scientific-agent-skills/scientific-skills/datamol ~/.claude/skills/
+  cp -r scientific-agent-skills/skills/datamol ~/.claude/skills/
   pip install datamol
   ```
 
@@ -58,7 +58,7 @@ Skill is documentation plus Python recipes — Claude executes Datamol locally v
 ## Sources
 
 - [`K-Dense-AI/scientific-agent-skills`](https://github.com/K-Dense-AI/scientific-agent-skills)
-- [`scientific-skills/datamol/SKILL.md`](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/datamol/SKILL.md)
+- [`skills/datamol/SKILL.md`](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/datamol/SKILL.md)
 - [Datamol library — datamol.io](https://datamol.io/)
 - [`datamol-io/datamol`](https://github.com/datamol-io/datamol)
 

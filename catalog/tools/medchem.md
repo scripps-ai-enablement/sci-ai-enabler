@@ -6,7 +6,7 @@ tool_type: Claude Skill
 supplier: K-Dense
 availability: GA
 tool_categories: [Chemistry, Drug Repurposing and Discovery]
-last_verified: 2026-05-25
+last_verified: 2026-06-04
 summary: Claude skill wrapping MedChem — drug-likeness filters (Lipinski, Veber, Egan, Muegge), ADMET-flag detection, and medicinal-chemistry alerts on top of RDKit.
 ---
 
@@ -24,15 +24,15 @@ Claude skill providing Python recipes for [MedChem](https://medchem.datamol.io/)
 
 ## How to install
 
-- **Claude Code** — plugin marketplace:
+- **Claude Code / Claude.ai** — Skills CLI (recommended):
   ```
-  /plugin marketplace add K-Dense-AI/claude-scientific-skills
-  /plugin install medchem@claude-scientific-skills
+  npx skills add K-Dense-AI/scientific-agent-skills
   ```
+  Installs the K-Dense collection; enable the `medchem` skill when prompted (also works in Cursor/Codex via the Agent Skills spec; requires Node ≥ 18).
 - **Claude Code / Claude Desktop** — manual clone:
   ```
   git clone https://github.com/K-Dense-AI/scientific-agent-skills
-  cp -r scientific-agent-skills/scientific-skills/medchem ~/.claude/skills/
+  cp -r scientific-agent-skills/skills/medchem ~/.claude/skills/
   pip install medchem
   ```
 
@@ -57,7 +57,7 @@ Skill is documentation plus Python recipes — Claude executes MedChem locally v
 ## Sources
 
 - [`K-Dense-AI/scientific-agent-skills`](https://github.com/K-Dense-AI/scientific-agent-skills)
-- [`scientific-skills/medchem/SKILL.md`](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/medchem/SKILL.md)
+- [`skills/medchem/SKILL.md`](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/medchem/SKILL.md)
 - [MedChem documentation — medchem.datamol.io](https://medchem.datamol.io/)
 - [`datamol-io/medchem`](https://github.com/datamol-io/medchem)
 

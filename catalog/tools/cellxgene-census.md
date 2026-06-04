@@ -6,7 +6,7 @@ tool_type: Claude Skill
 supplier: K-Dense
 availability: GA
 tool_categories: [Molecular and Cellular Biology, Immunology and Microbiology, Translational Medicine]
-last_verified: 2026-05-28
+last_verified: 2026-06-04
 summary: Claude skill for querying the CZ CELLxGENE Discover census — 50M+ standardized single-cell observations across 1,000+ datasets via TileDB-SOMA, with AnnData / Scanpy integration.
 ---
 
@@ -24,15 +24,15 @@ Claude skill that drives the [CZ CELLxGENE Discover Census](https://chanzuckerbe
 
 ## How to install
 
-- **Claude Code** — plugin marketplace:
+- **Claude Code / Claude.ai** — Skills CLI (recommended):
   ```
-  /plugin marketplace add K-Dense-AI/claude-scientific-skills
-  /plugin install cellxgene-census@claude-scientific-skills
+  npx skills add K-Dense-AI/scientific-agent-skills
   ```
+  Installs the K-Dense collection; enable the `cellxgene-census` skill when prompted (also works in Cursor/Codex via the Agent Skills spec; requires Node ≥ 18).
 - **Claude Code / Claude Desktop** — manual clone:
   ```
   git clone https://github.com/K-Dense-AI/scientific-agent-skills
-  cp -r scientific-agent-skills/scientific-skills/cellxgene-census ~/.claude/skills/
+  cp -r scientific-agent-skills/skills/cellxgene-census ~/.claude/skills/
   pip install cellxgene-census
   ```
 
@@ -58,7 +58,7 @@ Pairs naturally with the catalog's `scanpy`, `anndata`, `scvi-tools`, and `scvel
 ## Sources
 
 - [`K-Dense-AI/scientific-agent-skills`](https://github.com/K-Dense-AI/scientific-agent-skills)
-- [`scientific-skills/cellxgene-census/SKILL.md`](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/cellxgene-census/SKILL.md)
+- [`skills/cellxgene-census/SKILL.md`](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/cellxgene-census/SKILL.md)
 - [CELLxGENE Census documentation](https://chanzuckerberg.github.io/cellxgene-census/)
 - [`chanzuckerberg/cellxgene-census`](https://github.com/chanzuckerberg/cellxgene-census)
 

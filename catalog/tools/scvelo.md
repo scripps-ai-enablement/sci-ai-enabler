@@ -6,7 +6,7 @@ tool_type: Claude Skill
 supplier: K-Dense
 availability: GA
 tool_categories: [Molecular and Cellular Biology, Neuroscience]
-last_verified: 2026-05-28
+last_verified: 2026-06-04
 summary: Claude skill for RNA-velocity analysis with scVelo — estimates cell-state transitions from unspliced/spliced mRNA counts, infers trajectories, latent time, and driver genes.
 ---
 
@@ -24,15 +24,15 @@ Claude skill that drives [scVelo](https://scvelo.readthedocs.io/) for RNA-veloci
 
 ## How to install
 
-- **Claude Code** — plugin marketplace:
+- **Claude Code / Claude.ai** — Skills CLI (recommended):
   ```
-  /plugin marketplace add K-Dense-AI/claude-scientific-skills
-  /plugin install scvelo@claude-scientific-skills
+  npx skills add K-Dense-AI/scientific-agent-skills
   ```
+  Installs the K-Dense collection; enable the `scvelo` skill when prompted (also works in Cursor/Codex via the Agent Skills spec; requires Node ≥ 18).
 - **Claude Code / Claude Desktop** — manual clone:
   ```
   git clone https://github.com/K-Dense-AI/scientific-agent-skills
-  cp -r scientific-agent-skills/scientific-skills/scvelo ~/.claude/skills/
+  cp -r scientific-agent-skills/skills/scvelo ~/.claude/skills/
   pip install scvelo
   ```
 
@@ -58,7 +58,7 @@ Pairs with the catalog's `scanpy`, `anndata`, `cellxgene-census`, and `scvi-tool
 ## Sources
 
 - [`K-Dense-AI/scientific-agent-skills`](https://github.com/K-Dense-AI/scientific-agent-skills)
-- [`scientific-skills/scvelo/SKILL.md`](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/scvelo/SKILL.md)
+- [`skills/scvelo/SKILL.md`](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/scvelo/SKILL.md)
 - [scVelo documentation](https://scvelo.readthedocs.io/)
 - [Bergen et al. *Nat Biotechnol* 2020](https://www.nature.com/articles/s41587-020-0591-3)
 

@@ -6,7 +6,7 @@ tool_type: Claude Skill
 supplier: K-Dense
 availability: GA
 tool_categories: [Molecular and Cellular Biology, Drug Repurposing and Discovery]
-last_verified: 2026-05-28
+last_verified: 2026-06-04
 summary: Claude skill for gene-regulatory-network inference with Arboreto — GRNBoost2 / GENIE3 tree-based regression over bulk or single-cell expression, distributed via Dask.
 ---
 
@@ -24,15 +24,15 @@ Claude skill that drives [Arboreto](https://arboreto.readthedocs.io/) for gene-r
 
 ## How to install
 
-- **Claude Code** — plugin marketplace:
+- **Claude Code / Claude.ai** — Skills CLI (recommended):
   ```
-  /plugin marketplace add K-Dense-AI/claude-scientific-skills
-  /plugin install arboreto@claude-scientific-skills
+  npx skills add K-Dense-AI/scientific-agent-skills
   ```
+  Installs the K-Dense collection; enable the `arboreto` skill when prompted (also works in Cursor/Codex via the Agent Skills spec; requires Node ≥ 18).
 - **Claude Code / Claude Desktop** — manual clone:
   ```
   git clone https://github.com/K-Dense-AI/scientific-agent-skills
-  cp -r scientific-agent-skills/scientific-skills/arboreto ~/.claude/skills/
+  cp -r scientific-agent-skills/skills/arboreto ~/.claude/skills/
   pip install arboreto
   ```
 
@@ -58,7 +58,7 @@ Pairs with the `scanpy`, `pydeseq2`, and `cellxgene-census` skills — Arboreto 
 ## Sources
 
 - [`K-Dense-AI/scientific-agent-skills`](https://github.com/K-Dense-AI/scientific-agent-skills)
-- [`scientific-skills/arboreto/SKILL.md`](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/arboreto/SKILL.md)
+- [`skills/arboreto/SKILL.md`](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/arboreto/SKILL.md)
 - [Arboreto documentation](https://arboreto.readthedocs.io/)
 - [Moerman et al. *Bioinformatics* 2019 (GRNBoost2)](https://academic.oup.com/bioinformatics/article/35/12/2159/5184284)
 

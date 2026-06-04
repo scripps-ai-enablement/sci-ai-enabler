@@ -1,0 +1,184 @@
+# K-Dense (K-Dense-AI/scientific-agent-skills) → catalog category map
+#
+# Purpose: the auditable scope filter + category tagging for the one-time batch
+# ingestion (see scripts/ingest_kdense.py and the plan at
+# .claude/plans/right-now-the-grow-whimsical-emerson.md).
+#
+# Source repo has 143 skill directories under skills/<name>/SKILL.md as of the
+# 2026-06 clone. Of those, the ones below are life-science-relevant per the
+# catalog's 7 canonical categories (AGENT.md). Skills NOT in `include` are
+# treated as out of scope and skipped (documented under `skip` for the record).
+#
+# `tool_categories` values must be exactly one or more of the 7 canonical
+# categories, or `All`:
+#   Chemistry | Immunology and Microbiology |
+#   Integrative Structural and Computational Biology |
+#   Molecular and Cellular Biology | Neuroscience | Translational Medicine |
+#   Drug Repurposing and Discovery | All
+#
+# The generator reads `include` and `aliases` only. `augment` and `skip` are
+# documentation for human reviewers.
+
+include:
+  # --- already catalogued as K-Dense pages: generator REPAIRS install path only,
+  #     it does NOT rewrite these categories (listed here for the record) ---
+  anndata: [Molecular and Cellular Biology]
+  arboreto: [Molecular and Cellular Biology]
+  bids: [Neuroscience]
+  cellxgene-census: [Molecular and Cellular Biology, Immunology and Microbiology, Translational Medicine]
+  datamol: [Chemistry, Drug Repurposing and Discovery]
+  depmap: [Drug Repurposing and Discovery, Molecular and Cellular Biology, Translational Medicine]
+  flowio: [Immunology and Microbiology, Molecular and Cellular Biology]
+  gget: [All]
+  glycoengineering: [Immunology and Microbiology, Integrative Structural and Computational Biology]
+  medchem: [Chemistry, Drug Repurposing and Discovery]
+  molecular-dynamics: [Integrative Structural and Computational Biology]
+  molfeat: [Chemistry, Drug Repurposing and Discovery]
+  neurokit2: [Neuroscience, Translational Medicine]
+  neuropixels-analysis: [Neuroscience]
+  pydeseq2: [Molecular and Cellular Biology]
+  rdkit: [Chemistry, Drug Repurposing and Discovery]   # existing slug: rdkit-skill (see aliases)
+  scikit-bio: [Immunology and Microbiology, Molecular and Cellular Biology]
+  scvelo: [Molecular and Cellular Biology]
+
+  # --- new pages to CREATE ---
+  adaptyv: [Immunology and Microbiology, Integrative Structural and Computational Biology]
+  benchling-integration: [Molecular and Cellular Biology, Translational Medicine]
+  bgpt-paper-search: [All]
+  biopython: [All]
+  bioservices: [All]
+  bulk-rnaseq: [Molecular and Cellular Biology]
+  clinical-decision-support: [Translational Medicine]
+  clinical-reports: [Translational Medicine]
+  cobrapy: [Molecular and Cellular Biology]
+  database-lookup: [All]
+  deepchem: [Chemistry, Drug Repurposing and Discovery]
+  deeptools: [Molecular and Cellular Biology]
+  diffdock: [Chemistry, Drug Repurposing and Discovery, Integrative Structural and Computational Biology]
+  dnanexus-integration: [Molecular and Cellular Biology]
+  esm: [Integrative Structural and Computational Biology]
+  etetoolkit: [Immunology and Microbiology, Molecular and Cellular Biology]
+  geniml: [Molecular and Cellular Biology]
+  ginkgo-cloud-lab: [Molecular and Cellular Biology]
+  gtars: [Molecular and Cellular Biology]
+  histolab: [Translational Medicine]
+  hypothesis-generation: [All]
+  imaging-data-commons: [Translational Medicine]
+  iso-13485-certification: [Translational Medicine]
+  labarchive-integration: [Molecular and Cellular Biology]
+  lamindb: [Molecular and Cellular Biology]
+  latchbio-integration: [Molecular and Cellular Biology]
+  literature-review: [All]
+  matchms: [Chemistry]
+  omero-integration: [Molecular and Cellular Biology]
+  opentrons-integration: [Molecular and Cellular Biology]
+  pacsomatic: [Molecular and Cellular Biology, Translational Medicine]
+  paper-lookup: [All]
+  pathml: [Translational Medicine]
+  pathway-enrichment: [Molecular and Cellular Biology]
+  phylogenetics: [Immunology and Microbiology, Molecular and Cellular Biology]
+  polars-bio: [Molecular and Cellular Biology]
+  primekg: [Drug Repurposing and Discovery, Molecular and Cellular Biology, Translational Medicine]
+  protocolsio-integration: [Molecular and Cellular Biology]
+  pydicom: [Translational Medicine]
+  pyhealth: [Translational Medicine]
+  pylabrobot: [Molecular and Cellular Biology]
+  pyopenms: [Integrative Structural and Computational Biology, Molecular and Cellular Biology]
+  pysam: [Molecular and Cellular Biology]
+  pytdc: [Chemistry, Drug Repurposing and Discovery]
+  rowan: [Chemistry, Drug Repurposing and Discovery, Integrative Structural and Computational Biology]
+  scientific-brainstorming: [All]
+  scientific-critical-thinking: [All]
+  scikit-survival: [Translational Medicine]
+  tiledbvcf: [Molecular and Cellular Biology]
+  torchdrug: [Chemistry, Drug Repurposing and Discovery, Integrative Structural and Computational Biology]
+  treatment-plans: [Translational Medicine]
+
+# K-Dense skill dir → existing catalog slug, when they differ.
+aliases:
+  rdkit: rdkit-skill
+
+# Existing NON-K-Dense pages that wrap the SAME underlying tool. Per AGENT.md
+# "one entry per tool", do not create a duplicate; instead add the K-Dense skill
+# as an alternative install path on the existing page (handled manually).
+augment:
+  scanpy: scanpy                 # existing page is the scmcphub MCP server
+  scvi-tools: scvi-tools         # existing page is the Anthropic scvi-tools skill
+  nextflow: nextflow-development # existing page is the Anthropic nextflow skill
+
+# Out of scope for this catalog (general-purpose, not life-science-specific).
+# Documented so future runs don't re-evaluate them from scratch.
+skip:
+  aeon: general time-series ML
+  astropy: astronomy / astrophysics
+  autoskill: meta-skill (drafts other skills)
+  cirq: quantum computing (Google)
+  citation-management: domain-agnostic reference management
+  consciousness-council: general decision/deliberation tool
+  dask: general distributed computing
+  dhdna-profiler: general text/cognition profiling
+  docx: generic Word document tooling
+  exa-search: general web search
+  exploratory-data-analysis: generic EDA
+  fluidsim: computational fluid dynamics
+  generate-image: general AI image generation
+  geomaster: geospatial / earth observation
+  geopandas: geospatial vector data
+  get-available-resources: system-resource detection (infra)
+  hugging-science: broad AI/ML meta-skill across all sciences
+  hypogenic: generic tabular hypothesis testing (hypothesis-generation covers the bio case)
+  infographics: generic infographic generation
+  latex-posters: generic poster formatting
+  liteparse: generic PDF/document parsing
+  markdown-mermaid-writing: generic technical writing
+  market-research-reports: business/market research
+  markitdown: generic file-to-markdown conversion
+  matlab: general numerical computing
+  matplotlib: general plotting
+  modal: serverless cloud compute (infra)
+  networkx: general graph/network analysis
+  nextflow: see `augment` (existing nextflow-development page)
+  open-notebook: general research note organization
+  optimize-for-gpu: GPU acceleration (infra)
+  paperzilla: niche personal paper-feed product
+  pdf: generic PDF manipulation
+  peer-review: general academic peer-review writing
+  pennylane: quantum machine learning
+  polars: general DataFrame library
+  pptx: generic PowerPoint tooling
+  pptx-posters: generic poster formatting
+  pufferlib: reinforcement learning framework
+  pymatgen: materials science
+  pymc: general Bayesian/probabilistic modeling
+  pymoo: general multi-objective optimization
+  pytorch-lightning: general deep-learning framework
+  pyzotero: domain-agnostic reference management
+  qiskit: quantum computing (IBM)
+  qutip: quantum physics simulation
+  research-grants: general grant-writing admin
+  research-lookup: general web/research search
+  scanpy: see `augment` (existing scanpy page)
+  scholar-evaluation: general scholarly-work evaluation
+  scientific-schematics: generic AI diagram generation
+  scientific-slides: generic slide-deck creation
+  scientific-visualization: generic figure styling
+  scientific-writing: generic manuscript writing
+  scikit-learn: general machine learning
+  scvi-tools: see `augment` (existing scvi-tools page)
+  seaborn: general statistical plotting
+  shap: general model interpretability
+  simpy: general discrete-event simulation
+  stable-baselines3: reinforcement learning framework
+  statistical-analysis: generic statistics guidance
+  statsmodels: general statistical modeling
+  sympy: general symbolic math
+  timesfm-forecasting: general time-series forecasting
+  torch-geometric: general graph neural networks
+  transformers: general Hugging Face model loading
+  umap-learn: general dimensionality reduction
+  usfiscaldata: U.S. Treasury fiscal data (non-bio)
+  vaex: general out-of-core DataFrames
+  venue-templates: generic publication LaTeX templates
+  what-if-oracle: general scenario analysis
+  xlsx: generic Excel tooling
+  zarr-python: general chunked N-D array storage

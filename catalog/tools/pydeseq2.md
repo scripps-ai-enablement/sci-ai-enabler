@@ -6,7 +6,7 @@ tool_type: Claude Skill
 supplier: K-Dense
 availability: GA
 tool_categories: [Drug Repurposing and Discovery, Immunology and Microbiology, Molecular and Cellular Biology, Translational Medicine]
-last_verified: 2026-05-21
+last_verified: 2026-06-04
 summary: Claude skill for bulk RNA-seq differential expression with PyDESeq2 — size factors, dispersion, Wald / LRT testing, BH-adjusted p-values.
 ---
 
@@ -24,15 +24,15 @@ Claude skill guiding bulk RNA-seq differential expression analysis with PyDESeq2
 
 ## How to install
 
-- **Claude Code** — plugin marketplace:
+- **Claude Code / Claude.ai** — Skills CLI (recommended):
   ```
-  /plugin marketplace add K-Dense-AI/claude-scientific-skills
-  /plugin install pydeseq2@claude-scientific-skills
+  npx skills add K-Dense-AI/scientific-agent-skills
   ```
+  Installs the K-Dense collection; enable the `pydeseq2` skill when prompted (also works in Cursor/Codex via the Agent Skills spec; requires Node ≥ 18).
 - **Claude Code / Claude Desktop** — manual clone:
   ```
   git clone https://github.com/K-Dense-AI/scientific-agent-skills
-  cp -r scientific-agent-skills/scientific-skills/pydeseq2 ~/.claude/skills/
+  cp -r scientific-agent-skills/skills/pydeseq2 ~/.claude/skills/
   pip install pydeseq2
   ```
 
@@ -56,7 +56,7 @@ Pairs with the AnnData and Scanpy skills for end-to-end transcriptomics. For pse
 ## Sources
 
 - [`K-Dense-AI/scientific-agent-skills`](https://github.com/K-Dense-AI/scientific-agent-skills)
-- [`scientific-skills/pydeseq2/SKILL.md`](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/pydeseq2/SKILL.md)
+- [`skills/pydeseq2/SKILL.md`](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/pydeseq2/SKILL.md)
 - [PyDESeq2 documentation](https://pydeseq2.readthedocs.io/)
 
 ---

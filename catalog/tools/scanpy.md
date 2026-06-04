@@ -51,6 +51,8 @@ Or with Claude Desktop, add to `claude_desktop_config.json`:
 
 Compatible with Claude Desktop, Claude Code, Cherry Studio, Cline, and Agno.
 
+**Alternative (skill, not MCP):** K-Dense also ships a `scanpy` Claude Skill that drives Scanpy through local Python instead of an MCP server — `npx skills add K-Dense-AI/scientific-agent-skills`, then enable the `scanpy` skill. Same underlying library; pick whichever workflow you prefer.
+
 ## What it does
 
 - `io.read` / `io.write` — AnnData / 10x file I/O

@@ -11,6 +11,29 @@ Reverse-chronological log of changes to the [catalog](catalog/). Newest at the t
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-06-04
+
+**One-time batch ingestion of the K-Dense `scientific-agent-skills` collection.** Rather than continue surfacing K-Dense skills one or two at a time under the ≤5/run soft cap (the `Deferred` queue had grown a long K-Dense backlog), this run ingests the whole life-science-relevant subset in a single auditable pass and switches the K-Dense source to diff-only mode for future runs. The collection has 143 skills; **69 are life-science-relevant** and are now catalogued (51 new pages + 18 existing K-Dense pages repaired). The remaining ~74 are general-purpose (quantum computing, materials science, generic ML/stats/viz, office-document and web-search tooling, infra) and are out of scope — enumerated with reasons in `scripts/kdense_category_map.yaml` so future runs don't re-evaluate them. Generated pages are schema-accurate but intentionally lean (built from each skill's `SKILL.md` front-matter via `scripts/ingest_kdense.py`); subsequent daily runs enrich them. Also fixes a real upstream breakage: K-Dense migrated `scientific-skills/<name>/` → `skills/<name>/` and replaced the (non-existent) `claude-scientific-skills` plugin marketplace with `npx skills add` — every existing K-Dense page carried broken install steps.
+
+### Added
+51 new K-Dense Claude Skill pages (source: [`K-Dense-AI/scientific-agent-skills`](https://github.com/K-Dense-AI/scientific-agent-skills)):
+- **Chemistry / Drug discovery** — `deepchem`, `diffdock`, `matchms`, `pytdc`, `rowan`, `torchdrug`
+- **Structural & computational biology** — `esm`, `pyopenms`, `adaptyv`
+- **Molecular & cellular biology / genomics** — `biopython`, `bioservices`, `bulk-rnaseq`, `cobrapy`, `deeptools`, `etetoolkit`, `geniml`, `gtars`, `lamindb`, `pathway-enrichment`, `phylogenetics`, `polars-bio`, `pysam`, `tiledbvcf`, `primekg`
+- **Lab platforms & data integrations** — `benchling-integration`, `dnanexus-integration`, `ginkgo-cloud-lab`, `labarchive-integration`, `latchbio-integration`, `omero-integration`, `opentrons-integration`, `protocolsio-integration`, `pylabrobot`
+- **Translational medicine / clinical / imaging** — `clinical-decision-support`, `clinical-reports`, `treatment-plans`, `pyhealth`, `pydicom`, `histolab`, `pathml`, `imaging-data-commons`, `pacsomatic`, `scikit-survival`, `iso-13485-certification`
+- **Cross-cutting (`All`)** — `database-lookup`, `paper-lookup`, `literature-review`, `bgpt-paper-search`, `hypothesis-generation`, `scientific-brainstorming`, `scientific-critical-thinking`
+
+### Updated
+- **Install-path migration fix on 18 existing K-Dense pages** — `anndata`, `arboreto`, `bids`, `cellxgene-census`, `datamol`, `depmap`, `flowio`, `gget`, `glycoengineering`, `medchem`, `molecular-dynamics`, `molfeat`, `neurokit2`, `neuropixels-analysis`, `pydeseq2`, `rdkit-skill`, `scikit-bio`, `scvelo`. Replaced the dead `claude-scientific-skills` plugin-marketplace block with `npx skills add K-Dense-AI/scientific-agent-skills`, migrated `scientific-skills/` → `skills/` clone paths, and bumped `last_verified`.
+- **Three "one entry per tool" augments** — added the K-Dense skill as an alternative install path on `scanpy` (existing scmcphub MCP), `scvi-tools` (existing Anthropic skill), and `nextflow-development` (existing Anthropic skill) rather than creating duplicate pages.
+- **`AGENT.md`** — K-Dense source switched to **diff-only mode**: fully ingested as of 2026-06-04; future runs diff `skills/` against catalogued K-Dense slugs and add only *new* skills / flag *removed* ones, instead of incrementally surfacing the backlog.
+- **`catalog/curator-state.md`** — cleared the now-ingested K-Dense items from `Deferred`; `Recently surfaced` collapsed to a single batch line.
+- **New pipeline files** — `scripts/kdense_category_map.yaml` (auditable scope filter + category map) and `scripts/ingest_kdense.py` (the generator/repairer), reusable for future collection batches (SciAgent-Skills, OpenClaw-Medical-Skills, NeuroClaw).
+
+### Verified (no changes)
+- All 106 tool pages pass front-matter lint (required fields, ≤25-word summaries, canonical categories, slug-matched feedback footers).
+
 ## 2026-05-29
 
 Directed pass on **Neuroscience** (Friday focus). Manifest sweep of `anthropics/life-sciences` shows no diff vs. 2026-05-28 — no new neuro plugins shipped upstream this week; the `biorxiv@life-sciences` / `clinical-trials@life-sciences` DOA situation continues. Existing Neuroscience entries (`allenbrain`, `aind-data`, `neurosift`, `neurokit2`, `neuropixels-analysis`, `bids`) all within the 30-day verification window — no re-verification needed. Directed search turned up two strong candidates: **OpenNeuro MCP** (QuentinCody) — a hosted Cloudflare Workers SSE server wrapping the OpenNeuro GraphQL API, with a clean copy-pasteable install path documented upstream — and **NeuroClaw** (CUHK-AIM Group), an 81-skill neuroimaging library with FreeSurfer / FSL / fMRIPrep / MNE / nilearn / DIPY integrations. OpenNeuro MCP was added; NeuroClaw was deferred because the upstream README positions skills/ as Claude-Code-installable but does not publish a copy-pasteable `~/.claude/skills/` snippet and the license terms could not be confirmed under today's WebFetch reliability. One new entry, well under the 5-entry soft cap.

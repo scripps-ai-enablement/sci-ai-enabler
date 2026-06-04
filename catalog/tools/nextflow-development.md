@@ -30,6 +30,7 @@ Configures and runs nf-core pipelines on local FASTQ inputs or public GEO/SRA ac
   /plugin install nextflow-development@life-sciences
   ```
 - **Claude.ai** — **Settings → Capabilities → Skills → Upload skill**, using the skill bundle from the `anthropics/life-sciences` repo.
+- **Alternative — K-Dense skill:** `npx skills add K-Dense-AI/scientific-agent-skills`, then enable the `nextflow` skill. A community-maintained skill (MIT collection) covering the same Nextflow / nf-core workflows; use it if you don't have `anthropics/life-sciences` marketplace access.
 
 ## What it does
 

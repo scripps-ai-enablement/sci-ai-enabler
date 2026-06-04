@@ -6,7 +6,7 @@ tool_type: Claude Skill
 supplier: K-Dense
 availability: GA
 tool_categories: [Neuroscience]
-last_verified: 2026-05-22
+last_verified: 2026-06-04
 summary: Claude skill for organizing, validating, and querying Brain Imaging Data Structure datasets — MRI, EEG, MEG, iEEG, PET, microscopy, behavioral, and 35 BIDS entities.
 ---
 
@@ -24,15 +24,15 @@ Claude skill for the Brain Imaging Data Structure standard — dataset creation,
 
 ## How to install
 
-- **Claude Code** — plugin marketplace:
+- **Claude Code / Claude.ai** — Skills CLI (recommended):
   ```
-  /plugin marketplace add K-Dense-AI/claude-scientific-skills
-  /plugin install bids@claude-scientific-skills
+  npx skills add K-Dense-AI/scientific-agent-skills
   ```
+  Installs the K-Dense collection; enable the `bids` skill when prompted (also works in Cursor/Codex via the Agent Skills spec; requires Node ≥ 18).
 - **Claude Code / Claude Desktop** — manual clone:
   ```
   git clone https://github.com/K-Dense-AI/scientific-agent-skills
-  cp -r scientific-agent-skills/scientific-skills/bids ~/.claude/skills/
+  cp -r scientific-agent-skills/skills/bids ~/.claude/skills/
   ```
 
 ## What it does
@@ -52,7 +52,7 @@ Covers the 11 current BIDS modalities — MRI (structural / functional / diffusi
 
 ## Sources
 
-- [`scientific-skills/bids/SKILL.md`](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/bids/SKILL.md)
+- [`skills/bids/SKILL.md`](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/bids/SKILL.md)
 - [`K-Dense-AI/scientific-agent-skills`](https://github.com/K-Dense-AI/scientific-agent-skills)
 - [BIDS specification](https://bids-specification.readthedocs.io/)
 

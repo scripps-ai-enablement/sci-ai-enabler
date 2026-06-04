@@ -6,7 +6,7 @@ tool_type: Claude Skill
 supplier: K-Dense
 availability: GA
 tool_categories: [Immunology and Microbiology, Drug Repurposing and Discovery]
-last_verified: 2026-05-26
+last_verified: 2026-06-04
 summary: Claude skill for protein-glycosylation analysis — N-glycosylation sequon scanning, O-glycosylation hotspot prediction, and access to NetOGlyc/GlycoShield/GlycoWorkbench for therapeutic antibody and vaccine design.
 ---
 
@@ -24,15 +24,15 @@ Claude skill that analyzes and engineers protein glycosylation — scans sequenc
 
 ## How to install
 
-- **Claude Code** — plugin marketplace:
+- **Claude Code / Claude.ai** — Skills CLI (recommended):
   ```
-  /plugin marketplace add K-Dense-AI/claude-scientific-skills
-  /plugin install glycoengineering@claude-scientific-skills
+  npx skills add K-Dense-AI/scientific-agent-skills
   ```
+  Installs the K-Dense collection; enable the `glycoengineering` skill when prompted (also works in Cursor/Codex via the Agent Skills spec; requires Node ≥ 18).
 - **Claude Code / Claude Desktop** — manual clone:
   ```
   git clone https://github.com/K-Dense-AI/scientific-agent-skills
-  cp -r scientific-agent-skills/scientific-skills/glycoengineering ~/.claude/skills/
+  cp -r scientific-agent-skills/skills/glycoengineering ~/.claude/skills/
   ```
   The skill uses `uv` to install its Python dependencies on first invocation; install `uv` first (`pipx install uv` or per the [uv install docs](https://docs.astral.sh/uv/getting-started/installation/)) so the skill can resolve its environment.
 
@@ -57,9 +57,9 @@ Claude skill that analyzes and engineers protein glycosylation — scans sequenc
 
 ## Sources
 
-- [`scientific-skills/glycoengineering/SKILL.md`](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/glycoengineering/SKILL.md)
+- [`skills/glycoengineering/SKILL.md`](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/glycoengineering/SKILL.md)
 - [`K-Dense-AI/claude-scientific-skills` marketplace](https://github.com/K-Dense-AI/claude-scientific-skills)
-- [K-Dense scientific-skills catalog](https://github.com/K-Dense-AI/claude-scientific-skills/blob/main/docs/scientific-skills.md)
+- [K-Dense scientific-skills catalog](https://github.com/K-Dense-AI/claude-skills/blob/main/docs/scientific-skills.md)
 
 ---
 

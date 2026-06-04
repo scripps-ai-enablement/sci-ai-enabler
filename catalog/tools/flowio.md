@@ -6,7 +6,7 @@ tool_type: Claude Skill
 supplier: K-Dense
 availability: GA
 tool_categories: [Immunology and Microbiology]
-last_verified: 2026-05-20
+last_verified: 2026-06-04
 summary: Skill that parses Flow Cytometry Standard (FCS v2–3.1) files into NumPy/pandas for immunophenotyping pipelines and metadata extraction.
 ---
 
@@ -24,9 +24,11 @@ Claude skill wrapping the BSD-3 `flowio` library for parsing and emitting Flow C
 
 ## How to install
 
+Install via the Skills CLI (recommended): `npx skills add K-Dense-AI/scientific-agent-skills`, then enable the `flowio` skill. Or clone the repo manually:
+
 ```
 git clone https://github.com/K-Dense-AI/scientific-agent-skills
-cp -r scientific-agent-skills/scientific-skills/flowio ~/.claude/skills/
+cp -r scientific-agent-skills/skills/flowio ~/.claude/skills/
 uv pip install flowio  # Python 3.9+
 ```
 
@@ -47,7 +49,7 @@ No external services or auth required. For compensation, gating, or GatingML, pa
 
 ## Sources
 
-- [`scientific-skills/flowio/SKILL.md`](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/flowio/SKILL.md)
+- [`skills/flowio/SKILL.md`](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/flowio/SKILL.md)
 - [`K-Dense-AI/scientific-agent-skills`](https://github.com/K-Dense-AI/scientific-agent-skills)
 
 ---
