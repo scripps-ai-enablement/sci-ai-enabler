@@ -11,6 +11,20 @@ Reverse-chronological log of changes to the [recipes cookbook](recipes/). Newest
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-06-04
+
+### Added
+
+- **Run functional enrichment on a gene list** (Problem class: Data analysis; Evidence: Reported) — rung-2 [gget skill](catalog/tools/gget.html) recipe taking a list of gene symbols through `gget enrichr` against GO BP, KEGG, Reactome, MSigDB Hallmark, and DisGeNET → per-library CSV → grounded natural-language summary with explicit verification pass against the saved tables and a random-gene negative-control step. First Molecular and Cellular Biology focus-day recipe of this run; the cookbook's first dedicated functional-enrichment / pathway-interpretation recipe and the natural downstream step after [bulk RNA-seq DE](recipes/items/run-bulk-rnaseq-differential-expression.html). `Reported` evidence anchored in [Wang et al., *GeneAgent*, *Nature Methods* 22:1677, 2025](https://doi.org/10.1038/s41592-025-02748-6) — self-verification against Enrichr and curated databases lifts ROUGE-L on MSigDB from 0.239±0.038 (GPT-4) to 0.310±0.047 (GeneAgent) across 1,106 gene sets, with 84% of 15,848 claims database-supported and 92% of self-verification decisions correct on a 132-claim expert-judged sample; complementary anchors [Hu et al., *Nat. Methods* 21:2353, 2024](https://doi.org/10.1038/s41592-024-02525-x) and [Joshi et al., *llm2geneset* (bioRxiv 2024-11-12)](https://doi.org/10.1101/2024.11.11.621189).
+
+### Verified (no changes)
+
+- 5 recipes spot-checked, `last_verified` bumped to 2026-06-04 — every linked catalog page resolves, every source URL still loads: [Sort spikes from a Neuropixels recording end-to-end](recipes/items/sort-spikes-from-neuropixels-recording.html), [Integrate multiple single-cell RNA-seq datasets across batches](recipes/items/integrate-single-cell-datasets.html), [Interpret a clinical variant from a natural-language query](recipes/items/interpret-clinical-variant.html), [Match a patient summary to recruiting clinical trials](recipes/items/match-patient-to-clinical-trials.html), [Filter a virtual screening hit list with drug-likeness rules and structural alerts](recipes/items/filter-virtual-screening-hits.html). Fixed one stale `.md` link → `.html` in the filter-virtual-screening recipe (RDKit-MCP cross-reference).
+
+### User requests
+
+- **#12 @goodb** — still cannot access the issue body (no `gh` permission in this run); leaving open in `recipes/curator-state.md` for the next run with `gh` access.
+
 ## 2026-06-03
 
 ### Added

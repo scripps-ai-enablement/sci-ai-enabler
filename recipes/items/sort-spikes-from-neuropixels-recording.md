@@ -9,7 +9,7 @@ evidence_level: Reported
 complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Workstation with GPU
-last_verified: 2026-05-22
+last_verified: 2026-06-04
 summary: Use the K-Dense neuropixels-analysis skill in Claude Code to take a raw SpikeGLX or Open Ephys Neuropixels recording through preprocessing, drift correction, and Kilosort4 to curated single units.
 ---
 
@@ -109,9 +109,9 @@ The component-level evidence for the underlying tools is robust: SpikeInterface 
 
 ## Sources
 
-- [`neuropixels-analysis/SKILL.md` (K-Dense)](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/neuropixels-analysis/SKILL.md) — last updated 2026-05; verified 2026-05-22 (this run).
+- [`neuropixels-analysis/SKILL.md` (K-Dense)](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/neuropixels-analysis/SKILL.md) — last updated 2026-05; verified 2026-06-04 (this run).
 - [SpikeAgent preprint, doi:10.1101/2025.02.11.637754](https://doi.org/10.1101/2025.02.11.637754) — posted 2025-02-11.
-- [SpikeInterface documentation](https://spikeinterface.readthedocs.io/) — verified 2026-05-22 (this run).
+- [SpikeInterface documentation](https://spikeinterface.readthedocs.io/) — verified 2026-06-04 (this run).
 
 ---
 
