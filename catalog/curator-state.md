@@ -8,11 +8,11 @@ nav_exclude: true
 
 ## Recently surfaced
 
+- **COBRApy (Claude Skill)** (added 2026-06-04) — K-Dense skill driving COBRApy for constraint-based metabolic modelling: FBA, FVA, gene/reaction knockouts, flux sampling, gapfilling, production envelopes on SBML/JSON/YAML genome-scale models. Surfaced from the Deferred queue on the Molecular and Cellular Biology focus pass.
 - **DiffDock (Claude Skill)** (added 2026-06-03) — K-Dense skill driving DiffDock, a diffusion-based deep-learning docker that predicts protein–ligand binding poses from PDB + SMILES with per-pose confidence scores; MIT-licensed skill plus MIT-licensed model. Surfaced from the Deferred queue on the Integrative Structural and Computational Biology focus pass.
 - **Adaptyv (Claude Skill)** (added 2026-06-02) — K-Dense skill that closes the design–build–test loop on the Adaptyv cloud lab: in-silico pre-screening (NetSolP / SoluProt / SolubleMPNN / ESM / ipTM / pSAE) feeding wet-lab binding / expression / thermostability / activity assays. Surfaced from the Deferred queue on the Immunology and Microbiology focus pass.
 - **DeepChem (Claude Skill)** (added 2026-06-01) — K-Dense skill driving DeepChem for molecular machine learning: GCN / GAT / MPNN / AttentiveFP graph neural nets, featurization, and the MoleculeNet benchmarks (Tox21, ClinTox, SIDER, BBBP, QM7/8/9). Surfaced from the Deferred queue on the Chemistry focus pass.
 - **PyTDC (Claude Skill)** (added 2026-05-31) — K-Dense skill for Therapeutics Data Commons benchmarks: ADMET, DTI, DDI, drug response, molecular generation (17+ oracles), retrosynthesis. Surfaced from the Deferred queue on the Drug Repurposing and Discovery focus pass.
-- **NPI Registry MCP (Anthropic Healthcare)** (added 2026-05-30) — Anthropic-published MCP server over the CMS NPPES NPI Registry API v2.1; validate, look up, and search US healthcare providers by NPI. Fourth Anthropic Healthcare MCP catalogued, completing the `cms-coverage` / `icd-10-codes` / `pubmed` set.
 
 ## Flagged for review
 
@@ -26,7 +26,7 @@ nav_exclude: true
 - **Consensus Plugin (`anthropics/life-sciences`)** — Consensus.app evidence-search connector; verify install path.
 - **biorxiv@life-sciences plugin** — `anthropics/life-sciences` marketplace entry currently DOA (`mcp.deepsense.ai` NXDOMAIN per upstream issue #42 / commit `e96556b`). Revisit when upstream restores the endpoint.
 - **clinical-trials@life-sciences plugin** — same DOA status as biorxiv@life-sciences; distinct from both the `adisinsight` plugin (Springer Nature) and the `clinicaltrials-gov-mcp` community entry. Revisit when the endpoint is restored.
-- **TorchDrug / PyOpenMS / matchms / cobrapy (K-Dense Skills)** — remaining chemistry-stack siblings; surface incrementally. (PyTDC promoted 2026-05-31; DeepChem promoted 2026-06-01; DiffDock promoted 2026-06-03.) `cobrapy` is the strongest next pick for the metabolism slice; `TorchDrug` covers protein representation learning beyond what DeepChem already handles.
+- **TorchDrug / PyOpenMS / matchms (K-Dense Skills)** — remaining chemistry-stack siblings; surface incrementally. (PyTDC promoted 2026-05-31; DeepChem promoted 2026-06-01; DiffDock promoted 2026-06-03; cobrapy promoted 2026-06-04.) `TorchDrug` covers protein representation learning beyond what DeepChem already handles; `PyOpenMS` covers mass-spectrometry proteomics; `matchms` covers MS/MS spectral matching.
 - **Retrosynthesis MCP** — no Claude-installable wrapper for AiZynthFinder / ASKCOS / IBM RXN located on the 2026-05-25 or 2026-06-01 Chemistry passes; revisit on next Chemistry-focus pass.
 - **MCP_Vina** (`shogo-d-nakamura/MCP_Vina`) — AutoDock Vina MCP server with `dock_molecule` / `get_available_targets` tools; currently single-target (AKT1 only) with `uv`-based local install. Surfaced on the 2026-06-01 Chemistry pass but deferred because the target list is too narrow to justify a catalog entry today; revisit once additional targets or a docking-grid-builder workflow lands upstream.
 - **OpenClaw Medical Skills Library** — 869-skill MIT-licensed collection; treat each individual skill (pharmacovigilance, adverse-event detection, PyHealth) as a separate entry.
