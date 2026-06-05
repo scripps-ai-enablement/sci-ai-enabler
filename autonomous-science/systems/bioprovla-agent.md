@@ -4,10 +4,15 @@ parent: Systems
 grand_parent: AI scientists
 nav_order: 48
 affiliation: East China University of Science and Technology, with Ruijin Hospital and Shihezi University
+org_short: ECUST
 lifecycle_stages: [Experiment design]
+validation_type: Wet-lab
 autonomy: Semi-autonomous
 domain: Biology (wet-lab manipulation)
+domain_group: Biology & medicine
 availability: Unknown
+access: Unknown
+tagline: Affordable embodied multi-agent system using Vision-Language-Action models for wet-lab manipulation.
 last_verified: 2026-05-31
 ---
 

@@ -4,10 +4,15 @@ parent: Systems
 grand_parent: AI scientists
 nav_order: 39
 affiliation: Princeton University (Sanfeng Wu group, with Princeton AI Lab and ECE), with University of Michigan, NIMS Tsukuba, and California State University Northridge
+org_short: Princeton
 lifecycle_stages: [Multi-stage]
+validation_type: Wet-lab
 autonomy: Fully autonomous
 domain: Quantum materials / 2D materials and van der Waals device fabrication
+domain_group: Chemistry & materials
 availability: Code on request (GitHub release stated as forthcoming)
+access: Code on request
+tagline: Embodied multi-agent system that fabricates 2D quantum materials and vdW device stacks in a robotic mini-lab.
 last_verified: 2026-05-21
 ---
 

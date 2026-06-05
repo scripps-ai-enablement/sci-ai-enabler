@@ -4,10 +4,15 @@ parent: Systems
 grand_parent: AI scientists
 nav_order: 19
 affiliation: Advanced Photon Source, Argonne National Laboratory (Du, Cherukara et al.)
+org_short: Argonne
 lifecycle_stages: [Analysis]
+validation_type: Benchmark
 autonomy: Semi-autonomous
 domain: Scientific imaging — x-ray fluorescence microscopy, x-ray diffraction, high-energy diffraction microscopy
+domain_group: Physical sciences
 availability: Unknown
+access: Unknown
+tagline: Argonne agentic harness that discovers data-processing algorithms for experimental images via zero-code search.
 last_verified: 2026-05-24
 ---
 

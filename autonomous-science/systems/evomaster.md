@@ -4,10 +4,15 @@ parent: Systems
 grand_parent: AI scientists
 nav_order: 24
 affiliation: Shanghai Jiao Tong University / SciLand / DP Technology
+org_short: SJTU
 lifecycle_stages: [Multi-stage]
+validation_type: Benchmark
 autonomy: Semi-autonomous
 domain: General
+domain_group: General / multi-domain
 availability: Open source
+access: Open source
+tagline: Domain-agnostic harness for building self-evolving scientific agents; underpins the SciMaster ecosystem.
 last_verified: 2026-05-27
 ---
 

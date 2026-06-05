@@ -4,10 +4,15 @@ parent: Systems
 grand_parent: AI scientists
 nav_order: 23
 affiliation: UNC-Chapel Hill (Angelopoulos, Cahoon, Alterovitz)
+org_short: UNC-Chapel Hill
 lifecycle_stages: [Experiment design, Analysis]
+validation_type: Wet-lab
 autonomy: Semi-autonomous
 domain: Laboratory automation across chemistry, biology, and materials science
+domain_group: General / multi-domain
 availability: Unknown
+access: Unknown
+tagline: UNC AI agent that creates, runs, and analyzes lab protocols and optimization campaigns from text requests.
 last_verified: 2026-05-24
 ---
 

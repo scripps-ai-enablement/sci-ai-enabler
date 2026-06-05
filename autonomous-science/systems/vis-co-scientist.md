@@ -4,10 +4,15 @@ parent: Systems
 grand_parent: AI scientists
 nav_order: 55
 affiliation: Lawrence Livermore National Laboratory, Vanderbilt University, University of Notre Dame
+org_short: LLNL
 lifecycle_stages: [Analysis]
+validation_type: Benchmark
 autonomy: Fully autonomous
 domain: Scientific visualization (cross-domain — climate, materials, sonar, neuroscience, mantle convection)
+domain_group: Other
 availability: Code release pending organizational review
+access: Code on request
+tagline: Agentic harness that autonomously designs custom visual-analysis apps from a dataset and task description.
 last_verified: 2026-06-02
 ---
 

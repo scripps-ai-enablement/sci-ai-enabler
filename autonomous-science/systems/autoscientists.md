@@ -4,10 +4,15 @@ parent: Systems
 grand_parent: AI scientists
 nav_order: 50
 affiliation: Harvard University (Zitnik lab)
+org_short: Harvard
 lifecycle_stages: [Multi-stage]
+validation_type: Benchmark
 autonomy: Fully autonomous
 domain: General (biomedical ML, language-model training, protein engineering)
+domain_group: General / multi-domain
 availability: Open source
+access: Open source
+tagline: Decentralized team of AI agents that self-organize around hypotheses and share results across teams.
 last_verified: 2026-06-01
 ---
 

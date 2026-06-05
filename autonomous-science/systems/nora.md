@@ -4,10 +4,15 @@ parent: Systems
 grand_parent: AI scientists
 nav_order: 46
 affiliation: University of Tennessee, Knoxville (Bing Zhou) with Emory, Texas A&M, and TikTok
+org_short: UT Knoxville
 lifecycle_stages: [Multi-stage, Writing]
+validation_type: Benchmark
 autonomy: Semi-autonomous
 domain: Spatial data science / GIScience
+domain_group: Other
 availability: Unknown
+access: Unknown
+tagline: Multi-agent autonomous research system purpose-built for GIScience and spatial data science.
 last_verified: 2026-05-31
 ---
 

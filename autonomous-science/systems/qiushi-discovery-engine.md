@@ -4,10 +4,15 @@ parent: Systems
 grand_parent: AI scientists
 nav_order: 38
 affiliation: Zhejiang University (Yang and Chen groups), with EPFL, China Jiliang University, and Hangzhou City University
+org_short: Zhejiang U
 lifecycle_stages: [Multi-stage]
+validation_type: Wet-lab
 autonomy: Fully autonomous
 domain: Optics / photonics (free-space optical platform)
+domain_group: Physical sciences
 availability: Unknown
+access: Unknown
+tagline: Agentic system performing end-to-end autonomous discovery on a real free-space optical platform.
 last_verified: 2026-05-21
 ---
 

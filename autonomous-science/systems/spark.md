@@ -4,10 +4,15 @@ parent: Systems
 grand_parent: AI scientists
 nav_order: 41
 affiliation: University Hospital Cologne and collaborators (Tolkach group)
+org_short: Cologne
 lifecycle_stages: [Multi-stage]
+validation_type: Wet-lab
 autonomy: Fully autonomous
 domain: Biology / cancer pathology
+domain_group: Biology & medicine
 availability: Open source
+access: Open source
+tagline: System of pathology agents that turns biological concepts into tools applied to H&E and spatial-biology data.
 last_verified: 2026-05-22
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: Systems
 parent: AI scientists
-nav_order: 2
+nav_order: 3
 has_children: true
 permalink: /autonomous-science/systems/
 ---

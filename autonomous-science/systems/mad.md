@@ -4,10 +4,15 @@ parent: Systems
 grand_parent: AI scientists
 nav_order: 54
 affiliation: University of Maryland; National Institute of Standards and Technology (NIST)
+org_short: Maryland
 lifecycle_stages: [Experiment design, Analysis]
+validation_type: Wet-lab
 autonomy: Fully autonomous
 domain: Materials (phase-change memory thin films)
+domain_group: Chemistry & materials
 availability: Partial — some Python integration code on GitHub
+access: Code on request
+tagline: Closed-loop framework orchestrating multiple characterization instruments for thin-film materials discovery.
 last_verified: 2026-06-02
 ---
 

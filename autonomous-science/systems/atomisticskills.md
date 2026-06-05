@@ -4,10 +4,15 @@ parent: Systems
 grand_parent: AI scientists
 nav_order: 44
 affiliation: MIT (Gómez-Bombarelli and Coley groups), with Kookmin University, Harvard, and Shell
+org_short: MIT
 lifecycle_stages: [Multi-stage]
+validation_type: Benchmark
 autonomy: Semi-autonomous
 domain: Materials / chemistry / drug discovery (atomistic simulation)
+domain_group: Chemistry & materials
 availability: Open source
+access: Open source
+tagline: Open-source skill library that lets coding agents run atomistic research in materials, chemistry, and drug discovery.
 last_verified: 2026-05-31
 ---
 

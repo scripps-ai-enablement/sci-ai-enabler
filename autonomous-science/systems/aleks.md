@@ -4,10 +4,15 @@ parent: Systems
 grand_parent: AI scientists
 nav_order: 8
 affiliation: Cornell University (Jin, Gunner, Carvajal Janke, Baruah, Gold, Jiang)
+org_short: Cornell
 lifecycle_stages: [Multi-stage]
+validation_type: Benchmark
 autonomy: Fully autonomous
 domain: Plant science / agriculture
+domain_group: Other
 availability: Unknown
+access: Unknown
+tagline: Cornell multi-agent system that turns a plant-science question and dataset into interpretable ML models.
 last_verified: 2026-05-25
 ---
 

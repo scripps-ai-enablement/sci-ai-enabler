@@ -4,10 +4,15 @@ parent: Systems
 grand_parent: AI scientists
 nav_order: 11
 affiliation: UMD, UVA, WUSTL, UNC, Google, Meta
+org_short: Maryland
 lifecycle_stages: [Hypothesis, Experiment design, Analysis]
+validation_type: Benchmark
 autonomy: Semi-autonomous
 domain: Machine learning (test-time scaling for LLM reasoning)
+domain_group: ML & scientific computing
 availability: Open source
+access: Open source
+tagline: Agentic framework that autonomously discovers test-time-scaling controllers for LLM reasoning.
 last_verified: 2026-05-23
 ---
 

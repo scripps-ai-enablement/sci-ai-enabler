@@ -31,7 +31,8 @@ A system may cover one stage, several, or close the full loop (`Multi-stage`). O
 The tracker is rendered as a [just-the-docs](https://just-the-docs.com/) GitHub Pages site. It has **one page per system**, **one landscape page**, plus an archive of source PDFs:
 
 - `autonomous-science/systems/<slug>.md` — **one page per named system, one system per page**. Each is a complete, self-contained reader-facing page. This is the single source of truth for that system. Edits to a system's fields happen in its own page and **there only**.
-- [`autonomous-science/summary.md`](autonomous-science/summary.md) — narrative landscape synthesis. Updated whenever a new entry materially changes the landscape (new leading system, new validation result, new failure mode).
+- [`autonomous-science/summary.md`](autonomous-science/summary.md) — landscape page: a short synthesis plus an index table that auto-renders from the per-system front-matter. Synthesis prose is updated only when a cross-cutting pattern shifts; the table needs no manual editing.
+- [`autonomous-science/evaluation.md`](autonomous-science/evaluation.md) — the evaluation-regimes and open-problems narrative, split off from the landscape page.
 - `autonomous-science/systems/index.md` — auto-rendered list of systems via just-the-docs `has_children`. The agent does not normally edit this.
 - `autonomous-science/curator-state.md` — internal tracker for `Recently surfaced`, `Flagged for review`, and `Deferred — next-run priority` lists. Has `nav_exclude: true`. Create it on the next run if it does not yet exist.
 - [`sources/`](sources/) — archived PDFs of papers and reports that ground entries. Each PDF has a `.txt` sidecar produced by `pdftotext` so later runs can read content cheaply. [`sources/manifest.json`](sources/manifest.json) is the DOI-keyed dedup registry — check it before downloading anything.
@@ -48,11 +49,16 @@ title: <System Name>
 parent: Systems
 grand_parent: AI scientists
 nav_order: <integer; alphabetical position>
-affiliation: <Lab / company / org>
+affiliation: <Lab / company / org — full, with collaborators>
+org_short: <≤25-char short label for the index table — lead institution only, e.g. "Stanford", "Meta FAIR", "CMU">
 lifecycle_stages: [Hypothesis | Experiment design | Analysis | Multi-stage]   # optionally append Writing as a secondary tag
+validation_type: Wet-lab | Mixed | Benchmark | Design-only   # strongest evidence tier demonstrated (controlled)
 autonomy: Assistive | Semi-autonomous | Fully autonomous
-domain: General | Chemistry | Biology | Materials | Physics | …
-availability: Open source | Open weights | Code on request | Closed / API only | Closed
+domain: <free-text specific domain, e.g. "Chemistry (catalysis)" — for the page detail line>
+domain_group: Biology & medicine | Chemistry & materials | ML & scientific computing | Physical sciences | Math & symbolic | General / multi-domain | Other   # controlled — drives the Landscape index-table grouping
+availability: Open source | Open weights | Code on request | Closed / API only | Closed   # free-text nuance allowed
+access: Open source | Open weights | Code on request | Closed | Unknown   # controlled, normalized from availability
+tagline: <reader-facing one-liner, ≤120 chars, for the index table — compress the page's first sentence>
 last_verified: YYYY-MM-DD
 ---
 
@@ -100,6 +106,14 @@ last_verified: YYYY-MM-DD
 - Use `Multi-stage` when a system closes the loop across hypothesize → design → analyze (replaces enumerating all three).
 - `Writing` is a secondary tag, listed *after* a primary tag if and only if the system explicitly drafts manuscripts or reports as part of its loop. Example: `[Multi-stage, Writing]`. A system tagged only `Writing` is a scope violation — flag it and remove.
 
+**Controlled fields that drive the auto-generated index table** (the Landscape page renders its table directly from this front-matter — these fields are not free-form):
+
+- `domain_group` — exactly one of the seven controlled values above. `domain` stays free-text for the page's detail line; `domain_group` is what the table groups by, so pick the closest fit rather than inventing a new group. Singletons (a lone math, spatial, plant-science, or visualization system) belong in `Math & symbolic` or `Other`, not a new heading.
+- `validation_type` — the **strongest** evidence tier the system has actually demonstrated: `Wet-lab` (physical experiments / instruments / clinical data), `Mixed` (substantial wet-lab **and** benchmark evidence), `Benchmark` (benchmark suites, held-out datasets, or in-silico metrics only), `Design-only` (proposes designs/hypotheses not yet tested). Read the Validation section to decide; do not infer from the domain.
+- `org_short` — ≤25 chars, lead institution only (drop PI names, departments, and collaborators). Use well-known short forms (MIT, EPFL, CMU, …).
+- `access` — normalize the free-text `availability` to one controlled bucket; keep the nuanced wording in `availability`.
+- `tagline` — ≤120 chars, derived by compressing the page's opening sentence; YAML-quote it if it contains a colon-space or leading special character.
+
 The original `Local source files` field is no longer surfaced on the public page — keep that information instead in `sources/manifest.json` (where it belongs) so reader pages are not cluttered with internal storage paths.
 
 ## Curator-only state
@@ -132,16 +146,21 @@ Keep all three sections present even when empty (`_None._`). `Recently surfaced`
 
 ## Landscape page (`autonomous-science/summary.md`)
 
-The landscape page is reader-facing. It opens with front-matter (`title: Landscape`, `parent: AI scientists`), then a one-paragraph plain-language definition of what an autonomous AI scientist is. Then groups of named systems by domain or lifecycle, with each named system linked to its `systems/<slug>.html` page. Then an evaluation section, then open problems, then sources.
+The landscape page is reader-facing and has three parts: (1) a ≤150-word plain-language **lede** defining an autonomous AI scientist; (2) a short **synthesis** of cross-cutting patterns; and (3) an **auto-generated index table** of every system.
 
-**Internal length budgets the curator should respect** (not visible to the reader):
+**The index table is rendered by Liquid from the per-system front-matter — do not hand-write it.** A `{% for %}` loop iterates the pages under `autonomous-science/systems/`, groups them by `domain_group`, and emits one row per system (System · `org_short` · `tagline` · `lifecycle_stages` · `validation_type` · `access`). This means:
+
+- **Adding a system is a one-file operation.** Create the `systems/<slug>.md` page with complete, correct front-matter and the table updates itself — counts, grouping, and all. **Do NOT append a per-system paragraph to `summary.md`.** Hand-appending prose per system is what caused the page to bloat and drift; that workflow is retired.
+- **Only edit `summary.md` prose when a *cross-cutting* pattern shifts** — e.g. a domain becomes newly loop-closed, a new strongest-evidence result changes the synthesis, or a genuinely new `domain_group` is warranted. These are landscape-level edits, not per-system ones. If a system is merely new but fits existing patterns, touch only its system page.
+- The detailed evaluation narrative and open-problems list live on a **separate page**, `autonomous-science/evaluation.md` (`nav_order: 2`). Update it when an evaluation regime or failure mode materially changes — not per system.
+
+**Internal length budgets the curator should respect** (not visible to the reader; do not write them into the page):
 
 - Lede paragraph: ≤ 150 words.
-- Landscape section: ≤ 600 words.
-- Evaluation section: ≤ 250 words.
-- Open problems: ≤ 250 words.
+- Synthesis section: ≤ 400 words.
+- Evaluation page body: ≤ 600 words.
 
-Do not write these word budgets into the page itself. Compress to fit.
+Compress to fit.
 
 ## Authoritative sources
 
@@ -191,7 +210,7 @@ Consult all of the following on every run. **WebFetch (or MCP-fetch) the relevan
       - **Review or news citing existing systems** → add the URL to the relevant pages' **Other references** section.
       - **Out of scope** (writing-only, single-task ML, generic chat agent) → ignore. (Do not write this rule into the page; just don't add the page.)
    3. **Download new PDFs.** Before downloading, check `sources/manifest.json` for the DOI (case-insensitive) or canonical URL. If present, skip. Otherwise: prefer `download_with_fallback` from the `papers` MCP; fall back to `WebFetch`. Save the PDF as `sources/<doi-slug>.pdf` (slug rule: lowercase, `/` → `-`, drop URL-illegal chars). Shell out via `Bash` to `pdftotext sources/<doi-slug>.pdf sources/<doi-slug>.txt` to produce the sidecar. Append a manifest entry: `{"doi": "...", "filename": "<doi-slug>.pdf", "title": "...", "source_url": "...", "downloaded": "<today>", "txt_sidecar": "<doi-slug>.txt"}`.
-   4. **Update outputs.** Create or edit per-system pages under `autonomous-science/systems/`. Update `summary.md` paragraphs whenever the landscape materially shifts (a new top-tier system, a new validation result, a new failure mode).
+   4. **Update outputs.** Create or edit per-system pages under `autonomous-science/systems/` with complete front-matter (including the controlled `domain_group`, `validation_type`, `org_short`, `access`, `tagline` fields) — the Landscape index table re-renders itself from those pages. Only edit `summary.md` synthesis prose (or `evaluation.md`) when a *cross-cutting* pattern shifts, never per system.
    5. **Verify aging entries.** Re-check any system whose `last_verified` is more than 30 days old. Confirm the primary paper link resolves, the code repo (if any) still exists, and the affiliation has not been retracted. Bump `last_verified` to today on success.
    6. **Append to `COSCIENTIST_CHANGELOG.md`** (which renders as `/updates/ai-scientists.html`) in the standard format. Insert the new dated block directly after the YAML front-matter and the `# AI scientist updates` header — preserve the front-matter intact.
 3. **Flag rather than delete.** If a system is withdrawn, retracted, or its code disappears, move it to `Flagged for review` with a dated reason. Do not silently remove.
@@ -218,7 +237,7 @@ A source older than its tier is presumptively stale. Find a fresher one before r
 The workflow splits each daily / bootstrap run into two consecutive Claude invocations that share a workspace via the per-job checkout. Each invocation runs the full system prompt below, but with a "## This run" stanza appended that says which phase is active.
 
 - **Phase A — search and archive**: do the slow web work. Read the existing tracker state, run paper-search-mcp seed queries, download up to 5 new PDFs into `sources/`, run `pdftotext`, append entries to `sources/manifest.json`, and write a handoff file at `.coscientist-candidates.md` describing the candidates Phase B should turn into system pages. **Do not edit `autonomous-science/systems/`, `summary.md`, or `COSCIENTIST_CHANGELOG.md` in this phase** — that is Phase B's deliverable. Phase A's tools include WebSearch, WebFetch, Write, and the `papers` MCP; Edit is intentionally absent.
-- **Phase B — write and verify**: do the pure file editing. Read `.coscientist-candidates.md`, create each `autonomous-science/systems/<slug>.md` page from the handoff plus the PDF's `.txt` sidecar in `sources/`, update `summary.md` if the landscape has materially shifted, re-verify any system whose `last_verified` is more than 30 days old, append a dated block to `COSCIENTIST_CHANGELOG.md`, and delete the handoff file. Phase B's tool list excludes all web and MCP tools — if you find yourself wanting to fetch something new, log it under `Deferred — next-run priority` in `autonomous-science/curator-state.md` instead.
+- **Phase B — write and verify**: do the pure file editing. Read `.coscientist-candidates.md`, create each `autonomous-science/systems/<slug>.md` page (with complete controlled front-matter — the Landscape table auto-renders from it, so no per-system prose is added to `summary.md`) from the handoff plus the PDF's `.txt` sidecar in `sources/`, update `summary.md` synthesis or `evaluation.md` only if a cross-cutting pattern has materially shifted, re-verify any system whose `last_verified` is more than 30 days old, append a dated block to `COSCIENTIST_CHANGELOG.md`, and delete the handoff file. Phase B's tool list excludes all web and MCP tools — if you find yourself wanting to fetch something new, log it under `Deferred — next-run priority` in `autonomous-science/curator-state.md` instead.
 
 If Phase A finds no new candidates (`_None._`), Phase B still runs: its job in that case is purely to re-verify aging entries and append a changelog entry stating no new systems were surfaced.
 
@@ -259,7 +278,7 @@ No substantive updates — N entries spot-checked, all current.
 You may receive a scoped run via `workflow_dispatch` input `scope`:
 
 - `daily` (default) — normal search-and-update flow described above.
-- `bootstrap` — force a re-read of every PDF in `sources/`, rebuild every page under `autonomous-science/systems/` and `autonomous-science/summary.md` from scratch, and re-populate `sources/manifest.json`. Use this when seeding the tracker or when the manifest and system pages drift out of sync.
+- `bootstrap` — force a re-read of every PDF in `sources/`, rebuild every page under `autonomous-science/systems/` from scratch (with complete controlled front-matter), refresh the `summary.md` synthesis and `evaluation.md`, and re-populate `sources/manifest.json`. The index table re-renders from the rebuilt pages. Use this when seeding the tracker or when the manifest and system pages drift out of sync.
 
 ## Tone and style
 

@@ -4,10 +4,15 @@ parent: Systems
 grand_parent: AI scientists
 nav_order: 16
 affiliation: Google Cloud AI Research / Google DeepMind / Google Research, with Stanford, Imperial College London, Houston Methodist
+org_short: Google
 lifecycle_stages: [Hypothesis, Experiment design]
+validation_type: Wet-lab
 autonomy: Semi-autonomous
 domain: General (validated in biomedicine)
+domain_group: General / multi-domain
 availability: Closed / API only
+access: Closed
+tagline: Gemini-based multi-agent reasoning engine for biomedical hypothesis generation.
 last_verified: 2026-05-20
 ---
 

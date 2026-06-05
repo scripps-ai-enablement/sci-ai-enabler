@@ -4,10 +4,15 @@ parent: Systems
 grand_parent: AI scientists
 nav_order: 59
 affiliation: Shanghai Artificial Intelligence Laboratory
+org_short: Shanghai AI Lab
 lifecycle_stages: [Multi-stage]
+validation_type: Benchmark
 autonomy: Semi-autonomous
 domain: Machine learning (algorithm discovery)
+domain_group: ML & scientific computing
 availability: Open source
+access: Open source
+tagline: Self-evolving multi-agent framework that discovers end-to-end ML solutions via Progressive Monte Carlo Graph Search.
 last_verified: 2026-06-05
 ---
 

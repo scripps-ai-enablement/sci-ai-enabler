@@ -4,10 +4,15 @@ parent: Systems
 grand_parent: AI scientists
 nav_order: 3
 affiliation: Google DeepMind
+org_short: Google DeepMind
 lifecycle_stages: [Multi-stage, Writing]
+validation_type: Mixed
 autonomy: Semi-autonomous
 domain: Mathematics
+domain_group: Math & symbolic
 availability: Closed / limited release
+access: Closed
+tagline: Google DeepMind agentic workbench for open-ended mathematics research with parallel ideation and proving.
 last_verified: 2026-05-23
 ---
 

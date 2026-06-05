@@ -4,10 +4,15 @@ parent: Systems
 grand_parent: AI scientists
 nav_order: 7
 affiliation: FAIR at Meta
+org_short: Meta FAIR
 lifecycle_stages: [Multi-stage]
+validation_type: Benchmark
 autonomy: Semi-autonomous
 domain: Machine learning (foundation-model architecture)
+domain_group: ML & scientific computing
 availability: Closed
+access: Closed
+tagline: Pair of Meta FAIR LLM-agent frameworks that autonomously discover novel foundation-model architectures.
 last_verified: 2026-05-23
 ---
 

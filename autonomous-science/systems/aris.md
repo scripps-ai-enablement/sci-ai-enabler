@@ -4,10 +4,15 @@ parent: Systems
 grand_parent: AI scientists
 nav_order: 9
 affiliation: Shanghai Jiao Tong University and Shanghai Innovation Institute
+org_short: SJTU
 lifecycle_stages: [Multi-stage, Writing]
+validation_type: Benchmark
 autonomy: Semi-autonomous
 domain: Machine learning research
+domain_group: ML & scientific computing
 availability: Open source
+access: Open source
+tagline: Autonomous ML research harness using cross-model adversarial collaboration between executor and reviewer.
 last_verified: 2026-05-22
 ---
 

@@ -4,10 +4,15 @@ parent: Systems
 grand_parent: AI scientists
 nav_order: 14
 affiliation: EPFL / University of Rochester
+org_short: EPFL
 lifecycle_stages: [Experiment design, Analysis]
+validation_type: Wet-lab
 autonomy: Semi-autonomous
 domain: Chemistry (organic synthesis, reaction planning)
+domain_group: Chemistry & materials
 availability: Open source
+access: Open source
+tagline: GPT-4-driven chemistry agent combining reasoning with expert tools for retrosynthesis and reaction execution.
 last_verified: 2026-05-20
 ---
 

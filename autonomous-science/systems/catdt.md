@@ -4,10 +4,15 @@ parent: Systems
 grand_parent: AI scientists
 nav_order: 56
 affiliation: Hong Kong University of Science and Technology (IAS Center for AI for Scientific Discoveries; Chemistry, CSE, CBE)
+org_short: HKUST
 lifecycle_stages: [Multi-stage]
+validation_type: Benchmark
 autonomy: Semi-autonomous
 domain: Chemistry / heterogeneous catalysis
+domain_group: Chemistry & materials
 availability: Code on request (release pending publication)
+access: Code on request
+tagline: Self-evolving multi-agent system that builds a condition-aware digital twin of a heterogeneous catalyst.
 last_verified: 2026-06-05
 ---
 

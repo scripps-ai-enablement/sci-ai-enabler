@@ -4,10 +4,15 @@ parent: Systems
 grand_parent: AI scientists
 nav_order: 37
 affiliation: Fudan University (Xia, Zhang, Chen, Wu, Yuan, Xiao)
+org_short: Fudan
 lifecycle_stages: [Multi-stage]
+validation_type: Benchmark
 autonomy: Semi-autonomous
 domain: Machine-learning research — reinforcement-learning algorithm discovery for LLMs
+domain_group: ML & scientific computing
 availability: Unknown
+access: Unknown
+tagline: Closed-loop Fudan framework that autonomously discovers policy-optimization algorithms for LLM reinforcement learning.
 last_verified: 2026-05-25
 ---
 

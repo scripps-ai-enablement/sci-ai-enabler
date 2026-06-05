@@ -4,10 +4,15 @@ parent: Systems
 grand_parent: AI scientists
 nav_order: 58
 affiliation: Bedford College (London) and Saarland University
+org_short: Bedford College
 lifecycle_stages: [Experiment design]
+validation_type: Benchmark
 autonomy: Semi-autonomous
 domain: Biology / protein engineering
+domain_group: Biology & medicine
 availability: Closed
+access: Closed
+tagline: Agentic protein language model that interleaves sequence generation with structure and docking tool calls.
 last_verified: 2026-06-05
 ---
 

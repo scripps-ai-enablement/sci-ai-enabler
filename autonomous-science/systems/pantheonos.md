@@ -4,10 +4,15 @@ parent: Systems
 grand_parent: AI scientists
 nav_order: 34
 affiliation: Stanford (Department of Genetics, Qiu lab) and collaborators
+org_short: Stanford
 lifecycle_stages: [Multi-stage]
+validation_type: Wet-lab
 autonomy: Semi-autonomous
 domain: Biology / single-cell and spatial genomics
+domain_group: Biology & medicine
 availability: Open source (ecosystem at github.com/aristoteleo); platform at pantheonos.stanford.edu
+access: Open source
+tagline: Privacy-preserving multi-agent framework for single-cell and multi-omics analysis that evolves its own code.
 last_verified: 2026-05-29
 ---
 
