@@ -15,60 +15,180 @@ body:
       description: Auto-synced from the catalog. Pick "Not listed" if your feedback isn't about one of these.
       options:
         - 10x-genomics-cloud
+        - adaptyv
         - adisinsight
+        - aeon
         - aind-data
         - allenbrain
         - alphafold
         - anndata
         - arboreto
+        - astropy
+        - autoskill
+        - benchling-integration
+        - bgpt-paper-search
         - bids
         - bio-research
         - biocontextai
         - biomcp
+        - biopython
         - biorender
+        - bioservices
+        - bulk-rnaseq
         - cellxgene-census
         - chembl
+        - cirq
+        - citation-management
+        - clinical-decision-support
+        - clinical-reports
         - clinical-trial-protocol
         - clinicaltrials-gov-mcp
         - cms-coverage
+        - cobrapy
+        - consciousness-council
+        - dask
+        - database-lookup
         - datamol
+        - deepchem
+        - deeptools
         - depmap
+        - diffdock
+        - dnanexus-integration
+        - docx
         - drugbank
+        - esm
+        - etetoolkit
+        - exa-search
+        - exploratory-data-analysis
         - fhir-developer
         - fhir-wso2
         - flowio
+        - fluidsim
+        - generate-image
+        - geniml
+        - geomaster
+        - geopandas
+        - get-available-resources
         - gget
+        - ginkgo-cloud-lab
         - glycoengineering
+        - gtars
+        - histolab
+        - hugging-science
+        - hypogenic
+        - hypothesis-generation
         - icd-10-codes
+        - imaging-data-commons
+        - infographics
         - instrument-data-to-allotrope
+        - iso-13485-certification
+        - labarchive-integration
+        - lamindb
+        - latchbio-integration
+        - latex-posters
+        - liteparse
+        - literature-review
+        - markdown-mermaid-writing
+        - markitdown
+        - matchms
+        - matlab
+        - matplotlib
         - medchem
+        - modal
         - molecular-dynamics
         - molecule-mcp
         - molfeat
+        - networkx
         - neurokit2
         - neuropixels-analysis
         - neurosift
         - nextflow-development
+        - npi-registry
+        - omero-integration
+        - open-notebook
         - open-targets
         - openneuro
+        - opentrons-integration
+        - optimize-for-gpu
         - owkin
+        - pacsomatic
+        - paper-lookup
+        - parallel-web
+        - pathml
+        - pathway-enrichment
         - pdb
+        - pdf
+        - peer-review
+        - pennylane
+        - phylogenetics
+        - polars
+        - polars-bio
+        - pptx
+        - pptx-posters
+        - primekg
         - prior-auth-review
+        - protocolsio-integration
         - pubchem
         - pubmed
+        - pufferlib
         - pydeseq2
+        - pydicom
+        - pyhealth
+        - pylabrobot
+        - pymatgen
+        - pymc
+        - pymoo
+        - pyopenms
+        - pysam
+        - pytdc
+        - pytorch-lightning
+        - pyzotero
+        - qiskit
+        - qutip
         - rdkit-mcp
         - rdkit-skill
+        - research-grants
+        - research-lookup
+        - rowan
         - scanpy
+        - scholar-evaluation
         - scholar-gateway
+        - scientific-brainstorming
+        - scientific-critical-thinking
         - scientific-problem-selection
+        - scientific-schematics
+        - scientific-slides
+        - scientific-visualization
+        - scientific-writing
         - scikit-bio
+        - scikit-learn
+        - scikit-survival
         - scvelo
         - scvi-tools
+        - seaborn
+        - shap
+        - simpy
         - single-cell-rna-qc
+        - stable-baselines3
+        - statistical-analysis
+        - statsmodels
+        - sympy
         - synapse
+        - tiledbvcf
+        - timesfm-forecasting
         - tooluniverse
+        - torch-geometric
+        - torchdrug
+        - transformers
+        - treatment-plans
+        - umap-learn
         - uniprot
+        - usfiscaldata
+        - vaex
+        - venue-templates
+        - what-if-oracle
+        - xlsx
+        - zarr-python
         - Not listed
     validations:
       required: true

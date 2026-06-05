@@ -15,18 +15,28 @@ body:
       description: Auto-synced from the cookbook. Pick "Not listed" if your feedback isn't about one of these.
       options:
         - assemble-reference-atlas-from-cellxgene-census
+        - benchmark-admet-property-with-pytdc
         - build-target-dossier
+        - compute-16s-microbiome-diversity
         - compute-hrv-from-ecg-recording
+        - convert-instrument-data-to-allotrope-asm
+        - discover-nwb-recordings-on-dandi
+        - dock-ligand-library-with-diffdock
+        - draft-phase23-clinical-trial-protocol
         - estimate-pk-properties
         - filter-virtual-screening-hits
         - infer-gene-regulatory-network-from-scrnaseq
         - integrate-single-cell-datasets
         - interpret-clinical-variant
         - match-patient-to-clinical-trials
+        - parse-fcs-flow-cytometry-files
+        - prioritize-targets-within-a-disease
         - profile-compound-polypharmacology
         - qc-single-cell-rna-seq
         - run-bulk-rnaseq-differential-expression
+        - run-functional-enrichment-on-a-gene-list
         - scan-drug-repurposing-candidates
+        - set-up-protein-md-simulation-in-gromacs
         - sort-spikes-from-neuropixels-recording
         - triage-alphafold-model-for-docking
         - triage-new-preprints
