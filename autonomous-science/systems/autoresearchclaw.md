@@ -4,10 +4,15 @@ parent: Systems
 grand_parent: AI scientists
 nav_order: 10
 affiliation: UNC-Chapel Hill (Liu, Qiu, Yao et al.) with UC Santa Cruz, CMU, NUS, UC Berkeley, Rutgers, NEC Labs America, Meta, Stanford, Google, University of Washington
+org_short: UNC-Chapel Hill
 lifecycle_stages: [Multi-stage, Writing]
+validation_type: Benchmark
 autonomy: Semi-autonomous
 domain: Machine learning, plus high-energy physics, systems biology, and statistics via sandboxed domain agents
+domain_group: ML & scientific computing
 availability: Open source
+access: Open source
+tagline: Multi-agent ML research pipeline with structured debate, a self-healing executor, and human-in-the-loop modes.
 last_verified: 2026-05-24
 ---
 

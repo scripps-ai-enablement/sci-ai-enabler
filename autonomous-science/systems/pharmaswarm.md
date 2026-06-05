@@ -4,10 +4,15 @@ parent: Systems
 grand_parent: AI scientists
 nav_order: 36
 affiliation: Systems Pharmacology AI Research Center, University of Alabama at Birmingham (Song, Trotter, Chen)
+org_short: UAB
 lifecycle_stages: [Hypothesis, Analysis]
+validation_type: Design-only
 autonomy: Semi-autonomous
 domain: Drug discovery (target identification, repurposing, lead compounds)
+domain_group: Biology & medicine
 availability: Unknown
+access: Unknown
+tagline: Multi-agent LLM swarm for hypothesis-driven drug discovery with a central Evaluator ranking targets and compounds.
 last_verified: 2026-05-25
 ---
 

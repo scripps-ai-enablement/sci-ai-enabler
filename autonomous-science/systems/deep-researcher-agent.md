@@ -4,10 +4,15 @@ parent: Systems
 grand_parent: AI scientists
 nav_order: 21
 affiliation: University of Tokyo (Xiangyue Zhang)
+org_short: U Tokyo
 lifecycle_stages: [Multi-stage]
+validation_type: Benchmark
 autonomy: Fully autonomous
 domain: Machine-learning / deep-learning research
+domain_group: ML & scientific computing
 availability: Open source
+access: Open source
+tagline: Open-source framework running LLM agents 24/7 through full deep-learning experiment cycles.
 last_verified: 2026-05-25
 ---
 

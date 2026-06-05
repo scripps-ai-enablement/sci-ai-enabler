@@ -4,10 +4,15 @@ parent: Systems
 grand_parent: AI scientists
 nav_order: 51
 affiliation: University of Notre Dame
+org_short: Notre Dame
 lifecycle_stages: [Experiment design, Analysis]
+validation_type: Benchmark
 autonomy: Semi-autonomous
 domain: Machine learning (LLM experiment configuration)
+domain_group: ML & scientific computing
 availability: Open source
+access: Open source
+tagline: RL-trained agent that extrapolates from cheap LLM runs to configure expensive scalable experiments.
 last_verified: 2026-06-01
 ---
 

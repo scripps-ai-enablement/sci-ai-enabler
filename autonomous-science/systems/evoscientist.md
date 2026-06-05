@@ -4,10 +4,15 @@ parent: Systems
 grand_parent: AI scientists
 nav_order: 25
 affiliation: Huawei Technologies (with Vrije Universiteit Amsterdam)
+org_short: Huawei
 lifecycle_stages: [Multi-stage]
+validation_type: Benchmark
 autonomy: Fully autonomous
 domain: General (evaluated on AI/ML research tasks)
+domain_group: General / multi-domain
 availability: Open source (announced)
+access: Open source
+tagline: Evolving multi-agent AI scientist whose agents share memories distilling past runs into reusable strategies.
 last_verified: 2026-05-22
 ---
 

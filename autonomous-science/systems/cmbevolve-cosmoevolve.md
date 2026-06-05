@@ -4,10 +4,15 @@ parent: Systems
 grand_parent: AI scientists
 nav_order: 15
 affiliation: University of Cambridge (Institute of Astronomy / Kavli Institute for Cosmology / Cavendish Astrophysics)
+org_short: Cambridge
 lifecycle_stages: [Multi-stage]
+validation_type: Benchmark
 autonomy: Semi-autonomous
 domain: Cosmology and astrophysics
+domain_group: Physical sciences
 availability: Code on request
+access: Code on request
+tagline: Cambridge cosmology pair of agentic systems for code evolution and virtual-research-lab simulation.
 last_verified: 2026-05-23
 ---
 

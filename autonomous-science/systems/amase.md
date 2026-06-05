@@ -4,10 +4,15 @@ parent: Systems
 grand_parent: AI scientists
 nav_order: 5
 affiliation: University of Maryland Department of Materials Science and Engineering and Maryland Quantum Materials Center (Takeuchi group), with the National Institute of Standards and Technology
+org_short: Maryland
 lifecycle_stages: [Multi-stage]
+validation_type: Wet-lab
 autonomy: Fully autonomous
 domain: Materials science (thin-film phase diagrams)
+domain_group: Chemistry & materials
 availability: Open source — code and data released as part of the manuscript
+access: Open source
+tagline: Autonomous Materials Search Engine pairing robotic thin-film XRD with CALPHAD phase-diagram prediction.
 last_verified: 2026-05-30
 ---
 

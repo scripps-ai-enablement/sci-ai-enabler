@@ -4,10 +4,15 @@ parent: Systems
 grand_parent: AI scientists
 nav_order: 30
 affiliation: Shenzhen Institutes of Advanced Technology (Chinese Academy of Sciences), with City University of Hong Kong, National University of Singapore, and Chongqing University of Posts and Telecommunications
+org_short: SIAT
 lifecycle_stages: [Multi-stage]
+validation_type: Wet-lab
 autonomy: Fully autonomous
 domain: Materials / chemistry (perovskites)
+domain_group: Chemistry & materials
 availability: Open source
+access: Open source
+tagline: Hierarchical multi-agent and robotic framework that designs, synthesizes, and optimizes perovskites.
 last_verified: 2026-05-21
 ---
 

@@ -4,10 +4,15 @@ parent: Systems
 grand_parent: AI scientists
 nav_order: 17
 affiliation: Carnegie Mellon University, Gomes Lab
+org_short: CMU
 lifecycle_stages: [Experiment design, Analysis]
+validation_type: Wet-lab
 autonomy: Fully autonomous
 domain: Chemistry (catalysis, palladium-catalyzed cross-couplings)
+domain_group: Chemistry & materials
 availability: Code on request
+access: Code on request
+tagline: GPT-4 planner driving a robotic chemistry platform fully autonomously across the experimental loop.
 last_verified: 2026-05-20
 ---
 

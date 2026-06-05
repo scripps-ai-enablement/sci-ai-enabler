@@ -4,10 +4,15 @@ parent: Systems
 grand_parent: AI scientists
 nav_order: 13
 affiliation: University of Liverpool — Department of Chemistry and Leverhulme Research Centre for Functional Materials Design (Cooper lab), with the Department of Computer Science
+org_short: Liverpool
 lifecycle_stages: [Experiment design, Hypothesis]
+validation_type: Benchmark
 autonomy: Semi-autonomous
 domain: Chemistry / materials (general black-box optimization; demonstrated on photocatalytic hydrogen evolution)
+domain_group: Chemistry & materials
 availability: Open source
+access: Open source
+tagline: Language-based assistant coupling an LLM with Bayesian optimization for literature-grounded experiment design.
 last_verified: 2026-05-30
 ---
 

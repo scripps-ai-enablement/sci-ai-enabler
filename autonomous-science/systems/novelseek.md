@@ -4,10 +4,15 @@ parent: Systems
 grand_parent: AI scientists
 nav_order: 32
 affiliation: Shanghai Artificial Intelligence Laboratory
+org_short: Shanghai AI Lab
 lifecycle_stages: [Multi-stage]
+validation_type: Benchmark
 autonomy: Semi-autonomous
 domain: General (12 AI-for-Science tasks)
+domain_group: General / multi-domain
 availability: Open source
+access: Open source
+tagline: Closed-loop multi-agent framework evaluated across 12 AI-for-Science research tasks.
 last_verified: 2026-05-20
 ---
 

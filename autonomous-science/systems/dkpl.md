@@ -4,10 +4,15 @@ parent: Systems
 grand_parent: AI scientists
 nav_order: 53
 affiliation: Oak Ridge National Laboratory
+org_short: Oak Ridge
 lifecycle_stages: [Experiment design, Analysis]
+validation_type: Wet-lab
 autonomy: Semi-autonomous
 domain: Materials (nanoscale microscopy, ferroelectrics)
+domain_group: Chemistry & materials
 availability: Unknown
+access: Unknown
+tagline: Autonomous-microscopy framework that learns a utility from expert pairwise judgements to plan nanoscale experiments.
 last_verified: 2026-06-02
 ---
 

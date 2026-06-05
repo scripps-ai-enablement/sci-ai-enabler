@@ -4,10 +4,15 @@ parent: Systems
 grand_parent: AI scientists
 nav_order: 12
 affiliation: Stanford University (Snap group, Leskovec lab), with Genentech, Arc Institute, Princeton, University of Washington, UCSF
+org_short: Stanford
 lifecycle_stages: [Multi-stage]
+validation_type: Benchmark
 autonomy: Semi-autonomous
 domain: Biomedicine (general purpose)
+domain_group: Biology & medicine
 availability: Open source
+access: Open source
+tagline: General-purpose biomedical AI agent pairing a large tool environment with a code-executing planner.
 last_verified: 2026-05-21
 ---
 

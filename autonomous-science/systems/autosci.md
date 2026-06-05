@@ -4,10 +4,15 @@ parent: Systems
 grand_parent: AI scientists
 nav_order: 52
 affiliation: Peking University (PKUDAIR)
+org_short: Peking U
 lifecycle_stages: [Multi-stage, Writing]
+validation_type: Benchmark
 autonomy: Fully autonomous
 domain: General (case studies in GPU kernel optimization and biomedical drug discovery)
+domain_group: General / multi-domain
 availability: Open source
+access: Open source
+tagline: Memory-centric agent that runs the full research lifecycle over persistent memory and evolves its own skills.
 last_verified: 2026-06-02
 ---
 

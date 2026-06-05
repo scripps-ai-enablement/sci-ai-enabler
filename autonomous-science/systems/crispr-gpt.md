@@ -4,10 +4,15 @@ parent: Systems
 grand_parent: AI scientists
 nav_order: 18
 affiliation: Stanford University (Cong lab), Princeton, UC Berkeley, Google DeepMind
+org_short: Stanford
 lifecycle_stages: [Experiment design, Analysis]
+validation_type: Wet-lab
 autonomy: Assistive
 domain: Biology (CRISPR-Cas gene editing)
+domain_group: Biology & medicine
 availability: Closed
+access: Closed
+tagline: Four-agent LLM planner for CRISPR-Cas gene-editing experiments across knockout, base, prime, and epigenetic editing.
 last_verified: 2026-05-20
 ---
 

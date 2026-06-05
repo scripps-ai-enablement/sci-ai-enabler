@@ -4,10 +4,15 @@ parent: Systems
 grand_parent: AI scientists
 nav_order: 6
 affiliation: Indian Institute of Technology Delhi, with Aalborg University, Leibniz Institute of Photonic Technology, and University of Jena
+org_short: IIT Delhi
 lifecycle_stages: [Experiment design, Analysis]
+validation_type: Wet-lab
 autonomy: Semi-autonomous
 domain: Materials / scanning-probe microscopy
+domain_group: Chemistry & materials
 availability: Open source
+access: Open source
+tagline: Multi-agent LLM framework that autonomously operates an atomic force microscope, with the AFMBench suite.
 last_verified: 2026-05-21
 ---
 

@@ -4,10 +4,15 @@ parent: Systems
 grand_parent: AI scientists
 nav_order: 57
 affiliation: MIT (Laboratory for Atomistic and Molecular Mechanics — Biological / Civil / Mechanical Engineering, Schwarzman College of Computing)
+org_short: MIT
 lifecycle_stages: [Multi-stage]
+validation_type: Benchmark
 autonomy: Semi-autonomous
 domain: Materials science / mechanics
+domain_group: Chemistry & materials
 availability: Open source
+access: Open source
+tagline: Discovery framework adding a category-theoretic, proof-carrying layer to ScienceClaw for verifiable transitions.
 last_verified: 2026-06-05
 ---
 

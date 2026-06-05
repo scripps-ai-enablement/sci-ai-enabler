@@ -4,10 +4,15 @@ parent: Systems
 grand_parent: AI scientists
 nav_order: 45
 affiliation: Google Cloud AI Research
+org_short: Google
 lifecycle_stages: [Multi-stage, Writing]
+validation_type: Benchmark
 autonomy: Fully autonomous
 domain: General (frontier ML research, plus medical imaging, fine-grained recognition, 3D perception, parameter-constrained LM)
+domain_group: General / multi-domain
 availability: Closed / API only
+access: Closed
+tagline: End-to-end autonomous research system maintaining verifiable evidence chains for every claim.
 last_verified: 2026-05-31
 ---
 

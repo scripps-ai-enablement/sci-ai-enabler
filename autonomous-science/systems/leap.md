@@ -4,10 +4,15 @@ parent: Systems
 grand_parent: AI scientists
 nav_order: 49
 affiliation: Renmin University of China (School of Physics; School of Chemistry and Life Resource)
+org_short: Renmin U
 lifecycle_stages: [Multi-stage]
+validation_type: Wet-lab
 autonomy: Semi-autonomous
 domain: Materials / chemistry (perovskite solar cells)
+domain_group: Chemistry & materials
 availability: Unknown
+access: Unknown
+tagline: Expert-in-the-loop framework coupling a domain LLM with Bayesian optimization for perovskite additive discovery.
 last_verified: 2026-06-01
 ---
 

@@ -4,10 +4,15 @@ parent: Systems
 grand_parent: AI scientists
 nav_order: 20
 affiliation: bio.xyz / BioAgents
+org_short: BioAgents
 lifecycle_stages: [Multi-stage]
+validation_type: Benchmark
 autonomy: Semi-autonomous
 domain: Biology / biomedical
+domain_group: Biology & medicine
 availability: Open source (orchestrator) + closed sub-agents
+access: Open source
+tagline: Open-source interactive multi-agent system for biomedical research, running in minutes per cycle.
 last_verified: 2026-05-22
 ---
 

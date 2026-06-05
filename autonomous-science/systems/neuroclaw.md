@@ -4,10 +4,15 @@ parent: Systems
 grand_parent: AI scientists
 nav_order: 31
 affiliation: CUHK / Northwest University / Lehigh / MGH / Harvard Kempner Institute
+org_short: CUHK
 lifecycle_stages: [Experiment design, Analysis]
+validation_type: Benchmark
 autonomy: Semi-autonomous
 domain: Biology (neuroimaging)
+domain_group: Biology & medicine
 availability: Open source
+access: Open source
+tagline: Domain-specialized multi-agent assistant for reproducible neuroimaging research on raw MRI/fMRI/EEG data.
 last_verified: 2026-05-27
 ---
 

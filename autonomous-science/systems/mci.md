@@ -4,10 +4,15 @@ parent: Systems
 grand_parent: AI scientists
 nav_order: 47
 affiliation: Korea Research Institute of Chemical Technology (KRICT) and KAIST
+org_short: KRICT
 lifecycle_stages: [Hypothesis, Analysis]
+validation_type: Benchmark
 autonomy: Fully autonomous
 domain: General (symbolic equation discovery across deterministic, stochastic, and uncharacterized dynamical systems)
+domain_group: Math & symbolic
 availability: Unknown
+access: Unknown
+tagline: Multi-agent framework blending symbolism and metaheuristics to discover explainable governing equations.
 last_verified: 2026-05-31
 ---
 

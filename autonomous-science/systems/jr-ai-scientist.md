@@ -4,10 +4,15 @@ parent: Systems
 grand_parent: AI scientists
 nav_order: 27
 affiliation: The University of Tokyo (Aizawa lab) and Tokyo University of Science
+org_short: U Tokyo
 lifecycle_stages: [Multi-stage, Writing]
+validation_type: Benchmark
 autonomy: Fully autonomous
 domain: Machine learning / computer vision
+domain_group: ML & scientific computing
 availability: Open source
+access: Open source
+tagline: Autonomous AI scientist mimicking a novice student improving on a baseline paper through iterated experiments.
 last_verified: 2026-05-22
 ---
 

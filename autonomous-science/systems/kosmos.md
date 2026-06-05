@@ -4,10 +4,15 @@ parent: Systems
 grand_parent: AI scientists
 nav_order: 28
 affiliation: Edison Scientific Inc., with FutureHouse, University of Oxford, University College London, Washington University in St. Louis, MIT, Stanford, and additional collaborators
+org_short: Edison Scientific
 lifecycle_stages: [Multi-stage, Writing]
+validation_type: Mixed
 autonomy: Semi-autonomous
 domain: General (data-driven discovery)
+domain_group: General / multi-domain
 availability: Closed / API only
+access: Closed
+tagline: AI scientist automating data-driven discovery via long cycles of parallel analysis against a world model.
 last_verified: 2026-05-21
 ---
 

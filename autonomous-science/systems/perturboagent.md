@@ -4,10 +4,15 @@ parent: Systems
 grand_parent: AI scientists
 nav_order: 35
 affiliation: Genentech / Tsinghua / Stanford (Hao, Lee, Wang, Scalia, Regev)
+org_short: Genentech
 lifecycle_stages: [Experiment design, Analysis]
+validation_type: Benchmark
 autonomy: Semi-autonomous
 domain: Biology — single-cell perturbation screens (Perturb-seq)
+domain_group: Biology & medicine
 availability: Unknown
+access: Unknown
+tagline: Self-planning Genentech LLM agent that designs iterative Perturb-seq screens, round by round.
 last_verified: 2026-05-25
 ---
 

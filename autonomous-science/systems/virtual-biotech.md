@@ -4,10 +4,15 @@ parent: Systems
 grand_parent: AI scientists
 nav_order: 43
 affiliation: Stanford University (Zou lab)
+org_short: Stanford
 lifecycle_stages: [Multi-stage]
+validation_type: Benchmark
 autonomy: Semi-autonomous
 domain: Biology / therapeutic discovery and development
+domain_group: Biology & medicine
 availability: Unknown
+access: Unknown
+tagline: Multi-agent framework mirroring a biotech org, with a CSO agent delegating computational drug discovery to specialists.
 last_verified: 2026-05-29
 ---
 

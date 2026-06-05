@@ -4,10 +4,15 @@ parent: Systems
 grand_parent: AI scientists
 nav_order: 29
 affiliation: Latent Labs (London, UK; San Francisco, USA)
+org_short: Latent Labs
 lifecycle_stages: [Multi-stage]
+validation_type: Wet-lab
 autonomy: Fully autonomous
 domain: Biology / drug discovery (biologics)
+domain_group: Biology & medicine
 availability: Closed / platform access
+access: Closed
+tagline: Lab-validated autonomous agent that runs complete de novo antibody design campaigns from text prompts.
 last_verified: 2026-05-29
 ---
 

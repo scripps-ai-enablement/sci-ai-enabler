@@ -4,10 +4,15 @@ parent: Systems
 grand_parent: AI scientists
 nav_order: 42
 affiliation: Sanofi and bmedx
+org_short: Sanofi
 lifecycle_stages: [Experiment design]
+validation_type: Benchmark
 autonomy: Assistive
 domain: Quantitative Systems Pharmacology / kinetic ODE modelling
+domain_group: Biology & medicine
 availability: Closed
+access: Closed
+tagline: Agent framework converting literature clinical scenarios into executable QSP/SBML model interventions.
 last_verified: 2026-05-20
 ---
 

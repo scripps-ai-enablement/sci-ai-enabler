@@ -4,10 +4,15 @@ parent: Systems
 grand_parent: AI scientists
 nav_order: 4
 affiliation: Sakana AI, with FLAIR (Oxford), University of British Columbia, Vector Institute
+org_short: Sakana AI
 lifecycle_stages: [Multi-stage, Writing]
+validation_type: Benchmark
 autonomy: Fully autonomous
 domain: Machine-learning research
+domain_group: ML & scientific computing
 availability: Open source
+access: Open source
+tagline: End-to-end LLM agent that ideates, codes, runs ML experiments, and writes its own reviewed paper.
 last_verified: 2026-05-20
 ---
 

@@ -4,10 +4,15 @@ parent: Systems
 grand_parent: AI scientists
 nav_order: 33
 affiliation: Washington University in St. Louis, with collaborators at Harvard Medical School, Lawrence Berkeley National Laboratory, Stanford, University of Washington
+org_short: WashU
 lifecycle_stages: [Multi-stage]
+validation_type: Wet-lab
 autonomy: Semi-autonomous
 domain: Biomedicine (clinical)
+domain_group: Biology & medicine
 availability: Open source
+access: Open source
+tagline: Open-source AI co-scientist for biomedical discovery, built on Claude Code with domain-specific Agent Skills.
 last_verified: 2026-05-20
 ---
 

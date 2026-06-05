@@ -4,10 +4,15 @@ parent: Systems
 grand_parent: AI scientists
 nav_order: 26
 affiliation: Brown University (Karniadakis group, Division of Applied Mathematics)
+org_short: Brown
 lifecycle_stages: [Multi-stage]
+validation_type: Benchmark
 autonomy: Semi-autonomous
 domain: Scientific computing / scientific machine learning
+domain_group: ML & scientific computing
 availability: Code on request (planned GitHub release upon acceptance)
+access: Code on request
+tagline: Self-improving agentic framework that expands its own action space to discover numerical algorithms.
 last_verified: 2026-05-21
 ---
 

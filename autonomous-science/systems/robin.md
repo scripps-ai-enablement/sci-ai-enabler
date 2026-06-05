@@ -4,10 +4,15 @@ parent: Systems
 grand_parent: AI scientists
 nav_order: 40
 affiliation: FutureHouse, with University of Oxford and Fordham University
+org_short: FutureHouse
 lifecycle_stages: [Multi-stage]
+validation_type: Wet-lab
 autonomy: Semi-autonomous
 domain: Biology / therapeutics
+domain_group: Biology & medicine
 availability: Open source + closed agent platform
+access: Open source
+tagline: Multi-agent system integrating hypothesis generation with data analysis in a lab-in-the-loop workflow.
 last_verified: 2026-05-20
 ---
 

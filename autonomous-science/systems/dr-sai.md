@@ -4,10 +4,15 @@ parent: Systems
 grand_parent: AI scientists
 nav_order: 22
 affiliation: Institute of High Energy Physics (CAS), with University of Chinese Academy of Sciences, Jilin University, Lanzhou University, and Shanghai Jiao Tong University
+org_short: IHEP
 lifecycle_stages: [Analysis, Experiment design]
+validation_type: Wet-lab
 autonomy: Semi-autonomous
 domain: High-energy physics (BESIII collider experiment)
+domain_group: Physical sciences
 availability: Unknown
+access: Unknown
+tagline: Multi-agent LLM system for autonomous end-to-end high-energy-physics data analysis on the BESIII detector.
 last_verified: 2026-05-21
 ---
 

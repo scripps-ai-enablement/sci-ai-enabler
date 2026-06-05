@@ -4,10 +4,15 @@ parent: Systems
 grand_parent: AI scientists
 nav_order: 2
 affiliation: Rensselaer Polytechnic Institute (Pan group)
+org_short: RPI
 lifecycle_stages: [Multi-stage, Writing]
+validation_type: Benchmark
 autonomy: Semi-autonomous
 domain: Computational fluid dynamics
+domain_group: ML & scientific computing
 availability: Open source
+access: Open source
+tagline: Open-source AI scientist for computational fluid dynamics, from ideation to solver runs to figure-grounded writing.
 last_verified: 2026-05-21
 ---
 

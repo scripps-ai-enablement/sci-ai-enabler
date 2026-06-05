@@ -4,10 +4,15 @@ parent: Systems
 grand_parent: AI scientists
 nav_order: 1
 affiliation: Brown University (Karniadakis group, Division of Applied Mathematics)
+org_short: Brown
 lifecycle_stages: [Hypothesis, Experiment design]
+validation_type: Benchmark
 autonomy: Semi-autonomous
 domain: Scientific machine learning
+domain_group: ML & scientific computing
 availability: Code on request
+access: Code on request
+tagline: Multi-agent LLM system that debates and evolutionarily refines scientific-machine-learning architectures.
 last_verified: 2026-05-21
 ---
 
