@@ -11,6 +11,29 @@ Reverse-chronological log of changes to the [guide](guide/). Newest at the top.
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-06-05
+
+### Updated
+- **[surfaces/claude-code] `/simplify` is no longer an alias for `/code-review --fix`.** Per the [v2.1.154 changelog (2026-05-28)](https://code.claude.com/docs/en/changelog) and corroborating coverage at [neoteric.no](https://www.neoteric.no/blog/claude-code-s-simplify-stopped-fixing-code-yesterday/), `/simplify` returned as a distinct cleanup-only command (reuse, simplification, efficiency, altitude — no bug-hunting). The previous claim on `surfaces/claude-code.md` that "`/simplify` now invokes `/code-review --fix`" was correct for v2.1.152 only and went stale a day later. Rewrote the `/code-review` bullet to spell out the current split (`/code-review` for bug-hunting, `/simplify` for cleanup-only) and updated the changelog source line. Beginner-relevant because anyone who scripted `/simplify` for bug-finding off a tutorial from May 27 will get different behavior today.
+- **[surfaces/claude-code] `claude --bg --exec` and `!` background-job prefix in `claude agents`.** Per the May 2026 release notes (consolidated at [claudefa.st changelog](https://claudefa.st/blog/guide/changelog) and [Anthropic's agent-view blog post](https://claude.com/blog/agent-view-in-claude-code)), in `claude agents` you can prefix a shell command with `!` to spin it up as a detachable background job, equivalent to `claude --bg --exec '<command>'` from the shell. Added a single-sentence clarification to the existing `claude --bg` bullet. Beginner-relevant because the `!` shortcut is the path most users will discover first from the agent view UI.
+
+### Verified (no changes)
+- claude-surfaces.md — install command (`curl -fsSL https://claude.ai/install.sh | bash`) re-verified via WebSearch against `claude.com/product/claude-code`; Channels, Dynamic Workflows, Claude Security, MCP tunnels, routines, sandboxing all current. The 2026-06-05 "Claude will remain ad-free" announcement is corporate policy, not a product change.
+- surfaces/claude-ai.md, surfaces/claude-desktop.md, surfaces/claude-cowork.md, surfaces/claude-api.md — unchanged this run.
+- skills.md, mcp-servers.md, plugins.md, marketplaces.md, connectors.md, decision-tree.md — unchanged this run. The `security-guidance` plugin (added 2026-06-04) remains the latest plugins.md addition.
+- advanced/hooks.md, advanced/slash-commands.md, advanced/routines.md, advanced/authentication.md — unchanged.
+
+### Flagged for review
+- WebFetch was unavailable again this run (404 on `claude-3-5-haiku-20241022`, same regression as the past several runs). All source verification this run went through WebSearch summaries of `code.claude.com/docs/en/changelog`, `code.claude.com/docs/en/code-review`, `code.claude.com/docs/en/whats-new/2026-w22`, `github.com/anthropics/claude-code/blob/main/CHANGELOG.md`, `claudefa.st/blog/guide/changelog`, `claude.com/blog/agent-view-in-claude-code`, `neoteric.no/blog/claude-code-s-simplify-stopped-fixing-code-yesterday/`, `anthropic.com/news`, and `claudelog.com/faqs/claude-code-release-notes/`. A human should spot-check the Code review docs page directly to confirm the wording that `/simplify` "runs a separate cleanup-only review that applies fixes without hunting for bugs" is still on the canonical page.
+- **`/simplify` vs `/code-review` future drift.** The two commands have changed roles three times in eight days (rename → alias → split). If Anthropic merges them again, or further differentiates the cleanup categories, revisit. The bullet is now intentionally explicit about the split so a future merge will be visible as a rewrite.
+- **Claude Mythos public release** — carried over from 2026-06-04.
+- **Project Glasswing expansion 2026-06-02** — carried over.
+- **`--channels` allowlist expansion** — carried over from 2026-06-03.
+- **`/code-review --comment` lock-in** — carried over.
+- **Sonnet 4 / Opus 4 retirement follow-up after 2026-06-15** — carried over.
+- **`claude -p` / Agent SDK billing split lands 2026-06-15** — carried over.
+- **Promote `security-guidance` to its own page** — carried over from 2026-06-04.
+
 ## 2026-06-04
 
 ### Added
