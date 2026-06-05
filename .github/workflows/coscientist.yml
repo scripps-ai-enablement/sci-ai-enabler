@@ -26,7 +26,7 @@ concurrency:
 jobs:
   coscientist:
     runs-on: ubuntu-latest
-    # Outer envelope covers two Claude phases (each up to 10 min) plus setup.
+    # Outer envelope covers two Claude phases (each capped at 15 min) plus setup.
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
@@ -46,7 +46,7 @@ jobs:
             "mcpServers": {
               "papers": {
                 "command": "/home/runner/.local/bin/uvx",
-                "args": ["paper-search-mcp"]
+                "args": ["--from", "paper-search-mcp", "python", "-m", "paper_search_mcp.server"]
               }
             }
           }
@@ -54,11 +54,11 @@ jobs:
 
       # ----- Phase A: search and archive -----
       #
-      # The claude-code-base-action enforces a 10-minute hard cap on each
-      # Claude invocation that the documented `timeout_minutes` input does
-      # not reliably override. We work within that cap by splitting the
-      # autonomous-science run into two short Claude phases that share the
-      # workspace via the per-job checkout.
+      # We split the autonomous-science run into two short Claude phases that
+      # share the workspace via the per-job checkout. Each phase has its own
+      # `timeout_minutes` hard cap (15 min); the two caps plus setup sit
+      # comfortably under the 45-minute job envelope, so a phase that hangs
+      # fails fast instead of starving the next step.
       #
       # Phase A does all the slow web work (paper search, PDF download,
       # pdftotext) and writes a small handoff file at .coscientist-candidates.md
@@ -85,7 +85,7 @@ jobs:
             echo ""
             echo "**Phase A deliverables**:"
             echo "1. Run the seed queries via the \`papers\` MCP (\`search_pubmed\`, \`search_biorxiv\`, \`search_medrxiv\`, \`search_arxiv\`), filtered to the last 30 days. Stop searching once you have 1-5 strong candidates not already in \`autonomous-science/systems/\`."
-            echo "2. For each candidate, download the primary paper PDF into \`sources/\` (use \`download_with_fallback\` first, then WebFetch as fallback). Run \`pdftotext\` to produce a \`.txt\` sidecar. Append an entry to \`sources/manifest.json\`."
+            echo "2. For each candidate, download the primary paper PDF into \`sources/\` using the source-specific \`papers\` MCP download tool (\`download_arxiv\`, \`download_pubmed\`, \`download_biorxiv\`, or \`download_medrxiv\`); fall back to WebFetch only if the MCP download fails. Run \`pdftotext\` to produce a \`.txt\` sidecar. Append an entry to \`sources/manifest.json\`."
             echo "3. Write the handoff file \`.coscientist-candidates.md\` with one block per candidate in this exact shape:"
             echo ""
             echo "   \`\`\`markdown"
@@ -123,8 +123,8 @@ jobs:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           model: claude-opus-4-8
           mcp_config: .mcp-config.json
-          timeout_minutes: "25"
-          allowed_tools: "Read,Write,Glob,Grep,Bash,WebSearch,WebFetch,mcp__papers__search_papers,mcp__papers__search_pubmed,mcp__papers__search_biorxiv,mcp__papers__search_medrxiv,mcp__papers__search_arxiv,mcp__papers__download_with_fallback,mcp__papers__download_arxiv,mcp__papers__download_pubmed,mcp__papers__download_biorxiv,mcp__papers__download_medrxiv,mcp__papers__read_arxiv_paper,mcp__papers__read_pubmed_paper,mcp__papers__read_biorxiv_paper"
+          timeout_minutes: "15"
+          allowed_tools: "Read,Write,Glob,Grep,Bash,WebSearch,WebFetch,mcp__papers__search_pubmed,mcp__papers__search_biorxiv,mcp__papers__search_medrxiv,mcp__papers__search_arxiv,mcp__papers__download_arxiv,mcp__papers__download_pubmed,mcp__papers__download_biorxiv,mcp__papers__download_medrxiv,mcp__papers__read_arxiv_paper,mcp__papers__read_pubmed_paper,mcp__papers__read_biorxiv_paper,mcp__papers__read_medrxiv_paper"
 
       - name: Confirm Phase A handoff exists
         run: |
@@ -176,7 +176,7 @@ jobs:
           prompt_file: .phase-b-prompt.md
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           model: claude-opus-4-8
-          timeout_minutes: "25"
+          timeout_minutes: "15"
           allowed_tools: "Read,Edit,Write,Glob,Grep,Bash"
 
       - name: Commit, push, and notify
