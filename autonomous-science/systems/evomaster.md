@@ -2,7 +2,7 @@
 title: EvoMaster
 parent: Systems
 grand_parent: AI scientists
-nav_order: 22
+nav_order: 24
 affiliation: Shanghai Jiao Tong University / SciLand / DP Technology
 lifecycle_stages: [Multi-stage]
 autonomy: Semi-autonomous

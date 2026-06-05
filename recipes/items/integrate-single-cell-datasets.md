@@ -2,14 +2,14 @@
 title: Integrate multiple single-cell RNA-seq datasets across batches
 parent: All recipes
 grand_parent: Recipes
-nav_order: 7
+nav_order: 13
 problem_class: Data analysis
 subject_areas: [Molecular and Cellular Biology, Immunology and Microbiology, Neuroscience]
 evidence_level: Reported
 complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Workstation with GPU
-last_verified: 2026-05-22
+last_verified: 2026-06-04
 summary: Use the scvi-tools skill in Claude Code to fit scVI (or scANVI when labels are available) on a concatenated AnnData of multiple batches, returning a batch-corrected latent space and integrated UMAP.
 ---
 
@@ -117,10 +117,10 @@ No peer-reviewed benchmark of "Claude + scvi-tools skill" against a hand-coded s
 
 ## Sources
 
-- [scvi-tools skill tutorial (Anthropic)](https://claude.com/resources/tutorials/how-to-use-the-scvi-tools-bioinformatics-skill-bundle-with-claude) — published 2025-10; verified 2026-05-22 (this run).
+- [scvi-tools skill tutorial (Anthropic)](https://claude.com/resources/tutorials/how-to-use-the-scvi-tools-bioinformatics-skill-bundle-with-claude) — published 2025-10; verified 2026-06-04 (this run).
 - [Hrovatin K. et al., "Integrating single-cell RNA-seq datasets with substantial batch effects" (PMC12577435)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12577435/) — published 2025.
 - [Yi C. et al., scIB-E preprint, doi:10.1101/2024.12.09.627450](https://doi.org/10.1101/2024.12.09.627450) — posted 2024-12-09.
-- [scvi-tools documentation](https://docs.scvi-tools.org/) — verified 2026-05-22 (this run).
+- [scvi-tools documentation](https://docs.scvi-tools.org/) — verified 2026-06-04 (this run).
 
 ---
 

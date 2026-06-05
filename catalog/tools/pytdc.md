@@ -5,22 +5,22 @@ grand_parent: Catalog
 tool_type: Claude Skill
 supplier: K-Dense
 availability: GA
-tool_categories: [Chemistry, Drug Repurposing and Discovery]
+tool_categories: [Drug Repurposing and Discovery, Chemistry, Translational Medicine]
 last_verified: 2026-06-04
-summary: Therapeutics Data Commons.
+summary: Claude skill driving PyTDC for Therapeutics Data Commons benchmarks — ADMET, drug-target / drug-drug interactions, drug response, molecular generation, retrosynthesis.
 ---
 
 # PyTDC (Claude Skill)
 
-Therapeutics Data Commons.
+Claude skill that drives [PyTDC](https://tdcommons.ai/), the Python client for **Therapeutics Data Commons** — a curated benchmark suite of drug-discovery ML datasets spanning ADMET prediction, drug-target interaction, drug-drug interaction, drug-response prediction, molecular generation, and retrosynthesis.
 
 | | |
 |---|---|
 | **Type** | Claude Skill |
-| **Supplier** | [K-Dense Inc.](https://github.com/K-Dense-AI/scientific-agent-skills) (community OSS) |
-| **Availability** | GA — part of the actively maintained K-Dense `scientific-agent-skills` collection |
-| **Pricing** | Free / OSS (MIT) |
-| **Capabilities** | Read/Write — Claude runs the skill's Python locally (Bash), not as an MCP tool |
+| **Supplier** | [K-Dense Inc.](https://github.com/K-Dense-AI/scientific-agent-skills) (community OSS); PyTDC by Harvard [mims-harvard/TDC](https://github.com/mims-harvard/TDC) |
+| **Availability** | GA — actively maintained 2025–2026 |
+| **Pricing** | Free / OSS skill (MIT collection); PyTDC itself is MIT-licensed; TDC datasets follow per-dataset licenses |
+| **Capabilities** | Read/Write — Claude executes PyTDC via Python/Bash to load datasets, run benchmarks, and call generation oracles |
 
 ## How to install
 
@@ -28,28 +28,40 @@ Therapeutics Data Commons.
   ```
   npx skills add K-Dense-AI/scientific-agent-skills
   ```
-  Installs the K-Dense collection; enable the `pytdc` skill when prompted. Works across Claude Code, Cursor, and Codex via the Agent Skills spec (requires Node ≥ 18).
+  Installs the K-Dense collection; enable the `pytdc` skill when prompted (also works in Cursor/Codex via the Agent Skills spec; requires Node ≥ 18).
 - **Claude Code / Claude Desktop** — manual clone:
   ```
   git clone https://github.com/K-Dense-AI/scientific-agent-skills
   cp -r scientific-agent-skills/skills/pytdc ~/.claude/skills/
+  pip install pytdc
   ```
-  Project-scoped alternative: copy into `.claude/skills/` instead of `~/.claude/skills/`. The skill declares its own Python dependencies in its `SKILL.md`; install them (the K-Dense skills generally use `uv` / `pip`) when prompted on first use.
+
+Project-scoped alternative: copy into `.claude/skills/` instead of `~/.claude/skills/`.
 
 ## What it does
 
-Therapeutics Data Commons. AI-ready drug discovery datasets (ADME, toxicity, DTI), benchmarks, scaffold splits, molecular oracles, for therapeutic ML and pharmacological prediction.
+`SKILL.md` with recipes for:
 
-**Primary use cases**: Therapeutics Data Commons.
+- Single-instance prediction (`single_pred`) — ADMET, toxicity, quantum properties, paratope, epitope
+- Multi-instance prediction (`multi_pred`) — drug-target interaction (DTI), drug-drug interaction (DDI), GDA, drug response, PPI
+- Generation (`generation`) — de-novo molecular generation, retrosynthesis, reaction yield, paired generation
+- Bundled helper scripts: `load_and_split_data.py`, `benchmark_evaluation.py`, `molecular_generation.py`
+- Reference docs: `datasets.md`, `oracles.md` (17+ molecule-generation oracles incl. QED, SA, DRD2, GSK3B, JNK3), `utilities.md`
+- Standard data splits (random, scaffold, cold-start), leaderboard metrics, and TDC benchmark suites (`ADMET_Group`, `DTI_DG_Group`, `Drug_Response_Group`)
+
+**Primary use cases**: Benchmarking ML models for drug discovery, ADMET property prediction, drug-target interaction screening, molecular generation with property oracles, retrosynthesis evaluation.
 
 ## Notes
 
-Distributed as a `SKILL.md` (plus code examples) in the K-Dense collection — Claude executes it locally via Bash/Python rather than as an MCP server. Upstream license: MIT. The skill name to enable after install is `pytdc`.
+Pairs with the `deepchem`, `medchem`, `datamol`, `rdkit-skill`, and `molfeat` entries — PyTDC supplies labelled benchmark splits while those skills supply featurizers and models. Some TDC datasets auto-download on first use (a few GB total across the full suite); allow disk space and network access. Skill is documentation plus Python recipes — Claude calls PyTDC locally via Bash/Python.
 
 ## Sources
 
 - [`K-Dense-AI/scientific-agent-skills`](https://github.com/K-Dense-AI/scientific-agent-skills)
 - [`skills/pytdc/SKILL.md`](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/pytdc/SKILL.md)
+- [Therapeutics Data Commons](https://tdcommons.ai/)
+- [`mims-harvard/TDC`](https://github.com/mims-harvard/TDC)
+- [Huang et al. *NeurIPS Datasets and Benchmarks* 2021](https://arxiv.org/abs/2102.09548)
 
 ---
 

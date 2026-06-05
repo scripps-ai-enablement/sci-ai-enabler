@@ -1,0 +1,1525 @@
+Machine Collective Intelligence for Explainable Scientific Discovery
+Gyoung S. Na1,2 and Chanyoung Park2
+Korea Research Institute of Chemical Technology (KRICT)
+2
+Korea Advanced Institute of Science and Technology (KAIST)
+ngs0@krict.re.kr, cy.park@kaist.ac.kr
+1
+
+arXiv:2604.27297v1 [cs.AI] 30 Apr 2026
+
+Abstract
+
+Although structural modification and post-interpretation
+methods have been developed to improve the explainability
+of connectionism-based AI [13, 14], current AI models still
+have fundamental limitations in the explainability due to
+the following two reasons: (1) Most existing methods for
+explainable AI still produce non-symbolic interpretations,
+which cause subsequent tasks to understand their interpretation results [13]. (2) They typically impose rigorous constraints on input spaces or model architectures to produce
+explainable model outputs [14].
+
+Deriving governing equations from empirical observations
+is a longstanding challenge in science. Although artificial intelligence (AI) has demonstrated substantial capabilities in function approximation, the discovery of explainable and extrapolatable equations remains a fundamental
+limitation of modern AI, posing a central bottleneck for
+AI-driven scientific discovery. Here, we present machine
+collective intelligence, a unified paradigm that integrates
+two fundamental yet distinct traditions in computational
+intelligence–symbolism and metaheuristics–to enable autonomous and evolutionary discovery of governing equations. It orchestrates multiple reasoning agents to evolve
+their symbolic hypotheses through coordinated generation,
+evaluation, critique, and consolidation, enabling scientific
+discovery beyond single-agent inference. Across scientific
+systems governed by deterministic, stochastic, or previously
+uncharacterized dynamics, machine collective intelligence
+autonomously recovered the underlying governing equations
+without relying on hand-crafted domain knowledge. Furthermore, the resulting equations reduced extrapolation error by up to six orders of magnitude relative to deep neural
+networks, while condensing 0.5-1 million model parameters
+into just 5–40 interpretable parameters. This study marks
+an important shift in AI toward the autonomous discovery
+of principled scientific equations.
+
+Symbolism for artificial intelligence
+Unlike connectionism, symbolism [15] aims to find logical
+knowledge expressed by logical symbols and to simulate
+logical reasoning process of human intelligence. Symbolic
+regression grounded in symbolism is a representative approach for deriving explainable and extrapolatable equations (or functions) from empirical data [16]. Inherently,
+symbolic regression yields human-readable mathematical
+equations and has been widely studied in statistics and
+machine learning toward the complete explainability of AI
+[17, 18].
+GPlearn is a symbolic regression framework that employs
+genetic programming to find computational programs that
+best describe the input-output relations [19]. PySR leverages a multi-population evolutionary algorithm to optimize
+computational trees that represents the relations between
+the input and output variables [20]. In addition to these
+conventional methods, several methods that leverage DNNbased reinforcement learning and transformer architecture
+have been proposed for robust symbolic regression [21, 22].
+However, despite the notable explainability of symbolic
+regression, connectionism-based AI still dominate the field
+of AI for science. This is mainly because existing symbolic
+regression methods lack the regression capability required
+to capture highly nonlinear input-output relations encountered in real-world scientific systems [23]. Although a recent
+LLM-based symbolic regression method achieved substantial improvements in regression accuracy [24], its applicability to real-world problems is still questionable because
+its regression accuracy severely depends on the pretrained
+knowledge of backbone LLMs. In this regard, for successful
+symbolic regression, it is indispensable to develop an approach that can explore search spaces beyond the reasoning
+boundaries of backbone LLMs.
+
+Artificial intelligence for science
+
+Artificial intelligence (AI) powered by deep neural networks
+(DNNs) has demonstrated notable capabilities in capturing
+high-dimensional latent relations between input and output
+variables from ground-truth observations [1, 2]. In particular, large language models (LLMs) [3] and diffusion models
+[4] are increasingly reshaping the scientific discovery workflow by enabling autonomous scientific reasoning and inverse design in a wide range of scientific domains [5, 6].
+These reasoning and generative frameworks have delivered
+substantial successes in solving longstanding scientific challenges, such as protein structure prediction [7], inverse material design [8], and fluid dynamics simulation [9].
+However, the derivation of explainable and extrapolatable function (or equations) remains a fundamental limitation of modern AI, because DNNs inherently operate
+as a black-box function approximator that yields nonexplainable interpolation functions expressed by millions
+of parameters [1, 10]. Despite substantial advances in Computational collective intelligence
+connectionism-based AI, which is implemented by DNNs,
+this limitation poses a central bottleneck for AI-driven sci- While connectionism- and symbolism-based approaches focus on implementing computational intelligence that learns
+entific discovery [11, 12].
+1
+
+Informal description of scientific knowledge
+
+Abstract syntax tree as a canonical representation
+of scientific knowledge
+
+PDF of an exponential distribution with rate 𝜆 > 0 is 𝑓 𝑥 = 𝜆𝑒 −𝜆𝑥 for 𝑥 ≥ 0 and otherwise 0.
+It starts at 𝑓 0 = 𝜆 and decreases monotonically, capturing the idea that larger values …
+
+Existing LLM-based symbolic regression methods typically formalize scientific knowledge as computer programs–
+sequences of logical symbols. In contrast, MCI formalizes
+(a) Knowledge as a program
+(b) Knowledge as an AST
+scientific knowledge as an abstract syntax tree (AST) [34],
+if
+def equation(x, lamb):
+which is a structured formal representation of symbols and
+# The distribution is defined only for nonreturn
+return
+negative values.
+their logical flows. Fig. 1 compares the program- and
+if x < 0:
+0
+return 0
+*
+AST-based formal representations of scientific knowledge.
+else:
+# 1. Calculate the exponent term
+exp
+In formal language theory, AST is used to represent canonlamb
+exp_term = -lamb * x
+ical structures of computer programs. As illustrated in Fig.
+*
+# 2. Compute the exponential function
+1(b), AST reveals the essential logical flows of computer
+exp_term = np.exp(exp_term)
+x
+programs by abstracting away execution-irrelevant informareturn lamb * exp_term
+lamb
+tion, such as variable names and comments.
+AST enables to quantify explainability of the discovered
+Figure 1: Conceptual comparison of two approaches for rep- equations as a value inversely proportional to the tree depth
+resenting scientific knowledge. (a) Program- and (b) AST- of its corresponding AST; consequently, computer programs
+based representations.
+with lower logical complexity are prioritized as knowledge
+with high explainability. In the symbolic reasoning process, MCI calculates the explainabilities of the discovered
+high-dimensional latent relations and distributions from equations and quantitatively compares them to identify the
+previous observations, metaheuristic primarily aims to im- most compact equation among the derived equations.
+plement computational intelligence that explores search
+spaces to discover novel knowledge beyond previous observations [25]. Specifically, metaheuristic instantiates high- Symbolic reasoning process
+level and general-purpose computational intelligence by or- Fig. 2 illustrates the overall symbolic reasoning process of
+ganizing iterative exploration, adaptation, and trial-and- MCI to discover governing equations for unknown scientific
+error optimization into a unified framework [26, 27, 28].
+systems. The symbolic reasoning process of MCI starts with
+In particular, population-based metaheuristics imple- an initialization step for experimental setup, followed by
+ment collective intelligence across multiple agents for co- three iterative steps for scientific discovery.
+ordinated exploration and optimization through knowledge
+Step 0: initialization. For a given hyperparameter
+propagation and accumulation schemes [27, 29]. These K ∈ N∗ , MCI builds a group of LLM-based reasoning agents
+population-based metaheuristics have demonstrated no- A1 , A2 , ..., AK , which are tasked with designing scientific
+table capabilities in solving complex search and optimiza- equations. Ak has its own local memory that stores the
+tion problems in a wide range of research fields, such current code and corresponding AST, denoted by codek
+as mathematical optimization [30], chemical engineering and ASTk , respectively. After building the agent group,
+[31], and materials science [32]. The effectiveness of the MCI registers user-defined problem specification P and inipopulation-based metaheuristics largely stems from their tial hypothesis H in a group-level shared memory of the
+knowledge-propagation and accumulation schemes, allow- agent group. The problem specification describes input and
+ing individual agents to share best experiences and thereby output variables of the target scientific system, and initial
+accelerating global convergence beyond predefined knowl- hypothesis defines a frame of the equation written by proedge [33].
+gramming languages. Given P and H, the reasoning agents
+generate their own initial equations, after which a syntax
+parser converts the equations into ASTs.
+Step 1: complexity-aware evaluation. In this step,
+Results
+MCI quantitatively evaluates the quality of the generated
+ASTs based on both their prediction errors and explainabilities. The prediction error of ASTk is computed by the sum
+Machine collective intelligence
+of squared errors (SSE)
+P [35] over the set of2 ground-truth
+Here, we present Machine Collective Intelligence (MCI), observations D, i.e., (x,y)∈D (y − ASTk (x)) , where x dea unified paradigm that integrates two fundamental yet notes a system input, y is the corresponding ground-truth
+distinct traditions in computational intelligence–symbolism output, and ASTk (x) is the output of the equation canoniand metaheuristics–for autonomous derivation of govern- calized by ASTk . The explainability of ASTk is quantified
+ing equations. MCI enables multiple reasoning agents to as the inverse of its depth, which represents logical comcollectively discover symbolic equations for unknown scien- plexity of the equation written by a programming language.
+tific systems, without relying on hand-crafted programming Formally, MCI calculates the quality of ASTk by Eq. (1),
+commands and domain knowledge. To this end, MCI com- which we term the discovery score.
+bines LLM-based reasoning agents with a population-based
+
+
+ X
+
+metaheuristic framework to facilitate knowledge accumulas(ASTk , D) = −
+(y − ASTk (x))2 + dk + Mk ,
+tion and propagation across multiple reasoning agents, al
+
+lowing scientific discovery beyond the prior knowledge of an
+(x,y)∈D
+(1)
+individual reasoning agent.
+2
+
+Agent group
+(1) Complexity-aware evaluation
+
+𝒫: Problem specification
+
+𝒜1 : Reasoning agent #1
+
+𝒜𝐾 : Reasoning agent #𝐾
+
+𝒜2 : Reasoning agent #2
+
+Mathematical function for calculating
+the acceleration.
+
+𝑠 𝐴𝑆𝑇𝑘 , 𝒟 = − σ𝑁
+𝑖=1 𝑦𝑖 − 𝐴𝑆𝑇𝑘 𝐱 𝑖
+
+x: observations of the current position.
+v: observations of the velocity at the
+current time.
+
+…
+
+…
+
+𝐴𝑆𝑇1
+
+ℋ: Initial hypothesis
+def equation(x1, x2):
+Args: …
+Retrun: …
+“””
+// Initial hypothesis
+Return w1*x1 + w2*x2 + w0
+
+𝑐𝑜𝑑𝑒1
+
+𝐴𝑆𝑇2
+
++ 𝑑𝑘 + 𝑀𝑘
+
+…
+𝐴𝑆𝑇𝐾
+
+𝑐𝑜𝑑𝑒2
+
+𝑐𝑜𝑑𝑒𝐾
+
+Reasoning
+agent #𝑖𝐾
+
+Reasoning
+agent #𝑖𝐾−1
+
+(ℛ, 𝑓𝑏𝑒𝑠𝑡 ): Collective knowledge extracted from the current best equation
+
+Reasoning
+agent #𝑖1
+
+𝒜𝑏𝑒𝑠𝑡 : Current best agent
+
+𝒫, ℋ: Problem specification and initial hypothesis
+
+Discovery score
+
+(2) Knowledge accumulation
+
+(3) AST generation
+
+Reasoning
+agent #1
+
+Reasoning
+agent #2
+
+Reasoning
+agent #𝐾
+
+𝑐𝑜𝑑𝑒1
+
+𝑐𝑜𝑑𝑒2
+
+𝑐𝑜𝑑𝑒𝐾
+
+Syntax parser
+Updated 𝐴𝑆𝑇2
+
+Collective knowledge
+
+AST updating prompt
+
+…
+
+Updated 𝐴𝑆𝑇1
+
+2
+
+Updated 𝐴𝑆𝑇𝐾
+
+<role>You are tasked with
+discovering mathematical
+function structures for
+scientific systems.</role>
+<context>
+
+Collective knowledge
+</context>
+<task>Update the current
+function below to fix the
+overestimation (or
+underestimation).</task>
+
+- `d` (Damping coefficient):
+Proportional to the velocity-dependent
+damping force.
+- `k` (Damping coefficient):
+Proportional to the positiondependent damping force.
+- The final acceleration is obtained by
+applying all correction factors to dvdt
+at time `t`. ⋯
+
+𝑎 = 𝐹 sin(𝜔𝑡) − 𝛼𝑣 3 − 𝑥𝑣 − 𝛿𝑥𝑒 𝛾𝑥
+
+Domain-specialized
+reasoning agent
+
+Knowledge extraction prompt
+<role>You are an expert in DOMAIN.</role>
+<context>
+
+𝑓𝑏𝑒𝑠𝑡 : Current equation of 𝒜𝑏𝑒𝑠𝑡
+Prior
+knowledge
+Context
+
+</context>
+<task>
+Analyze the relationships between the input
+and output variables of the equation
+function, and explain them from the
+perspective of DOMAIN.
+</task>
+
+Figure 2: The overall symbolic reasoning process of MCI to discover governing equations for unknown scientific systems.
+MCI defines collective knowledge as a tuple of fbest and its corresponding analysis result R in natural language.
+where dk is the depth of ASTk , and Mk is the number of the syntax parser converts the generated equations writfree parameters (learnable parameters) in ASTk . In accor- ten in Python code into their corresponding ASTs. Subsedance with the minimum description length (MDL) princi- quently, the symbolic reasoning process of MCI reverts to
+ple [36], MCI minimizes the number of free parameters to the complexity-aware evaluation (Step 1) and repeats the
+distill the discovered equation into its most essential regu- subsequent steps to iteratively refine the discovered governlarities, which enhances explainability by reducing the log- ing equations.
+ical ambiguity from the free parameters.
+After calculating the discovery scores of A1 , A2 , ..., AK , Algorithm 1: The overall symbolic reasoning proMCI selects the reasoning agent achieving the highest score cess of MCI for given scientific observations D
+as the current best agent Abest , and it is copied to the memInput : P: Problem specification,
+ory of MCI. The AST and its corresponding equation of
+H: Initial hypothesis,
+Abest are subsequently designated as the current best AST
+Q: User-defined problem domain,
+and equation, denoted by ASTbest and fbest , respectively.
+K ∈ N: Number of reasoning agents,
+Throughout the symbolic reasoning process, ASTbest serves
+M ∈ N: Max iterations
+as the group-level solution at the current iteration.
+Output: fbest : the best equation at the final
+iteration
+Step 2: knowledge accumulation. In this step, a
+reasoning agent specializing in a user-defined scientific do- 1 A = {A1 , A2 , ..., AK } // Group of reasoning agents
+main conducts a stochastic reasoning process to analyze the 2 // Symbolic reasoning process for scientific discovery
+logical structure of fbest and interpret the physical mean- 3 for m = 1; m ≤ M ; m = m + 1 do
+ings of its constituent variables. This produces an analysis 4
+for k = 1; k ≤ |A|; k = k + 1 do
+result R that provides a natural-language explanation of 5
+if m == 1 then
+fbest . MCI defines the collective knowledge as the tuple 6
+// For the initial code generation
+(R, fbest ), which represents group-level insights extracted 7
+codek = LLMcode (P, H)
+from ASTbest . MCI deposits the collective knowledge into 8
+end
+the shared memory within the agent group, and the reason- 9
+else
+ing agents leverages the collective knowledge when updating 10
+codek = LLMcode (ASTk , CK)
+their own AST in the subsequent AST generation step, fa- 11
+end
+cilitating a collaborative reasoning process to discover the 12
+ASTk = SyntaxParsing(codek )
+optimal governing equations for the target scientific system. 13
+sk = s(ASTk , D) // Eq. (1)
+Step 3: AST generation. In this step, each reasoning 14
+end
+agent generates new Python program implementing a candi- 15
+Abest = SelectBestAgent(A, {s1 , s2 , ..., sK })
+date governing equation under the current local and global 16
+fbest = Abest .equation
+contexts, defined by the agent’s current AST and the col- 17
+R = LLMans (fbest , Q)
+lective knowledge, respectively. For robust code generation, 18
+CK = (fbest , R)
+we designed a structured LLM prompt that embeds the 19 end
+local and global contexts alongside a code generation com- 20 return fbest
+mand. Detailed specifications of this structured prompt are
+provided in the Method section. After the code generation,
+3
+
+Table 1: Benchmark symbolic regression problems.
+Domain
+
+Physical
+science
+
+Chemical
+science
+
+Biology
+
+Problem Name
+(Target System)
+Chi2PDF [37]
+(PDF of chi-squared
+distributions)
+NDO [24]
+(Nonlinear damped
+oscillator)
+NNN [1]
+(Nonlinear neural networks
+with sigmoid function)
+MSB [38]
+(Strain-stress relation
+in a metallic material)
+FHST [39]
+(Flory–Huggins equation
+for polymer mixing)
+BDC [40]
+(Lithium-ion battery)
+SFL [41]
+(Fatigue limit of alloy
+compositions)
+NOMC [42]
+(Chemical reactor
+for non-oxidative
+methane conversion)
+ECBG [24]
+(Differential equation for
+bacterial growth rate of
+Escherichia coli)
+HHM [43]
+(Differential equation for
+membrane potential in
+Hodgkin-Huxley model)
+
+Input Variables
+
+Output Variable
+
+Governing Equation
+
+• x: Data point
+• k: Degree of freedom
+
+Probability
+density
+
+1
+dx,k = 2k/2 Γ(k/2)
+x(k/2)−1 e−x/2
+
+• t: Time
+• x: Position
+• v: Velocity
+
+Acceleration
+
+a = 0.3 sin(t) − 0.5v 3 − xv − 5xe0.5x
+
+• x1 : 1st model input
+• x2 : 2nd model input
+
+Model output
+
+Fully-connected neural network
+with two hidden layers in Eq. (5)
+
+• T : Temperature
+• ϵ: Strain
+
+Mechanical
+stress
+
+Unknown
+
+• ϕ: Volume fraction
+• N : Chain length
+• χ: Interaction param.
+Six measurement
+parameters
+(cycle, voltage, etc.)
+Weight Percents of
+ten elements and
+tempering temperature
+
+Total change
+of Gibbs free
+energy
+
+ϕ
+
+∆Gm = RT N
+ln ϕ + ψ ln ψ + χϕψ ,
+where R = 8.314, T = 300, ψ = 1 − ϕ
+
+Discharge
+capacity
+
+Unknown
+
+Fatigue limit
+
+Unknown
+
+C2 conversion
+yield
+
+Unknown
+
+Bacterial
+growth rate
+
+Differential equation for
+bacterial growth rate in Eq. (9)
+
+Rate of potential
+change
+
+Differential equation for
+Hodgkin–Huxley membrane
+potential dynamics in Eq. (11)
+
+Six engineering
+parameters
+(pressure, time, etc.)
+• b: Population density
+• s: Substrate conc.
+• T : Temperature
+• pH: pH level
+Five biophysical
+parameters
+(membrane potential,
+gating probability, etc.)
+
+mark symbolic regression problems. Detailed descriptions
+of each benchmark are provided in the Method section.
+
+Overall symbolic reasoning process
+Algorithm 1 formally describes the overall symbolic reasoning process of MCI to discover governing equations for unknown scientific systems. LLMcode denotes a reasoning operation to generate a Python code representing the governing
+equation. LLMans is an operation to analyze logical structures and physical interpretations of the generated Python
+code. SyntaxParsing is a function call to parse the Python
+code into its corresponding AST, and SelectBestAgent is
+a operation to select the current best agent Abest according
+to the discovery scores s1 , s2 , ..., sK . Finally, the algorithm
+returns fbest and CK generated at the final iteration.
+
+Experimental settings
+
+We compared MCI against three state-of-the-art symbolic
+regression methods: GPlearn [19], PySR [20], and LLMSR [24]. All competitor methods were configured according
+to their recommended settings, and hyperparameters were
+tuned within comparable computational budgets to ensure
+a fair comparison. In addition, we implemented an ablation variant termed Machine Single Intelligence (MSI) in
+which only a single reasoning agent performs evolutionary
+symbolic regression, without collective knowledge accumulation. Therefore, comparing MCI against MSI isolates the
+Experimental evaluations
+contribution of the collective intelligence of MCI, and this
+ablation study will demonstrate the efficacy of the collective
+Benchmark symbolic regression problems
+intelligence on scientific discovery.
+To rigorously assess the effectiveness of MCI in scientific
+To ensure transparency and full reproducibility, MCI was
+discovery, we conducted experimental evaluations on bench- developed independently of proprietary AI platforms (e.g.,
+mark symbolic regression problems across physics, chem- GPT-5 and Gemini). By avoiding dependence on closedistry, and biology. These benchmark problems were selected source AI systems, MCI facilitates broader access to its
+to cover a broad range of functional forms (e.g., polynomial, methodology and supports independent verification by the
+rational, transcendental, and composite expressions) and research community. To this end, all reasoning agents in
+varying levels of uncertainty in governing equations. Table MCI were implemented by Mixtral:8x7b [44], which is an
+1 summarizes the problem specifications of the ten bench- open-architecture LLM specialized for mathematical rea4
+
+Table 2: In-distribution WMAPE values of MCI and the competitor methods on the benchmark symbolic regression
+problems. N/A indicates an execution failure caused by unresolved runtime errors.
+Problem
+Chi2PDF
+NDO
+NNN
+MSB
+FHST
+BDC
+SFL
+NOMC
+ECBG
+HHM
+
+GPlearn
+0.6629 (±0.0020)
+0.4159 (±0.0009)
+0.5049 (±0.0356)
+0.1962 (±0.0206)
+0.0820 (±0.0202)
+0.0989 (±0.0044)
+0.1844 (±0.0097)
+0.2638 (±0.0220)
+1.0087 (±0.0079)
+0.5949 (±0.0048)
+
+PySR
+0.4656 (±0.0184)
+0.1713 (±0.1741)
+N/A
+0.1613 (±0.0101)
+0.0783 (±0.0091)
+0.0149 (±0.0000)
+0.1199 (±0.0047)
+0.2031 (±0.0001)
+1.4973 (±0.0001)
+0.8869 (±0.0129)
+
+LLM-SR
+0.0275 (±0.0041)
+0.0276 (±0.0032)
+0.0048 (±0.0017)
+0.0401 (±0.0045)
+0.0117 (±0.0010)
+0.0154 (±0.0038)
+0.1131 (±0.0202)
+0.1823 (±0.0167)
+0.3182 (±0.0875)
+2.24E-7 (±1.58E-7)
+
+Chi2PDF
+
+MCI
+2.22E-6 (±3.13E-6)
+1.01E-6 (±2.84E-7)
+0.0015 (±0.0001)
+0.0281 (±0.0033)
+1.25E-7 (±1.77E-7)
+0.0092 (±0.0011)
+0.0432 (±0.0012)
+0.0609 (±0.0052)
+0.0742 (±0.0079)
+7.93E-8(±4.79E-8)
+
+NDO
+
+Ground-truth:
+𝑑𝑥,𝑘 =
+
+MSI
+0.6915 (±0.0838)
+0.0642 (±0.0062)
+0.0538 (±0.0070)
+0.0791 (±0.0084)
+0.0674 (±0.0066)
+0.0137 (±0.0045)
+0.0821 (±0.0076)
+0.1658 (±0.0147)
+0.3460 (±0.0151)
+0.0004 (±0.0006)
+
+FHST
+Ground-truth:
+
+Ground-truth:
+
+1
+𝑥 𝑘/2 −1 𝑒 −𝑥/2
+2𝑘/2 Γ(𝑘/2)
+
+𝑎 = 0.3sin 𝑡 − 0.5𝑣 3 − 𝑥𝑣 − 5𝑥𝑒 0.5𝑥
+
+𝜙
+ln 𝜙 + 𝜓 ln 𝜓 + 𝜒𝜙𝜓
+𝑁
+
+∆𝐺𝑚 = 2494
+
+LLM-SR:
+
+LLM-SR:
+
+0.1836 sin(𝑡) − 0.1378𝑣 − 3.0572𝑥 − 1.4857𝑥 2
+𝑎=
+0.6086 − −0.2001 + 0.0734 sin 𝑡 𝑣
+
+∆𝐺𝑚 = 2648𝜙 ln
+
+MCI:
+
+MCI:
+
+MCI:
+
+1
+𝑑𝑥,𝑘 = 𝑘/2
+max(𝑥, −0.0123) 𝑘/2 −1 𝑒 − max(𝑥,−0.0123)/2
+2 Γ(𝑘/2)
+
+𝑑𝑣
+𝑎=
+− 0.0002𝑥𝑒 −0.0004𝑥 𝑒 −0.0004𝑥
+𝑑𝑡
+
+𝑓𝑑𝑟𝑐 = 2494
+
+LLM-SR:
+𝑑𝑥,𝑘 =
+
+1
+|0.3298𝑥| + 0.3428 𝑘 − 0.0758
+
+2𝜋
+
+𝑒 −𝑔(𝑥)/2
+
+𝜙
++ 𝜙 ln 𝜙 + 𝜓 ln 𝜓 + ⋯
+𝑁
+
+𝜙
+ln 𝜙 + 𝜓 ln 𝜓 + 𝜒𝜙𝜓
+𝑁
+
+NNN
+Ground-truth:
+(2)
+(2)
+Output layer: 𝑦 = 𝑤1 𝑧1 + 𝑤2 𝑧2 + 𝑏 (2)
+
+1
+
+Hidden layer: 𝑧1 =
+1+𝑒
+
+1
+
+1
+
+1
+
+− 𝑤11 𝑥1 +𝑤12 𝑥2 +𝑏1
+
+and
+
+1
+
+𝑧2 =
+1+𝑒
+
+1
+
+1
+
+1
+
+− 𝑤21 𝑥1 +𝑤22 𝑥2 +𝑏2
+
+LLM-SR:
+Output layer: 𝑦 = 𝑤1 𝑥13 + 𝑤2 𝑥12 + 𝑤3 𝑥1 + 𝑥4 𝑥23 + 𝑤5 𝑥22 + 𝑤6 𝑥2 + 𝑥7 𝑥12 𝑥2 + 𝑤8 𝑥1 𝑥22 + 𝑤9 𝑥1 𝑥2 − 𝑤10
+
+MCI:
+(2)
+(2)
+Output layer: 𝑦 = 𝑤1 𝑧1 + 𝑤2 𝑧1
+
+1
+
+Hidden layer: 𝑧1 =
+1+𝑒
+
+1
+
+1
+
+1
+
+− 𝑤11 𝑥1 +𝑤12 𝑥2 +𝑏1
+
+and
+
+1
+
+𝑧2 =
+1+𝑒
+
+1
+
+1
+
+(1)
+
+− 𝑤21 𝑥1 𝑥2 +𝑤22 𝑥12 𝑥22 +𝑏2
+
+Figure 3: Ground-truth and discovered governing equations on the Chi2PDF, NDO, NNN, and FHST problems for which
+(k)
+(k)
+the governing equations are analytically given. wij and wi are learnable weight parameters of the neural network.
+soning and programming.
+In the experimental evaluations, the ground-truth observations were partitioned into two non-overlapping subsets:
+training and test datasets. The training dataset was used
+to calculate the discovery scores of the equations discovered
+by the symbolic regression methods. The test dataset was
+used exclusively to evaluate the generalization capability of
+the discovered equations.
+The generalization error of the equations was quantified
+by weighted mean absolute percentage error (WMAPE) [45]
+on the test dataset. WMAPE calculates the proportion of
+the prediction error relative to the total sum of groundtruth observation, providing a scale-invariant measure of
+percentage error. Formally, WMAPE is given by:
+
+puts, respectively. Lower WMAPE in the test dataset indicates better scale-invariant generalization accuracy. For
+a more rigorous evaluation, generalization errors quantified
+by normalized mean squared error (NMSE) [46] and mean
+absolute error (MAE) [47] are additionally reported in the
+Supplementary Information. These supplementary results
+on diverse evaluation metrics confirms that the superiority
+of MCI is invariant to the choice of an evaluation metric.
+Symbolic regression accuracy
+
+We measured WMAPE of the equations discovered by the
+symbolic regression methods on the held-out test datasets
+generated under in-distribution conditions to assess their
+generalization capabilities to unseen scientific observations.
+PN
+i=1 |yi − ŷi |
+,
+(2) All evaluations were repeated independently five times, and
+WMAPE = PN
+we reported the mean and standard deviation of WMAPE
+i=1 |yi |
+obtained from the repetitions. Table 2 presents WMAPE of
+where yi and ŷi denote the ground-truth and model out- the competitor symbolic regression methods and proposed
+5
+
+DNN
+
+LLM-SR
+
+MCI
+
+Figure 4: WMAPE of DNN, LLM-SR, and MCI under OOD conditions across six benchmark problems (Chi2PDF, NDO,
+NNN, FHST, ECBG, and HHM) for which the governing equations are known.
+project the input variables to the output domain, indicating MCI discovered the underlying physics of the nonlinear damped oscillators behind the empirical observations.
+Finally, MCI perfectly reconstructed the governing equation on the FHST problem, despite the presence of multiple
+discontinuities and heuristically selected coefficients in the
+governing equation.
+
+MCI on the symbolic regression benchmarks.
+In this experimental evaluation, we observed two primary
+results: First, the conventional symbolic regression methods, GPlearn and PySR, exhibited WMAPE values exceeding 0.1 on the Chi2PDF, NDO, MSB, SFL, NOMC, ECBG,
+and HHM problems, indicating an inability to accurately
+reconstruct the underlying governing equations. In particular, PySR failed to perform symbolic regression on the
+NNN problem due to unresolved runtime errors. Second,
+although LLM-SR achieved accuracy improvements over
+the conventional symbolic regression baselines, its WMAPE
+values still exceeded 0.1 on the SFL, NOMC, and ECBG
+problems. In contrast, MCI outperformed all symbolic regression methods and consistently yielded WMAPE below
+0.1 across all benchmark problems. Quantitatively, MCI
+slashed 29.92-99.99% generalization errors relative to those
+of the state-of-the-art method (LLM-SR), demonstrating its
+superior capacity for the autonomous derivation of scientific
+equations.
+Fig. 3 compares the ground-truth governing equations
+with the equations discovered by LLM-SR and MCI for the
+Chi2PDF, NDO, NNN, and FHST problems. To ensure
+a thorough analysis, we provided the original LLM-driven
+equations without any substitutions and simplifications in
+the Supplementary Information. In this evaluation, although LLM-SR also attained low WMAPE values on these
+problems, its scientific discovery process still largely relied
+on combinatorial enumerations over mathematical symbols
+to approximate input-output mappings, rather than uncovering the essential structures of the governing equations.
+In contrast, MCI successfully uncovered the essential
+structures of the ground-truth governing equations on these
+benchmark problems. For the Chi2PDF problem, although
+MCI slightly mis-defined the domain of x as (−0.0123, +∞)
+rather than the true range (0, +∞), it accurately captured
+the essential structure of the probability density function
+(PDF) of chi-squared distributions for arbitrary x and the
+degrees of freedom k. On the NDO problem, MCI generated an equation expressed by the derivative of velocity v
+with respect to time t beyond an symbolic approximator to
+
+Symbolic regression beyond reasoning boundaries
+of backbone LLMs
+The results on the NOMC problem are especially noteworthy because the target scientific system is our in-house
+chemical reactor with extensive chemical uncertainty. Since
+the pretrained knowledge of backbone LLMs does not fully
+encompass the underlying physics of our in-house chemical
+reactor, the NOMC problem provides a stringent benchmark for evaluating whether collective intelligence can discover scientific knowledge beyond the priors of a single reasoning agent.
+As reported in Table 2, LLM-SR showed a large WMAPE
+of 0.1823 on the NOMC problem, exhibiting a fundamental
+limitation of existing LLM-based symbolic regression methods: they excessively tend to rely on pretrained knowledge
+of backbone LLMs rather than exploring uncharted scientific knowledge. By contrast, MCI achieved a substantially
+lower WMAPE of 0.0609 and reduced 66.59% error compared to the WMAPE of LLM-SR. This evaluation result
+on the NOMC problem demonstrates the potential of MCI
+for scientific discovery beyond prior knowledge of backbone
+LLMs.
+Ablation study on collective intelligence
+To evaluate the efficacy of collective intelligence, we
+conducted an ablation study comparing in-distribution
+WMAPE values of MSI and MCI. As shown in Table
+2, despite sharing identical architectures and reasoning
+pipelines, MCI consistently outperformed MSI across all
+benchmark problems, achieving a significant reduction in
+6
+
+Chi2PDF
+
+NDO
+
+NNN
+
+FHST
+
+Data point (𝑥)
+
+Time (𝑡)
+
+First input feature (𝑥1 )
+
+Interaction parameter (𝜒)
+
+ECBG
+
+Population density (𝑏)
+
+HHM
+
+Temperature (𝑇)
+
+Membrane potential (𝑉)
+
+External current (𝐼𝑒𝑥𝑡 )
+
+Figure 5: Prediction errors of the equations discovered by LLM-SR (black) and MCI (red). X-axis: Input variable
+of the equation. Y-axis: The absolute difference between ground-truth and predicted outputs. Gray-shaded area: Indistribution range of the input variable.
+generalization error of 39.42–99.99%. Furthermore, the persistently higher standard deviations observed in MSI indicate that its final outcomes are inherently sensitive to initial
+seeding. This instability in MSI stems from the fact that
+its entire discovery process is contingent upon the initial
+hypotheses stochastically generated by a single reasoning
+agent. These results underscore the pivotal role of collective intelligence in enhancing the discovery capability of
+symbolic regression frameworks.
+
+Ground-truth:
+
+MCI:
+
+𝑎 = 0.3sin 𝑡 − 0.5𝑣 3 − 𝑥𝑣 − 5𝑥𝑒 0.5𝑥
+
+𝑎=
+
+Numerical evaluation on OOD generalization
+
+𝑑𝑣
+− 0.0002𝑥𝑒 −0.0004𝑥 𝑒 −0.0004𝑥
+𝑑𝑡
+
+MCI ∖AST :
+
+Out-of-distribution (OOD) generalization remains a fundamental challenge for modern AI, including LLMs and generative diffusion models [48]. To assess extrapolation robustness, we generated ground-truth OOD samples for six
+benchmark problems for which the governing equations are
+known: Chi2PDF, NDO, NNN, FHST, ECBG, and HHM.
+Then, we compared WMAPE of the equations discovered
+by DNN, LLM-SR, and MCI on the OOD samples.
+Fig. 4 presents WMAPE of DNN, LLM-SR, and MCI on
+both in-distribution and OOD conditions. Although DNN
+achieved WMAPE below 0.1 for all benchmark problems,
+DNN failed to extrapolate on the Chi2PDF, FHST, ECBG,
+and HHM problems, where its WMAPE exceeded 1.0 on the
+OOD conditions. This result underscores the fundamental
+limitation of modern AI on extrapolation problems. LLMSR likewise exhibited high WMAPE on the OOD samples,
+as its scientific discovery process still heavily relies on combinatorial enumerations to approximate input-output mappings as shown in Fig. 3, which lacks the OOD generalization.
+By contrast, MCI maintained WMAPE < 0.1 for all
+benchmark problems. This robustness stems from i ts emphasis on uncovering the essential structures of the governing equations beyond empirical input–output fitting, as
+described in Fig. 3. The primary distinction between LLMSR and MCI lies in the implementation of collective intelli-
+
+− clip 1 +
+
+𝑥
+1+ 𝑣
+
+2
+
++ 1.0752 𝑥
+
+−8
++ 2 × 10−8𝑒 −1.0752|𝑥| , if 𝑥 < 10
+
+𝑎=
+𝑑𝑣
++ 2 × 10−8 𝑒 −1.0752|𝑥| ,
+𝑑𝑡
+
+otherwise
+
+Figure 6: The governing equations derived by MCI and
+MCI\AST with their respective OOD error convergence on
+the NDO problem. clip is a build-in function that constrains values to the range between 0 and 1.
+gence, and the substantial improvement in OOD generalization achieved by MCI clearly demonstrates the efficacy of
+its collective intelligence in the scientific discovery. Collectively, these experimental results demonstrate MCI’s capacity to overcome the fundamental extrapolation challenges of
+modern AI.
+Qualitative analysis on OOD generalization
+Fig. 5 shows the absolute errors of the equations discovered
+by LLM-SR (black) and MCI (red) on the Chi2PDF, NDO,
+NNN, and FHST problems, for which the governing equations are analytically given. The absolute error is formally
+defined as the absolute difference between the ground-truth
+7
+
+y and predicted outputs ŷ, which is given by |y − ŷ|. For
+a comparative analysis, we presented a gray-shaded area to
+indicate the in-distribution range of the input variable.
+Our experiments identified two critical limitations of the
+state-of-the-art symbolic regression method, LLM-SR, in
+OOD generalization: (1) Despite the averaged percentage
+errors below 0.1 on the NDO, NNN, and HMM problems,
+LLM-SR produced large absolute errors for many OOD input values. (2) While LLM-SR yields accurate predictions
+on in-distribution conditions for the NDO, NNN, ECGB,
+and HHM problems, its absolute errors escalated rapidly
+under OOD conditions, making a failure in extrapolation.
+In contrast, MCI exhibited consistent generalization errors across the in-distribution and OOD conditions on the
+Chi2PDF, NDO, NNN, FHST, and ECGB problems. In
+addition, even when OOD inputs were generated from extreme ranges (−100 < V < −75 and 35 < Iext < 50), MCI
+maintained the absolute error below 5 × 10−4 in most cases,
+reducing 97.5% WMAPE compared two it of LLM-SR under the OOD condition. Overall, the experiment results in
+Fig. 5 demonstrates the superior prediction accuracy and
+robustness of MCI under OOD conditions.
+
+Limitations and future work
+
+AST representation and explainability
+
+[3] Naveed, H. et al. A comprehensive overview of large
+language models. ACM Transactions on Intelligent
+Systems and Technology 16, 1–72 (2025).
+
+While this study employs an elitism-based knowledge
+propagation scheme [49] to implement collective intelligence, there exist diverse implementation choices of alternative strategies for disseminating population-level knowledge
+among search agents [50, 51, 52]. Since well-tailored propagation schemes are known to improve both exploration
+and exploitation capabilities [53], the symbolic reasoning
+performance of MCI might be further enhanced through
+alternative implementations of the knowledge propagation
+schemes. Consequently, comparative analyses of MCI for
+diverse propagation schemes remain a promising future research.
+
+References
+[1] LeCun, Y., Bengio, Y. & Hinton, G. Deep learning.
+nature 521, 436–444 (2015).
+[2] Vaswani, A. et al. Attention is all you need. Advances
+in neural information processing systems 30 (2017).
+
+MCI employs AST as a formal representation of scientific
+knowledge, enabling the quantification of the explainability as shown in Eq. (1). To investigate the impact of the
+AST representation on symbolic reasoning, we compared
+the governing equations derived by MCI with those from
+its ablation variant lacking AST (MCI\AST ). Fig. 6 shows
+the governing equations derived by MCI and MCI\AST with
+their respective OOD error convergence on the NDO problem.
+We observed two main results: (1) The complexity regularization by the AST representation facilitates faster and
+more robust OOD error convergence by prioritizing underlying physical laws over the localized function approximations, as shown in the OOD error convergence. (2) Although MCI\AST captured the underlying physics expressed
+by the time derivative of v, it eventually yielded excessively
+complex equations. Consequently, there results presents
+that the AST representation and associated discovery score
+function are essential for deriving explainable and extrapolatable equations.
+
+[4] Yang, L. et al. Diffusion models: A comprehensive
+survey of methods and applications. ACM computing
+surveys 56, 1–39 (2023).
+[5] Romera-Paredes, B. et al. Mathematical discoveries
+from program search with large language models. Nature 625, 468–475 (2024).
+[6] Huang, L. et al. A dual diffusion model enables 3d
+molecule generation and lead optimization based on
+target pockets. Nature Communications 15, 2657
+(2024).
+[7] Jumper, J. et al. Highly accurate protein structure
+prediction with alphafold. nature 596, 583–589 (2021).
+[8] Zeni, C. et al. A generative model for inorganic materials design. Nature 639, 624–632 (2025).
+[9] Kochkov, D. et al. Machine learning–accelerated computational fluid dynamics. Proceedings of the National
+Academy of Sciences 118, e2101784118 (2021).
+
+Discussion
+MCI and symbolic regression
+
+MCI distinguishes itself from conventional symbolic regres- [10] ŞAHiN, E., Arslan, N. N. & Özdemir, D. Unlocking
+sion through three fundamental respects: (1) It replaces
+the black box: an in-depth review on interpretability,
+combinatorial enumeration with adaptive hypothesis evoexplainability, and reliability in deep learning. Neural
+lution mediated by inter-agent critique and consolidation,
+Computing and Applications 37, 859–965 (2025).
+enabling scientific discovery beyond the reasoning boundaries of individual intelligence. (2) It facilitates systematic [11] Messeri, L. & Crockett, M. J. Artificial intelligence and
+knowledge accumulation and propagation for non-myopic
+illusions of understanding in scientific research. Nature
+exploration and progressive refinement of symbolic equa627, 49–58 (2024).
+tions beyond a predefined symbol set. (3) It integrates
+a domain-specialized reasoning agent that extracts logical [12] Branda, F., Ciccozzi, M. & Scarpa, F. Artificial intellistructures and physical meanings from candidate equations
+gence in scientific research: Challenges, opportunities
+and feeds these insights back into the collective search as
+and the imperative of a human-centric synergy. Jourstructured guidance.
+nal of Informetrics 19, 101727 (2025).
+8
+
+[13] Ribeiro, M. T., Singh, S. & Guestrin, C. ” why should [28] Dorigo, M., Birattari, M. & Stutzle, T. Ant colony optimization. IEEE computational intelligence magazine
+i trust you?” explaining the predictions of any classi1, 28–39 (2007).
+fier. In Proceedings of the 22nd ACM SIGKDD international conference on knowledge discovery and data
+[29] Karaboga, D. & Akay, B. A comparative study of armining, 1135–1144 (2016).
+tificial bee colony algorithm. Applied mathematics and
+[14] Leem, S. & Seo, H. Attention guided cam: visual explacomputation 214, 108–132 (2009).
+nations of vision transformer guided by self-attention.
+In Proceedings of the AAAI conference on artificial in- [30] Li, R., Wang, L., Gong, W. & Ming, F. An evolutionary multitasking memetic algorithm for multitelligence, vol. 38, 2956–2964 (2024).
+objective distributed heterogeneous welding flow shop
+[15] Makke, N. & Chawla, S. Interpretable scientific disscheduling. IEEE Transactions on Evolutionary Comcovery with symbolic regression: a review. Artificial
+putation (2024).
+Intelligence Review 57, 2 (2024).
+[31] Lee, S. W., Gebreyohannes, T. G., Shin, J. H., Kim,
+[16] Dong, J. & Zhong, J. Recent advances in symbolic
+H. W. & Kim, Y. T. Carbon-efficient reaction opregression. ACM Computing Surveys 57, 1–37 (2025).
+timization of nonoxidative direct methane conversion
+based on the integrated reactor system. Chemical En[17] Makke, N. & Chawla, S. Symbolic regression: A pathgineering Journal 481, 148286 (2024).
+way to interpretability towards automated scientific
+discovery. In Proceedings of the 30th ACM SIGKDD
+Conference on Knowledge Discovery and Data Mining, [32] Jennings, P. C., Lysgaard, S., Hummelshøj, J. S.,
+Vegge, T. & Bligaard, T. Genetic algorithms for com6588–6596 (2024).
+putational materials discovery accelerated by machine
+learning. NPJ Computational Materials 5, 46 (2019).
+[18] Angelis, D., Sofos, F. & Karakasidis, T. E. Artificial
+intelligence in physical sciences: Symbolic regression
+trends and perspectives. Archives of Computational [33] Rajwar, K., Deep, K. & Das, S. An exhaustive review of the metaheuristic algorithms for search and
+Methods in Engineering 1 (2023).
+optimization: taxonomy, applications, and open chal[19] Stephens, T. gplearn documentation. Release 0.4 2
+lenges. Artificial Intelligence Review 56, 13187–13257
+(2023).
+(2023).
+[20] Cranmer, M. Interpretable machine learning for sci- [34] Neamtiu, I., Foster, J. S. & Hicks, M. Understandence with pysr and symbolicregression. jl. arXiv
+ing source code evolution using abstract syntax tree
+preprint arXiv:2305.01582 (2023).
+matching. In Proceedings of the 2005 international
+workshop on Mining software repositories, 1–5 (2005).
+[21] Mundhenk, T. et al. Symbolic regression via deep reinforcement learning enhanced genetic programming [35] Bickel, P. J. & Doksum, K. A. Mathematical statistics:
+seeding. Advances in Neural Information Processing
+basic ideas and selected topics, volumes I-II package
+Systems 34, 24912–24923 (2021).
+(Chapman and Hall/CRC, 2015).
+[22] Kamienny, P.-A., d’Ascoli, S., Lample, G. & Charton,
+[36] Rissanen, J. Modeling by shortest data description.
+F. End-to-end symbolic regression with transformers.
+Automatica 14, 465–471 (1978).
+Advances in Neural Information Processing Systems
+35, 10269–10281 (2022).
+[37] Greenwood, P. E. & Nikulin, M. S. A guide to chisquared testing (John Wiley & Sons, 1996).
+[23] de Franca, F. O. et al. Srbench++: principled benchmarking of symbolic regression with domain-expert in- [38] Aakash, B., Connors, J. & Shields, M. D. Stress-strain
+terpretation. IEEE transactions on evolutionary comdata for aluminum 6061-t651 from 9 lots at 6 temperputation (2024).
+atures under uniaxial and plane strain tension. Data
+in brief 25, 104085 (2019).
+[24] Shojaee, P., Meidani, K., Gupta, S., Farimani, A. B.
+& Reddy, C. K. LLM-SR: Scientific equation discovery
+via programming with large language models. In The [39] Flory, P. J. Thermodynamics of high polymer solutions. The Journal of chemical physics 10, 51–61
+Thirteenth International Conference on Learning Rep(1942).
+resentations (2025). URL https://openreview.net/
+forum?id=m2nmp8P5in.
+[40] Saha, B. & Goebel, K. Battery data set. NASA AMES
+prognostics data repository (2007).
+
+[25] Hussain, K., Mohd Salleh, M. N., Cheng, S. & Shi,
+Y. Metaheuristic research: a comprehensive survey.
+Artificial intelligence review 52, 2191–2233 (2019).
+
+[41] Agrawal, A. et al. Exploration of data science techniques to predict fatigue strength of steel from composition and processing parameters. Integrating materials
+[26] Kirkpatrick, S., Gelatt Jr, C. D. & Vecchi, M. P. Optiand manufacturing innovation 3, 90–108 (2014).
+mization by simulated annealing. science 220, 671–680
+(1983).
+[42] Na, G. S. & Kim, H. W. Metaheuristics-guided ac[27] Kennedy, J. & Eberhart, R. Particle swarm optimizative learning for optimizing reaction conditions of hightion. In Proceedings of ICNN’95-international conferperformance methane conversion. Applied Soft Comence on neural networks, vol. 4, 1942–1948 (ieee, 1995).
+puting 164, 111935 (2024).
+9
+
+[43] Hodgkin, A. L. & Huxley, A. F. A quantitative description of membrane current and its application to
+conduction and excitation in nerve. The Journal of
+physiology 117, 500 (1952).
+[44] Jiang, A. Q. et al. Mixtral of experts. arXiv preprint
+arXiv:2401.04088 (2024).
+[45] De Myttenaere, A., Golden, B., Le Grand, B. & Rossi,
+F. Mean absolute percentage error for regression models. Neurocomputing 192, 38–48 (2016).
+[46] Hastie, T., Tibshirani, R., Friedman, J. et al. The
+elements of statistical learning (2009).
+[47] Hyndman, R. J. & Koehler, A. B. Another look at
+measures of forecast accuracy. International journal of
+forecasting 22, 679–688 (2006).
+[48] Paleyes, A., Urma, R.-G. & Lawrence, N. D. Challenges in deploying machine learning: a survey of case
+studies. ACM computing surveys 55, 1–29 (2022).
+[49] Ahn, C. W. & Ramakrishna, R. S. Elitism-based compact genetic algorithms. IEEE Transactions on Evolutionary Computation 7, 367–385 (2003).
+[50] Chauhan, D., Suganthan, P. N. et al. Learning strategies for particle swarm optimizer: A critical review and
+performance analysis. Swarm and Evolutionary Computation 98, 102048 (2025).
+[51] Yildirim, M. Y. & Akay, R. An efficient grid-based path
+planning approach using improved artificial bee colony
+algorithm. Knowledge-Based Systems 318, 113528
+(2025).
+[52] Yu, H., Liu, X., Wang, B. & Zhao, X. Particle-assisted
+deep reinforcement learning for quantum state manipulation. IEEE Transactions on Evolutionary Computation (2025).
+[53] Velasco, L., Guerrero, H. & Hospitaler, A. A literature
+review and critical analysis of metaheuristics recently
+developed: L. velasco et al. Archives of Computational
+Methods in Engineering 31, 125–146 (2024).
+[54] Julian, I., Ramirez, H., Hueso, J. L., Mallada, R. &
+Santamaria, J. Non-oxidative methane conversion in
+microwave-assisted structured reactors. Chemical Engineering Journal 377, 119764 (2019).
+
+10
+
+Methods
+
+Initial program generation prompt
+
+Structured LLM prompts for symbolic resoning
+The symbolic reasoning process of MCI includes three LLM
+reasoning processes for: (1) initial program generation, (2)
+program analysis, and (3) AST update. Fig 7 presents
+structured LLM prompts used in each LLM reasoning process. The initial program generation prompt instructs the
+reasoning agents to a scientific equation written in Python
+from the problem specification and initial hypothesis. The
+program analysis prompt executes the domain-specialized
+reasoning agent to analyze logical structures and physical
+interpretations of the current best equation fbest , thereby
+generating collective knowledge across the reasoning agents.
+Finally, the AST update prompt directs the reasoning
+agents to revise their current equation based on the collective knowledge.
+Implementation environment and model configuration
+
+Problem specification and initial hypothesis
+</context>
+<task>
+Complete the equation function, considering the physical meaning and
+relationships between inputs variables.
+</task>
+
+Program analysis prompt
+<role>
+You are an expert in DOMAIN.
+</role>
+<context>
+
+The current best equation 𝑓𝑏𝑒𝑠𝑡
+
+We implemented MCI based on Python 3.12 and PyTorch
+2.9.0 with CUDA 13.0. Mixtral:8x7b [44] was used as a
+backbone model of the reasoning agents in MCI. All implementations and experiments were conducted in a machine
+with Intel Xeon Gold 6526Y CPU, 64GB 5600MHz DDR5
+memory, and NVIDIA RTX PRO 6000 Blackwell Max-Q
+GPU. Table 3 presents the hyperparameter setting of MCI
+for each benchmark symbolic regression problem.
+Specifications of the benchmark symbolic regression
+problems
+PDF of Chi-Squared Distributions (Chi2PDF). The chisquared distribution with k degree of freedom is the distribution
+of a sum of the squares of k independent standard normal random variables [37]. It underpins a wide range of statistical procedures, including variance estimation and independence test.
+We defined a benchmark problem, Chi2PDF, which aims to recover the PDF of the chi-squared distribution for an arbitrary
+degree of freedom k. The ground-truth PDF of the chi-squared
+distribution at x ≥ 0 is given by:
+1
+f (x; k) = k/2
+x(k/2)−1 e−x/2 ,
+2 Γ(k/2)
+
+<role>
+You are a helpful assistant tasked with discovering mathematical
+function structures for scientific systems.
+</role>
+<context>
+
+(3)
+
+</context>
+<task>
+Analyze the relationships between the input and output variables of the
+equation function, and explain them from the perspective of DOMAIN.
+Summarize your analysis results into compact statements.
+</task>
+
+AST update prompt
+<role>
+You are a helpful assistant tasked with discovering mathematical
+function structures for scientific systems.
+</role>
+<context>
+<message> Below is some prior knowledge about a function showing
+relatively low errors. You can leverage when updating the current
+equation function.</message>
+Collective knowledge
+</context>
+<task>
+<message>Update the current function below to fix the
+UPDATE_DIRECTION.</message>
+Current equation of 𝒜𝑘
+</task>
+
+where Γ is the gamma function. We randomly generated 1,000
+(x, k) pairs for symbolic regression and 200 non-overlapping
+(x, k) pairs for an in-distribution evaluation.
+Nonlinear Damped Oscillator (NDO). A nonlinear
+damped oscillator is an oscillatory system in which the restoring force and/or the damping force depends nonlinearly on displacement and velocity. Nonlinear damped oscillators frequently
+appears in a wide range of real-world scientific and engineering systems, such as aerospace and automotive vibration controllers, earthquake engineering, and biological self-oscillators.
+We defined the NDO problem by directly adopting the problem
+setting and ground-truth observations introduced in LLM-SR
+[24]. The training and evaluation datasets each contain 10,000
+ground-truth observations (t, x, v, a), which represent time, position, velocity, and acceleration, respectively. The ground-truth
+acceleration was calculated through the governing equation below.
+a = F sin(ωt) − αv 3 − βxv − δx exp(γx),
+(4)
+
+Figure 7: Structured LLM prompts to instruct the initial
+program generation, program analysis, and AST update in
+the symbolic reasoning process of MCI. DOMAIN specifies a user-defined problem domain in the program analysis
+prompt, and UPDATE DIRECTION is a variable assigned
+to either overestimation or underestimation based on the
+evaluation results of the current equation.
+
+where the constants F, ω, α, β, δ, γ were set to 0.3, 1.0, 0.5, 1.0,
+5.0, 0.5, respectively.
+
+where
+
+11
+
+Nonlinear Neural Network (NNN). Neural networks is a
+fundamental building-block of current AI [1]. The NNN problem
+aims to reveal a neural network architecture behind empirically
+observed model inputs and outputs. We implemented a fullyconnected neural network with the sigmoid activation, which its
+output y is formally given by:
+(2)
+
+(2)
+
+y = w1 z1 + w2 z2 + b(2) ,
+(1)
+
+(1)
+
+(1)
+
+z1 = σ(w11 x1 + w12 x2 + b1 ),
+
+(5)
+(6)
+
+Table 3: The hyperparameter setting of MCI for each
+benchmark symbolic regression problem. The user-defined
+domain specifies the background knowledge of the domainspecialized reasoning agent in the knowledge accumulation
+step of MCI. K and M denote the number of reasoning
+agents and the maximum iterations, respectively.
+Problem
+Chi2PDF
+NDO
+NNN
+MSB
+FHST
+BDC
+SFL
+NOMC
+ECBG
+HHM
+
+User-Defined Domain
+statistics
+physics
+machine learning
+materials science
+polymer science
+materials science
+materials science
+organic chemistry
+mathematical biology
+mathematical biology
+(1)
+
+(1)
+
+(1)
+
+K
+50
+50
+50
+50
+100
+50
+50
+50
+50
+50
+
+z2 = σ(w21 x1 + w22 x2 + b2 ),
+
+M
+100
+100
+200
+100
+50
+100
+100
+200
+200
+100
+
+(7)
+
+(k)
+(2)
+and [x1 , x2 ] is a 2-dimensional input vector, wij (or wi ) are
+(k)
+(2)
+learnable weights, bi (or b ) are learnable biases, and σ is the
+
+sigmoid function for nonlinear activation. We randomly generated 10,000 (x1 , x2 , y) pairs for symbolic regression and 2,000
+non-overlapping (x1 , x2 , y) pairs for an in-distribution evaluation.
+Material Stress Behavior (MSB). The MSB problem, introduced in LLM-SR, is a symbolic regression task that aims
+to infer the stress–strain behavior of Aluminium 6061-T651 at
+a specific temperature [24, 38]. Given strain and temperature
+as inputs, symbolic regression methods are tasked with discovering a governing equation for the corresponding stress. The
+MSB problem has two inherent challenges: (1) the ground-truth
+observations are obtained from real chemical experiments and
+therefore contain measurement noise and experimental error.
+(2) there is no predetermined theoretical model to represent the
+stress-strain relationships, making the symbolic regression problem intrinsically hard for LLMs.
+Flory-Huggins solution theory (FHST). Flory-Huggins
+solution theory [39] characterizes the thermodynamic landscape
+of the polymer system based on a mean-field lattice model. The
+Gibbs free energy of mixing per lattice site, ∆Gm , is defined as:
+
+
+ϕ
+ln ϕ + (1 − ϕ) ln(1 − ϕ) + χϕ(1 − ϕ) , (8)
+∆Gm = RT
+N
+where ϕ denotes the volume fraction of the polymer, N represents the chain length of the polymer, and χ is the dimensionless Flory-Huggins interaction parameter accounting for the
+enthalpy of mixing. R and T were manually determined as 8.314
+and 300. This benchmark contains several singularity points and
+manually selected constants, yielding a fundamental challenge in
+symbolic regression. Based on the ground-truth equation in Eq.
+(8), we generated 10,000, 2,000, and 2,000 non-overlapping samples for training, in-distribution testing, and OOD evaluation,
+respectively.
+Battery discharge capacity (BDC). To make this
+symbolic regression benchmark, we employed a wellknown lithium-ion battery aging dataset extracted from
+a battery database provided by the NASA Ames Prognostics Center of Excellence (PCoE). A refined version of
+the dataset is available at https://github.com/alg-x/
+Battery-Capacity-Prediction-Using-Regression.
+The
+dataset contains experimental records of 18650-type Li-ion cell
+subjected to repetitive charge, discharge, and electrochemical
+impedance spectroscopy cycles at 24 Celsius. This dataset
+
+12
+
+provide experimentally measured capacity for six measurement
+input variables: cycle index, battery voltage, battery current,
+battery temperature, voltage load, and current load. We used
+334 and 83 instances for training and evaluating the symbolic
+regression methods, respectively.
+Steel fatigue limit (SFL). The steel fatigue strength
+dataset, sourced from the National Institute for Materials Science (NIMS) database, consists of 437 experimental records correlating manufacturing parameters with the fatigue limits of
+product alloys [41]. We identified ten primary features for each
+record: the weight percentages (wt%) of nine chemical elements
+(C, Si, Mn, P, S, Ni, Cr, Cu, and Mo) and the temperature of
+the final heat treatment process. For rigorous accuracy evaluation, the dataset was partitioned into a training dataset of 350
+records and a non-overlapping evaluation dataset of 87 records.
+Non-Oxidative Methane Conversion (NOMC). Nonoxidative methane conversion (NOMC) is a promising technology for mitigating greenhouse-gas emissions from industrial applications [54]. We built an in-house NOMC reactor and measured conversion performance as a function of six experiment
+parameters: pressure, temperature, flow rate, H2 feed amount,
+reactor length, and reactor diameter. We use 200 observations
+for symbolic regression and reserve a non-overlapping set of 51
+observations for testing. The NOMC problem can be categorized as one of the most challenging symbolic regression problems due to three reasons: (1) the input-output relations are
+strongly nonlinear and contains inherent uncertainty from chemical reactions. (2) theoretical models to calculate the NONC
+performances of chemical reactors has not been established. (3)
+Because the ground-truth observations were obtained from our
+in-house chemical reactor, the backbone LLM is unlikely to possess sufficient prior knowledge of the target system, thereby imposing the challenging requirement of scientific discovery beyond
+its pretrained knowledge.
+Escherichia Coli Bacterial Growth (ECBG). Quantifying the growth dynamics of Escherichia coli bacteria is a cornerstone of bacterial toxicity studies and food safety analytics.
+Typically, the bacterial population growth rate has been modeled using nonlinear differential equations. The ECBG problem,
+introduced in LLM-SR, aims to discover a nonlinear differential
+equation governing the bacterial growth rate. The ground-truth
+governing equation is given by:
+
+
+tanh(k(T − x0 ))
+dB
+S
+= µmax B
+fpH ,
+(9)
+dt
+Ks + S 1 + c(T − xdecay )4
+where the pH dependency fpH is given by:
+
+fpH = exp(−|pH − pHopt |) sin
+
+(pH − pHmin )π
+pHmax − pHmin
+
+2
+,
+
+(10)
+
+B denotes bacterial population density, S is substrate concentration, T is temperature, and pH is the acidity or alkalinity of
+the growth medium. We employed the training and test datasets
+from LLM-SR, which contain 7,500 and 2,500 observations, respectively. The full implementation details of the ground-truth
+differential equation are described in the original LLM-SR paper
+[24].
+Hodgkin-Huxley model (HHM). The Hodgkin-Huxley
+model is a foundational conductance-based framework to represent the electrophysiological dynamics of the system [43]. This
+model describes the generation and propagation of action potentials through a set of coupled non-linear ordinary differential
+equations. The lipid bilayer is treated as a parallel capacitor,
+where the total membrane current is the sum of the capacitive
+current and ionic currents:
+Cm
+
+dV
+= ḡN a m3 h(VN a −V )+ ḡK n4 (VK −V )+ ḡL (VL −V )+Iext ,
+dt
+(11)
+
+where V denotes membrane potential, m is sodium activation
+gating probability, n is sodium inactivation gating probability,
+h is potassium activation gating probability, and Iext represents
+external current. Cm was fixed to 1.0, and other constants
+(ḡN a , ḡK , ḡL , VN a , VK , VL ) are determined manually within physically reasonable ranges. Based on the ground-truth equation in
+Eq. (11), we generated 10,000, 2,000, and 2,000 non-overlapping
+samples for training, in-distribution testing, and OOD evaluation, respectively.
+
+Data availability
+The training and evaluation datasets of the Chi2PDF,
+NNN, FHST, NOMC, and HHM problems are available at
+https://github.com/ngs00/mci. Those of the NDO, MSB,
+and ECGB problems are available at https://github.com/
+deep-symbolic-mathematics/LLM-SR. The original problem
+names of NDO, MSB, and ECBG in the LLM-SR repository are
+oscillator2, stressstrain, and bactgrow, respectively. The original
+data source of the BDC problem is https://github.com/alg-x/
+Battery-Capacity-Prediction-Using-Regression. The original dataset of the SFL problem is available at https://link.
+springer.com/article/10.1186/2193-9772-3-8#MOESM1.
+
+Code availability
+The source code of MCI and experiment scripts of this paper are
+publicly available at https://github.com/ngs00/mci.
+
+13
+
+

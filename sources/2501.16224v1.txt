@@ -1,0 +1,1716 @@
+Language-Based Bayesian Optimization Research Assistant (BORA)∗
+
+arXiv:2501.16224v2 [cs.LG] 14 Aug 2025
+
+Abdoulatif Cissé1,2 , Xenophon Evangelopoulos1,2 , Vladimir V. Gusev3 and Andrew I. Cooper1,2
+1
+Department of Chemistry, University of Liverpool, England, UK
+2
+Leverhulme Research Centre for Functional Materials Design, University of Liverpool, England, UK
+3
+Department of Computer Science, University of Liverpool, England, UK
+{abdoulatif.cisse, evangx, vladimir.gusev, aicooper}@liverpool.ac.uk
+Abstract
+Many important scientific problems involve multivariate optimization coupled with slow and laborious experimental measurements. These highdimensional searches can be defined by complex,
+non-convex optimization landscapes that resemble
+needle-in-a-haystack surfaces, leading to entrapment in local minima. Contextualizing optimizers with human domain knowledge is a powerful
+approach to guide searches to localized fruitful regions. However, this approach is susceptible to human confirmation bias. It is also challenging for
+domain experts to keep track of the rapidly expanding scientific literature. Here, we propose the use
+of Large Language Models (LLMs) for contextualizing Bayesian optimization (BO) via a hybrid
+optimization framework that intelligently and economically blends stochastic inference with domain
+knowledge-based insights from the LLM, which is
+used to suggest new, better-performing areas of the
+search space for exploration. Our method fosters
+user engagement by offering real-time commentary
+on the optimization progress, explaining the reasoning behind the search strategies. We validate the
+effectiveness of our approach on synthetic benchmarks with up to 15 variables and demonstrate the
+ability of LLMs to reason in four real-world experimental tasks where context-aware suggestions
+boost optimization performance substantially.
+
+1
+
+Introduction
+
+Exploring large experimental design spaces requires intelligent navigation strategies because of the costly and timeconsuming function evaluations involved. Bayesian optimization has been established as an optimal experimental design methodology across disciplines spanning chemistry [Häse et al., 2021], solar energy production [AndrésThió et al., 2024] and agronomy [Zhang et al., 2024]. BO
+can be used to efficiently navigate combinatorially large landscapes, and to identify promising solutions in an activelearning setting. Typically, BO uses a probabilistic surrogate
+∗
+This work is accepted and will be part of the 34th International
+Joint Conference on Artificial Intelligence (IJCAI) proceedings.
+
+Figure 1: The BORA framework. Icons from [Flaticon, 2025].
+
+to approximate an expensive or unknown objective function
+f while iteratively searching for a maximizer,
+x∗ = argmax f (x),
+
+(1)
+
+x∈X
+
+with f : X → R defined on the search domain X ⊆ Rd .
+This surrogate – often a Gaussian Process (GP) [Garnett,
+2023] – subsequently undergoes Bayesian updates as new
+data about the design space are acquired, according to a predefined acquisition policy or function α(·), allowing for the
+refinement of predictions of the objective f (x). In turn, this
+acquisition function suggests the next set of parameters for
+experiments with the highest expected utility, balancing exploration in new regions and exploitation in promising ones.
+Despite its successful application to a plethora of scientific tasks, BO is frequently characterized by slow initial optimization phases due to random or Latin Hypercube [Poloczek
+et al., 2016] selection of initial samples. This can slow the
+search for combinatorially large spaces substantially. This
+highlights a fundamental challenge for standard BO; that is,
+the lack of inherent domain knowledge and contextual understanding of the problem at hand. Recently, BO variants
+have been proposed that are capable of injecting domainspecific knowledge into the search, either through structural
+problem characteristics [Xie et al., 2023] or by using human
+expert knowledge [Cissé et al., 2024]. The latter approach,
+sometimes known as ‘Human-in-the-Loop (HIL)’, has drawn
+considerable recent attention, and it aims to infuse domain
+knowledge and human reasoning into BO workflows [Adachi
+
+et al., 2024; Huang et al., 2022]. By leveraging expert insights in the form of hypotheses [Cissé et al., 2024], preferences [Kristiadi et al., 2024] or specified priors over possible
+optima [Hvarfner et al., 2022; Li et al., 2020], it is possible
+to enrich the optimization process and to direct searches to
+fruitful regions much faster. Thus, HIL methods have shown
+increased effectiveness and efficiency compared with dataonly approaches. In particular, hypothesis-based methods
+have shown gains in both performance and cost. Nonetheless, these HIL approaches can be human-capital resourceintensive because they require regular human interventions.
+Moreover, it is easy, even for domain experts, to lose track
+of the state of the art in fast-moving research areas and to ignore certain promising regions of the search space [Ou et al.,
+2022].
+To address these challenges, we propose the use of Large
+Language Models (LLMs) [Guo et al., 2024] as a facilitating
+framework in black-box optimization to enrich searches with
+domain knowledge. Specifically, we have coupled an LLM
+with standard BO in a hybrid optimization framework that
+automatically monitors and regulates the amount of domain
+knowledge needed when the search becomes ‘trapped’ in local minima. The algorithm capitalizes on the LLM’s inherent in-context learning (ICL) capacity and reasoning mechanism to suggest, in the form of hypotheses, promising areas in the search space from which to sample. LLMs have
+been employed recently to address limitations in core BO
+methodologies, as well as HIL variants [Liu et al., 2024;
+Yin et al., 2024]. LLMs have the capacity to encode vast
+amounts of domain-specific and general knowledge and have
+demonstrated the ability to reason about relatively complex tasks through in-context learning [Kroeger et al., 2024;
+Xie et al., 2022] as well as in multidisciplinary domains such
+as chemistry [Ramos et al., 2024]. However, due to their numerically agnostic design, LLMs lag behind traditional BO
+methods in systematically balancing exploration versus exploitation, and have proved unreliable in many practical scenarios [Huang et al., 2024]. Recent attempts have been made
+to integrate LLMs with BO frameworks [Mahammadli, 2024;
+Yin et al., 2024] but thus far, these have been limited to small
+problem sizes, such as hyper-parameter optimization, or situations where the optimal solution is proximal to a special
+value [Huang et al., 2024]. Also, LLM/BO hybrids could be
+prohibitively costly for more complex queries, particularly if
+the LLM is deployed for every iteration in the optimization.
+Here, we propose a language-based Bayesian Optimization Research Assistant, BORA, that enriches BO with domain knowledge and contextual understanding across a range
+of scientific tasks. We frame BORA as a hybrid framework
+that augments surrogate-based optimizers with uncertainty
+estimates by localizing areas of interest in the search space,
+guided by a knowledge-enriched LLM (Figure 1). A heuristic policy regulates the LLM involvement in the optimization process, adaptively balancing rigorous stochastic inference with LLM-generated insights within a feasible budget
+of LLM computation and API usage limits. During the intervention stage, the LLM uses its domain knowledge and reasoning capabilities to comment on the optimization progress
+thus far, highlighting patterns observed and forming hypothe-
+
+ses that may yield more rewarding solutions. It then tests
+these hypotheses by proposing new samples that maximize
+the target objective. BORA is also designed to provide an effective user-optimizer interaction through its dynamic commentary on the optimization process. This promotes deeper
+insights from the user and, in the future, the option to intervene; for example, by either reinforcing or overriding certain insights from the LLM. To our knowledge, this is the
+first time that a rigorous, dynamic synergy of black-box BO
+with LLMs has been proposed in this context. We evaluated
+BORA on various synthetic functions and a pétanque gaming
+model, as well as real scientific tasks in chemical materials
+design, solar energy production, and crop production. BORA
+demonstrated significant improvements in search exploration,
+convergence speed, and optimization awareness. Compared
+to earlier techniques, our method shows significant efficiency
+gains and generalization beyond hyper-parameter optimization, emphasizing its potential for tackling real-world tasks.
+The remainder of this paper is organized as follows. Section 2 presents recent works about domain knowledge and
+LLM integration in BO and Section 3 details our proposed
+methodology. Section 4 analyzes and compares the performance of our algorithm against state-of-the-art methods
+across diverse datasets, with Section 5 concluding our work
+and discussing future directions.
+
+2
+
+Related Works
+
+To cope with non-convex optimization landscapes in science tasks, intelligent approaches have been proposed that
+focus on promising regions through adaptive explorationexploitation strategies [Shoyeb Raihan et al., 2024], or
+‘smooth out’ the optimization landscape by enriching it with
+domain knowledge [Ramachandran et al., 2020]. Notable
+examples include local BO methods that restrict the search
+space, such as ZoMBI [Siemenn et al., 2023], which aims
+to improve efficiency by focusing on local regions assumed
+to contain the optimum. Similarly, TuRBO [Eriksson et
+al., 2019] uses multiple independent GP surrogate models
+within identified trust regions and a multi-armed bandit strategy [Vermorel and Mohri, 2005] to decide which local optimizations to continue. These approaches are well-suited
+to handling high-dimensional problems, but their potential is
+perhaps more limited in small budgets and highly multimodal
+spaces due to a lack of built-in domain knowledge.
+Incorporating domain knowledge into BO can improve
+both its efficiency and its performance [Adachi et al., 2024;
+Häse et al., 2021]. DKIBO [Xie et al., 2023] enhances BO’s
+acquisition function with structural knowledge from an additional deterministic surrogate model to enrich the GP’s approximation power. Others, such as ColaBO [Hvarfner et
+al., 2024] and HypBO [Cissé et al., 2024], allow users to
+inject their beliefs at the start to guide the optimization process. However, those methods keep the users’ beliefs static
+and cannot refine them as the optimization progresses, even
+if they are wrong. Meanwhile, other HIL methods rely on
+frequent user inputs [Savage and del Rio Chanona, 2023] and
+for robotic experiments [Burger et al., 2020], for example,
+that run 24/7 in a closed-loop way, waiting for this human
+
+user input might become the rate-limiting step.
+Recently, some studies have explored LLMs as standalone
+replacements for traditional optimizers due to their exceptional ability to solve complex problems in various domains [M. Bran et al., 2024; Nguyen and Grover, 2024].
+Methods like LLAMBO [Liu et al., 2024] and OPRO [Yang
+et al., 2024] use the generative and ICL capabilities of
+LLMs to propose solutions to optimization problems directly.
+LLAMBO mimics BO’s structure and replaces its key components with LLMs. In OPRO, the LLM is iteratively prompted
+with the gathered optimization data as input and tasked to
+generate new solutions as output that are then evaluated.
+These methods are innovative but have focused so far on
+low-dimensional hyperparameter tuning and are not yet obviously suitable as a general framework for optimization tasks.
+Querying LLMs at all iterations also incurs a larger computational and financial footprint than traditional BO algorithms,
+particularly if reasoning models are used. Standalone LLM
+optimizers also lack the mathematical guarantees offered by
+traditional optimizers such as BO.
+In response to the limitations of using LLMs as standalone optimizers, hybrid approaches such as BoChemian
+[Ranković and Schwaller, 2023] have emerged that combine the strengths of LLMs to featurize traditional optimization methods. SLLMBO [Mahammadli, 2024] integrates
+the strengths of LLMs in warm-starting optimization, and it
+loops between LLM-based parameter exploitation and Treestructured Parzen Estimator (TPE)’s exploration capabilities
+to achieve a balanced exploration-exploitation trade-off. This
+reduces API costs and mitigates premature early stoppings
+for more effective parameter searches. However, SLLMBO,
+like LLaMEA-HPO [van Stein et al., 2024], is limited to hyperparameter tuning. Moreover, its LLM exploration / TPE
+exploitation cycle lacks dynamic adjustment because it is an
+alternating process fixed at a 50:50 balance. Another limitation is the risk of premature optimization termination in complex search spaces due to a strict early stopping mechanism.
+Our approach, BORA, shares similarities with the above
+studies by incorporating domain knowledge and adapting
+search mechanisms. However, BORA is distinguished by
+leveraging LLMs when they are most required, for online hypothesis generation and for real-time commentary on optimization progress. Unlike static methods such as HypBO,
+which assume fixed human-injected soft constraints, our
+method refines the optimization trajectory based on the contextual insights given by the LLM. Moreover, BORA extends
+beyond previous hybrid approaches such as SLLMBO by introducing adaptive heuristics that intelligently modulate LLM
+involvement with BO to maximize optimization performance.
+
+3
+
+Methodology
+
+The BORA optimization framework is illustrated in Figure 1.
+It is an automated hybrid BO-LLM synergy operating under
+a common GP whose parameters are updated as new points
+are sampled, either from BO or the LLM. A user-provided
+experiment description is used to initially contextualize the
+LLM which then warm-starts the optimization with proposed
+samples through its ICL capabilities. The optimization pro-
+
+Figure 2: The LLM agent commenting and refining its hypotheses
+on the Sugar Beet Production experiment (complete comment in the
+SM). This experiment is detailed in Section 4.1.
+
+gresses by alternating BO and LLM runs that are accordingly
+triggered by performance plateaus. Our proposed framework
+employs an adaptive heuristic policy to (a) assess the need to
+invoke the LLM, (b) determine the type of LLM intervention
+needed, and (c) update the frequency of those interventions as
+the optimization progresses. We use Reinforcement Learning
+(RL) terminology in the manuscript to describe our approach,
+but we use hand-crafted policy update rules because learning
+generalized rules in the traditional sense [Liu et al., 2022;
+Volpp et al., 2020] would be impractical in Bayesian scientific optimization settings [Lee et al., 2020], which is the focus of this work. In its interventions, the LLM provides user
+interpretability via real-time commentary of the optimization
+progress and generates hypotheses to maximize the objective.
+
+3.1
+
+LLM Comments and Hypotheses
+
+The LLM is prompt-engineered to return structured JSON responses that we call Comments (for formatting details we refer the reader to the SM). The Comment object, illustrated
+in Figure 2, contains insights into the optimization progress
+and potential reasons for stagnation, as well as a list of hypotheses to remedy that stagnation. Each hypothesis includes
+a meaningful name, a rationale, a confidence level, and the
+corresponding input point to test it. Unlike in HypBO [Cissé
+et al., 2024] where hypotheses are defined as rather static regions of interest, BORA dynamically builds hypotheses during the optimization process typically in the form of single
+search points through the LLM’s ICL model. As demonstrated in LLAMBO [Liu et al., 2024], LLMs tasked with
+regression inherently perform an implicit ICL modeling of
+the objective function, estimating the conditional distribution
+p(y|x; D), where y is the target value at x. BORA extends
+this modeling by integrating all previously gathered data D
+and all the LLM’s comments C, enhancing the LLM surrogate
+to model p(y|x; D; C). From this augmented model, the LLM
+proposes hypotheses, exploring regions likely to improve on
+the current best observation ymax and derived from the conditional probability xLLM ∼ p(x|y > ymax ; D; C).
+
+3.2
+
+LLM Initialization
+
+User-Provided Experiment Card
+To inform the LLM initially, the user prepares a comprehensive problem description following a standardized tem-
+
+plate that we refer to as the Experiment Card. This card includes any details or context about the black-box function f
+to be optimized, descriptions of its input variables, and the
+target variable to be maximized, along with any constraints
+that must be satisfied within the search space. From the experiment card, the LLM is prompted to generate ninit initial
+hypotheses for maximizing the target. This translates into
+ninit initial
+to form the initial dataset
+ points that are
+ evaluated
+ninit
+D0 = xi , yi = f (xi ) i=1 .
+
+3.3
+
+Actions
+
+BORA leverages an adaptive heuristic policy detailed in Section 3.4 to choose one action from a set of three possible actions defined in the following paragraphs. The chosen action
+suggests at least one next point for evaluation, which is evaluated and added to the dataset. While the Vanilla BO action a1
+appends one sample (x, y) to Dt−1 at each step or iteration
+t, the LLM actions a2 and a3 add nLLM and nLBO ≥ 1 samples, respectively. Hereon, we distinguish between t, the step
+number, and i, the sample index at step t, and denote with
+(i)
+St = {xt }ki=1 the set of k points suggested by an action a
+at step t.
+a1 Continue with Vanilla BO
+The acquisition function is maximized to get the next promis(1)
+ing point St = {xt }, which is then evaluated and added to
+the dataset to form Dt = Dt−1 ∪ {(x, f (x)) | x ∈ St }.
+a2 LLM Comments and Suggests nLLM Points
+A prompt containing the gathered data up to Dt−1 and any
+previous comments C is given to the LLM. The LLM is then
+tasked to comment on the optimization progress in light of
+the new data and to update any previous hypotheses. The re(i) LLM
+turned Comment contains the next points St = {xt }ni=1
+∼
+p(x|y > ymax ; Dt−1 ; C) chosen by the LLM, which are then
+evaluated and added to the dataset to form Dt .
+a3 LLM Comments and Selects nLBO BO Points
+a3 is a non-myopic, ICL step that focuses the LLM’s atten(j) BO
+tion on a high-quality set of nBO candidate points {xBO }nj=1
+,
+which are generated by maximizing the acquisition function.
+(j) BO
+A prompt containing Dt−1 , C, and {xBO }nj=1
+are given to
+the LLM, which is then tasked to comment on the optimization progress in light of the new data and constrained to select the nLBO most promising BO candidates that best align
+with its hypotheses for maximizing the target objective. Setting nBO = 5 and nLBO = 2 empirically showed to offer
+enough diversity of hypothesized optima locations and ensure competitive performance overall. The returned Com (i) nLBO
+ment holds the nLBO selected points St = xt i=1 ∼
+(j)
+
+BO
+p(x ∈ {xBO }nj=1
+|y > ymax ; Dt−1 ; C) that are then evaluated
+and added to the dataset.
+
+3.4
+
+Adaptive Heuristic Policy
+
+Action Selection
+BORA’s policy helps it to make informed choices about engaging the LLM without relying on data-hungry RL algorithms, thus maintaining BORA’s practicality and effectiveness in real-life scenarios. The optimization starts with the
+
+Vanilla BO action a1 , and the subsequent action selection
+GP
+depends on (a) the average uncertainty σmean
+of the common GP over the search space X to determine the necessity and type of LLM intervention, and (b) the BO performance plateau detection, as well as the performance success
+(or trust in) of the previous LLM interventions. When the
+GP’s uncertainty is high and above a pre-defined threshold
+GP
+(σt,mean
+> σt,upper ), BO needs significant guidance from the
+LLM, triggering a complete ‘take-over’ by the LLM in the
+search, suggesting new points informed by its own internal
+reasoning mechanism. As the GP’s uncertainty decreases
+GP
+(σt,lower ≤ σt,mean
+≤ σt,upper ), the LLM becomes less involved by relying only on BO suggested points, but still using its ICL capacity based on both D and C to select the most
+promising ones. When the GP’s uncertainty is low enough
+GP
+(σt,mean
+< σt,lower ), BO has a better approximation of objective function’s landscape and no longer needs guidance from
+the LLM. The rationale behind remark (b) is that the LLM
+should gain more trust as the LLM suggestions exhibit better performance, which in turn triggers the plateau duration
+to be re-defined as shorter, allowing the LLM to intervene
+more frequently. Conversely, if the LLM’s so-far observed
+performance declines, its trust in itself diminishes and, consequently, its interventions are reduced, which results in longer
+plateau duration adjustments before invoking its assistance.
+In short, the action selection at each step t follows the policy π described below, where the GP parameters are updated
+after every action accordingly:
+GP
+• If σt,mean
+< σt,lower or ‘no plateau’ → action a1 ,
+GP
+• Else if σt,mean
+> σt,upper → action a2 ,
+• Else → action a3 .
+
+Selection Mechanism
+Uncertainties The above action selection is realized by calculating and updating in every step the uncertainties from a
+(i)
+set of fixed q monitoring points xmon that are randomly sampled before the optimization starts. Specifically,
+q
+
+
+1X
+(i)
+σt xmon
+,
+q i=1
+
+GP
+GP
+(i)
+σt,max
+= max σt−1,max
+, max σt (xmon
+) ,
+
+(3)
+
+GP
+GP
+σt,upper = 0.5 × σt,max
+and σt,lower = 0.3 × σt,max
+,
+
+(4)
+
+GP
+σt,mean
+=
+
+1≤i≤q
+
+(2)
+
+where σt (·) represents the uncertainty of the GP at a given
+point in iteration t. Here, the 50% and 30% fractions serve
+as empirically tuned bounds that consistently balance BO exploitation with LLM exploration across diverse tasks.
+Plateau Detection Another important part of the action selection mechanism in the proposed framework is the detection
+of performance plateauing in BO. A performance plateau is
+detected at step t when
+
+max
+max
+yjmax < yj−1
+× 1+sign(yj−1
+)×γ , for all j ∈ [t−m+1, t],
+(5)
+
+where ytmax = max {y|(x, y) ∈ Dt } . That is, if for the
+past m consecutive BO steps, there is not enough performance improvement (w.r.t a set percentage γ), then the LLM
+
+involvement is triggered.
+The plateau duration m is initial√
+ized at minit = ⌈2 d⌉, set to vary between mmin = 0 and
+mmax = 3minit , and is automatically adjusted at every LLM
+intervention step l (here l counts the number of times actions
+a2 or a3 are invoked). The adjustment depends on the current
+‘trust’ Tl ∈ [0, 1] BORA has on the LLM, which in turn relies
+on the LLM performance observed so far. Specifically
+madjustment = ⌊(Tl − Tl−1 ) × ∆max ⌋ ,
+m ← clip (m − madjustment , mmin , mmax ) ,
+
+(6)
+(7)
+
+where ∆max is the maximum allowed adjustment per step,
+here set to 15, and clip(x, a, b) is a function that restricts x to
+be within the bounds [a, b].
+Trust Mechanism As noted above, the plateau adjustment
+relies on an adaptive trust mechanism that regulates the trust
+in the LLM as defined by a ‘trust score’ calculated on previous performances. That is, at each step t where the LLM
+ (i) k
+suggests (or selects) St = xt i=1 , the trust score is updated based on the following reward function
+
+max
+rl = max {f (x)|x ∈ St } − yt−1
+(8)
+First, an intervention score, ranging in [0, 1], reflects the utility of those LLM suggestions in finding a new optimum with
+respect to the reward function in Eq. (8) as
+
+1,
+if rl > 0,
+(l)
+1
+scoreinterv =
+(9)
+,
+if
+rl ≤ 0,
+r
+− maxl
+
+|y
+|+ϵ
+1+e
+
+t−1
+
+where ϵ = 10−6 is a small constant to handle cases where
+max
+max
+yt−1
+= 0. By normalizing rl with |yt−1
+|, the trust score
+becomes more sensitive to relative changes rather than absolute changes. This is particularly useful in domains where
+the magnitude of y varies widely, making it robust across
+scales. Then, this intervention score is added to H ←
+(l)
+H ∪ {scoreinterv }, keeping track of the previous intervention
+scores. Note that to reflect an initially optimistic view of the
+(0)
+LLM, H is initialized as {0.9}, i.e., scoreinterv = 0.9. Finally,
+an average rolling trust score Tl is subsequently calculated
+as the average of the intervention scores in H over a sliding
+window W of the three most recent intervention scores as
+Tl =
+
+1
+W
+
+l
+X
+
+(i)
+
+scoreinterv where W = min(|H|, 3). (10)
+
+i=|H|−W
+
+The complete BORA framework is described in Algorithm 1.
+Details about the LLM prompt engineering, reflection strategies, and fallback mechanisms can be found in the SM.
+
+4
+
+Experiments
+
+We validated BORA’s performance against current state-ofthe-art methods on both synthetic functions and various realworld tasks, with dimensionality ranging from 4 to 15 independent variables. Section 4.1 outlines the experimental setup
+while Section 4.2 highlights the results. Details on the benchmarks, the method implementations, and the reproducibility
+details can be found in the SM. The source code is available
+at https://github.com/Ablatif6c/bora-the-explorer.
+
+Algorithm 1 BORA
+Input: Experiment card, Number of initial samples ninit ,
+Maximum number of samples imax Output: ymax , LLM comments C and final report
+ninit
+;
+1: LLM generates initial samples D0 ← {(xi , f (xi ))}i=1
+2: Initialize the GP surrogate model with D0 ;
+GP
+GP
+, σ0,upper ,
+, σ0,max
+3: Initialize policy parameters σ0,mean
+σ0,lower , m, H = {0.9}, γ = 0.05, nBO = 5, nLBO = 2;
+4: Initialize sample index i = ninit , step t = 1, C = {};
+5: while i < ninit + imax do
+GP
+6:
+if σt,mean
+< σt,lower or ‘no plateau’ then
+7:
+8:
+
+(1)
+
+a = a1 , St = {xt };
+GP
+else if σt,mean
+> σt,upper then
+(k) min(n
+
+,i
+
++n
+
+−i)
+
+9:
+a = a2 , St = {xt }k=1 LLM max init ;
+10:
+else
+(k) min(n ,i +n −i)
+11:
+a = a3 , St = {xt }k=1 LBO max init ;
+12:
+end if
+13:
+Update dataset Dt ← Dt−1 ∪ {(x, f (x))|x ∈ St };
+14:
+Update ymax as the maximum y value in Dt ;
+15:
+Update GP, policy parameters and trust mechanism;
+16:
+t ← t + 1 and i ← i + k;
+17: end while
+18: LLM generates a final report.
+
+4.1
+
+Experimental Setup
+
+Synthetic Function Benchmarks
+• Branin (2D): A function with a global maximum occurring in three distinct locations as shown in Figure 3. The
+input space bounds are x0 ∈ [−5, 10] and x1 ∈ [0, 15].
+• Levy (10D): A function with a highly rugged landscape.
+All inputs are bounded in [−10, 10] with the maximum
+at [1, . . . , 1].
+• Ackley (15D): A challenging high dimensional function
+with several local maxima. Input bounds are [−30, 20]
+with the maximum at [0, . . . , 0].
+Note that the names of these functions in the experiment card
+were anonymized to ‘mathematical function’ to prevent the
+LLM from recognizing them by name.
+Real-World Application Benchmarks
+• Solar Energy Production (4D): Maximizing the daily
+energy output of a solar panel by optimizing panel tilt,
+azimuth, and system parameters [Anderson et al., 2023].
+• Pétanque Game (7D): A ball is thrown to hit a target.
+The goal is to maximize the score, which is inversely
+proportional to the target distance miss, by tuning the
+throw position, angles, velocity, and spins.
+• Sugar Beet Production (8D): Maximizing the monthly
+sugar beet Total Above Ground Production (TAGP) in a
+greenhouse by tuning the irradiance, and other weather
+and soil conditions [de Wit and contributors, 2024].
+• Hydrogen Production (10D) Maximizing the hydrogen evolution rate (HER) for a multi-component catalyst mixture by tuning discrete chemical inputs under the
+constraint that the total volume of the chemicals must
+
+Figure 3: Visualization of BORA maximizing Branin 2D (which
+contains three global maxima) under a budget of 22 optimization
+steps (numbered points). Black samples were suggested by the BO
+action a1 , while pink ones came from the LLM actions a2 and a3 .
+
+not exceed 5 mL. Note that due to the discrete and constrained nature of the problem, we adapted all compared
+methods accordingly to account for this, by employing
+the bespoke implementation of [Burger et al., 2020].
+Dataset acquired from [Cissé et al., 2024].
+BORA
+We implemented BORA using OpenAI’s most cost-effective
+model at the time, GPT-4o-mini [OpenAI, 2025], which was
+not fine-tuned in our effort to make BORA more accessible
+to users with limited resources. For the BO action implementation, the GP uses a Matérn kernel, and the acquisition
+GP
+function is EI. We set q = 5,000 for σt,mean
+.
+Baselines
+• Random Search: Unbiased exploration baseline.
+• BayesOpt [Nogueira, 2014]: Example of vanilla BO.
+• TuRBO [Eriksson et al., 2019] with a single trust region.
+• ColaBO [Hvarfner et al., 2024] that uses a single static
+expert given-prior over the optimum to guide the optimization process.
+• HypBO [Cissé et al., 2024] that uses multiple static
+expert-given-promising regions to guide the optimization.
+• LAEA [Hao et al., 2024], a hybrid LLM-Evolutionary
+Algorithm method.
+For ColaBO and HypBO, to avoid the impracticality of relying on humans to provide inputs for multiple trials across
+all experiments, we used the LLM GPT-4o-mini to generate
+the ‘human’ inputs. Likewise, we used the same task description prompts as used for BORA, to ensure consistency.
+For HypBO on the Hydrogen Production experiment, we employed the most realistic hypothesis used in [Cissé et al.,
+2024], namely ‘What They Knew’, which encapsulates any
+human knowledge available prior to the execution of the experiment.
+Experimental Protocol
+The optimization performance was measured using the maximum objective value found so far, the cumulative regret, and
+
+Figure 4: LLM intervention monitoring during a BORA run on 10D
+datasets Levy (left) and Hydrogen Production (right). Mean uncertainty and Trust scores are also overlayed to highlight their interrelationships.
+
+statistical tests to measure significance. The maximum number of samples was set to 105 to account for realistic budgets
+with expensive functions. Average results of 10 repeated trials with distinct random seeds are reported. All methods were
+initialized with ninit = 5 initial samples apart from LAEA, for
+which we used 15 initial samples to keep the same number of
+evaluations to population size ratio as in [Hao et al., 2024].
+
+4.2
+
+Results
+
+Synthetic Functions
+Figure 3 illustrates the exploration strategy of BORA on
+the Branin (2D) function. The LLM interventions helped
+to uncover two out of the three possible locations of the
+global maximum of Branin. This is further illustrated in
+Figure 5, which shows that BORA outperforms the baseline comparisons for the higher-dimension functions Levy
+(10D) and Ackley (15D). A key advantage of BORA is its
+LLM-informed initial sampling. For mathematical functions,
+BORA systematically suggests initializing at critical points
+such as the edges, central points, or other remarkable points
+like [0, . . . , 0]. This strategy is particularly well-suited for
+the Levy function, whose search space bounds are symmetric, and its optimum is at [1, . . . , 1], almost always converging
+in its initialization stage. However, that strategy is less beneficial on the Ackley function because its bounds are asymmetric. Despite that, the LLM’s ability to reflect and learn
+from the previous samples appears to help mitigate any unfavorable initializations. While HypBO demonstrates a similar
+benefit through its initial sampling in hypothesized regions,
+its performance is comparatively weaker because it relies on
+random initial sampling within these regions, resulting in less
+effective exploration of the search space. For ColaBO, which
+only works with a single input prior, the prior tended to be
+around one of the edges, which overall limits its convergence
+speed. Additionally, the left panel of Figure 4 shows how
+BORA’s iterative hypothesis generation, informed by previous data, helps mitigate stagnant optimization, and discards
+the LLM when it is no longer needed. Notably, a sharp drop
+in the GP uncertainty is evident when vanilla BO is used due
+to is proved exploration-exploitation guarantees, as opposed
+to the less rigorous LLM where the uncertainty is bound to its
+inherent sampling strategy. Nevertheless, the dynamic synergistic effect of BO coupled with updated LLM hypotheses
+allows for faster convergence overall, in comparison to other
+
+Figure 5: BORA vs Baselines on six experiments. Solid lines show average values while shaded areas indicate ±0.25 standard error. For
+visual clarity, some plots are zoomed in to show results up to 60 iterations, as the trends mostly stabilize beyond this point. Full results in SM.
+
+Figure 6: Comparison of BORA vs. Baselines’ cumulative regrets
+in the six experiments.
+
+baselines as illustrated in the last two bar plots of Figure 6.
+Real-World Applications
+BORA also exhibits superior performance across diverse realworld optimization problems, following the trends observed
+in the synthetic benchmarks. As shown in Figure 5, while
+BORA’s initial sampling is on par with other input-based
+baselines for the Solar Energy and Sugar Beet Production
+experiments, its overall performance on all experiments surpasses the baselines significantly. This is particularly evident
+in the 7D Pétanque experiment, where BORA’s diverse initial
+hypotheses based on trajectory dynamics led to a remarkable
+gain in score of 35 in the early stages compared to the baselines. This knowledge and context-based input bridges the
+knowledge gap typically encountered in early-stage optimization, providing BORA with a critical advantage, as shown in
+Figure 6. A similar effect is also observed in the Hydrogen
+Production experiment as illustrated in the right panel of Figure 4. In addition, in the later stage of the optimization the
+LLM further pushes the optimization to uncover new optima
+after the progress had stalled, thus gaining more trust. The
+increasing trend in the GP uncertainty here is a side-effect of
+the continual interventions of the LLM, which translates to a
+rather explorative and less exploitative strategy based on its
+inherent domain reasoning around cumulatively accrued scientific data. This goes beyond some of the near-instant convergence noted in the optimization of the synthetic functions
+because they are proximal to a special value. Figure 2 illustrates this by showing how the LLM reflects on the progress
+and generates hypotheses on the Sugar Beet Production experiment. While other baselines, particularly knowledgebased methods such as HypBO and local BO approaches such
+as TuRBO, demonstrate improved performance as the optimization progresses and more data is gathered, they often
+struggle to match BORA’s sustained performance as the 105sample budget mark is approached. In the Hydrogen Produc-
+
+tion experiment, this adaptive strategy ultimately achieved
+a 47% reduction in cumulative regret compared to ColaBO,
+demonstrating BORA’s faster convergence and robustness in
+navigating complex, high-dimensional search spaces. To assess the significance of the performance difference w.r.t mean
+cumulative regret between BORA and its best two competitors, we performed a sign test which revealed that BORA performs consistently better than HypBO with a p-value of 0.02
+at a 95% confidence level with a Bonferroni correction [Bonferroni, 1936], but not against ColaBO with a p-value of 0.20,
+yet still outscoring it in 5 out of 6 tasks. The superior performance of the hybrid approach in BORA was further validated by ablation studies that used only the LLM (action
+a2 ) for optimizing Hydrogen Production (10D) and the Ackley function (15D) (see SM). While performing quite well in
+the initial stages for these two problems, the use of the LLM
+alone was ultimately less effective than the dynamic hybrid
+BO/LLM approach in BORA. We emphasize that these results do not mean that LLMs are ‘smarter’ than domain experts. Rather, they highlight BORA’s ability to update and
+refine its hypotheses based on new data, which is not possible in the HypBO implementation [Cissé et al., 2024], while
+also fostering user engagement by generating real-time optimization progress commentary and a final summary report
+(see SM). One potential limitation of BORA, however, is the
+stochastic nature of the LLM reasoning, which can diverge
+considerably even with identical prompts.
+
+5
+
+Conclusions
+
+This work introduces BORA, the first optimization framework to integrate BO with LLMs in a cost-effective dynamic
+way for scientific applications. BORA leverages the reasoning capabilities of LLMs to inject domain knowledge into
+the optimization process, warm-starting the optimization and
+enabling hypothesis-driven exploration and adaptive strategies to navigate complex, non-convex search spaces. It addresses key limitations in traditional BO methods, including
+slow initialization, local minimum entrapment, and the lack
+of contextual understanding. Notably, BORA outperformed
+BO with the addition of static expert-knowledge-derived hypotheses in a challenging 10D chemistry experiment, Hydrogen Production, highlighting its potential as a collaborative
+AI tool to support and enhance expert decision making. Future directions will include refining BORA’s meta-learning
+strategies using multi-agent LLMs and exploring its effectiveness in multi-objective, multi-fidelity optimization scenarios.
+
+Acknowledgments
+The authors acknowledge financial support from the Leverhulme Trust via the Leverhulme Research Centre for Functional Materials Design. The authors also acknowledge the
+AI for Chemistry: AIchemy hub for funding (EPSRC grant
+EP/Y028775/1 and EP/Y028759/1). This project has received funding from the European Research Council under the European Union’s Horizon 2020 research and innovation program (grant agreement no. 856405). AIC
+thanks the Royal Society for a Research Professorship
+(RSRP\S2\232003).
+
+References
+[Adachi et al., 2024] Masaki Adachi, Brady Planden, David
+Howey, Michael A. Osborne, Sebastian Orbell, Natalia
+Ares, Krikamol Muandet, and Siu Lun Chau. Looping in
+the human: Collaborative and explainable Bayesian optimization. In Proceedings of The 27th International Conference on Artificial Intelligence and Statistics, volume
+238, pages 505–513. PMLR, 02–04 May 2024.
+[Anderson et al., 2023] Kevin S Anderson, Clifford W
+Hansen, William F Holmgren, Adam R Jensen, Mark A
+Mikofski, and Anton Driesse. pvlib python: 2023 project
+update. Journal of Open Source Software, 8(92):5994,
+2023.
+[Andrés-Thió et al., 2024] Nicolau Andrés-Thió, Charles
+Audet, Miguel Diago, Aimen E Gheribi, Sébastien Le
+Digabel, Xavier Lebeuf, Mathieu Lemyre Garneau, and
+Christophe Tribes.
+solar: A solar thermal power
+plant simulator for blackbox optimization benchmarking.
+arXiv:2406.00140, 2024.
+[Bonferroni, 1936] Carlo E. Bonferroni. Teoria statistica
+delle classi e calcolo delle probabilità. Pubblicazioni del
+R. Istituto superiore di scienze economiche e commerciali
+di Firenze. Seeber, 1936.
+[Burger et al., 2020] Benjamin Burger, Phillip M. Maffettone, Vladimir V. Gusev, Catherine M. Aitchison, Yang
+Bai, Xiao yan Wang, Xiaobo Li, Ben M. Alston, Buyin Li,
+Rob Clowes, Nicola Rankin, Brandon Harris, Reiner Sebastian Sprick, and Andrew I. Cooper. A mobile robotic
+chemist. Nature, 583:237–241, 2020.
+[Cissé et al., 2024] Abdoulatif Cissé, Xenophon Evangelopoulos, Sam Carruthers, Vladimir V. Gusev, and
+Andrew I. Cooper. HypBO: Accelerating black-box
+scientific experiments using experts’ hypotheses. In
+Proceedings of the Thirty-Third International Joint
+Conference on Artificial Intelligence, IJCAI-24, pages
+3881–3889, 2024.
+[de Wit and contributors, 2024] A.J.W. de Wit and contributors. Pcse: Python crop simulation environment, 2024.
+Accessed: 2024-12-27.
+[Eriksson et al., 2019] David Eriksson, Michael Pearce, Jacob Gardner, Ryan D Turner, and Matthias Poloczek. Scalable global optimization via local Bayesian optimization.
+In H. Wallach, H. Larochelle, A. Beygelzimer, F. d'AlchéBuc, E. Fox, and R. Garnett, editors, Advances in Neural
+
+Information Processing Systems, volume 32. Curran Associates, Inc., 2019.
+[Flaticon, 2025] Contributors Flaticon. Icons by flaticon.
+Accessed on January 4, 2025., 2025. Available at:
+https://www.flaticon.com/.
+[Garnett, 2023] Roman Garnett. Bayesian Optimization.
+Cambridge University Press, 2023.
+[Guo et al., 2024] Pei-Fu Guo, Ying-Hsuan Chen, Yun-Da
+Tsai, and Shou-De Lin. Towards optimizing with large language models. In Fourth Workshop on Knowledge-infused
+Learning, 2024.
+[Hao et al., 2024] Hao Hao, Xiaoqun Zhang, and Aimin
+Zhou. Large language models as surrogate models in evolutionary algorithms: A preliminary study. arXiv preprint
+arXiv:2406.10675, 2024.
+[Huang et al., 2022] Daolang Huang, Louis Filstroff, Petrus
+Mikkola, Runkai Zheng, and Samuel Kaski. Bayesian optimization augmented with actively elicited expert knowledge. arXiv:2208.08742, 2022.
+[Huang et al., 2024] Beichen Huang, Xingyu Wu, Yu Zhou,
+Jibin Wu, Liang Feng, Ran Cheng, and Kay Chen
+Tan. Exploring the true potential: Evaluating the blackbox optimization capability of large language models.
+arXiv:2404.06290, 2024.
+[Hvarfner et al., 2022] Carl Hvarfner, Danny Stoll, Artur
+Souza, Luigi Nardi, Marius Lindauer, and Frank Hutter.
+πBO: Augmenting acquisition functions with user beliefs
+for Bayesian optimization. In 10th International Conference on Learning Representations, ICLR’22, pages 1–30,
+April 2022.
+[Hvarfner et al., 2024] Carl Hvarfner, Frank Hutter, and
+Luigi Nardi.
+A general framework for user-guided
+Bayesian optimization. In The Twelfth International Conference on Learning Representations, 2024.
+[Häse et al., 2021] Florian Häse, Matteo Aldeghi, Riley J.
+Hickman, Loı̈c M. Roch, and Alán Aspuru-Guzik. Gryffin: An algorithm for Bayesian optimization of categorical
+variables informed by expert knowledge. Applied Physics
+Reviews, 8(3):031406, 07 2021.
+[Kristiadi et al., 2024] Agustinus Kristiadi, Felix StriethKalthoff, Sriram Ganapathi Subramanian, Vincent Fortuin, Pascal Poupart, and Geoff Pleiss. How useful is intermittent, asynchronous expert feedback for Bayesian optimization? In Sixth Symposium on Advances in Approximate Bayesian Inference - Non Archival Track, 2024.
+[Kroeger et al., 2024] Nicholas Kroeger,
+Dan Ley,
+Satyapriya Krishna, Chirag Agarwal, and Himabindu
+Lakkaraju. In-context explainers: Harnessing LLMs for
+explaining black box models. arXiv:2310.05797, 2024.
+[Lee et al., 2020] Eric Hans Lee, Valerio Perrone, Cédric Archambeau, and Matthias Seeger. Cost-aware Bayesian optimization. In ICML 2020 Workshop on AutoML, 2020.
+[Li et al., 2020] Cheng Li, Sunil Gupta, Santu Rana,
+Vu Nguyen, Antonio Robles-Kelly, and Svetha Venkatesh.
+
+Incorporating expert prior knowledge into experimental
+design via posterior sampling. arxiv:2002.11256, 2020.
+[Liu et al., 2022] Zijing Liu, Xiyao Qu, Xuejun Liu,
+and Hongqiang Lyu.
+Robust Bayesian optimization with reinforcement learned acquisition functions.
+arXiv:2210.00476, 2022.
+[Liu et al., 2024] Tennison Liu, Nicolás Astorga, Nabeel
+Seedat, and Mihaela van der Schaar. Large language models to enhance Bayesian optimization. In The Twelfth International Conference on Learning Representations, 2024.
+[M. Bran et al., 2024] Andres M. Bran, Sam Cox, Oliver
+Schilter, Carlo Baldassari, Andrew D White, and Philippe
+Schwaller. Augmenting large language models with chemistry tools. Nature Machine Intelligence, 6(5):525–535,
+2024.
+[Mahammadli, 2024] Kanan Mahammadli.
+Sequential
+large language model-based hyper-parameter optimization. arXiv:2410.20302, 2024.
+[Nguyen and Grover, 2024] Tung Nguyen and Aditya
+Grover. Lico: Large language models for in-context
+molecular optimization. arXiv:2406.18851, 2024.
+[Nogueira, 2014] Fernando Nogueira. Bayesian Optimization: Open source constrained global optimization tool
+for Python.
+https://github.com/bayesian-optimization/
+BayesianOptimization, 2014.
+[OpenAI, 2025] OpenAI. Gpt-4o-mini model card. https:
+//platform.openai.com/docs/models/gpt-4o-mini, 2025.
+[Ou et al., 2022] Changkun Ou, Daniel Buschek, Sven
+Mayer, and Andreas Butz. The human in the infinite loop:
+A case study on revealing and explaining human-AI interaction loop failures. In Mensch und Computer 2022, MuC
+’22, page 158–168. ACM, September 2022.
+[Poloczek et al., 2016] Matthias Poloczek, Jialei Wang, and
+Peter I Frazier. Warm starting Bayesian optimization. In
+2016 Winter simulation conference (WSC), pages 770–
+781. IEEE, 2016.
+[Ramachandran et al., 2020] Anil Ramachandran, Sunil
+Gupta, Santu Rana, Cheng Li, and Svetha Venkatesh.
+Incorporating expert prior in Bayesian optimisation via
+space warping. Knowledge-Based Systems, 195:105663,
+2020.
+[Ramos et al., 2024] Mayk Caldas Ramos, Christopher Collison, and Andrew D White. A review of large language
+models and autonomous agents in chemistry. Chemical
+Science, 2024.
+[Ranković and Schwaller, 2023] Bojana Ranković and
+Philippe Schwaller. Bochemian: Large language model
+embeddings for Bayesian optimization of chemical
+reactions.
+In NeurIPS 2023 Workshop on Adaptive
+Experimental Design and Active Learning in the Real
+World, 2023.
+[Savage and del Rio Chanona, 2023] Tom Savage and Ehecatl Antonio del Rio Chanona. Expert-guided Bayesian
+optimisation for human-in-the-loop experimental design
+of known systems. arXiv:2312.02852, 2023.
+
+[Shoyeb Raihan et al., 2024] Ahmed
+Shoyeb
+Raihan,
+Hamed Khosravi, Srinjoy Das, and Imtiaz Ahmed.
+Accelerating material discovery with a threshold-driven
+hybrid acquisition policy-based Bayesian optimization.
+Manufacturing Letters, 41:1300–1311, 2024. 52nd SME
+North American Manufacturing Research Conference
+(NAMRC 52).
+[Siemenn et al., 2023] Alexander E. Siemenn, Zekun Ren,
+Qianxiao Li, and Tonio Buonassisi. Fast Bayesian optimization of needle-in-a-haystack problems using zooming
+memory-based initialization (zombi). npj Computational
+Materials, 9(1), May 2023.
+[Surjanovic and Bingham, 2024] S. Surjanovic and D. Bingham. Virtual library of simulation experiments: Test functions and datasets. Retrieved December 23, 2024, from
+http://www.sfu.ca/∼ssurjano, 2024.
+[Van Diepen et al., 1989] CA van Van Diepen, J van Wolf,
+H Van Keulen, and C Rappoldt. Wofost: a simulation
+model of crop production. Soil use and management,
+5(1):16–24, 1989.
+[van Stein et al., 2024] Niki van Stein, Diederick Vermetten, and Thomas Bäck. In-the-loop hyper-parameter optimization for LLM-based automated design of heuristics.
+arXiv:410.16309, 2024.
+[Vermorel and Mohri, 2005] Joannès Vermorel and Mehryar
+Mohri. Multi-armed bandit algorithms and empirical evaluation. In Proceedings of the 16th European Conference
+on Machine Learning, ECML’05, page 437–448, Berlin,
+Heidelberg, 2005. Springer-Verlag.
+[Volpp et al., 2020] Michael Volpp, Lukas P. Fröhlich,
+Kirsten Fischer, Andreas Doerr, Stefan Falkner, Frank
+Hutter, and Christian Daniel. Meta-learning acquisition
+functions for transfer learning in Bayesian optimization.
+In International Conference on Learning Representations,
+2020.
+[Xie et al., 2022] Sang Michael Xie, Aditi Raghunathan,
+Percy Liang, and Tengyu Ma. An explanation of in-context
+learning as implicit Bayesian inference. In International
+Conference on Learning Representations, 2022.
+[Xie et al., 2023] Zikai Xie, Xenophon Evangelopoulos,
+Joseph C. R. Thacker, and Andrew I. Cooper. Domain
+knowledge injection in Bayesian search for new materials.
+In 26th European Conference on Artificial Intelligence.
+IOS Press, September 2023.
+[Yang et al., 2024] Chengrun Yang, Xuezhi Wang, Yifeng
+Lu, Hanxiao Liu, Quoc V Le, Denny Zhou, and Xinyun
+Chen. Large language models as optimizers. In The
+Twelfth International Conference on Learning Representations, 2024.
+[Yin et al., 2024] Yuxuan Yin, Yu Wang, Boxun Xu, and
+Peng Li. Ado-llm: Analog design Bayesian optimization with in-context learning of large language models.
+arXiv:2406.18770, 2024.
+[Zhang et al., 2024] Jun Zhang, Jinpeng Cheng, Cuiping
+Liu, Qiang Wu, Shuping Xiong, Hao Yang, Shenglong
+
+Chang, Yuanyuan Fu, Mohan Yang, Shiyu Zhang, et al.
+Enhanced crop leaf area index estimation via random forest regression: Bayesian optimization and feature selection
+approach. Remote Sensing, 16(21):3917, 2024.
+
+Supplementary Material
+A Extended Results and Ablations
+Main results
+Figure 7 presents the complete, unzoomed plots (all 105 iterations) comparing BORA with the baselines showing the
+maximum objective value found over the six experiments.
+
+mechanism to ensure that it acknowledges its status as the
+sole optimizer without anticipating BO interventions. It employs the same hypothesis generation mechanism as BORA’s
+LLM action a2 , relying exclusively on the outputs of the LLM
+for optimization. Additionally, LLM-Only uses the same reflection and fallback mechanisms. In the rare event where the
+LLM fails to produce a valid hypothesis, the corresponding
+hypothesis point is replaced with a randomly generated point
+to maintain continuity.
+Experimental Setup We evaluated BORA and LLM-Only
+on the more complex synthetic function Ackley (15D) and
+on the most demanding highest-dimensional real-world task,
+Hydrogen Production (10D), and reported the maximum objective value found. To ensure comparability with the experimental protocol outlined in the manuscript, LLM-Only was
+executed with an optimization budget of 105 samples and repeated 10 times.
+Results Figure 8 shows that LLM-Only exhibits competitive performance during the early stages of optimizing both
+Ackley (15D) and Hydrogen Production (10D). This achievement can be attributed to LLMs’ ability to perform inductive
+biases, which are used during hypothesis generation. However, LLM-Only fails to sustain its initial performance and
+quickly stagnates, falling behind BORA significantly in the
+later stages of the optimization. This stagnation highlights
+the limitations of relying solely on LLM inference to optimize high-dimensional spaces. In particular, LLMs lack the
+balanced exploration-exploitation trade-offs that are inherent
+to BO-based methods, which are achieved through posterior uncertainty modeling. By contrast, BORA, as a hybrid
+BO/LLM approach, dynamically merges structured sampling
+from BO with the LLM’s contextual understanding, facilitating sustained improvements as the optimization progresses.
+Notably, BORA achieved up to a 67% improvement in Hydrogen Production and a 31% improvement in the Ackley
+benchmark based on the maximum objective values discovered. While BORA considerably outperforms LLM-Only, it
+is interesting to note that while LLM-Only struggles to sustain its initial, early-stage performance, it still outperforms
+half of the baselines studied here in this small-budget setting.
+
+Figure 7: Full results of the BORA vs Baselines on the six experiments. Solid lines show average values while shaded areas indicate
+±0.25 standard error.
+
+BORA vs. LLM-Only Optimizer
+To further evaluate BORA’s contributions, we compared it
+with an LLM-only optimizer, which effectively isolates the
+LLM component of BORA and functions as an independent
+optimizer. This comparative analysis allowed us to determine
+the degree to which the incorporation of Bayesian Optimization (BO) principles enhanced performance beyond the capabilities of the LLM alone. LLM-Only uses identical prompts,
+with only minor modifications in the role-based prompting
+
+Figure 8: Comparison of BORA vs. LLM-Only on the Hydrogen
+Production (10D) and Ackley (15D) benchmarks.
+
+Ablation Studies
+In this section, we assess BORA’s flexibility in dynamically switching between LLM-dominated search strategies
+and BO-dominated ones in the optimization. A key parameter that regulates this is the plateau window size [mmin =
+0, mmax = 3minit ], conditioned by the chosen initial value
+of the plateau minit . In this ablation study, we test how different values of minit affect BORA’s performance.
+We select minit = 2, which translates into a narrower
+plateau window of [0, 6] and thus increases the number
+of plateaus encountered during the optimization, leading to
+more frequent LLM interventions. Additionally, we test
+minit = 32, which corresponds to fewer LLM interventions
+and more BO steps. We test BORA’s performance on both of
+these scenarios on the Ackley (15D) function. Note that we
+also include in the comparison:
+√
+• The default BORA setting of minit = ⌈2 d⌉ where d is
+the experiment dimensionality, corresponding to minit =
+8 for Ackley (15D).
+• BayesOpt as the Vanilla BO baseline.
+• LLM-Only as the pure LLM baseline.
+Figure 9 shows the results of the comparison. Out of 10
+runs, we observe that the algorithm behaves closer to the
+Vanilla BO as the plateau window size increases, as one might
+expect. Likewise, BORA behaves closer to the LLM-only
+model as the window size is reduced. This highlights BORA’s
+flexibility in adapting dynamically to different problem types
+that might require more or less input from the LLM.
+Cost of BORA Runs
+We report the total cost of running BORA and LAEA in
+the manuscript experiment section, both using GPT-4o-mini
+as the LLM component, which covers 6 benchmarks across
+10 trials with a 105-sample budget. The total cost of running BORA amounts to about 5 US Dollars (USD) at today’s
+prices, while the cost for LAEA with an initial population
+size of 15 is around 41 USD, considering the LLM costs only.
+This cost difference arises from the inherent design of the two
+methods. As an LLM-BO hybrid, BORA alternates between
+LLM-based and BO-based sampling via its adaptive policy.
+Notably, the LLM is more involved in optimization when it
+proves trustworthy. In contrast, LAEA uses the LLM as a
+surrogate model to evaluate the fitness of the individuals in
+the population. Given that at each iteration during the optimization, LAEA uses the LLM to estimate the fitness of each
+individual in the population, this translates into a much more
+frequent LLM call, leading to increased computational and
+inference costs. To put this into perspective for a population
+size of pop size = 15 individuals, and a maximum number
+of objective function evaluations of nevals = 105, LAEA requires at least
+
+Figure 9: Comparison of BORA’s performance for different values
+of plateau window size on the Ackley (15D) function for 10 trials.
+
+B
+
+Benchmarks
+
+B.1
+
+Levy Function (10D)
+
+The Levy function [Surjanovic and Bingham, 2024] is a popular synthetic function used to test global optimization methods, particularly in high-dimensional black-box functions.
+We restrict its search space to [−10, 10]10 with a global maximum realized at f (x) = 806.789 when x = (1, 1, . . . , 1).
+The 2D landscape of the Levy function is shown in Figure 10. Uncovering its global maximum is challenging because of the rugged and oscillatory nature of its landscape
+with a large number of local minima, which increases with dimensionality. This function was selected to evaluate BORA’s
+capability to navigate high-dimensional, non-convex land-
+
+nLLM calls = (nevals − pop size) × pop size = 1350,
+plus the LLM calls incurred by the reflection strategies. These
+findings demonstrate that BORA’s strategic use of LLMs, beyond performing significantly better, has much smaller LLM
+inference and cost footprints, noting that the use of LLMs
+also has a significant (and growing) energy cost.
+
+Figure 10: Landscape of 2D Levy Function
+
+Variable
+
+Unit
+
+Description
+
+Bound
+
+Tilt Angle
+Azimuth Angle
+System Capacity
+DC-to-AC Ratio
+
+°
+°
+kW
+-
+
+Angle of the solar panel relative to the horizontal plane.
+Angle describing the direction the panel is facing on the horizontal plane.
+Total DC power output of the system.
+Ratio of DC to AC power capacity for the inverter.
+
+[0, 90]
+[0, 360]
+[1, 20]
+[1, 1.5]
+
+Table 1: Input variables for the Solar Energy Production (4D) experiment.
+
+scapes with multiple basins of attraction.
+
+B.2
+
+Ackley Function (15D)
+
+The Ackley function [Surjanovic and Bingham, 2024] is another well-known synthetic benchmark, known for its flat
+outer region, steep gradients near the global minimum, many
+local minima, and symmetry. We changed the bound to x ∈
+[−30, 20]d , breaking its original symmetry. The global maximum is achieved at f (x) = 21.945, when x = (0, 0, . . . , 0).
+The 2D landscape of the Ackley function is shown in Figure 11, highlighting the optimization challenge that results
+from the interplay between its wide, flat regions and highly
+oscillatory behavior with many local optima. Consequently,
+this can mislead optimization strategies that focus solely on
+exploration or exploitation. This function was selected to
+evaluate BORA’s capability to locate the global maximum efficiently while maintaining robustness in its search strategy.
+
+B.3
+
+Solar Energy Production (4D)
+
+The Solar Energy Production experiment simulates the energy output of a solar panel system on January 1st 2024, located at 35°N latitude, -120°W longitude (California) over a
+single day. The actual Californian weather conditions are programmatically retrieved, and the simulation is performed using the Python PVLib library for photovoltaic modeling [Anderson et al., 2023]. The experiment is described as follows:
+
+Figure 11: Landscape of the 2D Ackley function
+
+B.4
+
+Pétanque (7D)
+
+• Day-Long Variability: As the simulation also accounts
+for daily variations in solar irradiance, the problem becomes time-dependent.
+
+The Pétanque experiment simulates a simplified version of
+the pétanque game. In pétanque, players score points by
+throwing or rolling balls as close as possible to a stationary, smaller ball target. Players can choose balls of different sizes or weights depending on their strategy. In our
+Pétanque experiment, there is just a single player whose goal
+is to maximize their score by throwing a single ball closer
+to the fixed target located at (xt , yt , zt ) = (50 meters, 0, 0).
+Moreover, the ball is always launched from the initial position (xs , ys , zs ) = (0, 0, h) where h is the vertical height
+from which the ball throw is released. The trajectory of the
+ball is tracked until it lands on the ground at (xe , ye , ze ). We
+simulate the trajectory using Python with a 0.01 time step
+following projectile motion equations, including factors like
+gravity, drag, and the Magnus effect for spinning projectiles.
+We record the distance between where the ball landed and the
+target as ‘distance error’ and define the score ranging from 0
+to 100 accordingly:
+p
+distance error = (xe − xs )2 + (ye − ys )2 + (ze − zs )2
+score = 100 · exp(−distance error · 0.2)
+(11)
+
+This problem was chosen to evaluate BORA’s ability to optimize real-world engineering systems with dynamic dependencies, where practical knowledge is essential.
+
+In our setup, better accuracy corresponds to a smaller distance
+error and, thus, a higher score. The experiment is described
+as follows:
+
+• Objective: Maximize the energy produced by the solar
+panel over a single day (24 hours).
+• Optimization Variables: The input variables are the solar panel’s tilt angle, azimuth angle, system capacity, and
+DC-to-AC ratio. They are described in detail in Table 1.
+• Target: The daily energy output in kWh.
+This experiment presents several challenges:
+• Multi-Dimensional Non-Convexity: The tilt and azimuth angles non-linearly impact the energy output, creating multiple local optima.
+• System Trade-Offs: Balancing the system capacity and
+DC-to-AC ratio is essential to ensure efficiency and high
+energy output.
+
+Variable
+
+Unit
+
+Description
+
+Bound
+
+Pitch Angle
+Yaw Angle
+Initial Velocity
+Spin Rate
+Spin Axis Orientation
+Initial Height (h)
+Mass
+
+°
+°
+m/s
+rpm
+°
+m
+kg
+
+Vertical launch angle relative to the ground where 0° is parallel to the ground.
+Horizontal aiming angle relative to the target where 0° is aiming straight.
+Magnitude of the initial velocity.
+Rotational speed of the projectile.
+Direction of the spin axis in the xy-plane where 0° aligns with the +x-axis.
+Vertical height above ground level from which the ball is launched.
+Mass of the ball.
+
+[-30, 90]
+[-180, 180]
+[0, 50]
+[0, 3000]
+[-180, 180]
+[0, 2]
+[0.01, 10]
+
+Table 2: Input variables for the Pétanque (7D) experiment.
+
+Variable
+
+Unit
+
+Description
+
+Bounds
+
+Irradiance
+Minimum Temperature
+Maximum Temperature
+Vapor Pressure
+Wind Speed
+Rainfall
+Water Availability
+Soil Moisture Content
+
+kJ/m²/day
+°C
+°C
+kPa
+m/s
+mm
+cm
+-
+
+Daily solar radiation received by the crop.
+Daily minimum temperature.
+Daily maximum temperature.
+Daily mean atmospheric vapor pressure.
+Daily mean wind speed at 2 meters above the surface.
+Total daily precipitation.
+Initial water available in the total soil profile.
+Initial maximum moisture content in the rooting zone.
+
+[0, 8000]
+[-30, 30]
+[-20, 50]
+[0.06, 10]
+[0, 5]
+[0, 20]
+[0, 100]
+[0, 1]
+
+Table 3: Input variables for the Sugar Beet Production (8D) experiment.
+
+• Objective: Maximize the accuracy of the throw to maximize the score.
+• Optimization Variables: The launch variables include
+initial velocity, angles, spin, and ball mass, further described in detail in Table 2.
+• Target: The score.
+The Pétanque experiment presents several challenges:
+• Multi-dimensional Input Space: The throw involves
+seven input variables that create a high-dimensional
+search space.
+• Non-Linear Dynamics: The trajectory of the path depends non-linearly on each input.
+• Throw Accuracy: Finely tuned launch inputs are necessary to achieve high accuracy.
+This problem was chosen to evaluate BORA’s ability to optimize physical systems under complex dynamics.
+
+B.5
+
+Sugar Beet Production (8D)
+
+Sugar beet is a plant with a high sucrose concentration in
+its root, making it commercially useful for raw sugar production. The Sugar Beet Production experiment examines its
+production in greenhouses, which allows a high level of control over the weather and soil conditions. We use the World
+Food Studies Simulation model (WOFOST) [Van Diepen et
+al., 1989], available within the Python Crop Simulation Environment (PCSE) [de Wit and contributors, 2024], to simulate
+the growth of sugar beets in a controlled greenhouse environment. WOFOST is an explanatory model capable of tracking crop growth over daily time steps, integrating a detailed
+understanding of physiological and environmental processes.
+The experiment is described as follows:
+
+• Objective: Maximize the total aboveground biomass
+(TAGP) of sugar beet crops in a greenhouse environment over a month (31-day) period. The initial sugar
+beet biomass is 0.41 kg/ha.
+• Optimization Variables: The input variables are the
+greenhouse weather and soil conditions, which are further detailed in Table 3. These variables remain constant
+during the month simulation period.
+• Target: TAGP at the end of the simulation in kg/ha.
+The Sugar Beet Production experiment presents several
+challenges:
+• Inter-dependencies: Variables like moisture, irradiance,
+and temperatures are interdependent and significantly
+influence crop growth.
+• Sensitivity: The growth simulation is notably sensitive
+to variables such as soil moisture content and vapor pressure, complicating the optimization process.
+This problem was chosen to evaluate BORA’s ability to
+optimize agricultural yields in complex, sensitive, and nonlinear systems.
+
+B.6
+
+Hydrogen Production (10D)
+
+The Hydrogen Production experiment was orignally realized by Burger et al. to find the optimal composition of a
+ten-component mixture maximizing the Hydrogen Evolution
+Rate (HER) via photocatalysis. Due to physical constraints
+in the experiment, Burger et al. constrained the search space
+to keep the total mixture volume less than 5 mL (the maximum volume in the reaction vial). Other constraints come
+from the liquid dispensing module (minimum accurate dispense = 0.25 mL) and the solid dispensing module (minimum
+
+Variable
+
+Unit
+
+Description
+
+Bound
+
+Discretization Step
+
+Acid Red 871
+L-Cysteine
+Methylene Blue
+Sodium Chloride
+Sodium Hydroxide
+P10-MIX1
+Polyvinylpyrrolidone (PVP)
+Rhodamine B
+Sodium Dodecyl Sulfate (SDS)
+Sodium Disilicate
+
+mL
+mL
+mL
+mL
+mL
+g
+mL
+mL
+mL
+mL
+
+A dye.
+Hole scavenger.
+A dye.
+Adjusts ionic strength of the solution.
+Controls pH of the reaction.
+A conjugated polymer photocatalyst.
+A surfactant.
+A dye.
+A surfactant.
+Stabilizes the reaction medium.
+
+[0, 5]
+[0, 5]
+[0, 5]
+[0, 5]
+[0, 5]
+[1, 5]
+[0, 5]
+[0, 5]
+[0, 5]
+[0, 5]
+
+0.25
+0.25
+0.25
+0.25
+0.25
+0.20
+0.25
+0.25
+0.25
+0.25
+
+Table 4: Input variables for the Hydrogen Production (10D) experiment.
+
+dispense = 0.2 mg), turning the idealized continuous space
+into a discretized one. The resulting combinatorial search
+space was extremely large, with 98,423,325 possible combinations, Burger et al., so the authors used an autonomous
+mobile robotic chemist along with BO to search for the optimal composition of the chemical mixture.
+To replicate this experiment, we used the same costeffective and time-saving method as Cissé et al., who are part
+of the same research group as Burger et al.. Cissé et al. built
+an oracle method by training a Gaussian process regression
+on a dataset of 1119 experimental observations of the original study to serve as ‘ground truth’, or oracle model. Although this interpolated model is an approximation, Cissé et
+al. demonstrated in their HypBO work that it captured the underlying chemical processes of the original experiment, making it reliable enough to draw safe conclusions.
+The Hydrogen Production experiment details are as follows:
+• Objective: Maximize the HER (µmol/h), by optimizing
+the quantities of each of the ten chemicals in the mixture.
+• Optimization Variables: The input variables represent
+the amount of each chemical in the mixture. They are
+described in detail in Table 4.
+• Constraints: To ensure compatibility with the experimental setup,
+1. Total Concentration: The sum of all liquid chemicals (excluding P10-MIX1, which is solid) must not
+exceed 5.
+2. Discrete Variables: All input variables are discretized (see 4).
+• Target: The HER predicted by the oracle model.
+This experiment presents several challenges:
+• High-Dimensional Search Space: The optimization involves 10 discrete parameters, resulting in a large combinatorial experimental space.
+• Complex Interactions: HER depends on complex nonlinear chemistry interplay among the chemical inputs.
+• Physical Constraints: The constraint in the mixture volume imposes an additional challenge for the optimization process.
+
+This problem was chosen to evaluate BORA’s ability to
+optimize complex, high-dimensional, constrained chemistry
+problems.
+
+C
+
+Baselines
+
+All of the baselines that we tested BORA against have internal random sampling mechanisms to generate random points.
+In the BO-based baselines, these random points are partially
+used as candidate points for the acquisition function. In the
+LAEA method, they contribute to the generation and evolution of the population during the optimization. To enable
+a fair comparison between BORA and baseline methods for
+the Hydrogen Production experiment, we adapted the random
+sampling mechanism of each baseline to effectively handle
+the discrete and constrained nature of the input space. This
+ensures that the baselines remained competitive and adhered
+to the unique constraints of the Hydrogen Production problem. Note that HypBO did not need modification as it inherently supports such spaces.
+This adaptation was achieved by first employing a simplexbased approach to scale randomly generated points to satisfy the sum constraint. Then, we employed a discretization
+step to ensure that the generated points align with the problem’s discrete requirement. Additionally, a caching system
+was implemented to exclude duplicate points, enhancing diversity and avoiding redundancies. Aside from the modifications made to the random sampler to account for the discrete
+and constrained nature of the Hydrogen Production experiment, the baseline implementations were left unchanged and
+are consistent with their original formulations. All default
+hyperparameters were used as specified in their respective papers.
+
+C.1
+
+LAEA Population Size
+
+For the LAEA baseline, we experimented with two initial
+population sizes: 5 and 15. An initial population size of 5
+aligns with the 5 initial samples we use for all BORA and all
+the other baselines, ensuring a consistent starting point across
+methods. However, as LAEA is an LLM/Evolutionary Algorithm hybrid, it differs fundamentally from the other methods
+explored here, which are all BO-based except for Random
+Search. Consequently, the same rationale for selecting initial
+
+Figure 12: LAEA vs. LAEA 5. LAEA denotes LAEA with an initial population size of 15. Solid lines show mean values while shaded areas
+indicate ±0.25 standard error.
+
+samples in BO does not necessarily extend to LAEA. To account for this, we also tested an initial population size of 15,
+which preserves a consistent population-to-optimization budget ratio as in the original paper [Hao et al., 2024]. Our experiments, as illustrated in Figure 12, showed that LAEA, with
+an initial population size of 15, outperformed the smaller population size of 5. Consequently, we report results for LAEA
+15 in the manuscript to present its best performance.
+
+C.2
+
+ColaBO Input Priors by an LLM
+
+As stated in the manuscript, to avoid the impracticality of relying on humans to provide inputs for multiple trials across
+all experiments for ColaBO, we used the LLM GPT-4o-mini
+to generate the ‘human’ inputs. It is likely, of course, that
+human domain experts will in some cases provide superior
+inputs than produced by an LLM, and we note that limitation
+here. ColaBO uses GP priors to express human input as:
+π(x) ∼ N (c, σ),
+where c is the center of the prior and speculated to be the
+optimum, and σ is the standard deviation.
+To automate the production of the input prior, we used the
+same task description prompts as used for BORA and tasked
+an LLM to guess the location of the optimum with a confidence score ranging between 0 and 1. The given location
+becomes the center of the GP. The prior standard deviation is
+calculated to be
+σ = 1 − score + ϵ,
+−6
+
+where ϵ = 10 is a small number to prevent a null standard
+deviation. In this setup, the more confident the LLM is in its
+guess, the narrower the input prior becomes.
+
+C.3
+
+HypBO Hypotheses by an LLM
+
+Unlike in BORA, HypBO [Cissé et al., 2024] defines a hypothesis as a static region of interest; that is, a ‘box soft constraint’. We automated the generation of these hypotheses in
+testing HypBO on the benchmarks by using an LLM. Similar
+to the ColaBO input prior generation, we used LLM GPT4o-mini and the same task description prompts as used for
+BORA. Again, the quality of the LLM input may not match
+that of a human domain expert, but this was done because of
+the impracticality of drawing on human experts over multiple
+trial optimization runs. The LLM is tasked to predict the location of the optimum and to give a [0, 1] confidence score. Because HypBO supports the use of multiple static hypotheses,
+we do not restrict the LLM in the number of hypotheses that
+
+it can recommend. Then, for each hypothesis, we use the corresponding score to ‘draw’ a hyper-rectangle around its suggested optimum location. The length of the hyper-rectangle
+L corresponds to the experiment space scaled using the confidence score as follows:
+L = (ub − lb) ∗ (1 − score),
+where ub and lb are vectors corresponding to the upper and
+lower bounds of the experiment input space. In this setup, the
+more confident the LLM is in its guess, the narrower the input
+prior becomes.
+Case of the Hydrogen Production Benchmark
+For the Hydrogen Production experiment, because it was
+originally optimized in the HypBO paper [Cissé et al., 2024]
+with some relevant hypotheses, instead of using an LLM to
+generate hypotheses for it, we employed the most realistic
+hypothesis used in that study and the corresponding optimization data. That hypothesis is ‘What They Knew’, which encapsulates any human knowledge available prior to the execution of the experiment, thus precluding any post-experiment
+hindsight. As such, the LLM is used here to simulate the human input for HypBO for all tasks studied here, apart from
+Hydrogen Production, where the input is domain-expert human knowledge from [Cissé et al., 2024].
+
+D
+
+Extended Methodology
+
+As BORA is a hybrid method involving LLMs, its effectiveness depends, in part, on the quality and the structure of the
+LLM outputs. Additionally, ensuring that the LLM outputs
+respect a desired format guarantees that BORA is fully automated. This section details the LLM prompt engineering, including the reflection strategies used to build robust prompts
+for the LLM agent to:
+• Warm-start the optimization;
+• Comment on the optimization progress and generate hypotheses when progress stalls via the actions a2 and a3 ;
+• Summarize the optimization findings and recommend
+further experiments.
+We also detail the fallback mechanisms in the event that
+the LLM fails to produce the desired output.
+
+D.1
+
+LLM Role-Based Prompting
+
+Our prompt engineering starts with role-based prompting,
+which allows us to seed the context and behavior of the LLM
+
+agent at the start of the session by explicitly assigning it a role
+to ensure that it operates consistently within our framework.
+Our LLM agent is assigned the role of a research assistant
+specialized in BO and also that of a live commentator, commenting on the optimization progress of an experiment and
+generating hypotheses. This role prompting is enhanced with
+the Experiment Card provided by the user to ensure that the
+LLM agent understands the problem at hand and how, specifically, it will participate in the optimization process.
+Experiment Card
+This card is constructed by the user following the standardized template shown in Figure 13. This template allows the
+construction of a comprehensive description of the experiment, helping the LLM contextualize the problem at hand.
+Figure 14 shows what this looks like for the Hydrogen Production experiment.
+
+Figure 14: Experiment card of the Hydrogen Production experiment.
+
+Figure 13: Experiment card template.
+
+Enhanced Role Prompting
+This is achieved by leveraging the experiment card and
+prompting the LLM to give an initial overview of the experiment and to explain its role in the BORA optimization
+procedure. Figure 15 illustrates this prompt template, while
+Figure 17 exemplifies it for the Hydrogen Production experiment. Note that in the prompt figures, [] indicates a placeholder, while:
+• Orange text corresponds to information retrieved from
+the experiment card.
+• Green text corresponds to specific instructions.
+• Blue text corresponds to information about or the gathered data itself.
+• Purple text corresponds to any previous comments made
+by the LLM.
+The output of this role-based prompting (Figure 16) is also
+returned to the user and marks the beginning of BORA’s narrative framework. Beyond ensuring that the LLM agent is
+
+Figure 15: Prompt template tasking the LLM to give an overview of
+the experiment and to explain how it will participate in the optimization process.
+
+properly initialized, it also fosters transparency and trust between BORA and the user by:
+• Confirming to the user that BORA understands the problem given by the user.
+• Explaining to the user how BORA works by having an
+agent assisting BO in its optimization procedure.
+
+Figure 16: Example of the LLM’s overview of the Hydrogen Production experiment.
+
+Figure 17: Prompt for the experiment overview given to the LLM
+agent about the Hydrogen Production experiment.
+
+D.2
+
+Comment Object
+
+Beyond the role-based prompting, the LLM agent is promptengineered to return a specific JSON object referred to as
+Comment during its interventions in the optimization process.
+This structure is illustrated in Figure 18 and contains:
+• Insights: Comments on optimization progress and key
+findings. Note that while in the Comment object structure shown in Figure 18 this corresponds to comment,
+for the sake of clarity and to avoid confusion in this
+manuscript, we refer to it as insights.
+• Hypotheses: A list of hypotheses maximizing the target,
+each accompanied by:
+– A meaningful name.
+– A rationale defending the hypothesis.
+– A confidence level indicating the LLM confidence
+in the hypothesis.
+– A list of points to test the hypothesis.
+Note that, as we will see in the following sections, while
+the Comment structure was designed to be general, we only
+ask the LLM for one point per hypothesis. This was based
+on the ablation studies in HypBO [Cissé et al., 2024], which
+showed that a well-selected point in a hypothesis region can
+transfer enough information to BO. Additionally, this limits
+the LLM consumption of its optimization budget. Moreover,
+the confidence level is for the user to get a sense of how confident the LLM is in its recommendations. The value placeholders are automatically generated by randomly sampling
+points within the experiment design space based on the Experiment Card information.
+
+D.3
+
+Optimization Initialization
+
+The LLM warm-starts the optimization using any domain
+knowledge of the problem at hand. It is tasked to generate nhypotheses ← ninit diverse hypotheses maximizing the target. Each of these hypotheses returns a single point that will
+be later evaluated to form the initial dataset. In this context, the LLM is few-shot prompted with the Comment structure described above and shown in the Initialization Prompt
+Figure 18. The latter details our few-shot prompting technique leveraging direct instructions, formatting guidelines,
+and demonstrations via In-Context Learning (ICL) to make
+the LLM return a Comment object that BORA can consume.
+An example of the constructed initialization prompt for the
+Hydrogen Production experiment is detailed in Figure 19.
+Note that while the structured LLM outputs are consumed
+by BORA, these outputs are reformatted before being presented to the user. For readability, we are showing these userfriendly outputs instead of the raw LLM structured outputs.
+Figure 20 illustrates what this initial comment looks like for
+the initialization of the Hydrogen Production experiment.
+
+D.4
+
+LLM Interventions
+
+a2 LLM Comments and Suggests nLLM Points
+The LLM is prompted following the template shown in Figure 21 with the gathered data up to the current iteration and
+any previous comments. Then, it is tasked to comment on the
+
+Figure 18: Prompt template to generate the initial samples.
+
+optimization progress in light of the new data and to update
+any previous hypotheses.
+We show in Figure 24 an example of the constructed
+prompt received by the LLM for the Hydrogen Production
+experiment. The returned Comment in Figure 22 (resp. Figure 23) contains examples of the next nLLM points to evaluate
+for the Hydrogen Production (resp. Sugar Beet Production),
+which are then evaluated and added to the dataset.
+
+Figure 19: Example of the LLM prompt to initialize the Hydrogen
+Production experiment.
+Figure 20: Example of the LLM initializing the Hydrogen Production experiment
+
+Figure 21: Prompt template tasking the LLM to to perform action
+a2 (comment and suggest the next points to evaluate).
+
+Figure 22: Example of the LLM performing action a2 (comment
+and suggest the next points to evaluate) for the Hydrogen Production
+experiment.
+
+Figure 23: Example of the LLM performing action a2 (comment and
+suggest the next points to evaluate) for the Sugar Beet Production
+experiment.
+
+Figure 24: Example of the prompt received by the LLM to perform action a2 (comment and suggest the next points to evaluate) for the
+Hydrogen Production experiment.
+
+a3 LLM Comments and Selects nLBO BO Points
+The LLM is prompted following the template shown in Figure 25 with the gathered data up to the current iteration, a
+set of nBO = 5 BO-suggested points, and any previous comments. Then, it is tasked to comment on the optimization
+progress in light of the new data and is constrained to select
+the nLBO = 2 most promising BO candidates that best align
+with its hypotheses for maximizing the target objective.
+
+Figure 25: Prompt template tasking the LLM to perform action a3
+(comment and select the next 2 points to evaluate).
+
+The returned Comment, illustrated in Figure 26 for the Solar Energy Production experiment, contains the two selected
+points that are then evaluated and added to the dataset.
+
+D.5
+
+Optimization Conclusions and Summary
+
+After the optimization ends, that is when the sample budget
+is exhausted, the LLM reflects on its hypotheses to give a
+brief conclusion to the user before generating a final report
+summarizing the optimization findings and suggesting further
+future experiments.
+
+Figure 26: An example of the LLM performing action a3 (comment
+and select the next 2 points to evaluate) on the Solar Energy Production experiment.
+
+By leveraging historical context and a structured narrative,
+the summary ensures that users gain a clear understanding of
+the optimization’s successes, limitations, and potential next
+steps.
+
+Hypothesis Evolution
+Based on the entire dataset of the optimization and all its previous comments and hypotheses, the LLM is tasked following the template in Figure 27 to briefly explain how its hypotheses evolved throughout the optimization in the form of
+a table that is easily digestible by the user, adhering to the
+user-centric design of BORA.
+An example of the output of this task is shown in Figure 28.
+Optimization Summary
+The LLM generates a final summary report to provide users
+with an overview of the entire optimization process and recommend future experiments. The corresponding prompt,
+shown in Figure 29, builds on the previous exchanges in the
+LLM’s memory and instructs the LLM to:
+• Give an overview of the optimization.
+• Highlight the key results and findings.
+• Recommend future experiments based on the findings.
+
+Figure 27: Prompt template tasking the LLM conclude about the
+experiment.
+
+Figure 28: An example of the LLM giving its conclusions about the
+Sugar Beet Production experiment.
+
+Figure 29: Prompt template tasking the LLM to generate the summary report after optimization concludes.
+
+D.6
+
+LLM Reflection and Fallback Strategies
+
+Although few-shot prompting can enhance the LLM agent
+outputs, the output quality can be still improved with reflection strategies. This is beneficial for all LLM tasks, whether it
+is to directly intervene in the optimization process to initialize
+it or through its actions a2 and a3 , or to generate conclusions
+and summaries at the end of the optimization. While the selfconsistency strategy increases the quality of the LLM output
+and reduces the likelihood of producing invalid comments,
+the LLM can still sometimes return invalid Comments during
+the more direct LLM interventions (Initialization, actions a2
+and a3 ). A Comment is valid when:
+• The Comment format is respected.
+• All hypotheses of the comment are also valid. A valid
+hypothesis has points that are not duplicates of previously sampled points, are within the bounds of the experiment, and satisfy any existing experimental constraints
+given in the experiment card.
+Consequently, we have designed a comment feasibility verification, and in the event of an invalid comment, fallback
+mechanisms have been developed to allow BORA to proceed
+with partial or no contribution from the LLM intervention.
+Self-consistency
+For the LLM interventions a2 and a3 , we leverage selfconsistency by generating n = 3 outputs from the same
+prompt. Each of those outputs reflects a potential viewpoint.
+These outputs are then systematically consolidated to synthesize a comprehensive and unified response. This consolidation process involves several key steps: (a) reflecting and critiquing each output, (b) evaluating consistency, and resolving
+discrepancies by cross-referencing them against the optimization dataset. This self-consistency procedure helps maintain
+coherence and accuracy, which minimizes the risk of biases
+from a single output while fostering a more robust and nuanced proposition.
+Feasibility Verification and Fallback Mechanisms
+When the LLM is invoked to generate a Comment, the latter is
+systematically checked to verify that the Comment structure
+is respected and each hypothesis is valid.
+In the Initialization Phase In the event of invalid hypotheses, the latter are removed from the comment, resulting in the
+LLM generating less than nhypotheses hypotheses; that is, less
+than ninit initial samples. In such case, a fallback mechanism
+replaces the missing points with randomly generated points
+to complete the initial dataset size of |D0 | = ninit samples.
+During LLM Interventions For the LLM direct interventions in the optimization process via actions a2 and a3 , in
+the event that the Comment validation step fails, the LLM is
+tasked to update its Comment to remedy the validation error,
+i.e., satisfy the novelty and/or experiment requirements. The
+LLM is given three attempts, after which the LLM intervention is deemed as failed, which triggers a fallback mechanism.
+In particular, the LLM intervention is skipped, essentially replacing it with the Vanilla BO action a1 .
+
+Context Window Limit While context window limits were
+a pronounced limitation when LLMs were first introduced,
+their capabilities here have increased markedly, resulting in
+much larger context windows. This is likely to evolve further. To this point, although we have designed a summarizing solution in case the LLM’s context window is reached,
+we have not encountered that scenario during our tests here.
+This could occur with more complex or longer experiments.
+Our summarizing mechanism works as follows. We track
+the number of tokens in the LLM agent’s chat history and
+whether the context window will be exhausted at the subsequent LLM intervention. In such a scenario, instead of giving
+all the previously gathered data to the LLM as a part of its
+intervention package, we supply it with the correlation matrix of the data instead. The correlation matrix summarizes
+the pairwise relationships between the input variables of the
+problem at hand, considerably reducing the input size for the
+LLM. In fact, for a dataset with d input variables and N >> d
+number of samples, the correlation matrix has only d × d elements instead of the raw dataset with d × N elements. Although the correlation matrix summarizes the data, the LLM
+loses the intricate details in the raw data. However, as a result
+of a condensed data summary, the LLM processes it much
+faster.
+
+

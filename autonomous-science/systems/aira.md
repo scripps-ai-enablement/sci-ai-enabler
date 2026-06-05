@@ -2,7 +2,7 @@
 title: AIRA (AIRA-Compose and AIRA-Design)
 parent: Systems
 grand_parent: AI scientists
-nav_order: 6
+nav_order: 7
 affiliation: FAIR at Meta
 lifecycle_stages: [Multi-stage]
 autonomy: Semi-autonomous

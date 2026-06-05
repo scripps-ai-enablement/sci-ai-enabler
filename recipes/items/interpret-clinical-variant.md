@@ -2,14 +2,14 @@
 title: Interpret a clinical variant from a natural-language query
 parent: All recipes
 grand_parent: Recipes
-nav_order: 8
+nav_order: 14
 problem_class: Knowledge synthesis
 subject_areas: [Translational Medicine, Molecular and Cellular Biology]
 evidence_level: Proposed
 complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Laptop
-last_verified: 2026-05-23
+last_verified: 2026-06-04
 summary: Use BioMCP to convert a free-text variant query ("BRAF V600E", "rs113993960", "NM_004985.5:c.35G>A") into a one-page clinical report with ClinVar significance, population frequency, in-silico predictions, and linked literature.
 ---
 
@@ -98,8 +98,8 @@ Proposed. No published benchmark of the exact BioMCP-driven variant-report assem
 
 ## Sources
 
-- [biomcp.org `variant_searcher` documentation](https://biomcp.org/) — verified 2026-05-23 (this run).
-- [MyVariant.info API docs](https://docs.myvariant.info/) — verified 2026-05-23 (this run).
+- [biomcp.org `variant_searcher` documentation](https://biomcp.org/) — verified 2026-06-04 (this run).
+- [MyVariant.info API docs](https://docs.myvariant.info/) — verified 2026-06-04 (this run).
 - [MARRVEL-MCP preprint (Hyun et al., *bioRxiv*)](https://www.biorxiv.org/content/10.1101/2025.11.26.690887v1) — published 2025-11-28; closest analogous benchmark.
 
 ---

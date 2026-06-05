@@ -28,6 +28,7 @@ Claude Code is where Skills, MCP servers, Plugins, Hooks, and slash commands all
 - Setting up [Routines](../advanced/routines.html) (`/schedule`) for recurring tasks.
 - Letting Claude grind on a measurable goal across many turns — `/goal "<completion condition>"` (v2.1.139+, May 2026) keeps Claude working until a separate evaluator model confirms the condition holds (e.g., `npm test exits 0`).
 - Tackling a migration or audit too large for one session — include the word `workflow` in your prompt, or run `/effort ultracode`, to fan the job out across up to 1,000 parallel subagents (research preview, requires v2.1.154+; see [Dynamic Workflows](../claude-surfaces.html#cross-cutting-features) on the surfaces page).
+- Reviewing a GitHub PR without installing the GitHub App. From a checked-out PR branch, run `/code-review` to print findings in the terminal, `/code-review --comment` to post them as inline PR comments (≥ 80-confidence, deduped), or `/code-review --fix` to apply them to the working tree. Renamed from `/simplify` in v2.1.147 (2026-05-21).
 
 ## How to install / enable
 
@@ -49,6 +50,7 @@ Claude Code is where Skills, MCP servers, Plugins, Hooks, and slash commands all
 - Claude Code on the web runs in a sandboxed VM with network restrictions; local-only MCP servers won't work there.
 - Skills/plugins/MCP installed in `~/.claude/` (user scope) are global; `.claude/` in a repo (project scope) is per-repo.
 - Background sessions accumulate — list with `claude agents` and clean up. Pin one with Ctrl+T in that view if you want it kept alive when idle and restarted in place on updates; un-pinned sessions are shed first under memory pressure.
+- **`claude -p` (headless / non-interactive mode) moves to a separate Agent SDK credit on 2026-06-15.** Interactive `claude` in the terminal still draws from your subscription. `claude -p`, Claude Code GitHub Actions, and any third-party harness that auths via the Agent SDK draw from a new dollar-denominated credit pool billed at standard API rates (one-time opt-in, no rollover). See [Claude API](claude-api.html) for the per-plan credit amounts.
 
 ## See also
 
@@ -61,8 +63,10 @@ Claude Code is where Skills, MCP servers, Plugins, Hooks, and slash commands all
 - [Set up Claude Code](https://code.claude.com/docs/en/setup) — Anthropic docs; verified 2026-05-26 (this run).
 - [Claude Code on the web](https://code.claude.com/docs/en/claude-code-on-the-web) — Anthropic docs; verified 2026-05-19.
 - [Redesigning Claude Code on desktop for parallel agents](https://claude.com/blog/claude-code-desktop-redesign) — Anthropic blog; published 2026-04-14 — session sidebar, drag-and-drop panes, SSH on macOS, per-session Git worktrees.
-- [Claude Code changelog (v2.1.139–v2.1.154)](https://code.claude.com/docs/en/changelog) — `claude agents` config flags, `/code-review` (renamed from `/simplify` in v2.1.147, 2026-05-21; gained `--fix` in v2.1.152 on 2026-05-27 — `/simplify` now invokes `/code-review --fix`), `claude --bg`, `/resume`, Ctrl+T pinned background sessions, `/goal` (v2.1.139, 2026-05-12), `/reload-skills` + `disallowed-tools` frontmatter (v2.1.152), Opus 4.8 + Dynamic Workflows + `/effort ultracode` (v2.1.154, 2026-05-28); verified 2026-05-29 (this run).
+- [Claude Code changelog (v2.1.139–v2.1.161)](https://code.claude.com/docs/en/changelog) — `claude agents` config flags, `/code-review` (renamed from `/simplify` in v2.1.147, 2026-05-21; gained `--fix` in v2.1.152 on 2026-05-27 — `/simplify` now invokes `/code-review --fix`; gained `--comment` for inline PR comments in v2.1.161, 2026-06-02), `claude --bg`, `/resume` (also covers background sessions as of v2.1.161), Ctrl+T pinned background sessions, `/goal` (v2.1.139, 2026-05-12), `/reload-skills` + `disallowed-tools` frontmatter (v2.1.152), Opus 4.8 + Dynamic Workflows + `/effort ultracode` (v2.1.154, 2026-05-28); verified 2026-06-03 (this run).
+- [Code review](https://code.claude.com/docs/en/code-review) — Anthropic docs; verified 2026-06-03 (this run) — `/code-review`, `--fix`, `--comment` flag semantics; 80-confidence threshold; parallel review subagents.
 - [Keep Claude working toward a goal](https://code.claude.com/docs/en/goal) — Anthropic docs; verified 2026-05-27 — `/goal` completion-condition loop with separate evaluator model, 4,000-char limit, requires v2.1.139+.
 - [Introducing dynamic workflows in Claude Code](https://claude.com/blog/introducing-dynamic-workflows-in-claude-code) — Anthropic blog; published 2026-05-28 — research preview, 1,000-agent cap, 16 concurrent, plan availability (Max/Team on by default, Enterprise admin-gated, Pro toggle in `/config`).
 - [Orchestrate subagents at scale with dynamic workflows](https://code.claude.com/docs/en/workflows) — Anthropic docs; verified 2026-05-29 (this run) — `workflow` keyword trigger, `/effort ultracode`, v2.1.154 requirement, `CLAUDE_CODE_DISABLE_WORKFLOWS` env var.
 - [Install Claude Code the Right Way in 2026](https://vanja.io/install-claude-code/) — secondary; npm-deprecation banner and native-installer migration path; verified 2026-05-25.
+- [Anthropic puts Claude agents on a meter across its subscriptions](https://www.infoworld.com/article/4171274/anthropic-puts-claude-agents-on-a-meter-across-its-subscriptions.html) — InfoWorld; published 2026-05-14 — `claude -p` and Agent SDK move off subscription limits onto a separate credit pool 2026-06-15; verified 2026-06-02 (this run).

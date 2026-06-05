@@ -46,6 +46,7 @@ Inside a session, run `/mcp` to see status and trigger OAuth login for servers t
 - Using `--transport sse` — deprecated; use `--transport http`.
 - Assuming static API keys work for remote MCP. Remote servers use OAuth 2.1; pass bearer tokens via `--header` when supported.
 - Trying to expose an MCP server inside a private network. Don't poke firewall holes — request access to **MCP tunnels** (Research Preview, May 2026), which run a `cloudflared` agent outbound from your network. Console-managed only; not yet exposed as claude.ai connectors.
+- Assuming MCP is pull-only. Since v2.1.80 (March 2026), Claude Code supports **channels** — allowlisted MCP servers that *push* events into a session (`claude --channels discord,telegram,imessage`). Useful for CI failures, monitoring alerts, or chat-bridge bots reaching Claude in your terminal. Research preview; `claude.ai` OAuth only; Team / Enterprise admins must opt in. See the [channels cross-cutting note](claude-surfaces.html#cross-cutting-features).
 
 ## See also
 
@@ -64,3 +65,4 @@ Inside a session, run `/mcp` to see status and trigger OAuth login for servers t
 - [New in Claude Managed Agents: self-hosted sandboxes and MCP tunnels](https://claude.com/blog/claude-managed-agents-updates) — Anthropic blog; published 2026-05-19 — MCP tunnels (Research Preview), `cloudflared`-based.
 - [Anthropic Introduces MCP Tunnels for Private Agent Access to Internal Systems](https://www.infoq.com/news/2026/05/claude-mcp-tunnels/) — InfoQ; published 2026-05-19.
 - [MCP tunnels (API docs)](https://platform.claude.com/docs/en/agents-and-tools/mcp-tunnels/overview) — Anthropic docs; verified 2026-05-20.
+- [Channels reference](https://code.claude.com/docs/en/channels-reference) — Anthropic docs; verified 2026-06-03 (this run) — MCP push-mode via `claude --channels`, allowlisted plugins, Team / Enterprise admin gating.

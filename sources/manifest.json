@@ -347,6 +347,118 @@
       "downloaded": "2026-05-29",
       "txt_sidecar": "2026.02.23.707551v1.full.txt",
       "notes": "PDF blocked by Cloudflare; metadata + abstract archived via bioRxiv API"
+    },
+    {
+      "doi": "10.48550/arXiv.2410.17430",
+      "filename": "2410.17430v1.pdf",
+      "title": "Real-time experiment-theory closed-loop interaction for autonomous materials science (AMASE)",
+      "source_url": "https://arxiv.org/abs/2410.17430",
+      "downloaded": "2026-05-30",
+      "txt_sidecar": "2410.17430v1.txt"
+    },
+    {
+      "doi": "10.48550/arXiv.2501.16224",
+      "filename": "2501.16224v1.pdf",
+      "title": "Language-Based Bayesian Optimization Research Assistant (BORA)",
+      "source_url": "https://arxiv.org/abs/2501.16224",
+      "downloaded": "2026-05-30",
+      "txt_sidecar": "2501.16224v1.txt"
+    },
+    {
+      "doi": "10.48550/arXiv.2605.24002",
+      "filename": "2605.24002v1.pdf",
+      "title": "Harnessing AtomisticSkills for Agentic Atomistic Research",
+      "source_url": "https://arxiv.org/abs/2605.24002",
+      "downloaded": "2026-05-31",
+      "txt_sidecar": "2605.24002v1.txt"
+    },
+    {
+      "doi": "10.48550/arXiv.2605.26340",
+      "filename": "2605.26340v1.pdf",
+      "title": "ScientistOne: Towards Human-Level Autonomous Research via Chain-of-Evidence",
+      "source_url": "https://arxiv.org/abs/2605.26340",
+      "downloaded": "2026-05-31",
+      "txt_sidecar": "2605.26340v1.txt"
+    },
+    {
+      "doi": "10.48550/arXiv.2605.02092",
+      "filename": "2605.02092v1.pdf",
+      "title": "NORA: A Harness-Engineered Autonomous Research Agent for Spatial Data Science",
+      "source_url": "https://arxiv.org/abs/2605.02092",
+      "downloaded": "2026-05-31",
+      "txt_sidecar": "2605.02092v1.txt"
+    },
+    {
+      "doi": "10.48550/arXiv.2604.27297",
+      "filename": "2604.27297v1.pdf",
+      "title": "Machine Collective Intelligence for Explainable Scientific Discovery (MCI)",
+      "source_url": "https://arxiv.org/abs/2604.27297",
+      "downloaded": "2026-05-31",
+      "txt_sidecar": "2604.27297v1.txt"
+    },
+    {
+      "doi": "10.48550/arXiv.2605.07306",
+      "filename": "2605.07306v1.pdf",
+      "title": "BioProVLA-Agent: An Affordable, Protocol-Driven, Vision-Enhanced VLA-Enabled Embodied Multi-Agent System for Biological Laboratory Manipulation",
+      "source_url": "https://arxiv.org/abs/2605.07306",
+      "downloaded": "2026-05-31",
+      "txt_sidecar": "2605.07306v1.txt"
+    },
+    {
+      "doi": "10.48550/arXiv.2605.20242",
+      "filename": "2605.20242v1.pdf",
+      "title": "LEAP: A closed-loop framework for perovskite precursor additive discovery",
+      "source_url": "https://arxiv.org/abs/2605.20242",
+      "downloaded": "2026-06-01",
+      "txt_sidecar": "2605.20242v1.txt"
+    },
+    {
+      "doi": "10.48550/arXiv.2605.28655",
+      "filename": "2605.28655v1.pdf",
+      "title": "AutoScientists: Self-Organizing Agent Teams for Long-Running Scientific Experimentation",
+      "source_url": "https://arxiv.org/abs/2605.28655",
+      "downloaded": "2026-06-01",
+      "txt_sidecar": "2605.28655v1.txt"
+    },
+    {
+      "doi": "10.48550/arXiv.2605.11518",
+      "filename": "2605.11518v1.pdf",
+      "title": "AutoLLMResearch: Training Research Agents for Automating LLM Experiment Configuration",
+      "source_url": "https://arxiv.org/abs/2605.11518",
+      "downloaded": "2026-06-01",
+      "txt_sidecar": "2605.11518v1.txt"
+    },
+    {
+      "doi": "10.48550/arXiv.2605.31468",
+      "filename": "2605.31468v1.pdf",
+      "title": "AutoSci: A Memory-Centric Agentic System for the Full Scientific Research Lifecycle",
+      "source_url": "https://arxiv.org/abs/2605.31468",
+      "downloaded": "2026-06-02",
+      "txt_sidecar": "2605.31468v1.txt"
+    },
+    {
+      "doi": "10.48550/arXiv.2605.21825",
+      "filename": "2605.21825v1.pdf",
+      "title": "Toward AI VIS Co-Scientists: A General and End-to-End Agent Harness for Solving Complex Data Visualization Tasks",
+      "source_url": "https://arxiv.org/abs/2605.21825",
+      "downloaded": "2026-06-02",
+      "txt_sidecar": "2605.21825v1.txt"
+    },
+    {
+      "doi": "10.48550/arXiv.2605.21820",
+      "filename": "2605.21820v1.pdf",
+      "title": "Beyond Scalar Objectives: Expert-Feedback-Driven Autonomous Experimentation for Scientific Discovery at the Nanoscale (DKPL)",
+      "source_url": "https://arxiv.org/abs/2605.21820",
+      "downloaded": "2026-06-02",
+      "txt_sidecar": "2605.21820v1.txt"
+    },
+    {
+      "doi": "10.48550/arXiv.2605.18033",
+      "filename": "2605.18033v1.pdf",
+      "title": "Real-time Multi-instrument Autonomous Discovery of Novel Phase-change Memory Materials (MAD)",
+      "source_url": "https://arxiv.org/abs/2605.18033",
+      "downloaded": "2026-06-02",
+      "txt_sidecar": "2605.18033v1.txt"
     }
   ]
 }

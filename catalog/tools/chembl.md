@@ -6,7 +6,7 @@ tool_type: Claude Code Plugin
 supplier: EMBL-EBI (Anthropic-packaged)
 availability: GA
 tool_categories: [Chemistry, Drug Repurposing and Discovery]
-last_verified: 2026-05-24
+last_verified: 2026-05-30
 summary: Anthropic-packaged plugin and Claude.ai connector over EMBL-EBI's ChEMBL bioactive-compound database — compound, target, bioactivity, and mechanism-of-action lookup.
 ---
 
@@ -48,6 +48,8 @@ Six tool calls over the ChEMBL REST API:
 ## Notes
 
 Streamable HTTP transport — Claude Code uses the marketplace plugin entry directly; Claude.ai uses the managed connector. Replaces ad-hoc Augmented-Nature / iwatobipen community wrappers for users with marketplace access. ChEMBL data is updated quarterly by EMBL-EBI.
+
+**Field report (2026-05-29)**: install via `/plugin marketplace add anthropics/life-sciences` then `/plugin install chembl@life-sciences` reported working without modification ([feedback #17](https://github.com/scripps-ai-enablement/sci-ai-enabler/issues/17)).
 
 ## Sources
 

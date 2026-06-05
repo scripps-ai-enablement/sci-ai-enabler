@@ -2,14 +2,14 @@
 title: Filter a virtual screening hit list with drug-likeness rules and structural alerts
 parent: All recipes
 grand_parent: Recipes
-nav_order: 5
+nav_order: 11
 problem_class: Data analysis
 subject_areas: [Chemistry, Drug Repurposing and Discovery]
 evidence_level: Reported
 complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Laptop
-last_verified: 2026-05-25
+last_verified: 2026-06-04
 summary: Use the MedChem skill in Claude Code to cascade Lipinski / Veber / PAINS / BRENK filters over a SMILES hit list and emit a triaged CSV with per-rule flags and a final keep/drop column.
 ---
 
@@ -118,7 +118,7 @@ No peer-reviewed head-to-head benchmark of "Claude + MedChem skill" against a ha
 ## Alternatives considered
 
 - **Plain Claude Code, no skill.** Works for small lists and one-off questions, but Claude has to re-derive the alert catalogues every session and the PAINS / BRENK SMARTS strings are long, easy to typo, and version-dependent. Reach for plain Claude only when filtering ≤100 compounds you can spot-check by eye.
-- **RDKit-MCP server alone.** The [RDKit MCP](../../catalog/tools/rdkit-mcp.md) exposes raw RDKit tools but does not bundle the filter catalogues; you would re-implement PAINS / BRENK on top of it. Use it when you need stateless RDKit calls but not the medchem cascade.
+- **RDKit-MCP server alone.** The [RDKit MCP](../../catalog/tools/rdkit-mcp.html) exposes raw RDKit tools but does not bundle the filter catalogues; you would re-implement PAINS / BRENK on top of it. Use it when you need stateless RDKit calls but not the medchem cascade.
 - **A chemistry-agent system (ChemCrow).** [ChemCrow](../../autonomous-science/systems/chemcrow.html) is designed for synthesis planning and reaction execution, not hit-list triage. Overkill and out of scope.
 - **Wait for ADMET-AI integration.** ML-based ADMET predictors (ADMET-AI 2024; PharmaBench 2024) outperform rule-based filters on aqueous solubility and clearance, but are not yet wrapped as a catalogued component. If solubility is critical, run them downstream of this triage rather than instead of it.
 
@@ -131,8 +131,8 @@ No peer-reviewed head-to-head benchmark of "Claude + MedChem skill" against a ha
 
 ## Sources
 
-- [`K-Dense-AI/scientific-agent-skills` — medchem](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/medchem/SKILL.md) — verified 2026-05-25 (this run).
-- [MedChem documentation — medchem.datamol.io](https://medchem.datamol.io/) — verified 2026-05-25 (this run).
+- [`K-Dense-AI/scientific-agent-skills` — medchem](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/medchem/SKILL.md) — verified 2026-06-04 (this run).
+- [MedChem documentation — medchem.datamol.io](https://medchem.datamol.io/) — verified 2026-06-04 (this run).
 - [Baell J.B., Holloway G.A. — PAINS, *J. Med. Chem.* 2010](https://doi.org/10.1021/jm901137j) — published 2010-04-08.
 - [Brenk R. et al. — BRENK, *ChemMedChem* 2008](https://doi.org/10.1002/cmdc.200700139) — published 2008-03.
 - [Lipinski C.A. et al. — Rule of Five, *Adv. Drug Deliv. Rev.* 2001](https://doi.org/10.1016/S0169-409X(00)00129-0) — published 2001-03.

@@ -2,7 +2,7 @@
 title: NeuroClaw
 parent: Systems
 grand_parent: AI scientists
-nav_order: 29
+nav_order: 31
 affiliation: CUHK / Northwest University / Lehigh / MGH / Harvard Kempner Institute
 lifecycle_stages: [Experiment design, Analysis]
 autonomy: Semi-autonomous

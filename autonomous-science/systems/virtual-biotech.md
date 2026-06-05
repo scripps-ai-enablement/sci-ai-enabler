@@ -2,7 +2,7 @@
 title: The Virtual Biotech
 parent: Systems
 grand_parent: AI scientists
-nav_order: 41
+nav_order: 43
 affiliation: Stanford University (Zou lab)
 lifecycle_stages: [Multi-stage]
 autonomy: Semi-autonomous

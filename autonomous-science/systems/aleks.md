@@ -2,7 +2,7 @@
 title: Aleks
 parent: Systems
 grand_parent: AI scientists
-nav_order: 7
+nav_order: 8
 affiliation: Cornell University (Jin, Gunner, Carvajal Janke, Baruah, Gold, Jiang)
 lifecycle_stages: [Multi-stage]
 autonomy: Fully autonomous

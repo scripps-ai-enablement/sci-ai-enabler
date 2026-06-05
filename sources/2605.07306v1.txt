@@ -1,0 +1,1373 @@
+BioProVLA-Agent: An Aﬀordable, Protocol-Driven, Vision-Enhanced
+VLA-Enabled Embodied Multi-Agent System with Closed-Loop-Capable
+Reasoning for Biological Laboratory Manipulation
+Zhaohui Du1,2
+Qi Wang3
+
+Zhe Wang1,2,*
+Huanbo Jin1,2
+
+Hongmei Fei4
+Jiaming Gu1,2
+
+Xiwen Cao1,2
+Quan Lu1,2
+
+Ting Xiao1,2
+Zhe Liu1,2,*
+
+Key Laboratory of Smart Manufacturing in Energy Chemical Process Ministry of Education, East China
+University of Science and Technology, Shanghai, CN.
+2
+Department of Computer Science and Engineering, East China University of Science and Technology,
+Shanghai, CN.
+3
+Department of Laboratory Medicine, Ruijin Hospital, Shanghai Jiao Tong University School of Medicine,
+Shanghai, CN.
+4
+School of Information Science and Technology, Shihezi University, Shihezi, CN.
+Corresponding author: Zhe Wang<wangzhe@ecust.edu.cn>
+Zhe Liu<zhe.liu@ecust.edu.cn>
+
+Biological laboratory automation holds promise for reducing repetitive manual work, improving workﬂow reproducibility, and broadening access to experimental execution. Yet building embodied agents that operate
+reliably in real wet-lab environments remains diﬃcult. Biological protocols are typically expressed as unstructured natural language, common labware such as tubes and bottles are often transparent or reﬂective,
+and multi-step procedures require state-aware execution rather than one-shot instruction following. In addition, existing robotic laboratory platforms often depend on expensive hardware, dedicated instruments, ﬁxed
+workﬂows, or robotics-oriented interfaces, which can limit their accessibility for resource-constrained laboratories and make them diﬃcult to use or adapt for domain users without robotics expertise. Here, we introduce BioProVLA-Agent, an aﬀordable, protocol-driven, and vision-enhanced embodied multi-agent system
+enabled by Vision-Language-Action (VLA) models for biological laboratory manipulation. BioProVLA-Agent
+uses experimental protocols as the task interface and couples protocol understanding with closed-loop-capable
+reasoning and embodied execution. A Tailored LLM Protocol Agent transforms unstructured protocols into
+executable and veriﬁable subtask units, while a VLM-RAG Veriﬁcation Agent reasons over real-time visual
+observations, robot states, retrieved operation knowledge, and reference success/failure examples to assess task
+readiness and completion. The veriﬁed subtasks are then executed by a VLA Embodied Agent based on a
+lightweight VLA policy. To address wet-lab visual perturbations, we further develop AugSmolVLA, an online
+augmentation strategy tailored to transparent labware, specular reﬂections, illumination shifts, and overexposure. We evaluate BioProVLA-Agent on a hierarchical biological manipulation benchmark spanning 15 atomic
+tasks, 6 composite workﬂows, and 3 representative bimanual tasks, including centrifuge-tube loading, tube sorting, waste disposal, cap twisting, and liquid pouring. Across normal and high-exposure settings, AugSmolVLA
+improves execution stability over ACT, X-VLA, and the original SmolVLA, with pronounced gains in precise
+placement, transparent-object manipulation, composite workﬂows, and visually degraded scenes. These results demonstrate a practical route toward aﬀordable, protocol-centered, and veriﬁcation-capable embodied AI
+systems for biological laboratory manipulation.
+
+1
+
+Introduction
+
+makes them diﬃcult to adapt to diverse biological protocols.
+In contrast, biological experiments often involve open-ended
+procedures, heterogeneous labware, and ﬁne-grained manipulation requirements. Therefore, developing aﬀordable, protocolcentered, and adaptable robotic systems for real wet-lab manipulation remains an important challenge for the practical deployment of robotic biologists.
+
+In recent years, automated robotic systems for laboratory
+experimentation have shown increasing potential for improving experimental eﬃciency, reducing repetitive manual operations, and enhancing workﬂow reproducibility [1, 2]. However, most existing laboratory automation platforms are still
+designed around dedicated instruments, ﬁxed workﬂows, or
+Robotic manipulation in biological laboratories requires
+robotics-oriented programming interfaces. Although these syscapabilities
+beyond conventional task execution. First, biologtems are eﬀective for standardized and high-throughput procedures, their dependence on specialized infrastructure lim- ical protocols are usually written in unstructured natural lanits their accessibility for resource-constrained laboratories and guage and contain specialized terminology, implicit conditions,
+This is the author’s accepted manuscript. The ﬁnal version will appear in XXXX 2025, l’ XXXX 2025.
+
+Preprint doi
+
+Abstract
+
+Publication doi
+
+arXiv:2605.07306v1 [cs.RO] 8 May 2026
+
+1
+
+and strict dependencies between steps [3]. A robotic system
+must identify not only the explicit operation described in each
+step, but also the task order, preconditions, completion criteria,
+and object relationships required for execution. This indicates
+that biological users should not be forced to translate protocols
+into ROS scripts or task-speciﬁc robotic programs. Instead,
+natural-language protocols should serve as the task interface
+through which the system performs task decomposition, state
+conﬁrmation, and robotic execution. Second, common biological labware, such as centrifuge tubes, cryotubes, serum bottles,
+and liquid containers, is often transparent, reﬂective, or weakly
+textured. These properties make visual perception sensitive to
+illumination changes, specular reﬂections, background interference, and overexposure, which can impair object localization
+and manipulation stability [4]. Finally, multi-step biological
+procedures require state-aware execution rather than one-shot
+instruction following. A robotic system must continuously determine whether a task is ready to execute, whether the action
+has been completed, and whether an abnormal state requires
+retry, sequence adjustment, or human intervention.
+
+RAG Veriﬁcation Agent reasons over real-time visual observations, robot states, retrieved biological operation knowledge,
+and reference success/failure examples to assess both task readiness and completion status. The veriﬁed subtasks are then executed by the VLA Embodied Agent using a lightweight VLA
+policy. Through this design, BioVLA-Agent does not treat
+VLA models as one-shot instruction executors, but inserts semantic veriﬁcation before and after action execution, enabling
+the robotic process to become checkable, explainable, and compatible with human intervention at veriﬁcation failure points. In
+addition, this study develops AugSmolVLA, an enhanced version of SmolVLA with an online visual perturbation data augmentation strategy. This strategy is designed for wet-lab visual
+degradation caused by transparent consumables, specular reﬂections, illumination shifts, weak object boundaries, and overexposure. Unlike oﬄine augmentation pipelines that require an
+additional generated dataset, AugSmolVLA introduces visual
+perturbations during ﬁne-tuning, thereby improving the adaptability of the VLA policy to visually challenging biological manipulation scenarios. This design strengthens the robustness of
+object localization, precise placement, disposal operations, and
+Existing foundation-model-based robotic systems provide
+dual-arm manipulation under real laboratory disturbances.
+useful tools for task understanding and embodied manipulation, but they do not fully address the above requirements.
+The main contributions of this work are summarized as
+Vision-Language Model (VLM)-based methods, such as Vox- follows:
+Poser [5] and ReKep [6], have introduced new possibilities
+for spatial reasoning, constraint generation, and task planning • We introduce an aﬀordable and protocol-centered embodied
+multi-agent framework for biological robotic manipulation.
+in open environments. However, these methods often rely on
+The framework connects protocol understanding, state verrelatively reliable depth perception, object segmentation, or
+iﬁcation, embodied execution, retry decisions, and human
+three-dimensional reconstruction. In wet-lab scenarios involvintervention into a uniﬁed closed-loop process. By using
+ing transparent labware, reﬂective surfaces, and liquid containnatural-language biological protocols as the task interface,
+ers, such perception outputs can become unstable. Meanwhile,
+the system reduces dependence on ROS-centered scripting
+Vision-Language-Action (VLA) models and imitation learning
+and ﬁxed automation pipelines, making robotic experimental
+methods, such as X-VLA [7] and SmolVLA [8], have shown
+execution more accessible to biological users.
+promising performance in language-conditioned robotic control, dual-arm manipulation, and cross-embodiment generaliza- • We develop a protocol-to-execution task representation that
+tion. Nevertheless, most VLA systems still emphasize direct
+connects biological protocols with robotic operation. Unobservation-to-action mapping and lack explicit semantic verstructured experimental protocols are transformed into subiﬁcation before and after execution. As a result, VLA executask units containing natural-language action instructions,
+tion is commonly treated as an instruction-following process,
+preconditions, completion criteria, and knowledge-based
+whereas biological experimentation requires veriﬁable, interindices. This representation provides a bridge between
+pretable, and interruptible execution loops. In long-horizon
+protocol-level semantic understanding, VLM-RAG-based
+protocols, small errors in early atomic operations may propaveriﬁcation, and VLA-driven robotic execution.
+gate to subsequent steps, eventually leading to task failure or
+• We build a perception-grounded reasoning mechanism that
+operations that violate experimental requirements.
+supports closed-loop-capable wet-lab manipulation. By
+To address these issues, this study proposes BioVLAintegrating real-time visual observations, robot states, reAgent, an aﬀordable, protocol-driven, and vision-enhanced emtrieved operation knowledge, and success/failure examples,
+bodied multi-agent framework for biological robotic manipulathe VLM-RAG performs task-readiness assessment before
+tion. The system is implemented on a low-cost robotic platform
+execution and completion checking after execution. This
+with a hardware cost of approximately 800-850 USD, providing
+mechanism equips the system with visual state awareness,
+an early prototype for accessible VLA-based robotic biologists
+interpretable failure feedback, retry and reordering decisions,
+in real biological laboratories. Instead of relying on roboticsand human-intervention triggers when necessary, thereby recentered scripting, BioVLA-Agent uses biological protocols as
+ducing the risk of blindly executing long-horizon biological
+the task interface and establishes a closed-loop workﬂow that
+procedures.
+connects protocol understanding, semantic state veriﬁcation,
+• We establish a hierarchical wet-lab manipulation benchmark
+and embodied action execution. The Guiding Decision Agent
+and introduce a vision-enhanced VLA execution module for
+coordinates task scheduling, execution ﬂow, retry decisions,
+real wet-lab challenges. The benchmark covers 15 atomic
+and exception handling. The Tailored LLM Protocol Agent
+tasks, 6 composite workﬂows, and representative dual-arm
+converts unstructured biological protocols into executable and
+operations. In addition, AugSmolVLA introduces online viveriﬁable subtask units with action instructions, preconditions,
+sual perturbation augmentation tailored to transparent labcompletion criteria, and knowledge-based indices. The VLMware, reﬂective surfaces, illumination variations, and over2
+
+exposed conditions, improving the generalization capability
+Although the above studies have advanced automated exand execution stability of VLA models in real wet-lab manip- perimental platforms, most existing systems still rely on ﬁxed
+ulation.
+hardware, predeﬁned scripts, or speciﬁc experimental workﬂows. Such systems are well suited to standardized and highthroughput tasks, but they are diﬃcult to directly adapt to
+open-ended biological protocols and general-purpose robotic
+2 Related Works
+manipulation scenarios. In real wet-lab environments, robotic
+Embodied robotic manipulator systems for biological ex- manipulators must not only understand natural-language properiments must simultaneously understand experimental proto- tocols, but also recognize the states of experimental labware,
+cols, perceive experimental states, and perform ﬁne-grained op- determine whether task execution conditions are satisﬁed, and
+erations. Existing automated biological experimentation plat- translate protocol steps into continuous robotic actions. Thereforms can improve the execution eﬃciency of standardized fore, existing studies on laboratory automation provide the apworkﬂows, but they typically rely on ﬁxed scripts, dedicated plication background for this work, while their dependence
+instruments, and structured workﬂows. This paradigm limits on ﬁxed workﬂows and dedicated instruments also suggests
+their applicability to open-ended protocols and general-purpose that a system-level framework integrating protocol understandrobotic manipulation scenarios. In recent years, foundation ing, visual veriﬁcation, and embodied execution is still needed
+models such as LLMs and VLMs have provided new tools for general-purpose robotic manipulators in biological experifor experimental task parsing and state assessment, while VLA ments.
+models and data augmentation methods have further advanced
+language-conditioned robotic execution. Therefore, this section
+reviews related studies from three perspectives: automated bio- 2.2 LLM/VLM-Assisted Experimental Task Understanding
+and Veriﬁcation
+logical experimentation, foundation-model-assisted task understanding and veriﬁcation, and robust robotic manipulation exeFoundation models provide new technical pathways for
+cution.
+experimental task understanding and robotic state veriﬁcation.
+The application of LLMs in robotics and laboratory automation has ﬁrst been reﬂected in natural-language task parsing
+2.1 Automated Biological Experiments and Robotic
+and script generation. Vemprala et al. used ChatGPT to inLaboratories
+vestigate how prompting strategies and function libraries can
+In recent years, automated experimental systems have adapt LLMs to diﬀerent types of robotic tasks [16]. Inagaki et
+gradually evolved from high-throughput instruments with ﬁxed al. demonstrated that GPT-4 can generate operation scripts for
+workﬂows toward robotic laboratories with a certain degree an OT-2 liquid-handling robot from goal-oriented instructions
+of autonomous planning capability. Szymanski et al. pro- in biological experiments [17]. ODonoghue et al. proposed the
+posed A-Lab, which integrates computational screening, litera- BioPlanner framework, which establishes a biological protocol
+ture knowledge, machine learning, active learning, and robotic planning benchmark and the BioProt dataset to evaluate the proexperimentation to accelerate the synthesis of inorganic ma- tocol planning capability of LLMs [18]. For machine-readable
+terials [1]. Dai et al. further demonstrated the autonomous experimental protocols, Yi et al. proposed the ProtoMed-LLM
+operation capability of mobile robots in exploratory synthetic framework, which focuses on pseudocode extraction and autochemistry experiments [9]. Tom et al. reviewed the system matic evaluation for biological protocols [19]. In the ﬁeld of sciarchitectures, experimental planning strategies, and automated entiﬁc experimental agents, Boiko et al. proposed Coscientist,
+workﬂows of self-driving laboratories in chemistry and materi- demonstrating the capability of a GPT-4-driven system in chemals science [10].
+ical experiment design, planning, and execution [20]. Andres
+et al. proposed the ChemCrow agent, which augments LLMs
+In the ﬁeld of biological laboratory automation, Stephenwith chemistry tools to improve their capabilities in synthesis
+son et al. summarized physical laboratory automation techplanning and materials design [21].
+nologies in synthetic biology [11]. Anhel et al. proposed the
+Laboratory Automation Protocol format and repository to imMeanwhile, VLMs have attracted increasing attention in
+prove the reusability and standardization of synthetic biology robotic scene understanding, task-state assessment, and exeworkﬂows [12]. Jiang et al. introduced ProtoCode, which cution outcome veriﬁcation. Driess et al. proposed PaLMconverts PCR protocols from scientiﬁc literature into machine- E, which integrates visual observations, state information, and
+readable representations [3]. In studies more closely related to textual instructions as inputs to a multimodal language model
+autonomous biological experimentation, Singh et al. proposed for robotic planning, visual question answering, and embodan AI-driven autonomous enzyme engineering platform that ied reasoning tasks [22]. Sermanet et al. proposed RoboVQA
+integrates machine learning, LLMs, and biofoundry automa- and constructed a visual question answering dataset for longtion [13]. Pivin developed OSCAR, a modular open-source horizon robotic tasks, enabling multimodal reasoning around
+robotic platform for life science laboratories [14]. Salazar- task planning, success determination, aﬀordance assessment,
+Villacis et al. proposed the ADePT framework, which evalu- and future state prediction[23]. Zhang et al. proposed the Roboates the capabilities of autonomous laboratory robots from the Chemist framework, in which VLMs are used as planners, viperspectives of adaptability, dexterity, perception, and task com- sual prompt generators, and monitors for experimental robots
+plexity [15]. Collectively, these studies indicate that laboratory to perform task decomposition, visual guidance, and execuautomation is moving from single-instrument control toward tion outcome assessment in chemical experimental tasks [23].
+multi-module coordination, autonomous planning, and closed- In addition, Retrieval-Augmented Generation (RAG) combines
+loop experimentation.
+parametric models with external knowledge bases, providing
+3
+
+retrievable and updatable information sources for knowledgeOverall, VLA models have substantially improved the abilintensive tasks and oﬀering a technical foundation for state ver- ity of robotic manipulators to perform manipulation tasks aciﬁcation and rule-based judgment in specialized experimental cording to language instructions. However, most existing methscenarios [24].
+ods still focus on the direct mapping from visual observations
+and language instructions to actions, while lacking high-level
+These studies indicate that LLMs are suitable for transsemantic judgment of experimental preconditions and execuforming unstructured experimental texts into structured task detion outcomes. In addition, large-scale VLA models typically
+scriptions, VLMs are eﬀective for understanding experimenrequire high training and inference costs. Although lightweight
+tal scenes by integrating images and language, and RAG can
+models are more suitable for low-cost robotic platforms, they
+provide external knowledge support for specialized task assessremain susceptible to transparent labware, local reﬂections, illument. However, existing studies often apply these capabilities
+mination changes, and overexposure in wet-lab scenarios. Data
+separately to protocol generation, robotic script writing, visual
+augmentation provides an eﬀective approach for mitigating viquestion answering, or spatial constraint generation. Few studsual distribution shifts, but existing augmentation strategies
+ies have integrated LLM-based protocol parsing, VLM-based
+are mostly designed for general manipulation or sim-to-real
+scene assessment, knowledge-base retrieval, and robotic state
+transfer, with limited consideration of transparent consumables
+feedback into the execution process of biological experiments.
+and complex illumination conditions in biological experiments.
+In this work, the LLM is used as the entry point for structured
+Therefore, this study adopts SmolVLA as the embodied execuprotocol parsing, while VLM-RAG serves as the experimental
+tion module and introduces a visual-perturbation-oriented data
+state veriﬁcation module. This design enables foundation modaugmentation strategy to improve the generalization capability
+els to undertake task understanding and state feedback funcand execution stability of the model in fundamental biological
+tions within a robotic experimentation system, thereby supportexperimental operations.
+ing reliable downstream robotic execution.
+2.3
+
+VLA Models and Data Augmentation for Robust Robotic
+Execution
+
+VLA models and imitation learning methods provide a
+foundation for robotic manipulators to translate language instructions into action execution. Zhao et al. proposed ACT,
+which alleviates error accumulation in long-horizon imitation
+learning through action chunking and enables ﬁne-grained manipulation on a low-cost dual-Arm platform [25]. Chi et al. proposed Diﬀusion Policy, which formulates robotic action generation as a conditional diﬀusion process and improves the performance of visuomotor policies in multi-task manipulation [26].
+Subsequently, Zitkovich et al. proposed RT-2, which transfers
+Internet-scale vision-language pretraining knowledge to robotic
+control [27]. For dual-Arm and complex manipulation, Liu et
+al. proposed RDT-1B, which adopts a diﬀusion Transformer to
+construct a foundation model for dual-Arm manipulation [28].
+Black et al. proposed π0 , a general robotic control model built
+on a pretrained VLM and ﬂow matching [29]. Zheng et al. proposed X-VLA, which uses soft prompts to address data heterogeneity across robotic embodiments [7], whereas Shukor et al.
+proposed SmolVLA, emphasizing VLA deployment under lowcost and low-computation conditions [8].
+
+3
+
+Method
+
+3.1
+
+Multi-Agent Collaborative Framework of
+BioProVLA-Agent
+
+To address the fragmentation among protocol understanding, state veriﬁcation, and stable execution in robotic manipulators for biological experiments, this study proposes
+BioProVLA-Agent, a multi-agent collaborative framework, as
+illustrated in Fig 1. In the overall workﬂow, the Tailored LLM
+Protocol Agent ﬁrst parses the experimental protocol into structured task representations; the VLM-RAG Veriﬁcation Agent
+then provides closed-loop constraints through task-state veriﬁcation; and the VLA Embodied Agent produces the ﬁnal embodied execution. Throughout this process, the Guiding Decision Agent maintains information ﬂow, state updates, and execution coordination across all stages.
+
+Following this collaborative workﬂow, BioProVLA-Agent
+ﬁrst maps the experimental protocol, model selection, and manipulator conﬁguration into an initial system state shared by all
+sub-agents. Given an input experimental protocol P a model
+conﬁguration set M = {MLLM , MVLM , MVLA }, and a manipulator conﬁguration CR , the Guiding Decision Agent performs
+Dataset construction and data augmentation methods also system initialization and resource allocation, which can be forplay an important role in improving the generalization capa- mulated as:
+bility of robotic policies. Yu et al. proposed ROSIE, which
+uses text-to-image generation models to produce semantically
+S 0 = G(P, M, CR )
+(1)
+imagined experiences and thereby expands the distribution of
+robotic training data [30]. Chen et al. proposed GenAug,
+where S 0 denotes the initialized system state, including
+which uses pretrained generative models to construct semantically consistent scene variations, improving the adaptability of the model loading status, the initial pose of the robotic manipurobotic policies to novel objects and environments [31]. Chen lator, and the availability status of each sub-agent.
+et al. further introduced a semantically controllable augmentaSubsequently, the Guiding Decision Agent sends the extion method that rapidly expands robotic datasets through gen- perimental protocol to the Tailored LLM Protocol Agent to oberative models and validates its contribution to generalization tain a structured subtask sequence:
+in real robotic manipulation [32]. Kobayashi et al. investigated
+the role of image data augmentation in bilateral-control-based
+N
+(2)
+imitation learning [33].
+T = {τi }i=1
+4
+
+Figure 1: Overall framework of BioProVLA-Agent. The Guiding Decision Agent coordinates protocol parsing, state veriﬁcation,
+and embodied execution through the Tailored LLM Protocol Agent, VLM-RAG Veriﬁcation Agent, and VLA Embodied Agent.
+When vipre = 1, the current experimental state is considered to satisfy the execution requirements. The Guiding Deτi = (Ii , Prei , Posti , Ki )
+(3) cision Agent then sends the instruction Ii to the VLA Embodied Agent, which generates an action sequence and drives the
+where Ii denotes the natural-language execution instruc- robotic manipulator to execute the task:
+tion of the i-th subtask, Prei and Posti denote the task precondition and completion condition, respectively, and Ki denotes
+Ai = πV LA (Ot , Rt , Ii )
+(5)
+the corresponding knowledge-base index. The Guiding Decision Agent checks the subtask order, task completeness, and
+When vipre = 0, the system does not proceed directly to
+executability of this sequence to reduce the impact of protocol- action execution.
+Instead, the Guiding Decision Agent makes
+parsing errors on subsequent execution.
+a scheduling decision according to the failure reason returned
+During the execution stage, the Guiding Decision Agent by the veriﬁcation module. If an unexecuted subtask in the task
+establishes a closed-loop control process consisting of pre- sequence can satisfy the required precondition, the execution orcondition veriﬁcation, task execution, and completion veriﬁ- der is adjusted so that the corresponding preparatory operation
+cation according to the subtask sequence. For each subtask is performed ﬁrst. If the issue cannot be resolved by reordering
+τi , the system ﬁrst invokes the VLM-RAG Veriﬁcation Agent the sequence, a second veriﬁcation is triggered to reduce the efto determine whether the precondition is satisﬁed based on fect of possible visual misjudgment or state-reading errors. If
+the real-time visual observation Ot , the robot state Rt , and the the precondition remains unsatisﬁed after rechecking, the current task is suspended and human intervention is requested.
+knowledge-base index Ki :
+vipre = V(Ot , Rt , Prei , Ki )
+
+After task execution is completed, the Guiding Decision
+Agent invokes the VLM-RAG Veriﬁcation Agent again to ver(4) ify the completion condition:
+5
+
+Figure 2: Structured parsing workﬂow of biological experimental protocols in the Tailored LLM Protocol Agent.
+
+vipost = V(Ot+1 , Rt+1 , Posti , Ki )
+
+(6)
+
+When vipost = 1, the subtask is marked as completed,
+and the system proceeds to the next subtask. If the veriﬁcation fails, the Guiding Decision Agent triggers re-execution, sequence adjustment, or human intervention according to the failure reason and the number of retries. Through this centralized
+scheduling and closed-loop feedback mechanism, BioVLAAgentBioProVLA-Agent continuously maintains task states
+during long-horizon biological experiments, reduces the accumulation of single-step execution errors in subsequent procedures, and improves the reliability and controllability of robotic
+experimental operations.
+3.2
+
+Tailored LLM Protocol Agent
+
+where p denotes the protocol-parsing prompt set, which
+includes role deﬁnition, experimental intent understanding, entity recognition, action-space constraints, semantic-granularity
+constraints, and structured output rules. The parsing result Y is
+not directly used as a robot control command; instead, it serves
+as an intermediate task representation that can be scheduled by
+the Guiding Decision Agent. During parsing, the model is ﬁrst
+assigned the role of an embodied-intelligence protocol parsing
+expert for biological experiments, enabling it to interpret the
+input text from the perspective of laboratory automation and
+robotic execution. The model then performs experimental intent parsing on the protocol and extracts the experimental objective corresponding to the current step:
+g = fintent (P; Θ p )
+
+(8)
+
+where g denotes the high-level experimental intent of the
+protocol. Based on this intent, the model further identiﬁes key
+The Custom LLM Parse AgentTailored LLM Protocol entities in the experimental text, including laboratory equipAgent is designed to transform unstructured biological exper- ment, consumables, target objects, and location references:
+imental protocols into executable and veriﬁable structured subtask sequences. This agent ﬁrst performs semantic parsing of
+E = fentity (P, g; Θ p )
+(9)
+the protocol text to identify the experimental intent, manipulated objects, spatial relationships, and action order, and then
+where E denotes the identiﬁed entity set. Based on the
+generates an intermediate task representation for downstream
+experimental
+intent and entity information, the model maps the
+veriﬁcation and execution modules. The overall workﬂow is
+explicit action predicates in the protocol to a predeﬁned atomic
+shown in Fig 2.
+action space:
+Given an input experimental protocol P, the Custom
+LLM Parse AgentTailored LLM Protocol Agent performs proai = ϕ(vi , A)
+(10)
+tocol parsing using a prompt-constrained large language model
+F LLM :
+where vi denotes the i-th key action predicate in the protocol, and A is a closed atomic action set that includes basic
+Y = F LLM (P; Θ p )
+(7) experimental operations such as lid opening, lid closing, object
+6
+
+Figure 3: Closed-loop pre- and post-action state veriﬁcation workﬂow of the VLM-RAG Veriﬁcation Agent.
+placement, object removal, grasping, movement, button pressing, and waiting. This constraint reduces the generation of action descriptions that exceed the capability range of the robotic
+manipulator.
+
+cution, whereas post corresponds to completion-condition veriﬁcation after execution. Cij denotes the condition to be veriﬁed,
+and Ki is the corresponding knowledge-base index. The VLMRAG Veriﬁcation Agent ﬁrst retrieves the knowledge items
+The Custom LLM Parse AgentTailored LLM Protocol most relevant to the current task from the knowledge base K
+Agent outputs the parsing results in a structured JSON format, based on semantic similarity:
+including the experimental intent, entity recognition results, action decomposition logic, natural-language execution instrucBi = TopKb∈K sim(ϕ(Qij ), ϕ(b))
+(12)
+tions, preconditions, and completion conditions. These results
+are received by the Guiding Decision Agent and further passed
+where ϕ(·) denotes a text or multimodal embedding functo the VLM-RAG Veriﬁcation Agent and the VLA Embodied
+tion,
+sim(·) denotes the similarity metric, and Bi contains the
+Agent, enabling a stable transformation from experimental protask
+description,
+veriﬁcation prompt, and corresponding suctocol semantics to the robotic execution interface.
+cess and failure reference examples. Through this retrieval process, the model obtains external prior knowledge related to the
+3.3 VLM-RAG Veriﬁcation Agent
+current operation rather than relying solely on single-frame viThe VLM-RAG Veriﬁcation Agent performs semantic- sual observation for judgment.
+level veriﬁcation of the experimental environment state during
+Subsequently, the agent integrates the current environmenrobotic execution. Its core objective is to determine whether the
+tal image Ot , robot state Rt , condition to be veriﬁed Cij , and
+current experimental state satisﬁes the task preconditions beretrieved knowledge items Bi to construct the VLM-oriented
+fore execution and whether the expected completion conditions
+veriﬁcation input:
+are achieved after execution. Unlike direct veriﬁcation based
+solely on a vision model, this module introduces a retrievalaugmented mechanism that integrates real-time environmental
+Xij = Ψ(Ot , Rt , Cij , Bi , j)
+(13)
+observations with task speciﬁcations, veriﬁcation prompts, and
+success/failure examples from the biological operation knowlwhere Ψ(·) denotes the prompt fusion function. This input
+edge base, thereby improving the reliability and interpretability
+explicitly
+speciﬁes whether the model is required to determine
+of state judgment. The overall workﬂow is shown in Fig 3.
+task executability before execution or task completion after exFor the i-th task unit, the Guiding Decision Agent sends a ecution, thereby avoiding semantic confusion between preconveriﬁcation request to the VLM-RAG Veriﬁcation Agent:
+dition veriﬁcation and completion-condition veriﬁcation. The
+decision output of the VLM-RAG Veriﬁcation Agent can be
+j
+j
+Q = (C , K , j)
+(11) formulated as:
+i
+
+i
+
+i
+
+where jpre, post denotes the veriﬁcation type. Speciﬁcally, pre corresponds to precondition veriﬁcation before exe-
+
+7
+
+Dij = FVLM (Xij ) = (vij , rij )
+
+(14)
+
+Figure 4: Curriculum-based online data augmentation framework in the VLA Embodied Agent.
+where vij ∈ {0, 1} is the binary veriﬁcation result, and rij denotes the corresponding natural-language explanation and failure reason. When j = pre and vipre = 1, the current environment is considered to satisfy the execution requirements, and
+the Guiding Decision Agent sends the task to the VLA Embodied Agent for execution. If vipre = 0, the agent returns
+the unsatisﬁed condition and its reason, after which the Guiding Decision Agent determines whether to adjust the task order,
+trigger re-veriﬁcation, or request human intervention. When
+j = post and vipost = 1, the current task is marked as completed.
+If vipost = 0, the system triggers task retry or terminates the
+process according to the failure reason.
+
+At = πθ (Ot , Rt , Ii )
+
+(15)
+
+where πθ denotes the SmolVLA policy model, At =
+{at , at+1 , . . . , at+H } is the action sequence output by the model,
+and H denotes the action prediction horizon. Unlike the highlevel agents responsible for protocol parsing and state veriﬁcation, the VLA Embodied Agent focuses on the low-level mapping from multimodal inputs to robotic actions.
+To enhance visual robustness in real wet-lab environments,
+this study introduces a curriculum-learning-based online data
+augmentation strategy during SmolVLA ﬁne-tuning. This strategy does not require the oﬄine generation of an additional
+augmented dataset; instead, it dynamically perturbs input observations during training. Given an original training sample
+(Ot , Rt , Ii , A∗t ), the online augmented visual observation can be
+expressed as:
+
+Through this design, the VLM-RAG Veriﬁcation Agent
+serves as a visual-semantic monitoring module for task execution in BioVLA-AgentBioProVLA-Agent. It not only determines whether the experimental environment satisﬁes the
+operational requirements but also provides interpretable state
+feedback based on success and failure examples. This enables
+the robotic system to form a closed-loop veriﬁcation mechaÕt = Tα (Ot )
+(16)
+nism consisting of pre-execution feasibility conﬁrmation, postexecution result assessment, and failure-reason feedback during
+where Tα denotes the augmentation operator composed of
+long-horizon biological experiments.
+lighting perturbations such as brightness adjustment, contrast
+variation, low illumination, and overexposure, and represents
+the perturbation intensity. The training objective is deﬁned as:
+3.4 VLA Embodied Agent
+The VLA Embodied Agent is responsible for converting
+veriﬁed subtask instructions into action sequences executable
+by the robotic manipulator, serving as the embodied execution
+module in BioProVLA-Agent. This module receives naturallanguage execution instructions from the Guiding Decision
+Agent and, conditioned on the current visual observation and
+robot state, invokes the lightweight Vision-Language-Action
+model SmolVLA to generate continuous control actions. In
+this way, it performs biological experimental operations such
+as centrifuge tube placement, labware lid manipulation, waste
+disposal, and dual-Arm coordination. The training workﬂow is
+shown in Fig 4.
+
+2
+
+L(θ) = πθ (Õt , Rt , Ii ) − A∗t 2
+
+(17)
+
+The above online augmentation strategy expands the visual distribution without increasing data storage cost, allowing
+the model to encounter more lighting variations and reﬂectioninduced disturbances during training.
+
+The augmentation process is further organized as a
+curriculum-style training strategy[35]. In the early stage, only
+original observations are used, enabling the model to ﬁrst learn
+the action mappings from the original data distribution. In the
+middle stage, augmented observations under low illumination,
+strong illumination, and overexposure are gradually introduced
+Given the current observation Ot , robot state Rt , and task to increase the diﬃculty of visual perturbations. In the ﬁnal
+instruction Ii , the action generation process of the VLA Embod- stage, original and augmented observations are jointly used for
+mixed training, thereby balancing basic execution stability with
+ied Agent can be formulated as:
+8
+
+tubes and cryotubes into racks, inserting and removing centrifuge tubes and water-bath ﬂoats, and discarding used centrifuge tubes and cryotubes. The remaining three are dual-Arm
+coordination tasks, including unscrewing and tightening centrifuge tube caps, as well as pouring waste liquid from a tube
+into a serum bottle. These tasks cover basic manipulations in
+biological experiments and provide a systematic benchmark for
+evaluating policy generalization under both single-arm dexterous manipulation and dual-Arm coordination settings.
+Figure 5: Dataset assets.
+generalization under complex visual conditions. This process
+can be formulated as:
+
+
+e ∈ E1 ,
+
+
+ Ot ,
+
+(e)
+Ot = 
+T
+(O
+),
+e ∈ E2 ,
+α(e)
+t
+
+
+
+λOt + (1 − λ)Tα(e) (Ot ), e ∈ E3 ,
+
+4.2
+
+Evaluation Metrics
+
+To systematically evaluate the execution performance of
+diﬀerent models in biological robotic manipulation tasks, this
+study adopts diﬀerent metrics according to task complexity, including the success rate for single tasks and the completion rate
+for composite tasks.
+
+For single-task experiments, the Success Rate (SR) is used
+(18) as the primary evaluation metric. Each atomic task is evaluated
+through three independent repeated experiments, and the mean
+success rate and standard error are calculated from the three
++
+where e denotes the training stage, and mathcalE1 , success-rate values. Let Nr denote the number of successful
+trials
+in
+the
+r-th
+repeated
+experiment,
+where the superscript +
+mathcalE2 , and mathcalE3 correspond to the original-data
+indicates
+successfully
+completed
+trials,
+and let Nr denote the
+learning stage, augmented-data adaptation stage, and mixedtotal
+number
+of
+trials
+in
+that
+experiment.
+The success rate of
+data consolidation stage, respectively. The perturbation intenthe
+r-th
+repeated
+experiment
+is
+deﬁned
+as:
+sity α(e) gradually increases as training proceeds, following the
+easy-to-hard principle of curriculum learning.
+
+N+
+S Rr = r × 100%, r = 1, 2, 3
+(19)
+Through this design, the VLA Embodied Agent not only
+Nr
+generates robotic actions according to natural-language instructions but also improves the models adaptability to lighting variBased on the three repeated experiments, the mean success
+ations, reﬂections from transparent labware, and overexposure rate of the model on the corresponding task is calculated as:
+disturbances during training.
+1X
+S Rr
+3 r=1
+3
+
+4
+
+Experimental Results and Analysis
+
+4.1
+
+Dataset
+
+SR =
+
+(20)
+
+To characterize the statistical variation among repeated experiments, the Standard Error (SE) is further computed. The
+To reproduce the operational challenges commonly ensample standard deviation of the three success-rate values is
+countered in biological workﬂows, we constructed a multiﬁrst calculated as:
+task dataset. All experimental interactions were performed on
+the So-ARM101 robotic manipulator platform, covering both
+v
+u
+t
+3
+single-arm and dual-Arm operation modes. The task objects
+1 X
+were selected from standardized biological laboratory consum(S Rr − S R)2
+S SR =
+(21)
+3 − 1 r=1
+ables and equipment. As shown in Fig 5, the main assets include a BY-80C centrifuge, 15 mL centrifuge tubes, 1.8 mL
+where S S R denotes the sample standard deviation of the
+cryotubes, an orange centrifuge tube rack, a red cryotube rack,
+a water bath, a water-bath ﬂoat, a 25 mL serum bottle, and a success rate. Since the number of repeated experiments is n = 3,
+trash bin. The geometric dimensions, assembly tolerances, and the standard error is deﬁned as:
+physical properties of these objects were kept consistent with
+those in real wet-lab environments. During data collection, 100
+S SR
+S ES R = √
+(22)
+demonstration trajectories were collected for each atomic task
+3
+via human-in-the-loop teleoperation. All data were stored in the
+LeRobot format to ensure structural consistency and facilitate
+The single-task experimental result is reported as:
+subsequent model training and evaluation.
+Based on the above assets, we designed 15 atomic tasks
+S R ± S ES R
+(23)
+around recurrent manipulation actions in biological experiments, as detailed in Table 1. Among them, 12 are singlewhere S R is retained to two decimal places and expressed
+arm tasks, covering operations such as opening and closing as a percentage, and S ES R is also retained to two decimal
+the centrifuge and water-bath lids, precisely placing centrifuge places. This metric is mainly used to evaluate the execution
+9
+
+Table 1: Information of atomic tasks.
+Task Description
+
+Abbreviation
+
+Task Type
+
+Objects
+
+Unlock and open the centrifuge lid
+Close the centrifuge lid
+Place the centrifuge tube into the centrifuge
+
+Open Centrifuge Lid
+Close Centrifuge Lid
+Insert Tube to Centrifuge
+
+Lid manipulation
+Lid manipulation
+Insertion
+
+Remove the centrifuge tube from the
+centrifuge
+Place the 15 mL centrifuge tube into the
+orange centrifuge tube rack
+Place the 1.8 mL cryotube into the red
+cryotube rack
+Discard the used 15 mL centrifuge tube into
+the trash can
+Discard the used 1.8 mL cryotube into the
+trash can
+Open the water bath lid
+Close the water bath lid
+Place the water bath ﬂoat into the water bath
+Remove the water bath ﬂoat from the water
+bath
+Unscrew the centrifuge tube cap
+
+Remove Tube from
+Centrifuge
+Place Centrifuge Tube to
+Orange Rack
+Place Cryotube to Red Rack
+
+Removal
+
+Precise placement
+
+BY-80C centrifuge
+BY-80C centrifuge
+15 mL centrifuge tube, BY-80C
+centrifuge, Centrifuge tube rack
+15 mL centrifuge tube, BY-80C
+centrifuge, Centrifuge tube rack
+15 mL centrifuge tube, Centrifuge
+tube rack
+1.8 mL cryotube, Cryotube rack
+
+Discard Centrifuge Tube
+
+Disposal
+
+Discard Cryotube
+
+Disposal
+
+Open Water Bath Lid
+Close Water Bath Lid
+Place Float to Water Bath
+Remove Float from Water
+Bath
+Unscrew Tube Cap
+
+Lid manipulation
+Lid manipulation
+Insertion
+Removal
+
+Tighten the centrifuge tube cap
+
+Tighten Tube Cap
+
+Twisting operation
+
+Pour the waste liquid from the centrifuge
+tube into the waste liquid bottle
+
+Pour Waste Liquid
+
+Clamping and
+pouring
+
+Precise placement
+
+Twisting operation
+
+15 mL centrifuge tube, Centrifuge
+tube rack, Garbage bottle
+1.8 mL cryotube, Cryotube rack,
+Garbage bottle
+Water bath
+Water bath
+Water bath, Water bath ﬂoat
+Water bath, Water bath ﬂoat
+15 mL centrifuge tube, Centrifuge
+tube rack
+15 mL centrifuge tube, Centrifuge
+tube rack
+15 mL centrifuge tube, Centrifuge
+tube rack, 25 mL cerum bottle
+
+reliability of the model in atomic operations such as opening, ﬁne-grained assessment of the models task-transition capability,
+closing, insertion, removal, precise placement, and disposal.
+state-maintenance ability, and resistance to error accumulation
+in multi-step biological manipulation tasks, making it suitable
+For composite-task experiments, the Completion Rate
+for evaluating the overall execution performance of composite
+(CR) is used as the evaluation metric. Each composite task
+tasks and long-horizon robotic experiments.
+consists of M atomic steps, where M = 2 or M = 3. In the
+t-th composite-task trial, the execution result of the k-th atomic
+step is denoted as xt,k . If the step is successfully completed, 4.3 Single-Arm Task Experiments
+xt,k = 1; otherwise, xt,k = 0. Therefore, the completion rate of
+To systematically evaluate the performance of the prothe t-th trial is deﬁned as:
+posed method at the basic manipulation level, single-task experiments were conducted on 12 atomic tasks in biological exPM
+periments. All tasks were trained and evaluated on the same
+k=1 xt,k
+× 100%
+(24) dataset, with Success Rate (SR) used as the evaluation metric.
+CRt =
+M
+The compared methods include ACT, X-VLA, and SmolVLA.
+For each type of composite task, 20 repeated trials are con- Each task was executed independently to eliminate inter-task
+ducted, and the arithmetic mean of the 20 single-trial comple- interference, thereby objectively reﬂecting the capability diﬀertion rates is used as the average composite-task completion rate ences of diﬀerent models across operation types, such as openof the model:
+ing/closing, insertion, precise placement, and disposal. The experimental results are shown in Table 2, and visual examples of
+20
+the single-task execution process are presented in Fig 6.
+1 X
+CRt
+(25)
+CR =
+20 t=1
+Overall, introducing data augmentation improved the performance of SmolVLA across diﬀerent single-task categories.
+This calculation is equivalent to measuring the proportion The success rates of Insert Tube and Remove Tube increased
+of successfully completed atomic steps among all atomic steps from 43.33% to 48.33% and from 51.67% to 53.33%, respecacross the 20 trials:
+tively. The success rates of Place Centrifuge Tube and Place
+Cryotube increased from 43.33% to 53.33% and from 40.00%
+P20 P M
+to 65.00%, respectively. Performance improvements were also
+xt,k
+CR = t=1 k=1
+× 100%
+(26) observed in opening/closing tasks involving the centrifuge and
+20M
+water bath lids, as well as in disposal tasks. These results indiUnlike the success rate used for single tasks, CR does cate that data augmentation improves model stability and gennot require all steps in a composite task to be completed suc- eralization across diﬀerent operation types. This improvement
+cessfully. Instead, it quantiﬁes the degree of task comple- can be attributed to the lighting variations and local reﬂection
+tion at the step level. Therefore, this metric provides a more disturbances present in real experimental environments, where
+10
+
+Figure 6: Examples of single-task execution processes.
+the original data distribution cannot cover all observation conditions. By simulating diverse visual scenarios, data augmentation eﬀectively expands the visual distribution during training
+and improves the models adaptability to diﬀerent lighting conditions.
+Considering the observation distribution shift caused by
+lighting variations in real experimental environments, the eﬀect
+of data augmentation is particularly evident in precise placement and disposal tasks. AugSmolVLA improved the success rates of Discard Centrifuge Tube and Discard Cryotube
+from 88.33% to 90.00% and from 48.33% to 55.00%, respectively. Similarly, the success rates of Place Centrifuge Tube
+to Orange Rack and Place Cryotube to Red Rack increased
+from 43.33% to 53.33% and from 40.00% to 65.00%, respectively. These four tasks involve precise localization and manipulation of transparent objects, which are susceptible to lighting
+changes, reﬂections, and background interference. The results
+indicate that the data augmentation strategy improves localization accuracy and manipulation stability in visually challenging
+tasks, leading to more robust performance when handling transparent objects.
+4.4
+
+Composite-Task Experiments
+
+multi-step operation procedures were constructed according to
+the composite-task sequences deﬁned in Table 3, and diﬀerent
+methods were evaluated under the same experimental settings.
+The results are shown in Table 4.
+Unload the ﬂoat A: Open Water Bath Lid B: Remove
+Float from Water Bath C: Close Water Bath Lid Unloading
+Based on the above composite-task settings, model performance in multi-step continuous execution can be evaluated using the Completion Rate (CR). The experimental results show
+clear diﬀerences among the compared methods in composite
+tasks, with AugSmolVLA achieving the best performance in
+all six composite-task settings. Speciﬁcally, AugSmolVLA obtained completion rates of 56.67%, 55.00%, 72.50%, 75.00%,
+56.67%, and 58.33% in Loading centrifuge tube, Unload centrifuge tube, Tidy up the desktop, Clean up waste materials, Loading ﬂoat, and Unload the ﬂoat, respectively. Compared with ACT and X-VLA, AugSmolVLA showed more stable performance across loading, unloading, sorting, and disposal tasks. For example, in the Loading centrifuge tube
+task, AugSmolVLA reached 56.67%, clearly outperforming
+ACT and X-VLA, which achieved 28.33% and 35.00%, respectively. In the Tidy up the desktop task, AugSmolVLA achieved
+72.50%, exceeding SmolVLA by 10.00 percentage points and
+showing stronger capability in sequential precise placement.
+In the Clean-up waste materials task, AugSmolVLA further
+achieved the highest completion rate of 75.00%, indicating improved robustness in continuous grasping, transfer, and disposal
+operations.
+
+Based on the single-task experiments that evaluated the basic manipulation capability of each model, we further designed
+composite-task experiments to assess the overall execution performance of the proposed system in multi-step continuous manipulation scenarios. Unlike single-task experiments, which foThese results indicate that AugSmolVLA maintains better
+cus only on the success rate of individual atomic operations, execution stability in multi-step biological manipulation. Since
+composite tasks are closer to real biological experimental work- composite tasks require continuous state preservation across
+ﬂows and impose higher requirements on task transition, state atomic operations, early errors can easily propagate to subsemaintenance, and continuous execution stability. Therefore,
+11
+
+Table 2: Comparison of single-task experimental results.
+Model
+
+Open Centrifuge
+Lid (SR)
+
+Close Centrifuge
+Lid (SR)
+
+Insert Tube to
+Centrifuge (SR)
+
+Remove Tube from
+Centrifuge (SR)
+
+Act
+X-vla
+Smolvla
+AugSmolVLA
+
+43.33% ± 4.41
+31.67% ± 1.67
+53.33% ± 6.01
+56.67% ± 1.67
+
+91.67% ± 1.67
+43.33% ± 3.33
+100.00% ± 0.00
+100.00% ± 0.00
+
+16.67% ± 4.41
+33.33% ± 4.41
+43.33% ± 1.67
+48.33% ± 1.67
+
+23.33% ± 3.33
+26.67% ± 3.33
+51.67% ± 1.67
+53.33% ± 1.67
+
+Model
+
+Discard
+Centrifuge
+Tube (SR)
+
+Discard
+Cryotube (SR)
+
+Place Centrifuge Tube to
+Orange Rack (SR)
+
+Place Cryotube to Red
+Rack (SR)
+
+Act
+X-vla
+Smolvla
+AugSmolVLA
+
+81.67% ± 1.67
+63.33% ± 6.67
+88.33% ± 1.67
+90.00% ± 0.00
+
+35.00% ± 2.89
+40.00% ± 5.00
+48.33% ± 4.41
+55.00% ± 2.89
+
+21.67% ± 4.41
+30.00% ± 5.00
+43.33% ± 3.33
+53.33% ± 1.67
+
+16.67% ± 3.33
+26.67% ± 6.01
+40.00% ± 2.89
+65.00% ± 2.00
+
+Open Water Bath
+Lid (SR)
+
+Close Water
+Bath Lid (SR)
+
+Place Float to Water
+Bath (SR)
+
+Remove Float from
+Water Bath (SR)
+
+53.33% ± 4.41
+61.67% ± 7.26
+78.33% ± 4.41
+78.33% ± 1.67
+
+61.67% ± 7.26
+45.00% ± 8.66
+73.33% ± 1.67
+75.00% ± 2.89
+
+41.67% ± 3.33
+26.67% ± 3.33
+43.33% ± 4.41
+46.67% ± 4.41
+
+36.67% ± 4.41
+16.67% ± 1.67
+46.67% ± 4.41
+50.00% ± 4.00
+
+Model
+Act
+X-vla
+Smolvla
+AugSmolVLA
+
+Table 3: Deﬁnitions of composite-task sequences.
+Composite task
+
+Subtask Sequence
+
+Task Category
+
+Loading centrifuge tube
+Unload centrifuge tube
+Tidy up the desktop
+Clean up waste materials
+Loading ﬂoat
+Unload the ﬂoat
+
+A: Open Centrifuge Lid B: Insert Tube to Centrifuge C: Close Centrifuge Lid
+A: Open Centrifuge Lid B: Remove Tube from Centrifuge C: Close Centrifuge Lid
+A: Place Centrifuge Tube to Orange Rack B: Place Cryotube to Red Rack
+A: Discard Centrifuge Tube B: Discard Cryotube
+A: Open Water Bath Lid B: Place Float to Water Bath C: Close Water Bath Lid
+A: Open Water Bath Lid B: Remove Float from Water Bath C: Close Water Bath Lid
+
+Loading
+Unloading
+Sorting
+Disposal
+Loading
+Unloading
+
+Table 4: Comparison of composite-task experimental results.
+Model
+
+Loading
+centrifuge
+tube (CR)
+
+Unload
+centrifuge
+tube (CR)
+
+Tidy up the
+desktop (CR)
+
+Clean up waste
+materials (CR)
+
+Loading
+ﬂoat (CR)
+
+Unload the
+ﬂoat (CR)
+
+Act
+X-vla
+Smolvla
+AugSmolVLA
+
+28.33%
+35.00%
+55.00%
+56.67%
+
+33.33%
+40.00%
+53.33%
+55.00%
+
+35.00%
+47.50%
+62.50%
+72.50%
+
+60.00%
+40.00%
+62.50%
+75.00%
+
+26.67%
+20.00%
+50.00%
+56.67%
+
+31.67%
+38.33%
+55.00%
+58.33%
+
+Table 5: Comparison of dual-arm task experimental results.
+Model
+Act
+X-vla
+Smolvla
+AugSmolVLA
+
+Unscrew Tube Cap
+(SR)
+
+Tighten Tube Cap
+(SR)
+
+Pour Waste Liquid
+(SR)
+
+Composite task
+(CR)
+
+11.67% ± 1.67
+5.00% ± 2.89
+51.67% ± 4.41
+55.00% ± 5.77
+
+8.33% ± 4.41
+11.67% ± 1.67
+28.33% ± 4.41
+33.33% ± 3.33
+
+3.33% ± 1.67
+10.00% ± 2.89
+33.33% ± 6.01
+36.67% ± 3.33
+
+7.65%
+11.26%
+37.00%
+39.45%
+
+quent steps. The performance improvement is mainly attributed hances the models adaptability to illumination changes, local
+to the visual perturbation data augmentation strategy, which en- reﬂections, and transparent labware interference, thereby im12
+
+Figure 7: Examples of Dual-Arm task execution processes.
+proving object localization and action stability during task tran- ing ACT (11.67%) by more than 40 percentage points. In
+sitions.
+Pour Waste Liquid, it reached 36.67%, clearly outperforming
+X-VLA (10.00%) and ACT (3.33%). In addition, for the overall composite task, AugSmolVLA achieved 39.45%, showing
+4.5 Dual-Arm Task Experiments
+a further improvement over SmolVLA (37.00%) and the other
+Following the composite-task experiments that evaluated baseline methods.
+multi-step continuous execution, we further conducted dualArm task experiments to assess the performance of the pro- 4.6 Ablation Experiments under Overexposed Conditions
+posed method in coordinated multi-manipulator operation scenarios. Compared with single-arm tasks, dual-Arm Tasks inBased on the preceding experiments under normal lightvolve more complex temporal dependencies and impose higher ing conditions, we further constructed a overexposure scenario
+requirements on spatial coordination and action consistency be- for comparative evaluation to assess model robustness under setween the two arms. Therefore, representative dual-Arm op- vere visual disturbances. The overexposure environment was
+erations, including tube-cap twisting and liquid pouring, were created by adjusting the camera exposure parameters, introducselected for comparative evaluation under the same experimen- ing obvious overexposure and loss of visual details. Under
+tal settings. The experimental results are shown in Table 5, and this setting, three model variants were compared: SmolVLA
+corresponding examples of the task execution process are pre- trained and tested under normal conditions, which served as
+sented in Fig 7.
+the baseline; SmolVLA directly tested under the overexposure
+condition, which was used to evaluate performance degradation
+Overall, all methods achieved markedly lower success
+caused by environmental changes; and AugSmolVLA tested unrates in dual-Arm Tasks than in single-arm scenarios, indider the overexposure condition, which was used to verify the
+cating that these tasks impose higher control requirements on
+eﬀect of data augmentation on model generalization. The exthe models. In particular, the twisting tasks, including Unperimental results are shown in Table 6.
+screw Tube Cap and Tighten Tube Cap, as well as the pouring task, Pour Waste Liquid, require precise coordination and
+The overexposed setting imposed a pronounced visual
+force-constrained control between the two arms, making them distribution shift on SmolVLA, directly weakening its ability
+sensitive to temporal synchronization and contact stability. In to localize transparent labware and maintain stable maniputhese tasks, the proposed method showed clear advantages. For lation in visually degraded scenes. Without data augmentaexample, it achieved 55.00% on Unscrew Tube Cap, exceed- tion, this degradation was reﬂected in consistent performance
+13
+
+Table 6: Comparison of experimental results under the overexposure condition.
+Model
+
+Place Centrifuge
+Tube to Orange
+Rack (SR)
+
+Place Cryotube to
+Red Rack (SR)
+
+Discard
+Centrifuge
+Tube (SR)
+
+Discard
+Cryotube (SR)
+
+Pour Waste
+Liquid
+
+Tighten Tube
+Cap
+
+Loading
+centrifuge
+tube (CR)
+
+Normal-smolvla
+Exposure-smolvla
+AugSmolVLA
+
+43.33% ± 3.33
+33.33% ± 7.27
+43.33% ± 4.41
+
+40.00% ± 2.89
+31.67% ± 6.01
+71.67% ± 6.01
+
+88.33% ± 1.67
+71.67% ± 1.67
+78.33% ± 4.41
+
+48.33% ± 1.67
+31.67% ± 4.41
+43.33% ± 4.41
+
+51.67% ± 4.41
+40.00% ± 0.00
+48.33% ± 1.67
+
+28.33% ± 4.41
+11.67% ± 4.41
+16.67% ± 1.67
+
+55.00%
+39.60%
+44.00%
+
+drops across precise placement, disposal, and multi-step manipulation tasks. For example, the success rate decreased from
+40.00% to 31.67% in Place Cryotube to Red Rack, from 48.33%
+to 31.67% in Discard Cryotube, and from 55.00% to 39.60%
+in the composite task Loading centrifuge tube. These results
+indicate that visual information degradation caused by overexposure can impair the models ability to recognize and localize
+target objects. In contrast, AugSmolVLA achieved clear performance recovery or improvement in most tasks. For example,
+the success rate of Place Cryotube to Red Rack increased from
+31.67% to 71.67%, that of Discard Cryotube increased from
+31.67% to 43.33%, and that of Place Centrifuge Tube to Orange Rack recovered to 43.33%, which was comparable to its
+performance under normal lighting. Overall, data augmentation
+eﬀectively alleviated the distribution shift under overexposure
+conditions, enabling the model to maintain more stable manipulation performance when visual information was degraded and
+demonstrating stronger environmental robustness.
+
+5
+
+Conclusion
+
+This study presents BioProVLA-Agent, a protocolgrounded multi-agent framework for veriﬁable robotic biological experimentation. Unlike conventional robotic manipulation
+pipelines that primarily rely on direct instruction-to-action mapping, the proposed framework establishes a closed-loop workﬂow that integrates biological protocol understanding, structured task decomposition, VLM-RAG-based state veriﬁcation,
+and VLA-driven embodied execution. Through the collaboration of the Guiding Decision Agent, Specialized LLM Protocol Agent, VLM-RAG Veriﬁcation Agent, and VLA Embodied Agent, unstructured biological protocols are transformed
+into executable subtask sequences with explicit action instructions, preconditions, completion criteria, and knowledge-based
+indices. This design enables the robotic system not only to execute experimental operations, but also to verify task feasibility before execution, assess completion states after execution,
+and provide interpretable feedback for long-horizon biological
+workﬂows.
+
+Cryotube to Red Rack from 40.00% to 65.00% in single-task
+experiments and achieved a completion rate of 75.00% in the
+composite task Clean up waste materials, exceeding the original
+SmolVLA by 12.50 percentage points. Under overexposed conditions, it further improved the success rate of Place Cryotube
+to Red Rack from 31.67% to 71.67%, demonstrating stronger
+robustness against severe visual disturbance. These results indicate that integrating protocol-grounded reasoning, retrievalaugmented visual veriﬁcation, and robust VLA execution provides an eﬀective technical pathway toward reliable robotic biologists for real wet-lab automation.
+This study still has several limitations. The current experiments mainly focus on basic biological operations and limited
+scenarios, while task complexity, protocol length, and object diversity remain to be further expanded. In addition, Dual-Arm
+coordination tasks still pose considerable challenges in ﬁne contact control and temporal coordination. Future work will build
+upon this framework by incorporating dexterous hands and multimodal perception to support more complex grasping, twisting,
+pipetting, and sample-handling tasks. Furthermore, experimental design, result analysis, and autonomous decision-making
+modules will be integrated to advance the system from executing experimental steps toward a robotic biologist capable of
+autonomously conducting experiments and assisting scientiﬁc
+discovery.
+
+Funding Statement
+This work was supported by the National Natural Science
+Foundation of China (Grant No. 62476087) and the Shanghai Municipal Education Commission Initiative on Artiﬁcial
+Intelligence-Driven Reform of Scientiﬁc Research Paradigms
+and Empowerment of Discipline Leapfrogging.
+
+Code availability
+Our code and video demonstrations are publicly available
+at: https://github.com/no-guess/BioProVLA-Agent.
+
+In addition, AugSmolVLA is developed by incorporating a visual perturbation data augmentation strategy into References
+SmolVLA, improving the robustness of VLA-based execution
+under illumination changes, local reﬂections, transparent lab- [1] N. J. Szymanski, B. Rendy, Y. Fei, R. E. Kumar, T. He,
+D. Milsted, M. J. McDermott, M. Gallant, E. D. Cubuk,
+ware interference, and overexposed visual conditions. A bioA.
+Merchant, H. Kim, A. Jain, C. J. Bartel, K. Persson,
+logical robotic manipulation benchmark is further constructed
+Y.
+Zeng,
+and G. Ceder. An autonomous laboratory for
+on the So-ARM101 platform, covering 15 atomic tasks, singlethe accelerated synthesis of novel materials. Nature, 624
+arm operations, composite tasks, dual-arm coordination, and
+(7990):8691, 2023. doi: 10.1038/s41586-023-06734-w.
+overexposure robustness evaluation. The experimental results
+demonstrate that the proposed method improves execution sta- [2] B. Burger, P. M. Maﬀettone, V. V. Gusev, C. M. Aitchison,
+bility across diﬀerent biological manipulation scenarios. For
+Y. Bai, X. Wang, X. Li, B. M. Alston, B. Li, R. Clowes,
+example, AugSmolVLA increased the success rate of Place
+N. Rankin, B. Harris, R. S. Sprick, and A. I. Cooper. A
+14
+
+mobile robotic chemist. Nature, 583(7815):237241, 2020.
+doi: 10.1038/s41586-020-2442-2.
+[3] S. Jiang, D. Evans-Yamamoto, D. Bersenev, S. K. Palaniappan, and A. Yachie-Kinoshita. Protocode: Leveraging large language models (llms) for automated generation of machine-readable pcr protocols from scientiﬁc
+publications. SLAS Technol, 29(3):100134, 2024. doi:
+10.1016/j.slast.2024.100134.
+[4] B. Ma, M. Ma, R. Li, J. Zheng, and D. Li. Tosq:
+Transparent object segmentation via query-based dictionary lookup with transformers. Sensors (Basel), 25(15),
+2025. doi: 10.3390/s25154700.
+[5] Wenlong Huang, Chen Wang, Ruohan Zhang, Yunzhu Li,
+Jiajun Wu, and Li Fei-Fei. Voxposer: Composable 3d
+value maps for robotic manipulation with language models. arXiv preprint arXiv:2307.05973, 2023.
+[6] Wenlong Huang, Chen Wang, Yunzhu Li, Ruohan Zhang,
+and Li Fei-Fei. Rekep: Spatio-temporal reasoning of
+relational keypoint constraints for robotic manipulation.
+arXiv preprint arXiv:2409.01652, 2024.
+[7] Jinliang Zheng, Jianxiong Li, Zhihao Wang, Dongxiu
+Liu, Xirui Kang, Yuchun Feng, Yinan Zheng, Jiayin Zou, Yilun Chen, and Jia Zeng. X-vla: Softprompted transformer as scalable cross-embodiment
+vision-language-action model, 2025. URL https://arxiv.
+org/abs/2510.10274.
+[8] Mustafa Shukor, Dana Aubakirova, Francesco Capuano,
+Pepijn Kooijmans, Steven Palma, Adil Zouitine, Michel
+Aractingi, Caroline Pascal, Martino Russi, and Andres
+Maraﬁoti. Smolvla: A vision-language-action model
+for aﬀordable and eﬃcient robotics. arXiv preprint
+arXiv:2506.01844, 2025.
+[9] T. Dai, S. Vijayakrishnan, F. T. Szczypiski, J. F. Ayme,
+E. Simaei, T. Fellowes, R. Clowes, L. Kotopanov, C. E.
+Shields, Z. Zhou, J. W. Ward, and A. I. Cooper. Autonomous mobile robots for exploratory synthetic chemistry. Nature, 635(8040):890897, 2024. doi: 10.1038/
+s41586-024-08173-7.
+[10] G. Tom, S. P. Schmid, S. G. Baird, Y. Cao, K. Darvish,
+H. Hao, S. Lo, S. Pablo-García, E. M. Rajaonson,
+M. Skreta, N. Yoshikawa, S. Corapi, G. D. Akkoc,
+F. Strieth-Kalthoﬀ, M. Seifrid, and A. Aspuru-Guzik. Selfdriving laboratories for chemistry and materials science.
+Chem Rev, 124(16):96339732, 2024. doi: 10.1021/acs.
+chemrev.4c00055.
+[11] A. Stephenson, L. Lastra, B. Nguyen, Y. J. Chen, J. Nivala,
+L. Ceze, and K. Strauss. Physical laboratory automation
+in synthetic biology. ACS Synth Biol, 12(11):31563169,
+2023. doi: 10.1021/acssynbio.3c00345.
+
+[14] D. Pivin, A. Champie, M. Plante, F. Ferland, F. Michaud,
+and S. Rodrigue. Oscar: A modular open-source robotic
+platform for biological laboratories. ACS Synth Biol, 15
+(3):10621072, 2026. doi: 10.1021/acssynbio.5c00733.
+[15] P. Salazar-Villacis and B. Benyahia. The adept framework
+for assessing autonomous laboratory robotics. Commun
+Chem, 9(1), 2026. doi: 10.1038/s42004-026-01932-9.
+[16] Sai Vemprala, Rogerio Bonatti, Arthur Bucker, and
+Ashish Kapoor. Chatgpt for robotics: Design principles and model abilities. 2023. URL https://arxiv.
+org/abs/2306.17582, 2023.
+[17] Takashi Inagaki, Akari Kato, Koichi Takahashi, Haruka
+Ozaki, and Genki N Kanda. Llms can generate robotic
+scripts from goal-oriented instructions in biological laboratory automation. arXiv preprint arXiv:2304.10267,
+2023.
+[18] Odhran ODonoghue, Aleksandar Shtedritski, John Ginger, Ralph Abboud, Ali Ghareeb, and Samuel Rodriques.
+Bioplanner: automatic evaluation of llms on protocol planning in biology. In Proceedings of the 2023 Conference
+on Empirical Methods in Natural Language Processing,
+page 26762694.
+[19] Seungjun Yi, Jaeyoung Lim, and Juyong Yoon. Protomedllm: An automatic evaluation framework for large language models in medical protocol formulation. arXiv
+preprint arXiv:2410.04601, 2024.
+[20] D. A. Boiko, R. MacKnight, B. Kline, and G. Gomes.
+Autonomous chemical research with large language models. Nature, 624(7992):570578, 2023. doi: 10.1038/
+s41586-023-06792-0.
+[21] M. Bran A, S. Cox, O. Schilter, C. Baldassari, A. D.
+White, and P. Schwaller. Augmenting large language models with chemistry tools. Nat Mach Intell, 6(5):525535,
+2024. doi: 10.1038/s42256-024-00832-8.
+[22] Danny Driess, Fei Xia, Mehdi SM Sajjadi, Corey Lynch,
+Aakanksha Chowdhery, Brian Ichter, Ayzaan Wahid,
+Jonathan Tompson, Quan Vuong, and Tianhe Yu. Palm-e:
+An embodied multimodal language model. arXiv preprint
+arXiv:2303.03378, 2023.
+[23] Zongzheng Zhang, Chenghao Yue, Haobo Xu, Minwen
+Liao, Xianglin Qi, Huan-ang Gao, Ziwei Wang, and
+Hao Zhao. Robochemist: Long-horizon and safetycompliant robotic chemical experimentation.
+arXiv
+preprint arXiv:2509.08820, 2025.
+[24] Yunfan Gao, Yun Xiong, Xinyu Gao, Kangxiang Jia,
+Jinliu Pan, Yuxi Bi, Yixin Dai, Jiawei Sun, Haofen
+Wang, and Haofen Wang. Retrieval-augmented generation for large language models: A survey. arXiv preprint
+arXiv:2312.10997, 2(1):32, 2023.
+[12] A. M. Anhel, L. Alejaldre, and Á Goñi-Moreno. The labo- [25] Tony Z Zhao, Vikash Kumar, Sergey Levine, and Chelsea
+ratory automation protocol (lap) format and repository: A
+Finn. Learning ﬁne-grained bimanual manipulation with
+platform for enhancing workﬂow eﬃciency in synthetic
+low-cost hardware. arXiv preprint arXiv:2304.13705,
+biology. ACS Synth Biol, 12(12):35143520, 2023. doi:
+2023.
+10.1021/acssynbio.3c00397.
+[26] Cheng Chi, Zhenjia Xu, Siyuan Feng, Eric Cousineau,
+[13] N. Singh, S. Lane, T. Yu, J. Lu, A. Ramos, H. Cui, and
+Yilun Du, Benjamin Burchﬁel, Russ Tedrake, and Shuran
+H. Zhao. A generalized platform for artiﬁcial intelligenceSong. Diﬀusion policy: Visuomotor policy learning via
+powered autonomous enzyme engineering. Nat Commun,
+action diﬀusion. The International Journal of Robotics
+16(1):5648, 2025. doi: 10.1038/s41467-025-61209-y.
+Research, 44(10-11):16841704, 2025.
+15
+
+[27] Brianna Zitkovich, Tianhe Yu, Sichun Xu, Peng Xu, Ted
+Xiao, Fei Xia, Jialin Wu, Paul Wohlhart, Stefan Welker,
+and Ayzaan Wahid. Rt-2: Vision-language-action models
+transfer web knowledge to robotic control. In Conference
+on Robot Learning, page 21652183. PMLR. ISBN 26403498.
+[28] Songming Liu, Lingxuan Wu, Bangguo Li, Hengkai Tan,
+Huayu Chen, Zhengyi Wang, Ke Xu, Hang Su, and Jun
+Zhu. Rdt-1b: a diﬀusion foundation model for bimanual
+manipulation. arXiv preprint arXiv:2410.07864, 2024.
+[29] Kevin Black, Noah Brown, Danny Driess, Adnan Esmail, Michael Equi, Chelsea Finn, Niccolo Fusai, Lachy
+Groom, Karol Hausman, and Brian Ichter. π0 : A visionlanguage-action ﬂow model for general robot control.
+arXiv preprint arXiv:2410.24164, 2024.
+[30] Tianhe Yu, Ted Xiao, Austin Stone, Jonathan Tompson,
+Anthony Brohan, Su Wang, Jaspiar Singh, Clayton Tan,
+Jodilyn Peralta, and Brian Ichter. Scaling robot learning
+with semantically imagined experience. arXiv preprint
+arXiv:2302.11550, 2023.
+[31] Zoey Chen, Sho Kiami, Abhishek Gupta, and Vikash
+Kumar. Genaug: Retargeting behaviors to unseen situations via generative augmentation. arXiv preprint
+arXiv:2302.06671, 2023.
+[32] Zoey Chen, Zhao Mandi, Homanga Bharadhwaj, Mohit
+Sharma, Shuran Song, Abhishek Gupta, and Vikash Kumar. Semantically controllable augmentations for generalizable robot learning. The International Journal of
+Robotics Research, 44(10-11):17051726, 2025.
+[33] Masato Kobayashi, Thanpimon Buamanee, and Yuki
+Uranishi. Dabi: Evaluation of data augmentation methods using downsampling in bilateral control-based imitation learning with images. In 2025 IEEE International
+Conference on Robotics and Automation (ICRA), page
+1689216898. IEEE. ISBN 9798331541392.
+[34] Pierre Sermanet, Tianli Ding, Jeﬀrey Zhao, Fei Xia, Debidatta Dwibedi, Keerthana Gopalakrishnan, Christine
+Chan, Gabriel Dulac-Arnold, Sharath Maddineni, and
+Nikhil J Joshi. Robovqa: Multimodal long-horizon reasoning for robotics. In 2024 IEEE International Conference on Robotics and Automation (ICRA), page 645652.
+IEEE. ISBN 9798350384574.
+[35] X. Wang, Y. Chen, and W. Zhu. A survey on curriculum learning. IEEE Trans Pattern Anal Mach Intell, 44
+(9):45554576, 2022. doi: 10.1109/tpami.2021.3069908.
+
+16
+
+

@@ -18,7 +18,7 @@ Claude skill that sets up, runs, and analyzes molecular dynamics simulations end
 |---|---|
 | **Type** | Claude Skill |
 | **Supplier** | [K-Dense Inc.](https://github.com/K-Dense-AI/scientific-agent-skills) |
-| **Availability** | GA — distributed via the K-Dense `claude-scientific-skills` plugin marketplace |
+| **Availability** | GA — distributed via the K-Dense `scientific-agent-skills` collection |
 | **Pricing** | Free / OSS (skill source); OpenMM is MIT, MDAnalysis is GPLv2+ |
 | **Capabilities** | Read/Write — Claude writes and runs Python locally (system preparation, MD execution, trajectory analysis) |
 

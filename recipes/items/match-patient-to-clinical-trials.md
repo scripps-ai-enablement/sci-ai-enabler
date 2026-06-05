@@ -2,14 +2,14 @@
 title: Match a patient summary to recruiting clinical trials
 parent: All recipes
 grand_parent: Recipes
-nav_order: 9
+nav_order: 15
 problem_class: Knowledge synthesis
 subject_areas: [Translational Medicine, Drug Repurposing and Discovery]
 evidence_level: Reported
 complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Laptop
-last_verified: 2026-05-23
+last_verified: 2026-06-04
 summary: Use BioMCP (or the standalone ClinicalTrials.gov MCP) to take a free-text patient summary and return a ranked list of currently-recruiting trials with eligibility rationale.
 ---
 
@@ -105,9 +105,9 @@ Reported. The TrialGPT framework ([Jin et al., *Nature Communications* 2024](htt
 
 ## Sources
 
-- [Jin et al., "Matching patients to clinical trials with large language models," *Nature Communications* 15:9074](https://www.nature.com/articles/s41467-024-53081-z) — published 2024-11-18; verified 2026-05-23 (this run).
-- [`cyanheads/clinicaltrialsgov-mcp-server`](https://github.com/cyanheads/clinicaltrialsgov-mcp-server) — verified 2026-05-23 (this run).
-- [biomcp.org `trial_searcher` docs](https://biomcp.org/) — verified 2026-05-23 (this run).
+- [Jin et al., "Matching patients to clinical trials with large language models," *Nature Communications* 15:9074](https://www.nature.com/articles/s41467-024-53081-z) — published 2024-11-18; verified 2026-06-04 (this run).
+- [`cyanheads/clinicaltrialsgov-mcp-server`](https://github.com/cyanheads/clinicaltrialsgov-mcp-server) — verified 2026-06-04 (this run).
+- [biomcp.org `trial_searcher` docs](https://biomcp.org/) — verified 2026-06-04 (this run).
 - [MatchMiner-AI preprint](https://arxiv.org/abs/2412.17228) — published 2024-12; analogous benchmark.
 
 ---

@@ -18,7 +18,7 @@ Claude skill that analyzes and engineers protein glycosylation — scans sequenc
 |---|---|
 | **Type** | Claude Skill |
 | **Supplier** | [K-Dense Inc.](https://github.com/K-Dense-AI/scientific-agent-skills) |
-| **Availability** | GA — distributed via the K-Dense `claude-scientific-skills` plugin marketplace |
+| **Availability** | GA — distributed via the K-Dense `scientific-agent-skills` collection |
 | **Pricing** | Free / OSS (skill source); some third-party tools it calls (e.g., NetOGlyc, NetNGlyc) have their own academic-use licences |
 | **Capabilities** | Read/Write — local sequence scanning and orchestration of external glycan-prediction tools |
 
@@ -58,7 +58,7 @@ Claude skill that analyzes and engineers protein glycosylation — scans sequenc
 ## Sources
 
 - [`skills/glycoengineering/SKILL.md`](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/glycoengineering/SKILL.md)
-- [`K-Dense-AI/claude-scientific-skills` marketplace](https://github.com/K-Dense-AI/claude-scientific-skills)
+- [`K-Dense-AI/scientific-agent-skills` marketplace](https://github.com/K-Dense-AI/scientific-agent-skills)
 - [K-Dense scientific-skills catalog](https://github.com/K-Dense-AI/claude-skills/blob/main/docs/scientific-skills.md)
 
 ---

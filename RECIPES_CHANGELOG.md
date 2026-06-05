@@ -11,6 +11,128 @@ Reverse-chronological log of changes to the [recipes cookbook](recipes/). Newest
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-06-04
+
+### Added
+
+- **Run functional enrichment on a gene list** (Problem class: Data analysis; Evidence: Reported) — rung-2 [gget skill](catalog/tools/gget.html) recipe taking a list of gene symbols through `gget enrichr` against GO BP, KEGG, Reactome, MSigDB Hallmark, and DisGeNET → per-library CSV → grounded natural-language summary with explicit verification pass against the saved tables and a random-gene negative-control step. First Molecular and Cellular Biology focus-day recipe of this run; the cookbook's first dedicated functional-enrichment / pathway-interpretation recipe and the natural downstream step after [bulk RNA-seq DE](recipes/items/run-bulk-rnaseq-differential-expression.html). `Reported` evidence anchored in [Wang et al., *GeneAgent*, *Nature Methods* 22:1677, 2025](https://doi.org/10.1038/s41592-025-02748-6) — self-verification against Enrichr and curated databases lifts ROUGE-L on MSigDB from 0.239±0.038 (GPT-4) to 0.310±0.047 (GeneAgent) across 1,106 gene sets, with 84% of 15,848 claims database-supported and 92% of self-verification decisions correct on a 132-claim expert-judged sample; complementary anchors [Hu et al., *Nat. Methods* 21:2353, 2024](https://doi.org/10.1038/s41592-024-02525-x) and [Joshi et al., *llm2geneset* (bioRxiv 2024-11-12)](https://doi.org/10.1101/2024.11.11.621189).
+
+### Verified (no changes)
+
+- 5 recipes spot-checked, `last_verified` bumped to 2026-06-04 — every linked catalog page resolves, every source URL still loads: [Sort spikes from a Neuropixels recording end-to-end](recipes/items/sort-spikes-from-neuropixels-recording.html), [Integrate multiple single-cell RNA-seq datasets across batches](recipes/items/integrate-single-cell-datasets.html), [Interpret a clinical variant from a natural-language query](recipes/items/interpret-clinical-variant.html), [Match a patient summary to recruiting clinical trials](recipes/items/match-patient-to-clinical-trials.html), [Filter a virtual screening hit list with drug-likeness rules and structural alerts](recipes/items/filter-virtual-screening-hits.html). Fixed one stale `.md` link → `.html` in the filter-virtual-screening recipe (RDKit-MCP cross-reference).
+
+### User requests
+
+- **#12 @goodb** — still cannot access the issue body (no `gh` permission in this run); leaving open in `recipes/curator-state.md` for the next run with `gh` access.
+
+## 2026-06-03
+
+### Added
+
+- **Dock a ligand library into a target structure with DiffDock** (Problem class: Data analysis; Evidence: Proposed) — rung-2 [DiffDock skill](catalog/tools/diffdock.html) recipe taking a PDB or AlphaFold target + ligand SMILES CSV through batch-CSV prep → diffusion sampling (20–40 samples/complex) → confidence-thresholded filtering (`> 0` trustworthy, −1.5–0 inspect, < −1.5 drop) → top-K SDF export, with explicit handoffs to [MedChem](catalog/tools/medchem.html) / [DeepChem](catalog/tools/deepchem.html) / [molecular-dynamics](catalog/tools/molecular-dynamics.html) downstream. First Integrative Structural and Computational Biology focus-day recipe of this run; cookbook's first dedicated docking recipe and natural downstream of the existing [AlphaFold triage](recipes/items/triage-alphafold-model-for-docking.html) recipe. `Proposed` because no documented end-to-end LLM-orchestrated DiffDock virtual screen exists; closest component-level evidence is [Corso et al., DiffDock-L (ICLR 2024, arXiv:2402.18396)](https://arxiv.org/abs/2402.18396) (38%→80% RMSD<2Å on top one-third by confidence), [Buttenschoen et al., PoseBusters (*Chem. Sci.* 15:3130, 2024)](https://doi.org/10.1039/D3SC04185A), and [Karelina et al., AF2-target docking (*JCIM* 63:6219, 2023)](https://doi.org/10.1021/acs.jcim.3c00601) (~21% RMSD<2Å on AF2 models, motivating the upstream-triage gate in step 2).
+
+### Updated
+
+- Nav orders rebalanced to keep alphabetical title ordering after the new addition. "Dock a ligand library…" inserted at 8; everything from "Draft Phase 2/3…" downward shifted by +1: **Draft Phase 2/3 clinical-trial protocol** → 9, **Estimate PK** → 10, **Filter virtual screening** → 11, **Infer GRN** → 12, **Integrate single-cell** → 13, **Interpret clinical variant** → 14, **Match patient to trials** → 15, **Parse FCS flow-cytometry files** → 16, **Prioritize targets** → 17, **Profile polypharmacology** → 18, **Run bulk RNA-seq DE** → 19, **Run first-pass QC** → 20, **Scan repurposing** → 21, **Set up protein MD** → 22, **Sort spikes** → 23, **Triage preprints** → 24, **Triage AlphaFold** → 25.
+
+### Verified (no changes)
+
+- No aging recipes due — every `last_verified` date is within the 30-day window. The recipe set's verification floor sits at 2026-05-22 (`integrate-single-cell-datasets`, `sort-spikes-from-neuropixels-recording`); next aging boundary is 2026-06-21.
+
+### User requests
+
+- **#12 @goodb** — still cannot access the issue body (no `gh` permission for the repo in this run); leaving the request open in `recipes/curator-state.md` for the next run with `gh` access.
+
+## 2026-06-02
+
+### Added
+
+- **Compute 16S microbiome alpha/beta diversity from a BIOM table** (Problem class: Data analysis; Evidence: Proposed) — rung-2 [scikit-bio skill](catalog/tools/scikit-bio.html) recipe taking a BIOM feature table + sample metadata + Newick tree through rarefaction → Shannon/Simpson/Faith's PD → weighted/unweighted UniFrac → PCoA → PERMANOVA with explicit grouping-column and permutation-count flags. First Immunology and Microbiology focus-day recipe of this run; cookbook's first dedicated microbiome / community-ecology recipe. `Proposed` because no documented end-to-end attempt of this exact assembly exists; closest class-level evidence is [Huang et al. *Biomni* (bioRxiv 2025.05.30.656746)](https://doi.org/10.1101/2025.05.30.656746) whose published benchmark includes microbiome disease-taxa bioinformatics across five datasets (HMP, MetaPhlAn2 human metagenomics, drinking-water OTU matrices) at ~4× over base-LLM accuracy.
+- **Parse FCS flow-cytometry files for downstream immunophenotyping** (Problem class: Data analysis; Evidence: Proposed) — rung-2 [FlowIO skill](catalog/tools/flowio.html) recipe taking a directory of vendor-emitted FCS 2.0/3.0/3.1 files through `FlowData` parsing → per-file metadata harvest → scatter/fluorescence/time channel categorisation → optional log/gain transforms → concatenated long-format events Parquet, with explicit failure surfacing for partial-acquisition files. Second Immunology and Microbiology focus-day recipe; cookbook's first cytometry / FCS recipe. `Proposed` because no documented end-to-end attempt of this exact assembly exists; closest class-level evidence is ["Enhancing Clinical Workflow Efficiency in Flow Cytometry Reporting with LLMs" (PMC13053331, *J. Clin. Immunol.* 2026)](https://pubmed.ncbi.nlm.nih.gov/?term=PMC13053331), which demonstrates pathologist-level accuracy of fine-tuned LLMs on the downstream report-generation step the parsed-events output feeds into.
+
+### Updated
+
+- Nav orders rebalanced to keep alphabetical title ordering after the two additions: **Assemble Census atlas** → 1, **Benchmark ADMET** → 2, **Build target dossier** → 3, **Compute 16S microbiome diversity** → 4 (new), **Compute HRV** → 5, **Convert instrument data** → 6, **Discover NWB on DANDI** → 7, **Draft Phase 2/3 clinical-trial protocol** → 8, **Estimate PK** → 9, **Filter virtual screening** → 10, **Infer GRN** → 11, **Integrate single-cell** → 12, **Interpret clinical variant** → 13, **Match patient to trials** → 14, **Parse FCS flow-cytometry files** → 15 (new), **Prioritize targets** → 16, **Profile polypharmacology** → 17, **Run bulk RNA-seq DE** → 18, **Run first-pass QC** → 19, **Scan repurposing** → 20, **Set up protein MD** → 21, **Sort spikes** → 22, **Triage preprints** → 23, **Triage AlphaFold** → 24.
+
+### Verified (no changes)
+
+- No aging recipes due — every `last_verified` date is within the 30-day window. The recipe set's verification floor sits at 2026-05-22 (`integrate-single-cell-datasets`, `sort-spikes-from-neuropixels-recording`); next aging boundary is 2026-06-21.
+
+### User requests
+
+- **#12** (`claude:recipe-feedback`) — remains in `## User requests (open)`; `gh` CLI is still not available in this run's environment so the issue body cannot be inspected. Retry next run with `gh` access.
+
+## 2026-06-01
+
+### Added
+
+- **Convert raw analytical instrument data to Allotrope ASM JSON** (Problem class: Workflow automation; Evidence: Reported) — rung-2 [instrument-data-to-allotrope skill](catalog/tools/instrument-data-to-allotrope.html) recipe taking a vendor-format file (cell counter, plate reader, HPLC, MS, qPCR) through auto-detect → `allotropy` native parse → ASM JSON-LD + flattened CSV + exportable Python parser, with strict-validation of the raw-vs-derived split before LIMS / data-lake handoff. First Chemistry focus-day recipe of this run; cookbook's first workflow-automation recipe spanning the Anthropic life-sciences plugin family. Anchored in the [Claude for Life Sciences launch (October 2025)](https://www.anthropic.com/news/claude-for-life-sciences), the [Anthropic Vi-CELL tutorial](https://claude.com/resources/tutorials/getting-started-with-claude-for-life-sciences), and the underlying [`Benchling-Open-Source/allotropy`](https://github.com/Benchling-Open-Source/allotropy) reference parser.
+- **Set up a protein molecular dynamics simulation in GROMACS from a PDB ID** (Problem class: Experimental design; Evidence: Proposed) — rung-2 [molecule-mcp](catalog/tools/molecule-mcp.html) recipe driving the GROMACS Copilot server end-to-end (topology → solvation → ion neutralisation → minimisation → NVT/NPT → 50 ns production → RMSD/RMSF/Rg) with explicit force-field / water-model / GPU-offload flags. Second Chemistry focus-day recipe; first cookbook entry exercising the GROMACS path of the molecule-mcp bundle. `Proposed` because no documented end-to-end attempt of this exact assembly exists; closest peer-reviewed class-level evidence is [MDCrow (Campbell et al., *Mach. Learn. Sci. Technol.* 2025, DOI:10.1088/2632-2153/ae4b07)](https://iopscience.iop.org/article/10.1088/2632-2153/ae4b07) — OpenMM rather than GROMACS but same architecture — plus GROMACS-supporting follow-ons [DynaMate (arXiv:2512.10034)](https://arxiv.org/abs/2512.10034) and [NAMD-Agent (arXiv:2507.07887)](https://arxiv.org/abs/2507.07887), and the [MDGym benchmark (arXiv:2605.08941)](https://arxiv.org/abs/2605.08941) as a reality check (Claude Code / Codex / OpenHands all solve <21% of easy GROMACS/LAMMPS tasks).
+
+### Updated
+
+- Nav orders rebalanced to restore strict alphabetical title ordering after the two additions and to correct two prior off-by-many drifts (Benchmark ADMET was at 20 instead of 2; Prioritize Targets was at 19 instead of 14): **Assemble Census atlas** → 1, **Benchmark ADMET** → 2, **Build target dossier** → 3, **Compute HRV** → 4, **Convert instrument data** → 5 (new), **Discover NWB on DANDI** → 6, **Draft a Phase 2/3 clinical-trial protocol** → 7, **Estimate PK** → 8, **Filter virtual screening** → 9, **Infer GRN** → 10, **Integrate single-cell** → 11, **Interpret clinical variant** → 12, **Match patient to trials** → 13, **Prioritize targets** → 14, **Profile polypharmacology** → 15, **Run bulk RNA-seq DE** → 16, **QC single-cell** → 17, **Scan repurposing** → 18, **Set up protein MD in GROMACS** → 19 (new), **Sort spikes** → 20, **Triage preprints** → 21, **Triage AlphaFold** → 22.
+- `recipes/curator-state.md` — `## Missing components` entry for "DeepChem (K-Dense Skill)" removed; DeepChem is now catalogued at [`catalog/tools/deepchem.md`](catalog/tools/deepchem.html).
+
+### Verified (no changes)
+
+- No aging recipes due — every `last_verified` date is within the 30-day window. The recipe set's verification floor sits at 2026-05-22 (`integrate-single-cell-datasets`, `sort-spikes-from-neuropixels-recording`); next aging boundary is 2026-06-21.
+
+### User requests
+
+- **#12** (`claude:recipe-feedback`) — remains in `## User requests (open)`; `gh` CLI is still not available in this run's environment so the issue body cannot be inspected. Retry next run with `gh` access.
+
+## 2026-05-31
+
+### Added
+
+- **Prioritize targets within a disease via Open Targets** (Problem class: Knowledge synthesis; Evidence: Reported) — rung-2 [Open Targets plugin](catalog/tools/open-targets.html) recipe taking a disease (EFO/MONDO) to a ranked target shortlist across the four prioritisation pillars (precedence, tractability, doability, safety) with cited GraphQL fields per cell. First DR&D focus-day recipe of this run; complements the existing gene-in [Build a target dossier](recipes/items/build-target-dossier.html) and disease-in/drug-out [Scan approved drugs for repurposing candidates](recipes/items/scan-drug-repurposing-candidates.html) recipes. Anchored in [Buniello et al. *NAR* 53(D1):D1467–D1475 (2025)](https://doi.org/10.1093/nar/gkae1128) and [Minikel et al. *Nature* 629:624–629 (2024)](https://doi.org/10.1038/s41586-024-07316-0); closest LLM-driven application: [Zunzunegui Sanz et al. *bioRxiv* 2025-06-13](https://doi.org/10.1101/2025.06.13.659527) and [More et al. *npj Precision Oncology* 10:95 (2025)](https://doi.org/10.1038/s41698-025-01265-1).
+- **Benchmark an ADMET property with PyTDC** (Problem class: Data analysis; Evidence: Reported) — rung-2 [PyTDC skill](catalog/tools/pytdc.html) recipe driving the official TDC `ADMET_Group` benchmark (frozen scaffold splits, canonical metric per task, 5-seed leaderboard row format) so a new model gets a directly comparable number. Second DR&D focus-day recipe; first cookbook entry that produces leaderboard-comparable ADMET metrics. Anchored in [Huang et al. *NeurIPS Datasets and Benchmarks* (2021)](https://arxiv.org/abs/2102.09548), the published TDC-2 framework [Velez-Arce et al. NeurIPS 2024](https://openreview.net/forum?id=kL8dlYp6IM), and recent LLM-driven workflows ([Hao et al. *Scientific Data* 11:864 (2024)](https://doi.org/10.1038/s41597-024-03793-0); [Yuan et al. arXiv:2406.06316 (2024)](https://arxiv.org/abs/2406.06316)).
+
+### Verified (no changes)
+
+- No aging recipes due — every `last_verified` date is within the 30-day window. The recipe set's verification floor sits at 2026-05-22 (`integrate-single-cell-datasets`, `sort-spikes-from-neuropixels-recording`); next aging boundary is 2026-06-21.
+
+### User requests
+
+- **#12** (`claude:recipe-feedback`) — remains in `## User requests (open)`; `gh` CLI is still not available in this run's environment so the issue body cannot be inspected. Retry next run with `gh` access.
+
+## 2026-05-30
+
+### Added
+
+- **Draft a Phase 2/3 clinical-trial protocol from an indication brief** (Problem class: Manuscript prep; Evidence: Reported) — rung-2 [`clinical-trial-protocol`](catalog/tools/clinical-trial-protocol.html) Anthropic Healthcare plugin recipe that walks an indication / endpoint paragraph through the four-waypoint flow — regulatory classification, ClinicalTrials.gov competitive landscape, sample-size calculation, FDA/NIH-template drafting — emerging with a reviewable draft Phase 2/3 protocol scaffold. First Translational Medicine focus-day recipe of the new run; resolves a previously deferred candidate. Evidence anchored in the [Anthropic plugin tutorial](https://claude.com/resources/tutorials/how-to-use-the-clinical-trial-protocol-draft-generation-sample-skill-with-claude) (Claude for Healthcare launch, January 2026) and class-level validation in [Markey et al. *Clinical Trials* 2025](https://journals.sagepub.com/home/ctj) (80% content relevance, >99% terminology accuracy with RAG), [Shin et al. *Clinical Pharmacology & Therapeutics* 2026](https://ascpt.onlinelibrary.wiley.com/journal/15326535) (100% accuracy on disease/intervention/comparator extraction, 14/15 trials for sample-size identification), [Hauptman et al. *JMIR Dermatology* 2026](https://derma.jmir.org/), and [Maleki, *arXiv* 2404.05044 (2024)](https://arxiv.org/abs/2404.05044).
+
+### Updated
+
+- Nav orders rebalanced across the recipe set to keep alphabetical ordering after the addition: **Assemble Census atlas** → 1, **Build target dossier** → 2, **Compute HRV** → 3, **Discover NWB on DANDI** → 4, **Draft a Phase 2/3 clinical-trial protocol** → 5 (new), **Estimate PK** → 6, **Filter virtual screening** → 7, **Infer GRN** → 8, **Integrate single-cell** → 9, **Interpret clinical variant** → 10, **Match patient to trials** → 11, **Profile polypharmacology** → 12, **Run bulk RNA-seq DE** → 13, **QC single-cell** → 14, **Scan repurposing** → 15, **Sort spikes** → 16, **Triage preprints** → 17, **Triage AlphaFold** → 18.
+
+### Verified (no changes)
+
+- No aging recipes due — every `last_verified` date is within the 30-day window. The recipe set's verification floor sits at 2026-05-22 (`integrate-single-cell-datasets`, `sort-spikes-from-neuropixels-recording`); next aging boundary is 2026-06-21.
+
+### User requests
+
+- **#12** (`claude:recipe-feedback`) — remains in `## User requests (open)`; `gh` CLI is still not available in this run's environment so the issue body cannot be inspected. Retry next run with `gh` access.
+
+## 2026-05-29 (second pass — Neuroscience directed)
+
+### Added
+
+- **Discover NWB recordings on DANDI and prepare them for sorting** (Problem class: Knowledge synthesis; Evidence: Reported) — rung-3 [Neurosift Tools MCP](catalog/tools/neurosift.html) + [neuropixels-analysis skill](catalog/tools/neuropixels-analysis.html) toolbelt taking a semantic query about extracellular recordings to a filtered list of DANDI assets — Claude calls `dandi_semantic_search`, `dandi_search_by_neurodata_type`, `dandiset_assets`, and `nwb_file_info` over the public DANDI API, applies user-supplied hypothesis constraints (probe model, session duration, presence of a `Units` table), and emits `dandi download` / `pynwb` streaming snippets ready for the [Sort spikes from a Neuropixels recording](recipes/items/sort-spikes-from-neuropixels-recording.html) recipe. Third Neuroscience-primary recipe; resolves a previously deferred candidate. Evidence anchored in [Magland, Ly, Rübel, Dichter. *Scientific Data* 12:1988 (2025), doi:10.1038/s41597-025-06285-x](https://doi.org/10.1038/s41597-025-06285-x), which documents an LLM-driven agentic chat assistant and notebook-generation pipeline for DANDI exploration from the same Flatiron lab that ships the Neurosift Tools MCP; reviewed by neurophysiology specialists with most generated notebooks rated "very helpful." Canonical Neurosift citation: [Magland, Soules, Baker, Dichter. *JOSS* 9(97):6590 (2024), doi:10.21105/joss.06590](https://doi.org/10.21105/joss.06590).
+
+### Updated
+
+- Nav orders rebalanced across the recipe set to keep alphabetical ordering after the addition: **Assemble Census atlas** → 1, **Build target dossier** → 2, **Compute HRV** → 3, **Discover NWB on DANDI** → 4, **Estimate PK** → 5, **Filter virtual screening** → 6, **Infer GRN** → 7, **Integrate single-cell** → 8, **Interpret clinical variant** → 9, **Match patient to trials** → 10, **Profile polypharmacology** → 11, **Run bulk RNA-seq DE** → 12, **QC single-cell** → 13, **Scan repurposing** → 14, **Sort spikes** → 15, **Triage preprints** → 16, **Triage AlphaFold** → 17.
+
+### Verified (no changes)
+
+- No aging recipes this run — every `last_verified` date is within the 30-day window. The recipe set's verification floor sits at 2026-05-22 (`integrate-single-cell-datasets`, `sort-spikes-from-neuropixels-recording`); next aging boundary is 2026-06-21.
+
+### User requests
+
+- **#12** (`claude:recipe-feedback`) — remains in `## User requests (open)`; `gh` CLI still unavailable in this run's environment so the issue body cannot be inspected. Retry next run with `gh` access.
+
 ## 2026-05-29
 
 ### Added

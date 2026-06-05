@@ -2,7 +2,7 @@
 title: PharmaSwarm
 parent: Systems
 grand_parent: AI scientists
-nav_order: 34
+nav_order: 36
 affiliation: Systems Pharmacology AI Research Center, University of Alabama at Birmingham (Song, Trotter, Chen)
 lifecycle_stages: [Hypothesis, Analysis]
 autonomy: Semi-autonomous
