@@ -483,6 +483,14 @@
       "source_url": "https://arxiv.org/abs/2606.02386",
       "downloaded": "2026-06-05",
       "txt_sidecar": "2606.02386v1.txt"
+    },
+    {
+      "doi": "10.48550/arXiv.2606.06473",
+      "filename": "2606.06473v1.pdf",
+      "title": "MLEvolve: A Self-Evolving Framework for Automated Machine Learning Algorithm Discovery",
+      "source_url": "https://arxiv.org/abs/2606.06473",
+      "downloaded": "2026-06-05",
+      "txt_sidecar": "2606.06473v1.txt"
     }
   ]
 }
