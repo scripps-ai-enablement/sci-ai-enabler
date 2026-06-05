@@ -105,6 +105,7 @@ include:
   autoskill: [General-Purpose Utilities]
   cirq: [General-Purpose Utilities]
   citation-management: [General-Purpose Utilities]
+  consciousness-council: [General-Purpose Utilities]
   dask: [General-Purpose Utilities]
   docx: [General-Purpose Utilities]
   exa-search: [General-Purpose Utilities]
@@ -183,7 +184,6 @@ augment:
 # Still out of scope: not reusable scientific/computational utilities (novelty
 # persona prompts, business/consulting, or product-locked personal feeds).
 skip:
-  consciousness-council: novelty multi-persona deliberation prompt, not a tool
   dhdna-profiler: novelty cognitive/writing-style profiling
   market-research-reports: business/consulting market research, not science
   paperzilla: product-locked personal paper-feed, low recipe value

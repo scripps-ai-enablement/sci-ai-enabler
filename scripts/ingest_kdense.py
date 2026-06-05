@@ -88,6 +88,7 @@ PRETTY = {
     "autoskill": "Autoskill",
     "cirq": "Cirq",
     "citation-management": "Citation Management",
+    "consciousness-council": "Consciousness Council",
     "dask": "Dask",
     "docx": "DOCX",
     "exa-search": "Exa Search",

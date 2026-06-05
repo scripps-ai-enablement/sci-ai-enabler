@@ -8,7 +8,7 @@ nav_exclude: true
 
 ## Recently surfaced
 
-- **General-Purpose Utilities category** (2026-06-04) — new 8th catalog category (cross-cutting utilities shelf, not a research area). 67 domain-agnostic K-Dense skills (plotting, dataframes, ML/stats, scientific communication, adjacent-domain science) ingested into it; only 4 K-Dense skills remain out of scope. Catalog now 173 tool pages.
+- **General-Purpose Utilities category** (2026-06-04) — new 8th catalog category (cross-cutting utilities shelf, not a research area). 68 domain-agnostic K-Dense skills (plotting, dataframes, ML/stats, scientific communication, adjacent-domain science, multi-perspective deliberation) ingested into it; only 3 K-Dense skills remain out of scope. Catalog now 174 tool pages.
 - **K-Dense batch ingest** (2026-06-04) — one-time ingestion of the life-science-relevant subset of `K-Dense-AI/scientific-agent-skills` (69 of 143 skills: 51 new pages + 18 existing repaired). K-Dense is now in diff-only mode (see `AGENT.md`); scope decisions recorded in `scripts/kdense_category_map.yaml`. Also migrated all existing K-Dense pages off the dead `claude-scientific-skills` marketplace to `npx skills add` and the `skills/` path.
 - **OpenNeuro MCP** (added 2026-05-29) — Community MCP server (QuentinCody) wrapping the OpenNeuro GraphQL API; hosted Cloudflare Workers SSE endpoint, MIT + Academic Citation Requirement license. Complements the Neurosift Tools MCP (DANDI + NWB) by covering OpenNeuro's MRI / MEG / EEG / iEEG / ECoG archive.
 
