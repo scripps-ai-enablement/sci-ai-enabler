@@ -6,7 +6,7 @@ tool_type: Claude Skill
 supplier: K-Dense
 availability: GA
 tool_categories: [Drug Repurposing and Discovery, Integrative Structural and Computational Biology]
-last_verified: 2026-06-03
+last_verified: 2026-06-04
 summary: Claude skill driving DiffDock, a diffusion-based deep-learning docker that predicts protein–ligand binding poses from PDB plus SMILES with per-pose confidence scores.
 ---
 
@@ -18,21 +18,21 @@ Claude skill that drives [DiffDock](https://github.com/gcorso/DiffDock) — a di
 |---|---|
 | **Type** | Claude Skill |
 | **Supplier** | [K-Dense Inc.](https://github.com/K-Dense-AI/scientific-agent-skills) (community OSS); DiffDock model from [`gcorso/DiffDock`](https://github.com/gcorso/DiffDock) (MIT) |
-| **Availability** | GA — actively maintained in the K-Dense `claude-scientific-skills` plugin marketplace |
+| **Availability** | GA — actively maintained in the K-Dense `scientific-agent-skills` collection |
 | **Pricing** | Free / OSS skill (MIT); DiffDock model weights MIT |
 | **Capabilities** | Read/Write — Claude executes DiffDock locally via Python/Bash; writes generated poses (SDF / PDB) and confidence CSVs to disk |
 
 ## How to install
 
-- **Claude Code** — plugin marketplace:
+- **Claude Code / Claude.ai** — Skills CLI (recommended):
   ```
-  /plugin marketplace add K-Dense-AI/claude-scientific-skills
-  /plugin install diffdock@claude-scientific-skills
+  npx skills add K-Dense-AI/scientific-agent-skills
   ```
+  Installs the K-Dense collection; enable the `diffdock` skill when prompted (also works in Cursor/Codex via the Agent Skills spec; requires Node ≥ 18).
 - **Claude Code / Claude Desktop** — manual clone:
   ```
-  git clone https://github.com/K-Dense-AI/claude-scientific-skills
-  cp -r claude-scientific-skills/scientific-skills/diffdock ~/.claude/skills/
+  git clone https://github.com/K-Dense-AI/scientific-agent-skills
+  cp -r scientific-agent-skills/skills/diffdock ~/.claude/skills/
   git clone https://github.com/gcorso/DiffDock.git
   cd DiffDock && conda env create --file environment.yml && conda activate diffdock
   ```
@@ -58,11 +58,11 @@ Claude skill that drives [DiffDock](https://github.com/gcorso/DiffDock) — a di
 
 ## Sources
 
-- [`K-Dense-AI/claude-scientific-skills`](https://github.com/K-Dense-AI/claude-scientific-skills)
-- [`scientific-skills/diffdock/SKILL.md`](https://github.com/K-Dense-AI/claude-scientific-skills/blob/main/scientific-skills/diffdock/SKILL.md)
+- [`K-Dense-AI/scientific-agent-skills`](https://github.com/K-Dense-AI/scientific-agent-skills)
+- [`skills/diffdock/SKILL.md`](https://github.com/K-Dense-AI/claude-skills/blob/main/skills/diffdock/SKILL.md)
 - [DiffDock — `gcorso/DiffDock`](https://github.com/gcorso/DiffDock)
 - [Corso et al., *ICLR* 2023 — DiffDock: Diffusion Steps, Twists, and Turns for Molecular Docking](https://arxiv.org/abs/2210.01776)
-- [Playbooks: diffdock skill](https://playbooks.com/skills/k-dense-ai/claude-scientific-skills/diffdock)
+- [Playbooks: diffdock skill](https://playbooks.com/skills/k-dense-ai/claude-skills/diffdock)
 
 ---
 

@@ -30,6 +30,7 @@ Guides Claude through scvi-tools deep-learning workflows on AnnData single-cell 
   /plugin install scvi-tools@life-sciences
   ```
 - **Claude.ai** — **Settings → Capabilities → Skills → Upload skill**, using the skill bundle from the `anthropics/life-sciences` repo.
+- **Alternative — K-Dense skill:** `npx skills add K-Dense-AI/scientific-agent-skills`, then enable the `scvi-tools` skill. A community-maintained skill (MIT collection) wrapping the same scvi-tools library; use it if you don't have `anthropics/life-sciences` marketplace access.
 
 ## What it does
 

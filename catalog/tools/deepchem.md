@@ -6,7 +6,7 @@ tool_type: Claude Skill
 supplier: K-Dense
 availability: GA
 tool_categories: [Chemistry, Drug Repurposing and Discovery]
-last_verified: 2026-06-01
+last_verified: 2026-06-04
 summary: Claude skill driving DeepChem for molecular machine learning — graph neural nets (GCN, GAT, MPNN, AttentiveFP), featurization, and the MoleculeNet benchmarks (toxicity, ADMET, quantum properties).
 ---
 
@@ -24,15 +24,15 @@ Claude skill that drives [DeepChem](https://deepchem.io/), a deep-learning frame
 
 ## How to install
 
-- **Claude Code** — plugin marketplace:
+- **Claude Code / Claude.ai** — Skills CLI (recommended):
   ```
-  /plugin marketplace add K-Dense-AI/claude-scientific-skills
-  /plugin install deepchem@claude-scientific-skills
+  npx skills add K-Dense-AI/scientific-agent-skills
   ```
+  Installs the K-Dense collection; enable the `deepchem` skill when prompted (also works in Cursor/Codex via the Agent Skills spec; requires Node ≥ 18).
 - **Claude Code / Claude Desktop** — manual clone:
   ```
   git clone https://github.com/K-Dense-AI/scientific-agent-skills
-  cp -r scientific-agent-skills/scientific-skills/deepchem ~/.claude/skills/
+  cp -r scientific-agent-skills/skills/deepchem ~/.claude/skills/
   pip install deepchem
   ```
 
@@ -57,7 +57,7 @@ Pairs with the `pytdc`, `medchem`, `datamol`, `molfeat`, and `rdkit-skill` entri
 ## Sources
 
 - [`K-Dense-AI/scientific-agent-skills`](https://github.com/K-Dense-AI/scientific-agent-skills)
-- [`scientific-skills/deepchem/SKILL.md`](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/deepchem/SKILL.md)
+- [`skills/deepchem/SKILL.md`](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/deepchem/SKILL.md)
 - [DeepChem project](https://deepchem.io/)
 - [`deepchem/deepchem` on GitHub](https://github.com/deepchem/deepchem)
 - [MoleculeNet benchmark](https://moleculenet.org/)

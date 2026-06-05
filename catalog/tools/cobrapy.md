@@ -24,15 +24,15 @@ Claude skill that drives [COBRApy](https://cobrapy.readthedocs.io/) for **constr
 
 ## How to install
 
-- **Claude Code** — plugin marketplace:
+- **Claude Code / Claude.ai** — Skills CLI (recommended):
   ```
-  /plugin marketplace add K-Dense-AI/claude-scientific-skills
-  /plugin install cobrapy@claude-scientific-skills
+  npx skills add K-Dense-AI/scientific-agent-skills
   ```
+  Installs the K-Dense collection; enable the `cobrapy` skill when prompted (also works in Cursor/Codex via the Agent Skills spec; requires Node ≥ 18).
 - **Claude Code / Claude Desktop** — manual clone:
   ```
   git clone https://github.com/K-Dense-AI/scientific-agent-skills
-  cp -r scientific-agent-skills/scientific-skills/cobrapy ~/.claude/skills/
+  cp -r scientific-agent-skills/skills/cobrapy ~/.claude/skills/
   pip install cobra
   ```
 
@@ -60,11 +60,11 @@ Solver backends are pluggable via `model.solver` — defaults to GLPK, with CPLE
 ## Sources
 
 - [`K-Dense-AI/scientific-agent-skills`](https://github.com/K-Dense-AI/scientific-agent-skills)
-- [`scientific-skills/cobrapy/SKILL.md`](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/cobrapy/SKILL.md)
+- [`skills/cobrapy/SKILL.md`](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/cobrapy/SKILL.md)
 - [COBRApy documentation](https://cobrapy.readthedocs.io/)
 - [`opencobra/cobrapy` on GitHub](https://github.com/opencobra/cobrapy)
 - [Ebrahim et al., *BMC Syst. Biol.* 2013 — COBRApy](https://bmcsystbiol.biomedcentral.com/articles/10.1186/1752-0509-7-74)
-- [Playbooks: cobrapy skill](https://playbooks.com/skills/k-dense-ai/claude-scientific-skills/cobrapy)
+- [Playbooks: cobrapy skill](https://playbooks.com/skills/k-dense-ai/claude-skills/cobrapy)
 
 ---
 

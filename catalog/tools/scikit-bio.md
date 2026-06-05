@@ -6,7 +6,7 @@ tool_type: Claude Skill
 supplier: K-Dense
 availability: GA
 tool_categories: [Immunology and Microbiology, Molecular and Cellular Biology]
-last_verified: 2026-05-20
+last_verified: 2026-06-04
 summary: Skill for microbiome ecology — reads BIOM/FASTA, computes alpha/beta diversity (UniFrac), PCoA, PERMANOVA, and builds phylogenetic trees.
 ---
 
@@ -24,9 +24,11 @@ Claude skill wrapping the scikit-bio library for community ecology and microbiom
 
 ## How to install
 
+Install via the Skills CLI (recommended): `npx skills add K-Dense-AI/scientific-agent-skills`, then enable the `scikit-bio` skill. Or clone the repo manually:
+
 ```
 git clone https://github.com/K-Dense-AI/scientific-agent-skills
-cp -r scientific-agent-skills/scientific-skills/scikit-bio ~/.claude/skills/
+cp -r scientific-agent-skills/skills/scikit-bio ~/.claude/skills/
 uv pip install scikit-bio
 ```
 
@@ -49,7 +51,7 @@ Pure-Python, runs locally; no auth or external services. Pairs cleanly with QIIM
 
 ## Sources
 
-- [`scientific-skills/scikit-bio/SKILL.md`](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/scikit-bio/SKILL.md)
+- [`skills/scikit-bio/SKILL.md`](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/scikit-bio/SKILL.md)
 - [`K-Dense-AI/scientific-agent-skills`](https://github.com/K-Dense-AI/scientific-agent-skills)
 
 ---

@@ -6,7 +6,7 @@ tool_type: Claude Skill
 supplier: K-Dense
 availability: GA
 tool_categories: [Drug Repurposing and Discovery, Immunology and Microbiology, Integrative Structural and Computational Biology, Molecular and Cellular Biology]
-last_verified: 2026-05-21
+last_verified: 2026-06-04
 summary: Claude skill wrapping the gget command-line / Python tool for fast unified queries against Ensembl, UniProt, NCBI, PDB, COSMIC, and other genomics databases.
 ---
 
@@ -24,15 +24,15 @@ Claude skill that teaches the gget unified API for querying 20+ genomics databas
 
 ## How to install
 
-- **Claude Code** — plugin marketplace:
+- **Claude Code / Claude.ai** — Skills CLI (recommended):
   ```
-  /plugin marketplace add K-Dense-AI/claude-scientific-skills
-  /plugin install gget@claude-scientific-skills
+  npx skills add K-Dense-AI/scientific-agent-skills
   ```
+  Installs the K-Dense collection; enable the `gget` skill when prompted (also works in Cursor/Codex via the Agent Skills spec; requires Node ≥ 18).
 - **Claude Code / Claude Desktop** — manual clone:
   ```
   git clone https://github.com/K-Dense-AI/scientific-agent-skills
-  cp -r scientific-agent-skills/scientific-skills/gget ~/.claude/skills/
+  cp -r scientific-agent-skills/skills/gget ~/.claude/skills/
   pip install gget
   ```
 
@@ -58,7 +58,7 @@ Useful when a workflow needs heterogeneous lookups (gene → sequence → orthol
 ## Sources
 
 - [`K-Dense-AI/scientific-agent-skills`](https://github.com/K-Dense-AI/scientific-agent-skills)
-- [`scientific-skills/gget/SKILL.md`](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/gget/SKILL.md)
+- [`skills/gget/SKILL.md`](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/gget/SKILL.md)
 - [gget documentation](https://pachterlab.github.io/gget/)
 
 ---

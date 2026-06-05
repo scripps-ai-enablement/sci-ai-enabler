@@ -6,7 +6,7 @@ tool_type: Claude Skill
 supplier: K-Dense
 availability: GA
 tool_categories: [Drug Repurposing and Discovery, Chemistry, Translational Medicine]
-last_verified: 2026-05-31
+last_verified: 2026-06-04
 summary: Claude skill driving PyTDC for Therapeutics Data Commons benchmarks — ADMET, drug-target / drug-drug interactions, drug response, molecular generation, retrosynthesis.
 ---
 
@@ -24,15 +24,15 @@ Claude skill that drives [PyTDC](https://tdcommons.ai/), the Python client for *
 
 ## How to install
 
-- **Claude Code** — plugin marketplace:
+- **Claude Code / Claude.ai** — Skills CLI (recommended):
   ```
-  /plugin marketplace add K-Dense-AI/claude-scientific-skills
-  /plugin install pytdc@claude-scientific-skills
+  npx skills add K-Dense-AI/scientific-agent-skills
   ```
+  Installs the K-Dense collection; enable the `pytdc` skill when prompted (also works in Cursor/Codex via the Agent Skills spec; requires Node ≥ 18).
 - **Claude Code / Claude Desktop** — manual clone:
   ```
   git clone https://github.com/K-Dense-AI/scientific-agent-skills
-  cp -r scientific-agent-skills/scientific-skills/pytdc ~/.claude/skills/
+  cp -r scientific-agent-skills/skills/pytdc ~/.claude/skills/
   pip install pytdc
   ```
 
@@ -58,7 +58,7 @@ Pairs with the `deepchem`, `medchem`, `datamol`, `rdkit-skill`, and `molfeat` en
 ## Sources
 
 - [`K-Dense-AI/scientific-agent-skills`](https://github.com/K-Dense-AI/scientific-agent-skills)
-- [`scientific-skills/pytdc/SKILL.md`](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/pytdc/SKILL.md)
+- [`skills/pytdc/SKILL.md`](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/pytdc/SKILL.md)
 - [Therapeutics Data Commons](https://tdcommons.ai/)
 - [`mims-harvard/TDC`](https://github.com/mims-harvard/TDC)
 - [Huang et al. *NeurIPS Datasets and Benchmarks* 2021](https://arxiv.org/abs/2102.09548)

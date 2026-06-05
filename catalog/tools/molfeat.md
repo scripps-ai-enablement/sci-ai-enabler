@@ -6,7 +6,7 @@ tool_type: Claude Skill
 supplier: K-Dense
 availability: GA
 tool_categories: [Chemistry, Drug Repurposing and Discovery]
-last_verified: 2026-05-25
+last_verified: 2026-06-04
 summary: Claude skill wrapping Molfeat — a unified API over 100+ molecular featurizers spanning classical fingerprints, descriptors, and pre-trained chemical foundation-model embeddings.
 ---
 
@@ -24,15 +24,15 @@ Claude skill providing Python recipes for [Molfeat](https://molfeat.datamol.io/)
 
 ## How to install
 
-- **Claude Code** — plugin marketplace:
+- **Claude Code / Claude.ai** — Skills CLI (recommended):
   ```
-  /plugin marketplace add K-Dense-AI/claude-scientific-skills
-  /plugin install molfeat@claude-scientific-skills
+  npx skills add K-Dense-AI/scientific-agent-skills
   ```
+  Installs the K-Dense collection; enable the `molfeat` skill when prompted (also works in Cursor/Codex via the Agent Skills spec; requires Node ≥ 18).
 - **Claude Code / Claude Desktop** — manual clone:
   ```
   git clone https://github.com/K-Dense-AI/scientific-agent-skills
-  cp -r scientific-agent-skills/scientific-skills/molfeat ~/.claude/skills/
+  cp -r scientific-agent-skills/skills/molfeat ~/.claude/skills/
   pip install molfeat
   ```
 
@@ -58,7 +58,7 @@ Skill is documentation plus Python recipes — Claude executes Molfeat locally v
 ## Sources
 
 - [`K-Dense-AI/scientific-agent-skills`](https://github.com/K-Dense-AI/scientific-agent-skills)
-- [`scientific-skills/molfeat/SKILL.md`](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/molfeat/SKILL.md)
+- [`skills/molfeat/SKILL.md`](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/molfeat/SKILL.md)
 - [Molfeat documentation — molfeat.datamol.io](https://molfeat.datamol.io/)
 - [`datamol-io/molfeat`](https://github.com/datamol-io/molfeat)
 

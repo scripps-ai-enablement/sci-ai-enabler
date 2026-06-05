@@ -6,7 +6,7 @@ tool_type: Claude Skill
 supplier: K-Dense
 availability: GA
 tool_categories: [Immunology and Microbiology, Molecular and Cellular Biology, Neuroscience]
-last_verified: 2026-05-21
+last_verified: 2026-06-04
 summary: Claude skill teaching the AnnData annotated-data-matrix format used by Scanpy and scvi-tools for single-cell and other observation/feature matrices.
 ---
 
@@ -24,15 +24,15 @@ Claude skill that documents the AnnData object model — `X`, `obs`, `var`, `lay
 
 ## How to install
 
-- **Claude Code** — plugin marketplace:
+- **Claude Code / Claude.ai** — Skills CLI (recommended):
   ```
-  /plugin marketplace add K-Dense-AI/claude-scientific-skills
-  /plugin install anndata@claude-scientific-skills
+  npx skills add K-Dense-AI/scientific-agent-skills
   ```
+  Installs the K-Dense collection; enable the `anndata` skill when prompted (also works in Cursor/Codex via the Agent Skills spec; requires Node ≥ 18).
 - **Claude Code / Claude Desktop** — manual clone of the source repo:
   ```
   git clone https://github.com/K-Dense-AI/scientific-agent-skills
-  cp -r scientific-agent-skills/scientific-skills/anndata ~/.claude/skills/
+  cp -r scientific-agent-skills/skills/anndata ~/.claude/skills/
   pip install anndata
   ```
 
@@ -54,7 +54,7 @@ AnnData itself is a Python library, not a Claude-installable component. This ent
 ## Sources
 
 - [`K-Dense-AI/scientific-agent-skills`](https://github.com/K-Dense-AI/scientific-agent-skills)
-- [`scientific-skills/anndata/SKILL.md`](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/anndata/SKILL.md)
+- [`skills/anndata/SKILL.md`](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/anndata/SKILL.md)
 - [AnnData documentation](https://anndata.readthedocs.io/)
 
 ---

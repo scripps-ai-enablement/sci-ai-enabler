@@ -6,7 +6,7 @@ tool_type: Claude Skill
 supplier: K-Dense
 availability: GA
 tool_categories: [Drug Repurposing and Discovery, Molecular and Cellular Biology, Translational Medicine]
-last_verified: 2026-05-21
+last_verified: 2026-06-04
 summary: Claude skill for querying the Cancer Dependency Map — CRISPR Chronos gene-effect scores, PRISM drug sensitivity, mutation, expression, and CN data across cancer cell lines.
 ---
 
@@ -24,15 +24,15 @@ Claude skill for working with the Broad Institute's Cancer Dependency Map data �
 
 ## How to install
 
-- **Claude Code** — plugin marketplace:
+- **Claude Code / Claude.ai** — Skills CLI (recommended):
   ```
-  /plugin marketplace add K-Dense-AI/claude-scientific-skills
-  /plugin install depmap@claude-scientific-skills
+  npx skills add K-Dense-AI/scientific-agent-skills
   ```
+  Installs the K-Dense collection; enable the `depmap` skill when prompted (also works in Cursor/Codex via the Agent Skills spec; requires Node ≥ 18).
 - **Claude Code / Claude Desktop** — manual clone:
   ```
   git clone https://github.com/K-Dense-AI/scientific-agent-skills
-  cp -r scientific-agent-skills/scientific-skills/depmap ~/.claude/skills/
+  cp -r scientific-agent-skills/skills/depmap ~/.claude/skills/
   ```
 
 ## What it does
@@ -51,7 +51,7 @@ References Behan et al. 2019 (Nature, PMID 30971826) and Dempster et al. 2021 (N
 ## Sources
 
 - [`K-Dense-AI/scientific-agent-skills`](https://github.com/K-Dense-AI/scientific-agent-skills)
-- [`scientific-skills/depmap/SKILL.md`](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/depmap/SKILL.md)
+- [`skills/depmap/SKILL.md`](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/depmap/SKILL.md)
 - [DepMap portal](https://depmap.org/portal/)
 - [`broadinstitute/depmap-portal`](https://github.com/broadinstitute/depmap-portal)
 

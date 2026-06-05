@@ -1,0 +1,58 @@
+---
+title: GeoPandas (Claude Skill)
+parent: All tools
+grand_parent: Catalog
+tool_type: Claude Skill
+supplier: K-Dense
+availability: GA
+tool_categories: [General-Purpose Utilities]
+last_verified: 2026-06-04
+summary: Python library for working with geospatial vector data including shapefiles, GeoJSON, and GeoPackage files.
+---
+
+# GeoPandas (Claude Skill)
+
+Python library for working with geospatial vector data including shapefiles, GeoJSON, and GeoPackage files.
+
+| | |
+|---|---|
+| **Type** | Claude Skill |
+| **Supplier** | [K-Dense Inc.](https://github.com/K-Dense-AI/scientific-agent-skills) (community OSS) |
+| **Availability** | GA — part of the actively maintained K-Dense `scientific-agent-skills` collection |
+| **Pricing** | Free / OSS (BSD-3-Clause) |
+| **Capabilities** | Read/Write — Claude runs the skill's Python locally (Bash), not as an MCP tool |
+
+## How to install
+
+- **Claude Code / Claude.ai** — Skills CLI (recommended):
+  ```
+  npx skills add K-Dense-AI/scientific-agent-skills
+  ```
+  Installs the K-Dense collection; enable the `geopandas` skill when prompted. Works across Claude Code, Cursor, and Codex via the Agent Skills spec (requires Node ≥ 18).
+- **Claude Code / Claude Desktop** — manual clone:
+  ```
+  git clone https://github.com/K-Dense-AI/scientific-agent-skills
+  cp -r scientific-agent-skills/skills/geopandas ~/.claude/skills/
+  ```
+  Project-scoped alternative: copy into `.claude/skills/` instead of `~/.claude/skills/`. The skill declares its own Python dependencies in its `SKILL.md`; install them (the K-Dense skills generally use `uv` / `pip`) when prompted on first use.
+
+## What it does
+
+Python library for working with geospatial vector data including shapefiles, GeoJSON, and GeoPackage files. Use when working with geographic data for spatial analysis, geometric operations, coordinate transformations, spatial joins, overlay operations, choropleth mapping, or any task involving reading/writing/analyzing vector geographic data. Supports PostGIS databases, interactive maps, and integration with matplotlib/folium/cartopy. Use for tasks like buffer analysis, spatial joins between datasets, dissolving boundaries, clipping data, calculating areas/distances, reprojecting coordinate systems, creating maps, or converting between spatial file formats.
+
+**Primary use cases**: working with geographic data for spatial analysis, geometric operations, coordinate transformations, spatial joins, overlay operations, choropleth mapping, or any task involving reading/writing/analyzing vector geographic data.
+
+## Notes
+
+Distributed as a `SKILL.md` (plus code examples) in the K-Dense collection — Claude executes it locally via Bash/Python rather than as an MCP server. Upstream license: BSD-3-Clause. The skill name to enable after install is `geopandas`.
+
+## Sources
+
+- [`K-Dense-AI/scientific-agent-skills`](https://github.com/K-Dense-AI/scientific-agent-skills)
+- [`skills/geopandas/SKILL.md`](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/geopandas/SKILL.md)
+
+---
+
+## Installed this tool?
+
+[Share feedback](https://github.com/scripps-ai-enablement/sci-ai-enabler/issues/new?template=tool-feedback.yml&tool=geopandas&details=Filed+from+https%3A%2F%2Fscripps-ai-enablement.github.io%2Fsci-ai-enabler%2Fcatalog%2Ftools%2Fgeopandas.html%0A%0A) — install path, OS, errors, workarounds. The form opens with this tool pre-selected and a link back to this page.

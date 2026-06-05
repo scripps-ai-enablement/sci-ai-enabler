@@ -6,7 +6,7 @@ tool_type: Claude Skill
 supplier: K-Dense
 availability: GA
 tool_categories: [Integrative Structural and Computational Biology, Drug Repurposing and Discovery]
-last_verified: 2026-05-27
+last_verified: 2026-06-04
 summary: Claude skill that runs and analyzes OpenMM molecular dynamics simulations and MDAnalysis trajectory analyses for proteins, ligands, and biomolecular complexes.
 ---
 
@@ -18,21 +18,21 @@ Claude skill that sets up, runs, and analyzes molecular dynamics simulations end
 |---|---|
 | **Type** | Claude Skill |
 | **Supplier** | [K-Dense Inc.](https://github.com/K-Dense-AI/scientific-agent-skills) |
-| **Availability** | GA — distributed via the K-Dense `claude-scientific-skills` plugin marketplace |
+| **Availability** | GA — distributed via the K-Dense `scientific-agent-skills` collection |
 | **Pricing** | Free / OSS (skill source); OpenMM is MIT, MDAnalysis is GPLv2+ |
 | **Capabilities** | Read/Write — Claude writes and runs Python locally (system preparation, MD execution, trajectory analysis) |
 
 ## How to install
 
-- **Claude Code** — plugin marketplace:
+- **Claude Code / Claude.ai** — Skills CLI (recommended):
   ```
-  /plugin marketplace add K-Dense-AI/claude-scientific-skills
-  /plugin install molecular-dynamics@claude-scientific-skills
+  npx skills add K-Dense-AI/scientific-agent-skills
   ```
+  Installs the K-Dense collection; enable the `molecular-dynamics` skill when prompted (also works in Cursor/Codex via the Agent Skills spec; requires Node ≥ 18).
 - **Claude Code / Claude Desktop** — manual clone:
   ```
   git clone https://github.com/K-Dense-AI/scientific-agent-skills
-  cp -r scientific-agent-skills/scientific-skills/molecular-dynamics ~/.claude/skills/
+  cp -r scientific-agent-skills/skills/molecular-dynamics ~/.claude/skills/
   pip install openmm MDAnalysis
   ```
   Project-scoped alternative: copy into `.claude/skills/` (inside your project) instead of `~/.claude/skills/`.
@@ -56,7 +56,7 @@ Claude skill that sets up, runs, and analyzes molecular dynamics simulations end
 
 ## Sources
 
-- [`scientific-skills/molecular-dynamics/SKILL.md`](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/molecular-dynamics/SKILL.md)
+- [`skills/molecular-dynamics/SKILL.md`](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/molecular-dynamics/SKILL.md)
 - [K-Dense scientific-skills catalog](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/docs/scientific-skills.md)
 - [OpenMM](https://openmm.org/)
 - [MDAnalysis](https://www.mdanalysis.org/)
