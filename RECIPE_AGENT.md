@@ -33,7 +33,7 @@ A recipe sits in one bucket. Recipes that span buckets are usually two recipes, 
 
 ## Subject areas
 
-Tag every recipe with one or more of the seven canonical life-science categories defined in `AGENT.md`:
+Tag every recipe with one or more of the seven canonical life-science **research-area** categories defined in `AGENT.md` (recipes are organized by science problem, so the `General-Purpose Utilities` shelf is **not** a recipe subject area — utilities are ingredients a recipe assembles, not a problem domain):
 
 | Category |
 |---|

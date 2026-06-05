@@ -4,7 +4,7 @@ You are a specialist curator maintaining a catalog of **installable life-science
 
 ## Categories
 
-Tag every entry with one or more of these seven canonical categories:
+Tag every entry with one or more of these seven canonical **research-area** categories:
 
 | Category |
 |---|
@@ -18,6 +18,14 @@ Tag every entry with one or more of these seven canonical categories:
 
 Cross-cutting tools (PubMed, biorxiv, ChEMBL, Open Targets, ClinicalTrials.gov, etc.) genuinely apply across all seven — use the literal value `All` for those rather than pretending the classification is sharp.
 
+There is also one cross-cutting **utilities shelf**:
+
+| Category |
+|---|
+| General-Purpose Utilities |
+
+`General-Purpose Utilities` is for **domain-agnostic tooling** that recipes reuse regardless of research area — data wrangling (pandas-style DataFrames, Dask), plotting and visualization (Matplotlib, Seaborn), general ML / statistics (scikit-learn, statsmodels, PyMC, SHAP, UMAP), numerical and symbolic computing (SymPy), scientific communication (writing, posters, slides, citation/reference management, literature/web search), compute infrastructure (GPU acceleration, serverless runners), and **adjacent-domain scientific tools** (quantum computing, materials science, astronomy, geospatial, CFD) that overlap life-science problems often enough to be worth cataloguing. It is **not** a research area: tools tagged `General-Purpose Utilities` appear only on the utilities index, not on the seven research-area pages, and do **not** receive the `All` tag (`All` means "applies to all seven life-science research areas", which a generic utility does not). The directed topic rotation below covers only the seven research areas; utilities are surfaced via manifest sweeps and collection batches, not a dedicated rotation day.
+
 ## Scope
 
 **In scope** — entries must be a discrete component a Claude user can install or enable today:
@@ -27,9 +35,12 @@ Cross-cutting tools (PubMed, biorxiv, ChEMBL, Open Targets, ClinicalTrials.gov, 
 - Claude Code Plugins distributed via a `marketplace.json`
 - Claude.ai Connectors listed at `claude.com/connectors`
 
+A component does **not** have to be life-science-specific to be in scope. A general-purpose or adjacent-domain tool (a plotting library, a statistics toolkit, a quantum-computing or materials-science skill) is in scope **when it is packaged as an installable Skill / MCP / Plugin / Connector** — tag it `General-Purpose Utilities`. The point is that recipes assemble these utilities alongside the domain tools; cataloguing them makes those recipes followable.
+
 **Out of scope** — do not add or retain:
 
-- General libraries and toolkits without an MCP/Plugin/Skill wrapper (e.g., RDKit, Scanpy, DeepChem)
+- General libraries and toolkits distributed **only** as a raw package with no Claude wrapper (e.g., RDKit, Scanpy, DeepChem as bare PyPI installs). When the same library is packaged as an installable Skill or MCP (as community collections like K-Dense do), it **is** in scope — catalogue it under its research area, or under `General-Purpose Utilities` if domain-agnostic.
+- Pure novelty / persona-roleplay prompts, business-consulting templates, and product-locked personal feeds that are not reusable scientific or computational utilities
 - Model weights or training code distributed only as research artifacts (e.g., AlphaFold 3, RFdiffusion, ESM-2, Boltz, Chai-1)
 - Hosted SaaS without a Claude-installable surface (e.g., AlphaFold Server web UI alone, "Claude for Life Sciences" as an umbrella offering)
 - LangChain / autogen-style bespoke agents not packaged as a Skill or Plugin (e.g., ChemCrow)
@@ -149,7 +160,8 @@ Tag every entry with the categories where a researcher in that area would plausi
 - **`All`** is the right tag for tools relevant across every life-science domain — literature search (PubMed), broad clinical-trial databases (ClinicalTrials.gov), figure builders (BioRender), identifier resolvers (UniProt, MyVariant), generic biomedical Q&A (BioMCP). When in doubt for a clearly-broad tool, prefer `All` over enumerating six categories.
 - **Comma-separated, alphabetical list** for tools with a defined subset of applicability. Example: `Categories: Drug Repurposing and Discovery, Molecular and Cellular Biology, Translational Medicine`.
 - **Single category** for genuinely domain-specific tools.
-- **Do not invent categories.** Use only the seven defined above (or `All`).
+- **`General-Purpose Utilities`** for domain-agnostic tooling and adjacent-domain scientific tools (see the Categories section). Tag it **alone** — do not combine it with `All` or with research-area categories. The exception: a utility that is *also* genuinely a primary tool for a specific research area (e.g., a survival-analysis library that is really a clinical/translational tool) should be tagged with that research area instead of, or in addition to, the utilities shelf — use judgment, but keep generic tools (Matplotlib, scikit-learn) on the utilities shelf only so they don't clutter the research-area pages.
+- **Do not invent categories.** Use only the seven research areas, `All`, or `General-Purpose Utilities`.
 - **Don't pad.** If a tool applies to 6 of 7, the choice between `All` and the 6-item list is a judgment call — use `All` unless the omission is meaningful enough to call out (e.g., the tool genuinely does not apply to Chemistry and a Chemistry reader would not find it useful).
 
 ## Curator-only state files
@@ -229,7 +241,7 @@ Consult all of the following on every run, in addition to open web search.
 
 | Source | What to look for |
 |---|---|
-| [`K-Dense-AI/scientific-agent-skills`](https://github.com/K-Dense-AI/scientific-agent-skills) | **Fully ingested 2026-06-04 (diff-only mode).** The life-science-relevant subset (69 skills) is catalogued; the in-scope/out-of-scope decisions are recorded in `scripts/kdense_category_map.yaml`. Do **not** re-surface the backlog incrementally. Each run: shallow-clone, list `skills/`, diff against catalogued K-Dense slugs (`supplier: K-Dense`) — add only genuinely *new* skills that pass the same life-science filter, and flag any that disappeared upstream. Install path is `npx skills add K-Dense-AI/scientific-agent-skills` (the `claude-scientific-skills` plugin marketplace does not exist) with the manual clone from `skills/<name>/`. |
+| [`K-Dense-AI/scientific-agent-skills`](https://github.com/K-Dense-AI/scientific-agent-skills) | **Fully ingested 2026-06-04 (diff-only mode).** 136 of 143 skills are catalogued (life-science research areas + `General-Purpose Utilities`); only 4 remain out of scope (novelty / business / product-locked). The in-scope/out-of-scope decisions are recorded in `scripts/kdense_category_map.yaml`. Do **not** re-surface incrementally. Each run: shallow-clone, list `skills/`, diff against catalogued K-Dense slugs (`supplier: K-Dense`) — add only genuinely *new* skills (research-area tools, or domain-agnostic ones under `General-Purpose Utilities`), and flag any that disappeared upstream. Install path is `npx skills add K-Dense-AI/scientific-agent-skills` (the `claude-scientific-skills` plugin marketplace does not exist) with the manual clone from `skills/<name>/`. |
 | [`jaechang-hits/SciAgent-Skills`](https://github.com/jaechang-hits/SciAgent-Skills) | ~197 bioinformatics & life-science skills; BixBench-evaluated. RNA-seq, single-cell, drug discovery, proteomics. |
 | [`FreedomIntelligence/OpenClaw-Medical-Skills`](https://github.com/FreedomIntelligence/OpenClaw-Medical-Skills) | ~869 medical and clinical research skills. Largest medical-specific collection. |
 | [`ClawBio/ClawBio`](https://github.com/ClawBio/ClawBio) | Bioinformatics-native, local-first skill library. |

@@ -5,16 +5,16 @@
 # .claude/plans/right-now-the-grow-whimsical-emerson.md).
 #
 # Source repo has 143 skill directories under skills/<name>/SKILL.md as of the
-# 2026-06 clone. Of those, the ones below are life-science-relevant per the
-# catalog's 7 canonical categories (AGENT.md). Skills NOT in `include` are
-# treated as out of scope and skipped (documented under `skip` for the record).
+# 2026-06 clone. Skills NOT in `include` are treated as out of scope and skipped
+# (documented under `skip` for the record).
 #
-# `tool_categories` values must be exactly one or more of the 7 canonical
-# categories, or `All`:
+# `tool_categories` values must be exactly one or more of the 7 life-science
+# research-area categories, the cross-cutting `All` tag, or `General-Purpose
+# Utilities` (the domain-agnostic utilities shelf — see AGENT.md):
 #   Chemistry | Immunology and Microbiology |
 #   Integrative Structural and Computational Biology |
 #   Molecular and Cellular Biology | Neuroscience | Translational Medicine |
-#   Drug Repurposing and Discovery | All
+#   Drug Repurposing and Discovery | All | General-Purpose Utilities
 #
 # The generator reads `include` and `aliases` only. `augment` and `skip` are
 # documentation for human reviewers.
@@ -41,7 +41,7 @@ include:
   scikit-bio: [Immunology and Microbiology, Molecular and Cellular Biology]
   scvelo: [Molecular and Cellular Biology]
 
-  # --- new pages to CREATE ---
+  # --- life-science research-area pages (created in the first batch) ---
   adaptyv: [Immunology and Microbiology, Integrative Structural and Computational Biology]
   benchling-integration: [Molecular and Cellular Biology, Translational Medicine]
   bgpt-paper-search: [All]
@@ -94,6 +94,80 @@ include:
   torchdrug: [Chemistry, Drug Repurposing and Discovery, Integrative Structural and Computational Biology]
   treatment-plans: [Translational Medicine]
 
+  # --- General-Purpose Utilities: domain-agnostic tooling (data wrangling,
+  #     plotting/visualization, general ML/stats, numerical/symbolic computing,
+  #     scientific communication) plus adjacent-domain scientific tools (quantum,
+  #     materials, astronomy, geospatial, CFD) that recipes reuse. Tagged with
+  #     the utilities shelf only — they do not appear on the 7 research-area
+  #     pages. See AGENT.md. ---
+  aeon: [General-Purpose Utilities]
+  astropy: [General-Purpose Utilities]
+  autoskill: [General-Purpose Utilities]
+  cirq: [General-Purpose Utilities]
+  citation-management: [General-Purpose Utilities]
+  dask: [General-Purpose Utilities]
+  docx: [General-Purpose Utilities]
+  exa-search: [General-Purpose Utilities]
+  exploratory-data-analysis: [General-Purpose Utilities]
+  fluidsim: [General-Purpose Utilities]
+  generate-image: [General-Purpose Utilities]
+  geomaster: [General-Purpose Utilities]
+  geopandas: [General-Purpose Utilities]
+  get-available-resources: [General-Purpose Utilities]
+  hugging-science: [General-Purpose Utilities]
+  hypogenic: [General-Purpose Utilities]
+  infographics: [General-Purpose Utilities]
+  latex-posters: [General-Purpose Utilities]
+  liteparse: [General-Purpose Utilities]
+  markdown-mermaid-writing: [General-Purpose Utilities]
+  markitdown: [General-Purpose Utilities]
+  matlab: [General-Purpose Utilities]
+  matplotlib: [General-Purpose Utilities]
+  modal: [General-Purpose Utilities]
+  networkx: [General-Purpose Utilities]
+  open-notebook: [General-Purpose Utilities]
+  optimize-for-gpu: [General-Purpose Utilities]
+  parallel-web: [General-Purpose Utilities]
+  pdf: [General-Purpose Utilities]
+  peer-review: [General-Purpose Utilities]
+  pennylane: [General-Purpose Utilities]
+  polars: [General-Purpose Utilities]
+  pptx: [General-Purpose Utilities]
+  pptx-posters: [General-Purpose Utilities]
+  pufferlib: [General-Purpose Utilities]
+  pymatgen: [General-Purpose Utilities]
+  pymc: [General-Purpose Utilities]
+  pymoo: [General-Purpose Utilities]
+  pytorch-lightning: [General-Purpose Utilities]
+  pyzotero: [General-Purpose Utilities]
+  qiskit: [General-Purpose Utilities]
+  qutip: [General-Purpose Utilities]
+  research-grants: [General-Purpose Utilities]
+  research-lookup: [General-Purpose Utilities]
+  scholar-evaluation: [General-Purpose Utilities]
+  scientific-schematics: [General-Purpose Utilities]
+  scientific-slides: [General-Purpose Utilities]
+  scientific-visualization: [General-Purpose Utilities]
+  scientific-writing: [General-Purpose Utilities]
+  scikit-learn: [General-Purpose Utilities]
+  seaborn: [General-Purpose Utilities]
+  shap: [General-Purpose Utilities]
+  simpy: [General-Purpose Utilities]
+  stable-baselines3: [General-Purpose Utilities]
+  statistical-analysis: [General-Purpose Utilities]
+  statsmodels: [General-Purpose Utilities]
+  sympy: [General-Purpose Utilities]
+  timesfm-forecasting: [General-Purpose Utilities]
+  torch-geometric: [General-Purpose Utilities]
+  transformers: [General-Purpose Utilities]
+  umap-learn: [General-Purpose Utilities]
+  usfiscaldata: [General-Purpose Utilities]
+  vaex: [General-Purpose Utilities]
+  venue-templates: [General-Purpose Utilities]
+  what-if-oracle: [General-Purpose Utilities]
+  xlsx: [General-Purpose Utilities]
+  zarr-python: [General-Purpose Utilities]
+
 # K-Dense skill dir → existing catalog slug, when they differ.
 aliases:
   rdkit: rdkit-skill
@@ -106,79 +180,10 @@ augment:
   scvi-tools: scvi-tools         # existing page is the Anthropic scvi-tools skill
   nextflow: nextflow-development # existing page is the Anthropic nextflow skill
 
-# Out of scope for this catalog (general-purpose, not life-science-specific).
-# Documented so future runs don't re-evaluate them from scratch.
+# Still out of scope: not reusable scientific/computational utilities (novelty
+# persona prompts, business/consulting, or product-locked personal feeds).
 skip:
-  aeon: general time-series ML
-  astropy: astronomy / astrophysics
-  autoskill: meta-skill (drafts other skills)
-  cirq: quantum computing (Google)
-  citation-management: domain-agnostic reference management
-  consciousness-council: general decision/deliberation tool
-  dask: general distributed computing
-  dhdna-profiler: general text/cognition profiling
-  docx: generic Word document tooling
-  exa-search: general web search
-  exploratory-data-analysis: generic EDA
-  fluidsim: computational fluid dynamics
-  generate-image: general AI image generation
-  geomaster: geospatial / earth observation
-  geopandas: geospatial vector data
-  get-available-resources: system-resource detection (infra)
-  hugging-science: broad AI/ML meta-skill across all sciences
-  hypogenic: generic tabular hypothesis testing (hypothesis-generation covers the bio case)
-  infographics: generic infographic generation
-  latex-posters: generic poster formatting
-  liteparse: generic PDF/document parsing
-  markdown-mermaid-writing: generic technical writing
-  market-research-reports: business/market research
-  markitdown: generic file-to-markdown conversion
-  matlab: general numerical computing
-  matplotlib: general plotting
-  modal: serverless cloud compute (infra)
-  networkx: general graph/network analysis
-  nextflow: see `augment` (existing nextflow-development page)
-  open-notebook: general research note organization
-  optimize-for-gpu: GPU acceleration (infra)
-  paperzilla: niche personal paper-feed product
-  pdf: generic PDF manipulation
-  peer-review: general academic peer-review writing
-  pennylane: quantum machine learning
-  polars: general DataFrame library
-  pptx: generic PowerPoint tooling
-  pptx-posters: generic poster formatting
-  pufferlib: reinforcement learning framework
-  pymatgen: materials science
-  pymc: general Bayesian/probabilistic modeling
-  pymoo: general multi-objective optimization
-  pytorch-lightning: general deep-learning framework
-  pyzotero: domain-agnostic reference management
-  qiskit: quantum computing (IBM)
-  qutip: quantum physics simulation
-  research-grants: general grant-writing admin
-  research-lookup: general web/research search
-  scanpy: see `augment` (existing scanpy page)
-  scholar-evaluation: general scholarly-work evaluation
-  scientific-schematics: generic AI diagram generation
-  scientific-slides: generic slide-deck creation
-  scientific-visualization: generic figure styling
-  scientific-writing: generic manuscript writing
-  scikit-learn: general machine learning
-  scvi-tools: see `augment` (existing scvi-tools page)
-  seaborn: general statistical plotting
-  shap: general model interpretability
-  simpy: general discrete-event simulation
-  stable-baselines3: reinforcement learning framework
-  statistical-analysis: generic statistics guidance
-  statsmodels: general statistical modeling
-  sympy: general symbolic math
-  timesfm-forecasting: general time-series forecasting
-  torch-geometric: general graph neural networks
-  transformers: general Hugging Face model loading
-  umap-learn: general dimensionality reduction
-  usfiscaldata: U.S. Treasury fiscal data (non-bio)
-  vaex: general out-of-core DataFrames
-  venue-templates: generic publication LaTeX templates
-  what-if-oracle: general scenario analysis
-  xlsx: generic Excel tooling
-  zarr-python: general chunked N-D array storage
+  consciousness-council: novelty multi-persona deliberation prompt, not a tool
+  dhdna-profiler: novelty cognitive/writing-style profiling
+  market-research-reports: business/consulting market research, not science
+  paperzilla: product-locked personal paper-feed, low recipe value

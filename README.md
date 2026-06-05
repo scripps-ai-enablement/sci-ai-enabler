@@ -2,7 +2,7 @@
 
 Four agent-maintained resources for Claude users working in life science:
 
-- **[Catalog](catalog/)** — what Claude Skills, MCP servers, Plugins, and Claude.ai Connectors are available for life-science work, organized into seven research areas.
+- **[Catalog](catalog/)** — what Claude Skills, MCP servers, Plugins, and Claude.ai Connectors are available for life-science work, organized into seven research areas plus a General-Purpose Utilities shelf.
 - **[Guide](guide/)** — short, beginner-facing pages that explain what those components are and how to install them.
 - **[Autonomous science](autonomous-science/)** — a tracker of AI co-scientist systems: named agents that perform hypothesis generation, experiment design, or analysis with meaningful autonomy. Manuscript writing is treated as a downstream subcomponent.
 - **[Recipes](recipes/)** — a cookbook pairing concrete life-science problems with recommended assemblies of the cataloged components, with explicit evidence labels and availability/compute metadata.
@@ -18,6 +18,7 @@ All four are rendered as a [GitHub Pages site](https://scripps-ai-enablement.git
 - [Neuroscience](catalog/neuroscience.md)
 - [Translational Medicine](catalog/translational-medicine.md)
 - [Drug Repurposing and Discovery](catalog/drug-repurposing-discovery.md)
+- [General-Purpose Utilities](catalog/general-purpose-utilities.md) — cross-cutting shelf
 
 See [`CHANGELOG.md`](CHANGELOG.md) for the catalog's update history.
 

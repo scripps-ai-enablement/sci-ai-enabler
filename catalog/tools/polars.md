@@ -1,0 +1,58 @@
+---
+title: Polars (Claude Skill)
+parent: All tools
+grand_parent: Catalog
+tool_type: Claude Skill
+supplier: K-Dense
+availability: GA
+tool_categories: [General-Purpose Utilities]
+last_verified: 2026-06-04
+summary: Fast in-memory DataFrame library for datasets that fit in RAM.
+---
+
+# Polars (Claude Skill)
+
+Fast in-memory DataFrame library for datasets that fit in RAM.
+
+| | |
+|---|---|
+| **Type** | Claude Skill |
+| **Supplier** | [K-Dense Inc.](https://github.com/K-Dense-AI/scientific-agent-skills) (community OSS) |
+| **Availability** | GA — part of the actively maintained K-Dense `scientific-agent-skills` collection |
+| **Pricing** | Free / OSS (see upstream LICENSE) |
+| **Capabilities** | Read/Write — Claude runs the skill's Python locally (Bash), not as an MCP tool |
+
+## How to install
+
+- **Claude Code / Claude.ai** — Skills CLI (recommended):
+  ```
+  npx skills add K-Dense-AI/scientific-agent-skills
+  ```
+  Installs the K-Dense collection; enable the `polars` skill when prompted. Works across Claude Code, Cursor, and Codex via the Agent Skills spec (requires Node ≥ 18).
+- **Claude Code / Claude Desktop** — manual clone:
+  ```
+  git clone https://github.com/K-Dense-AI/scientific-agent-skills
+  cp -r scientific-agent-skills/skills/polars ~/.claude/skills/
+  ```
+  Project-scoped alternative: copy into `.claude/skills/` instead of `~/.claude/skills/`. The skill declares its own Python dependencies in its `SKILL.md`; install them (the K-Dense skills generally use `uv` / `pip`) when prompted on first use.
+
+## What it does
+
+Fast in-memory DataFrame library for datasets that fit in RAM. Use when pandas is too slow but data still fits in memory. Lazy evaluation, parallel execution, Apache Arrow backend. Best for 1-100GB datasets, ETL pipelines, faster pandas replacement. For larger-than-RAM data use dask or vaex.
+
+**Primary use cases**: pandas is too slow but data still fits in memory.
+
+## Notes
+
+Distributed as a `SKILL.md` (plus code examples) in the K-Dense collection — Claude executes it locally via Bash/Python rather than as an MCP server. Upstream license: see upstream LICENSE. The skill name to enable after install is `polars`.
+
+## Sources
+
+- [`K-Dense-AI/scientific-agent-skills`](https://github.com/K-Dense-AI/scientific-agent-skills)
+- [`skills/polars/SKILL.md`](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/polars/SKILL.md)
+
+---
+
+## Installed this tool?
+
+[Share feedback](https://github.com/scripps-ai-enablement/sci-ai-enabler/issues/new?template=tool-feedback.yml&tool=polars&details=Filed+from+https%3A%2F%2Fscripps-ai-enablement.github.io%2Fsci-ai-enabler%2Fcatalog%2Ftools%2Fpolars.html%0A%0A) — install path, OS, errors, workarounds. The form opens with this tool pre-selected and a link back to this page.

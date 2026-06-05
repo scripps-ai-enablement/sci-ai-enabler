@@ -21,12 +21,18 @@ Installable Claude components for life-science work — Claude Skills, MCP serve
 | [Translational Medicine](translational-medicine.html) | Clinical trials, biomarkers, EHR-aware agents |
 | [Drug Repurposing and Discovery](drug-repurposing-discovery.html) | Target ID, virtual screening, ADMET, discovery agents |
 
+Plus a cross-cutting shelf:
+
+| Shelf | Focus |
+|---|---|
+| [General-Purpose Utilities](general-purpose-utilities.html) | Data wrangling, plotting, ML/stats, scientific communication, and adjacent-domain tools that recipes reuse across areas |
+
 ## Browse all tools
 
 [All tools (alphabetical)](tools/) — every catalogued component, one page each.
 
 ## What's listed here
 
-Each tool entry records the install paths it supports across Claude products, what it can read or write, primary use cases, pricing, and source links. Tools available across all life-science areas are tagged `All` and appear in every category index.
+Each tool entry records the install paths it supports across Claude products, what it can read or write, primary use cases, pricing, and source links. Tools available across all life-science areas are tagged `All` and appear in every research-area index; domain-agnostic utilities live on the [General-Purpose Utilities](general-purpose-utilities.html) shelf.
 
 New to Claude Skills, MCP servers, or Plugins? Start with the [guide](../guide/).
