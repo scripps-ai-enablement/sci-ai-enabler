@@ -1,0 +1,2616 @@
+Autonomous heterogeneous catalyst discovery with a self-evolving
+multi-agent digital twin
+Zhilong Song1,2 , Zongmin Zhang3 , and Lixue Cheng1,2,4∗
+
+arXiv:2606.05050v1 [cond-mat.mtrl-sci] 3 Jun 2026
+
+1
+
+Department of Chemistry, Hong Kong University of Science and Technology,
+Kowloon, Hong Kong 999077, China
+2
+
+IAS Center for AI for Scientific Discoveries,
+
+Hong Kong University of Science and Technology,
+Kowloon, Hong Kong 999077, China
+3
+
+Department of Computer Science and Engineering,
+
+Hong Kong University of Science and Technology,
+Kowloon, Hong Kong 999077, China and
+4
+
+Department of Chemical and Biological Engineering,
+Hong Kong University of Science and Technology,
+Kowloon, Hong Kong 999077, China
+(Dated: June 4, 2026)
+
+1
+
+Abstract
+Theoretical heterogeneous catalysis promises rapid catalyst discovery, yet computational and
+machine-learning predictions still often deviate from experiment and stay confined to narrow
+material families, for want of a faithful, condition-aware catalytic simulator. Here we present
+CatDT (Catalysis Digital Twin), a self-evolving multi-agent system that builds an autonomous,
+condition-aware digital twin of a working catalyst and unifies gas–solid and liquid–solid modeling
+in one pipeline. From only a bulk crystal and a natural-language reaction description, CatDT uses
+eight specialized agents and 27 scientific tools to predict stable facets, reconstruct surfaces under
+operating conditions, enumerate and rank reaction pathways, locate transition states, and compute
+kinetics in 5–30 min on a single GPU. Two innovations address its two hardest steps. UniMech
+identifies dominant pathways for novel materials and under-explored reactions at over 103 × lower
+cost than exhaustive enumeration, by fusing agent-guided proposals with energy-cached graph
+search over autonomously constructed reaction networks. A memory-augmented reinforcement loop
+lifts barrier-calculation success from 41% to 84% across 600 diverse catalytic surfaces, by learning
+to construct better initial and final states and path interpolations across runs. Every CatDT
+prediction lies between 0.5 and 2 times the experimental value across measurements spanning four
+orders of magnitude, on seven gas–solid benchmarks: stepped metals, single-atom catalysts, ordered
+intermetallics, vacancy-rich two-dimensional sulfides, two-dimensional carbides, and a strong-metal–
+support-interaction (SMSI) interface. For propane dehydrogenation (PDH), CatDT independently
+discovers non-precious catalyst candidates that rival the Pt-based industrial benchmark, with the
+proposed Ni@ZrO2 SMSI overlayer reaching a simulated TOF of 1.63 s−1 at ∼100% selectivity.
+More broadly, the decisive factor for a faithful catalyst digital twin, or any multi-stage scientific
+simulator, is not raw LLM capability but the engineered harness around it: deterministic tools,
+persistent memory, and verified self-improvement that compound across every new foundation
+model, tool, and run.
+
+∗
+
+lixuecheng@ust.hk
+
+2
+
+1.
+
+INTRODUCTION
+Heterogeneous catalysts underpin a large fraction of industrial chemistry1,2 , yet new ones
+
+still emerge from the laboratory through an empirical loop of synthesis, characterization, and
+kinetic testing that has changed little in decades, with months consumed per candidate3 . An
+experimentalist holding a new material thus faces a costly choice: iterate this trial-and-error
+loop, or hand the material to theoretical computation in the hope of faster guidance1,4 . The
+standard recipe that computational catalysis offers in response is itself largely unchanged
+over the same period. A low-Miller-index facet is chosen, a static slab is built, candidate
+adsorbates are placed, and a hand-picked free-energy diagram is derived1,2 . Activity is then
+read off a volcano plot1 or refined through NEB5,6 , slow-growth MD7 , or Brønsted–Evans–
+Polanyi (BEP) and scaling-relation surrogates8–11 . Each step is a deliberate simplification,
+but together they leave a systematic gap between the catalyst on paper and the catalyst in
+the reactor.
+Over the past five years, machine learning (ML) has supplied a dedicated replacement
+for nearly every link of this standard recipe3 . Underpinning the whole chain, graph neural
+networks such as SchNet12 , DimeNet++13 , GemNet14 , MACE15 , and EquiformerV216 , trained
+on the Open Catalyst datasets17–19 , reproduce DFT adsorption energies within ∼0.1 eV at
+∼6,000× lower cost, and universal foundation potentials such as UMA20 extend this fidelity
+across the periodic table. On top of this potential, ML has replaced each link of the chain
+in the order in which the catalyst itself develops. The first question a real catalyst forces
+is which crystal facets are exposed, and SurFF21 replaces the arbitrary low-Miller-index
+pick by ranking all surface free energies and reconstructing the equilibrium Wulff shape.
+Under the operating temperature, pressure, electrode potential, and pH the bare surface itself
+does not remain as cleaved, and VSSR-MC22,23 lifts the static-slab approximation by letting
+atoms exchange with the gas or electrolyte reservoir until a grand-canonically reconstructed
+surface emerges. On this reconstructed surface, the gas-phase species must find their binding
+sites, and AdsorbML24 and AdsorbDiff25 replace high-symmetry hand-placement by sampling
+diverse adsorbate configurations under a universal ML potential. Bound adsorbates in turn
+drive a further adsorbate-induced reconstruction, so that downstream energetics reflect the
+coupled surface–adsorbate system rather than either in isolation. On the resulting working
+surface, the reaction unfolds across a network of competing elementary steps, and graph-based
+reaction-network generators such as CARE26 , Chemoton27 , and deep-exploration frameworks28
+3
+
+automate this enumeration in place of a hand-picked free-energy diagram. Each elementary
+step crosses a transition state, located 1,500× faster by CatTSunami29 for thermal reactions,
+while CP-MACE30 delivers transition-state energetics at constant potential for electrified
+interfaces. Finally, the elementary barriers and intermediate free energies are propagated to
+macroscopic observables by microkinetic solvers such as CatMAP31 , which accommodates
+coverage-dependent adsorption energies and lateral adsorbate–adsorbate interactions, or
+by potential-dependent kinetic Monte Carlo32 . Each link is therefore individually machinelearnable.
+However, two structural barriers still prevent the assembled ML stack from closing the
+experiment–theory gap. The first is coherence. Temperature, pressure, coverage, applied
+potential, and local pH propagate through every link simultaneously, so facet weighting,
+surface reconstruction, adsorbate ensemble, transition state, and microkinetic closure are
+physically meaningful only when referred to the same operating state. The point-solution
+tools above each resolve one effect in isolation, and without a system that propagates
+condition state across them the surface predicted by one tool ceases to be the surface ingested
+by the next2,33 . The second is scalability. Real reaction networks span tens to thousands of
+intermediates4,34 , while existing CRN generators scale combinatorially with chemical space
+and operate decoupled from the working surface, coverage, and potential under which the
+network is actually traversed35,36 . On the novel material classes that catalyst discovery
+most urgently targets, the dominant pathway, taken for granted on textbook transitionmetal surfaces, must be re-discovered for each material. Even once a candidate pathway
+is identified, the barrier of every elementary step must be located either by nudged elastic
+band (NEB)5,6 or by slow-growth molecular dynamics7 , each of which requires a hand-built
+endpoint geometry consistent with the reconstructed surface and the local coverage. No
+general procedure exists for constructing these endpoints automatically, so barrier calculation
+itself becomes the next combinatorial bottleneck and is currently the most labor-intensive
+step of any heterogeneous-catalysis study. What is needed is a digital-twin system37 that
+integrates these heterogeneous tools into a coherent, self-improving pipeline, one that builds
+realistic surfaces under operating conditions, autonomously discovers and ranks competing
+pathways, and delivers validated kinetic models with no manual intervention at any link.
+Such infrastructure has begun to take shape in adjacent fields. In chemistry, autonomous
+LLM agents have rapidly moved from demonstration to deployment: CoScientist plans,
+4
+
+executes, and analyzes multi-step laboratory experiments end-to-end38 , and ChemCrow
+augments a general-purpose LLM with a curated suite of expert chemistry tools to perform
+organic synthesis, retrosynthesis, and molecular-property prediction39 . Catalyst-Agent
+extends the same paradigm to high-throughput heterogeneous catalyst screening40 , while
+multi-agent frameworks such as CAMEL41 further support role-playing collaboration between
+specialized agents42 . These advances provide a natural substrate for the orchestration layer
+that heterogeneous catalysis lacks. At the same time, their primary focus to date has
+been molecular workflows in solution, and the periodic-slab construction, NEB convergence
+diagnostics, and multi-scale kinetic coupling that define heterogeneous-catalysis modeling
+have so far received less attention. Beyond the choice of scientific scope, whether any such
+agent achieves scientific reliability rests on the engineering surface around it rather than on the
+prompts or contexts handed to the model: the tool dispatch, state persistence, deterministic
+verification, memory, and continuous self-improvement that together constitute the agent
+harness 43–45 . Recent practice has identified the dominant failure modes of long-running agents
+(context drift, schema misalignment, premature termination) as harness-level rather than
+model-level pathologies43,46 . Two harness-level deficiencies in particular remain unaddressed
+across the chemistry-agent literature: frontier LLMs are surpassed within months, so any
+agent tightly coupled to a single model ages with it, and current agents are largely stateless,
+accumulating no operational experience from one run to the next. The Memento framework47
+points to a way forward by externalizing case-based reasoning, delivering substantial gains
+without touching the underlying model and thereby providing an inherently model-agnostic,
+harness-resident self-improvement mechanism.
+
+5
+
+TRADITIONAL CATALYSISCALCULATION
+
+CATALYSIS DIGITAL TWIN
+
+The Limitation: Fidelity & Scalability
+
+The Advantage: Rapid, Realistic & Autonomous
+
+Drag atoms
+
+Intermediates
+
+Experimental scientist
+
+Theoretical scientist
+
+Estimate the activity and selectivity
+of my catalyst (structure.cif)
+
+Explore the mechanism of
+structure.cif from CO2 to CH4
+
+CatDT
+
+UniMech mechanism
+discovery
+
+Adsorption energy
+optimization
+
+NEB
+calculation
+
+Slow growth
+calculation
+
+Tool
+
+Reactive site
+selection
+
+Validation
+
+Case-based
+self-evolving
+
+Idealized facets only
+
+PER CATALYST
+
+RL-optimized
+barrier calculation
+
+Automated kinetic
+simulation
+
+Static surface
+
+2-30 hours
+
+Condition-aware
+surface fidelity
+
+Reasoning
+
+Idealized facet
+Memory
+
+Manual surface model setup
+
+Agent-tool harness
+
+0.5-2x vs. experiment on 7 benchmarks
+
+Manual mechanism search
+Manual pathway selection
+
+Propose candidates with mechanism,
+free energy diagram, TOF, selectivity
+
+Manual barrier calculation
+
+5-30 min
+PER CATALYST
+ON SINGLE GPU
+
+FIG. 1 Paradigm shift from traditional catalysis calculation to the CatDT digital twin. Left, Traditional catalysis calculation is limited in fidelity and scalability: the theorist manually builds an idealized
+facet, places intermediates, and steps through reactive-site selection, adsorption-energy optimization, NEB,
+and slow-growth calculations, leaving the surface static, the mechanism search manual, and each barrier
+expert-driven; the full chain requires 2–30 h per catalyst. Right, CatDT delivers a rapid, realistic, and
+autonomous digital twin for both experimental and theoretical scientists. An agent–tool harness with
+memory-based self-evolution cycles reasoning, tool execution, validation, and cross-run memory to provide
+condition-aware surface fidelity, UniMech mechanism discovery, reinforcement-learning-optimized barrier
+calculation, and automated kinetic simulation, returning candidates with mechanism, free-energy diagram,
+TOF, and selectivity in 5–30 min per catalyst on a single GPU and matching experiment within 0.5–2× on
+seven benchmarks.
+
+Here we introduce CatDT (Catalysis Digital Twin), a self-evolving multi-agent system
+in which deterministic tools, cross-run memory, and verification gates wrap the agent layer
+(Fig. 1). This harness lets an LLM drive condition-dependent surface modeling, automated
+mechanism discovery, and self-improving transition-state construction in a single autonomous
+pipeline. Eight specialized agents coordinating 27 scientific tools, built on CAMEL41 under
+strict agent–tool separation, carry the chain from a bulk crystal and a natural-language
+reaction description to microkinetic observables with no manual intervention. Two innovations
+target the key challenges: UniMech (Agent M1) constructs reaction networks and discovers
+energy-ranked pathways at over 103 × lower cost than exhaustive enumeration26 , and a
+memory-augmented reinforcement loop lifts transition-state endpoint success from 41% to
+84% across 600 diverse catalytic surfaces17,47 . At every step of the pipeline, the agents
+reason about each result rather than calling tools and accepting their outputs: when an
+
+6
+
+NEB run fails to converge or an endpoint is rejected by the deterministic gate, the validation
+auditor diagnoses overlap, element-count, or path-collision causes and proposes targeted
+geometric corrections that feed the next iteration. On seven gas–solid benchmarks (stepped
+metals, single-atom catalysts, ordered intermetallics, vacancy-rich two-dimensional sulfides,
+two-dimensional carbides, and a strong-metal–support-interaction, SMSI, interface), every
+CatDT prediction lies between 0.5 and 2 times the corresponding experimental value across
+measurements spanning four orders of magnitude. The same reflection drives CatDT to
+autonomously propose a class of non-precious propane-dehydrogenation catalysts, including
+cross-family designs absent from prior literature, that rival the Pt-based industrial benchmark.
+The agent-proposed Ni@ZrO2 SMSI overlayer reaches a CatMAP–KMC propylene TOF of
+1.63 s−1 at ∼100% selectivity, about five times the PtSn industrial reference. Because the
+agent layer is decoupled from the tool layer, CatDT grows with each advance in foundation
+models and scientific tools rather than ageing alongside any one of them.
+
+2.
+
+RESULTS
+2.1.
+
+CatDT Architecture
+
+Running the chain introduced above end-to-end currently takes a researcher 6–30 h of
+expert labor per catalyst and is hard to reproduce or scale. CatDT replaces that serial, humanintensive workflow with a closed-loop multi-agent system that completes the same pipeline in
+5–30 min on a single GPU, with full traceability and no manual intervention (Fig. 1). Eight
+specialized agents are orchestrated within a CAMEL41 -based system around one principle:
+agents reason, tools compute. Every agent therefore acts only by invoking deterministic
+scientific tools (Table S1) and never computes a physical quantity itself. This strict separation
+makes predictions reproducible despite agent stochasticity, lets the reasoning backend be
+replaced without touching any calculation, and lets each tool be validated and upgraded
+independently. This is harness engineering for the physical sciences43,44 : feedforward guides
+(typed schemas, staging plans, and deterministic preconditions) steer each agent call before
+it is made, while feedback sensors (programmatic gates, energy screens, NEB-convergence
+diagnostics, and a persistent cross-run memory) turn each outcome into a durable fix applied
+once at the harness level rather than re-prompted at every run. Without this discipline, a
+stochastic multi-agent system does not yield the condition-aware predictions a real-catalyst
+digital twin requires.
+7
+
+a
+
+Agent 1 SurFF orchestrator
+
+Agent 2 VSSR-MC manager
+
+Surface energy → Wulff shape prediction
+→ Stable facets & area fractions
+
+Thermal / grand-canonical Monte Carlo
+→ Surface reconstruction at (U, pH, T)
+
+User input & Feedback
+Example: “CO₂ → CH₄ (pH = 14,
+U = -1.0 V) on bulk.cif”
+
+Agent 6 KMC executor
+
+Agent 3 AdsorbDiff controller
+
+Agent 7 Orchestration
+& visualization
+
+Mean-field / electrochemical KMC
+→ TOF, selectivity, j, Faradaic efficiency
+
+Site enumeration → Adsorption energy
+ranking → Optimal configurations
+
+Coordinate agents;
+generate visualizations
+& video reports
+
+Free energy (CHE/CP)
+calculation tool
+
+Agent 4&5 Pathway
+designer and validator
+
+CI-NEB / slow-growth MD at working
+conditions → Free energy landscape
+
+Design and validate elementary steps
+→ Initial/final state structures for Eₐ
+
+Agent M1 Universal
+mechanism search (UniMech)
+Reaction network construction and
+pathway design → optimal pathway
+
+b
+T1 · single-agent capability
+no skill (N)
+
+T1 · single-agent capability
+
+T2 · compound
+
+T2 · compound
+
+45
+
++ catdt skill (S)
+
+38
+
+Pass@5
+
+5/5
+
+5
+
+5
+
+5
+
+5
+
+55
+
+4
+
+4/5
+
+4
+
+5
+4
+
+4
+
+3
+
+3/5
+
+4
+3
+
+2/5
+1/5
+0
+
+0
+
+0
+
+0
+
+0
+
+0
+
+0
+
+36
+
+5
+
+Median wall time (min)
+
+5
+
+0
+
+30
+
+P ort A2
+B
+B ne
+lff loy Cu
+al aix ch
+Wu 1 al CO/ herm urb iMe 5 NE atMA rep 3→ +NE ipeli
+1
+n
+o
+t
+*
+A ×N ll p
+7
++
+A
+C A
+A
+U
+P
+4
+a
+2
+1
+6
+A A
+A A3 A3 M1
+A
+Fu
+A
+
+24
+
+22
+
+21
+16
+
+15
+
+22
+
+18
+
+17
+
+14
+12
+
+1212
+6
+
+0
+
+P1 P2 P3 P4 P5 P6 P7 P8 P9 P10 P11 P12
+
+29
+25
+
+0
+
+3535
+
+8
+
+7
+
+9
+
+9
+
+8
+5
+
+P1 P2 P3 P4 P5 P6 P7 P8 P9 P10 P11 P12
+
+P ort A2
+B
+B ne
+lff loy Cu
+al aix ch
+Wu 1 al CO/ herm urb iMe 5 NE atMA rep 3→ +NE ipeli
+1
+n
+o
+t
+*
+A ×N ll p
+7
++
+A
+C A
+A
+U
+P
+4
+a
+2
+1
+6
+A A
+A A3 A3 M1
+A
+Fu
+A
+
+FIG. 2 CatDT hub-and-spoke multi-agent architecture and skill ablation. a. Agent 7 (centre)
+coordinates eight specialized agents: Agent 1 (SurFF) for Wulff-shape prediction and facet ranking, Agent 2
+(VSSR-MC, two-step: clean reconstruction then adsorbate-induced reconstruction) for condition-dependent
+surface modeling at specified (T, P, U, pH), Agent 3 (AdsorbDiff) for adsorption-site sampling, Agent M1
+(UniMech) for multi-pathway enumeration and energy-guided pruning, Agent 4 (Geometry engine + Memento
+memory) for elementary-step endpoint design, Agent 5 (deterministic gates + energy screen) for validation,
+and Agent 6 (CatMAP / electrochemical kMC) for microkinetic modeling. A standalone barrier-calculation
+tool provides CI-NEB or slow-growth MD under working conditions. User input: a bulk structure file and
+a natural-language reaction description. b. Ablation of the CatDT coding-agent skill across 12 prompts
+spanning single-agent capability (T1) and compound orchestration (T2), 5 runs per arm. N, no skill loaded; S,
+catdt skill loaded. Left, scientifically-sound pass@5 (a run counts only if it returns the requested deliverable
+computed with a real ML/DFT potential and physically correct energetics); right, median wall time. Scoring
+rubric, per-prompt results, and failure taxonomy in Supplementary Section 4 (Table S17).
+
+8
+
+The multi-agent architecture adapts its tool backends to the catalytic interface under
+study (Fig. 2). For gas–solid (thermal) interfaces, the pipeline begins by building a realistic
+working surface. Agent 1 calls SurFF21 to predict surface free energies for all Miller-index
+slabs with an EquiformerV216 backbone, constructs the equilibrium Wulff shape, and returns
+the top-N exposed facets as simulation-ready slabs. Agent 2 then runs VSSR-MC22 at the
+operating (T, P, U, pH) in two coupled passes, thermally reconstructing the bare slab and
+then re-reconstructing it once the adsorbates are placed, so that downstream energetics reflect
+the coupled surface–adsorbate system. Between the two passes, Agent 3 samples adsorbate
+configurations on the reconstructed surface with AdsorbDiff25 , a conditional denoising
+diffusion model that captures non-symmetric binding minima missed by high-symmetry
+enumeration (Supplementary Section 1, Tables S1–S2).
+On this working surface, Agent M1 (UniMech) takes over the second half of the chain
+by enumerating competing reaction pathways and emitting an energy-ranked shortlist of
+elementary steps directly from the natural-language reaction description, without any humansupplied mechanism input. The full design of this module is described in Section 2.2. For
+each elementary step on the shortlist, an iterative design–validation loop (Agents 4 and 5)
+constructs the NEB-ready endpoint geometries that are by far the most computationally
+demanding component of the pipeline. Agent 4 (Pathway Designer) takes baseline tool outputs,
+a pre-computed staging plan that pins hollow- or bridge-site positions for atoms entering
+or leaving the surface, retrieved cases and distilled knowledge/skill items from a persistent
+memory bank, and feedback from Agent 5, and outputs a structured specification of the threedimensional positions of all moving atoms while keeping the slab geometry fixed. Agent 5
+(Validation Auditor) applies a hybrid gate combining deterministic programmatic checks
+(element-count consistency, atomic overlap <0.8 Å, interpolated-path collision detection), a
+UMA pre-NEB energy screen, and a reasoning-based geometric plausibility review. Fatal
+programmatic or energy-gate violations enforce a fail verdict deterministically, whereas
+reasoning-only objections are retained as advisory feedback for redesign, and only structures
+that clear the deterministic gate advance to barrier calculation, with the loop iterating up
+to 10 times (Supplementary Section 1; Tables S1–S2). The memory bank, the supervisory
+bandit policy, and the reinforcement signal that together enable this loop to improve across
+runs are detailed in Section 2.3.
+Once every elementary step passes validation, a deterministic barrier tool runs two-phase
+9
+
+climbing-image NEB on the UMA20 universal ML potential (Methods). Any barrier outside
+a physically plausible window triggers a return to Agent 5 for targeted redesign, closing
+an outer quality-control loop. The validated barriers feed microkinetic modeling (Agent 6),
+which invokes CatMAP31 to compute turnover frequencies, surface coverages, selectivities,
+and rate-determining steps, closing the chain from atomic structure to macroscopic catalytic
+performance. Throughout, Agent 7 acts as central coordinator: it sequences all agents
+through a workflow state machine, manages checkpoints, and produces energy diagrams,
+structure visualizations, and the final report.
+For liquid–solid (electrocatalytic) interfaces, the same agent orchestration is retained,
+but three tool backends are swapped to account for the electrochemical environment (Fig. 2).
+Agent 2 switches to the electrochemical extension of VSSR-MC23 , which operates in the grandcanonical ensemble at fixed electrode potential U and solution pH and lets the surface exchange
+electrons and protons with the reservoir, thereby capturing potential-driven reconstruction
+(oxide formation, hydroxylation, metal dissolution) that is absent under thermal conditions.
+The UMA-based CI-NEB is replaced by slow-growth molecular dynamics with explicit solvent
+under the computational hydrogen electrode (CHE) framework7,30 , because electrocatalytic
+barriers depend on the applied potential, the local electrostatic environment, and solvent
+reorganization at the electrode–electrolyte interface. Energies are evaluated with a constantpotential machine-learning potential trained for the target electrochemical interface (see
+Section 4.1; Supplementary Section 1; Tables S1–S2). Finally, Agent 6 switches from CatMAP
+to electrochemical kinetic Monte Carlo (kMC), which propagates potential-dependent rate
+constants to predict current densities, Faradaic efficiencies, and selectivity–potential maps.
+Because the agent layer is decoupled from the tool layer, extending CatDT to other catalytic
+environments (e.g. solid–solid interfaces, photocatalysis) requires only registering additional
+tool backends without modifying any agent logic. The next two subsections complete this
+chain: Agent M1 (UniMech) replaces user-supplied mechanisms with an energy-ranked
+pathway shortlist on the working surface, and a memory-augmented Agent 4/5 loop converts
+each ranked step into a converged NEB barrier without per-step human intervention.
+To quantify what this agent–tool harness adds beyond a capable general-purpose coding
+agent acting alone, we ablated the CatDT skill across twelve catalysis prompts spanning
+single-agent capability (T1) and compound orchestration (T2), running each prompt five
+times in two arms—without the skill (N) and with it (S)—and scoring a run as a pass only
+10
+
+when it is scientifically sound : it returns the requested deliverable computed with a genuine
+machine-learned or first-principles interatomic potential and physically correct energetics,
+rather than merely terminating without error (Fig. 2b; Supplementary Section 4, Table S17).
+Without the skill a frontier coding agent is sound on only 15 of 60 runs. Among the ten
+prompts that demand an atomistic potential it succeeds on just two—an alloy surface-energy
+case and the multi-facet barrier comparison—and only in the reps where it manages to load
+a community ML potential (MACE) by itself; elsewhere it falls back on empirical EMT,
+hand-coded lattice-gas Hamiltonians, or hardcoded literature energies, produces no barrier
+at all on the step that pins the universal potential by name (P7, gated and unreachable),
+and resorts to surrogate barriers in the full pipeline (P12). Its most reliable successes are the
+two tasks that need no atomistic calculation at all—mean-field microkinetics from energetics
+supplied in the prompt, and HTML aggregation of existing output files. Loading the skill
+raises the sound pass rate to 56 of 60 runs—5/5 on eight of the twelve prompts and at least 4/5
+on every prompt—because each task is dispatched to the same deterministic, independently
+validated tools, a universal ML potential, and the orchestration loop described above, at
+comparable or lower wall time (for example, the three-facet barrier comparison drops from a
+36- to a 22-min median). The complete per-prompt scoring for both arms, the sound-gating
+rubric, and the failure taxonomy are given in Supplementary Section 4 (Table S17).
+2.2.
+
+Agent M1 (UniMech): Universal Mechanism Search with Energy-
+
+Guided Pruning
+The architecture above resolves the coherence bottleneck but still assumes a single,
+pre-specified mechanism per reaction, an assumption that breaks on two fronts. Even
+for canonical reactions (CO2 RR, OER, HER, NRR, methanol synthesis), real catalytic
+systems host branching networks of tens to hundreds of competing routes whose relative
+weights depend sensitively on facet, coverage, and reconstruction4,34 . For emerging material
+classes (single-atom alloys, vacancy-engineered chalcogenides, ordered intermetallics, SMSI
+overlayers), even the dominant pathway is unknown a priori: the textbook mechanism may
+be inactive, a non-canonical intermediate may govern selectivity, or the surface may favor
+a route that has no analog in the metal-catalysis literature. Automated chemical reactionnetwork (CRN) construction has emerged as the key response to this scalability problem34 :
+graph-theoretical and autonomous frameworks have systematized pathway discovery in
+
+11
+
+solution27,48,49 , and on heterogeneous interfaces deep-exploration approaches28,35 , ML-bridged
+microkinetics36 , automated mechanism generation50 , and most recently the end-to-end CARE
+framework26 have demonstrated that complete networks of up to 40,000 intermediates
+and 455,000 reactions can be enumerated and screened against experimental trends. Two
+limitations nevertheless persist across these CRN approaches. First, exhaustive enumeration
+relaxes every intermediate and locates every transition state before any pathway can be
+ranked, so the cost scales combinatorially with chemical-space size. Second, template-based
+generators have a restricted element scope. CARE, for example, covers only C/H/O/N
+and excludes the sulfur-, phosphorus-, halogen-, and metal-containing adsorbates central to
+hydrodesulfurization, chlor-alkali, and biomass conversion.
+CatDT addresses both limitations through Agent M1, termed UniMech (Universal
+Mechanism Search Engine), a goal-directed, element-agnostic pathway-discovery module
+that replaces exhaustive enumeration with a hybrid generation–search architecture (Fig. 3a).
+Two complementary candidate generators run in parallel: an agent-guided generator lets
+the foundation model propose chemically motivated pathways directly from the naturallanguage reaction specification, drawing on the literature priors encoded in the LLM to
+recover canonical mechanisms in a single call, while a systematic generator expands the
+reaction graph through sixteen directional element-agnostic bond operations implemented as
+RDKit manipulations (Methods, Supplementary Section 2; Fig. S2; Table S10), so the same
+codebase covers C/H/O/N together with sulfur-, halogen-, phosphorus-, and metal-containing
+adsorbate chemistries. Their union feeds a unified tree-search backend (best-first beam search
+by default, with a switch to Monte Carlo Tree Search under UCB1 selection for non-monotonic
+free-energy landscapes in which the lowest-barrier path passes through transiently unfavorable
+intermediates, see Methods) that emits energy-ranked complete pathways.
+Both expansion modes share the same energy cache, which evaluates every unique
+adsorbed species at most once on the reconstructed surface delivered by Agent 2, so the
+cost of adding an additional pathway scales with the number of new intermediates it
+introduces rather than with its length. Cache entries store Gibbs free energies, with zeropoint, vibrational, and ideal-gas-entropy corrections drawn at the operating (T, P ) from the
+CatDT 569-species molecule database constructed for this work (Methods, Supplementary
+Section 2.4, Fig. S7, Table S14).
+
+12
+
+a
+Phase 1 CRN construction
+
+Phase 2 LLM filtering
+Top-k selection based on chemical
+plausibility + LLM suggested
+
+Systematic BFS search based on 16
+operations / LLM suggestion
+
+CARE (C/H/O/N only) UniMech (universal)
+
+Y
+Y
+
+Y
+
+Hydrogenation
+
+Y
+
+Y
+
+PCET
+(electrochemical)
+Surface association
+(*A+*B *AB)
+Eley-Rideal
+(*A+B(g) *AB)
+Isomerization /
+rearrangement
+Dissociative ads. /
+associative des.
+
+Y
+
+Y
+
+--
+
+Y
+
+c
+
+--
+
+Y
+
+--
+
+Y
+
+Count (log scale)
+
+Y
+
+10
+
+4
+
+10
+
+3
+
+Count (log scale)
+
+10
+
+10
+
+2
+
+3
+
+10
+
+2
+
+329
+
+1
+
+527
+
+25
+
+33
+
+55x
+
+787x
+
+ncc = 1
+
+ncc = 2
+
+ncc = 3
+
+3
+
+28
+
+0
+
+CHOH
+
+733
+
+6x
+
+3
+
+CO
+
+100
+
+17
+10
+
+2
+
+Max carbon number (ncc)
+
+4
+
+10
+
+13
+
+CARE
+(ncc=1) N/A
+
+CARE evaluations
+UniMech evaluations 25,955
+UniMech network size
+
+1,379
+
+40
+
+681
+
+f
+
+10
+
+23
+
+UniMech
+systematic
+
+UniMech
+agent-guided
+
+1
+
+e 5
+
+d
+
+22,511
+CARE reactions
+UniMech reactions
+CARE intermediates
+UniMech intermediates
+
+Y
+
+--
+
+Beam-search pruning based on
+UMLP-evaluated energies
+
+Intermediates
+Pathways found
+20
+30
+40
+
+10
+
+Evaluations
+
+b
+
+Adsorption /
+desorption
+Bond breaking /
+formation
+
+Phase 3 UMLP evaluation
+
+10
+
+5
+
+10
+
+3
+
+10
+
+1
+
+Count
+
+455,424
+
+4,695×
+fewer
+
+97
+
+CH4
+
+C2 H5
+
+CH3O
+
+C2
+
+C3 H6
+
+CH2O
+
+C2 H
+
+C3 H5
+
+C4 H9
+
+C
+
+C2 H2
+
+C3 H4
+
+C4H10
+
+C5H10
+
+CH3
+
+C2 H3
+
+C3 H7
+
+C4 H6
+
+C5H11
+
+CH2
+
+C2 H4
+
+C4 H7
+
+C6H12
+
+CH
+
+C2 H6
+
+C4 H8
+
+C6H10
+
+CARE
+
+UniMech
+
+C6H13
+
+C6H11
+
+CHO
+
+CO
+
+C1
+
+C2
+
+C3
+
+C4
+
+Carbon number
+
+C5
+
+C6
+
+FIG. 3 Agent M1 (UniMech) architecture and benchmark against CARE. a. Overview of the
+Agent M1 mechanism search workflow within the CatDT pipeline (see Fig. S2 for the expanded view).
+b. Elementary reaction operation coverage: UniMech (element-agnostic) vs. CARE (C/H/O/N only).
+c. Network scaling with chemical-space complexity (ncc ): exhaustive enumeration (CARE) vs. beam-pruned
+search (UniMech). d. CO2 →CH4 pathway discovery on Cu(211): agent-guided mode identifies major
+mechanism families; systematic mode discovers additional pathway variants. Bar color encodes engine (red,
+UniMech; amber, CARE); light tint, intermediates; dark tint, pathways found. e. Energy evaluation cost
+comparison. Solid bars give the actual evaluation count; the translucent UniMech bar gives its total network
+size (beam-search frontier ≪ network). CARE must score every node and edge, so its network size equals its
+evaluation count and is shown by the single solid bar. f. Fischer–Tropsch pathway network from *CO to
+*C6 H12 on Ni(111). Nodes colored by carbon number; red trace: top-ranked carbide pathway.
+
+UniMech executes this design in three phases. Phase 1 (candidate generation) runs
+the agent-guided and systematic generators in parallel. For CO hydrogenation to C6 H12 on
+
+13
+
+Ni(111), the systematic generator alone discovers ≥200 distinct pathways in under 30 s with no
+energy evaluation, while the agent-guided generator simultaneously surfaces literature-known
+mechanism families. Phase 2 (chemical plausibility filtering) prunes valence-implausible
+intermediates with a generic RDKit-based check and lets the LLM rank survivors by chemical
+reasonableness, retaining the top-10 most promising routes. Phase 3 (energy-guided tree
+search) hands these candidates to the cache-shared beam or MCTS backend, which evaluates
+only the frontier intermediates with UMA, prunes siblings whose adsorption-energy gap
+exceeds ∆prune = 0.30 eV, and emits a ranked shortlist of complete, energy-annotated
+pathways ready for Agent 4/5 endpoint construction and NEB.
+We benchmark UniMech against CARE in five complementary respects that move
+from chemical expressivity, through scaling behavior, to performance on representative
+reactions (Fig. 3b–f), and the starting question is what chemistry the two engines can express
+at all. Through element-agnostic RDKit bond manipulations, UniMech covers all eight
+categories of elementary operations on heterogeneous surfaces, whereas CARE’s hard-coded
+templates implement only four (Fig. 3b). The four missing operations (surface association,
+Eley–Rideal addition, general isomerization, and associative desorption) are prerequisites
+for modeling oxidation catalysis, water–gas shift, OER/ORR, and Fischer–Tropsch chain
+growth, and because UniMech’s bond operations act on arbitrary element combinations the
+same codebase further extends to sulfur, halogen, and metal-oxide adsorbate chemistries
+without modification.
+Given comparable coverage, we next compare how each engine scales with chemical-space
+complexity. As complexity grows from ncc = 1 to ncc = 3, CARE’s exhaustive enumeration
+grows combinatorially from 62 to 22,511 reactions, because every bond type in every molecule
+is recursively broken (Fig. 3c). UniMech’s energy-guided tree search instead generates
+only 297–681 candidates across the same range, evaluating frontier nodes at each depth
+and pruning siblings whose adsorption energies exceed the best candidate by more than
+∆prune = 0.30 eV.
+To verify that this controlled growth does not compromise mechanistic coverage on a
+canonical reaction, we apply both engines to CO2 →CH4 on Cu(211) (Fig. 3d). The agentguided mode identifies three mechanism families in a single API call: the COOH*-mediated
+route, the carbide pathway through *C, and the formate pathway via *HCOO, collectively
+spanning the major CO2 RR branches known from the literature. The systematic mode
+14
+
+independently uncovers 40 additional pathway variants through recursive bond enumeration,
+including the HCOOH intermediate that the LLM proposal missed, so the two modes provide
+complementary, non-redundant coverage. CARE produces 28 adsorbed intermediates for
+the same C1 O2 chemical space but offers no pathway ranking without a separate energy
+evaluator.
+Beyond the count of pathways, the practical cost is the number of energy evaluations
+needed to rank them (Fig. 3e). CARE must evaluate every intermediate and every reaction
+before microkinetic modeling can begin, rising from 100 evaluations at ncc = 1 to 25,955 at
+ncc = 3, whereas UniMech evaluates only 17–33 frontier states across the same range. This
+6–787× reduction is driven jointly by the shared energy cache, which eliminates redundant
+evaluations of intermediates appearing on multiple pathways, and by sibling-comparison
+pruning, which discards thermodynamically unfavorable branches before they propagate
+downstream.
+These advantages converge on the C6 O1 Fischer–Tropsch system, CARE’s flagship application and the most demanding case in this benchmark (Fig. 3f). CARE generates 39,893
+intermediates and 455,424 elementary reactions, requiring 4,130 s for blueprint construction
+alone on 16 CPU cores plus an additional 4 h of GAME-Net-UQ energy evaluation on a
+24-core CPU with GPU26 . UniMech, starting from *CO on a 48-atom Ni(111) slab under
+Fischer–Tropsch conditions (523 K, 10 bar, H2 /CO = 2), discovers complete energy-ranked
+pathways to both C6 H12 (hexene) and C6 H14 (hexane) using only 97 UMA evaluations
+in 635 s, a reduction of more than three orders of magnitude. The top-ranked C6 H12
+pathway (Fig. 3f, red trace) proceeds via the carbide mechanism in ten elementary steps:
+CO is hydrogenated to formyl, whose C–O bond then cleaves to a surface methylidyne
+and is hydrogenated to a methyl monomer (*CO → *CHO → *CH → *CH2 → *CH3 ); the
+surface alkyl then grows one carbon at a time through successive C1 (CH2 ) insertions
+(*CH3 → *C2 H5 → *C3 H7 → *C4 H9 → *C5 H11 → *C6 H13 ), and terminates by β-hydride elimination to 1-hexene. This chain-growth pattern, in which Cn+1 species form by addition of a
+C1 fragment to the Cn alkyl, is the canonical Anderson–Schulz–Flory carbide mechanism
+for Fischer–Tropsch synthesis51,52 . With pathway enumeration thus reduced to a standard
+pipeline step, the remaining bottleneck is converting each ranked step into a converged
+NEB transition state on the same slab, the subject of the next subsection. Supplementary
+inventories for CO2 →CH4 on Cu(211), hierarchical summaries for Fischer–Tropsch scaling,
+15
+
+CARE-vs.-UniMech evaluation-cost breakdowns, and phase-one CARE statistics are collected
+in Supplementary Section 2 (Tables S11–S13; Figs. S3–S6).
+2.3.
+
+Self-Improving Endpoint Construction via Memory-Augmented Rein-
+
+forcement Learning
+UniMech now delivers an energy-ranked shortlist of elementary steps on the reconstructed
+working surface, with every step energy already corrected for ZPE, vibrational enthalpy,
+and entropy at the operating (T, P ) from the CatDT molecule database introduced in the
+previous section. What remains is to turn each ∆G-ranked step into a converged NEB
+barrier, which requires geometrically valid initial and final endpoints on the same slab. This
+is the most labor-intensive link of the entire pipeline and the one where it most often fails:
+atomic overlaps, element-count mismatches, and geometrically implausible configurations are
+common failure modes on the first attempt, and a stateless agent would repeat the same
+mistakes indefinitely.
+Agents 4 and 5 construct NEB-ready endpoints in two coupled geometric stages on
+the reconstructed slab from Agent 2. The first stage builds the product from the reactant.
+Starting from the relaxed adsorbed reactant, which is either the previous step’s relaxed
+product for sequential steps or the initial adsorbed surface for the first step, Agent 4 reads the
+element delta between the current and target intermediates and adds, removes, or rearranges
+the moving atoms while keeping the slab geometry immutable, using the target molecule’s
+gas-phase coordinates from the CatDT molecule database as the bonding template. The
+second stage adds the staging atoms required by NEB. Because the nudged elastic band
+demands identical element multisets on both endpoints, any atom present on only one side
+is placed on the opposite endpoint at a chemically reasonable hollow or bridge site, drawn
+from a pre-computed geometry-based staging plan that RMSD-matches reactant and product
+adsorbate atoms and pins the unmatched ones to the nearest-neighbor sites of their bond
+partners. An overlap-corrected interpolation, which starts from a linear path and iteratively
+pushes apart atoms that are closer than their interpolated target distance, then yields the
+NEB initial frames, which Agent 5 screens for atomic overlaps below 0.8 Å, element-count
+consistency, and interpolated-path collisions before any barrier calculation is attempted. Full
+pseudocode for both stages, the path-interpolation algorithm, and the deterministic validation
+criteria is provided in Supplementary Section 3 (Secs. 3.1–3.6; Figs. S8–S9; Tables S15–S16).
+
+16
+
+To prevent the per-step failures of this two-stage construction from recurring across runs,
+CatDT integrates a memory-augmented reinforcement architecture inspired by the Memento
+framework47 that gives Agents 4 and 5 persistent external memory (Fig. 4a). The architecture
+is organised into four interacting modules. The Network module holds an episode-level εgreedy bandit over workflow strategies and a parametric Q-network planner that, given the
+task and retrieved cases, predicts the next design action. The Bank module stores every
+completed trajectory as a structured case and periodically distills accumulated cases into
+reusable KnowledgeBank rules and SkillBank templates. The Agent module couples Agent 4
+(endpoint proposer) with Agent 5 (deterministic gates plus reasoning-based plausibility
+checks) through a feedback-and-reject inner loop that iterates up to ten times before either
+advancing a candidate or declaring failure. The Tool module then runs the CHE/CP barrier
+tool on validated candidates, performs thermodynamic and kinetic validation, and emits the
+case-and-reward record that updates the Network parameters and refills the Bank.
+Within a single iteration the four modules operate in sequence. A structured query
+built from the reaction type, the transition signature, the pathway constraints, and the
+previous round’s truncated feedback is first sent to the Bank, which returns the top-k positive
+and negative cases together with the most relevant KnowledgeBank and SkillBank entries.
+Retrieval starts with a unified non-parametric scorer and is replaced once the case bank
+exceeds 200 trajectories by a parametric retriever trained on supervised triples drawn from
+the bank itself, with the prompt format presented to the downstream agents unchanged
+(Supplementary Section 3, Sec. 3.2). Agent 4 then consumes these retrieved cases, knowledge
+items, and skill templates on top of the tool-generated baseline steps and staging plan, while
+Agent 5 sees the same memory context augmented by a deterministic precheck summary and
+the UMA energy-gate report. The Tool module’s reward shaping ties the reinforcement signal
+to physical outcomes rather than syntactic validity (Methods), so that NEB convergence and
+barrier plausibility, not prompt compliance, drive the gradient, and the full iteration trace is
+then appended back to the case bank.
+
+17
+
+a
+
+Task &
+retrieved
+cases
+
+Network
+Banditsbased Qvalue update
+
+Agent
+Proposed
+structures
+Feedback / reject
+
+Agent 4
+
+Q-Network
+Planer
+
+Agent 5
+Calculate
+
+Convergence & plausibility checks
+Update Tool
+parameters
+
+Knowledge
+
+Case 1: HER on Pt(111) | SUCCESS | 0.45eV
+Case 2: OER on IrO₂ | FAILURE | H too far
+
+Store
+cases
+
+Cases
+
+b
+
+Q-value Retriever val acc
+
+Mean score
+
+0.8
+41.2%
+
+0.4
+0.2
+
+d
+
+Train reward
+Train PASS
+
+0
+
+10
+
+30
+40
+50
+RL episode
+Case bank
+Skill bank
+Knowledge bank
+Reuse fraction
+
+Cumulative items
+
+600
+400
+
+60
+
+0.3
+
+f
+
+20
+
+30
+40
+RL episode
+
+PASS
+Energy-gate pass
+
+0.8
+
+50
+
+60
+
+1k
+balanced
+exploratory
+
+0
+
+10
+
+0
+
+conservative
+
+20
+
+30
+40
+RL episode
+
+50
+
+60
+0.8
+0.6
+
+Neg.
+
+0.4
+
+Know.
+
+0.1
+10
+
+2k
+
+Pos.
+
+0.2
+
+0
+
+Training pairs
+
+0.5
+
+e
+
+0.4
+
+200
+0
+
+Final benchmark score
+
+Validation reward
+Validation PASS
+
+20
+
+Retriever val acc
+
+1.0
+
+0.0
+0.50
+0.25
+
+Reuse fraction
+
+0.0
+
+Output
+
+Calculate
+
+Thermodynamic & kinetic validation
+
+c
+
+83.5%
+
+0.6
+
+CHE/CP calculation tool
+
+Cases & Rewards
+
+Distill
+
+Distill
+
+Mean top-k score
+
+Skill
+
+Case
+example:
+
+0.2
+
+Skill
+
+0.0
+
+Training pairs
+
+Bank
+
+0
+
+10
+
+20
+
+30
+40
+RL episode
+
+50
+
+60
+
+0.0
+
+NEB convergence
+Reasonable barrier
+
+0.6
+0.4
+0.2
+0.0
+
+ry
+
+emo
+
+No m
+
+ge
+wled
+Kno
+
+Skill
+
+e
+Cas
+
+ban
+
+k
+
+w.
+Kno
+
++ Sk
+
+ill
+C
+
++
+ase
+
+Kno
+
+w.
+
+e+
+Cas
+
+Skill
+
+RL
+Full
+
+k
+
+stac
+
+FIG. 4 Memory-augmented reinforcement loop for Agents 4 and 5. a. Architecture, organised into
+four interacting modules: Network (workflow bandit and Q-network planner), Bank (cases plus distilled
+knowledge and skill items), Agent (Agent 4 endpoint proposer coupled to Agent 5 deterministic validator),
+and Tool (CHE/CP barrier tool with thermodynamic and kinetic validation). b. Train and held-out validation
+reward and PASS rate over 60 RL episodes. c. Parametric-retriever validation accuracy with training-pair
+growth (top); ε-greedy Q-values for the three workflow strategies (bottom). d. Case-bank, KnowledgeBank,
+and SkillBank size and reused-case fraction over training. e. Mean top-k retrieval-score heatmap across
+validation checkpoints for positive cases, negative cases, knowledge items, and skill templates. f. Staged
+ablation of PASS, energy-gate pass rate, NEB convergence, and barrier plausibility across eight memory/RL
+configurations (full nine-row sweep, Table S15).
+
+18
+
+Within the Network module, the parametric retriever and the episode-level ε-greedy
+bandit form two decoupled reinforcement loops with orthogonal objectives, “which past
+experience to surface” and “which workflow strategy to invoke”, with the bandit picking
+among conservative, balanced, and exploratory workflow strategies before each run and
+updating their Q-values from a composite episode reward (Supplementary Section 3, Sec. 3.4).
+Because the case bank pools trajectories across all reaction types, both loops generalize
+naturally across chemistries: a CO2 -reduction case carrying a *COOH→*CO transition can
+prime a CO-hydrogenation run, and negative cases from any reaction flag universal failure
+modes for the others. The entire memory mechanism lives outside the LLM, with structured
+cases stored and retrieved rather than parameters updated, so upgrading the foundation
+model immediately upgrades reasoning quality without rebuilding the bank (Table S15).
+After training on 600 OC20 catalytic surfaces balanced across HER, OER, NRR, and
+CO2 RR (full protocol in Methods), the held-out PASS rate climbs monotonically from 41.2%
+to 83.5% over 60 episodes (Fig. 4b). Two transient dips at episodes 25 and 45 coincide
+with bank-extraction events, after which PASS and reward resume their ascent, confirming
+that the reinforcement signal tracks chemically meaningful endpoint quality rather than
+prompt-level convenience.
+The aggregate gain decomposes into the two independent learning loops (Fig. 4c).
+The parametric retriever raises its validation accuracy from a cold-start baseline to 0.92
+as training pairs grow to ∼2,000, while the ε-greedy bandit progressively separates the
+Q-values of the three strategies, confirming that conservative and balanced edits outperform
+exploratory revisions. Memory distillation counteracts retrieval dilution. The case bank grows
+approximately linearly to ∼600 entries by episode 60 (Fig. S8), while the KnowledgeBank and
+SkillBank advance in the staircase pattern of the five-episode extraction cadence, reaching
+171 knowledge items and 141 skill items respectively, and the reused-case fraction rises from
+0.08 to 0.39 (Fig. 4d), a quantitative signature of progressive compression of raw experience
+into reaction-agnostic abstractions. Mean top-k retrieval scores for knowledge and skill items
+sharpen in discrete steps phase-locked to the extraction schedule and, by the final checkpoint,
+match or exceed those of raw positive cases (Fig. 4e).
+A staged ablation at the final checkpoint resolves the contribution of each memory layer
+across the eight memory/RL configurations in the figure (Fig. 4f), tabulated identically
+in Table S15. The stateless agent reaches a PASS rate of 49%, the distilled banks alone
+19
+
+(knowledge or skill) lift PASS to 52–54%, and the raw case bank alone reaches 68%, identifying
+trajectory recall as the single largest contributor. Pairing the case bank with either distilled
+bank pushes PASS to 72–73% (Table S15), with the largest gains concentrated in NEB
+convergence and barrier plausibility, consistent with the hypothesis that abstracted geometric
+heuristics improve endpoint quality beyond what raw case recall can achieve. The full
+reinforcement stack, with banks coupled to the episode-level bandit and the parametric
+retriever, reaches PASS 84%, energy-gate 80%, NEB convergence 69%, and reasonable-barrier
+65%, with no single component dominating, confirming that trajectory recall, memory
+distillation, and learned retrieval address complementary failure modes (Table S16, Fig. S9).
+With every link of the autonomous chain now built and self-improving, the remaining question
+is whether the assembled pipeline reproduces experimentally measured kinetic observables
+on real catalytic systems.
+2.4.
+
+Gas–Solid Interface: End-to-End Validation on Thermal Catalysts
+
+Geometrically valid NEB endpoints are necessary but not sufficient for a useful digital
+twin. The decisive test is whether the full CatDT stack (surface construction, pathway
+enumeration, barrier calculation, and microkinetic closure) reproduces experimentally measured kinetic observables on real catalytic systems with no manual intervention. Because
+the pipeline is a serial chain (which facets are exposed, how the surface reconstructs, which
+pathways open, what the barriers are), an error at any link propagates downstream, so
+CatDT assigns each agent to guard exactly one link. To stress-test this design we selected
+seven gas–solid thermal catalysis benchmarks of increasing complexity, each adding one
+challenge the previous system did not require (Fig. 5). In every case, CatDT received only
+a bulk crystal structure and a one-sentence natural-language reaction description, with all
+subsequent modeling performed autonomously.
+The first benchmark probes the underlying tool chain on a known active site. Promoted
+Ru catalysts owe their activity not to the dominant close-packed terrace, whose N2 dissociation
+barrier is prohibitively high at 1.90 eV, but to the minority B5 step ensemble, where the
+barrier drops to 0.49–1.25 eV depending on the local coordination53 . CatDT computes both
+the terrace and B5 barriers with UMA (Fig. 5a): the CatDT terrace barrier of 2.21 eV
+reproduces the DFT trend, and the CatDT B5 distribution with a median of 0.85 eV tracks
+the DFT ensemble at 0.76 eV with a mean absolute error of ∼0.1 eV across the eight local
+
+20
+
+environments, a residual attributable to the UMA–DFT methodological difference. The
+coverage-weighted effective barrier of 0.70 eV falls within the experimentally established B5
+range, and propagating it through the coverage-dependent microkinetic model of Honkala
+et al.53 reproduces the temperature dependence of the DFT-RPBE reference across the entire
+320–440 ◦ C synthesis window, with an apparent activation energy of 0.94 eV against 1.06 eV
+from the original DFT-RPBE barriers (Fig. S10; Supplementary Section 5.1). The agreement
+of both the barrier ensemble and the propagated turnover frequencies with DFT references
+shows that the tool chain is quantitatively reliable before any higher-level agent capability is
+invoked.
+Building on this foundation, the second benchmark asks whether CatDT can discover
+the correct reaction mechanism without human guidance. On the Cu1 -O3 /ZrO2 singleatom catalyst for CO2 hydrogenation to methanol54 , the active site is unambiguous, having
+been EXAFS-confirmed as quasiplanar Cu1 -O3 , but two competing pathways, HCOO*mediated (formate) and COOH*-mediated (carboxyl), lead to different products. The
+original study hand-selected both branches, whereas, starting from only the reaction string
+“CO2 hydrogenation to methanol”, UniMech autonomously enumerates candidates through its
+eight bidirectional bond-operation categories and a beam search with UMA energy ranking,
+and independently identifies the HCOO* route as energetically preferred. The resulting
+free-energy profiles reproduce the literature DFT shape on both branches, with a systematic
+upward shift consistent with the UMA–PBE-D3 methodological difference. Propagating the
+UniMech-discovered barriers through a Kozuch-style energetic-span analysis on the 453 K
+Gibbs profile of the original study yields a methanol TOF of 1.27 h−1 (Fig. 5b, top), within
+9% of the experimental plateau of ∼1.4 h−1 and a factor of two closer to experiment than the
+original microkinetic model, which overshot at 2.89 h−1 . The milestone CatDT free-energy
+diagram underneath (Fig. 5b, bottom) overlays the autonomously discovered methanol-branch
+profile on the literature DFT path, making explicit which UniMech-discovered intermediates
+drive the TDI–TDTS shift behind the corrected TOF. The improvement stems from an
+autonomously discovered shift in the TDI–TDTS pair that aligns the apparent activation
+energy with the experimental Arrhenius fit (full energetic-span breakdown in Supplementary
+Section 5.2).
+
+21
+
+1.0
+
+0.70
+
+0.5
+0.0
+Terrace B5
+Terrace B5 Weighted
+ensemble
+ensemble
+
+ln(rate)
+
+d
+10
+5
+
+App. Ea (kJ mol 1 )
+
+0
+
+App. Ea (kJ mol 1 )TOF @ 550°C (s 1 )
+
+h-PdMo exp.
+Pd/Mo2 N exp.
+CatDT (h-PdMo)
+
+50
+0
+
+2.4
+
+2.6
+
+1000/T (K 1 )
+78
+
+h-PdMo
+exp.
+
+Pd/Mo2 N
+lit.
+
+CatDT
+
+g0
+
+100
+
+40
+60
+80
+Time on stream (h)
+
+100
+Lit. DFT
+CatDT
+
+2
+0
+
+30
+
+e
+100
+0
+
+180
+
+100
+
+200
+
+220
+
+240
+
+Temperature (°C)
+
+260
+
+280
+
+CH3 OH (DFT)
+CH4 (DFT)
+CH3 OH (CatDT)
+CH4 (CatDT)
+
+0
+
+(0,1,0)
+
+(0,1,0)
+recon. + CO*
+
+(1,1,0)
+8.5
+
+10
+0
+
+(1,1,1)
+recon. + CO*
+
+Baseline
+
+(1,1,0)
+recon. + CO*
+
+5.2
++Ag. 1
+
+3.1
+
+1.5
+
++Ag. 1,2,3
+
+Exp.
+
+f
+
+Per exposed Mo
+Per Sv
+CatDT
+
+200
+
+Ga-rich
+(2,1,1)
+
+20
+
+H*
+OH
+2O
+2O
+3H*
++H 2
+CO 2 COO*+ H 2O*+H H 3O*+H CH 3O CH 3
+C
+C
+H
+
+In-plane Sv
+
+0.18
+
+0.002
+Ni(111)
+baseline
+94
+
+Ni@TiOx
+exp.
+50
+
+0
+
+20
+
+(1,1,1)
+
+10
+
+2
+
+10
+
+1
+
+-Mo2 C
+2D-Mo2 C
+CatDT
+
+CH3 OH
+
+Edge Sv
+
+CH4
+
+CO
+
+h
+0.13
+
+2
+
+3.0
+87
+
+28
+
+10
+
+10
+
+2.8
+
+0
+
+CO/CH3 OH ratio (200 °C)
+
+med 0.85
+
+0
+
+Experiment = 1.41
+CatDT = 1.27
+
+Formation rate (mg h 1 gcat1 )
+
+med 0.76
+
+c
+
+Lit. µkin = 2.89
+
+2
+
+Free energy (eV)
+
+1.5
+
+Selectivity (%) Net TOF (10 3 s 1 )
+
+DFT
+CatDT
+
+2.0 1.90
+
+CH3 OH TOF (h 1 )
+
+b
+
+2.21
+
+Ni(111)
+baseline
+
+Ni@TiOx
+exp.
+
+Ni@TiOx
+CatDT
+54
+Ni@TiOx
+CatDT
+
+CatDT prediction
+
+N2 dissociation barrier (eV)
+
+a
+
+10
+
+2
+
+10
+
+1
+
+10
+
+0
+
+10
+
+1
+
+Barrier / Ea
+TOF / formation rate
+Product ratio
+Selectivity
+
+Mo2 C-CH4
+PdMo
+Ni5 Ga3
+
+Ni@TiOx
+10
+
+1
+
+Ru
+10
+
+0
+
+C2 -C5
+
+Mo2 C-CO
+
+MoSip2
+MoSedge
+2
+
+Ni@TiOx
+
+Cu1
+10
+
+1
+
+Experiment (native units)
+
+10
+
+2
+
+FIG. 5 CatDT validation across seven gas–solid thermal catalysis benchmarks. Colour key:
+teal/gold/olive/aubergine, DFT or literature microkinetics; black/grey, experiment; coral, CatDT. a. Promoted Ru: N2 dissociation barriers on the close-packed terrace and the B5 step ensemble53 . b. Cu1 -O3 /ZrO2 :
+methanol TOF (top) and CatDT vs literature free-energy diagram for the methanol branch (bottom)54 .
+c. Ni5 Ga3 : agent-ablation CO/CH3 OH ratio at 200 ◦ C55 . CatDT surface structures rendered above each
+ablation stage by the CatDT visualisation module; the +Ag. 1 and +Ag. 1,2,3 columns each show the
+top-three Wulff-predicted facets, with the CO/CH3 OH ratio averaged over those three facets and over
+the AdsorbML-sampled binding sites per facet. d. hcp-PdMo: Arrhenius plot and apparent Ea against
+the Pd/Mo2 N control56 . e. Vacancy-rich MoS2 : topology-weighted TOF vs. temperature (top) and inplane-vs-edge selectivity reversal (bottom)57 . f. 2D-Mo2 C: branch-resolved formation rates58 . g. SMSI
+Ni@TiOx /Al2 O3 : propylene TOF at 550 ◦ C (top) and apparent Ea of the rate-determining C3 H∗7 →C3 H∗6
+step (bottom)59 . h. Parity plot of every benchmark observable; marker shape by observable type (circles,
+barriers/Ea ; diamonds, TOF/formation rates; squares, product ratios; triangles, selectivities). The Ni5 Ga3
+CO/CH3 OH temperature sweep (168–249 ◦ C) is reported in Fig. S12.
+
+Facet prediction and surface reconstruction now enter the mechanism-discovery test,
+22
+
+adding two upstream agents at once. The Ni5 Ga3 intermetallic55 owes its low CO/CH3 OH
+ratio, distinct from that of the Cu/ZnO/Al2 O3 industrial benchmark, to a site-partition
+effect: Ga-rich steps favor methanol, whereas Ni-rich steps produce CO and self-poison via
+strong CO binding at ∆E = −1.60 eV. The original study collapsed this physics onto a
+single fcc(211) surface and a one-descriptor volcano, whereas CatDT predicts the exposed
+facet distribution from the bulk (Agent 1, SurFF), models the 500 K surface reconstruction
+and adsorbate-induced CO poisoning (Agent 2, VSSR-MC, coupled to Agent 3 AdsorbDiff
+placement), and enumerates the full mechanism on both step types (Agent M1). A staged
+ablation at 200 ◦ C quantifies each agent’s contribution (Fig. 5c). A baseline calculation on a
+static (211) facet yields a CO/CH3 OH ratio of 8.5, near the Cu/ZnO regime and far above
+the Ni5 Ga3 experimental value of ∼1.5; the three CatDT surface states that produce this
+trend are rendered above the bars in Fig. 5c by the CatDT visualisation module (Ga-rich
+(211) baseline, Wulff-weighted Ni-rich exposure, and the CO-poisoned reconstructed surface).
+Adding Agent 1’s Wulff multi-facet weighting reduces it to 5.2 by correcting the Ga-rich
+to Ni-rich exposure fraction, and further adding Agents 2 and 3 (thermal reconstruction
+plus CO-poisoning steady state) reduces it to 3.1 by deactivating Ni-rich sites, placing the
+prediction within a factor of two of experiment. Each agent contributes an essential increment,
+and no single agent closes the gap. The temperature-dependent CO/CH3 OH profile of the
+full pipeline remains well below the Cu/ZnO/Al2 O3 benchmark across the entire 180–240 ◦ C
+window and tracks the experimental Ni5 Ga3 trace (Fig. S12), confirming that CatDT recovers
+the defining selectivity advantage of the intermetallic.
+The three preceding systems each came with a literature DFT mechanism to compare
+against. The fourth benchmark removes that anchor entirely and asks whether CatDT
+can perform a genuine blind prediction on the hcp-PdMo intermetallic56 , for which the
+original study is purely experimental and reports only DRIFT-identified intermediates and an
+apparent activation energy of 28 kJ mol−1 , roughly one-third of the 78 kJ mol−1 measured for
+the Pd/Mo2 N control, without any computed mechanism, barriers, or turnover frequencies.
+From bulk Pd and Mo inputs alone, CatDT constructs the surface and UniMech discovers a
+reverse water-gas-shift plus CO hydrogenation pathway, CO2 → CO* → HCO* → CH3 O*
+→ CH3 OH, rather than the formate route favored by most methanol-synthesis catalysts, a
+non-trivial prediction that is independently corroborated by the DRIFT spectral assignments.
+The Arrhenius fit to the CatMAP-derived rates yields an apparent Ea of 87 kJ mol−1
+23
+
+(Fig. 5d), comparable in magnitude to the Pd/Mo2 N experimental value of 78 kJ mol−1 and
+systematically higher than the hcp-PdMo experimental value of 28 kJ mol−1 , a residual offset
+consistent with the UMA–DFT systematic gap already observed for Ru and Cu1 -O3 . This
+is the first benchmark in the suite where CatDT moves from reproducing known results to
+genuine blind prediction: it recovers the sub-100 kJ mol−1 regime of methanol synthesis over
+Mo-based intermetallics entirely from bulk inputs, with no prior DFT mechanism to anchor
+the prediction (Supplementary Section 5.4; Fig. S13).
+Having validated the pipeline on metallic catalysts, the fifth benchmark shifts to a
+fundamentally different material class. Sulfur-vacancy-rich MoS2 57 is a two-dimensional
+transition-metal dichalcogenide whose activity arises from defect sites rather than metal
+surfaces, and on which two defect topologies of the same material give opposite selectivities,
+with in-plane double sulfur vacancies favoring methanol and Mo-edge double vacancies favoring
+methane (barrier values in Supplementary Section 5.5). CatDT builds both vacancy models,
+computes separate pathway–barrier sets via UniMech, and feeds them into a topologyweighted CatMAP calculation. The weighted TOF falls between the two experimental
+normalizations, per exposed Mo and per sulfur vacancy, and reproduces the upward trend
+with temperature (Fig. 5e, upper), and the model also captures the selectivity reversal
+between in-plane and edge vacancies (Fig. 5e, lower), confirming that UMA and UniMech
+transfer to non-metallic two-dimensional materials.
+The sixth system stresses the pipeline’s multi-product capability. Two-dimensional
+Mo2 C58 presents the broadest product spectrum in this suite, simultaneously producing CO,
+CH3 OH, CH4 , and C2 –C5 hydrocarbons at 230 ◦ C and 25 bar over the reduced Mo-terminated
+surface, and exercises every CatDT capability. Agent 1 picks the Mo-terminated (0002) facet,
+consistent with the SAED data of the original study. Agents 2 and 3 model the surface
+after reductive removal of Tx termination groups, and UniMech then enumerates all product
+branches, including the C–C coupling steps required for C2 –C5 formation that lie beyond the
+scope of narrower C/H/O/N frameworks. CatDT correctly identifies CO as the dominant
+product and C2 –C5 as the least abundant, with branch-resolved formation rates within the
+experimental range (Fig. 5f; Table S18; Supplementary Section 5.6).
+The seventh and most demanding benchmark is SMSI-encapsulated Ni@TiOx /Al2 O3 for
+propane dehydrogenation (PDH)59 . It tests whether the pipeline can capture an interfacial
+site whose activity emerges from TiOx migration over Ni rather than from a bulk-defined facet.
+24
+
+Starting from bulk Ni and TiO2 , Agents 1–3 autonomously reproduce the VSSR-MC evidence
+for Ti3+ overlayer formation on Ni(111). The UniMech–NEB chain on the reconstructed
+surface then delivers the two principal kinetic observables simultaneously (Fig. 5g). The
+predicted propylene TOF at 550 ◦ C is 0.16 s−1 , matching the experimental 0.13 s−1 within
+25%59 . It also reproduces the ∼65-fold enhancement over the Ni(111) baseline from the
+SMSI-reconstructed interface (Fig. 5g, top). The apparent activation energy for the ratedetermining C3 H∗7 →C3 H∗6 step is 54 kJ mol−1 (50 kJ mol−1 experimentally). This recovers
+∼90% of the SMSI-induced reduction from the 94 kJ mol−1 Ni(111) baseline (Fig. 5g, bottom;
+Supplementary Section 5.7; Fig. S14). These two observables together show that CatDT
+generalizes from oxide-supported single atoms, as in Cu1 -O3 above, to metal-supported SMSI
+overlayers without any system-specific tuning. The one observable for which CatDT still falls
+short is propylene selectivity: the predicted C3 H6 /C2 Hy ratio underestimates experiment
+because the multi-path KMC is not yet coupled to UniMech’s Sabatier gating, an integration
+left to follow-on work (Supplementary Section 5.8).
+Aggregated across all seven benchmarks, the ten directly comparable CatDT observables
+sit inside a ∼2× band around the 1:1 experiment line, spanning four decades of dynamic range
+and uniformly distributed across barriers, turnover frequencies and formation rates, product
+ratios, and selectivities (Fig. 5h; Supplementary Section 5, Secs. 5.1–5.9; Figs. S10–S14;
+Tables S18–S19).
+Taken together, these seven systems, ordered by increasing demand on the pipeline,
+establish that a single autonomous pipeline reproduces qualitative trends and, in most cases,
+quantitative magnitudes of experimentally measured kinetic observables across seven distinct
+material classes without system-specific parameter tuning. The Ni5 Ga3 ablation confirms
+that each upstream agent contributes an essential increment to the final observable, and
+the hcp-PdMo benchmark shows that CatDT can predict kinetic properties for systems
+lacking any prior computational mechanism. Where quantitative discrepancies remain, they
+point to specific, addressable modeling simplifications rather than fundamental failures of
+the architecture (Supplementary Section 5; Table S19). Recovering these seven benchmarks
+within a factor of two is the prerequisite for the more ambitious test of deploying the same
+infrastructure as a closed-loop discovery engine, where the target shifts from matching known
+kinetics to surfacing candidates that improve on the industrial state of the art.
+
+25
+
+2.5.
+
+Cross-System Intelligent Design of Non-Precious PDH Catalysts
+
+Having validated CatDT across seven gas–solid benchmarks, we deploy it as a closed-loop
+catalyst-design engine for the cross-system discovery of non-precious propane-dehydrogenation
+(PDH) catalysts. A Discovery Agent seeded with PDH domain priors proposes a batch
+of candidate materials, each of which is evaluated by the full CatDT pipeline, and the
+structured result, comprising turnover frequency (TOF), propylene selectivity, apparent
+activation energy, and dominant mechanism, is returned as feedback for the next round of
+selection (Fig. 6a).
+The design space surveyed across the PDH literature spans six structurally distinct
+catalyst families (Fig. 6b): precious intermetallics (Pt1 Sn1 60 , PtGa61 , and Pt2 Mn62 ), nonprecious intermetallics and single-atom alloys (Ni3 Ga63,64 , NiIn65 , Ni3 V66 and PtIn SAA67 ),
+SMSI metal@oxide overlayers (Ni@TiOx 59 , with Co@TiOx and Ni@ZrO2 agent-proposed),
+single- or dual-atom sites on oxide or carbon supports (Cu1 /ZrO2 54 , Ni1 Fe1 /TiO2 68 and
+Ru1 /NC69 ), zeolite-confined active sites (CoS-170 , ZnOx /β 71 , Pt@MFI72 , and CoOx /S-173 ),
+and bulk reducible oxides operating via the Mars–van Krevelen mechanism (β-Ga2 O3 74 ,
+m-ZrO2 75 , V2 O5 76 , and the tandem In2 O3 –Pt system77 ). Each family covers a qualitatively
+different active-site motif and is represented by three characteristic structures. The anchor for
+the present study is Ni@TiOx /Al2 O3 59 , the SMSI-encapsulated benchmark already validated
+in Fig. 5g.
+Round 0 probes a cross-family seed batch (Fig. 6c, R0): starting from the Ni@TiOx
+anchor and pairing it with one representative each from the five remaining families of Fig. 6b,
+CatDT returns six propylene TOFs spanning more than two orders of magnitude. The
+Ni@TiOx 59 prediction sits at the upper edge of this distribution and approaches the PtSn
+industrial window, while the other five seed candidates trail the benchmark by up to three
+orders of magnitude, indicating to the Discovery Agent that no single family is sufficient on
+its own. After each round, the agent ingests the structured CatDT report (rate-determining
+barriers, dominant mechanism, H coverage, and selectivity decomposition) and writes a short
+reflection diagnosing why specific candidates over- or underperformed. It then turns that
+diagnosis into the next batch: high-performing motifs (SMSI overlayer, non-precious IMC,
+single-atom site on a reducible oxide) are amplified, low-performing motifs (zeolite-confined
+Co or Zn at high temperature, bulk MvK oxides for which the rate-determining C–H step lies
+far above the lattice-O activation step) are pruned, and new analogues recombine surviving
+26
+
+motifs across families.
+This reflection loop drives the trend visible in Fig. 6c. From R0 through R2, the perround geometric-mean TOF rises monotonically as the agent converges on the SMSI overlayer
+family and its non-precious-IMC siblings, drawing successive 3d-metal/TiOx analogues into
+each new batch. The decisive step occurs in R3: pushed by the reflection that “the TiOx
+overlayer suppresses deep dehydrogenation, but the active interface charge transfer is tunable
+through the support oxide,” CatDT proposes Ni@ZrO2 and recovers a CatMAP–KMC
+propylene TOF of 1.63 s−1 with ∼100% selectivity, about five times the PtSn industrial
+benchmark and the strongest non-precious PDH candidate of the loop. R4 then extends
+the sweep to other reducible-oxide overlayers (Ni@CeO2 , Fe@TiOx ) and reference families
+(Pt, Ni1 Fe1 /TiO2 ), several of which cluster just below the PtSn industrial line at ∼100%
+selectivity, after which the agent’s reflection signals convergence and terminates the loop. A
+parallel sweep of more strongly reducible Group-V/VI Ni@oxide overlayers fails the Stage-A
+barrier gate or returns below-threshold TOFs and is therefore omitted from the Fig. 6c violin
+(full per-round inventory with the specific candidate TOFs and the failed-overlay diagnosis
+in Supplementary Section 6.1).
+For the Ni@TiOx anchor, the full CatDT pipeline delivers a two-step PDH free-energy
+profile (Fig. S14) whose rate-determining C3 H∗7 →C3 H∗6 barrier matches the Science 2024
+apparent activation energy to within the UMA universal-potential uncertainty20,59 and
+lies well below the clean Ni(111) baseline. The downstream CatMAP31 closure places the
+prediction inside the PtSn industrial TOF window (Fig. 6d) and recovers the Ni@TiOx
+experimental TOF and propylene selectivity of Kim et al.59 , with the Ni@ZrO2 winner
+sitting roughly five times above the PtSn reference and the next-best SMSI overlayer winners
+(Ni@CeO2 at 0.15 s−1 , Fe@TiOx at 0.13 s−1 ) clustering just below the PtSn line, all at ∼100%
+predicted propylene selectivity. This pattern indicates that the SMSI overlayer suppresses
+the deep-dehydrogenation branch through a site-averaged H coverage that transfers from the
+Ni@TiOx anchor to the agent-proposed Ni@ZrO2 , Ni@CeO2 and Fe@TiOx analogues.
+
+27
+
+a
+
+Candidate batch
+M / M3M' ×
+TiO2/ZrO2/CeO2/...
+
+propose
+
+CatDT
+full pipeline
+(8 agents)
+
+evaluate
+
+Structured result: TOF · selectivity · Ea · dominant mechanism
+
+b
+
+Precious
+intermetallics
+
+Non-precious
+IMC & SAA
+
+Metal@oxide
+SMSI
+
+Bulk oxide
+(MvK)
+
+Zeoliteconfined
+
+Pt
+
+Ni3Ga
+
+Ni@TiOx
+
+Cu1/ZrO2
+
+Co-S-1
+
+β-Ga2O3
+
+Pt1Sn1
+
+NiIn
+
+Co@TiOx
+
+Ni1Fe1/TiO2
+
+ZnOx/β
+
+m-ZrO2
+
+Pt2Mn
+
+PtIn SAA
+
+Ni@ZrO2
+
+Fe1-N4/C
+
+Pt@MFI
+
+V2 O5
+
+TOF
+selectivity
+
+0
+
+1.63
+
+93
+
+TOF
+selectivity
+
+120
+
+95
+
+100
+
+90
+
+80
+60
+0.07
+
+0.15
+
+−1
+
+0.13
+
+0
+
+0.09
+
+10
+
+40
+
+−3
+
+20
+
+2
+
+Ce
+Fe O2
+@
+Ti
+O
+Co
+x
+@
+Ce
+Co O2
+1S
+n1
+Zn
+1@
+M
+Ga
+FI
+1/
+m
+-Z
+rO
+
+2
+
+Zr
+O
+
+@
+Ni
+
+@
+
+@
+
+Ti
+O
+
+x
+
+0
+
+Ni
+
+R4
+
+x
+
+R3
+
+Ti
+O
+
+R2
+
+Ni
+
+R1
+
+Pt
+
+R0
+
+Sn
+
+10
+
+−2
+
+@
+
+10
+
+92
+
+0.18
+
+−2
+
+10
+
+0.13
+
+−1
+
+100 100 100 100
+
+94
+
+Ni
+
+10
+
+95
+
+Ni@TiOx exp
+
+TOF (s−1)
+
+10
+
+10
+
+1
+
+0.12
+
+PtSn industrial
+
+0.30
+
+10
+
+FIG. 6 Cross-system intelligent design of non-precious PDH catalysts with CatDT. a. Closed-loop
+discovery system coupling the Discovery Agent, the candidate batch, and the CatDT pipeline. b. PDH
+design portfolio: six catalyst families (precious intermetallics; non-precious intermetallics and single-atom
+alloys; metal@oxide SMSI overlayers; single- or dual-atom sites on oxide or carbon supports; zeolite-confined
+sites; bulk reducible oxides) each represented by three characteristic structures rendered with the CatDT
+visualisation module. c. Per-round propylene TOF violin across the five Discovery-Agent rounds (R0–R4);
+each candidate’s point colour matches its panel-b family. Dashed horizontal lines mark the Ni@TiOx
+experimental and PtSn industrial references. d. TOF (left purple log axis) and C3 H6 selectivity (right green
+linear axis) across experimental benchmarks (dark/light gray bars, left of the divider) and CatDT predictions
+(purple/green bars, right of the divider). The corresponding Ni@TiOx PDH free-energy profile is provided in
+Fig. S14.
+28
+
+selectivity (%)
+
+d
+
+0.10
+
+c
+propylene TOF (s−1), 550 ∘ C
+
+Single / dual
+atom on support
+
+A non-precious replacement for the PtSn industrial benchmark must also be materially
+cheaper, and the SMSI-overlayer motif favoured by the discovery loop is precisely the
+architecture that minimises precious-metal content by design. Under representative industrial
+loadings and May 2026 commodity prices (full price table and loading assumptions in
+Supplementary Section 6), the leading agent-proposed analogues fall 20–130× below the
+PtSn benchmark in raw material cost, and the cost-per-activity figure of merit F = ccat /TOF
+(Fig. S15b) places Ni@ZrO2 about 162× below the PtSn baseline, with Fe@TiOx and the
+CatDT Ni@TiOx prediction both ∼56× below.
+These results (Fig. 6c–d and the cost analysis in Fig. S15) show CatDT operating as
+a closed-loop, cross-family PDH design engine: reflection-guided batch selection spans all
+six families, converges on Ni@ZrO2 as the leading non-precious candidate at roughly thirty
+times lower raw-material cost than the PtSn industrial reference60 , and keeps Ni@TiOx 59 as a
+quantitative SMSI-PDH benchmark. On a single RTX 4090 (48 GB) GPU, the per-structure
+wall time spans roughly 0.5–6 h and stratifies by structural complexity: single- and dual-atom
+sites on oxide supports clear the full bulk-to-KMC pipeline in well under 1.5 h, bulk reducible
+oxides in 1.4–2.2 h, the intermetallic and metal @ oxide SMSI candidates (whose VSSR-MC
+reconstruction sweep dominates the cost) in 2.4–4.6 h, and the zeolite-confined candidates,
+whose large MFI/CHA/β supercells are the most expensive per evaluation, in 4.7–5.7 h
+(Fig. S16; full per-family discussion in Supplementary Section 7). The entire six-family,
+twenty-candidate-plus discovery loop therefore fits inside a single-GPU-week with no expert
+intervention. A detailed kinetic dissection of the leading non-precious candidates emerging
+from batches R1–R4, together with their synthesis-feasibility assessment, lies outside the
+scope of the present infrastructure paper and is the subject of dedicated follow-on work. The
+discovery loop therefore exercises every layer of the CatDT stack end-to-end, returning a
+ranked, cost-aware candidate pool from no input other than the reaction string.
+
+3.
+
+CONCLUSION
+CatDT demonstrates that the full theoretical catalysis pipeline, from a bulk crystal to
+
+experimentally comparable kinetic observables, can be made autonomous, self-improving, and
+quantitatively predictive. Two innovations close the structural barriers that have constrained
+the field: UniMech finds energy-ranked pathways with 97 evaluations where exhaustive
+enumeration requires 455,000 (>103 × reduction on C6 Fischer–Tropsch), and a memory-
+
+29
+
+augmented reinforcement loop lifts NEB endpoint quality from 41% to 84% PASS across
+600 diverse surfaces, distilling raw experience into 171 reusable knowledge items and 141
+skill templates. Across seven gas–solid benchmarks the autonomous pipeline reproduces
+every directly comparable kinetic observable to within a factor of two of experiment over
+four decades of dynamic range, and as a closed-loop design engine it returns non-precious
+propane-dehydrogenation candidates that rival the Pt-based industrial benchmark, with
+the agent-proposed Ni@ZrO2 SMSI overlayer reaching a CatMAP–KMC propylene TOF of
+1.63 s−1 at ∼100% selectivity.
+Because the agent–tool separation decouples reasoning from computation, CatDT functions as upgradable infrastructure: replacing UMA with a more accurate potential, upgrading
+the foundation model, or registering tool backends for photocatalysis or solid–solid interfaces
+requires no architectural change, and the accumulated case, knowledge, and skill banks persist
+across every such upgrade. More broadly, scientific reliability in agent systems depends on
+the engineered verification, memory, and tool-orchestration surface around the model rather
+than on the model itself, so correctness becomes a property of the system rather than of any
+single invocation, and each run measurably improves the twin’s predictive accuracy. Coupled
+to an autonomous wet laboratory, in which robotic synthesis, in-situ characterization, and
+kinetic testing close the loop on the physical catalyst38 , the same harness can serve as the
+in-silico half of a fully self-driving catalyst-discovery cycle, where agent-proposed candidates
+are computationally screened, experimentally validated, and fed back into the digital twin
+within hours rather than months. This convergence of autonomous theory and autonomous
+experiment, anchored on a harness that grows with every run, points to a near term in which
+designing a new heterogeneous catalyst becomes a continuous feedback loop between machine
+and reactor rather than a multi-year human campaign.
+
+4.
+
+METHODS
+4.1.
+
+Universal machine-learning potentials and thermodynamic corrections
+
+Gas–solid calculations use UMA (uma-s-1p1)20 , trained on OC20/22/2517–19 . The
+same potential is used for SurFF-backed facet ranking, AdsorbDiff placement scoring, VSSRMC reconstruction energies, UniMech cache evaluations, the Agent 5 pre-NEB energy gate,
+and two-phase CI-NEB barrier searches. CI-NEB first relaxes an initial minimum-energy
+path with FIRE and then enables a climbing image; barriers are extracted as Ea = ETS −
+30
+
+Ereactant . Non-convergent or non-physical paths are retried through the adaptive NEB ladder
+and finally screened by the post-NEB validator (Table S6, Fig. S1, Table S7; Supplementary
+Section 1.3). Liquid–solid calculations require a universal constant-potential machinelearning potential: the model must respond to changing electron count and electrode
+potential while retaining the chemical transferability expected from a foundation potential.
+CP-MACE30 provides the prototype constant-potential MACE architecture, but is not a
+universal off-the-shelf backend for every electrochemical interface; each target system still
+requires separate training. To make this practical, we developed a CP-MLIP active-learning
+system that modifies some influential universal-potential architectures and GNNs
+(MACE, UMA, EquiformerV2/ESEN, MatterSim, NEP, SchNet, DimeNet++, and PaiNN)
+to be CP-aware through architecture-specific electron conditioning and potential-prediction
+heads. The system starts from OC25-derived subsets and trains CP-aware models through
+iterative active learning. We will release all model parameters trained with our framework
+on Hugging Face.
+4.2.
+
+Thermodynamic corrections and molecule database
+
+Every electronic energy is converted to a Gibbs free energy using ∆G(T ) = ∆E +
+∆ZPE − T ∆S. To keep this conversion consistent across mechanism search, endpoint
+construction, and kinetic closure, CatDT uses an internal 569-species molecule database
+containing 464 surface adsorbates and 105 gas-phase references relevant to the benchmark
+reactions (Fig. S7, Table S14). The adsorbate pool is initialized from the Fairchem adsorbate
+set and expanded with reaction-specific gas-phase reactants, products, and reference molecules
+needed for the thermal benchmarks. Each database entry is relaxed with UMA in a 30 Å
+cubic cell and characterized with ASE-Vibrations at the same level of theory. Gas-phase
+species are evaluated with ideal-gas thermochemistry at the operating (T, P ), whereas
+adsorbed species use harmonic vibrational corrections. UniMech reads the same database
+when assigning cached intermediate free energies, Agent 4/5 use it to build chemically
+consistent product geometries, and Agent 6 uses it to pass temperature-corrected barriers
+and intermediate free energies into CatMAP. Database construction and numerical defaults
+are provided in Supplementary Sections 2.4 and 1.1 (Fig. S7; Tables S14 and S3).
+
+31
+
+4.3.
+
+UniMech tree search: shared cache, beam pruning, and MCTS
+
+UniMech runs three explicit stages. First, an LLM-seeded generator proposes literaturelike mechanisms while a deterministic RDKit enumerator expands the reaction graph
+over sixteen directional, element-agnostic bond operations (Table S10). Second, RDKit
+valence checks remove chemically invalid intermediates and an LLM plausibility pass retains
+the top-ranked candidates. Third, a shared UMA energy cache evaluates only frontier
+intermediates and ranks complete routes. The default search backend is best-first beam
+search (width 8, depth 8) with sibling pruning at ∆prune = 0.30 eV; when a route must pass
+through transiently uphill intermediates, the backend switches to MCTS with cUCB = 1.4,
+100 iterations, and a 40-evaluation budget. Full pseudocode, operator definitions, and all
+search defaults are in Supplementary Section 2 (Fig. S2; Tables S11–S13; Figs. S3–S6) and
+Table S3.
+4.4.
+
+Agent–tool harness and foundation-model assignment
+
+CatDT is implemented in CAMEL41 with strict agent–tool separation: deterministic
+FunctionTool calls produce every numerical result, while agents plan, validate, and route
+tasks. The deployed system contains 27 tools and eight agents (Supplementary Section 1;
+Tables S1–S2) orchestrated by Agent 7 through a workflow state machine with checkpoints
+and structured reports. The multi-agent system (MAS) is foundation-model-agnostic:
+every per-agent model choice is a configuration entry rather than a code dependency, so
+any agent backend can be swapped without changing the scientific tools or downstream
+parsing. By default, Agents 1, 2, 3, and 6 call DeepSeek V4 Pro for high-throughput
+surface, adsorption, reconstruction, and kinetics control; Agents 4, 5, and M1 call GPT-5.5
+for geometry design, validation auditing, and mechanism reasoning; and Agent 7 directly
+calls Codex (with GPT-5.5 as its backend) for orchestration and structured output. Token
+budgets, watchdogs, retries, truncation caps, and strict JSON-schema gates are specified in
+Table S5 (Supplementary Section 1.2).
+4.5.
+
+Memento-style reinforcement training
+
+The Agent 4/5 memory loop follows Memento-style external case retrieval47 . Each
+iteration stores a structured trace containing the reaction type, transition signature,
+endpoint-design JSON, Agent 5 diagnostics, energy-gate report, NEB outcome, and scalar
+reward. Retrieval begins with a non-parametric scorer over positive cases, negative cases,
+32
+
+KnowledgeBank items, and SkillBank templates; after 200 trajectories, the scorer is replaced
+by a parametric retriever trained on supervised triples mined from the case bank. Training
+uses 600 OC20 catalytic surfaces balanced across HER, OER, NRR, and CO2 RR; each
+episode aggregates ten full design–validation runs, with validation every five episodes on a
+fixed 50-case holdout. The iteration reward is riter = 0.4ρconv + 0.6ρbarrier , clipped to zero
+when either NEB convergence or barrier plausibility vanishes. A separate ε-greedy bandit
+chooses among conservative, balanced, and exploratory workflow strategies, with episode-level
+credit assignment composed of validation success, NEB quality, and step-set completeness.
+Supplementary Section 3 expands two-stage endpoint construction, scorer design, rewards,
+bandit updates, protocol, and staged ablations (Secs. 3.1–3.6; Figs. S8–S9; Tables S15–S16);
+retriever, reward, bandit, and memory-bank schemas appear in Supplementary Section 1.4
+and Table S8.
+Data Availability
+The RL-training trajectories used in Section 2.3, the 569-species thermodynamiccorrection database described in Section 4.1, and the CP-aware pretrained model parameters
+referenced in Section 4.1 will be made available on Hugging Face upon publication.
+Code Availability
+The CatDT package will be made available at https://github.com/AI4QC/catdt upon
+publication.
+Acknowledgements
+This research is done with the support from HKUST Start-up Funding with a GPU cloud
+computing infrastructure provided by ScitiX (Scitix (SGP) Tech Pte Ltd, Singapore). Z.Z
+thanks the support from Hong Kong Special Administrative Region Government Scholarship
+Fund Scholarship for Outstanding Performance. We also thank Mr. Hiuyu Ting from the
+Department of Chemistry, HKUST, for the helpful discussion.
+Competing Interests
+The authors declare no competing interests.
+References
+33
+
+1. Nørskov, J. K., Bligaard, T., Rossmeisl, J. & Christensen, C. H. Towards the computational
+design of solid catalysts. Nat. Chem. 1, 37–46 (2009).
+2. Nørskov, J. K., Abild-Pedersen, F., Studt, F. & Bligaard, T. Density functional theory in
+surface chemistry and catalysis. Proc. Natl. Acad. Sci. USA 108, 937–943 (2011).
+3. Zhong, M. et al. Accelerated discovery of CO2 electrocatalysts using active machine learning.
+Nature 581, 178–183 (2020).
+4. Ulissi, Z. W., Medford, A. J., Bligaard, T. & Nørskov, J. K. To address surface reaction network
+complexity using scaling relations machine learning and DFT calculations. Nat. Commun. 8,
+14621 (2017).
+5. Henkelman, G. & Jónsson, H. Improved tangent estimate in the nudged elastic band method
+for finding minimum energy paths and saddle points. J. Chem. Phys. 113, 9978–9985 (2000).
+6. Henkelman, G., Uberuaga, B. P. & Jónsson, H. A climbing image nudged elastic band method
+for finding saddle points and minimum energy paths. J. Chem. Phys. 113, 9901–9904 (2000).
+7. Cheng, J., Liu, X., VandeVondele, J., Sulpizi, M. & Sprik, M. Redox potentials and acidity
+constants from density functional theory based molecular dynamics. Acc. Chem. Res. 47,
+3522–3529 (2014).
+8. Logadóttir, Á. et al. The Brønsted–Evans–Polanyi relation and the volcano plot for ammonia
+synthesis over transition metal catalysts. J. Catal. 197, 229–231 (2001).
+9. Bligaard, T. et al. The Brønsted–Evans–Polanyi relation and the volcano curve in heterogeneous
+catalysis. J. Catal. 224, 206–217 (2004).
+10. Abild-Pedersen, F. et al. Scaling properties of adsorption energies for hydrogen-containing
+molecules on transition-metal surfaces. Phys. Rev. Lett. 99, 016105 (2007).
+11. Calle-Vallejo, F., Loffreda, D., Koper, M. T. M. & Sautet, P. Introducing structural sensitivity
+into adsorption-energy scaling relations by means of coordination numbers. Nat. Chem. 7,
+403–410 (2015).
+12. Schütt, K. T., Sauceda, H. E., Kindermans, P.-J., Tkatchenko, A. & Müller, K.-R. SchNet – a
+deep learning architecture for molecules and materials. J. Chem. Phys. 148, 241722 (2018).
+13. Gasteiger, J., Giri, S., Margraf, J. T. & Günnemann, S. Fast and uncertainty-aware directional
+message passing for non-equilibrium molecules. In NeurIPS 2020 Workshop on Machine
+Learning for Molecules (2020).
+14. Gasteiger, J., Becker, F. & Günnemann, S. GemNet: Universal directional graph neural
+
+34
+
+networks for molecules. In Adv. Neural Inf. Process. Syst., vol. 34, 6790–6802 (2021).
+15. Batatia, I., Kovács, D. P., Simm, G. N. C., Ortner, C. & Csányi, G. MACE: Higher order
+equivariant message passing neural networks for fast and accurate force fields. In Adv. Neural
+Inf. Process. Syst., vol. 35, 11423–11436 (2022).
+16. Liao, Y.-L., Wood, B., Das, A. & Smidt, T. EquiformerV2: Improved equivariant transformer
+for scaling to higher-degree representations. In Int. Conf. Learn. Represent. (2024).
+17. Chanussot, L. et al. Open Catalyst 2020 (OC20) dataset and community challenges. ACS
+Catal. 11, 6059–6072 (2021).
+18. Tran, R. et al. The Open Catalyst 2022 (OC22) dataset and challenges for oxide electrocatalysts.
+ACS Catal. 13, 3066–3084 (2023).
+19. Sahoo, S. J. et al. The Open Catalyst 2025 (OC25) dataset and models for solid–liquid interfaces.
+arXiv preprint arXiv:2509.17862 (2025).
+20. Barroso-Luque, L. et al. UMA: A family of universal models for atoms. arXiv preprint
+arXiv:2506.23971 (2025).
+21. Yin, J., Chen, H., Qiu, J. et al. SurFF: a foundation model for surface exposure and morphology
+across intermetallic crystals. Nat. Comput. Sci. 5, 782–792 (2025).
+22. Du, X. et al. Machine-learning-accelerated simulations to enable automatic surface reconstruction. Nat. Comput. Sci. 3, 1034–1044 (2023).
+23. Du, X., Damewood, J. K. & Gómez-Bombarelli, R. Accelerating and enhancing thermodynamic
+simulations of electrochemical interfaces. ACS Cent. Sci. 11, 1558–1572 (2025).
+24. Lan, J. et al. AdsorbML: a leap in efficiency for adsorption energy calculations using generalizable
+machine learning potentials. npj Comput. Mater. 9, 172 (2023).
+25. Kolluru, A. & Kitchin, J. R. AdsorbDiff: Adsorbate placement via conditional denoising
+diffusion. In Proc. 41st Int. Conf. Mach. Learn., vol. 235, 25042–25057 (2024).
+26. Morandi, S. et al. An end-to-end framework for reactivity in heterogeneous catalysis. Nat.
+Chem. Eng. 3, 169–180 (2026).
+27. Unsleber, J. P., Grimmel, S. A. & Reiher, M. Chemoton 2.0: Autonomous exploration of
+chemical reaction networks. J. Chem. Theory Comput. 18, 5393–5409 (2022).
+28. Zhao, Q., Xu, Y., Greeley, J. & Savoie, B. M. Deep reaction network exploration at a
+heterogeneous catalytic interface. Nat. Commun. 13, 4860 (2022).
+29. Wander, B., Shuaibi, M., Kitchin, J. R., Zitnick, C. L. & Ulissi, Z. W. CatTSunami: Accelerating
+
+35
+
+transition state energy calculations with pre-trained graph neural networks. arXiv preprint
+arXiv:2405.02078 (2024).
+30. Wang, R., Fang, S., Huang, Q. & Liu, Y. Constant-potential machine learning force field for
+the electrochemical interface. J. Chem. Theory Comput. 21, 7628–7635 (2025).
+31. Medford, A. J. et al. CatMAP: A software package for descriptor-based microkinetic mapping
+of catalytic trends. Catal. Lett. 145, 794–807 (2015).
+32. Pineda, M. & Stamatakis, M. Kinetic Monte Carlo simulations for heterogeneous catalysis: A
+tutorial review of recent developments. J. Chem. Phys. 156, 120902 (2022).
+33. Wellendorff, J. et al. Density functionals for surface science: Exchange-correlation model
+development with Bayesian error estimation. Phys. Rev. B 85, 235149 (2012).
+34. Wen, M. et al. Chemical reaction networks and opportunities for machine learning. Nat.
+Comput. Sci. 3, 12–24 (2023).
+35. Zhao, Q. & Savoie, B. M. Simultaneously improving reaction coverage and computational cost
+in automated reaction prediction tasks. Nat. Comput. Sci. 1, 479–490 (2021).
+36. Mou, T. et al. Bridging the complexity gap in computational heterogeneous catalysis with
+machine learning. Nat. Catal. 6, 122–136 (2023).
+37. Qian, J. et al. Digital twin for chemical science: a case study on water interactions on the
+Ag(111) surface. Nat. Comput. Sci. 5, 793–800 (2025).
+38. Boiko, D. A., MacKnight, R., Kline, B. & Gomes, G. Autonomous chemical research with large
+language models. Nature 624, 570–578 (2023).
+39. Bran, A. M. et al. ChemCrow: Augmenting large-language models with chemistry tools. Nat.
+Mach. Intell. 6, 525–535 (2024).
+40. Li, Y., Zhang, H., Sun, Y., Wang, X. & Chen, Z. Catalyst-Agent: Autonomous heterogeneous
+catalyst screening and optimization with an LLM agent. arXiv preprint arXiv:2603.01311
+(2026).
+41. Li, G., Hammoud, H. A. A. K., Itani, H., Khizbullin, D. & Ghanem, B. CAMEL: Communicative
+agents for “mind” exploration of large language model society. In Adv. Neural Inf. Process.
+Syst., vol. 36, 51991–52008 (2023).
+42. Ramos, M. C., Collison, C. J. & White, A. D. A review of large language models and autonomous
+agents in chemistry. Chem. Sci. 16, 2514–2572 (2025).
+43. Zhou, C. et al. Externalization in LLM agents: a unified review of memory, skills, protocols
+
+36
+
+and harness engineering. arXiv preprint arXiv:2604.08224 (2026).
+44. Bui, N. D. Q. Building effective AI coding agents for the terminal: scaffolding, harness, context
+engineering, and lessons learned. arXiv preprint arXiv:2603.05344 (2026).
+45. Pan, L., Zou, L., Guo, S., Ni, J. & Zheng, H.-T. Natural-language agent harnesses. arXiv
+preprint arXiv:2603.25723 (2026).
+46. Lou, X. et al. AutoHarness: improving LLM agents by automatically synthesizing a code
+harness. arXiv preprint arXiv:2603.03329 (2026).
+47. Zhou, H. et al. Memento: Fine-tuning LLM agents without fine-tuning LLMs. arXiv preprint
+arXiv:2508.16153 (2025).
+48. Hashemi, A., Bougueroua, S., Gaigeot, M.-P. & Pidko, E. A. ReNeGate: A reaction network graph-theoretical tool for automated mechanistic studies in computational homogeneous
+catalysis. J. Chem. Theory Comput. 18, 7470–7482 (2022).
+49. Steiner, M. & Reiher, M. Autonomous reaction network exploration in homogeneous and
+heterogeneous catalysis. Top. Catal. 65, 6–39 (2022).
+50. Kreitz, B. et al. Detailed microkinetics for the oxidation of exhaust gas emissions through
+automated mechanism generation. ACS Catal. 12, 11137–11151 (2022).
+51. van Santen, R. A., Markvoort, A. J., Filot, I. A. W., Ghouri, M. M. & Hensen, E. J. M.
+Mechanism and microkinetics of the Fischer–Tropsch reaction. Phys. Chem. Chem. Phys. 15,
+17038–17063 (2013).
+52. Foppa, L., Iannuzzi, M., Copéret, C. & Comas-Vives, A. Facile Fischer–Tropsch chain growth
+from CH2 monomers enabled by the dynamic CO adlayer. ACS Catal. 9, 6571–6582 (2019).
+53. Honkala, K. et al. Ammonia synthesis from first-principles calculations. Science 307, 555–558
+(2005).
+54. Zhao, H. et al. The role of Cu1 –O3 species in single-atom Cu/ZrO2 catalyst for CO2 hydrogenation. Nat. Catal. 5, 818–831 (2022).
+55. Studt, F. et al. Discovery of a ni-ga catalyst for carbon dioxide reduction to methanol. Nat.
+Chem. 6, 320–324 (2014).
+56. Sugiyama, H., Miyazaki, M., Sasase, M., Kitano, M. & Hosono, H. Room-temperature co2
+hydrogenation to methanol over air-stable hcp-pdmo intermetallic catalyst. J. Am. Chem. Soc.
+145, 9410–9416 (2023).
+57. Hu, J. et al. Sulfur vacancy-rich MoS2 as a catalyst for the hydrogenation of CO2 to methanol.
+
+37
+
+Nat. Catal. 4, 242–250 (2021).
+58. Zhou, H. et al. Two-dimensional molybdenum carbide 2D-Mo2 C as a superior catalyst for CO2
+hydrogenation. Nat. Commun. 12, 5510 (2021).
+59. Chen, S. et al. Defective TiOx overlayers catalyze propane dehydrogenation promoted by base
+metals. Science 385, 295–300 (2024).
+60. Motagamwala, A. H., Almallahi, R., Wortman, J., Igenegbai, V. O. & Linic, S. Stable and
+selective catalysts for propane dehydrogenation operating at thermodynamic limit. Science
+373, 217–222 (2021).
+61. Sun, G. et al. Breaking the scaling relationship via thermally stable Pt/Cu single atom alloys
+for catalytic dehydrogenation. Nat. Commun. 9, 4454 (2018).
+62. Rochlitz, L. et al. A robust and efficient propane dehydrogenation catalyst from unexpectedly
+segregated Pt2 Mn nanoparticles. J. Am. Chem. Soc. 144, 13384–13393 (2022).
+63. He, Y., Song, Y., Cullen, D. A. & Laursen, S. Selective and stable non-noble-metal intermetallic
+compound catalyst for the direct dehydrogenation of propane to propylene. J. Am. Chem. Soc.
+140, 14010–14014 (2018).
+64. Nakaya, Y., Hirayama, J., Yamazoe, S., Shimizu, K.-I. & Furukawa, S. Single-atom Pt in
+intermetallics as an ultrastable and selective catalyst for propane dehydrogenation. Nat.
+Commun. 11, 2838 (2020).
+65. Chang, X. et al. Microenvironment engineering of non-noble metal alloy for selective propane
+dehydrogenation. Chem 11, 102294 (2025).
+66. Zhang, M. et al. Screening and mechanism exploration of non-noble metal Ni3 M catalysts
+for propane dehydrogenation: the excellence of synergistic effects. J. Phys. Chem. Lett. 15,
+3838–3845 (2024).
+67. Zhou, T. et al. Reaction-induced dynamic evolution of PtIn/SiO2 catalyst for propane dehydrogenation. Nat. Commun. 16, 5153 (2025).
+68. Yao, Y. et al. Suppressing COx in oxidative dehydrogenation of propane with dual-atom
+catalysts. Nat. Commun. 16, 4639 (2025).
+69. Zhou, Y. et al. Peripheral-nitrogen effects on the Ru1 centre for highly efficient propane
+dehydrogenation. Nat. Catal. 5, 1145–1156 (2022).
+70. Zhou, H. et al. Cobaltosilicate zeolite beyond platinum catalysts for propane dehydrogenation.
+Nat. Catal. 8, 357–367 (2025).
+
+38
+
+71. Zhao, D. et al. In situ formation of ZnOx species for efficient propane dehydrogenation. Nature
+599, 234–238 (2021).
+72. Park, J. et al. Pt migration–lockup in zeolite for stable propane dehydrogenation catalyst.
+Nature 643, 691–698 (2025).
+73. Liu, R., Ma, B., Zhang, L., Tian, J. & Zhao, C. CoOx nano-clusters anchored onto 10-membered
+ring of Silicalite-1 boost propane dehydrogenation. Nat. Commun. 16, 11476 (2025).
+74. Castro-Fernández, P. et al. Propane dehydrogenation on Ga2 O3 -based catalysts: Contrasting
+performance with coordination environment and acidity of surface sites. ACS Catal. 11, 907–924
+(2021).
+75. Zhang, Y. et al. Control of coordinatively unsaturated Zr sites in ZrO2 for efficient C–H bond
+activation. Nat. Commun. 9, 3794 (2018).
+76. Gambo, Y. et al. Catalyst design and tuning for oxidative dehydrogenation of propane – a
+review. Appl. Catal. A: Gen. 609, 117914 (2021).
+77. Yan, H. et al. Tandem In2 O3 –Pt/Al2 O3 catalyst for coupling of propane dehydrogenation to
+selective H2 combustion. Science 371, 1257–1260 (2021).
+
+39
+
+

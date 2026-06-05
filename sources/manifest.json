@@ -459,6 +459,30 @@
       "source_url": "https://arxiv.org/abs/2605.18033",
       "downloaded": "2026-06-02",
       "txt_sidecar": "2605.18033v1.txt"
+    },
+    {
+      "doi": "10.48550/arXiv.2606.05050",
+      "filename": "2606.05050v1.pdf",
+      "title": "Autonomous heterogeneous catalyst discovery with a self-evolving multi-agent digital twin (CatDT)",
+      "source_url": "https://arxiv.org/abs/2606.05050",
+      "downloaded": "2026-06-05",
+      "txt_sidecar": "2606.05050v1.txt"
+    },
+    {
+      "doi": "10.48550/arXiv.2606.01444",
+      "filename": "2606.01444v1.pdf",
+      "title": "Self-Revising Discovery Systems for Science: A Categorical Framework for Agentic Artificial Intelligence (CategoryScienceClaw, Builder/Breaker)",
+      "source_url": "https://arxiv.org/abs/2606.01444",
+      "downloaded": "2026-06-05",
+      "txt_sidecar": "2606.01444v1.txt"
+    },
+    {
+      "doi": "10.48550/arXiv.2606.02386",
+      "filename": "2606.02386v1.pdf",
+      "title": "AgentPLM: Agentic Protein Language Models with Reasoning-Augmented Decoding for Protein Sequence Design",
+      "source_url": "https://arxiv.org/abs/2606.02386",
+      "downloaded": "2026-06-05",
+      "txt_sidecar": "2606.02386v1.txt"
     }
   ]
 }

@@ -1,0 +1,1311 @@
+AgentPLM: Agentic Protein Language Models with Reasoning-Augmented
+Decoding for Protein Sequence Design
+
+Sahil Rahman 1 Maxx Richard Rahman 2
+
+arXiv:2606.02386v1 [cs.AI] 1 Jun 2026
+
+Abstract
+
+ering state-of-the-art methods for structure prediction (Lin
+et al., 2023), inverse folding (Dauparas et al., 2022), and
+zero-shot fitness prediction (Notin et al., 2023). The 2024
+Nobel Prize in Chemistry, awarded in part for AlphaFold
+(Jumper et al., 2021), crystallised the scientific community’s
+recognition that machine learning has become indispensable
+to structural biology. Yet a fundamental limitation pervades
+this generation of models, i.e., they are static oracles. A
+PLM generates sequences in a single forward pass, with
+no mechanism to interrogate the biophysical plausibility of
+intermediate steps, retrieve relevant experimental data, or
+adaptively redirect generation when a candidate sequence
+is predicted to be thermodynamically unstable or immunogenic. This passivity is in sharp contrast to how expert
+protein engineers actually work, iterating between computational predictions, wet-lab assays, and literature consultation
+in tightly coupled feedback loops (Arnold, 2018; Yang et al.,
+2019). The result is a fundamental mismatch, i.e., a PLM
+should implicitly encode all biophysical constraints in its
+parameters, yet its training signal (next-token prediction or
+masked token recovery on evolutionary sequences) does not
+directly supervise constraint satisfaction, making it systematically brittle for out-of-distribution design targets where
+the evolutionary record provides little guidance.
+
+Protein language models (PLMs) are passive oracles: they generate sequences in a single forward
+pass with no mechanism to consult external biophysical feedback or redirect generation when a
+candidate violates thermodynamic or structural
+constraints. We introduce AgentPLM, which
+addresses this by equipping a pre-trained PLM
+with i) Reasoning-Augmented Decoding (RAD),
+which interleaves autoregressive generation with
+tool calls (ESMFold, FoldX, AutoDock Vina),
+and ii) Contrastive Agent Policy Optimisation
+(CAPO), a trajectory-level extension of direct
+preference optimisation that trains the policy endto-end to learn when oracle feedback is informative rather than merely imitating high-fitness sequences. We evaluate AgentPLM on benchmark
+tasks spanning de novo enzyme design, antibody
+optimisation, thermostability, PPI interface design, and zero-shot fitness prediction with standardised oracle APIs and controlled sequenceidentity splits. AgentPLM achieves state-of-theart results with a gain in antibody top-10% hit
+rate over the strongest passive baseline, providing
+mechanistic evidence of online error correction
+without explicit backtracking.
+
+The analogous limitation in large language models for reasoning has been addressed. Chain-of-thought prompting
+(Wei et al., 2022), tool-augmented generation (Schick et al.,
+2023; Qin et al., 2024), and the ReAct framework (Yao et al.,
+2023) have demonstrated that interleaving generation with
+structured reasoning steps and external tool calls dramatically improves performance on complex, multi-constraint
+tasks. ChemCrow (Bran et al., 2024) applies this paradigm
+to chemistry and BioPlanner (O’Donoghue et al., 2023) to
+experimental protocol generation, while ProtAgent (Ghafarollahi & Buehler, 2024) uses a frozen GPT-4 backbone
+to orchestrate protein engineering tools through chain-ofthought planning. However, these systems treat the language
+model as a frozen planning module, preventing end-to-end
+training on domain-specific objectives and forcing the model
+to rely entirely on its parametric knowledge for sequencelevel decisions. We argue that protein design is precisely
+the setting where this limitation is most damaging, i.e., generating a functional protein sequence requires satisfying
+
+1. Introduction
+Protein language models (PLMs) have emerged as one of
+the most transformative tools in computational biology over
+the past five years. Models such as ESM-2 (Lin et al., 2023),
+ProtTrans (Elnaggar et al., 2022), and Ankh (Elnaggar et al.,
+2023) demonstrate that transformer architectures pre-trained
+on large sequence databases can encode rich representations
+of evolutionary, structural, and functional information, pow1
+
+Bedford College, London, United Kingdom 2 Saarland University, Saarbrücken, Germany. Correspondence to: Sahil Rahman
+<srahman@bedford.ac.uk>.
+Proceedings of the 43 rd International Conference on Machine
+Learning, Seoul, South Korea. PMLR 306, 2026. Copyright 2026
+by the author(s).
+
+1
+
+AgentPLM: Agentic Protein Language Models
+
+simultaneous, non-additive constraints (thermostability, solubility, binding specificity, immunogenicity) that no single
+forward pass can jointly optimise, and the training signal
+needed to learn when and how to invoke structural oracles
+is available only through reinforcement on protein engineering objectives, not through general-purpose language
+modelling.
+
+RFdiffusion (Watson et al., 2023), RFdiffusion-AA (Krishna et al., 2024), and Chroma (Ingraham et al., 2023)
+extend the paradigm to joint structure-sequence co-design
+through SE(3)-equivariant diffusion. For fitness-guided design, EvoProtGrad (Emami et al., 2023) climbs fitness landscapes via PLM-guided gradient descent over hundreds of
+mutation-selection cycles, and Tranception (Notin et al.,
+2022) improves zero-shot scoring by retrieving homologous
+sequences at inference time. All of these models share a
+fundamental limitation: they generate sequences in a single forward pass or through oracle-free perturbations, so
+structural plausibility, thermodynamic stability, and binding
+specificity must be encoded entirely in parameters trained
+on evolutionary data, with no mechanism to observe constraint violations mid-generation and redirect accordingly
+(Huang et al., 2016; Rahman et al., 2022; Russ et al., 2020).
+
+In this work we introduce AgentPLM, a framework that endows a pre-trained PLM with agentic capabilities by training
+it end-to-end to interleave autoregressive sequence generation with structured oracle invocations. We model each
+design step as a decision in a Partially Observable Markov
+Decision Process over the joint space of partial sequences
+and retrieved biophysical context, and we train the resulting
+policy with a novel Contrastive Agent Policy Optimisation
+(CAPO) objective that rewards trajectories leading to biophysically consistent, high-fitness sequences. The main
+contributions are:
+
+2.2. Agentic AI and Tool-Augmented Generation for
+Science
+
+• We propose Reasoning-Augmented Decoding (RAD),
+a decoding strategy that interleaves autoregressive sequence generation with structured tool calls, incorporating their outputs via a learned Tool Context Encoder
+(TCE) and Trajectory Memory Buffer (TMB) trained
+end-to-end on protein engineering objectives.
+
+Toolformer (Schick et al., 2023) and ToolLLM (Qin et al.,
+2024) formalise the insertion of API call tokens into language model generation, while ReAct (Yao et al., 2023)
+demonstrates that interleaving chain-of-thought reasoning
+(Wei et al., 2022) with environment actions is mutually reinforcing. These frameworks have been applied to science
+via ChemCrow (Bran et al., 2024) for organic synthesis
+and BioPlanner (O’Donoghue et al., 2023) for experimental
+protocol planning. In protein engineering, ProtAgent (Ghafarollahi & Buehler, 2024) is the closest prior work, using
+a frozen GPT-4 backbone to orchestrate ESMFold, FoldX,
+and literature search through chain-of-thought planning, but
+it shares two critical gaps with all prior tool-augmented
+systems: (i) the language model cannot be trained end-toend on protein objectives, preventing the tight coupling between oracle signals and residue-level generation that RAD
+achieves, and (ii) no system integrates a literature oracle that
+fuses partial-sequence context with experimental knowledge
+at the token level, leaving residue-level mutagenesis knowledge inaccessible during generation (Zhang et al., 2022).
+Prior RL approaches for protein design (Stanton et al., 2022;
+Shanehsazzadeh et al., 2023) apply reinforcement learning
+as a search strategy over discrete sequence space rather
+than as a policy-training objective over multi-step tool-use
+trajectories. CAPO extends direct preference optimisation
+(Rafailov et al., 2023) to this trajectory-level contrastive
+setting, a formulation unexplored in either protein design or
+tool-augmented generation.
+
+• We introduce Contrastive Agent Policy Optimisation
+(CAPO), which is a trajectory-level extension of direct
+preference optimisation that contrasts high-fitness trajectories with coherent oracle use against low-fitness or contradictory ones, teaching the model when oracle feedback
+is informative rather than merely imitating high-fitness
+outputs.
+• AgentPLM outperforms all the baselines on all the benchmark tasks, achieving a 2.79× improvement in antibody
+top-10% hit rate and +34% in normalised kcat /Km on
+enzyme design, confirming that gains arise from qualitatively different reasoning trajectories rather than additional compute.
+
+2. Related Works
+2.1. Protein Language Models and Generative Protein
+Design
+ESM-2 (Lin et al., 2023), ProtTrans (Elnaggar et al., 2022),
+and Ankh (Elnaggar et al., 2023) establish that masked and
+autoregressive transformers pre-trained on large sequence
+databases encode rich evolutionary and functional representations, with ESM-2 achieving state-of-the-art zero-shot
+fitness prediction on deep mutational scanning benchmarks
+(Notin et al., 2023). Structure-conditioned design is addressed by ProteinMPNN (Dauparas et al., 2022) via autoregressive inverse folding over backbone coordinates, while
+2
+
+AgentPLM: Agentic Protein Language Models
+
+Figure 1. AgentPLM architecture comprising four modules, i) Expanded Vocabulary and Tool-Call Token Initialisation, ii) Trajectory
+Memory Buffer (TMB), iii) Reasoning-Augmented Decoding (RAD), and iv) trained end-to-end via the CAPO objective.
+
+3. Problem Formulation
+
+Cartesian coordinates; OFoldX returns a scalar ∆∆G).
+
+3.1. Protein Design as a Constrained Sequence
+Optimisation Problem
+
+3.2. Limitations of Passive Protein Language Models
+A standard autoregressive PLM
+QL parameterises the sequence
+distribution as pθ (S) =
+i=1 pθ (si | s<i ), where the
+parameters θ are learned by minimising next-token prediction loss on large sequence databases. During inference the
+model generates the entire sequence in a single unidirectional pass, we call this a passive trajectory:
+
+Let A denote
+S∞the amino-acid alphabet with |A| = 20, and
+let A∗ = L=1 AL be the set of all finite sequences. A
+protein design task is a tuple T = ⟨f, C, Sref ⟩, where
+f : AL → R is a fitness function (e.g. catalytic efficiency
+kcat /Km , binding affinity KD , or melting temperature
+Tm ); C = {cj : AL → R}Jj=1 is a set of biophysical
+constraint functions (e.g. prescribed secondary-structure
+fractions, active-site geometry tolerances, immunogenicity thresholds), and Sref ∈ AL is an optional reference
+(wild-type) sequence providing evolutionary context. The
+objective is:
+
+τpassive = (S∅ → S1 → · · · → SL ),
+
+where St = (s1 , . . . , st ) is the partial sequence after t amino
+acids have been committed.
+Structural blindness. At each step t, the model selects
+st ∼ pθ (st | s<t ) without observing {Ok (St )}K
+k=1 . This
+is a fundamental mismatch, i.e., all biophysical constraints
+should be implicitly encoded in θ, yet the training signal
+(cross-entropy on evolutionary sequences) does not directly
+supervise constraint satisfaction. Formally, define the constraint violation of a passive trajectory as V(τpassive ) =
+
+PJ
+j=1 max 0, cj (SL ) − εj . Because cj is never observed
+during generation, E[V(τpassive )] cannot be minimised online. It can only be reduced by increasing model capacity, a
+
+S ∗ = arg max f (S)
+S∈AL
+
+subject to
+
+(1)
+cj (S) ≤ εj ,
+
+(2)
+
+∀j ∈ [J].
+
+where εj are task-specific tolerances. In practice neither
+f nor cj are analytically tractable, but can be estimated
+through a set of computational oracles O = {Ok : A∗ →
+Rdk }K
+k=1 , where dk is the output dimensionality of oracle
+k (e.g. OESMFold returns per-residue pLDDT scores and
+3
+
+AgentPLM: Agentic Protein Language Models
+
+4. AgentPLM Architecture
+
+strategy that is both computationally expensive and brittle
+for out-of-distribution targets.
+
+As shown in Figure 1, we propose AgentPLM consists of
+four modules, each addressing a distinct aspect of agentic
+sequence design.
+
+Epistatic blindness. Long-range epistasis (where the fitness contribution of residue si depends non-additively on
+a distant residue sj ) is systematically underestimated by
+autoregressive factorisation. An oracle call at position i
+that returns OFoldX (S≤i ) can expose such dependencies
+before positions j > i are committed, enabling corrective
+decisions.
+
+4.1. Expanded Vocabulary and Tool-Call Token
+Initialisation
+Expanded vocabulary. The standard ESM-2 vocabulary
+VESM = A ∪ {MASK, CLS, EOS} (size |A| + 3 = 23) is
+extended to V + = VESM ∪ T ,
+|V + | = 23 + |T |,
+where |T | = K + 1 (one token per oracle plus EOS). The
++
+embedding matrix E ∈ R|V |×dm is initialised as
+
+3.3. Agentic Protein Design
+We reformulate protein design as a Partially Observable Markov Decision Process (POMDP) M =
+⟨X , A+ , O, T, R, γ⟩:
+
+(tool)
+
+ek
+
+∗
+State space. X = A∗ ×H, where H = A∗ ×[K]×R∗
+is the space of tool-call histories. The state at step t is xt =
+t
+(S≤t , Ht ), with Ht = {(S≤tm , km , om )}M
+m=1 recording the
+partial sequence, oracle index, and oracle output of each
+past tool call.
+
+=
+
+1 X
+ESM-embed(w),
+|Dk |
+
+k ∈ [K], (4)
+
+w∈Dk
+
+where Dk is a short natural-language description of the oracle Ok (e.g. predict the change of thermodynamic stability
+after mutation for OFoldX ) and ESM-embed(w) denotes
+the embedding of the ESM-2 sub-word in token w. This
+semantically grounded initialisation avoids random initialisation of tool tokens and ensures they reside in the same
+representational manifold as amino-acid tokens from the
+outset of training. Existing tool-augmented LLMs like Toolformer (Schick et al., 2023) and ToolLLM (Qin et al., 2024)
+initialise special tokens from scratch, requiring large-scale
+fine-tuning to place them in the model’s representational
+space. Our biologically motivated initialisation from Eq. (4)
+dramatically reduces the number of gradient steps required
+for the model to learn when to invoke each oracle.
+
+Augmented action space. A+ = A ∪ T ,
+T =
+{CALL -Ok }K
+∪
+{
+EOS
+},
+where
+A
+is
+the
+amino-acid
+k=1
+vocabulary, T is the tool-call vocabulary (one token per
+oracle plus an end-of-sequence token).
+Observation function. When at ∈ T \ {EOS}, the environment returns the oracle output ot = Ok (S≤t ), which is
+appended to Ht . When at ∈ A, the observation is a null
+token and Ht is unchanged.
+Transition.
+(
+(S≤t ·at , Ht )
+xt+1 =
+(S≤t , Ht ∪ {(S≤t , k, ot )})
+
+if at ∈ A,
+if at = CALL -Ok .
+(3)
+The tool calls do not advance the sequence index t. The
+agent re-scores position t conditioned on the enriched history.
+
+Tool Context Encoder (TCE). Oracle outputs are heterogeneous. ESMFold returns a tensor of per-residue pLDDT
+scores and Cα coordinates Ofold ∈ RL×4 , FoldX returns
+a scalar ∆∆G ∈ R, AutoDock Vina returns a binding
+score vector v ∈ R9 . A unified encoder is needed to
+project all these modalities into the model’s latent space
+Rdm (dm = 1280 for ESM-2 650M).
+
+Reward. R(τ ) = f (SL ) − λ {t : at ∈ T } − µ V(τ ),
+where λ > 0 penalises excessive oracle calls (latency cost)
+and µ > 0 penalises biophysical constraint violations. The
+agent’s policy πθ (at | xt ) jointly models amino-acid selection and tool-invocation decisions.
+
+Given oracle output ot ∈ Rdk and the last hidden state
+hprev
+∈ Rdm immediately preceding the tool call, the
+t
+TCE computes a context embedding via cross-attention:
+ōt = FFNproj (ot ) ∈ Rdm , htool
+= TCE(ot ; hprev
+) =
+t
+t
+prev
+prev
+LayerNorm(ht
++ Attn(Q = ht , K = V = ōt )) ,
+where FFNproj is a two-layer feed-forward network that maps oracle outputs of arbitrary dimension dk to dm , using modality-specific input heads:
+FFNproj (o) = W2 σ(W1 ϕk (o) + b1 ) + b2 , W1 ∈
+R2dm ×dk , W2 ∈ Rdm ×2dm ,with ϕk being a modalityspecific pre-processing function:
+
+A fundamental distinction from the passive PLM formulation in (Eq. 2) is that the agent can interrupt generation to
+query oracles, incorporate their outputs into its context, and
+redirect subsequent residue choices accordingly. This transforms the one-shot constrained optimisation in Eq. (1) into
+a sequential decision problem where biophysical feedback
+is available online.
+4
+
+AgentPLM: Agentic Protein Language Models
+
+
+
+vec(Ofold )
+ϕk (o) = [∆∆G, 1⊤ 1]
+
+
+v
+
+k = ESMFold,
+k = FoldX,
+k = Vina.
+
+Structural self-consistency score. Before finalising
+each tool-call decision, we compute a structural selfconsistency (SSC) score that measures whether the oracle feedback is consistent with the model’s internal belief about the partial sequence:
+SSCt (k)
+=
+
+
+(5)
+
+(N )
+
+cos h̃t
+
+4.2. Trajectory Memory Buffer (TMB)
+
+(k)
+
+, Woracle ϕk (Ok (S≤t ))
+
+∈
+
+[−1, 1], where
+
+(k)
+
+Woracle ∈ Rdm ×dk is a learned projection that maps oracle k’s output into the model’s hidden space. A low SSC
+score (below threshold ρmin = −0.2) triggers a mandatory tool call at position t, overriding the policy’s action if
+necessary:
+(
+CALL -Ok∗ mink SSCt (k) < ρmin and δt ≥ ∆min ,
+at =
+a∗t
+otherwise,
+(7)
+where k ∗ = arg mink SSCt (k) is the oracle with the lowest
+self-consistency (most surprising prediction) and δt is the
+number of amino acids generated since the last tool call.
+
+A single design trajectory may invoke up to Bmax = 8
+tool calls. Naively including all tool-call histories in the
+Transformer’s context window would incur O(L2 ) attention
+cost proportional to the number of retrieved tokens. The
+TMB provides a constant-size compressed episodic memory
+that conditions generation on the full tool-call history at
+O(1) additional cost.
+tool
+Let {htool
+t1 , . . . , htM } be the sequence of TCE outputs
+for the M tool calls in the current trajectory (with
+M ≤ Bhmax ). The TMB produces a memory vector
+i mt =
+tool
+tool
+tool
+Wmem ht1 ; ht2 ; · · · ; htM ; 0(Bmax −M ) dm , Wmem
+
+∈ Rdm ×Bmax dm , where [ ; ] denotes concatenation and
+zero-padding ensures a fixed input dimension of Bmax dm
+regardless of the number of tool calls made so far.
+The memory vector mt is injected into the model’s
+residual stream at every subsequent Transformer layer
+(ℓ)
+via a learned memory gating mechanism:
+h̃t
+
+=
+(ℓ)
+(ℓ)
+(ℓ)
+(ℓ)
+(ℓ)⊤ (ℓ)
+ht
++ gt Wgate mt , gt = σ wg [ht ; mt ] ,
+
+Budget constraints. To prevent degenerate tool-call loops,
+RAD enforces two hard constraints: (1) a minimum intercall gap δt ≥ ∆min = 10 amino acids, and (2) a maximum
+tool-call budget Bmax = 8 per sequence. Together these
+ensure the generation process terminates in O(L+Bmax · T̄ )
+time, where T̄ is the mean oracle latency.
+Joint probability of a trajectory. The full conditional
+distribution over sequences and tool-call trajectories is:
+
+(ℓ)
+
+where gt ∈ [0, 1] is a scalar gate computed from the
+(ℓ)
+current hidden state and memory, Wgate ∈ Rdm ×dm is a
+layer-specific projection, and σ is the sigmoid function.
+The gating ensures the memory contribution is learned and
+layer-dependent, rather than being added uniformly.
+
+pθ (S, τtools ) =
+
+Decoding loop. At each position t, the model computes
++
+(N )
+(N )
+logits over V + : zt = Wlm h̃t
+∈ R|V | , where h̃t
+is the memory-gated output of the final Transformer layer.
+The policy then selects:
+
+a∈V
+
+(8)
+
+where Ht = {(S≤tm , km , om ) : tm < t, atm ∈ T } is the
+tool-call history up to position t, and the product ranges
+over amino-acid positions only (tool calls do not advance
+t). Unlike Toolformer, which inserts API calls post-hoc via
+a self-supervised filtering criterion, RAD integrates oracle
+queries during generation through a learned policy trained
+end-to-end on biophysical objectives. The SSC-based override mechanism (Eq. 7) is a novel “safety net” that forces
+the agent to consult oracles when its internal representation
+is inconsistent with available feedback, constituting a form
+of active uncertainty resolution without explicit Bayesian
+inference.
+
+RAD is the inference-time procedure that orchestrates the
+POMDP policy πθ (at | xt ) over the augmented action space
+A+ .
+
+exp(zt,a /Tdec )
+,
+a′ exp(zt,a′ /Tdec )
+
+
+
+pθ at S<t , Ht ,
+
+t=1
+
+4.3. Reasoning-Augmented Decoding (RAD)
+
+a∗t = arg max+ P
+
+L
+Y
+
+(6)
+4.4. Training Objective: Contrastive Agent Policy
+Optimisation (CAPO)
+
+where Tdec is the decoding temperature. If a∗t ∈ A, the
+amino acid is appended and t ← t + 1. If a∗t = CALL -Ok ,
+
+Trajectory Dataset Construction. We construct a trajectory dataset D = {(τ + , τ − , ϕ)}, where τ + are winner
+trajectories (high-fitness sequences with coherent tool use)
+and τ − are loser trajectories (low-fitness sequences or sequences with contradictory oracle signals), and ϕ is the
+design-task specification.
+
+the oracle is invoked, the TCE updates the representation,
+and the TMB is updated without advancing t. The logits
+are then recomputed at position t with the enriched representation, effectively implementing a conditional backtrack
+step.
+5
+
+AgentPLM: Agentic Protein Language Models
+
+5. Experiments
+
+Winner/loser pairs are constructed by: (a) generating N =
+1,000 sequences per task with the reference policy πref ,
+(b) evaluating each sequence with the oracle suite (FoldX
+∆∆G, ESMFold pLDDT, AutoDock Vina binding score),
+and (c) pairing the top-10% (winners) with the bottom10% (losers). To avoid full agentic roll-outs during dataset
+construction, we retrospectively annotate tool-call positions:
+a position t is labelled as a tool-call site if SSCt (k) < ρmin
+for any k, i.e. the oracle signal would have been informative.
+
+5.1. Datasets
+We evaluate on five benchmark tasks summarised in Table 1. ThermoStab-75 combines ProThermDB (Nikam
+et al., 2021), Ssym (Pucci et al., 2018), and FireProtDB
+(Stourac et al., 2021), retaining variants with experimental
+Tm values across 74 SCOP fold classes (1,247 sequences;
+6,831 variant–Tm pairs); the target is ∆Tm ≥ 5 ◦ C with
+ESMFold TM-score ≥ 0.85, split 70/15/15 stratified by
+fold class. AntibodyOpt-VH aggregates IMGT-numbered
+(Lefranc, 2003) VH sequences and SPR/BLI KD measurements from SAbDab (Dunbar et al., 2014), OAS (Kovaltsuk
+et al., 2018), and Raybould et al. (2019), yielding 892 pairs
+normalised to a common reference panel; 89 antigen targets
+are withheld entirely for test. EnzymeDesign-EC3 draws
+hydrolases from BRENDA (Chang et al., 2021) and SABIORK (Wittig et al., 2012), filtered to validated kcat /Km entries with structures < 2.5 Å, CD-HIT de-duplication at
+40% identity (Li & Godzik, 2006), and standard assay conditions, leaving 534 sequences (1,092 pairs; median 2.0
+variants per wild-type), the most data-scarce task (Russ
+et al., 2020; Huang et al., 2016); test splits enforce ≤ 30%
+identity. PPI-Interface uses PDBbind (Wang et al., 2004)
+and SKEMPI 2.0 (Jankauskaitė et al., 2019), retaining 2,103
+complexes with ITC/FP-measured ∆Gbind and monomer
+lengths 50-400 residues. The target is to improve ∆Gbind
+with ∆∆Gmono ≤ 1 kcal/mol, tested on cross-organism
+complexes. ZeroShot-Fitness scores all 41 ProteinGym
+DMS datasets (Notin et al., 2023) via log-likelihood ratio
+log pθ (Smut ) − log pθ (Swt ) with no weight updates, following Notin et al. (2022); performance is Spearman ρ averaged
+over all datasets.
+
+CAPO Loss. The primary objective is a trajectory-level
+analogue of DPO (Rafailov et al., 2023):
+
+ 
+πθ (τ + |ϕ)
+LCAPO (θ) = − E
+log σ β log
+πref (τ + |ϕ)
+
+−
+πθ (τ |ϕ)
+− log
+,
+πref (τ − |ϕ)
+(9)
+where πref is the frozen pre-trained ESM-2 backbone (reference policy), β = 0.1 is the KL temperature, and σ is the
+sigmoid function. Unlike single-turn DPO, the trajectory
+log-probabilities in Eq. (9) factorise over all actions, covering both amino acids and tool calls, according to Eq. (8).
+(τ + ,τ − ,ϕ)∼D
+
+Auxiliary Tool-Consistency Loss. We further regularise
+the policy with a tool-consistency loss that penalises aminoacid choices inconsistent with observed oracle signals:
+"
+Lcons (θ) = Eτ ∼D+
+
+X
+
+KL(pθ (st+1:t+∆ | S<t , Ht )
+
+t: at ∈T
+
+i
+poracle (st+1:t+∆ ) ,
+
+5.2. Baselines
+
+(10)
+where poracle is a soft target distribution derived from oracle outputs via Boltzmann weighting, poracle (s)
+∝
+exp(−∆∆GFoldX (S≤t · s) / Toracle ) , Toracle
+=
+1.0 kcal/mol , and ∆ = 5 is a short look-ahead window.
+
+We compare against six state-of-the-art baselines. ESM2 (650M) (Lin et al., 2023) scores fitness via masked
+marginal log-likelihoods in a single forward pass. It is
+both the strongest passive baseline and the reference policy
+πref for CAPO. ProteinMPNN (Dauparas et al., 2022) performs structure-conditioned inverse folding over ESMFoldpredicted wild-type backbones, with multi-chain tied decoding for PPI-Interface. EvoProtGrad (Emami et al.,
+2023) climbs fitness landscapes via PLM-likelihood gradients under Metropolis-Hastings acceptance over 500 iterations, representing the strongest oracle-free iterative
+baseline. RFdiffusion-AA (Krishna et al., 2024; Watson
+et al., 2023) generates 100 all-atom candidates per target via
+SE(3)-equivariant diffusion, selecting the top-1 by pLDDT.
+ProtAgent (GPT-4) (Ghafarollahi & Buehler, 2024) orchestrates ESMFold, FoldX, and AutoDock Vina through chainof-thought planning over a frozen GPT-4 backbone, without
+end-to-end training on protein objectives.
+
+Combined Objective and Training Schedule. The final
+training objective is:
+L(θ) = LCAPO (θ) + α Lcons (θ),
+
+α = 0.5.
+
+(11)
+
+Training proceeds in two phases: i) Supervised warm-up
+(5k steps): supervised fine-tuning on winner trajectories D+
+to initialise the policy near high-fitness regions of sequence
+space. ii) CAPO optimisation (20k steps): full objective
+Eq. (11) with Adam (η = 2 × 10−5 , β1 = 0.9, β2 = 0.999),
+linear warm-up over 1k steps, and cosine decay. A gradient
+clipping threshold of 1.0 is applied.
+6
+
+AgentPLM: Agentic Protein Language Models
+Table 1. Summary statistics of all benchmark tasks, listing the number of proteins and variants, median sequence length, evaluation metric,
+computational oracle(s), and data source(s).
+Task
+
+Proteins Variants Median L Metric
+
+Oracle(s)
+
+Source(s)
+
+ThermoStab-75
+
+1,247
+
+6,831
+
+183 ∆Tm (◦ C)
+
+FoldX, ESMFold ProThermDB, Ssym, FireProtDB
+
+AntibodyOpt-VH
+
+892
+
+4,460
+
+121 KD (nM)
+
+AutoDock Vina
+
+EnzymeDesign-EC3
+
+534
+
+1,092
+
+312 kcat /Km (M−1 s−1 ) FoldX
+
+BRENDA, SABIO-RK
+
+2,103
+
+10,515
+
+247 ∆Gbind (kcal/mol)
+
+Rosetta, FoldX
+
+PDBbind, SKEMPI 2.0
+
+41
+
+1.5M†
+
+274 Spearman ρ
+
+None (zero-shot)
+
+ProteinGym
+
+PPI-Interface
+ZeroShot-Fitness
+†
+
+SAbDab, OAS, Raybould et al. (2019)
+
+Total variants across all 41 DMS datasets; individual datasets range from 2,400 to 308,000 variants.
+
+5.3. Experimental Settings
+All models initialise from the public ESM-2 650M checkpoint and train in two phases: Phase 1 (5k steps, ≈4 GPUhours) trains only the TCE, TMB, and E[T ] with ESM-2
+frozen. Phase 2 (20k steps, ≈32 GPU-hours) jointly optimises all parameters with layer-wise decay γℓ = 0.9N −ℓ
+using AdamW (Loshchilov & Hutter, 2019) (η = 2×10−5 ,
+β1 = 0.9, β2 = 0.999, λwd = 0.01, cosine decay to
+ηmin = 2×10−7 ) on 8×A100-80GB with BFloat16, gradient checkpointing, and effective batch size 256. Oracle outputs are pre-computed into a Redis cache (50M
+pairs: 33M UniRef50 sequences ≤600 residues, 750K PDB
+chains, 16M benchmark mutants), achieving >97% hit rates
+for ESMFold and FoldX and 89% for AutoDock Vina;
+uncached inference costs 4.1 s/sequence, bottlenecked by
+Vina at ∼2,400 ms. Generative tasks sample Ngen = 100
+candidates via nucleus sampling (Holtzman et al., 2020)
+(p = 0.95, Tdec = 0.8); ZeroShot-Fitness uses a single
+deterministic forward pass with no tool calls. All hyperparameters (β = 0.1, α = 0.5, ∆min = 10, Bmax = 8,
+ρmin = −0.2, ∆ = 5, Toracle = 1.0 kcal/mol) are selected
+on ThermoStab-75 and AntibodyOpt-VH validation splits
+via grid search and BoTorch (Balandat et al., 2020), then
+fixed across all five tasks. Results are averaged over three
+seeds with standard deviations in Table 2. Significance uses
+a two-sided paired Wilcoxon test (α = 0.01).
+
+Figure 2. Normalised performance across all the benchmark tasks
+(each column scaled so AgentPLM = 1.0).
+
+EnzymeDesign-EC3 (median 2.0 variants per wild-type),
+AgentPLM reaches a normalised kcat /Km of 1.89 vs. ESM2’s 0.43 (normalised 0.23), a +41% margin over ProtAgent
+(1.34). ThermoStab improves from 5.19 ◦ C (ProtAgent,
+0.67) to 7.64 ◦ C, and PPI reaches −5.26 ± 0.68 kcal/mol
+vs. −3.42 ± 0.57 kcal/mol for ProtAgent (0.65); ESM-2 is
+weakest on PPI (0.35), reflecting the difficulty of interface
+design without structural feedback. ZeroShot shows the
+smallest spread across methods (0.62–0.87 for baselines vs.
+1.00), as no oracle calls are issued at test time and gains
+reflect CAPO fine-tuning alone; RFdiff-AA achieves the
+weakest ZeroShot score (0.62) despite competitive generative results, highlighting the mismatch between diffusion
+co-design and sequence-only fitness scoring.
+
+6. Results
+6.1. Performance Comparison
+
+6.2. Trajectory Analysis
+
+Table 2 and Figure 2 report results across all five tasks. All
+scores in the figure are normalised to AgentPLM = 1.0 with
+±σ over 5 seeds. AgentPLM achieves state-of-the-art performance on all tasks (p < 0.01, paired Wilcoxon), with
+the largest absolute margins on AntibodyOpt (+0.48 over
+the next best, ProtAgent at 0.52) and EnzyDes. (+0.29 over
+ProtAgent at 0.71). On AntibodyOpt the 52.41% hit rate
+is 1.91× ProtAgent (27.38%) and 4.23× ESM-2 (12.37%,
+normalised score 0.23), confirming that RAD rather than
+evolutionary statistics alone drives antibody design. On
+
+Figure 3 plots mean best-so-far fitness against generation
+step for all methods on ThermoStab-75 and AntibodyOptVH. ESM-2 remains flat throughout (2.1◦ C; 11.9%), confirming that single-pass scoring provides no iterative signal.
+RFdiffusion achieves a rapid early jump within ∼10 steps
+(4.5◦ C; 24.7%) but plateaus immediately, lacking oracledriven refinement. EvoProtGrad climbs slowly and monotonically to 4.2◦ C and 21.9% across all 200 steps, and ProtAgent, despite a larger early jump from its one-shot planning
+call, saturates at 5.1◦ C and 27.1%. AgentPLM rises steeply
+7
+
+AgentPLM: Agentic Protein Language Models
+Table 2. Performance results on the benchmark tasks. ThermoStab: mean Tm improvement (◦ C); AntibodyOpt: top-10% hit rate
+(KD ≤ 10 nM); EnzyDes.: normalised kcat /Km ratio relative to wild-type; PPI: mean ∆Gbind improvement (kcal/mol); ZeroShot:
+Spearman ρ averaged over DMS datasets. †: p < 0.01 vs. baselines (paired Wilcoxon test). ± values are standard deviations over 3 seeds.
+ThermoStab (↑)
+
+AntibodyOpt (↑)
+
+EnzyDes. (↑)
+
+PPI (↓)
+
+ZeroShot ρ (↑)
+
+ESM-2 (650M)
+
+2.13 ± 0.42
+
+12.37%
+
+0.43
+
+−1.83 ± 0.31
+
+0.47
+
+ProteinMPNN
+
+3.41 ± 0.63
+
+18.74%
+
+0.67
+
+−2.47 ± 0.52
+
+0.41
+
+EvoProtGrad
+
+4.28 ± 0.71
+
+22.16%
+
+0.89
+
+−2.95 ± 0.46
+
+0.53
+
+RFdiffusion-AA
+
+4.86 ± 0.94
+
+24.63%
+
+1.12
+
+−3.18 ± 0.64
+
+0.38
+
+ProtAgent
+
+5.19 ± 0.82
+
+27.38%
+
+1.34
+
+−3.42 ± 0.57
+
+0.49
+
+7.64 ± 0.93†
+
+†
+
+1.89†
+
+−5.26 ± 0.68†
+
+0.61†
+
+Method
+
+AgentPLM
+
+52.41%
+
+and continuously to 7.6◦ C and 52.1%, with step increases
+visible at each oracle call marker. The performance gap
+over all baselines widens progressively throughout all 200
+steps rather than being established at initialisation, providing
+direct causal evidence that successive oracle interactions,
+rather than a stronger starting point or training objective
+alone, drive the gains.
+Figure 4 shows the kernel-smoothed tool-call density over
+500 successful trajectories as a function of normalised sequence position t/L, revealing a clear temporal division of
+labour among the three oracles. ESMFold calls peak sharply
+at t/L ≈ 0.10 (density 0.15 calls per residue) and decay
+rapidly thereafter, consistent with the model performing an
+early global fold-compatibility check before committing to
+large sequence blocks. FoldX calls peak at t/L ≈ 0.40 (density 0.15) and are largely absent in the first and final thirds of
+the sequence, reflecting targeted thermostability monitoring
+at secondary-structure junctions where point mutations most
+strongly perturb ∆∆G (Stourac et al., 2021). AutoDock
+Vina calls show a broad, late-peaking distribution centred
+at t/L ≈ 0.60 (density 0.09) and extending to t/L ≈ 0.80,
+consistent with binding-interface assessment being meaningful only once a substantial fraction of the sequence has
+been committed. This temporally structured oracle usage,
+learned entirely through CAPO optimisation without any
+positional supervision, mirrors the sequential reasoning that
+expert protein engineers apply: fold first, stabilise junctions,
+then optimise binding.
+
+Figure 3. Mean best-so-far fitness vs. generation step on
+ThermoStab-75 and AntibodyOpt-VH. Red tick marks indicate
+AgentPLM oracle call positions, with each step increase confirming that oracle feedback directly redirects generation toward higherfitness regions.
+
+tion curves begin identically at ≈3.8 ◦ C and track closely
+through Phase 1, confirming that warm-up alone cannot
+distinguish configurations; at the Phase 2 boundary they
+diverge sharply: full AgentPLM reaches 7.6 ◦ C, SFT-only
+plateaus at 6.1 ◦ C (+1.5 ◦ C CAPO benefit, annotated), and
+CAPO-without-tools at 5.3 ◦ C (+0.7 ◦ C RAD oracle contribution). The ordering SFT-only > CAPO-without-tools
+confirms that CAPO provides its primary benefit by learning which tool calls are informative; without tool calls to
+contrast, the objective degenerates to standard preference
+fine-tuning with no mechanism to reinforce oracle-driven
+sequence redirection.
+
+6.3. CAPO Training Dynamics
+
+6.4. Attention Attribution and Online Error Correction
+
+Figure 5 shows training losses and validation fitness across
+the full 25k-step schedule on ThermoStab-75. LSFT drops
+rapidly from ≈1.5 to ≈0.6 during Phase 1 (steps 0-5k),
+confirming that TCE, TMB, and tool-call embeddings integrate cleanly into the ESM-2 backbone without disrupting
+the evolutionary prior; at the Phase 2 boundary (dashed
+line), LCAPO and Lcons activate and decrease stably to
+0.15 and 0.10 respectively by step 25k, with no instability or divergence at the phase transition. All three valida-
+
+Figure 6 provides mechanistic evidence for AgentPLM’s
+online error correction via integrated gradient attributions
+across all 33 Transformer layers over a 50-residue window
+centred on a destabilising FoldX call at t=45 (∆∆G= + 3.1
+kcal/mol). Before the call (a), attribution is broadly distributed and uniformly low (≤ 0.25) across all layers and
+positions, confirming the model generates from evolutionary
+statistics alone with no focus on position 45. After the call
+is incorporated via TCE and TMB (b), a concentrated highintensity band (> 0.8) forms at positions 43–52 across all
+8
+
+AgentPLM: Agentic Protein Language Models
+
+Figure 6. Integrated gradient heatmaps before (a) and after (b) a
+destabilising FoldX call at t=45; attribution mass concentrates
+1.8× more strongly in the mutated region (positions 43–52, layers 10–33) post-call, consistent across 87% of destabilising calls
+across 500 trajectories.
+
+Figure 4. Kernel-smoothed tool-call density over 500 successful
+AgentPLM trajectories showing a learned temporal division of
+labour: ESMFold peaks early (t/L ≈ 0.10) for fold compatibility,
+FoldX at mid-sequence (t/L ≈ 0.40) for stability at structural
+junctions, and AutoDock Vina late (t/L ≈ 0.60) as the binding
+interface forms.
+
+Table 3. Ablation results on ThermoStab-75 and AntibodyOpt-VH.
+Each row removes or replaces a single AgentPLM component.
+ThermoStab (◦ C↑)
+
+AntibodyOpt (%↑)
+
+w/o RAD (no tool calls)
+
+5.31 ± 0.72
+
+28.17%
+
+w/o CAPO (replace w. SFT)
+
+6.18 ± 0.83
+
+38.74%
+
+w/o TCE (raw concat.)
+
+6.43 ± 0.85
+
+41.36%
+
+w/o TMB (no memory)
+
+6.82 ± 0.76
+
+44.83%
+
+Bmax = 4
+
+7.13 ± 0.84
+
+49.62%
+
+Bmax = 8 (default)
+
+7.64 ± 0.93
+
+52.41%
+
+Bmax = 16
+
+7.37 ± 1.14
+
+50.18%
+
+AgentPLM
+
+7.64 ± 0.93
+
+52.41%
+
+Configuration
+
+Figure 5. Training losses (left) and validation ∆Tm (right) across
+25k steps. The three validation curves diverge at the Phase 2
+boundary, quantifying independent +1.5 ◦ C CAPO and +0.7 ◦ C
+RAD contributions over the SFT warm-up baseline.
+
+cle feedback is the dominant performance driver and that
+CAPO alone cannot substitute for structural feedback. Replacing CAPO with SFT reduces ThermoStab to 6.18 ◦ C
+and AntibodyOpt to 38.74%, demonstrating that the contrastive formulation of Eq. (9) is essential for learning which
+tool calls are informative rather than imitating high-fitness
+sequences. Ablating the TCE (raw oracle concatenation)
+and TMB (no trajectory memory) yield intermediate drops
+(6.43 ◦ C / 41.36% and 6.82 ◦ C / 44.83% respectively), quantifying the independent value of unified cross-attention encoding of heterogeneous oracle outputs and full tool-call
+history conditioning. The budget sweep reveals diminishing
+returns: Bmax =4 costs 0.51 ◦ C and 2.79% relative to the default Bmax =8, while Bmax =16 provides no significant gain
+(7.37 ◦ C, 50.18%) at 1.9× higher inference latency, identifying Bmax =8 as the efficiency-performance optimum.
+
+deep layers (10–33), with a Gaussian-like spatial profile of
+half-width ≈5 residues, consistent with localised structural
+motif correction rather than global attention redistribution.
+Quantitatively, mean attribution in the affected region (positions 43–52, layers 10–33) is 1.8× higher post-call vs. 1.1×
+in the distal unaffected region (positions 28–38), confirming
+oracle-specific redirection. Across 500 trajectories, 87% of
+destabilising FoldX calls (∆∆G > 2.0 kcal/mol) produce a
+significant post-call attribution increase (p < 0.01, paired
+Wilcoxon) in the 10-residue neighbourhood, while stabilising calls (∆∆G < 0) produce no redistribution, demonstrating that the Transformer attention mechanism selectively
+amplifies oracle signals only when they carry biophysically
+meaningful corrective information.
+
+7. Conclusion
+We introduced AgentPLM, which equips a pre-trained
+PLM with Reasoning-Augmented Decoding and Contrastive
+Agent Policy Optimisation to convert it into a biological
+reasoning agent. AgentPLM achieves state-of-the-art performance across all five benchmark tasks, with the largest
+gains on hard, data-scarce settings where passive evolutionary signal is insufficient and online biophysical feedback is
+
+6.5. Ablation Studies
+Table 3 isolates each component’s contribution on
+ThermoStab-75 and AntibodyOpt-VH. Removing RAD
+(T =∅) is the most damaging single intervention, reducing
+ThermoStab by 30% (7.64 → 5.31 ◦ C) and AntibodyOpt
+by 46% (52.41 → 28.17%), confirming that online ora9
+
+AgentPLM: Agentic Protein Language Models
+
+most critical. The integrated gradient attribution shows
+oracle-driven online error correction through the Transformer’s attention mechanism without explicit backtracking.
+These results support the view that agentic and generative
+paradigms are complementary: ESM-2’s evolutionary prior
+is necessary but not sufficient, and RAD supplies the iterative, feedback-driven refinement the generative prior alone
+cannot.
+
+Dunbar, J., Krawczyk, K., Leem, J., Baker, T., Fuchs, A.,
+Georges, G., Shi, J., and Deane, C. M. SAbDab: the
+structural antibody database. Nucleic Acids Research, 42
+(D1):D1140–D1146, 2014. doi: 10.1093/nar/gkt1043.
+Elnaggar, A., Heinzinger, M., Dallago, C., Rehawi, G.,
+Wang, Y., Jones, L., Gibbs, T., Feher, T., Angerer, C.,
+Steinegger, M., Bhowmik, D., and Rost, B. ProtTrans:
+Toward understanding the language of life through selfsupervised learning. IEEE Transactions on Pattern Analysis and Machine Intelligence, 44(10):7112–7127, 2022.
+doi: 10.1109/TPAMI.2021.3095381.
+
+Impact Statement
+AgentPLM targets beneficial applications in therapeutic antibody development, enzyme design, and protein evolution
+research. We do not believe it meaningfully lowers the barrier to misuse beyond existing structural biology tools, as
+its oracle suite contains no pathogen-specific evaluators and
+gains are confined to well-characterised engineering tasks.
+We commit to access controls on model weights, use-case
+review on request, and active engagement with biosecurity
+guidelines.
+
+Elnaggar, A., Essam, H., Salah-Eldin, W., Moustafa, W.,
+Elkerdawy, M., Rochereau, C., and Rost, B. Ankh: Optimized protein language model unlocks general-purpose
+modelling. arXiv preprint arXiv:2301.06568, 2023. URL
+https://arxiv.org/abs/2301.06568.
+Emami, P., Perreault, A., Law, J., Biagioni, D., and St. John,
+P. Plug & play directed evolution of proteins with
+gradient-based discrete MCMC. Machine Learning: Science and Technology, 4(2):025014, 2023.
+
+References
+Arnold, F. H. Directed evolution: Bringing new chemistry
+to life. Angewandte Chemie International Edition, 57(16):
+4143–4148, 2018. doi: 10.1002/anie.201708408. Nobel
+Lecture.
+
+Ghafarollahi, A. and Buehler, M. J. Protagents: protein discovery via large language model multi-agent
+collaborations combining physics and machine learning. Digital Discovery, 3(7):1389–1409, 2024. doi:
+10.1039/D4DD00013G.
+
+Balandat, M., Karrer, B., Jiang, D. R., Daulton, S., Letham,
+B., Wilson, A. G., and Bakshy, E. BoTorch: a framework for efficient Monte-Carlo Bayesian optimization.
+In Advances in Neural Information Processing Systems,
+volume 33, 2020. URL http://arxiv.org/abs/
+1910.06403.
+
+Holtzman, A., Buys, J., Du, L., Forbes, M., and Choi, Y.
+The curious case of neural text degeneration. In 8th
+International Conference on Learning Representations
+(ICLR 2020). OpenReview.net, 2020. URL https://
+openreview.net/forum?id=rygGQyrFvH.
+Huang, P.-S., Boyken, S. E., and Baker, D. The coming
+of age of de novo protein design. Nature, 537(7620):
+320–327, 2016. doi: 10.1038/nature19946.
+
+Bran, A. M., Cox, S., Schilter, O., Baldassari, C., White,
+A. D., and Schwaller, P. Augmenting large-language models with chemistry tools. Nature Machine Intelligence,
+6:525–535, 2024. doi: 10.1038/s42256-024-00832-8.
+arXiv:2304.05376.
+
+Ingraham, J. B., Baranov, M., Costello, Z., Barber, K. W.,
+Wang, W., Ismail, A., Frappier, V., Lord, D. M., NgThow-Hing, C., Van Vlack, E. R., Tie, S., Xue, V.,
+Cowles, S. C., Leung, A., ao V. Rodrigues, J., MoralesPerez, C. L., Ayoub, A. M., Green, R., Puentes, K.,
+Oplinger, F., Panwar, N. V., Obermeyer, F., Root, A. R.,
+Beam, A. L., Poelwijk, F. J., and Grigoryan, G. Illuminating protein space with a programmable generative model. Nature, 623(7989):1070–1078, 2023. doi:
+10.1038/s41586-023-06728-8.
+
+Chang, A., Jeske, L., Ulbrich, S., Hofmann, J., Koblitz,
+J., Schomburg, I., Neumann-Schaal, M., Jahn, D., and
+Schomburg, D. BRENDA, the ELIXIR core data resource
+in 2021: new developments and updates. Nucleic Acids
+Research, 49(D1):D498–D508, 2021. doi: 10.1093/nar/
+gkaa1025.
+Dauparas, J., Anishchenko, I., Bennett, N., Bai, H., Ragotte,
+R. J., Milles, L. F., Wicky, B. I. M., Courbet, A., de Haas,
+R. J., Bethel, N., Leung, P. J. Y., Huddy, T. F., Pellock, S.,
+Tischer, D., Chan, F., Koepnick, B., Nguyen, H., Kang,
+A., Sankaran, B., Bera, A. K., King, N. P., and Baker,
+D. Robust deep learning-based protein sequence design
+using ProteinMPNN. Science, 378(6615):49–56, 2022.
+doi: 10.1126/science.add2187.
+
+Jankauskaitė, J., Jiménez-Garcı́a, B., Dapkūnas, J.,
+Fernández-Recio, J., and Moal, I. H. SKEMPI 2.0:
+an updated benchmark of changes in protein–protein
+binding energy, kinetics and thermodynamics upon mutation. Bioinformatics, 35(3):462–469, 2019. doi:
+10.1093/bioinformatics/bty635.
+10
+
+AgentPLM: Agentic Protein Language Models
+
+Jumper, J., Evans, R., Pritzel, A., Green, T., Figurnov, M.,
+Ronneberger, O., Tunyasuvunakool, K., Bates, R., Žı́dek,
+A., Potapenko, A., Bridgland, A., Meyer, C., Kohl, S.
+A. A., Ballard, A. J., Cowie, A., Romera-Paredes, B.,
+Nikolov, S., Jain, R., Adler, J., Back, T., Petersen, S.,
+Reiman, D., Clancy, E., Zielinski, M., Steinegger, M.,
+Pacholska, M., Berghammer, T., Bodenstein, S., Silver,
+D., Vinyals, O., Senior, A. W., Kavukcuoglu, K., Kohli,
+P., and Hassabis, D. Highly accurate protein structure
+prediction with AlphaFold. Nature, 596(7873):583–589,
+2021. doi: 10.1038/s41586-021-03819-2.
+
+Notin, P., Dias, M., Frazer, J., Marchena-Hurtado, J.,
+Gomez, A. N., Marks, D. S., and Gal, Y. Tranception:
+protein fitness prediction with autoregressive transformers and inference-time retrieval. In Proceedings of the
+39th International Conference on Machine Learning, volume 162 of Proceedings of Machine Learning Research,
+pp. 16990–17017. PMLR, 2022.
+Notin, P., Kollasch, A., Ritter, D., van Niekerk, L., Paul,
+S., Spinner, H., Rollins, N., Shaw, A., Orenbuch, R.,
+Weitzman, R., Frazer, J., Dias, M., Franceschi, D., Gal,
+Y., and Marks, D. S. ProteinGym: large-scale benchmarks
+for protein fitness prediction and design. In Advances
+in Neural Information Processing Systems, volume 36,
+2023. NeurIPS 2023 Datasets and Benchmarks Track.
+
+Kovaltsuk, A., Leem, J., Kelm, S., Snowden, J., Deane,
+C. M., and Krawczyk, K. Observed antibody space: a
+resource for data mining next-generation sequencing of
+antibody repertoires. The Journal of Immunology, 201(8):
+2502–2509, 2018. doi: 10.4049/jimmunol.1800708.
+
+O’Donoghue, O., Shtedritski, A., Ginger, J., Abboud, R.,
+Ghareeb, A. E., Booth, J., and Rodriques, S. G. BioPlanner: Automatic evaluation of LLMs on protocol planning in biology. In Proceedings of the 2023 Conference
+on Empirical Methods in Natural Language Processing
+(EMNLP), pp. 2676–2694. Association for Computational
+Linguistics, 2023. doi: 10.18653/v1/2023.emnlp-main.
+162. URL https://aclanthology.org/2023.
+emnlp-main.162/.
+
+Krishna, R., Wang, J., Ahern, W., Sturmfels, P., Venkatesh,
+P., Kalvet, I., Lee, G. R., Morey-Burrows, F. S., Anishchenko, I., Humphreys, I. R., McHugh, R., Vafeados,
+D., Li, X., Sutherland, G. A., Hitchcock, A., Hunter,
+C. N., Kang, A., Brackenbrough, E., Bera, A. K., Baek,
+M., DiMaio, F., and Baker, D. Generalized biomolecular
+modeling and design with RoseTTAFold All-Atom. Science, 384(6693):eadl2528, 2024. doi: 10.1126/science.
+adl2528.
+
+Pucci, F., Bernaerts, K. V., Kwasigroch, J. M., and Rooman,
+M. Quantification of biases in predictions of protein
+stability changes upon mutations. Bioinformatics, 34(21):
+3659–3665, 2018. doi: 10.1093/bioinformatics/bty348.
+
+Lefranc, M.-P. IMGT, the international ImMunoGeneTics
+database. Nucleic Acids Research, 31(1):307–310, 2003.
+doi: 10.1093/nar/gkg085.
+
+Qin, Y., Liang, S., Ye, Y., Zhu, K., Yan, L., Lu, Y., Lin, Y.,
+Cong, X., Tang, X., Qian, B., Zhao, S., Hong, L., Tian, R.,
+Xie, R., Zhou, J., Gerstein, M., Li, D., Liu, Z., and Sun, M.
+ToolLLM: Facilitating large language models to master
+16000+ real-world APIs. In 12th International Conference on Learning Representations (ICLR 2024), 2024.
+URL https://arxiv.org/abs/2307.16789.
+
+Li, W. and Godzik, A. Cd-hit: a fast program for clustering and comparing large sets of protein or nucleotide
+sequences. Bioinformatics, 22(13):1658–1659, 2006. doi:
+10.1093/bioinformatics/btl158.
+Lin, Z., Akin, H., Rao, R., Hie, B., Zhu, Z., Lu, W.,
+Smetanin, N., Verkuil, R., Kabeli, O., Shmueli, Y.,
+dos Santos Costa, A., Fazel-Zarandi, M., Sercu, T.,
+Candido, S., and Rives, A. Evolutionary-scale prediction of atomic-level protein structure with a language
+model. Science, 379(6637):1123–1130, 2023. doi:
+10.1126/science.ade2574.
+
+Rafailov, R., Sharma, A., Mitchell, E., Ermon, S., Manning,
+C. D., and Finn, C. Direct preference optimization: Your
+language model is secretly a reward model. In Advances
+in Neural Information Processing Systems, volume 36,
+2023. URL https://proceedings.neurips.
+cc/paper_files/paper/%2023/hash/
+a85b405ed65c6477a4fe8302b5e06ce7%
+-Abstract-Conference.html.
+
+Loshchilov, I. and Hutter, F. Decoupled weight decay
+regularization. In 7th International Conference on
+Learning Representations (ICLR 2019). OpenReview.net,
+2019. URL https://openreview.net/forum?
+id=Bkg6RiCqY7.
+
+Rahman, M. R., Bejder, J., Bonne, T. C., Andersen, A. B.,
+Huertas, J. R., Aikin, R., Nordsborg, N. B., and Maaß, W.
+Ai-based approach for improving the detection of blood
+doping in sports. 2022. URL https://arxiv.org/
+abs/2203.00001.
+
+Nikam, R., Kulandaisamy, A., Harini, K., Sharma, D., and
+Gromiha, M. M. ProThermDB: thermodynamic database
+for proteins and mutants revisited after 15 years. Nucleic
+Acids Research, 49(D1):D420–D424, 2021. doi: 10.1093/
+nar/gkaa1035.
+
+Raybould, M. I. J., Marks, C., Krawczyk, K., Taddese, B.,
+Nowak, J., Lewis, A. P., Bujotzek, A., Shi, J., and Deane,
+C. M. Five computational developability guidelines for
+11
+
+AgentPLM: Agentic Protein Language Models
+
+therapeutic antibody profiling. Proceedings of the National Academy of Sciences, 116(10):4025–4030, 2019.
+doi: 10.1073/pnas.1810576116.
+
+RFdiffusion. Nature, 620(7976):1089–1100, 2023. doi:
+10.1038/s41586-023-06415-8.
+Wei, J., Wang, X., Schuurmans, D., Bosma, M., Ichter, B.,
+Xia, F., Chi, E., Le, Q. V., and Zhou, D. Chain-of-thought
+prompting elicits reasoning in large language models.
+In Advances in Neural Information Processing Systems,
+volume 35, 2022.
+
+Russ, W. P., Figliuzzi, M., Stocker, C., Barrat-Charlaix,
+P., Socolich, M., Kast, P., Hilvert, D., Monasson, R.,
+Cocco, S., Weigt, M., and Ranganathan, R. An evolutionbased model for designing chorismate mutase enzymes.
+Science, 369(6502):440–445, 2020. doi: 10.1126/science.
+aba3304.
+
+Wittig, U., Kania, R., Golebiewski, M., Rey, M., Shi, L.,
+Jong, L., Algaa, E., Weidemann, A., Sauer-Danzwith, H.,
+Mir, S., Krebs, O., Bittkowski, M., Wetsch, E., Rojas, I.,
+and Müller, W. SABIO-RK — database for biochemical
+reaction kinetics. Nucleic Acids Research, 40(D1):D790–
+D796, 2012. doi: 10.1093/nar/gkr1046.
+
+Schick, T., Dwivedi-Yu, J., Dessı̀, R., Raileanu, R., Lomeli,
+M., Zettlemoyer, L., Cancedda, N., and Scialom, T. Toolformer: Language models can teach themselves to use
+tools. In Advances in Neural Information Processing
+Systems, volume 36, 2023.
+
+Yang, K. K., Wu, Z., and Arnold, F. H. Machine-learningguided directed evolution for protein engineering. Nature Methods, 16(8):687–694, 2019. doi: 10.1038/
+s41592-019-0496-6.
+
+Shanehsazzadeh, A., Bachas, S., McPartlon, M., Kasun, G.,
+Steiger, A. K., Sutton, J. M., Yassine, E., McCloskey, C.,
+Haile, R., Shuai, R., Alverio, J., Rakocevic, G., Levine, S.,
+Cejovic, J., Gutierrez, J. M., Morehead, A., Dubrovskyi,
+O., Chung, C., Luton, B. K., Diaz, N., Kohnert, C., Meier,
+J., Gander, M., Yapici, E., and Klug, L. R. Unlocking
+de novo antibody design with generative artificial intelligence. bioRxiv, 2023. doi: 10.1101/2023.01.08.523187.
+Preprint.
+
+Yao, S., Zhao, J., Yu, D., Du, N., Shafran, I., Narasimhan,
+K., and Cao, Y. ReAct: Synergizing reasoning and acting
+in language models. In 11th International Conference
+on Learning Representations (ICLR 2023), 2023. URL
+https://arxiv.org/abs/2210.03629.
+Zhang, N., Bi, Z., Liang, X., Cheng, S., Hong, H., Deng,
+S., Zhang, Q., Lian, J., and Chen, H. Multi-modal
+protein knowledge graph construction and applications.
+arXiv preprint arXiv:2207.10080, 2022. URL https:
+//arxiv.org/abs/2207.10080.
+
+Stanton, S., Maddox, W., Gruver, N., Maffettone, P.,
+Delaney, E., Greenside, P., and Wilson, A. G. Accelerating Bayesian optimization for biological sequence design with denoising autoencoders. In Proceedings of the 39th International Conference on Machine Learning, volume 162 of Proceedings of Machine Learning Research, pp. 20459–20478. PMLR,
+2022. URL https://proceedings.mlr.press/
+v162/stanton22a.html.
+Stourac, J., Dubrava, J., Musil, M., Horackova, J.,
+Damborsky, J., Mazurenko, S., and Bednar, D. FireProtDB: database of manually curated protein stability
+data. Nucleic Acids Research, 49(D1):D319–D324, 2021.
+doi: 10.1093/nar/gkaa981.
+Wang, R., Fang, X., Lu, Y., and Wang, S. The PDBbind database: collection of binding affinities for proteinligand complexes with known three-dimensional structures. Journal of Medicinal Chemistry, 47(12):2977–
+2980, 2004. doi: 10.1021/jm030580l.
+Watson, J. L., Juergens, D., Bennett, N. R., Trippe, B. L.,
+Yim, J., Eisenach, H. E., Ahern, W., Borst, A. J., Ragotte,
+R. J., Milles, L. F., Wicky, B. I. M., Hanikel, N., Pellock,
+S. J., Courbet, A., Sheffler, W., Wang, J., Venkatesh,
+P., Sappington, I., Vázquez Torres, S., Lauko, A., De
+Bortoli, V., Mathieu, E., Ovchinnikov, S., Barzilay, R.,
+Jaakkola, T. S., DiMaio, F., Baek, M., and Baker, D.
+De novo design of protein structure and function with
+12
+
+
