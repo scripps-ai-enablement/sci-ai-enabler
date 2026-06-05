@@ -40,6 +40,21 @@ The full set is below, grouped by domain. Each row links to a per-system page wi
 {% endif %}
 {% endfor %}
 
+{%- comment -%} Safety net: surface any system whose domain_group is outside the known set above, so a typo or a newly-introduced group never silently disappears from the table. {%- endcomment -%}
+{% capture known_groups %}|{{ group_order | join: "|" }}|{% endcapture %}
+{% assign orphan_count = 0 %}
+{% for s in systems %}{% capture probe %}|{{ s.domain_group }}|{% endcapture %}{% unless known_groups contains probe %}{% assign orphan_count = orphan_count | plus: 1 %}{% endunless %}{% endfor %}
+{% if orphan_count > 0 %}
+### ⚠ Uncategorized ({{ orphan_count }})
+
+These systems carry a `domain_group` outside the known set and are **not** shown above. Fix the system page's front-matter (use one of the seven controlled groups, or `Other`), or add the new group to the list in this page and in `COSCIENTIST_AGENT.md`.
+
+| System | Org | What it is | Loop stage | Validation | Access |
+|:---|:---|:---|:---|:---|:---|
+{% for s in systems %}{% capture probe %}|{{ s.domain_group }}|{% endcapture %}{% unless known_groups contains probe %}| [{{ s.title }}](systems/{{ s.name | replace: ".md", ".html" }}) | {{ s.org_short }} | {{ s.tagline }} (unrecognized group `{{ s.domain_group }}`) | {{ s.lifecycle_stages | join: ", " }} | {{ s.validation_type }} | {{ s.access }} |
+{% endunless %}{% endfor %}
+{% endif %}
+
 Other systems being tracked for inclusion: **Virtual Lab** (Stanford / CZ Biohub, *Nature* 2025 — designed novel SARS-CoV-2 nanobodies), **CORAL** (multi-agent evolutionary discovery, arXiv:2604.01658), **STORM**, **Aviary**, and **AutoBa**.
 
 ## Sources

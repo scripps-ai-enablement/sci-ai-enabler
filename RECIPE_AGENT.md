@@ -31,6 +31,8 @@ Tag every recipe with exactly one of these `problem_class` values:
 
 A recipe sits in one bucket. Recipes that span buckets are usually two recipes, not one.
 
+**This list is a closed vocabulary, and `recipes/summary.md` renders its table by iterating exactly these values.** If you ever add, rename, or remove a `problem_class`, you must update the `classes` list in `recipes/summary.md` to match — otherwise recipes in the changed class fall through to the page's `⚠ Uncategorized` safety-net section instead of their proper group. Prefer reusing an existing class over inventing one.
+
 ## Subject areas
 
 Tag every recipe with one or more of the seven canonical life-science **research-area** categories defined in `AGENT.md` (recipes are organized by science problem, so the `General-Purpose Utilities` shelf is **not** a recipe subject area — utilities are ingredients a recipe assembles, not a problem domain):
