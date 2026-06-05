@@ -114,10 +114,14 @@ jobs:
 
       - name: Phase A — search and archive
         uses: anthropics/claude-code-base-action@e8132bc5e637a42c27763fc757faa37e1ee43b34
+        env:
+          # WebFetch summarizes pages with the Haiku model; pin it so it does not
+          # fall back to the retired claude-3-5-haiku-20241022 (404s in CI).
+          ANTHROPIC_DEFAULT_HAIKU_MODEL: claude-haiku-4-5-20251001
         with:
           prompt_file: .phase-a-prompt.md
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          model: claude-opus-4-7
+          model: claude-opus-4-8
           mcp_config: .mcp-config.json
           timeout_minutes: "25"
           allowed_tools: "Read,Write,Glob,Grep,Bash,WebSearch,WebFetch,mcp__papers__search_papers,mcp__papers__search_pubmed,mcp__papers__search_biorxiv,mcp__papers__search_medrxiv,mcp__papers__search_arxiv,mcp__papers__download_with_fallback,mcp__papers__download_arxiv,mcp__papers__download_pubmed,mcp__papers__download_biorxiv,mcp__papers__download_medrxiv,mcp__papers__read_arxiv_paper,mcp__papers__read_pubmed_paper,mcp__papers__read_biorxiv_paper"
@@ -171,7 +175,7 @@ jobs:
         with:
           prompt_file: .phase-b-prompt.md
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          model: claude-opus-4-7
+          model: claude-opus-4-8
           timeout_minutes: "25"
           allowed_tools: "Read,Edit,Write,Glob,Grep,Bash"
 

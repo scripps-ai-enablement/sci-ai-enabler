@@ -74,10 +74,14 @@ jobs:
           } > .run-prompt.md
 
       - uses: anthropics/claude-code-base-action@e8132bc5e637a42c27763fc757faa37e1ee43b34
+        env:
+          # WebFetch summarizes pages with the Haiku model; pin it so it does not
+          # fall back to the retired claude-3-5-haiku-20241022 (404s in CI).
+          ANTHROPIC_DEFAULT_HAIKU_MODEL: claude-haiku-4-5-20251001
         with:
           prompt_file: .run-prompt.md
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          model: claude-opus-4-7
+          model: claude-opus-4-8
           allowed_tools: "Read,Edit,Write,Glob,Grep,WebSearch,WebFetch"
           # The action defaults to a 10-minute internal timeout, which the
           # full manifest sweep + directed pass routinely overruns. Match
