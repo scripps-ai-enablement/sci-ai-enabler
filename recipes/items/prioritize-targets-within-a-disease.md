@@ -2,7 +2,7 @@
 title: Prioritize targets within a disease via Open Targets
 parent: All recipes
 grand_parent: Recipes
-nav_order: 17
+nav_order: 18
 problem_class: Knowledge synthesis
 subject_areas: [Drug Repurposing and Discovery, Translational Medicine, Molecular and Cellular Biology]
 evidence_level: Reported

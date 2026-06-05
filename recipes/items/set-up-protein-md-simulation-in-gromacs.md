@@ -2,7 +2,7 @@
 title: Set up a protein molecular dynamics simulation in GROMACS from a PDB ID
 parent: All recipes
 grand_parent: Recipes
-nav_order: 22
+nav_order: 24
 problem_class: Experimental design
 subject_areas: [Chemistry, Integrative Structural and Computational Biology]
 evidence_level: Proposed

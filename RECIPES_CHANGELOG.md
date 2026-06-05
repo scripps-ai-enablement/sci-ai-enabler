@@ -11,6 +11,24 @@ Reverse-chronological log of changes to the [recipes cookbook](recipes/). Newest
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-06-05
+
+### Added
+
+- **Organize a raw DICOM dataset into a BIDS layout** (Problem class: Workflow automation; Evidence: Proposed) — rung-2 [BIDS Claude Skill](catalog/tools/bids.html) recipe taking a directory of vendor DICOMs through series-level inventory → HeuDiConv heuristic (or dcm2bids config) drafting → single-subject `--dry-run` audit → cohort conversion via `dcm2niix` → top-level `dataset_description.json` / `participants.tsv` / sidecar authoring → `bids-validator` triage → PyBIDS post-conversion query, with explicit `IntendedFor` cross-link logic for fieldmaps. First Neuroscience focus-day recipe of this run; promoted from the `Deferred — next-run priority` list. Cookbook's first imaging-side data-organization recipe — counterpart to the existing [Discover NWB recordings on DANDI](recipes/items/discover-nwb-recordings-on-dandi.html) electrophysiology discovery recipe. `Proposed` because no documented end-to-end LLM-driven DICOM→BIDS workflow exists in last-24-months peer-reviewed or preprint literature; closest component-level grounding is [Gorgolewski et al., *Sci. Data* 3:160044 (2016)](https://doi.org/10.1038/sdata.2016.44) and [Poldrack et al., *Imaging Neuroscience* 2:1–19 (2024)](https://doi.org/10.1162/imag_a_00103) (BIDS spec evolution); [Yarkoni et al., *JOSS* 4(40):1294 (2019)](https://doi.org/10.21105/joss.01294) (PyBIDS); [Zwiers, Moia, Oostenveld, *Front. Neuroinform.* 15:770608 (2022)](https://doi.org/10.3389/fninf.2021.770608) (BIDScoin); and [Wulms et al., *Sci. Data* 10:673 (2023)](https://doi.org/10.1038/s41597-023-02583-4) (BIDSconvertR).
+
+### Updated
+
+- Nav orders rebalanced to keep alphabetical title ordering after the new addition and to fix a stale collision between **Run first-pass QC** and **Run functional enrichment** (both stamped 20). "Organize a raw DICOM dataset…" inserted at 16; everything from "Parse FCS…" downward shifted by +1, with **Run first-pass QC** at 21 and **Run functional enrichment** at 22: **Parse FCS flow-cytometry files** → 17, **Prioritize targets** → 18, **Profile polypharmacology** → 19, **Run bulk RNA-seq DE** → 20, **Run first-pass QC** → 21, **Run functional enrichment** → 22, **Scan repurposing** → 23, **Set up protein MD** → 24, **Sort spikes** → 25, **Triage preprints** → 26, **Triage AlphaFold** → 27.
+
+### Verified (no changes)
+
+- No aging recipes due — every `last_verified` date is within the 30-day window. The verification floor sits at 2026-05-24 (`scan-drug-repurposing-candidates`); next aging boundary is 2026-06-23.
+
+### User requests
+
+- **#12 @goodb** — still cannot access the issue body (no `gh` permission for the repo in this run); leaving open in `recipes/curator-state.md` for the next run with `gh` access.
+
 ## 2026-06-04
 
 ### Added

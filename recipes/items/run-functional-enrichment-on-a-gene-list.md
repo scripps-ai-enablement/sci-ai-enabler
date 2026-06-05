@@ -2,7 +2,7 @@
 title: Run functional enrichment on a gene list
 parent: All recipes
 grand_parent: Recipes
-nav_order: 20
+nav_order: 22
 problem_class: Data analysis
 subject_areas: [Molecular and Cellular Biology, Immunology and Microbiology, Drug Repurposing and Discovery]
 evidence_level: Reported
