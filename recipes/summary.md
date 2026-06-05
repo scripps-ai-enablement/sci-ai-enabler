@@ -26,6 +26,19 @@ _No recipes yet._
 {% endif %}
 {% endfor %}
 
+{%- comment -%} Safety net: surface any recipe whose problem_class is outside the known set above, so a typo or a newly-introduced class never silently disappears from this page. {%- endcomment -%}
+{% capture known_classes %}|{{ classes | join: "|" }}|{% endcapture %}
+{% assign orphan_count = 0 %}
+{% for recipe in recipes %}{% capture probe %}|{{ recipe.problem_class }}|{% endcapture %}{% unless known_classes contains probe %}{% assign orphan_count = orphan_count | plus: 1 %}{% endunless %}{% endfor %}
+{% if orphan_count > 0 %}
+### ⚠ Uncategorized ({{ orphan_count }})
+
+These recipes carry a `problem_class` outside the known set and are **not** shown above. Fix the recipe's front-matter, or add the new class to the list in this page and in `RECIPE_AGENT.md`.
+{% for recipe in recipes %}{% capture probe %}|{{ recipe.problem_class }}|{% endcapture %}{% unless known_classes contains probe %}
+- [{{ recipe.title }}]({{ recipe.url | relative_url }}) — unrecognized `problem_class: {{ recipe.problem_class }}`
+{% endunless %}{% endfor %}
+{% endif %}
+
 ## How evidence is distributed
 
 The cookbook mixes three evidence levels:
