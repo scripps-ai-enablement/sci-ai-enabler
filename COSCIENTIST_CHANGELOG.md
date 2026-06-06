@@ -9,6 +9,22 @@ permalink: /updates/ai-scientists.html
 
 Reverse-chronological log of changes to the [AI scientists tracker](autonomous-science/). Newest at the top.
 
+## 2026-06-06
+
+### Added
+- **OriGene** (Lifecycle: Hypothesis, Analysis) — Shanghai Jiao Tong University (Global Institute of Future Technology, GENTEL Lab; corresponding author Shuangjia Zheng) self-evolving multi-agent system framed as a **"virtual disease biologist"** that autonomously generates and prioritizes mechanistically grounded **therapeutic-target hypotheses**. It integrates **600+ specialized tools** and curated biomedical databases through a **Model Context Protocol (MCP)**, reasoning across genomics, protein networks, pharmacology, clinical records, and literature; a **knowledge-graph-based Tool RAG** plus an agent-selection mechanism drives dynamic, context-aware tool deployment, and a **self-evolving feedback loop** iteratively refines the system's thinking templates, tool composition, and analytical protocols from human and experimental feedback. On **TRQA**, an original 1,921-pair expert benchmark (TRQA-lit: 172 multiple-choice + 1,108 short-answer; TRQA-db: 641 short-answer), OriGene is reported to outperform human experts, leading research agents, and SOTA LLMs on accuracy, recall, and robustness — particularly under data sparsity or noise. Critically, it nominated two previously underexplored targets — **GPR160 (liver cancer)** and **ARG2 (colorectal cancer)** — both of which showed significant **anti-tumor activity in patient-derived organoid and tumor-fragment models** mirroring human clinical exposures. Open source at github.com/GENTEL-lab/OriGene ([source](https://doi.org/10.1101/2025.06.03.657658)).
+
+### Updated
+- **`autonomous-science/summary.md`** — added OriGene to the "Biology and medicine carry the strongest evidence" exemplar list (agent-nominated cancer targets confirmed in patient-derived organoid models); bumped `synthesis_reviewed` to 2026-06-06 after re-verifying every synthesis claim against the current grouping (all still hold — OriGene reinforces, but does not tip, the biology-medicine evidence superlative).
+- **`autonomous-science/curator-state.md`** — added OriGene at the top of `Recently surfaced` (trimming AutoSci to keep the window at five); added **AutoDiscovery** (Ai2 / AstaLabs) to `Deferred — next-run priority` as a secondary lead that could not be investigated this run.
+- **`sources/manifest.json`** — OriGene entry (DOI 10.1101/2025.06.03.657658) added by Phase A; bioRxiv PDF/JATS Cloudflare-blocked, so the sidecar was assembled from the bioRxiv API abstract, project homepage, and GitHub repo metadata.
+
+### Flagged
+_None._
+
+### Verified (no changes)
+- All pre-existing system pages were `last_verified` on 2026-05-20 or later — inside the 30-day re-verification window. No spot-checks required this run.
+
 ## 2026-06-05
 
 ### Added

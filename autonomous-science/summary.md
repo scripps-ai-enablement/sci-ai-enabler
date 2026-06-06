@@ -2,7 +2,7 @@
 title: Landscape
 parent: AI scientists
 nav_order: 1
-synthesis_reviewed: 2026-06-05
+synthesis_reviewed: 2026-06-06
 ---
 
 # The autonomous AI scientist landscape
@@ -16,7 +16,7 @@ An autonomous AI scientist is a named software system that takes meaningful init
 Across the {{ systems | size }} systems tracked here, a few cross-cutting patterns matter more than any single entry:
 
 - **Chemistry and materials are the most loop-closed.** These systems run genuine closed loops on physical hardware — CMU's Coscientist and MARS drive robotic synthesis, AMASE and MAD couple multiple characterization instruments to active-learning policies, and LEAP and CatDT pair domain-tuned models with wet-lab or microkinetic validation. This is where "autonomous" most fully means hands-on-the-apparatus.
-- **Biology and medicine carry the strongest evidence.** Wet-lab and clinical validation — Co-Scientist's in vitro oncology hits, Robin's confirmed dry-AMD drug candidates, SPARK's prospective pathology study across 18 cohorts, CRISPR-GPT's non-expert gene-editing case study — set the highest evidence tier in the field.
+- **Biology and medicine carry the strongest evidence.** Wet-lab and clinical validation — Co-Scientist's in vitro oncology hits, Robin's confirmed dry-AMD drug candidates, SPARK's prospective pathology study across 18 cohorts, CRISPR-GPT's non-expert gene-editing case study, OriGene's agent-nominated cancer targets confirmed in patient-derived organoid models — set the highest evidence tier in the field.
 - **ML and scientific computing is a large, fast-moving cluster,** but mostly benchmark-validated rather than physically grounded. The recent design trend is architectural: self-improving systems that accumulate methodological memory across problems (GRAFT-ATHENA, EvoScientist, AutoSci, AutoScientists), and a turn toward *verifiability* — adversarial cross-model review (ARIS), evidence-chain auditing (ScientistOne), and numeric-registry gating (AutoResearchClaw).
 - **Physical sciences and embodied systems are the newest frontier,** moving AI past simulators onto real apparatus: Qumus fabricates 2D-material devices, the Qiushi engine runs a free-space optical platform, Dr.Sai operates inside the BESIII collider collaboration, and BioProVLA runs wet-lab robotics on an ~$800 rig.
 - **A long tail of single-domain pioneers** now spans mathematics (AI co-mathematician), symbolic equation discovery (MCI), spatial data science (NORA), plant science (Aleks), and scientific visualization (VIS Co-Scientist).

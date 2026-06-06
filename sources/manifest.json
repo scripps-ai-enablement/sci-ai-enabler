@@ -491,6 +491,15 @@
       "source_url": "https://arxiv.org/abs/2606.06473",
       "downloaded": "2026-06-05",
       "txt_sidecar": "2606.06473v1.txt"
+    },
+    {
+      "doi": "10.1101/2025.06.03.657658",
+      "filename": null,
+      "title": "OriGene: A Self-Evolving Virtual Disease Biologist Automating Therapeutic Target Discovery",
+      "source_url": "https://www.biorxiv.org/content/10.1101/2025.06.03.657658v1",
+      "downloaded": "2026-06-06",
+      "txt_sidecar": "2025.06.03.657658.txt",
+      "note": "bioRxiv PDF/JATS Cloudflare-blocked (403); sidecar assembled from bioRxiv API abstract + project homepage + GitHub repo metadata."
     }
   ]
 }

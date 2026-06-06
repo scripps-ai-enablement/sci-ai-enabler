@@ -1,0 +1,80 @@
+OriGene: A Self-Evolving Virtual Disease Biologist Automating Therapeutic Target Discovery
+
+Source: bioRxiv preprint, DOI 10.1101/2025.06.03.657658, version 1, posted 2025-06-06.
+License: CC-BY-NC.
+Corresponding author: Shuangjia Zheng (Global Institute of Future Technology, Shanghai Jiao Tong University, Shanghai, China).
+Other corresponding authors / senior authors: Lei Bai, Qiang Gao, Siqi Sun.
+Authors: Zhang Z, Qiu Z, Wu Y, Li S, Wang D, Liu Y, Zhou Z, Hu Y, Chen Y, An D, Wang Y, Li Y, Zhong Z, Ou C, Wang Z, Tang F, Chen J X, Ma R, Li J, Wang X, Lu W, Xue H, Zhang W, Wei Z, Ma R, Shi Z, Wang K, Liu Q, Dong B, He Y, Liu T, Gu J, Song S, Feng Q, Zhang J, Zhang B, Tian L, Bai L, Gao Q, Sun S, Zheng S.
+
+NOTE FOR PHASE B: The bioRxiv full-text PDF and JATS XML are blocked by Cloudflare (403). This
+sidecar was assembled from the bioRxiv API record (full abstract, verbatim below), the project
+homepage, and the GitHub repository metadata. All claims below trace to those sources. Cite the
+bioRxiv DOI as the primary paper.
+
+=== FULL ABSTRACT (verbatim, bioRxiv API) ===
+Here, we present OriGene, a self-evolving multi-agent system that functions as a virtual disease
+biologist, systematically identifying original and mechanistically grounded therapeutic targets at
+scale. OriGene's architecture integrates over 600 specialized tools through a Model Context Protocol
+(MCP), enabling it to reason across diverse data modalities including genomics, protein networks,
+pharmacology, clinical records and literature evidence, to generate and prioritize target discovery
+hypotheses. We implemented a strategy combining a knowledge graph-based Tool RAG with an advanced
+agent selection mechanism to enable dynamic, context-aware tool deployment. Through a self-evolving
+framework, OriGene continuously integrates human and experimental feedback to iteratively refine its
+core thinking templates, tool composition, and analytical protocols, thereby enhancing both accuracy
+and adaptability over time. To comprehensively evaluate its performance, we established TRQA, an
+original benchmark comprising over 1,900 expert-level question-answer pairs spanning a wide range of
+diseases and target classes. OriGene consistently outperforms human experts, leading research agents,
+and state-of-the-art large language models in accuracy, recall, and robustness, particularly under
+conditions of data sparsity or noise. Critically, OriGene nominated previously underexplored
+therapeutic targets for liver (GPR160) and colorectal cancer (ARG2), which demonstrated significant
+anti-tumor activity in patient-derived organoid and tumor fragment models mirroring human clinical
+exposures. These findings demonstrate OriGene's potential as a scalable and adaptive platform for
+AI-driven discovery of mechanistically grounded therapeutic targets, offering a new paradigm to
+accelerate drug development.
+
+=== ARCHITECTURE (from abstract + homepage) ===
+- Self-evolving multi-agent system framed as a "virtual disease biologist."
+- Integrates 600+ specialized tools and curated biomedical databases via a Model Context Protocol (MCP).
+- Multi-modal reasoning across genomics, transcriptomics, proteomics, phenomics, protein networks,
+  pharmacology, clinical records, and literature evidence.
+- Knowledge-graph-based Tool RAG plus an advanced agent-selection mechanism for dynamic, context-aware
+  tool deployment.
+- Self-evolving loop: assimilates human + experimental feedback to iteratively refine thinking
+  templates, tool composition, and analytical protocols (improves with compute/feedback over time).
+- Autonomously generates and refines therapeutic hypotheses by analyzing functional interaction
+  networks, disease ontologies, perturbation data, and literature-derived evidence.
+
+=== VALIDATION ===
+- TRQA benchmark: 1,921 expert-level QA pairs. Two subsets: TRQA-lit (172 multiple-choice + 1,108
+  short-answer; fundamental biology, disease biology, clinical medicine, pharmacology) and TRQA-db
+  (641 short-answer; drug R&D pipelines and clinical trials). OriGene reported to outperform human
+  experts, leading research agents, and SOTA LLMs on accuracy/recall/robustness, especially under
+  data sparsity/noise.
+- Wet-lab proof-of-concept: nominated GPR160 (liver cancer) and ARG2 (colorectal cancer) as
+  previously underexplored targets; both showed significant anti-tumor activity in patient-derived
+  organoid and tumor-fragment models mirroring human clinical exposures.
+
+=== AVAILABILITY ===
+- Open source. GitHub: https://github.com/GENTEL-lab/OriGene (repo live; pushed 2026-02-24; ~214 stars;
+  custom/non-standard license per GitHub "NOASSERTION").
+- Project homepage: https://gentel-lab.github.io/OriGene-Homepage/
+- Live demo: origene.lglab.ac.cn (per project announcement).
+- Presented at the 2025 World Artificial Intelligence Conference (WAIC).
+
+=== SUGGESTED FRONT-MATTER (Phase B to verify/adjust) ===
+- title: OriGene
+- affiliation: Shanghai Jiao Tong University (Global Institute of Future Technology) with Shanghai AI
+  Laboratory, Fudan University, and collaborators (GENTEL Lab); corresponding Shuangjia Zheng.
+- org_short: SJTU
+- lifecycle_stages: [Hypothesis]  (generates + prioritizes therapeutic-target hypotheses; experimental
+  validation is done by humans in patient-derived models, not by the agent itself — closest primary
+  tag is Hypothesis. Consider Analysis as it interprets multi-omics/perturbation data.)
+- validation_type: Wet-lab  (nominated targets validated in patient-derived organoid + tumor-fragment
+  models)
+- autonomy: Semi-autonomous (human + experimental feedback in the self-evolving loop)
+- domain: Biology & medicine (therapeutic target discovery / drug development)
+- domain_group: Biology & medicine
+- availability: Open source (GitHub; custom license)
+- access: Open source
+- tagline: Self-evolving multi-agent "virtual disease biologist" that nominates mechanism-grounded drug targets.
+- first introduced: 2025-06
