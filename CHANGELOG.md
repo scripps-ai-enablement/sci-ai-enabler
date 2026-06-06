@@ -11,6 +11,16 @@ Reverse-chronological log of changes to the [catalog](catalog/). Newest at the t
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-06-06
+
+Directed pass on **Translational Medicine** (Saturday focus) plus a manifest sweep. WebFetch was unreliable this run (the `anthropics/life-sciences` raw `marketplace.json`, GitHub READMEs, npm, and the MCP Registry API all returned backend 404/403 to automated fetches), so candidate verification leaned on corroborated WebSearch results across the npm listing, Glama, and the author's own write-ups. Surfaced one fully-verifiable Translational entry from the deferred queue (`@ythalorossy/openfda`). The AACT Clinical Trials MCP (`navisbio`) was re-investigated but held back — its license is reported inconsistently (MIT vs GPLv3) and the canonical repo/package path is ambiguous (`aact_mcp` vs `mcp-server-aact`); deferred pending a primary-source license confirmation. No `last_verified` dates exceed the 30-day window (oldest is 2026-05-19, 18 days).
+
+### Added
+- **OpenFDA MCP Server (ythalorossy)** (Categories: Drug Repurposing and Discovery, Translational Medicine) — MIT-licensed npm MCP server (`@ythalorossy/openfda`) exposing 7 openFDA drug tools (adverse events, safety/labeling, manufacturer, NDC resolution); fully copy-pasteable `claude mcp add-json` and Claude Desktop install paths ([github](https://github.com/ythalorossy/openfda), [npm](https://www.npmjs.com/package/@ythalorossy/openfda)).
+
+### Verified (no changes)
+- 176 tool pages spot-checked for `last_verified` recency; all current within the 30-day window.
+
 ## 2026-06-05
 
 Directed pass on **Neuroscience** (Friday focus). Manifest sweep of `anthropics/life-sciences` shows no diff vs. 2026-06-04 — same 10-plugin set; `biorxiv@life-sciences` / `clinical-trials@life-sciences` remain DOA per upstream issue #42 (`mcp.deepsense.ai` NXDOMAIN). Directed-pass seed queries (Allen Brain Atlas MCP, NWB MCP, fMRI / fMRIPrep Claude skill, MNE-Python skill, spike sorting MCP, DANDI MCP) surfaced only candidates already catalogued — the credible Neuroscience surface is well covered: `allenbrain` (Allen Brain Atlas RMA MCP), `neurosift` (DANDI/OpenNeuro + NWB introspection + PyNWB docs search MCP), `openneuro` (OpenNeuro GraphQL MCP), `aind-data` (AIND Metadata MCP + NWB file access), `neurokit2` (Claude Skill — biosignals, with MNE integration in `references/eeg.md`), `neuropixels-analysis` (Claude Skill — Kilosort4 / SpykingCircus2 / Mountainsort5 spike-sorting pipeline incl. AI-assisted curation), and `bids` (Claude Skill — BIDS spec + fMRIPrep / MRIQC / QSIPrep BIDS-Apps). Two listings investigated and not added: an `mne-neurophysiology-analysis` MCP-market entry without a verifiable upstream GitHub source, and `bendichter/dandi-query-mcp` whose advertised tool surface is the boilerplate note-server template (create_note / summarize_notes), not a real DANDI wrapper — and DANDI semantic search is already covered by `neurosift`. No new entries this run; no `last_verified` dates older than 30 days (oldest is 2026-05-19, 17 days).
