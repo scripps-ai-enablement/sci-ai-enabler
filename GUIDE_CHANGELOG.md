@@ -11,6 +11,27 @@ Reverse-chronological log of changes to the [guide](guide/). Newest at the top.
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-06-06
+
+### Updated
+- **[claude-surfaces, surfaces/claude-code] Dynamic-workflow trigger keyword renamed `workflow` → `ultracode` (v2.1.160).** Per the [dynamic workflows docs](https://code.claude.com/docs/en/workflows) (verified this run via WebSearch summary, corroborated by v2.1.160 release coverage), the single-task trigger keyword changed from `workflow` to `ultracode`; the bare word `workflow` no longer fires a run. Both pages previously told beginners to "include the word `workflow` in your prompt" — stale since the v2.1.160 rename. Rewrote both bullets to say `ultracode` (noting the rename) and clarified that `/effort ultracode` is a session setting (sends xhigh + auto-orchestration), not a model effort level. Beginner-relevant because anyone copying the old instruction from a late-May tutorial silently gets no workflow.
+- **[plugins] `/plugin list` gained `--enabled` / `--disabled` filters (v2.1.163, 2026-06-04).** Added the filter flags to the management-commands sentence and refreshed the changelog source line ([Claude Code changelog](https://code.claude.com/docs/en/changelog)).
+
+### Verified (no changes)
+- claude-surfaces.md — install command (`curl -fsSL https://claude.ai/install.sh | bash`) re-verified against `claude.com/product/claude-code`; Channels, Claude Security, MCP tunnels, routines, sandboxing all current. June news (Claude Partner Network 2026-06-03, Project Glasswing/Mythos critical-infrastructure expansion 2026-06-02, doubled Claude Code rate limits) is corporate/infra, not beginner component-model material.
+- surfaces/claude-code.md — install methods, `/code-review`/`/simplify` split, `/goal`, background sessions all current. v2.1.163 (2026-06-04) and v2.1.165 are dominated by bug fixes, version-gating managed settings, and a slash-command autocomplete UX tweak (click fills instead of runs) — below the beginner threshold.
+- surfaces/claude-ai.md, surfaces/claude-desktop.md, surfaces/claude-cowork.md, surfaces/claude-api.md — unchanged. Opus 4.8 effort ladder (low/medium/high/xhigh/max) confirmed unchanged; only the default shifted to high.
+- skills.md, mcp-servers.md, marketplaces.md, connectors.md, decision-tree.md — unchanged this run.
+- advanced/hooks.md, advanced/slash-commands.md, advanced/routines.md, advanced/authentication.md — unchanged.
+
+### Flagged for review
+- WebFetch remained unavailable this run (404 on `claude-3-5-haiku-20241022`, same regression as prior runs). All verification went through WebSearch summaries of `code.claude.com/docs/en/workflows`, `code.claude.com/docs/en/changelog`, `claude.com/product/claude-code`, `github.com/anthropics/claude-code/releases`, `anthropic.com/news`, `releasebot.io/updates/anthropic`, plus secondary v2.1.160/4.8 coverage. A human should spot-check the workflows docs page directly to confirm the `ultracode`-keyword wording is canonical.
+- **Effort ladder vs `ultracode` future drift** — `ultracode` is currently a session setting layered over `xhigh`. If Anthropic promotes it to a real effort level or renames the keyword again, revisit both Dynamic Workflows bullets.
+- **`claude -p` / Agent SDK billing split lands 2026-06-15** — carried over; re-verify after the date.
+- **Sonnet 4 / Opus 4 retirement 2026-06-15 9am PT** — carried over; re-verify after the date.
+- **Promote `security-guidance` to its own page** — carried over from 2026-06-04.
+- **Claude Mythos public release** — carried over.
+
 ## 2026-06-05
 
 ### Updated
