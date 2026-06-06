@@ -11,6 +11,17 @@ Reverse-chronological log of changes to the [recipes cookbook](recipes/). Newest
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-06-06
+
+### Added
+
+- **Fit a survival model to censored clinical outcomes** (Problem class: Data analysis; Evidence: Proposed) — rung-2 [scikit-survival skill](catalog/tools/scikit-survival.html) recipe taking a tidy covariate table plus a `(time, event)` outcome through structured-`Surv` encoding → Kaplan-Meier + log-rank → Cox PH (with a proportional-hazards check) → Random Survival Forest → cross-validated Harrell's c-index → risk-group stratification. First Translational Medicine focus-day recipe of this run; cookbook's first dedicated time-to-event / prognosis recipe. `Proposed` — no documented end-to-end LLM-driven `sksurv` workflow; closest grounding is the library reference [Pölsterl, *JMLR* 21(212):1–6 (2020)](https://jmlr.org/papers/v21/20-729.html) and recent RSF-vs-nomogram prognosis studies [Zhang et al., *Transl. Cancer Res.* (2026)](https://doi.org/10.21037/tcr-2025-aw-2462) and [Liu et al., *Medicine* (2026)](https://doi.org/10.1097/MD.0000000000048757).
+- **Scan adverse-event reports for a drug-safety signal** (Problem class: Knowledge synthesis; Evidence: Proposed) — rung-2 [OpenFDA MCP](catalog/tools/openfda.html) recipe taking a drug name through generic-name resolution → FAERS top-reaction ranking → structured label / warning pull → label-vs-FAERS cross-check → an honest "reports, not rates" framing. Second Translational Medicine focus-day recipe of this run; promoted from the `Deferred — next-run priority` list; cookbook's first pharmacovigilance recipe. `Proposed` — no documented attempt of this exact MCP assembly; openFDA/FAERS is the canonical public pharmacovigilance source and the server wraps it faithfully.
+
+### Verified (no changes)
+
+- 27 existing recipes spot-checked; none past the 30-day `last_verified` window (oldest is 2026-05-24), so no re-verification was due this run.
+
 ## 2026-06-05
 
 ### Added
