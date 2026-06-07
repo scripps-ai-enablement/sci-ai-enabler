@@ -8,10 +8,11 @@ nav_exclude: true
 
 ## Recently surfaced
 
+- **Cortellis Plugin** (added 2026-06-07) — Clarivate Cortellis MCP plugin in `anthropics/life-sciences`; global drug-pipeline / clinical-trial / regulatory / safety / deals intelligence. Subscription-gated (free install). Tagged Drug Repurposing and Discovery + Translational Medicine. CRI MCP integration announced 2026-03-10.
+- **Consensus Plugin** (added 2026-06-07) — Consensus.app MCP plugin in `anthropics/life-sciences`; AI-powered scientific literature search / evidence synthesis. Requires a Consensus account (free tier). Tagged `All`.
 - **OpenFDA MCP Server (ythalorossy)** (added 2026-06-06) — MIT-licensed npm MCP server (`@ythalorossy/openfda`) over the openFDA **drug** endpoints; 7 tools (adverse events, safety/labeling, manufacturer, NDC resolution). Tagged Drug Repurposing and Discovery + Translational Medicine. Distinct standalone entry from BioMCP's bundled openFDA source; the more comprehensive `Augmented-Nature/OpenFDA-MCP-Server` (drug+device+food) stays deferred pending license confirmation.
 - **General-Purpose Utilities category** (2026-06-04) — new 8th catalog category (cross-cutting utilities shelf, not a research area). 68 domain-agnostic K-Dense skills (plotting, dataframes, ML/stats, scientific communication, adjacent-domain science, multi-perspective deliberation) ingested into it; only 3 K-Dense skills remain out of scope.
 - **K-Dense batch ingest** (2026-06-04) — one-time ingestion of the life-science-relevant subset of `K-Dense-AI/scientific-agent-skills`. K-Dense is now in diff-only mode (see `AGENT.md`); scope decisions recorded in `scripts/kdense_category_map.yaml`. Subsumes the incremental COBRApy / DiffDock / Adaptyv / DeepChem / PyTDC surfacings from the prior daily runs (those pages are retained with their richer hand-written content; the batch repaired their install paths). Also migrated all existing K-Dense pages off the dead `claude-scientific-skills` marketplace to `npx skills add` and the `skills/` path.
-- **OpenNeuro MCP** (added 2026-05-29) — Community MCP server (QuentinCody) wrapping the OpenNeuro GraphQL API; hosted Cloudflare Workers SSE endpoint, MIT + Academic Citation Requirement license. Complements the Neurosift Tools MCP (DANDI + NWB) by covering OpenNeuro's MRI / MEG / EEG / iEEG / ECoG archive.
 
 ## Flagged for review
 
@@ -20,9 +21,7 @@ nav_exclude: true
 
 ## Deferred — next-run priority
 
-- **Cortellis Plugin (`anthropics/life-sciences`)** — Clarivate Cortellis drug-pipeline / deals data; standalone marketplace entry beyond `adisinsight`.
 - **Medidata Connector (`anthropics/life-sciences`)** — clinical-operations / EDC platform integration; announced Jan 2026 but install path still gated behind Medidata account onboarding.
-- **Consensus Plugin (`anthropics/life-sciences`)** — Consensus.app evidence-search connector; verify install path.
 - **biorxiv@life-sciences plugin** — `anthropics/life-sciences` marketplace entry currently DOA (`mcp.deepsense.ai` NXDOMAIN per upstream issue #42 / commit `e96556b`). Revisit when upstream restores the endpoint.
 - **clinical-trials@life-sciences plugin** — same DOA status as biorxiv@life-sciences; distinct from both the `adisinsight` plugin (Springer Nature) and the `clinicaltrials-gov-mcp` community entry. Revisit when the endpoint is restored.
 - **Retrosynthesis MCP** — no Claude-installable wrapper for AiZynthFinder / ASKCOS / IBM RXN located on the 2026-05-25 or 2026-06-01 Chemistry passes; revisit on next Chemistry-focus pass.

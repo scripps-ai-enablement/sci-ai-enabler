@@ -11,6 +11,17 @@ Reverse-chronological log of changes to the [catalog](catalog/). Newest at the t
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-06-07
+
+Directed pass on **Drug Repurposing and Discovery** (Sunday focus) plus a manifest sweep of `anthropics/life-sciences`. WebFetch and `curl` were both unavailable from the runner this run (WebFetch returned a backend model 404; raw `marketplace.json` fetch was not permitted), so the marketplace diff and candidate verification leaned on corroborated WebSearch results plus the Clarivate press release and the existing first-party plugin pattern (`adisinsight`, `open-targets`). Surfaced two first-party plugins from the deferred queue — **Cortellis** (Clarivate regulatory/pipeline intelligence) and **Consensus** (literature evidence synthesis) — both confirmed as `life-sciences` marketplace plugins with subscription/account gating. The directed-pass seed queries (Open Targets MCP, DrugBank MCP, drug-repurposing/target-prioritization MCP) surfaced only tools already catalogued (`open-targets`, `chembl`, `drugbank`, `pubchem`); no new standalone discovery MCP warranted an entry. No `last_verified` dates exceed the 30-day window (oldest is 2026-05-19, 19 days).
+
+### Added
+- **Cortellis Plugin** (Categories: Drug Repurposing and Discovery, Translational Medicine) — Clarivate Cortellis MCP plugin in `anthropics/life-sciences`; global drug-pipeline, clinical-trial, regulatory, safety, and deals intelligence; subscription-gated, free install ([anthropics/life-sciences](https://github.com/anthropics/life-sciences), [Clarivate](https://clarivate.com/news/clarivate-expands-access-to-trusted-regulatory-intelligence-within-claude/)).
+- **Consensus Plugin** (Categories: All) — Consensus.app MCP plugin in `anthropics/life-sciences`; AI-powered scientific literature search and evidence synthesis; free Consensus account required ([anthropics/life-sciences](https://github.com/anthropics/life-sciences), [Consensus](https://consensus.app/)).
+
+### Verified (no changes)
+- 178 tool pages spot-checked for `last_verified` recency; all current within the 30-day window. Drug-discovery-tagged entries (`open-targets`, `chembl`, `drugbank`, `pubchem`, `adisinsight`, `owkin`) reviewed against today's seed queries — install paths and capability descriptions remain accurate.
+
 ## 2026-06-06
 
 Directed pass on **Translational Medicine** (Saturday focus) plus a manifest sweep. WebFetch was unreliable this run (the `anthropics/life-sciences` raw `marketplace.json`, GitHub READMEs, npm, and the MCP Registry API all returned backend 404/403 to automated fetches), so candidate verification leaned on corroborated WebSearch results across the npm listing, Glama, and the author's own write-ups. Surfaced one fully-verifiable Translational entry from the deferred queue (`@ythalorossy/openfda`). The AACT Clinical Trials MCP (`navisbio`) was re-investigated but held back — its license is reported inconsistently (MIT vs GPLv3) and the canonical repo/package path is ambiguous (`aact_mcp` vs `mcp-server-aact`); deferred pending a primary-source license confirmation. No `last_verified` dates exceed the 30-day window (oldest is 2026-05-19, 18 days).
