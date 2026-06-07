@@ -11,6 +11,20 @@ Reverse-chronological log of changes to the [recipes cookbook](recipes/). Newest
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-06-07
+
+### Added
+
+- **Enumerate analogs around a lead compound for SAR expansion** (Problem class: Hypothesis generation; Evidence: Proposed) — rung-2 [Datamol skill](catalog/tools/datamol.html) recipe taking a lead SMILES through standardization → tautomer / stereoisomer enumeration → single-point fragment-substitution scan → ECFP4 Tanimoto + QED scoring → a deduplicated SAR-expansion CSV, with explicit handoff to the [VS-hit-filtering](recipes/items/filter-virtual-screening-hits.html) developability gate and the [polypharmacology](recipes/items/profile-compound-polypharmacology.html) bioactivity lookup. Drug Repurposing and Discovery focus-day recipe; cookbook's first dedicated analog-enumeration / lead-optimisation recipe and the natural upstream of the existing hit-filtering recipe; cookbook's second `Hypothesis generation` recipe. `Proposed` — no documented LLM-driven Datamol enumeration workflow; closest grounding is the K-Dense rdkit→datamol→medchem [lead-optimisation workflow](https://github.com/K-Dense-AI/scientific-agent-skills) plus the underlying primitives [Rogers & Hahn, *JCIM* 50:742 (2010)](https://doi.org/10.1021/ci100050t) (ECFP/Tanimoto), [Bickerton et al., *Nat. Chem.* 4:90 (2012)](https://doi.org/10.1038/nchem.1243) (QED), and [Griffen et al., *J. Med. Chem.* 54:7739 (2011)](https://doi.org/10.1021/jm200452d) (matched molecular pairs).
+
+### Updated
+
+- Nav orders rebalanced to keep alphabetical title ordering after the new addition. "Enumerate analogs…" inserted at 10; everything from "Estimate pharmacokinetic properties" downward shifted +1 (Estimate → 11, Filter VS hits → 12, Infer GRN → 13, Integrate single-cell → 14, Interpret variant → 15, Match patient → 16, Organize DICOM → 17, Parse FCS → 18, Prioritize targets → 19, Profile polypharmacology → 20, Run bulk RNA-seq → 21, Run first-pass QC → 22, Run functional enrichment → 23, Scan repurposing → 24, Set up MD → 25, Sort spikes → 26, Triage preprints → 27, Triage AlphaFold → 28, Fit survival → 29, Scan adverse events → 30).
+
+### Verified (no changes)
+
+- 29 existing recipes spot-checked; none past the 30-day `last_verified` window (oldest is 2026-05-24, `profile-compound-polypharmacology`), so no re-verification was due this run.
+
 ## 2026-06-06
 
 ### Added

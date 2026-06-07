@@ -2,7 +2,7 @@
 title: Fit a survival model to censored clinical outcomes
 parent: All recipes
 grand_parent: Recipes
-nav_order: 28
+nav_order: 29
 problem_class: Data analysis
 subject_areas: [Translational Medicine]
 evidence_level: Proposed

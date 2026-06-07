@@ -2,7 +2,7 @@
 title: Organize a raw DICOM dataset into a BIDS layout
 parent: All recipes
 grand_parent: Recipes
-nav_order: 16
+nav_order: 17
 problem_class: Workflow automation
 subject_areas: [Neuroscience]
 evidence_level: Proposed

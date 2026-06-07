@@ -2,7 +2,7 @@
 title: Infer a gene-regulatory network from single-cell RNA-seq
 parent: All recipes
 grand_parent: Recipes
-nav_order: 12
+nav_order: 13
 problem_class: Data analysis
 subject_areas: [Molecular and Cellular Biology, Drug Repurposing and Discovery]
 evidence_level: Reported

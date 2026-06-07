@@ -2,7 +2,7 @@
 title: Scan approved drugs for repurposing candidates against a disease
 parent: All recipes
 grand_parent: Recipes
-nav_order: 23
+nav_order: 24
 problem_class: Knowledge synthesis
 subject_areas: [Drug Repurposing and Discovery, Translational Medicine]
 evidence_level: Proposed

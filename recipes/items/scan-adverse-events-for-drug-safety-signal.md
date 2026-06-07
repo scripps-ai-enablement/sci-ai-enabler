@@ -2,7 +2,7 @@
 title: Scan adverse-event reports for a drug-safety signal
 parent: All recipes
 grand_parent: Recipes
-nav_order: 29
+nav_order: 30
 problem_class: Knowledge synthesis
 subject_areas: [Translational Medicine, Drug Repurposing and Discovery]
 evidence_level: Proposed

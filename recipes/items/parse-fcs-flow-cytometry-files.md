@@ -2,7 +2,7 @@
 title: Parse FCS flow-cytometry files for downstream immunophenotyping
 parent: All recipes
 grand_parent: Recipes
-nav_order: 17
+nav_order: 18
 problem_class: Data analysis
 subject_areas: [Immunology and Microbiology]
 evidence_level: Proposed
