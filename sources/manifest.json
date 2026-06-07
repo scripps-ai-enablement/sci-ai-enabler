@@ -500,6 +500,14 @@
       "downloaded": "2026-06-06",
       "txt_sidecar": "2025.06.03.657658.txt",
       "note": "bioRxiv PDF/JATS Cloudflare-blocked (403); sidecar assembled from bioRxiv API abstract + project homepage + GitHub repo metadata."
+    },
+    {
+      "doi": "10.48550/arXiv.2512.21782",
+      "filename": "2512.21782.pdf",
+      "title": "Accelerating Scientific Discovery with Autonomous Goal-evolving Agents (SAGA)",
+      "source_url": "https://arxiv.org/abs/2512.21782",
+      "downloaded": "2026-06-07",
+      "txt_sidecar": "2512.21782.txt"
     }
   ]
 }

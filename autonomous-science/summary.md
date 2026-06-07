@@ -2,7 +2,7 @@
 title: Landscape
 parent: AI scientists
 nav_order: 1
-synthesis_reviewed: 2026-06-06
+synthesis_reviewed: 2026-06-07
 ---
 
 # The autonomous AI scientist landscape
@@ -121,3 +121,4 @@ Other systems being tracked for inclusion: **Virtual Lab** (Stanford / CZ Biohub
 - [Song, Zhang, Cheng, "Autonomous heterogeneous catalyst discovery with a self-evolving multi-agent digital twin" (CatDT), arXiv:2606.05050](https://arxiv.org/abs/2606.05050)
 - [Wang & Buehler, "Self-Revising Discovery Systems for Science: A Categorical Framework for Agentic Artificial Intelligence" (CategoryScienceClaw), arXiv:2606.01444](https://arxiv.org/abs/2606.01444)
 - [Rahman & Rahman, "AgentPLM: Agentic Protein Language Models with Reasoning-Augmented Decoding for Protein Sequence Design," arXiv:2606.02386 / ICML 2026](https://arxiv.org/abs/2606.02386)
+- [Du, Yu, Liu, Shen, Chen et al., "Accelerating Scientific Discovery with Autonomous Goal-evolving Agents" (SAGA), arXiv:2512.21782](https://arxiv.org/abs/2512.21782)
