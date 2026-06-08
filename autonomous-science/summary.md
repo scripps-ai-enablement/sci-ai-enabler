@@ -2,7 +2,7 @@
 title: Landscape
 parent: AI scientists
 nav_order: 1
-synthesis_reviewed: 2026-06-07
+synthesis_reviewed: 2026-06-08
 ---
 
 # The autonomous AI scientist landscape
@@ -19,7 +19,7 @@ Across the {{ systems | size }} systems tracked here, a few cross-cutting patter
 - **Biology and medicine carry the strongest evidence.** Wet-lab and clinical validation — Co-Scientist's in vitro oncology hits, Robin's confirmed dry-AMD drug candidates, SPARK's prospective pathology study across 18 cohorts, CRISPR-GPT's non-expert gene-editing case study, OriGene's agent-nominated cancer targets confirmed in patient-derived organoid models — set the highest evidence tier in the field.
 - **ML and scientific computing is a large, fast-moving cluster,** but mostly benchmark-validated rather than physically grounded. The recent design trend is architectural: self-improving systems that accumulate methodological memory across problems (GRAFT-ATHENA, EvoScientist, AutoSci, AutoScientists), and a turn toward *verifiability* — adversarial cross-model review (ARIS), evidence-chain auditing (ScientistOne), and numeric-registry gating (AutoResearchClaw).
 - **Physical sciences and embodied systems are the newest frontier,** moving AI past simulators onto real apparatus: Qumus fabricates 2D-material devices, the Qiushi engine runs a free-space optical platform, Dr.Sai operates inside the BESIII collider collaboration, and BioProVLA runs wet-lab robotics on an ~$800 rig.
-- **A long tail of single-domain pioneers** now spans mathematics (AI co-mathematician), symbolic equation discovery (MCI), spatial data science (NORA), plant science (Aleks), and scientific visualization (VIS Co-Scientist).
+- **A long tail of single-domain pioneers** now spans mathematics (AI co-mathematician, Ax-Prover's formal Lean proving), symbolic equation discovery (MCI), spatial data science (NORA), plant science (Aleks), and scientific visualization (VIS Co-Scientist).
 
 Evaluation is shifting from one-off demos toward **process-level scoring and verifiability audits**, and several shared failure modes — reference hallucination, reproducibility, originality-versus-retrieval — remain open. See [Evaluation and open problems](evaluation.html).
 

@@ -1,0 +1,1606 @@
+Ax-Prover: A Deep Reasoning Agentic Framework for Theorem
+Proving in Mathematics and Quantum Physics
+Benjamin Breen*1 , Marco Del Tredici*1 , Jacob McCarran*1 , Javier Aspuru Mijares1 , Weichen
+Winston Yin1 , Kfir Sulimany3 , Jacob M. Taylor1 , Frank H. L. Koppens2,4 , and Dirk Englund1,3
+
+arXiv:2510.12787v4 [cs.AI] 22 May 2026
+
+1
+
+Axiomatic AI
+Institut de Ciències Fotòniques (ICFO)
+3
+Massachusetts Institute of Technology (MIT)
+4
+Institució Catalana de Recerca i Estudis Avançats (ICREA)
+2
+
+May 25, 2026
+
+Abstract
+We present Ax-Prover, a multi-agent system for automated theorem proving in Lean that can solve problems
+across diverse scientific domains and operate either autonomously or collaboratively with human experts. To achieve
+this, Ax-Prover approaches scientific problem solving through formal proof generation, a process that demands both
+creative reasoning and strict syntactic rigor. Ax-Prover meets this challenge by equipping Large Language Models
+(LLMs), which provide knowledge and reasoning, with custom Lean tools which ensure formal correctness. To
+evaluate its performance as an autonomous prover, we benchmark our approach against both frontier LLMs and
+specialized prover models on two public math benchmarks and on two Lean benchmarks that we introduce in abstract
+algebra and quantum theory. On the public datasets, Ax-Prover is the top prover among those that do not rely on
+any domain-specific training; on the new benchmarks, it largely outperforms all baselines. This shows that, unlike
+specialized systems that struggle to generalize, our tool-based agentic theorem prover approach offers a generalizable
+methodology for formal verification across diverse scientific domains. Furthermore, we showcase Ax-Prover as a
+researcher-friendly assistant through two practical case studies in classical and quantum cryptography, pillars of
+secure communication, where it worked with domain experts to formalize and verify challenging security guarantees
+using standard human-agent interactions, enabling those without expertise in Lean to engage in this burgeoning
+domain.
+
+1
+
+Introduction
+
+Developing Large Language Models (LLMs) that can reason reliably across scientific domains remains a central
+challenge for AI, both in academia and in industry. LLM-based formal reasoning systems have mainly been developed
+for mathematics, where they have achieved outstanding results [17, 14]. Recently, considerable effort has been put
+into training reasoning LLMs for formal theorem proving using Lean [20], an open-source programming language
+and interactive proof assistant. Together with its community-driven Mathlib library [33], Lean provides a rigorous
+setting where AI systems must engage with symbolic reasoning and structured formalization, building on an evolving
+body of mathematical knowledge. LLM provers such as the DeepSeek-Prover series [63, 64, 52], Kimina-Prover-72B
+[61], Goedel-Prover [35, 36], and Seed-Prover [14] have shown that specialized prover models can be distilled from
+frontier LLMs and trained for theorem proving in Lean, reaching state-of-the-art performance on math benchmarks
+like MiniF2F [68] and PutnamBench [59]. Despite these results, these models face some key limitations. First, since
+they were mainly trained and tested on the domain of mathematics, their ability to generalize beyond this domain
+* Equal contribution, authors listed alphabetically. Benjamin initiated the project and led early development; including curating the AbstractAlgebra dataset; Marco implemented the AX-Prover and led the writing of the paper; Jacob ran most of the experiments and significantly contributed
+to the writing and ideas of the paper.
+
+1
+
+remains unclear. Relatedly, they are usually trained on fixed versions of the fast-evolving Mathlib library, making
+them brittle to changes introduced in new Mathlib versions, such as new or renamed definitions. Keeping them up to
+date would require frequent re-training and systematic “forgetting” of out-of-date knowledge, which adds significant
+cost.1 Second, while training improves their ability to produce Lean proofs, it narrows their capabilities relative to
+general purpose LLMs as they become unable to use external tools and engage in human-AI collaboration. Finally, it
+is hard to run them as they require high-performance computing and expertise to be successfully deployed and used.
+Together, these issues suggest that scaling increasingly large specialized provers may yield diminishing returns in both
+flexibility and usability.
+In contrast, general-purpose LLMs like Claude [5] and GPT [48] encode substantial knowledge across diverse domains (e.g., mathematics, physics, and computer science), while also exhibiting strong natural language understanding,
+problem solving skills, and interaction capabilities. Moreover, they are easily accessible through APIs, making them
+convenient to deploy and integrate into any workflow. Yet, they are not explicitly trained to formalize statements or
+construct proofs in Lean, nor can they natively interact with the Lean environment. This creates a sharp division:
+specialized provers are tightly integrated with Lean but narrow in scope and hard to use, whereas general-purpose
+LLMs are broad in scope and easily accessible but lack the ability to interface with the formal reasoning infrastructure
+required for theorem proving.
+To address this gap, we introduce Ax-Prover,2 a new agentic workflow for theorem proving in Lean that leverages
+the Model Context Protocol (MCP) [43] to equip general-purpose LLMs with Lean tools from the lean-lsp-mcp
+repository [23]. Ax-Prover combines the reasoning capabilities of LLMs with the formal verification power of Lean.
+The LLM analyzes unproven theorems, proposes proof sketches, and generates step-by-step Lean code, while the Lean
+tools allow the LLM to inspect goals, search for relevant results, locate errors, and verify proofs – capabilities essential
+for rigorous formal theorem proving.
+Ax-Prover overcomes the main limitations of state-of-the-art provers. First, using frontier LLMs prevents domain
+overspecialization while the MCP interface allows the system to work with any recent version of Mathlib and
+additional library dependencies including custom definitions relevant to the project without needing to be retrained.
+Second, it preserves tool-use and conversational abilities, enabling interactive collaboration with humans. Third, by
+leveraging existing frontier models, it sidesteps the need to host or deploy specialized systems.
+We evaluated Ax-Prover on two public datasets of mathematics competition problems (NuminaMath-LEAN [47]
+and PutnamBench [59]) and introduce two new datasets to enable evaluation in new domains. The first of these,
+AbstractAlgebra, focuses on algebraic structures such as groups, rings, and fields, testing the provers’ abilities to
+reason in a more abstract, research-oriented setting rather than the competition-driven style of existing datasets. The
+second new dataset is QuantumTheorems, which represents an initial step toward automated theorem proving in a
+scientific domain beyond pure mathematics, evaluating the models’ formal reasoning in quantum mechanics. Our
+results show that Ax-Prover has competitive performance on PutnamBench – achieving the highest accuracy for fully
+open-sourced agents3 – and outperforms general-purpose LLMs not equipped with Lean tools as well as state-of-theart specialized provers on the other datasets, with a significant margin on the ones we introduce.
+Besides functioning as an autonomous solver, Ax-Prover was also designed to serve as an assistant for human
+researchers. To demonstrate these capabilities, we present two researcher-facing use cases in the field of cryptography
+in Sections 6.1 and 6.2. Cryptography is an ideal proving ground for Lean because its security guarantees depend
+on precise mathematical reasoning, yet the field often lacks standardized assumptions and explicit logical structure.
+Machine-checked proofs can therefore transform the way such guarantees are built and trusted – ensuring that every
+step, assumption, and reduction is explicit and verifiable. In the first use case, Ax-Prover collaborates with a cryptography researcher to formalize and verify an alternate definition for the branch number of a matrix [42], revealing a subtle
+gap in the informal argument and producing a reusable Lean certificate on their own laptop in 2 days’ time. In the
+second, it assists quantum-information researchers in formalizing an entropy bound in quantum key distribution [38],
+converting a physics-style derivation into a machine-checked component. Together, these examples show that beyond
+benchmark accuracy, Ax-Prover lowers the practical barrier for researchers to use Lean in their own work, brings
+clarity and rigor to complex reasoning, and enables interpretable, researcher-driven verification for security-critical
+domains.
+Our contributions are threefold: (i) We design Ax-Prover, a lightweight agentic workflow that connects general1 For example, Deepseek-Prover-V2-671B was released on April 30, 2025 and, in our experiments, we observed that it uses the lemma
+sqrt eq iff sq eq, which was deprecated in favor of sqrt eq iff eq sq on March 3, 2025.
+2 “Ax” stands for “axiomatic”, reflecting the base principles in mathematics and physics, the domains explored in this work.
+3 We use “open-sourced” according to the usage in the official leader-board [58].
+
+2
+
+purpose LLMs to Lean tools via MCP, and demonstrate that it performs on par with or surpasses both general-purpose
+LLMs and specialized provers across several scientific domains; (ii) We introduce new formalized Lean datasets
+covering abstract algebra and quantum physics, complementing existing benchmarks; (iii) We showcase Ax-Prover’s
+capabilities as an assistant through use cases where the system collaborated with domain experts to formally verify
+the proof of a recent cryptography result [42] as well as an entropy bound for the Lo-Chau security framework for
+Quantum Key Distribution (QKD) [38].
+
+2
+
+Related Work
+
+Automated theorem proving in Lean has roots in classical approaches such as decision procedures [19, 9] and heuristicguided proof search [31]. However, these approaches face particular challenges: the former does not handle general
+mathematical domains (e.g. transcendental functions and complex numbers) and the latter does not perform well
+out of distribution. More recent work integrates machine learning: from heuristic tuning to premise selection and
+tactic prediction [29, 28], culminating in transformer-based language models capable of generating Lean proofs [51,
+50, 65]. More recent large-scale systems extend this trend by training LLMs on formal proving through distillation,
+supervised finetuning, and reinforcement learning. Current examples of specialized models are Kimina-Prover [61],
+the DeepSeek-Prover family [63, 64, 52], Goedel-Prover 1 and 2 [35, 36], Prover Agent [8], Apollo [49], and SeedProver [14]. All of these are highly specialized provers, which take in a Lean theorem as input and autonomously
+produce a proof. A very recent line of work is exploring agentic flows that include frontier LLMs and a formal verifier;
+examples include Hilbert [60] and Aristotle [2]. Although we also adopt a similar approach, some crucial differences
+exist, namely: (i) we give the LLM direct access to Lean tools via MCP; (ii) our framework requires neither training
+nor finetuning [2] and does not rely on any specialized provers [60]; (iii) we demonstrate the effectiveness of our
+approach on domains beyond just mathematics; (iv) we showcase the capabilities of our system as an interactive
+assistant to human researchers.
+Finally, a parallel line of work has explored classical machine learning for supporting experts in theorem proving
+in Lean, for example, in premise selection and tactic prediction [26, 11], and more recently through LLMs that connect
+to Lean via external interfaces [56]. These approaches illustrate the promise of AI-assisted proving, but they remain
+resource-intensive and difficult to adapt across scientific domains. Recent efforts, such as [32], attempt to remedy
+this by emphasizing greater adaptability within Lean. At the same time, there is growing interest in human-AI collaboration: conversational assistants [18] and “copilot”-style integrations [15] suggest how formal tools can augment,
+rather than replace, human reasoning. Our work builds on this trajectory by closing the gap between heavyweight,
+specialized provers and lightweight, researcher-friendly systems that can be more readily adapted to the evolving Lean
+ecosystem.
+
+3
+
+System Architecture
+
+Figure 1: Left: the multi-agent workflow of Ax-Prover. Right: the tool-enhanced reasoning of the Prover.
+We implement Ax-Prover as a multi-agent architecture with three agents, each of which is implemented as an
+
+3
+
+LLM with specific prompts: the Orchestrator, the Prover, and the Verifier. Following recent agentic designs for
+complex tasks such as scientific discovery [27, 66], we avoid a monolithic setup by assigning each specialized agent a
+distinct role. This separation enables specialization and modularity: agents can be independently optimized, replaced,
+or extended, allowing researchers to adapt Ax-Prover to their own needs without destabilizing the system.
+Figure 1 (left) shows our workflow: the Orchestrator receives an unproven Lean statement and forwards it to
+the Prover, which iteratively works on the proof by performing reasoning, making calls to MCP Lean tools, and
+generating Lean code (Figure 1, right). The Verifier then checks the proof and reports back to the Orchestrator. If the
+proof is complete and no error is found, the Orchestrator ends the task; otherwise, it provides feedback to the Prover,
+which continues the proving process. Through this closed-loop process, the system incrementally converts unproven
+theorems into formally verified Lean proofs. Next, we provide details about the agents and tools.
+
+3.1
+
+Specialized Agents
+
+3.1.1
+
+Orchestrator
+
+The Orchestrator’s role is analogous to a scheduler in distributed systems: it does not perform computation itself but
+ensures that computation flows smoothly across agents. It holds three main responsibilities. First, it handles task
+assignment, as it receives user input and instructs the Prover accordingly. Next, it manages feedback routing by
+taking diagnostic outputs from the Verifier and giving structured feedback to the Prover (if errors are found). This
+separation ensures that proof synthesis and evaluation remain distinct while still enabling iterative refinement. Finally,
+it decides when to stop the refinement loop. Termination occurs either when the Verifier certifies the proof as
+complete and error-free, or when the number of attempts exceeds a configurable threshold.
+3.1.2
+
+Prover
+
+Figure 2: The main steps performed by the Prover to prove a theorem.
+The Prover is the constructive core of the system. Its task is to transform unproven Lean theorems into completed
+proofs. Theorem proving requires both creativity – finding the right lemma or using the right tactic – and rigor
+– ensuring that the structure and Lean code are syntactically correct. To achieve this the Prover balances LLMbased heuristic exploration with rigorous Lean formalization aided by the MCP Lean tools made available by the
+lean-lsp-mcp (see Section 3.2).
+We instruct the Prover to carry out its task following an incremental, step-by-step approach, and to write each
+update to the theorem proof to a .lean file. This is for two reasons: first, it satisfies the requirements of the MCP
+Lean tools, some of which need a .lean file path to inspect the code contained within; second, it allows the user to
+inspect the proof process in real time. In Figure 2, we present the main stages of the Prover process. Initially, the Prover
+4
+
+identifies target theorems by scanning the input Lean file for unfinished proofs marked with sorry, a placeholder
+tactic indicating an incomplete proof (top-left). Then, it writes a proof sketch, a coarse-grained natural language
+outline of the proof’s logical flow which breaks down a complex proof into more manageable steps (top-right). Next
+is formalization, where each step in the sketch is formalized into a Lean statement starting with have and ending
+with sorry (bottom-left); allowing the prover to see the original theorem statement broken down into current and next
+steps within the lean context. Then, the Prover goes through each step sequentially, proposing Lean tactics to substitute
+each sorry. After completing each step, the Prover uses a specific Lean tool, lean diagnostic messages (see
+Section 3.2) to assess if the generated step is correct. If critical errors are detected or a sorry is still present, the
+Prover attempts to fix the error or correct its reasoning. When all steps are correctly solved, the Prover ends its task
+(bottom-right).
+Tool usage is crucial for the Prover to perform its task. This is clearly illustrated in Figure 1 (right), which is
+extracted from the LLM log during an experimental run. The figure shows how both exploration and formalization are
+achieved through tool-enhanced reasoning, where the Prover uses MCP tools to interact with Lean files (read file
+and edit file); identify goals at various points in the proof (lean goal); search for theorems in Mathlib
+(lean leansearch); and verify the correctness of its proofs (lean diagnostic messages). This approach
+allows the Prover to function like a cautious mathematician: it drafts a plan, incrementally explores and implements
+ideas using relevant tools, verifies their correctness in Lean, and advances only once each step has been validated.
+3.1.3
+
+Verifier
+
+The Verifier serves as the final gatekeeper of correctness in our workflow. It neither generates nor modifies proofs: it
+only assesses the correctness of the proof generated by the Prover. The Verifier has access to filesystem tools, used
+to access the file produced by the Prover, as well as a single Lean tool, lean diagnostic messages, to assess
+the correctness of the proof. The Verifier operates in two steps. First, it compiles the Lean file produced by the
+Prover using the lean diagnostic messages tool, parses the returned diagnostic messages, and generates an
+error report. Second, it emits a verdict: a proof is considered verified if and only if no level-1 error exists (see Section
+3.2) and there are no sorry (or the equivalent tactic admit) present in the file.
+At first glance, the Verifier may seem redundant, since it uses the same lean diagnostic messages tool as
+the Prover. However, it is needed for two reasons: (i) the Prover may run out of steps (see Section 5.1) and return
+an incomplete or incorrect proof, and (ii) it sometimes terminates early despite remaining errors. An independent
+Verifier is thus crucial to ensure robustness, mirroring software pipelines where aggressive testing is always checked
+by a conservative compiler.
+
+3.2
+
+MCP Tools
+
+As described above, tool use is essential in our approach. We provide the LLM with access to tools via the MCP, a
+standard interface that lets LLM agents invoke external services in a uniform, controlled way [43]. We implement two
+categories of tools: Filesystem tools and Lean tools. Filesystem tools handle file operations such as read file,
+write file, and list directory (see Appendix A.1). Lean tools allow Ax-Prover to perform a variety of
+actions which are crucial for theorem proving. We give Ax-Prover access to these tools through the lean-lsp-mcp
+project [23], which provides a standardized interface to the Lean environment. Access to these tools allows Ax-Prover
+to search within the local library, diagnose errors and warnings as they arise, observe the Lean context at any point
+in a proof, and query external search engines. Notably, external search engines provide Ax-Prover with more upto-date information about Mathlib than what exists within an LLM’s parametric knowledge: Loogle searches for
+declarations within the newest version of Mathlib, and Leansearch is based on a past but recent version of Mathlib.
+Since Mathlib is a rapidly evolving library, this capability of Ax-Prover ensures compatibility for imports, theorem
+references, and proof constructions without relying on the LLM’s knowledge of the version (or multiple versions) of
+Mathlib on which it was trained. The Lean tools we use fall into four main groups, summarized in Table 1.
+Note that lean diagnostic messages returns a number: 0 for a successfully compiled proof with no errors
+or warnings; 1 for an explicit compilation error in the proof; and 2 for a successfully compiled proof with warning
+messages, e.g. the proof is incomplete (containing sorry), or the code style does not pass the linter test. A proof
+is considered correct and complete only if a code 0 is returned, or if a level 2 code is returned that does not contain
+sorry.
+
+5
+
+Category
+Project and
+File Management
+Diagnostics and
+Feedback
+Code Assistance
+
+Search and
+Reasoning
+
+Tools
+lean build: Compile and build the Lean project
+lean file contents: Get contents of a Lean file
+lean declaration file: Find which file contains a declaration
+lean diagnostic messages: Compile code and return diagnostic messages
+lean goal: Get the current proof goal at a position
+lean term goal: Get goal information for a term
+lean hover info: Get hover information for symbols
+lean completions: Get completion suggestions
+lean multi attempt: Try multiple proof attempts
+lean run code: Execute Lean code
+lean leansearch: Search for theorems and lemmas
+lean loogle: Search for lemmas by type signature
+lean state search: Search proof states
+lean hammer premise: Use automated theorem proving
+
+Table 1: Lean tools available on lean-lsp-mcp, organized by functionality.
+
+4
+
+Datasets
+
+While the application of LLMs to mathematical verification in Lean is evolving rapidly, the availability of comprehensive datasets remains limited. At present, only a few open-source datasets are available, with some of the most notable
+being MiniF2F [68], PutnamBench [59], and NuminaMath-LEAN [47]. These benchmarks include hard, high-level
+math problems from competitions such as the International Mathematical Olympiad (IMO) or the Putnam exam. Other
+datasets exist, but have clear limitations. For example, Deepseek-Prover-V1 Train [21] includes 27k LLM-generated
+statements and proofs, but most of them are very simple and can be solved in 2–3 lines on average. Lean Workbook
+[67] (57k) gathers LLM-generated formalizations of mathematical problems. While it reports a 93.5% statement-level
+accuracy after filtering, subsequent analyses note that a nontrivial fraction of examples still suffer from semantic errors
+and hallucinations [39, 62], which limits its reliability.
+Notably, current valuable benchmarks focus on mathematics and, even within this domain, are centered narrowly
+on high school and undergraduate-level competition problems. To enrich the ecosystem and expand the coverage of
+Lean datasets, we create two datasets. The first one AbstractAlgebra (AA), is a Lean 4 dataset of problems drawn
+from standard abstract algebra textbooks. Unlike existing math benchmarks, which focus on undergraduate level
+competition-style puzzles, AA targets graduate or research-level mathematics, emphasizing deeper abstract concepts
+over lengthy step-by-step manipulations. The second dataset is QuantumTheorems (QT), which covers core topics in
+foundational quantum mechanics, with problems spanning from density matrices to scaling laws for quantum repeater
+networks. By bridging theoretical physics with formal verification methods, QT not only offers an unprecedented
+opportunity to test prover agents on quantum mechanics theorems, but also represents a key step toward evaluating
+scientific reasoning models across any scientific discipline grounded in mathematics. In the section below, we provide
+more information about these two datasets as well as the other datasets we used for our experiments.
+
+4.1
+
+AbstractAlgebra
+
+AbstractAlgebra is a curated dataset of 100 Lean problems extracted from the exercises in Dummit & Foote’s abstract
+algebra textbook [24]. The problems were extracted and formalized in Lean using an automated pipeline (see details
+and examples in Appendix B.1). The dataset consists of two subsets: 50 easy problems from Chapter 1.1 and 50
+intermediate problems from Chapters 1.2–2.5. The two categories thus reflect the increasing level of difficulty of the
+chapters in the book.
+As mentioned above, existing datasets focus on high school to undergraduate-level competition mathematics,
+which typically involves elementary concepts framed as puzzles that require many reasoning steps. For example,
+a competition problem may ask to determine all positive integers a, b such that (a2 + b2 )/(ab + 1) ∈ Z, which is
+conceptually elementary but requires a sequence of clever number-theoretic transformations.
+In contrast, the AA dataset is aimed toward research-level mathematics, which involves deeper concepts with fewer
+reasoning steps per exercise. For instance, an AA problem may ask: Prove that every element x = sri in the dihedral
+
+6
+
+group Dn has order 2. By presenting these kinds of problems, AA fills the gap between AI-focused formalization
+efforts, which largely target elementary mathematics, and the advanced topics studied by research mathematicians.
+Finally, we stress that abstract algebra is foundational to much of mathematics, providing essential tools for research in number theory, geometry, topology, and beyond – indeed, 22 of the 32 primary mathematics categories on
+arXiv build upon it [1]. It also underpins important domains outside of mathematics, such as cryptography, physics,
+and chemistry. The broad foundational nature of abstract algebra underscores the importance of developing AI proof
+systems that perform well on problems in this domain, as this has the potential to accelerate progress across many
+scientific fields.
+
+4.2
+
+QuantumTheorems
+
+QuantumTheorems includes 134 problems spanning core areas of quantum theory. These problems introduce unique
+challenges, as they require integrating finite-dimensional linear algebra, complex analysis, and matrix theory with
+quantum principles such as unitarity, hermiticity, and measurement postulates. This domain-specific knowledge is
+absent from existing lean datasets, making QT a valuable benchmark for testing and advancing formal reasoning in
+physics. QT was generated through an iterative human-in-the-loop process, combining automated proof synthesis with
+expert curation (see Appendix B.2 for more details and examples).
+We generated problems at two levels of difficulty: basic problems are short (proof requires 1-10 lines of Lean
+code) and often solvable with standard automation tactics (simp, linarith), e.g., proving that a post-measurement
+state is an eigenstate of the measurement projector. Intermediate level problems (proof requires 10-50 lines of Lean
+code) are solvable with systematic case analysis and orchestration of rewrite rules, such as proving simultaneous
+diagonalization of commuting observables.
+QT represents a first step toward computer-verified quantum mechanics, addressing the challenge of ensuring
+correctness in quantum information protocols and algorithms. The dataset has practical importance beyond research:
+as quantum technologies grow more complex, errors in proofs or hidden assumptions can have serious consequences.
+For instance, a recent bug in a proof claiming to break lattice-based cryptography – only identified weeks later by
+experts – illustrates the risks of unchecked reasoning in high-stakes domains [53, 16]. QT provides a first-of-its-kind
+resource for developing tools which can help detect these mistakes earlier.
+
+4.3
+
+NuminaMath-LEAN
+
+NuminaMath-LEAN [47] is a very recent (August 2025) large-scale collection of approximately 104,000 competitionlevel mathematics problems formalized in Lean. The dataset is created by the same research group that developed
+the Kimina-Prover [61]. They derived NuminaMath-LEAN from NuminaMath 1.5 [34], with problems drawn from
+prestigious contests such as the International Mathematical Olympiad (IMO) and the United States of America Mathematical Olympiad (USAMO).
+Each problem includes a formal statement in Lean, written either by a human annotator (19.3% of the problems)
+or by an autoformalizer model (80.7%) [47]. Out of the total problems, 25% were correctly proved by Kimina-Prover
+during its reinforcement learning (RL) training phase (Solved-K), 11% were proved by humans (Solved-H), while
+the remaining 64% do not have any proof (Unsolved) [61, 34, 47]. We analyzed problems across the three groups
+and observed a clear difficulty gradient: Solved-K < Solved-H < Unsolved. This ordering aligns with the fact
+that Solved-H and Unsolved problems could not be solved by Kimina-Prover, providing an implicit measure of
+difficulty. The fact that Solved-H proofs are on average longer than those in Solved-K (155 vs. 98 lines) also
+offers quantitative evidence consistent with our qualitative assessment. For our experiments, we randomly sampled
+300 problems – 100 each from Solved-K, Solved-H, and Unsolved – to create a balanced, representative, and
+more budget-friendly benchmark.
+
+4.4
+
+PutnamBench
+
+PutnamBench [59] is a multi-language benchmark designed to evaluate the ability of neural theorem provers to solve
+undergraduate-level competition mathematics problems. It includes formalizations of problems from the William
+Lowell Putnam Mathematical Competition (1962–2024) across three major proof assistants – Lean, Isabelle, and Rocq.
+The Lean subset contains 660 formalized problems, which are the ones we focus on in this work. The problems require
+
+7
+
+the clever application of a wide range of undergraduate topics, including abstract algebra4 , analysis, number theory,
+geometry, linear algebra, combinatorics, probability, and set theory. For each year, the Putnam competition includes
+two sessions of six problems each, labeled A1–A6 and B1–B6. It is generally accepted that, within each session, the
+problems increase in difficulty from 1 to 6. Unlike MiniF2F, which is now saturated (see, e.g., [52]), PutnamBench
+remains a challenging benchmark for most provers. Moreover, since it is widely adopted by many models, it serves as
+a high-value testbed for evaluating our approach against the best theorem-proving models currently available.
+
+5
+
+Experiments
+
+In this section, we provide details about the experimental setup we implemented (Section 5.1) and our results (5.2),
+followed by an analysis of tool usage (5.3) and the challenges and costs of model deployment (5.4).
+
+5.1
+
+Experimental Setup
+
+We divided the benchmarks introduced in Section 4 in two groups: New Benchmarks (including AbstractAlgebra,
+QuantumTheorems, and NuminaMath-LEAN) and PutnamBench, reflecting two distinct objectives.
+In the tests with New Benchmarks we evaluated the performance of the Ax-Prover against three strong baselines:
+• Claude Sonnet 4 (Sonnet). This baseline allows us to assess how the same LLM used to power our framework
+(see below) performs if used outside the agentic flow and without access to MCP tools.
+• DeepSeek-Prover-V2-671B (DS-Prover) and Kimina-Prover-72B (Kimina), two specialized Lean provers.
+We evaluated all models using pass@1: while this idea is in sharp contrast with previous studies assessing provers
+with pass@ very high values (see, e.g., [52]), we believe it mirrors real-world usage, where researchers are constrained
+by time and budget limits, and cannot run a prover multiple independent times in the hope that one succeeds. For
+transparency and reproducibility, we note that while pass@1, for all the baselines, means trying to formalize the entire
+proof in a single shot, for Ax-Prover it means performing a sequence of steps (i.e., API calls) in which reasoning and
+tool calls are interleaved in a singular attempt to build the final proof, i.e. without multiple independent attempts (see
+Section 3.1.2). For these experiments, we powered Ax-Prover using Claude Sonnet 4 [4]. Furthermore, to stay within
+budget, we capped Ax-Prover API calls at 200 and set a 25-minute timeout. For all models, we computed the final
+results by running an external Lean compiler on the generated files, and considered a proof correct if it compiled and
+included no sorry.
+The second benchmark group, which includes PutnamBench only, aims to evaluate Ax-Prover on one of the most
+challenging public benchmarks and compare its performance against existing state-of-the-art provers. Accordingly,
+we did not run baselines and instead directly compared our results with those reported on the official leaderboard [58].
+For this test, we powered Ax-Prover with Sonnet 4.5, removed the 25-minute timeout, and increased the max number
+of API calls to 400, while still running Ax-Prover with pass@1, as defined above.
+
+5.2
+
+Results
+
+New Benchmarks We report the results for this group in Table 2. On the NuminaMath-LEAN dataset, Ax-Prover
+scored 51% accuracy, outperforming DS-Prover (28%) and Kimina (31%) by a similar margin, while Sonnet only got
+5% accuracy. Particularly relevant is the performance of Ax-Prover on Solved-H, where it solves almost half of the
+problems, and on Unsolved (26%). Notably, due to autoformalization errors (see Section 4.3), some theorems are
+ill-posed: during testing, Ax-Prover spotted them, and reported the error (see Appendix C).
+On AA the gap in performance is striking, with Ax-Prover (64%) outperforming DS-Prover (24%) by 40%, while
+both Kimina (13%) and Sonnet get a very poor performance (8%). We suggest this is because the AA dataset is
+largely out-of-distribution for DS-Prover and Kimina. In fact, these models are trained primarily on Mathlib, which
+covers only a minimal subset of abstract algebra, or on undergraduate competition-level math problems, which are
+qualitatively different from those in AA (See Section 4.1).
+4 The abstract algebra problems in PutnamBench are of a different nature than the ones in our AbstractAlgebra dataset, which focuses more on
+detailed facts about textbook level concepts requiring few steps of reasoning.
+
+8
+
+Dataset
+NuminaMath-LEAN
+
+AbstractAlgebra
+
+QuantumTheorems
+
+Subset
+solved-K
+solved-H
+unsolved
+total
+easy
+intermediate
+total
+easy
+intermediate
+total
+
+Ax-Prover
+81%
+47%
+26%
+51%
+72%
+56%
+64%
+100%
+92%
+96%
+
+Sonnet
+7%
+8%
+1%
+5%
+10%
+6%
+8%
+54%
+18%
+40%
+
+DS-Prover
+48%
+14%
+18%
+28%
+26%
+22%
+24%
+88%
+48%
+61%
+
+Kimina
+100%†
+0%†
+0%†
+31%
+12%
+14%
+13%
+72%
+34%
+57%
+
+Table 2: Models’ performance on NuminaMath-LEAN, AA, and QT. † The results on NuminaMath-LEAN for Kimina
+are reported from [47], and were obtained during its RL training phase with, on average, pass@68.
+On the QT dataset, Ax-Prover achieves perfect performance on the easy split and 92% accuracy on the intermediate
+split, yielding 96% accuracy overall. This represents a substantial gap compared to DS-Prover (61%) and Kimina
+(57%), with Sonnet falling well behind at 40%.
+To showcase the differences between the models, let’s consider the proofs that quantum observables are Hermitian
+matrices (full proofs available in Appendix D.1). DS-Prover misused the Hermitian field for a custom definition of
+quantum observables, misunderstanding its type, while Sonnet made a more sophisticated effort but encountered a
+rewrite pattern mismatch, which highlights its difficulties in managing the Lean environment. In contrast, Ax-Prover
+succeeded through a systematic approach, explicitly applying the Hermitian property to diagonal elements, using the
+definition of conjugate transpose, and connecting it to the fact that a complex number equal to its conjugate is real.
+This example highlights that successful formal theorem proving requires careful, step-by-step reasoning, a solid grasp
+of type theory, and familiarity with library theorems.
+In this case, the performance gap stems from our approach’s flexibility to adapt across scientific domains, in contrast to the over-specialization of specialized models. We suggest that one factor contributing to DS-Prover and Kimina
+not being able to generalize to QT is that the definitions of physics concepts in QT – such as bra/ket, observable, and
+density matrix – are implemented as custom definitions in each .lean file. This is because these physics terms are
+not available in Mathlib, and as a result these custom constructs are absent from the datasets that DS-Prover and
+Kimina were trained on (largely undergraduate mathematics competition problems). This limitation is not specific to
+quantum mechanics: any domain that introduces new formal terms or definitions outside of what is present in Mathlib would likely pose a similar challenge for DS-Prover and Kimina while Ax-Prover can flexibly incorporate such
+domain-specific definitions and reason over them.
+PutnamBench Table 3 reports the results for the top 10 scorers on PutnamBench. Since the top 10 are all specialized
+prover models, we also report the top three non-specialized models.5 In the “Compute” column, pass@ indicates the
+number of independent attempts to solve a proof. avg. pass@ is used for Hilbert, an agentic framework that
+parallelizes reasoning and verification at different levels [60]. The exact definition of this metric is unclear; our best
+assumption is that it reflects the average number of calls to Hilbert’s sub-agents. Similarly, medium refers to a specific
+test setup for Seed-Prover, in which the model is evaluated with parallelized refinement processes [14].
+On this benchmark, Ax-Prover achieves 14% accuracy, making it the top performing open-source model, and
+placing it third overall. Ax-Prover surpassed other open-source models such as Goedel-Prover-V2, and nearly doubled
+the number of questions DeepSeek solves, all while using a much leaner compute budget. While it did not match the
+top scorers, it is important to stress that it ran at a fraction of the cost of Hilbert and Seed-Prover (see the “Compute”
+column). Our analysis shows that Ax-Prover produced proofs of 182 lines on average across the 92 questions it
+solved. Also, it solved problems at every level of difficulty (see Section 4.4), with the distribution of the solved
+problems reflecting the expected curve: 39% problems from level 1, 25% from 2, 16% from 3, 9% from 4, 7% from
+5, and 3% from 6.
+5 See the full leaderboard at [58].
+
+9
+
+Accuracy
+Compute
+Overall, the results in this section indicate that Ax- Model
+Prover delivers strong performance across the board, Hilbert
+72% [462] avg. pass@1840
+ranking among the top models in mathematics and out- Seed-Prover
+51% [329]
+medium
+performing others in physics. Also, they highlight Ax-Prover†
+14% [92]
+pass@1‡
+two key limitations of current approaches: specialized Goedel-Prover-V2†
+13% [86]
+pass@184
+provers fail to generalize beyond their training domains, DeepSeek-Prover-V2†
+7% [47]
+pass@1024
+while general-purpose LLMs, though creative, cannot DSP+†
+4% [23]
+pass@128
+produce rigorous Lean proofs. The fact that Ax-Prover Bourbaki†
+2% [14]
+pass@512
+more than doubles the performance of the standalone Kimina-Prover-7B-Distill† 2% [10]
+pass@192
+LLM using the same model (Sonnet) on all datasets, and Self-play Theorem Prover†
+1% [8]
+pass@3200
+outperforms Deepseek and Kimina even on the Putnam- Goedel-Prover-SFT†
+1% [7]
+pass@512
+Bench when both models are allowed high pass@n at- Gemini-2.5-Pro
+0.5% [3]
+pass@1
+tempts, indicates that combining agentic reasoning with GPT-4o
+0.2% [1]
+pass@10
+Lean tool integration is essential for robust theorem Claude-3.7-Sonnet
+0% [0]
+pass@1
+proving across domains. We examine this aspect in more Table 3: Accuracy results on PutnamBench (% and abdetail in the next section.
+solute number of solved problems).† denotes open-source
+[58]. ‡ Remember that for Ax-Prover, pass@1 is made of
+multiple steps, see Section 5.1.
+5.3 Analysis of Tool Usage
+To measure the impact of tool usage on our approach, we
+analyzed the tool calls done by the Prover over the 100
+problems we tested on the challenging NuminaMathLEAN Unsolved subset. We found that the Prover made an average of 100.76 tool calls per run. Tool usage is
+highly reliable, with success rates above 99%.6 Table 4 reports the 10 most frequently used tools. At the top is
+edit file, as the Prover updates the Lean file at each step, followed by lean diagnostic messages, reflecting explicit instructions to verify each proof step (see Section 3.1.2). lean goal exposes the current proof state,
+while lean loogle and lean leansearch enable the Prover to search for relevant theorems in the library. Importantly, these tools are used autonomously, without any explicit guidance. Collectively, these statistics illustrate how
+Ax-Prover leverages a tight feedback loop of editing, goal inspection, search, and diagnostics.
+Our assumption is that tool usage enhances proof quality by allowTool
+Calls
+ing Ax-Prover to use both basic and more complex tactics, depending on
+edit file
+36.79
+lean diagnostic messages 30.73
+the scenario. To test this, we analyzed the unique tactics used in the proofs
+lean goal
+8.17
+generated by Ax-Prover, Kimina, and DeepSeek, under the hypothesis that
+lean loogle
+5.88
+a larger set of tactics reflects greater creativity (see the full list of tactics
+lean leansearch
+4.32
+per model in Table 5). The three models share 28 tactics, but Ax-Prover
+file contents
+3.00
+write file
+2.71
+uses 9 tactics not employed by DS-Prover or Kimina, whereas these modread text file
+2.24
+els combine to use only three tactics absent in Ax-Prover. This finding
+lean run code
+2.05
+supports our hypothesis that integrating frontier LLMs with Lean tools
+lean hover info
+1.76
+enhances creative exploration in proof construction. Notably, the tactics
+Table 4: Tool usage statistics.
+unique to Ax-Prover – such as change, suffices, unfold, and the
+cast-handling tactics norm cast and push cast – reflect higher-level
+reasoning and environment control rather than local rewriting. These tactics enable Ax-Prover to reframe goals and
+manage custom definitions, allowing it to operate effectively in domains (like QT) that lie beyond Mathlib’s formal
+coverage. In contrast, DS-Prover and Kimina rely more heavily on local rewriting and simplification, which limits
+their flexibility across scientific domains.
+
+5.4
+
+Deployment Analysis
+
+Besides performance, deployment complexity is critical when using AI models in real-world scenarios. Here we
+compare prover systems in this respect. DS-Prover and Kimina require GPU-accelerated, high-spec machines and are
+not available through model as a service (MaaS) providers.7 We hosted DS-Prover and Kimina on Google Cloud:
+6 The only exception is search files in Filesystem tools, with 80%. However, this results from the Prover searching for files that do not
+exists.
+7 For instance, while DeepSeek-Prover-V2-671B was previously hosted by Novita [22], this endpoint now redirects to the general DeepSeek-V3.
+
+10
+
+DS-Prover on an A3 Ultra VM with eight H200-141GB GPUs, and Kimina on an A2 High GPU VM with eight
+A100-40GB GPUs. Deployment is burdensome and demands MLOps expertise: Users must match hardware specs,
+configure distributed runtimes, debug serving issues, and contend with scarce GPU availability, since cloud providers
+enforce strict quotas and long queues for H100/H200 GPUs. This hinders reproducibility even for well-resourced
+teams. In contrast, Ax-Prover relies only on API calls, requiring no infrastructure beyond basic client access, and it
+can be executed locally on a client machine or remotely in a lightweight container.
+On monetary costs, running DS-Prover and Kimina on 1000 datapoints cost approximately $300 and $2000, respectively, while Ax-Prover cost about $4000. At first glance, our approach might appear more expensive, but this
+is only because we evaluated specialized models with pass@1. Had we adopted the common practice of running
+them with higher pass@n values like, for example, those used on Putnambench, DS-Prover (pass@1024) would have
+cost $307k and Kimina (pass@192) $384k. Relatedly, consider that despite using far more computational resources,
+DS-Prover (pass@1024) solved only 47 theorems on PutnamBench, whereas Ax-Prover solved 92. Finally, at a more
+general level, we note that general-purpose LLMs are on a rapid trajectory of improvement. For example, Claude
+Haiku-4.5 [7] has reported reasoning and coding ability equal to Claude Sonnet 4, but at 1/3 the cost. This indicates
+that each new generation of LLMs will deliver stronger reasoning at lower costs, allowing the relative efficiency of
+Ax-Prover to increase over time.
+The deployment and cost barriers of specialized models also help explain why they have not achieved widespread
+use beyond benchmark settings such as IMO-style mathematics problems. For most researchers, the need to manage
+specialized hardware, navigate GPU quotas, and bear high costs makes these systems effectively unusable in practice.
+Ax-Prover is more accessible to researchers not only because it eliminates these barriers, but also because it was
+explicitly designed to act as a supportive assistant, as we show in the next section.
+
+6
+
+Use Cases: Researcher-Friendly Verification in Cryptography
+
+Automated theorem proving in Lean offers a principled path to standardize definitions, assumptions, and proof obligations in cryptography and adjacent security science. Today, claims are often presented under heterogeneous assumptions and algebraic frameworks, which complicates comparison, reuse, and independent verification. The literature
+has repeatedly called for clearer, more uniform methodologies and semantics [55, 12, 10, 30]. The stakes are high:
+subtle modeling gaps can undermine strong-sounding guarantees even after deployment. In privacy, for example,
+de-anonymization of the Netflix Prize dataset [44] and re-identification in the Massachusetts Group Insurance Commission release [57] showed how informal reasoning about protection mechanisms can fail in practice. Therefore,
+the need for rigorous, machine-checked verification is not merely an academic preference but an urgent, societally
+significant requirement for trustworthy digital systems.
+At the same time, fully formal proofs in Lean are difficult. Beyond domain knowledge in finite fields, linear
+and multilinear algebra, probability, and information theory, they demand proof-engineering skills in dependent type
+theory, tactic design, and library navigation [20, 33]. Recent domain-specific efforts in quantum information report
+similar challenges when aligning physics-style reasoning with the semantics of a proof assistant [41].
+The case studies below show that Ax-Prover helps close this gap: by coupling frontier reasoning with Lean tools, it
+enables research-grade formalization and verification with interactive, compiler-checked feedback, without specialized
+infrastructure. In practice, Ax-Prover collaborates with researchers, complementing gaps in Lean expertise and formalmethods know-how by handling tactic engineering, search, error diagnosis, and refactoring, while the human expert
+provides domain insight, problem decomposition, and proof strategy.
+
+6.1
+
+Use Case 1: Classical Cryptography
+
+Modern cryptography protects everyday systems. Small mistakes in the math behind a design introduce vulnerabilities,
+so having interpretable and verifiable proofs matters. Lean gives a uniform, auditable way to do this: definitions are
+shared, assumptions are explicit, and proofs can be rerun and reused [55, 12].
+We examined the paper A New Algorithm for Computing Branch Number of Non-Singular Matrices over Finite
+Fields [42]. In simple terms, the work proposes a better test for the branch number – a quantity used to measure
+cryptographic strength – enabling designers to quickly screen large families of candidate matrices.
+A cryptographic researcher collaborated with Ax-Prover to formalize the needed definitions in Lean and verified
+the paper’s key claim. Ax-Prover handled the Lean mechanics, tactic choices, and error diagnosis, complementing
+
+11
+
+the researcher’s domain knowledge. During verification it revealed a gap in the informal argument: some minima
+were taken over sets that can be empty for certain parameters. Our final Lean development makes the necessary
+preconditions explicit and prevents this issue. The result is a machine-checked certificate of the characterization, about
+2000 lines of Lean produced over two working days with minimal computational resources, plus reusable lemmas
+for future analyses (see Appendix F). This case shows that tool-augmented, researcher-facing workflows can make
+meaningful cryptographic verification practical.
+From a time-and-resource perspective, our cryptography case study consisted of roughly 2,000 lines of Lean code
+completed in two working days on a laptop. For comparison, the recent Lean formalization of the Prime Number
+Theorem by Math Inc. [40] resulted in over 25,000 lines of Lean code developed over the course of multiple weeks.
+However, this relied on large-scale agentic infrastructure [40], a partial lean proof produced by Terence Tao and Alex
+Kontorovich, and the need for researchers to create detailed blueprints that were fed to their Gauss autoformalization
+agent. By contrast, Ax-Prover ran entirely on a single laptop, began with no existing Lean code, and required no such
+blueprinting effort – serving instead as an interactive assistant that enabled rapid, verifiable progress. This highlights
+the practical advantage of a researcher-facing, tool-assisted workflow for formal reasoning.
+
+6.2
+
+Use Case 2: Quantum Cryptography
+
+Quantum cryptography seeks statistical, information-theoretic security anchored in physics, rather than in the assumption of limited computational power. Quantum key distribution is the canonical example: two parties certify secrecy
+by testing quantum correlations, then apply information-theoretic post-processing. Because these guarantees rest on
+operator theory, linear algebra, and probability, they are a natural fit for automated theorem proving. Prior Lean formalizations in quantum information highlight the challenge of translating physics-style derivations into machine-checked
+mathematics [41].
+We focus on the Lo-Chau framework [38], which informed later analyses such as Shor-Preskill’s treatment of
+BB84 [54]. A key step converts a physical test – high fidelity to EPR pairs – into an entropic bound that quantifies the
+limit on an eavesdropper’s information. Using Ax-Prover, we formalized and proved this entropy bound – Lo-Chau’s
+Lemma 1 (high fidelity implies low entropy) – in Lean, and we exported it as a reusable library lemma (Appendix G).
+Concretely, we encoded the spectral constraint implied by fidelity, invoked Schur concavity of the von Neumann
+entropy, and derived the stated bound. The resulting lemma is a modular component for formal QKD analyses,
+strengthening the interface between physics-style reasoning and machine-checked mathematics while responding to
+the community’s broader need for standardized, reusable proof components [55, 12, 10].
+
+7
+
+Conclusions
+
+We introduce Ax-Prover, a novel agentic workflow that combines the broad reasoning capabilities of general-purpose
+LLMs with the formal rigor of Lean’s proof environment. Our system addresses three major limitations of current
+specialized provers: (i) limited generalizability to scientific domains beyond mathematics and rapid obsolescence as
+libraries like Mathlib evolve; (ii) inability to collaborate effectively with human experts and utilize external tools;
+and (iii) high engineering and maintenance costs.
+Evaluations show that Ax-Prover is the top performing open-source model and third overall on PutnamBench,
+using a much lower computation budget than top-performers, and outperforms baselines on the public NuminaMathLEAN dataset as well as on AbstractAlgebra and QuantumTheorems, two new datasets we introduce that focus on
+research-level mathematics and physics. These benchmarks not only provide new testbeds for cross-domain reasoning
+in future agents but also represent a crucial milestone in evaluating reasoning models in any scientific discipline
+grounded in mathematics.
+These results highlight Ax-Prover’s superior domain generalization, in contrast to specialized models, which struggle to adapt to novel domains beyond their training data. More importantly, they show that Ax-Prover has the potential
+to serve as a deep formal reasoning assistant for scientific artificial intelligence in domains requiring extended chains
+of rigorous inference. The combination of multi-disciplinary reasoning with rigorous formal verification positions
+the system to support AI-driven scientific discovery wherever verifiably error-free reasoning is essential. We attribute
+this performance to our multi-agent architecture and its tight integration with Lean tools via the MCP. By iteratively
+editing proofs, inspecting goals, and diagnosing errors, Ax-Prover behaves like a cautious mathematician, systematically exploring and verifying each step. The frequency and effectiveness of tool use in our experiments confirm their
+
+12
+
+essential role in improving proof quality and enabling human-like debugging.
+Furthermore, we showed in our case studies that Ax-Prover is not only able to prove theorems autonomously, but
+also to engage in fruitful collaboration with researchers. Working alongside it, they used it as a partner for structuring
+arguments, validating lemmas, and diagnosing proof failures. This interaction demonstrates how Ax-Prover can adapt
+to expert guidance, accelerate verification workflows, and even surface errors in the informal reasoning.
+Looking ahead, we plan to enhance Ax-Prover by introducing parallelized agents, enabling the framework to
+explore multiple proof paths simultaneously. This will increase its creativity and success rate in formalizing complex
+proofs. We also plan to integrate a long-term memory module to store information from past proofs and human
+interactions. This capability will allow Ax-Prover to participate not only in standalone problems but also in extended,
+collaborative research projects. These developments will advance us towards our broader goal of verifiable scientific
+artificial intelligence, where AI systems contribute to scientific discovery through formally validated reasoning.
+
+Acknowledgments
+We thank Austin Letson for reviewing the paper, suggesting that we evaluate Ax-Prover on PutnamBench, and assisting
+with Lean-related tasks, including the use of lean4checker to verify our results. We thank Avinash Kumar for
+directing us to the NuminaMath-LEAN dataset. Finally, we acknowledge Leopoldo Sarra for working closely with us
+during the early stages of the project.
+
+Appendix
+A
+
+Tools
+
+A.1
+
+File system
+
+Full list of Filesystem tools:
+• read file
+• read multiple files
+• write file
+• edit file
+• create directory
+• list directory
+• list directory with sizes
+• directory tree
+• move file
+• search files
+• get file info
+• list allowed directories
+
+13
+
+B
+
+Datasets
+
+B.1
+
+Abstract Algebra
+
+B.1.1
+
+Dataset Generation
+
+We used a basic pipeline to build the AbstractAlgebra dataset. First, we extracted all raw text from PDFs of exercises
+from Abstract Algebra by Dummit and Foote [24] using Mistral’s API. We then processed the raw text by using Claude
+Sonnet 3.7 [3] to extract a list of natural language mathematical statements, which include exercises, derivations,
+lemmas, propositions, and theorems within the text. Next, we used a Claude Sonnet 3.7 agent to formalize each
+natural language statement in Lean. To ground the formalization in Mathlib and prevent the agent from reinventing
+definitions, we passed the agent a Lean file at the start of the process
+containing relevant definitions for that section,
+√
+e.g., dihedral groups, roots of unity, or the field extension Q( 2). The agent could reference these definitions and
+was required to add each formalized statement directly to this file, but was explicitly prohibited from introducing new
+definitions. The agent generated the top 3 formal statements in Lean for each natural language statement and refined
+each attempt up to 3 times with feedback from the Lean compiler. We then built the dataset by retaining only those
+pairs of natural language and formal language statements that corresponded to exercises from the source texts.
+B.1.2
+
+Example
+
+This is an example of a theorem statement in the AbstractAlgebra dataset, formalized from Exercise 3 in Chapter 1.2
+of Dummit and Foote [24].
+import Mathlib
+-- Variables for dihedral group
+variable {n : Nat} {i : Int}
+local notation "D_n" => DihedralGroup n
+local notation "r" => DihedralGroup.r (1 : ZMod n)
+local notation "s" => DihedralGroup.sr (0 : ZMod n)
+/-- Show that every reflection x = srˆi in D_n has order 2. -/
+theorem exercise_3_part1 {x : D_n} (h : x = s * r ˆ i) : orderOf x = 2 := by
+sorry
+
+B.2
+
+QuantumTheorems
+
+B.2.1
+
+Dataset Generation
+
+The dataset was generated through an iterative human-in-the-loop process combining automated proof synthesis with
+expert curation. The initial set of 134 theorems were manually extracted from [46]. An automated coding agent
+(Claude Opus [6]) first generated formal statements and proof attempts for the theorems, producing both complete
+proofs and partial derivations. A quantum physics expert then reviewed each statement and proof, identifying gaps,
+correcting errors, and standardizing operator definitions to ensure that each question was well formed and solvable.
+The final dataset replaces these proofs with sorry statements.
+B.2.2
+
+Example
+
+This is an example of a theorem statement in the QuantumTheorems dataset, stating that a post-measurement state is
+an eigenstate of the measurement projector. Notably, the problem setup involves a number of custom definitions of
+concepts in quantum mechanics.
+import Mathlib.Analysis.InnerProductSpace.Basic
+import Mathlib.Data.Complex.Basic
+import Mathlib.Data.Matrix.Basic
+import Mathlib.LinearAlgebra.Eigenspace.Basic
+open BigOperators Complex
+
+14
+
+/-- Quantum state as normalized vector -/
+structure QuantumState (n : N) where
+vec : Fin n → C
+normalized : Σ i, Complex.normSq (vec i) = 1
+/-- Projector as idempotent matrix -/
+structure Projector (n : N) where
+mat : Matrix (Fin n) (Fin n) C
+idem : mat * mat = mat
+hermitian : mat.conjTranspose = mat
+/-- Matrix-vector multiplication -/
+noncomputable def matVec {n : N} (M : Matrix (Fin n) (Fin n) C) (v : Fin n → C) :
+Fin n → C :=
+fun i => Σ j, M i j * v j
+/-- Measurement probability -/
+noncomputable def measureProb {n : N} (P : Projector n) (ψ : QuantumState n) : R :=
+Σ i, Complex.normSq ((matVec P.mat ψ.vec) i)
+/-- Norm of a vector -/
+noncomputable def vecNorm {n : N} (v : Fin n → C) : R :=
+Real.sqrt (Σ i, Complex.normSq (v i))
+/-- Scale a vector by a real number -/
+noncomputable def scaleVec {n : N} (r : R) (v : Fin n → C) : Fin n → C :=
+fun i => r · (v i)
+/-- Check if a vector is an eigenvector with eigenvalue lambda -/
+def isEigenvector {n : N} (M : Matrix (Fin n) (Fin n) C) (v : Fin n → C) (lambda : C
+) : Prop :=
+v ̸= 0 ∧ matVec M v = fun i => lambda * v i
+/-- QT_366: Post-measurement state is eigenstate of measurement projector -/
+theorem QT_366_post_measurement_eigenstate {n : N} (P : Projector n) (ψ :
+QuantumState n)
+(h_nonzero : measureProb P ψ ̸= 0) :
+let ψ’ := matVec P.mat ψ.vec
+isEigenvector P.mat ψ’ 1 := by
+sorry
+
+C
+
+Detected Autoformalization Error
+
+As noted in Section 5.2, 19.7% of Numina’s problems were generated using autoformalization models. While these
+pipelines enable large-scale dataset construction, they occasionally produce ill-posed theorems that cannot be satisfied
+in Lean.
+During evaluation, Ax-Prover successfully identified such a case and proved the negation of the statement.
+import Mathlib
+theorem number_theory_3098 (p1 p2 p3 p4 : N) (hp1 : p1.Prime) (hp2 : p2.Prime)
+(hp3 : p3.Prime) (hp4 : p4.Prime) (h1 : p1 < 100) (h2 : p2 < 100) (h3 : p3 < 100)
+(h4 : p4 < 100) (h5 : p1 ̸= p2) (h6 : p1 ̸= p3) (h7 : p1 ̸= p4) (h8 : p2 ̸= p3)
+(h9 : p2 ̸= p4) (h10 : p3 ̸= p4) (h11 : p1 = 1 ∨ p1 = 2 ∨ p1 = 3 ∨ p1 = 4 ∨ p1 = 5
+∨ p1 = 6 ∨ p1 = 7 ∨ p1 = 9)
+(h12 : p2 = 1 ∨ p2 = 2 ∨ p2 = 3 ∨ p2 = 4 ∨ p2 = 5 ∨ p2 = 6 ∨ p2 = 7 ∨ p2 = 9)
+
+15
+
+(h13 : p3 = 1 ∨ p3 = 2 ∨ p3 = 3 ∨ p3 = 4 ∨ p3 = 5 ∨ p3 = 6 ∨ p3 = 7 ∨ p3 = 9)
+(h14 : p4 = 1 ∨ p4 = 2 ∨ p4 = 3 ∨ p4 = 4 ∨ p4 = 5 ∨ p4 = 6 ∨ p4 = 7 ∨ p4 = 9)
+(h15 : p1 ̸= p2 ∧ p1 ̸= p3 ∧ p1 ̸= p4 ∧ p2 ̸= p3 ∧ p2 ̸= p4 ∧ p3 ̸= p4) :
+p1 + p2 + p3 + p4 = 190 := by sorry
+
+The first line of the proof sketch that Ax-Prover generated for this problem was
+This theorem has contradictory premises: the sum must be 17, not 190.
+Upon inspection, it is clear that 4 natural numbers belonging to the set {2, 3, 5, 7} cannot sum to 190. As an additional
+exercise, we changed
+p1 + p2 + p3 + p4 = 190 := by
+
+sorry
+
+to its negation
+(p1 + p2 + p3 + p4 = 190) = False := by
+
+sorry
+
+changing the original theorem statement to prove the negation which Ax-Prover was able to do, thus proving that
+the original theorem was not provable. This behavior highlights two strengths of the agentic loop:
+1. Robustness to noise. The agent does not blindly attempt to complete invalid statements but can detect contradictions early.
+2. Transparency. By surfacing diagnostic messages directly from Lean, Ax-Prover provides clear evidence that
+the statement is ill-posed, enabling researchers to filter or repair dataset items.
+We see this as an important complement to raw accuracy metrics: beyond solving valid theorems, a reliable prover
+should be able to recognize when formalization errors make a proof impossible.
+
+D
+
+Proofs
+
+D.1
+
+QuantumTheorems Example Analysis
+
+We present here the attempts to prove that diagonal matrix elements of a quantum observable in a finite-dimensional
+Hilbert space are real. Concretely,
+Let A be a quantum observable in an n-dimensional Hilbert space. Then for every i = 1, · · · , n, the imaginary part
+of the element Aii vanishes.
+This entry in the dataset comes with a custom definition of an observable:
+/-- An observable is a Hermitian operator -/
+structure Observable (n : N) where
+matrix : Matrix (Fin n) (Fin n) C
+hermitian : matrix.IsHermitian
+
+D.1.1
+
+DeepSeek’s Attempt (Failed)
+
+DeepSeek’s approach was fundamentally flawed from the start:
+theorem observable_diagonal_real {n : N} (A : Observable n) (i : Fin n) :
+(A.matrix i i).im = 0 := by
+have h := A.hermitian
+have h1 := congr_arg (fun x => x i i) h
+simp [Matrix.ext_iff, Matrix.conjTranspose_apply, Complex.ext_iff] at h1 ⊢
+<;>
+aesop
+
+Critical Error:
+tactic ’aesop’ failed, made no progress
+
+16
+
+Analysis: DeepSeek attempted to use A.hermitian directly as a proof, but this term has type Matrix.IsHermitian,
+not the equality type required by congr arg. The error message indicates that the tactic aesop failed because there
+was a fundamental type mismatch. This shows a misunderstanding of Lean’s type system. The hermitian field is a
+proof that the matrix satisfies the Hermitian property, but it’s not directly the equality we need to prove.
+D.1.2
+
+Sonnet’s Attempt (Failed)
+
+Sonnet made a more sophisticated attempt but still failed:
+theorem observable_diagonal_real {n : N} (A : Observable n) (i : Fin n) :
+(A.matrix i i).im = 0 := by
+have h := A.hermitian
+rw [Matrix.IsHermitian.ext_iff] at h
+specialize h i i
+rw [Matrix.conjTranspose_apply, Matrix.star_apply] at h
+exact Complex.ext_iff.mp h.symm |>.2
+
+Critical Error:
+Tactic ‘rewrite‘ failed: Did not find an occurrence of the pattern
+Matrix.conjTranspose ?M ?j ?i
+in the target expression
+star (A.matrix i i) = A.matrix i i
+
+Analysis: Sonnet understood that it needed to work with the Hermitian property and tried to extract information
+about diagonal elements, but made an error in pattern matching during the rewrite step. The approach was on the right
+track but was executed incorrectly.
+D.1.3
+
+Ax-Prover’s Attempt (Successful)
+
+Ax-Prover succeeded with a systematic, step-by-step approach:
+theorem observable_diagonal_real {n : N} (A : Observable n) (i : Fin n) :
+(A.matrix i i).im = 0 := by
+-- Step 1: Use the fact that A is Hermitian
+have h1 : A.matrix.conjTranspose = A.matrix := by
+exact A.hermitian
+-- Step 2: Apply this to diagonal element (i,i)
+have h2 : (A.matrix.conjTranspose i i) = (A.matrix i i) := by
+rw [h1]
+-- Step 3: By definition of conjugate transpose
+have h3 : (A.matrix.conjTranspose i i) = star (A.matrix i i) := by
+exact Matrix.conjTranspose_apply _ _ _
+-- Step 4: Combine to get star (A.matrix i i) = A.matrix i i
+have h4 : star (A.matrix i i) = A.matrix i i := by
+rw [← h3, h2]
+-- Step 5: A complex number equals its conjugate iff it’s real
+have h5 : (A.matrix i i).im = 0 := by
+have : (starRingEnd C) (A.matrix i i) = A.matrix i i := h4
+exact Complex.conj_eq_iff_im.mp this
+exact h5
+
+E
+
+Tactics
+
+In Table 5 we report the tactics used by each model.
+17
+
+Tactic
+apply
+assumption
+by cases
+calc
+cases
+change
+classical
+congr
+constructor
+contradiction
+decide
+exact
+exact mod cast
+exfalso
+ext
+funext
+generalize
+induction
+injection
+intro
+intros
+left
+native decide
+norm cast
+obtain
+omega
+push cast
+rcases
+refine
+replace
+rfl
+right
+rintro
+rw
+rwa
+show
+simp
+simp all
+simpa
+specialize
+subst
+subst vars
+suffices
+trans
+unfold
+
+Ax-Prover
+X
+X
+X
+X
+X
+X
+X
+X
+X
+X
+X
+X
+X
+X
+X
+X
+X
+X
+X
+X
+X
+X
+X
+X
+X
+X
+X
+X
+X
+X
+X
+X
+X
+X
+X
+X
+X
+X
+
+DeepSeek
+X
+X
+X
+X
+X
+X
+X
+X
+X
+X
+X
+X
+X
+X
+X
+
+Kimina
+X
+X
+X
+X
+X
+
+X
+X
+X
+X
+X
+X
+X
+X
+
+X
+
+X
+
+X
+
+X
+X
+X
+
+X
+X
+
+X
+X
+
+X
+X
+
+X
+X
+X
+X
+X
+X
+X
+X
+X
+X
+X
+X
+X
+X
+
+X
+X
+X
+
+X
+X
+X
+
+X
+
+X
+X
+
+X
+X
+X
+
+Table 5: Tactics used by Ax-Prover, DeepSeek, and Kimina. An “X” indicates the model uses the tactic.
+
+F
+
+Case Study: Verifying math in classical cryptographic papers
+
+In this case study, we illustrate how one of our researchers used Ax-Prover to verify the correctness of mathematical
+results used in cryptographic research.
+
+18
+
+As a concrete example, we focus on the recent (May 2024) cryptographic paper A New Algorithm for Computing
+Branch Number of Non-Singular Matrices over Finite Fields from arXiv [42]. This work introduces a novel algorithm
+for computing the branch number – a fundamental metric used to assess the strength of block ciphers such as AES
+[45], PRINCE [13], and Grøstl [25].
+The paper begins with Theorem 1, which offers an alternative characterization of the branch number. Traditionally,
+for an invertible n × n matrix M of order n > 1 over a finite field Fq of order q, the branch number is defined as
+
+B(M ) = min wh (x) + wh (M x) : x ∈ Fnq where x ̸= 0 ,
+
+(1)
+
+where wh (x) is the Hamming weight (the number of nonzero entries in x). Theorem 1 gives an alternate definition of
+the branch number that is more amenable to computation than the classical version:
+The branch number of an invertible matrix M ∈ Mn (Fq ) is given as
+
+
+
+n+1
+−1
+n
+,
+B(M ) = min min{h(M, x), h(M , x)} : x ∈ Fq , 1 ≤ wh (x) ≤
+2
+
+(2)
+
+where h(M, x) = wh (x) + wh (M x).
+For cryptographers, this makes a practical difference: it enables fast evaluation of candidate matrices when designing new lightweight or high-performance ciphers. The authors demonstrate in Theorem 4 [42] that their algorithm
+achieves significant complexity gains over the naive O(n2 q n ) approach for finite fields of order q ≥ 4 and square
+matrices of order n ≥ 4.
+
+F.1
+
+Formalize: Single Step
+
+To formally verify the math in this paper, we used an autoformalization agent to formalize statements, verified that the
+formalization was correct, before passing those statements to Ax-Prover.
+We show the process of proving one step in the paper (the full Lean certificate can be provided upon request). The
+figure below shows the current verification state highlighted in green, while the next step awaiting verification appears
+in yellow.
+
+19
+
+F.2
+
+Verification: Single Step
+
+We highlighted the relevant theorems or lemmas and prompted Ax-Prover to generate a complete proof for each selected statement. Ax-Prover iteratively refined the proof, checking each step for correctness until the system confirmed
+its validity. Unlike standard LLM output, this process ensured full mathematical soundness, with Ax-Prover automatically searching for relevant results, reading and updating the file, diagnosing errors, and managing proof goals.
+Some expert human oversight was required on 2 steps to properly formalize statements passed to the prover, but
+beyond these isolated interventions, the system operated autonomously. After several iterations, it produced a fully
+verified proof of each step in just a few minutes. The following prompt illustrates this process for the example above:
+Prompt
+Prove this statement (with the formalized step above highlighted as context).
+Response
+The statement is a simple set-theoretic observation. We start with all low-weight vectors x and look at the
+values wH (x) + wH (M x), where wH is the Hamming weight and M is some matrix.
+• Without constraints: We consider all low-weight vectors.
+• With constraints: We only consider those low-weight vectors where the output M x also has low weight.
+Clearly, if you add an extra condition (“M x has low weight”), you can only make the set smaller or
+equal—never larger—because you’re restricting the set of vectors you’re looking at.
+The proof just formalizes this obvious fact:
+1. Take any element in the constrained set.
+2. By definition, it comes from some vector x that satisfies the extra condition.
+3. But x also satisfies the conditions for the unconstrained set (because the unconstrained set has fewer
+requirements).
+4. So the element belongs to the unconstrained set as well.
+This shows the constrained set is a subset of the unconstrained set.
+We now present an example that required expert oversight. Specifically, the Ax-Prover was unable to verify the
+correctness of statement (3) shown below:
+
+20
+
+To guide Ax-Prover, an expert user provided the following prompt:
+Prompt
+
+You have defined the sets B, C, D with A = min B, min(C, D) ≤ n + 1. Lets do this by cases: If min C >
+min D and min D > n + 1, then min(C, D) > n + 1, so min(B, min(C, D)) = min(B). The other case is
+easier.
+The Ax-Prover then successfully proved the statement using the provided hint:
+Response
+VERIFICATION COMPLETE - STEPS:
+
+1. Define the minima: Let
+B := min{ wH (x) + wH (M x) | x ∈ L},
+C := min{ wH (x) + wH (M x) | x ∈ H1 },
+D := min{ wH (x) + wH (M x) | x ∈ H2 }.
+where L = low-weight set, H1 = high-weight with wH (M x) ≤ (n + 1)/2, H2 = high-weight with
+wH (M x) > (n + 1)/2. Then
+A := Branchnumber(M ) = min(B, min(C, D)).
+2. Upper bound: For invertible M ,
+A ≤ n + 1.
+3. High–high set bound: If x ∈ H2 , then
+wH (x) + wH (M x) > n + 1
+
+=⇒
+
+D > n + 1.
+
+4. Case analysis:
+• C≤D
+
+⇒
+
+min(C, D) = C
+
+⇒
+
+A = min(B, C).
+
+• C > D ⇒ min(C, D) = D > n + 1. Since A = min(B, D) ≤ n + 1, we get B ≤ n + 1 and thus
+A = B = min(B, C).
+5. Conclusion:
+A = min(B, C).
+The term D never affects the branch number.
+
+F.3
+
+Consolidation: Complete Certificate
+
+Once all steps were verified, they were integrated into a single proof, producing a final file that formally certifies the
+alternate definition is equivalent to the original, exactly as proposed in the paper.
+
+21
+
+F.4
+
+Correctness, Verification, and Takeaways
+
+The outcome of our work was a formally verified certificate ensuring the correctness of Theorem 1. During the course
+of constructing this certificate, we identified an error in the original proof. Specifically, the issue arises in Step 2 of
+the proof:
+
+Here, the authors fail to ensure that the sets over which they take minima are non-empty. For example, in the
+simplest case where M = I (the identity matrix), the middle term reduces to
+
+
+
+
+
+n+1
+n+1
+min h(M, x) | x ∈ Fnq ,
+< wh (x) ≤ n, wh (x) ≤
+.
+2
+2
+In this case, the constraints
+ n+1 
+2
+
+< wh (x)
+
+and
+
+wh (x) ≤
+
+ n+1 
+2
+
+are contradictory, so the underlying set is empty. Nevertheless, the original proof proceeds under the assumption that
+this minimum is well-defined, a subtle yet significant oversight.
+Our formal verification system flagged these issues because it could not establish the truth of the corresponding
+statements, revealing logical gaps in the proof. Nevertheless, the authors’ final result remains correct despite the error
+in the proof.
+
+G
+
+Use Case 2: Quantum Cryptography
+
+In what follows, we expand on Sec. 6.2 by citing the lemma and explaining it in detail. We quote lemma 1 as well as
+its proof from the supplemental materials in Lo-Chau’s 1999 work in full [37]: 8
+
+8 We refer to the arXiv version, where the lemma is stated explicitly.
+
+22
+
+We now restate it with the appropriate context. Let ρ be a density matrix on a 22R -dimensional Hilbert space. If
+its fidelity with the ideal R-singlet state satisfies ⟨R singlets | ρ | R singlets⟩ > 1 − δ with 0 < δ ≪ 1, then
+
+
+δ
+.
+S(ρ) < −(1 − δ) log2 (1 − δ) − δ log2 2R
+2 −1
+While this is the form reproduced in this work from the Lo–Chau analysis [37, 38], here we manually replace the
+statement δ ≪ 1 with δ ≤ 1 − 22R1−1 . To justify this step, we reiterate that the notation δ ≪ 1, commonly used in
+physics, indicates that δ is smaller than any other relevant quantity in the problem—including the one we construct
+for our purposes, 1 − 22R1−1 . This step highlights a central challenge in translating physical statements into rigorous
+mathematics.
+We now restate Lo-Chau’s proof. The fidelity condition implies that the largest eigenvalue of ρ is at least 1 − δ.
+Since von Neumann entropy is Schur-concave,
+the maximal entropy under this constraint is achieved by the extremal
+
+spectrum 1 − δ, 22Rδ−1 , . . . , 22Rδ−1 , which yields the stated bound.
+Our Lean certificate for this result follows this reduction and checks the necessary concavity and normalization
+facts
+P – producing several reusable and useful lemmas, such as results on majorization and the fact the function ⃗x 7→
+i xi · log xi is Schur-convex. This Lean certificate can be made available upon request.
+
+In the Lo–Chau security reduction, the lemma turns “almost-perfect EPR pairs” into a quantitative entropy bound
+that, together with standard information-theoretic tools, guarantees a limit on an eavesdropper’s knowledge of the
+final key. Machine-checking this step enables principled composition with other verified components in formal QKD
+security proofs. Thus, Ax-Prover bridges formal reasoning and quantitative quantum information theory: results such
+as the Lo–Chau entropy bound no longer have to be taken as a black box, but instead become certified components,
+ready for use in end-to-end formal verification of QKD security proofs.
+
+References
+[1] Mathematics (arxiv archive). arXiv, 2025. Accessed: 2025-09-24.
+[2] Tudor Achim, Alex Best, Alberto Bietti, Kevin Der, Mathı̈s Fédérico, Sergei Gukov, Daniel Halpern-Leistner,
+Kirsten Henningsgard, Yury Kudryashov, Alexander Meiburg, et al. Aristotle: Imo-level automated theorem
+proving. arXiv preprint arXiv:2510.01346, 2025.
+[3] Anthropic.
+Claude 3.7 sonnet and claude code.
+claude-3-7-sonnet, 2025. Accessed: 2025-09-16.
+
+https://www.anthropic.com/news/
+
+[4] Anthropic. Claude 4. https://www.anthropic.com/news/claude-4, 2025. Accessed: 2025-09-16.
+[5] Anthropic. Claude documentation, 2025. Accessed: 2025-09-19.
+[6] Anthropic. Claude opus 4.1. https://www.anthropic.com/news/claude-opus-4-1, 2025. Accessed: 2025-10-14.
+[7] Anthropic PBC. Introducing claude haiku 4.5, October 2025. Accessed on May 25, 2026.
+[8] Kaito Baba, Chaoran Liu, Shuhei Kurita, and Akiyoshi Sannai. Prover agent: An agent-based framework for
+formal mathematical proofs. arXiv preprint arXiv:2506.19923, 2025.
+[9] Haniel Barbosa, Clark Barrett, Pascal Fontaine, and Andrew Reynolds. Satisfiability modulo theories: An appetizer. Communications of the ACM, 65(6):69–77, 2022.
+23
+
+[10] Gilles Barthe, Benjamin Grégoire, Sylvain Heraud, and Santiago Zanella Béguelin. Computer-aided security
+proofs for the working cryptographer. In Annual Cryptology Conference, pages 71–90. Springer, 2011.
+[11] Lasse Blaauwbroek, Josef Urban, and Herman Geuvers. The tactician: A seamless, interactive tactic learner and
+prover for coq. In International Conference on Intelligent Computer Mathematics, pages 271–277. Springer,
+2020.
+[12] Bruno Blanchet. A computationally sound mechanized prover for security protocols. IEEE Transactions on
+Dependable and Secure Computing, 5(4):193–207, 2008.
+[13] Julia Borghoff, Anne Canteaut, Tim Güneysu, Elif Bilge Kavun, Miroslav Knežević, Lars R. Knudsen, Gregor
+Leander, Ventzislav Nikov, Christof Paar, Christian Rechberger, Peter Rombouts, Søren S. Thomsen, and Tolga
+Yalçın. Prince – a low-latency block cipher for pervasive computing applications. In Xiaoyun Wang and Kazue
+Sako, editors, Advances in Cryptology – ASIACRYPT 2012, Lecture Notes in Computer Science, pages 208–225,
+Berlin, Heidelberg, 2012. Springer Berlin Heidelberg.
+[14] Luoxin Chen, Jinming Gu, Liankai Huang, Wenhao Huang, Zhicheng Jiang, Allan Jie, Xiaoran Jin, Xing Jin,
+Chenggang Li, Kaijing Ma, et al. Seed-prover: Deep and broad reasoning for automated theorem proving. arXiv
+preprint arXiv:2507.23726, 2025.
+[15] Mark Chen et al. Evaluating large language models trained on code. In arXiv preprint arXiv:2107.03374, 2021.
+[16] Yilei Chen. Quantum algorithms for lattice problems. Technical report, Cryptology ePrint Archive, Report
+2024/555, 2024. Updated April 18: algorithm contains an unfixable bug invalidating the main claim (see Section
+3.5.9, Page 37).
+[17] Yuri Chervonyi, Trieu H Trinh, Miroslav Olšák, Xiaomeng Yang, Hoang Nguyen, Marcelo Menegali, Junehyuk
+Jung, Vikas Verma, Quoc V Le, and Thang Luong. Gold-medalist performance in solving olympiad geometry
+with alphageometry2. arXiv preprint arXiv:2502.03544, 2025.
+[18] Katherine M Collins, Albert Q Jiang, Simon Frieder, Lionel Wong, Miri Zilka, Umang Bhatt, Thomas
+Lukasiewicz, Yuhuai Wu, Joshua B Tenenbaum, William Hart, et al. Evaluating language models for mathematics through interactions. Proceedings of the National Academy of Sciences, 121(24):e2318124121, 2024.
+[19] Leonardo de Moura and Nikolaj Bjørner. Z3: An efficient smt solver. In Proceedings of the International
+Conference on Tools and Algorithms for the Construction and Analysis of Systems (TACAS), pages 337–340.
+Springer, 2008.
+[20] Leonardo de Moura, Soonho Kong, Jeremy Avigad, Floris van Doorn, and Jakob von Raumer. The lean theorem
+prover (system description). In Automated Deduction – CADE-25, volume 9195 of Lecture Notes in Computer
+Science, pages 378–388. Springer, 2015.
+[21] DeepSeek-AI. Deepseek-prover-v1 dataset. https://huggingface.co/datasets/deepseek-ai/
+DeepSeek-Prover-V1, 2024. Accessed: 2025-08-24.
+[22] deepseek ai. Deepseek-prover-v2-671b, 2025. Accessed: 2025-09-24.
+[23] Oliver Dressler. Lean-lsp-mcp: Tools for agentic interaction with the lean theorem prover, 3 2025. Accessed:
+2025-08-24.
+[24] David S Dummit and Richard M Foote. Abstract algebra. john wile & sons. Inc., Hoboken, NJ, 2004.
+[25] Praveen Gauravaram, Lars Knudsen, Krystian Matusiewicz, Florian Mendel, Christian Rechberger, Martin
+Schläffer, and Søren S. Thomsen. Grøstl – a sha-3 candidate. Submission to nist, NIST, September 2008.
+Available at http://www.groestl.info/.
+[26] Thérèse Gauthier, Cezary Kaliszyk, and Josef Urban. Tactictoe: Learning to prove with tactics. In Proceedings
+of the International Conference on Automated Deduction (CADE), pages 275–294. Springer, 2021.
+
+24
+
+[27] Juraj Gottweis, Wei-Hung Weng, Alexander Daryin, Tao Tu, Anil Palepu, Petar Sirkovic, Artiom Myaskovsky,
+Felix Weissenberger, Keran Rong, Ryutaro Tanno, et al. Towards an ai co-scientist. arXiv preprint
+arXiv:2502.18864, 2025.
+[28] Daniel Huang et al. Learning to prove theorems via interacting with proof assistants. In International Conference
+on Machine Learning (ICML), pages 2654–2663, 2019.
+[29] Geoffrey Irving, Christian Szegedy, Alexander A. Alemi, et al. Deepmath - deep sequence models for premise
+selection. In Advances in Neural Information Processing Systems (NeurIPS), pages 2235–2243, 2016.
+[30] Neal Koblitz and Alfred J Menezes. Another look at” provable security”. Journal of Cryptology, 20(1):3–37,
+2007.
+[31] Laura Kovács and Andrei Voronkov. First-order theorem proving and vampire. In Proceedings of the International Conference on Computer Aided Verification (CAV), pages 1–35. Springer, 2013.
+[32] Adarsh Kumarappan, Mo Tiwari, Peiyang Song, Robert Joseph George, Chaowei Xiao, and Anima Anandkumar.
+Leanagent: Lifelong learning for formal theorem proving. arXiv preprint arXiv:2410.06209, 2024.
+[33] Lean Prover Community.
+Mathlib statistics.
+https://leanprover-community.github.io/
+mathlib_stats.html, 2025. GitHub repository for generating statistics plots for Mathlib; accessed
+2025-08-24.
+[34] Jia LI, Edward Beeching, Lewis Tunstall, Ben Lipkin, Roman Soletskyi, Shengyi Costa Huang, Kashif Rasul,
+Longhui Yu, Albert Jiang, Ziju Shen, Zihan Qin, Bin Dong, Li Zhou, Yann Fleureau, Guillaume Lample, and
+Stanislas Polu. Numinamath. [https://huggingface.co/AI-MO/NuminaMath-1.5](https:
+//github.com/project-numina/aimo-progress-prize/blob/main/report/numina_
+dataset.pdf), 2024.
+[35] Yong Lin, Shange Tang, Bohan Lyu, Jiayun Wu, Hongzhou Lin, Kaiyu Yang, Jia Li, Mengzhou Xia, Danqi
+Chen, Sanjeev Arora, et al. Goedel-prover: A frontier model for open-source automated theorem proving. arXiv
+preprint arXiv:2502.07640, 2025.
+[36] Yong Lin, Shange Tang, Bohan Lyu, Ziran Yang, Jui-Hui Chung, Haoyu Zhao, Lai Jiang, Yihan Geng, Jiawei
+Ge, Jingruo Sun, et al. Goedel-prover-v2: Scaling formal theorem proving with scaffolded data synthesis and
+self-correction. arXiv preprint arXiv:2508.03613, 2025.
+[37] Hoi-Kwong Lo and HF Chau. Unconditional security of quantum key distribution over arbitrarily long distances.
+arXiv preprint quant-ph/9803006, 1998.
+[38] Hoi-Kwong Lo and Hoi Fung Chau. Unconditional security of quantum key distribution over arbitrarily long
+distances. science, 283(5410):2050–2056, 1999.
+[39] Zeyuan Lu, Guodong Zhang, Junxiao Chen, Huan Chen, Yilun Chen, Zonglin Li, Yiping Li, Lianmin Wang,
+Yao Lin, Ce Zhang, and Jie Chen. Process-driven autoformalization in lean 4. In The Thirteenth International
+Conference on Learning Representations, 2025.
+[40] Math Inc. Introducing gauss, an agent for autoformalization, 2025. Announcement of autoformalization agent
+for formal verification in mathematics.
+[41] Alex Meiburg, Leonardo A Lessa, and Rodolfo R Soldati. A formalization of the generalized quantum stein’s
+lemma in lean. arXiv preprint arXiv:2510.08672, 2025.
+[42] P. R. Mishra, Yogesh Kumar, Susanta Samanta, and Atul Gaur. A new algorithm for computing branch number
+of non-singular matrices over finite fields. arXiv preprint arXiv:2405.07007, 2024.
+[43] Model Context Protocol. What is the model context protocol (mcp)? https://modelcontextprotocol.
+io/docs/getting-started/intro, 2024. Accessed: 2025-10-05.
+
+25
+
+[44] Arvind Narayanan and Vitaly Shmatikov. Robust de-anonymization of large sparse datasets. In 2008 IEEE
+Symposium on Security and Privacy (sp 2008), pages 111–125. IEEE, 2008.
+[45] National Institute of Standards and Technology. Advanced encryption standard (aes). Federal Information
+Processing Standards Publication FIPS 197-upd1, U.S. Department of Commerce, Gaithersburg, MD, 2001.
+Published November 26, 2001; Updated May 9, 2023.
+[46] Michael A Nielsen and Isaac L Chuang. Quantum computation and quantum information. Cambridge university
+press, 2010.
+[47] Numina-Team.
+Numinamath-lean dataset.
+https://huggingface.co/datasets/AI-MO/
+NuminaMath-LEAN, 2025. Accessed: 2025-08-24.
+[48] OpenAI. Openai models documentation, 2025. Accessed: 2025-09-19.
+[49] Azim Ospanov, Farzan Farnia, and Roozbeh Yousefzadeh. Apollo: Automated llm and lean collaboration for
+advanced formal reasoning. arXiv preprint arXiv:2505.05758, 2025.
+[50] Stanislas Polu et al. Formal mathematics statement curriculum learning. In Advances in Neural Information
+Processing Systems (NeurIPS), 2023.
+[51] Stanislas Polu and Ilya Sutskever. Generative language modeling for automated theorem proving. In International Conference on Learning Representations (ICLR), 2020.
+[52] Z.Z. Ren, Zhihong Shao, Wenfeng Liang, et al. Deepseek-prover-v2: Advancing formal mathematical reasoning
+via reinforcement learning for subgoal decomposition. https://arxiv.org/abs/2504.21801, 2025.
+Accessed: 2025-08-24.
+
+[53] Sébastien Rousseau.
+Bug discovered in quantum algorithm for lattice-based crypto.
+https://
+sebastienrousseau.com/2024-04-22-bug-discovered-in-quantum-algorithm-for-lattice-based
+index.html, April 22 2024. Accessed: [add access date here].
+[54] Peter W Shor and John Preskill. Simple proof of security of the bb84 quantum key distribution protocol. Physical
+review letters, 85(2):441, 2000.
+[55] Victor Shoup. Sequences of games: a tool for taming complexity in security proofs. cryptology eprint archive,
+2004.
+[56] Peiyang Song, Kaiyu Yang, and Anima Anandkumar. Lean copilot: Large language models as copilots for
+theorem proving in lean. arXiv preprint arXiv:2404.12534, 2024.
+[57] Latanya Sweeney. k-anonymity: A model for protecting privacy. International journal of uncertainty, fuzziness
+and knowledge-based systems, 10(05):557–570, 2002.
+[58] Trishullab.
+Putnambench leaderboard.
+https://trishullab.github.io/PutnamBench/
+leaderboard.html, 2025. Accessed: 2025-10-07.
+[59] George Tsoukalas, Jasper Lee, John Jennings, Jimmy Xin, Michelle Ding, Michael Jennings, Amitayush Thakur,
+and Swarat Chaudhuri. Putnambench: Evaluating neural theorem-provers on the putnam mathematical competition. Advances in Neural Information Processing Systems, 37:11545–11569, 2024.
+[60] Sumanth Varambally, Thomas Voice, Yanchao Sun, Zhifeng Chen, Rose Yu, and Ke Ye. Hilbert: Recursively
+building formal proofs with informal reasoning. arXiv preprint arXiv:2509.22819, 2025.
+[61] Haiming Wang et al. Kimina-prover preview: Towards large formal reasoning models with reinforcement learning. https://arxiv.org/abs/2504.11354, 2025. Accessed: 2025-08-24.
+[62] Qihao Wu, Haotian Zhang, Jialin Chen, Yizhou Li, Xingjian Zhang, Ce Zhang, and Jie Chen. Autoformalization
+in the era of large language models: A survey. arXiv preprint arXiv:2505.23486, 2025.
+
+26
+
+[63] Huajian Xin, Daya Guo, Zhihong Shao, Zhizhou Ren, Qihao Zhu, Bo Liu, Chong Ruan, Wenda Li, and Xiaodan
+Liang. Deepseek-prover: Advancing theorem proving in llms through large-scale synthetic data. https:
+//arxiv.org/abs/2405.14333, 2024. Accessed: 2025-08-24.
+[64] Huajian Xin, ZZ Ren, Junxiao Song, Zhihong Shao, Wanjia Zhao, Haocheng Wang, Bo Liu, Liyue Zhang, Xuan
+Lu, Qiushi Du, et al. Deepseek-prover-v1. 5: Harnessing proof assistant feedback for reinforcement learning and
+monte-carlo tree search. arXiv preprint arXiv:2408.08152, 2024.
+[65] Zhangir Xin et al. Leandojo: Theorem proving with large language models. In International Conference on
+Learning Representations (ICLR), 2024.
+[66] Yutaro Yamada, Robert Tjarko Lange, Cong Lu, Shengran Hu, Chris Lu, Jakob Foerster, Jeff Clune, and David
+Ha. The ai scientist-v2: Workshop-level automated scientific discovery via agentic tree search. arXiv preprint
+arXiv:2504.08066, 2025.
+[67] Huaiyuan Ying, Zijian Wu, Yihan Geng, Jiayu Wang, Dahua Lin, and Kai Chen. Lean workbook: A large-scale
+lean problem set formalized from natural language math problems. https://arxiv.org/abs/2406.
+03847, 2024. Accessed: 2025-08-24.
+[68] Kunhao Zheng, Jesse Michael Han, and Stanislas Polu. Minif2f: A cross-system benchmark for formal olympiadlevel mathematics. https://arxiv.org/abs/2109.00110, 2021. Accessed: 2025-08-24.
+
+27
+
+

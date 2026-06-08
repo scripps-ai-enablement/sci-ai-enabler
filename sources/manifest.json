@@ -508,6 +508,23 @@
       "source_url": "https://arxiv.org/abs/2512.21782",
       "downloaded": "2026-06-07",
       "txt_sidecar": "2512.21782.txt"
+    },
+    {
+      "doi": "10.48550/arXiv.2510.12787",
+      "filename": "2510.12787.pdf",
+      "title": "Ax-Prover: A Deep Reasoning Agentic Framework for Theorem Proving in Mathematics and Quantum Physics",
+      "source_url": "https://arxiv.org/abs/2510.12787",
+      "downloaded": "2026-06-08",
+      "txt_sidecar": "2510.12787.txt"
+    },
+    {
+      "doi": "10.48550/arXiv.2601.14027",
+      "filename": "2601.14027.pdf",
+      "title": "Numina-Lean-Agent: An Agentic Framework for Formal Theorem Proving in Lean",
+      "source_url": "https://arxiv.org/abs/2601.14027",
+      "downloaded": "2026-06-08",
+      "txt_sidecar": "2601.14027.txt",
+      "note": "Deferred scope-edge: pure theorem proving of given statements (no hypothesis generation / experiment design / data analysis). Archived for Phase B review."
     }
   ]
 }
