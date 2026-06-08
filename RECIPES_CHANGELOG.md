@@ -11,6 +11,20 @@ Reverse-chronological log of changes to the [recipes cookbook](recipes/). Newest
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-06-08
+
+### Added
+
+- **Identify an unknown compound from an MS/MS spectrum** (Problem class: Data analysis; Evidence: Proposed) — rung-2 [matchms skill](catalog/tools/matchms.html) recipe taking experimental tandem-MS spectra plus a reference library (GNPS / MassBank / in-house `.msp`) through format import → peak cleaning and metadata harmonization → modified-cosine scoring with precursor-m/z gating → a ranked candidate-identity CSV, handing confirmed InChIKeys off to the [PubChem MCP](catalog/tools/pubchem.html) and the [polypharmacology](recipes/items/profile-compound-polypharmacology.html) recipe. Chemistry focus-day recipe; cookbook's first metabolomics / spectral-library-matching recipe. `Proposed` — no documented LLM-driven matchms workflow; grounded in the canonical library paper [Huber et al., *JOSS* 5(52):2411 (2020)](https://doi.org/10.21105/joss.02411) plus methodological anchors [Onoprishvili et al., *Bioinformatics* (2025)](https://doi.org/10.1093/bioinformatics/btaf081) (SimMS) and [Xing et al., *Anal. Chem.* (2025)](https://doi.org/10.1021/acs.analchem.5c02047) (enhanced reverse spectral search).
+
+### Verified (no changes)
+
+- Aging-recipe sweep: oldest `last_verified` is 2026-05-24 (15 days), within the 30-day window — no recipes due for re-verification this run.
+
+### User requests
+
+- **#12 (@goodb)** — still no `gh` permission to read the issue body from this run; left open for next-run retry.
+
 ## 2026-06-07
 
 ### Added
