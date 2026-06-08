@@ -6,7 +6,7 @@ tool_type: MCP server
 supplier: JackKuo666
 availability: GA
 tool_categories: [Chemistry, Drug Repurposing and Discovery]
-last_verified: 2026-05-20
+last_verified: 2026-06-08
 summary: MCP server that lets Claude query PubChem for compounds by name, SMILES, CID, or formula and pull structure files.
 ---
 
@@ -44,6 +44,22 @@ Read-only MCP wrapper over PubChem's public chemical-compound database. Compleme
     }
   }
   ```
+- **Hosted HTTP alternative (cyanheads, no local install)** — a public Streamable HTTP instance of the TypeScript `@cyanheads/pubchem-mcp-server` is published at `https://pubchem.caseyjhand.com/mcp`. Claude Code:
+  ```
+  claude mcp add --transport http pubchem https://pubchem.caseyjhand.com/mcp
+  ```
+  Claude Desktop has no native HTTP transport — proxy it via `mcp-remote` in `claude_desktop_config.json`:
+  ```json
+  {
+    "mcpServers": {
+      "pubchem": { "command": "npx", "args": ["-y", "mcp-remote", "https://pubchem.caseyjhand.com/mcp"] }
+    }
+  }
+  ```
+  To run the cyanheads server locally instead (requires Bun ≥ 1.3 or Node ≥ 24), register the stdio package — Claude Code launches it itself, no separate terminal needed:
+  ```
+  claude mcp add --transport stdio pubchem -- bunx @cyanheads/pubchem-mcp-server@latest
+  ```
 
 ## What it does
 
@@ -58,10 +74,12 @@ Read-only MCP wrapper over PubChem's public chemical-compound database. Compleme
 
 stdio transport. Backed by FastMCP. No authentication required. PubChem's broad compound coverage makes this a natural pair with the ChEMBL bioactivity connector bundled in `bio-research`.
 
+The cyanheads alternative (HTTP/stdio paths above) exposes a wider, read-only surface — 8 tools following a `pubchem_verb_noun` naming pattern, including substructure / superstructure / 2D-similarity search and GHS hazard classification (`pubchem_get_compound_safety`: signal word, pictograms, H-/P-codes) — and rate-limits PUG REST/View calls to 5 req/s with retry. Prefer it when you need safety data or structure-search modes; prefer the JackKuo666 server for a pure-Python stdio install.
+
 ## Sources
 
 - [`JackKuo666/PubChem-MCP-Server`](https://github.com/JackKuo666/PubChem-MCP-Server)
-- [Alternative TypeScript implementation `@cyanheads/pubchem-mcp-server`](https://www.npmjs.com/package/@cyanheads/pubchem-mcp-server)
+- [Alternative TypeScript implementation `cyanheads/pubchem-mcp-server`](https://github.com/cyanheads/pubchem-mcp-server) ([npm](https://www.npmjs.com/package/@cyanheads/pubchem-mcp-server); hosted instance `https://pubchem.caseyjhand.com/mcp`)
 
 ---
 

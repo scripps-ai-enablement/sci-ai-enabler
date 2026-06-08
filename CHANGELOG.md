@@ -11,6 +11,19 @@ Reverse-chronological log of changes to the [catalog](catalog/). Newest at the t
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-06-08
+
+Directed pass on **Chemistry** (Monday focus) plus a manifest sweep. WebFetch was unavailable from the runner this entire run (every call returned a backend model 404 — `claude-3-5-haiku` not found), and all `raw.githubusercontent.com`/`api.github.com` `marketplace.json` fetches returned 404, so the marketplace diff and candidate verification leaned on corroborated WebSearch results only. Because no new candidate could be verified to the followable-verbatim install standard from a primary source this run, no new tool pages were created. The Chemistry surface is already broad (`rdkit-mcp`, `rdkit-skill`, `pubchem`, `chembl`, `datamol`, `molfeat`, `medchem`, `deepchem`, `diffdock`, `rowan`, `matchms`, `pytdc`, `torchdrug`, `molecule-mcp`, `pyopenms`). The directed-pass seed queries (RDKit MCP, retrosynthesis MCP, ChEMBL MCP, Polaris, PubChem MCP) surfaced one genuinely new install path — a hosted/typescript PubChem server (`cyanheads/pubchem-mcp-server`) with an 8-tool read-only surface and a public Streamable HTTP endpoint — which was folded into the existing `pubchem` entry per the one-entry-per-tool rule. Two Chemistry candidates were deferred: a **ZINC Database** Claude Code skill (`davila7/claude-code-templates`) whose exact install flag and SKILL.md tool list could not be verified with WebFetch down, and **retrosynthesis** wrappers (AiZynthFinder/ASKCOS/IBM RXN), still without a Claude-installable surface.
+
+### Updated
+- **PubChem MCP Server** — added the `cyanheads/pubchem-mcp-server` install paths (hosted Streamable HTTP `https://pubchem.caseyjhand.com/mcp` via `claude mcp add --transport http`; `mcp-remote` proxy for Claude Desktop; local `bunx` stdio) and documented its wider 8-tool surface — substructure/superstructure/2D-similarity search and GHS hazard classification — alongside the existing JackKuo666 server; `last_verified` 2026-05-20 → 2026-06-08 ([cyanheads/pubchem-mcp-server](https://github.com/cyanheads/pubchem-mcp-server), [npm](https://www.npmjs.com/package/@cyanheads/pubchem-mcp-server)).
+
+### Flagged
+- _None._
+
+### Verified (no changes)
+- Chemistry-tagged entries (`rdkit-mcp`, `chembl`, `datamol`, `molfeat`, `medchem`, `deepchem`, `diffdock`, `rowan`, `matchms`, `pytdc`, `torchdrug`) reviewed against today's seed queries — install paths and capability descriptions remain accurate. Retrosynthesis confirmed still uncovered by any Claude-installable wrapper.
+
 ## 2026-06-07
 
 Directed pass on **Drug Repurposing and Discovery** (Sunday focus) plus a manifest sweep of `anthropics/life-sciences`. WebFetch and `curl` were both unavailable from the runner this run (WebFetch returned a backend model 404; raw `marketplace.json` fetch was not permitted), so the marketplace diff and candidate verification leaned on corroborated WebSearch results plus the Clarivate press release and the existing first-party plugin pattern (`adisinsight`, `open-targets`). Surfaced two first-party plugins from the deferred queue — **Cortellis** (Clarivate regulatory/pipeline intelligence) and **Consensus** (literature evidence synthesis) — both confirmed as `life-sciences` marketplace plugins with subscription/account gating. The directed-pass seed queries (Open Targets MCP, DrugBank MCP, drug-repurposing/target-prioritization MCP) surfaced only tools already catalogued (`open-targets`, `chembl`, `drugbank`, `pubchem`); no new standalone discovery MCP warranted an entry. No `last_verified` dates exceed the 30-day window (oldest is 2026-05-19, 19 days).
