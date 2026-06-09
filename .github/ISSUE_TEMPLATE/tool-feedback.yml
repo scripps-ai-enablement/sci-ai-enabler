@@ -46,6 +46,8 @@ body:
         - cms-coverage
         - cobrapy
         - consciousness-council
+        - consensus
+        - cortellis
         - dask
         - database-lookup
         - datamol
@@ -107,6 +109,7 @@ body:
         - omero-integration
         - open-notebook
         - open-targets
+        - openfda
         - openneuro
         - opentrons-integration
         - optimize-for-gpu
