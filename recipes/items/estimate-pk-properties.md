@@ -5,11 +5,11 @@ grand_parent: Recipes
 nav_order: 11
 problem_class: Knowledge synthesis
 subject_areas: [Chemistry, Drug Repurposing and Discovery]
-evidence_level: Proposed
+evidence_level: Reported
 complexity: Multi-tool harness
 availability: Fully open
 compute_requirements: Laptop
-last_verified: 2026-05-27
+last_verified: 2026-06-09
 summary: Combine RDKit physchem descriptors, MedChem rule-based ADMET flags, and measured ChEMBL bioactivity / DMPK endpoints to build a defensible PK estimate for one compound without an ML predictor in the loop.
 ---
 
@@ -21,7 +21,7 @@ Hand Claude Code a SMILES; get back the rule-based, descriptor-based, and analog
 |---|---|
 | **Problem class** | Knowledge synthesis |
 | **Subject areas** | Chemistry, Drug Repurposing and Discovery |
-| **Evidence level** | Proposed |
+| **Evidence level** | Reported |
 | **Complexity** | Multi-tool harness |
 | **Availability** | Fully open |
 | **Compute** | Laptop |
@@ -132,13 +132,17 @@ Laptop. The full card for one compound returns in under a minute end-to-end. Des
 
 ## Evidence
 
-`Proposed`. No documented end-to-end attempt of this exact three-component assembly inside Claude Code is known as of 2026-05-27. The closest analogues are:
+`Reported`. A user followed this recipe end-to-end and confirmed it produces the intended PK card (see **Field reports** below); no peer-reviewed benchmark of this exact three-component assembly against a measured PK dataset has been published. The closest analogues in the literature are:
 
 - **AgentD** (Journal of Chemical Information and Modeling, 2025) — modular LLM framework that pipes RDKit descriptors and MedChem-style filters into an external Deep-PK predictor; the orchestration pattern is the same as this recipe, the predictor layer is different.
 - **ChemCrow** (Bran et al., *Nature Machine Intelligence*, 2024, [doi:10.1038/s42256-024-00832-8](https://doi.org/10.1038/s42256-024-00832-8)) — established the pattern of an LLM calling RDKit and rule-based filters for property estimation; ChemCrow's tool list overlaps three of the four uses in this recipe.
 - **PharmaBench** (Niu et al., *Scientific Data*, 2024, [doi:10.1038/s41597-024-03731-0](https://doi.org/10.1038/s41597-024-03731-0)) — multi-agent LLM extracts ADMET endpoints from ChEMBL assay descriptions, the same data layer this recipe leans on for the empirical anchor.
 
 The component-level evidence is solid: the [ChEMBL Connector tutorial](https://claude.com/resources/tutorials/using-the-chembl-connector-in-claude) demonstrates compound resolution and bioactivity pulls; MedChem's rule sets trace to Lipinski 2001, Veber 2002, Baell 2010 (PAINS), and Brenk 2008; RDKit's Crippen LogP and TPSA implementations are the cheminformatics-standard reference. The assembly is rational from those components — but a peer-reviewed benchmark of *this* exact stack against a measured PK dataset has not been published. Treat the card as a hypothesis, not a measurement.
+
+### Field reports
+
+- **2026-06-09 — worked great.** A user followed the recipe and was able to run the three layers through to a finished PK card, then captured the flow in a standalone `pk_card.py` script that emits the card for a single SMILES. They verified it on four compounds spanning the chemical-space corners — caffeine, ibuprofen, quercetin, and terfenadine (a known hERG/CYP3A4 liability that exercises the safety-flag layer). The recipe held up end-to-end with only minor adaptation.
 
 ## Alternatives considered
 

@@ -39,7 +39,7 @@ _None._
 
 ## User requests (open)
 
-- [#12 @goodb 2026-05-27] (no trailer emitted; needs curator triage) title="[Recipe feedback]" label=claude:recipe-feedback — still could not access the issue body from this run (no `gh` permission for the repo); leaving open. Retried 2026-06-08.
+_None._
 
 ## User requests (closed this run)
 
