@@ -62,8 +62,16 @@ jobs:
 
       - uses: anthropics/claude-code-base-action@e8132bc5e637a42c27763fc757faa37e1ee43b34
         env:
-          # WebFetch summarizes pages with the Haiku model; pin it so it does not
-          # fall back to the retired claude-3-5-haiku-20241022 (404s in CI).
+          # WebFetch summarizes fetched pages with a small/fast "Haiku" model. Pin it
+          # to a live model so it does not 404 on the retired claude-3-5-haiku-20241022.
+          # The Claude Code bundled in the pinned action (v1.0.88) reads the OLD var
+          # name ANTHROPIC_SMALL_FAST_MODEL; the newer ANTHROPIC_DEFAULT_HAIKU_MODEL is
+          # ignored by that version (verified in CI) — which is why setting only the
+          # latter had no effect. Both are set so the pin can later move to a CC that
+          # uses the new name. Do NOT bump the action to a CC 2.x pin to "fix" this:
+          # CC 2.x sends the context_management API feature, which this org's HIPAA/ZDR
+          # key rejects with a 400, failing every run on turn 1.
+          ANTHROPIC_SMALL_FAST_MODEL: claude-haiku-4-5-20251001
           ANTHROPIC_DEFAULT_HAIKU_MODEL: claude-haiku-4-5-20251001
         with:
           prompt_file: .run-prompt.md
