@@ -1,530 +1,538 @@
 {
-  "version": 1,
-  "description": "DOI-keyed registry of source PDFs archived in this directory. The autonomous-science curator agent checks this before downloading anything new. Existing filenames are preserved; the manifest decouples filenames from DOIs.",
-  "entries": [
-    {
-      "doi": "10.1038/s41586-026-10644-y",
-      "filename": "s41586-026-10644-y_reference.pdf",
-      "title": "Accelerating scientific discovery with Co-Scientist",
-      "source_url": "https://doi.org/10.1038/s41586-026-10644-y",
-      "downloaded": "2026-05-20",
-      "txt_sidecar": "s41586-026-10644-y_reference.txt"
-    },
-    {
-      "doi": "10.1038/s41586-026-10652-y",
-      "filename": "s41586-026-10652-y_reference.pdf",
-      "title": "A multi-agent system for automating scientific discovery (Robin)",
-      "source_url": "https://doi.org/10.1038/s41586-026-10652-y",
-      "downloaded": "2026-05-20",
-      "txt_sidecar": "s41586-026-10652-y_reference.txt"
-    },
-    {
-      "doi": "10.64898/2026.05.06.723244",
-      "filename": "2026.05.06.723244v2.full.pdf",
-      "title": "Talk2QSP: Deriving Executable Scenarios from Unstructured Literature via Human-in-the-Loop Agents",
-      "source_url": "https://doi.org/10.64898/2026.05.06.723244",
-      "downloaded": "2026-05-20",
-      "txt_sidecar": "2026.05.06.723244v2.full.txt"
-    },
-    {
-      "doi": "10.1016/j.cell.2024.09.022",
-      "filename": "1-s2.0-S0092867424010705-main.pdf",
-      "title": "Empowering biomedical discovery with AI agents (Gao et al., Cell Perspective)",
-      "source_url": "https://doi.org/10.1016/j.cell.2024.09.022",
-      "downloaded": "2026-05-20",
-      "txt_sidecar": "1-s2.0-S0092867424010705-main.txt"
-    },
-    {
-      "doi": "10.1038/d41586-026-01199-z",
-      "filename": "d41586-026-01199-z.pdf",
-      "title": "Nature news: AI agents in science (AI Index Report 2026 coverage)",
-      "source_url": "https://doi.org/10.1038/d41586-026-01199-z",
-      "downloaded": "2026-05-20",
-      "txt_sidecar": "d41586-026-01199-z.txt"
-    },
-    {
-      "doi": "10.48550/arXiv.2408.06292",
-      "filename": "2408.06292v5.pdf",
-      "title": "The AI Scientist: Towards Fully Automated Open-Ended Scientific Discovery (Sakana AI v1)",
-      "source_url": "https://arxiv.org/abs/2408.06292",
-      "downloaded": "2026-05-20",
-      "txt_sidecar": "2408.06292v5.txt"
-    },
-    {
-      "doi": "10.48550/arXiv.2504.08066",
-      "filename": "2504.08066v1.pdf",
-      "title": "The AI Scientist-v2: Workshop-Level Automated Scientific Discovery via Agentic Tree Search (Sakana AI v2)",
-      "source_url": "https://arxiv.org/abs/2504.08066",
-      "downloaded": "2026-05-20",
-      "txt_sidecar": "2504.08066v1.txt"
-    },
-    {
-      "doi": "10.1101/2025.05.30.656746",
-      "filename": "biomni_paper.pdf",
-      "title": "Biomni: A General-Purpose Biomedical AI Agent",
-      "source_url": "https://biomni.stanford.edu/paper.pdf",
-      "downloaded": "2026-05-20",
-      "txt_sidecar": "biomni_paper.txt"
-    },
-    {
-      "doi": "10.48550/arXiv.2505.16938",
-      "filename": "2505.16938v1.pdf",
-      "title": "NovelSeek: When Agent Becomes the Scientist -- Building Closed-Loop System from Hypothesis to Verification",
-      "source_url": "https://arxiv.org/abs/2505.16938",
-      "downloaded": "2026-05-20",
-      "txt_sidecar": "2505.16938v1.txt"
-    },
-    {
-      "doi": "10.48550/arXiv.2404.18021",
-      "filename": "2404.18021v2.pdf",
-      "title": "CRISPR-GPT for Agentic Automation of Gene-editing Experiments",
-      "source_url": "https://arxiv.org/abs/2404.18021",
-      "downloaded": "2026-05-20",
-      "txt_sidecar": "2404.18021v2.txt"
-    },
-    {
-      "doi": "10.48550/arXiv.2511.02824",
-      "filename": "2511.02824v2.pdf",
-      "title": "Kosmos: An AI Scientist for Autonomous Discovery",
-      "source_url": "https://arxiv.org/abs/2511.02824",
-      "downloaded": "2026-05-21",
-      "txt_sidecar": "2511.02824v2.txt"
-    },
-    {
-      "doi": "10.48550/arXiv.2511.07262",
-      "filename": "2511.07262v1.pdf",
-      "title": "AgenticSciML: Collaborative Multi-Agent Systems for Emergent Discovery in Scientific Machine Learning",
-      "source_url": "https://arxiv.org/abs/2511.07262",
-      "downloaded": "2026-05-21",
-      "txt_sidecar": "2511.07262v1.txt"
-    },
-    {
-      "doi": "10.1038/s41467-025-64105-7",
-      "filename": "s41467-025-64105-7.pdf",
-      "title": "Evaluating large language model agents for automation of atomic force microscopy (AILA / AFMBench)",
-      "source_url": "https://www.nature.com/articles/s41467-025-64105-7",
-      "downloaded": "2026-05-21",
-      "txt_sidecar": "s41467-025-64105-7.txt"
-    },
-    {
-      "doi": "10.48550/arXiv.2604.01658",
-      "filename": "2604.01658v1.pdf",
-      "title": "CORAL: Towards Autonomous Multi-Agent Evolution for Open-Ended Discovery",
-      "source_url": "https://arxiv.org/abs/2604.01658",
-      "downloaded": "2026-05-21",
-      "txt_sidecar": "2604.01658v1.txt"
-    },
-    {
-      "doi": "10.1016/j.matt.2025.102577",
-      "filename": "mars-matter-2026.pdf",
-      "title": "Knowledge-driven autonomous materials research via collaborative multi-agent and robotic system (MARS)",
-      "source_url": "https://doi.org/10.1016/j.matt.2025.102577",
-      "downloaded": "2026-05-21",
-      "txt_sidecar": "mars-matter-2026.txt"
-    },
-    {
-      "doi": "10.48550/arXiv.2605.18407",
-      "filename": "2605.18407v1.pdf",
-      "title": "Qumus: Realization of An Embodied AI Quantum Material Experimentalist",
-      "source_url": "https://arxiv.org/abs/2605.18407",
-      "downloaded": "2026-05-21",
-      "txt_sidecar": "2605.18407v1.txt"
-    },
-    {
-      "doi": "10.48550/arXiv.2604.22541",
-      "filename": "2604.22541v1.pdf",
-      "title": "Dr.Sai: An agentic AI for real-world physics analysis at BESIII",
-      "source_url": "https://arxiv.org/abs/2604.22541",
-      "downloaded": "2026-05-21",
-      "txt_sidecar": "2604.22541v1.txt"
-    },
-    {
-      "doi": "10.48550/arXiv.2605.11117",
-      "filename": "2605.11117v1.pdf",
-      "title": "GRAFT-ATHENA: Self-Improving Agentic Teams for Autonomous Discovery and Evolutionary Numerical Algorithms",
-      "source_url": "https://arxiv.org/abs/2605.11117",
-      "downloaded": "2026-05-21",
-      "txt_sidecar": "2605.11117v1.txt"
-    },
-    {
-      "doi": "10.48550/arXiv.2605.06607",
-      "filename": "2605.06607v1.pdf",
-      "title": "AI CFD Scientist: Toward Open-Ended Computational Fluid Dynamics Discovery with Physics-Aware AI Agents",
-      "source_url": "https://arxiv.org/abs/2605.06607",
-      "downloaded": "2026-05-21",
-      "txt_sidecar": "2605.06607v1.txt"
-    },
-    {
-      "doi": "10.48550/arXiv.2604.27092",
-      "filename": "2604.27092v1.pdf",
-      "title": "End-to-end autonomous scientific discovery on a real optical platform (Qiushi Discovery Engine)",
-      "source_url": "https://arxiv.org/abs/2604.27092",
-      "downloaded": "2026-05-21",
-      "txt_sidecar": "2604.27092v1.txt"
-    },
-    {
-      "doi": "10.64898/2026.05.12.724604",
-      "filename": "2026.05.12.724604v1.full.pdf",
-      "title": "BiomniBench: Process-level Evaluation of LLM Agents for Real-world Biomedical Research",
-      "source_url": "https://doi.org/10.64898/2026.05.12.724604",
-      "downloaded": "2026-05-21",
-      "txt_sidecar": "2026.05.12.724604v1.full.txt"
-    },
-    {
-      "doi": "10.1038/s41591-026-04357-y",
-      "filename": "spark-natmed.pdf",
-      "title": "An agentic framework for autonomous scientific discovery in cancer pathology (SPARK)",
-      "source_url": "https://www.nature.com/articles/s41591-026-04357-y",
-      "downloaded": "2026-05-22",
-      "txt_sidecar": "spark-natmed.txt"
-    },
-    {
-      "doi": "10.48550/arXiv.2603.08127",
-      "filename": "2603.08127v1.pdf",
-      "title": "EvoScientist: Towards Multi-Agent Evolving AI Scientists for End-to-End Scientific Discovery",
-      "source_url": "https://arxiv.org/abs/2603.08127",
-      "downloaded": "2026-05-22",
-      "txt_sidecar": "2603.08127v1.txt"
-    },
-    {
-      "doi": "10.48550/arXiv.2601.12542",
-      "filename": "2601.12542v1.pdf",
-      "title": "Rethinking the AI Scientist: Interactive Multi-Agent Workflows for Scientific Discovery (Deep Research / BioAgents)",
-      "source_url": "https://arxiv.org/abs/2601.12542",
-      "downloaded": "2026-05-22",
-      "txt_sidecar": "2601.12542v1.txt"
-    },
-    {
-      "doi": "10.48550/arXiv.2511.04583",
-      "filename": "2511.04583v1.pdf",
-      "title": "Jr. AI Scientist and Its Risk Report: Autonomous Scientific Exploration from a Baseline Paper",
-      "source_url": "https://arxiv.org/abs/2511.04583",
-      "downloaded": "2026-05-22",
-      "txt_sidecar": "2511.04583v1.txt"
-    },
-    {
-      "doi": "10.48550/arXiv.2605.03042",
-      "filename": "2605.03042v1.pdf",
-      "title": "ARIS: Autonomous Research via Adversarial Multi-Agent Collaboration",
-      "source_url": "https://arxiv.org/abs/2605.03042",
-      "downloaded": "2026-05-22",
-      "txt_sidecar": "2605.03042v1.txt"
-    },
-    {
-      "doi": "10.48550/arXiv.2605.15871",
-      "filename": "2605.15871v1.pdf",
-      "title": "Agentic Discovery of Neural Architectures: AIRA-Compose and AIRA-Design",
-      "source_url": "https://arxiv.org/abs/2605.15871",
-      "downloaded": "2026-05-23",
-      "txt_sidecar": "2605.15871v1.txt"
-    },
-    {
-      "doi": "10.48550/arXiv.2605.08083",
-      "filename": "2605.08083v1.pdf",
-      "title": "LLMs Improving LLMs: Agentic Discovery for Test-Time Scaling (AutoTTS)",
-      "source_url": "https://arxiv.org/abs/2605.08083",
-      "downloaded": "2026-05-23",
-      "txt_sidecar": "2605.08083v1.txt"
-    },
-    {
-      "doi": "10.48550/arXiv.2605.14791",
-      "filename": "2605.14791v1.pdf",
-      "title": "Beyond AI as Assistants: Toward Autonomous Discovery in Cosmology (CMBEvolve and CosmoEvolve)",
-      "source_url": "https://arxiv.org/abs/2605.14791",
-      "downloaded": "2026-05-23",
-      "txt_sidecar": "2605.14791v1.txt"
-    },
-    {
-      "doi": "10.48550/arXiv.2605.06651",
-      "filename": "2605.06651v1.pdf",
-      "title": "AI co-mathematician: Accelerating mathematicians with agentic AI",
-      "source_url": "https://arxiv.org/abs/2605.06651",
-      "downloaded": "2026-05-23",
-      "txt_sidecar": "2605.06651v1.txt"
-    },
-    {
-      "doi": "10.48550/arXiv.2605.20025",
-      "filename": "2605.20025v1.pdf",
-      "title": "AutoResearchClaw: Self-Reinforcing Autonomous Research with Human-AI Collaboration",
-      "source_url": "https://arxiv.org/abs/2605.20025",
-      "downloaded": "2026-05-24",
-      "txt_sidecar": "2605.20025v1.txt"
-    },
-    {
-      "doi": "10.48550/arXiv.2605.16552",
-      "filename": "2605.16552v1.pdf",
-      "title": "From Prompts to Protocols: An AI Agent for Laboratory Automation (EOS AI agent)",
-      "source_url": "https://arxiv.org/abs/2605.16552",
-      "downloaded": "2026-05-24",
-      "txt_sidecar": "2605.16552v1.txt"
-    },
-    {
-      "doi": "10.48550/arXiv.2605.11359",
-      "filename": "2605.11359v1.pdf",
-      "title": "CVEvolve: Autonomous Algorithm Discovery for Unstructured Scientific Data Processing",
-      "source_url": "https://arxiv.org/abs/2605.11359",
-      "downloaded": "2026-05-24",
-      "txt_sidecar": "2605.11359v1.txt"
-    },
-    {
-      "doi": "10.48550/arXiv.2604.05854",
-      "filename": "2604.05854v1.pdf",
-      "title": "Deep Researcher Agent: An Autonomous Framework for 24/7 Deep Learning Experimentation with Zero-Cost Monitoring",
-      "source_url": "https://arxiv.org/abs/2604.05854",
-      "downloaded": "2026-05-25",
-      "txt_sidecar": "2604.05854v1.txt"
-    },
-    {
-      "doi": "10.48550/arXiv.2603.23951",
-      "filename": "2603.23951v1.pdf",
-      "title": "From AI Assistant to AI Scientist: Autonomous Discovery of LLM-RL Algorithms with LLM Agents (POISE)",
-      "source_url": "https://arxiv.org/abs/2603.23951",
-      "downloaded": "2026-05-25",
-      "txt_sidecar": "2603.23951v1.txt"
-    },
-    {
-      "doi": "10.48550/arXiv.2504.17967",
-      "filename": "2504.17967v1.pdf",
-      "title": "LLM Agent Swarm for Hypothesis-Driven Drug Discovery (PharmaSwarm)",
-      "source_url": "https://arxiv.org/abs/2504.17967",
-      "downloaded": "2026-05-25",
-      "txt_sidecar": "2504.17967v1.txt"
-    },
-    {
-      "doi": "10.48550/arXiv.2508.19383",
-      "filename": "2508.19383v1.pdf",
-      "title": "Aleks: AI powered Multi Agent System for Autonomous Scientific Discovery via Data-Driven Approaches in Plant Science",
-      "source_url": "https://arxiv.org/abs/2508.19383",
-      "downloaded": "2026-05-25",
-      "txt_sidecar": "2508.19383v1.txt"
-    },
-    {
-      "doi": "10.1101/2025.05.25.656020",
-      "filename": "hao25b_perturboagent.pdf",
-      "title": "PerTurboAgent: An LLM-based Agent for Designing Iterative Perturb-Seq Experiments",
-      "source_url": "https://proceedings.mlr.press/v311/hao25b.html",
-      "downloaded": "2026-05-25",
-      "txt_sidecar": "hao25b_perturboagent.txt"
-    },
-    {
-      "doi": "10.48550/arXiv.2604.17406",
-      "filename": "2604.17406v1.pdf",
-      "title": "EvoMaster: A Foundational Agent Framework for Building Evolving Autonomous Scientific Agents at Scale",
-      "source_url": "https://arxiv.org/abs/2604.17406",
-      "downloaded": "2026-05-27",
-      "txt_sidecar": "2604.17406v1.txt"
-    },
-    {
-      "doi": "10.48550/arXiv.2604.24696",
-      "filename": "2604.24696v1.pdf",
-      "title": "NeuroClaw: Closed-Loop Agentic AI for Executable and Reproducible Neuroimaging Research",
-      "source_url": "https://arxiv.org/abs/2604.24696",
-      "downloaded": "2026-05-27",
-      "txt_sidecar": "2604.24696v1.txt"
-    },
-    {
-      "doi": "10.48550/arXiv.2603.29727",
-      "filename": "2603.29727v1.pdf",
-      "title": "Latent-Y: A Lab-Validated Autonomous Agent for De Novo Drug Design",
-      "source_url": "https://arxiv.org/abs/2603.29727",
-      "downloaded": "2026-05-29",
-      "txt_sidecar": "2603.29727v1.txt"
-    },
-    {
-      "doi": "10.64898/2026.02.26.707870",
-      "filename": "2026.02.26.707870v1_metadata.json",
-      "title": "PantheonOS: An Evolvable Multi-Agent Framework for Automatic Genomics Discovery",
-      "source_url": "https://doi.org/10.64898/2026.02.26.707870",
-      "downloaded": "2026-05-29",
-      "txt_sidecar": "2026.02.26.707870v1.full.txt",
-      "notes": "PDF blocked by Cloudflare; metadata + abstract archived via bioRxiv API"
-    },
-    {
-      "doi": "10.64898/2026.02.23.707551",
-      "filename": "2026.02.23.707551v1_metadata.json",
-      "title": "The Virtual Biotech: A Multi-Agent AI Framework for Therapeutic Discovery and Development",
-      "source_url": "https://doi.org/10.64898/2026.02.23.707551",
-      "downloaded": "2026-05-29",
-      "txt_sidecar": "2026.02.23.707551v1.full.txt",
-      "notes": "PDF blocked by Cloudflare; metadata + abstract archived via bioRxiv API"
-    },
-    {
-      "doi": "10.48550/arXiv.2410.17430",
-      "filename": "2410.17430v1.pdf",
-      "title": "Real-time experiment-theory closed-loop interaction for autonomous materials science (AMASE)",
-      "source_url": "https://arxiv.org/abs/2410.17430",
-      "downloaded": "2026-05-30",
-      "txt_sidecar": "2410.17430v1.txt"
-    },
-    {
-      "doi": "10.48550/arXiv.2501.16224",
-      "filename": "2501.16224v1.pdf",
-      "title": "Language-Based Bayesian Optimization Research Assistant (BORA)",
-      "source_url": "https://arxiv.org/abs/2501.16224",
-      "downloaded": "2026-05-30",
-      "txt_sidecar": "2501.16224v1.txt"
-    },
-    {
-      "doi": "10.48550/arXiv.2605.24002",
-      "filename": "2605.24002v1.pdf",
-      "title": "Harnessing AtomisticSkills for Agentic Atomistic Research",
-      "source_url": "https://arxiv.org/abs/2605.24002",
-      "downloaded": "2026-05-31",
-      "txt_sidecar": "2605.24002v1.txt"
-    },
-    {
-      "doi": "10.48550/arXiv.2605.26340",
-      "filename": "2605.26340v1.pdf",
-      "title": "ScientistOne: Towards Human-Level Autonomous Research via Chain-of-Evidence",
-      "source_url": "https://arxiv.org/abs/2605.26340",
-      "downloaded": "2026-05-31",
-      "txt_sidecar": "2605.26340v1.txt"
-    },
-    {
-      "doi": "10.48550/arXiv.2605.02092",
-      "filename": "2605.02092v1.pdf",
-      "title": "NORA: A Harness-Engineered Autonomous Research Agent for Spatial Data Science",
-      "source_url": "https://arxiv.org/abs/2605.02092",
-      "downloaded": "2026-05-31",
-      "txt_sidecar": "2605.02092v1.txt"
-    },
-    {
-      "doi": "10.48550/arXiv.2604.27297",
-      "filename": "2604.27297v1.pdf",
-      "title": "Machine Collective Intelligence for Explainable Scientific Discovery (MCI)",
-      "source_url": "https://arxiv.org/abs/2604.27297",
-      "downloaded": "2026-05-31",
-      "txt_sidecar": "2604.27297v1.txt"
-    },
-    {
-      "doi": "10.48550/arXiv.2605.07306",
-      "filename": "2605.07306v1.pdf",
-      "title": "BioProVLA-Agent: An Affordable, Protocol-Driven, Vision-Enhanced VLA-Enabled Embodied Multi-Agent System for Biological Laboratory Manipulation",
-      "source_url": "https://arxiv.org/abs/2605.07306",
-      "downloaded": "2026-05-31",
-      "txt_sidecar": "2605.07306v1.txt"
-    },
-    {
-      "doi": "10.48550/arXiv.2605.20242",
-      "filename": "2605.20242v1.pdf",
-      "title": "LEAP: A closed-loop framework for perovskite precursor additive discovery",
-      "source_url": "https://arxiv.org/abs/2605.20242",
-      "downloaded": "2026-06-01",
-      "txt_sidecar": "2605.20242v1.txt"
-    },
-    {
-      "doi": "10.48550/arXiv.2605.28655",
-      "filename": "2605.28655v1.pdf",
-      "title": "AutoScientists: Self-Organizing Agent Teams for Long-Running Scientific Experimentation",
-      "source_url": "https://arxiv.org/abs/2605.28655",
-      "downloaded": "2026-06-01",
-      "txt_sidecar": "2605.28655v1.txt"
-    },
-    {
-      "doi": "10.48550/arXiv.2605.11518",
-      "filename": "2605.11518v1.pdf",
-      "title": "AutoLLMResearch: Training Research Agents for Automating LLM Experiment Configuration",
-      "source_url": "https://arxiv.org/abs/2605.11518",
-      "downloaded": "2026-06-01",
-      "txt_sidecar": "2605.11518v1.txt"
-    },
-    {
-      "doi": "10.48550/arXiv.2605.31468",
-      "filename": "2605.31468v1.pdf",
-      "title": "AutoSci: A Memory-Centric Agentic System for the Full Scientific Research Lifecycle",
-      "source_url": "https://arxiv.org/abs/2605.31468",
-      "downloaded": "2026-06-02",
-      "txt_sidecar": "2605.31468v1.txt"
-    },
-    {
-      "doi": "10.48550/arXiv.2605.21825",
-      "filename": "2605.21825v1.pdf",
-      "title": "Toward AI VIS Co-Scientists: A General and End-to-End Agent Harness for Solving Complex Data Visualization Tasks",
-      "source_url": "https://arxiv.org/abs/2605.21825",
-      "downloaded": "2026-06-02",
-      "txt_sidecar": "2605.21825v1.txt"
-    },
-    {
-      "doi": "10.48550/arXiv.2605.21820",
-      "filename": "2605.21820v1.pdf",
-      "title": "Beyond Scalar Objectives: Expert-Feedback-Driven Autonomous Experimentation for Scientific Discovery at the Nanoscale (DKPL)",
-      "source_url": "https://arxiv.org/abs/2605.21820",
-      "downloaded": "2026-06-02",
-      "txt_sidecar": "2605.21820v1.txt"
-    },
-    {
-      "doi": "10.48550/arXiv.2605.18033",
-      "filename": "2605.18033v1.pdf",
-      "title": "Real-time Multi-instrument Autonomous Discovery of Novel Phase-change Memory Materials (MAD)",
-      "source_url": "https://arxiv.org/abs/2605.18033",
-      "downloaded": "2026-06-02",
-      "txt_sidecar": "2605.18033v1.txt"
-    },
-    {
-      "doi": "10.48550/arXiv.2606.05050",
-      "filename": "2606.05050v1.pdf",
-      "title": "Autonomous heterogeneous catalyst discovery with a self-evolving multi-agent digital twin (CatDT)",
-      "source_url": "https://arxiv.org/abs/2606.05050",
-      "downloaded": "2026-06-05",
-      "txt_sidecar": "2606.05050v1.txt"
-    },
-    {
-      "doi": "10.48550/arXiv.2606.01444",
-      "filename": "2606.01444v1.pdf",
-      "title": "Self-Revising Discovery Systems for Science: A Categorical Framework for Agentic Artificial Intelligence (CategoryScienceClaw, Builder/Breaker)",
-      "source_url": "https://arxiv.org/abs/2606.01444",
-      "downloaded": "2026-06-05",
-      "txt_sidecar": "2606.01444v1.txt"
-    },
-    {
-      "doi": "10.48550/arXiv.2606.02386",
-      "filename": "2606.02386v1.pdf",
-      "title": "AgentPLM: Agentic Protein Language Models with Reasoning-Augmented Decoding for Protein Sequence Design",
-      "source_url": "https://arxiv.org/abs/2606.02386",
-      "downloaded": "2026-06-05",
-      "txt_sidecar": "2606.02386v1.txt"
-    },
-    {
-      "doi": "10.48550/arXiv.2606.06473",
-      "filename": "2606.06473v1.pdf",
-      "title": "MLEvolve: A Self-Evolving Framework for Automated Machine Learning Algorithm Discovery",
-      "source_url": "https://arxiv.org/abs/2606.06473",
-      "downloaded": "2026-06-05",
-      "txt_sidecar": "2606.06473v1.txt"
-    },
-    {
-      "doi": "10.1101/2025.06.03.657658",
-      "filename": null,
-      "title": "OriGene: A Self-Evolving Virtual Disease Biologist Automating Therapeutic Target Discovery",
-      "source_url": "https://www.biorxiv.org/content/10.1101/2025.06.03.657658v1",
-      "downloaded": "2026-06-06",
-      "txt_sidecar": "2025.06.03.657658.txt",
-      "note": "bioRxiv PDF/JATS Cloudflare-blocked (403); sidecar assembled from bioRxiv API abstract + project homepage + GitHub repo metadata."
-    },
-    {
-      "doi": "10.48550/arXiv.2512.21782",
-      "filename": "2512.21782.pdf",
-      "title": "Accelerating Scientific Discovery with Autonomous Goal-evolving Agents (SAGA)",
-      "source_url": "https://arxiv.org/abs/2512.21782",
-      "downloaded": "2026-06-07",
-      "txt_sidecar": "2512.21782.txt"
-    },
-    {
-      "doi": "10.48550/arXiv.2510.12787",
-      "filename": "2510.12787.pdf",
-      "title": "Ax-Prover: A Deep Reasoning Agentic Framework for Theorem Proving in Mathematics and Quantum Physics",
-      "source_url": "https://arxiv.org/abs/2510.12787",
-      "downloaded": "2026-06-08",
-      "txt_sidecar": "2510.12787.txt"
-    },
-    {
-      "doi": "10.48550/arXiv.2601.14027",
-      "filename": "2601.14027.pdf",
-      "title": "Numina-Lean-Agent: An Agentic Framework for Formal Theorem Proving in Lean",
-      "source_url": "https://arxiv.org/abs/2601.14027",
-      "downloaded": "2026-06-08",
-      "txt_sidecar": "2601.14027.txt",
-      "note": "Deferred scope-edge: pure theorem proving of given statements (no hypothesis generation / experiment design / data analysis). Archived for Phase B review."
-    }
-  ]
+ "version": 1,
+ "description": "DOI-keyed registry of source PDFs archived in this directory. The autonomous-science curator agent checks this before downloading anything new. Existing filenames are preserved; the manifest decouples filenames from DOIs.",
+ "entries": [
+  {
+   "doi": "10.1038/s41586-026-10644-y",
+   "filename": "s41586-026-10644-y_reference.pdf",
+   "title": "Accelerating scientific discovery with Co-Scientist",
+   "source_url": "https://doi.org/10.1038/s41586-026-10644-y",
+   "downloaded": "2026-05-20",
+   "txt_sidecar": "s41586-026-10644-y_reference.txt"
+  },
+  {
+   "doi": "10.1038/s41586-026-10652-y",
+   "filename": "s41586-026-10652-y_reference.pdf",
+   "title": "A multi-agent system for automating scientific discovery (Robin)",
+   "source_url": "https://doi.org/10.1038/s41586-026-10652-y",
+   "downloaded": "2026-05-20",
+   "txt_sidecar": "s41586-026-10652-y_reference.txt"
+  },
+  {
+   "doi": "10.64898/2026.05.06.723244",
+   "filename": "2026.05.06.723244v2.full.pdf",
+   "title": "Talk2QSP: Deriving Executable Scenarios from Unstructured Literature via Human-in-the-Loop Agents",
+   "source_url": "https://doi.org/10.64898/2026.05.06.723244",
+   "downloaded": "2026-05-20",
+   "txt_sidecar": "2026.05.06.723244v2.full.txt"
+  },
+  {
+   "doi": "10.1016/j.cell.2024.09.022",
+   "filename": "1-s2.0-S0092867424010705-main.pdf",
+   "title": "Empowering biomedical discovery with AI agents (Gao et al., Cell Perspective)",
+   "source_url": "https://doi.org/10.1016/j.cell.2024.09.022",
+   "downloaded": "2026-05-20",
+   "txt_sidecar": "1-s2.0-S0092867424010705-main.txt"
+  },
+  {
+   "doi": "10.1038/d41586-026-01199-z",
+   "filename": "d41586-026-01199-z.pdf",
+   "title": "Nature news: AI agents in science (AI Index Report 2026 coverage)",
+   "source_url": "https://doi.org/10.1038/d41586-026-01199-z",
+   "downloaded": "2026-05-20",
+   "txt_sidecar": "d41586-026-01199-z.txt"
+  },
+  {
+   "doi": "10.48550/arXiv.2408.06292",
+   "filename": "2408.06292v5.pdf",
+   "title": "The AI Scientist: Towards Fully Automated Open-Ended Scientific Discovery (Sakana AI v1)",
+   "source_url": "https://arxiv.org/abs/2408.06292",
+   "downloaded": "2026-05-20",
+   "txt_sidecar": "2408.06292v5.txt"
+  },
+  {
+   "doi": "10.48550/arXiv.2504.08066",
+   "filename": "2504.08066v1.pdf",
+   "title": "The AI Scientist-v2: Workshop-Level Automated Scientific Discovery via Agentic Tree Search (Sakana AI v2)",
+   "source_url": "https://arxiv.org/abs/2504.08066",
+   "downloaded": "2026-05-20",
+   "txt_sidecar": "2504.08066v1.txt"
+  },
+  {
+   "doi": "10.1101/2025.05.30.656746",
+   "filename": "biomni_paper.pdf",
+   "title": "Biomni: A General-Purpose Biomedical AI Agent",
+   "source_url": "https://biomni.stanford.edu/paper.pdf",
+   "downloaded": "2026-05-20",
+   "txt_sidecar": "biomni_paper.txt"
+  },
+  {
+   "doi": "10.48550/arXiv.2505.16938",
+   "filename": "2505.16938v1.pdf",
+   "title": "NovelSeek: When Agent Becomes the Scientist -- Building Closed-Loop System from Hypothesis to Verification",
+   "source_url": "https://arxiv.org/abs/2505.16938",
+   "downloaded": "2026-05-20",
+   "txt_sidecar": "2505.16938v1.txt"
+  },
+  {
+   "doi": "10.48550/arXiv.2404.18021",
+   "filename": "2404.18021v2.pdf",
+   "title": "CRISPR-GPT for Agentic Automation of Gene-editing Experiments",
+   "source_url": "https://arxiv.org/abs/2404.18021",
+   "downloaded": "2026-05-20",
+   "txt_sidecar": "2404.18021v2.txt"
+  },
+  {
+   "doi": "10.48550/arXiv.2511.02824",
+   "filename": "2511.02824v2.pdf",
+   "title": "Kosmos: An AI Scientist for Autonomous Discovery",
+   "source_url": "https://arxiv.org/abs/2511.02824",
+   "downloaded": "2026-05-21",
+   "txt_sidecar": "2511.02824v2.txt"
+  },
+  {
+   "doi": "10.48550/arXiv.2511.07262",
+   "filename": "2511.07262v1.pdf",
+   "title": "AgenticSciML: Collaborative Multi-Agent Systems for Emergent Discovery in Scientific Machine Learning",
+   "source_url": "https://arxiv.org/abs/2511.07262",
+   "downloaded": "2026-05-21",
+   "txt_sidecar": "2511.07262v1.txt"
+  },
+  {
+   "doi": "10.1038/s41467-025-64105-7",
+   "filename": "s41467-025-64105-7.pdf",
+   "title": "Evaluating large language model agents for automation of atomic force microscopy (AILA / AFMBench)",
+   "source_url": "https://www.nature.com/articles/s41467-025-64105-7",
+   "downloaded": "2026-05-21",
+   "txt_sidecar": "s41467-025-64105-7.txt"
+  },
+  {
+   "doi": "10.48550/arXiv.2604.01658",
+   "filename": "2604.01658v1.pdf",
+   "title": "CORAL: Towards Autonomous Multi-Agent Evolution for Open-Ended Discovery",
+   "source_url": "https://arxiv.org/abs/2604.01658",
+   "downloaded": "2026-05-21",
+   "txt_sidecar": "2604.01658v1.txt"
+  },
+  {
+   "doi": "10.1016/j.matt.2025.102577",
+   "filename": "mars-matter-2026.pdf",
+   "title": "Knowledge-driven autonomous materials research via collaborative multi-agent and robotic system (MARS)",
+   "source_url": "https://doi.org/10.1016/j.matt.2025.102577",
+   "downloaded": "2026-05-21",
+   "txt_sidecar": "mars-matter-2026.txt"
+  },
+  {
+   "doi": "10.48550/arXiv.2605.18407",
+   "filename": "2605.18407v1.pdf",
+   "title": "Qumus: Realization of An Embodied AI Quantum Material Experimentalist",
+   "source_url": "https://arxiv.org/abs/2605.18407",
+   "downloaded": "2026-05-21",
+   "txt_sidecar": "2605.18407v1.txt"
+  },
+  {
+   "doi": "10.48550/arXiv.2604.22541",
+   "filename": "2604.22541v1.pdf",
+   "title": "Dr.Sai: An agentic AI for real-world physics analysis at BESIII",
+   "source_url": "https://arxiv.org/abs/2604.22541",
+   "downloaded": "2026-05-21",
+   "txt_sidecar": "2604.22541v1.txt"
+  },
+  {
+   "doi": "10.48550/arXiv.2605.11117",
+   "filename": "2605.11117v1.pdf",
+   "title": "GRAFT-ATHENA: Self-Improving Agentic Teams for Autonomous Discovery and Evolutionary Numerical Algorithms",
+   "source_url": "https://arxiv.org/abs/2605.11117",
+   "downloaded": "2026-05-21",
+   "txt_sidecar": "2605.11117v1.txt"
+  },
+  {
+   "doi": "10.48550/arXiv.2605.06607",
+   "filename": "2605.06607v1.pdf",
+   "title": "AI CFD Scientist: Toward Open-Ended Computational Fluid Dynamics Discovery with Physics-Aware AI Agents",
+   "source_url": "https://arxiv.org/abs/2605.06607",
+   "downloaded": "2026-05-21",
+   "txt_sidecar": "2605.06607v1.txt"
+  },
+  {
+   "doi": "10.48550/arXiv.2604.27092",
+   "filename": "2604.27092v1.pdf",
+   "title": "End-to-end autonomous scientific discovery on a real optical platform (Qiushi Discovery Engine)",
+   "source_url": "https://arxiv.org/abs/2604.27092",
+   "downloaded": "2026-05-21",
+   "txt_sidecar": "2604.27092v1.txt"
+  },
+  {
+   "doi": "10.64898/2026.05.12.724604",
+   "filename": "2026.05.12.724604v1.full.pdf",
+   "title": "BiomniBench: Process-level Evaluation of LLM Agents for Real-world Biomedical Research",
+   "source_url": "https://doi.org/10.64898/2026.05.12.724604",
+   "downloaded": "2026-05-21",
+   "txt_sidecar": "2026.05.12.724604v1.full.txt"
+  },
+  {
+   "doi": "10.1038/s41591-026-04357-y",
+   "filename": "spark-natmed.pdf",
+   "title": "An agentic framework for autonomous scientific discovery in cancer pathology (SPARK)",
+   "source_url": "https://www.nature.com/articles/s41591-026-04357-y",
+   "downloaded": "2026-05-22",
+   "txt_sidecar": "spark-natmed.txt"
+  },
+  {
+   "doi": "10.48550/arXiv.2603.08127",
+   "filename": "2603.08127v1.pdf",
+   "title": "EvoScientist: Towards Multi-Agent Evolving AI Scientists for End-to-End Scientific Discovery",
+   "source_url": "https://arxiv.org/abs/2603.08127",
+   "downloaded": "2026-05-22",
+   "txt_sidecar": "2603.08127v1.txt"
+  },
+  {
+   "doi": "10.48550/arXiv.2601.12542",
+   "filename": "2601.12542v1.pdf",
+   "title": "Rethinking the AI Scientist: Interactive Multi-Agent Workflows for Scientific Discovery (Deep Research / BioAgents)",
+   "source_url": "https://arxiv.org/abs/2601.12542",
+   "downloaded": "2026-05-22",
+   "txt_sidecar": "2601.12542v1.txt"
+  },
+  {
+   "doi": "10.48550/arXiv.2511.04583",
+   "filename": "2511.04583v1.pdf",
+   "title": "Jr. AI Scientist and Its Risk Report: Autonomous Scientific Exploration from a Baseline Paper",
+   "source_url": "https://arxiv.org/abs/2511.04583",
+   "downloaded": "2026-05-22",
+   "txt_sidecar": "2511.04583v1.txt"
+  },
+  {
+   "doi": "10.48550/arXiv.2605.03042",
+   "filename": "2605.03042v1.pdf",
+   "title": "ARIS: Autonomous Research via Adversarial Multi-Agent Collaboration",
+   "source_url": "https://arxiv.org/abs/2605.03042",
+   "downloaded": "2026-05-22",
+   "txt_sidecar": "2605.03042v1.txt"
+  },
+  {
+   "doi": "10.48550/arXiv.2605.15871",
+   "filename": "2605.15871v1.pdf",
+   "title": "Agentic Discovery of Neural Architectures: AIRA-Compose and AIRA-Design",
+   "source_url": "https://arxiv.org/abs/2605.15871",
+   "downloaded": "2026-05-23",
+   "txt_sidecar": "2605.15871v1.txt"
+  },
+  {
+   "doi": "10.48550/arXiv.2605.08083",
+   "filename": "2605.08083v1.pdf",
+   "title": "LLMs Improving LLMs: Agentic Discovery for Test-Time Scaling (AutoTTS)",
+   "source_url": "https://arxiv.org/abs/2605.08083",
+   "downloaded": "2026-05-23",
+   "txt_sidecar": "2605.08083v1.txt"
+  },
+  {
+   "doi": "10.48550/arXiv.2605.14791",
+   "filename": "2605.14791v1.pdf",
+   "title": "Beyond AI as Assistants: Toward Autonomous Discovery in Cosmology (CMBEvolve and CosmoEvolve)",
+   "source_url": "https://arxiv.org/abs/2605.14791",
+   "downloaded": "2026-05-23",
+   "txt_sidecar": "2605.14791v1.txt"
+  },
+  {
+   "doi": "10.48550/arXiv.2605.06651",
+   "filename": "2605.06651v1.pdf",
+   "title": "AI co-mathematician: Accelerating mathematicians with agentic AI",
+   "source_url": "https://arxiv.org/abs/2605.06651",
+   "downloaded": "2026-05-23",
+   "txt_sidecar": "2605.06651v1.txt"
+  },
+  {
+   "doi": "10.48550/arXiv.2605.20025",
+   "filename": "2605.20025v1.pdf",
+   "title": "AutoResearchClaw: Self-Reinforcing Autonomous Research with Human-AI Collaboration",
+   "source_url": "https://arxiv.org/abs/2605.20025",
+   "downloaded": "2026-05-24",
+   "txt_sidecar": "2605.20025v1.txt"
+  },
+  {
+   "doi": "10.48550/arXiv.2605.16552",
+   "filename": "2605.16552v1.pdf",
+   "title": "From Prompts to Protocols: An AI Agent for Laboratory Automation (EOS AI agent)",
+   "source_url": "https://arxiv.org/abs/2605.16552",
+   "downloaded": "2026-05-24",
+   "txt_sidecar": "2605.16552v1.txt"
+  },
+  {
+   "doi": "10.48550/arXiv.2605.11359",
+   "filename": "2605.11359v1.pdf",
+   "title": "CVEvolve: Autonomous Algorithm Discovery for Unstructured Scientific Data Processing",
+   "source_url": "https://arxiv.org/abs/2605.11359",
+   "downloaded": "2026-05-24",
+   "txt_sidecar": "2605.11359v1.txt"
+  },
+  {
+   "doi": "10.48550/arXiv.2604.05854",
+   "filename": "2604.05854v1.pdf",
+   "title": "Deep Researcher Agent: An Autonomous Framework for 24/7 Deep Learning Experimentation with Zero-Cost Monitoring",
+   "source_url": "https://arxiv.org/abs/2604.05854",
+   "downloaded": "2026-05-25",
+   "txt_sidecar": "2604.05854v1.txt"
+  },
+  {
+   "doi": "10.48550/arXiv.2603.23951",
+   "filename": "2603.23951v1.pdf",
+   "title": "From AI Assistant to AI Scientist: Autonomous Discovery of LLM-RL Algorithms with LLM Agents (POISE)",
+   "source_url": "https://arxiv.org/abs/2603.23951",
+   "downloaded": "2026-05-25",
+   "txt_sidecar": "2603.23951v1.txt"
+  },
+  {
+   "doi": "10.48550/arXiv.2504.17967",
+   "filename": "2504.17967v1.pdf",
+   "title": "LLM Agent Swarm for Hypothesis-Driven Drug Discovery (PharmaSwarm)",
+   "source_url": "https://arxiv.org/abs/2504.17967",
+   "downloaded": "2026-05-25",
+   "txt_sidecar": "2504.17967v1.txt"
+  },
+  {
+   "doi": "10.48550/arXiv.2508.19383",
+   "filename": "2508.19383v1.pdf",
+   "title": "Aleks: AI powered Multi Agent System for Autonomous Scientific Discovery via Data-Driven Approaches in Plant Science",
+   "source_url": "https://arxiv.org/abs/2508.19383",
+   "downloaded": "2026-05-25",
+   "txt_sidecar": "2508.19383v1.txt"
+  },
+  {
+   "doi": "10.1101/2025.05.25.656020",
+   "filename": "hao25b_perturboagent.pdf",
+   "title": "PerTurboAgent: An LLM-based Agent for Designing Iterative Perturb-Seq Experiments",
+   "source_url": "https://proceedings.mlr.press/v311/hao25b.html",
+   "downloaded": "2026-05-25",
+   "txt_sidecar": "hao25b_perturboagent.txt"
+  },
+  {
+   "doi": "10.48550/arXiv.2604.17406",
+   "filename": "2604.17406v1.pdf",
+   "title": "EvoMaster: A Foundational Agent Framework for Building Evolving Autonomous Scientific Agents at Scale",
+   "source_url": "https://arxiv.org/abs/2604.17406",
+   "downloaded": "2026-05-27",
+   "txt_sidecar": "2604.17406v1.txt"
+  },
+  {
+   "doi": "10.48550/arXiv.2604.24696",
+   "filename": "2604.24696v1.pdf",
+   "title": "NeuroClaw: Closed-Loop Agentic AI for Executable and Reproducible Neuroimaging Research",
+   "source_url": "https://arxiv.org/abs/2604.24696",
+   "downloaded": "2026-05-27",
+   "txt_sidecar": "2604.24696v1.txt"
+  },
+  {
+   "doi": "10.48550/arXiv.2603.29727",
+   "filename": "2603.29727v1.pdf",
+   "title": "Latent-Y: A Lab-Validated Autonomous Agent for De Novo Drug Design",
+   "source_url": "https://arxiv.org/abs/2603.29727",
+   "downloaded": "2026-05-29",
+   "txt_sidecar": "2603.29727v1.txt"
+  },
+  {
+   "doi": "10.64898/2026.02.26.707870",
+   "filename": "2026.02.26.707870v1_metadata.json",
+   "title": "PantheonOS: An Evolvable Multi-Agent Framework for Automatic Genomics Discovery",
+   "source_url": "https://doi.org/10.64898/2026.02.26.707870",
+   "downloaded": "2026-05-29",
+   "txt_sidecar": "2026.02.26.707870v1.full.txt",
+   "notes": "PDF blocked by Cloudflare; metadata + abstract archived via bioRxiv API"
+  },
+  {
+   "doi": "10.64898/2026.02.23.707551",
+   "filename": "2026.02.23.707551v1_metadata.json",
+   "title": "The Virtual Biotech: A Multi-Agent AI Framework for Therapeutic Discovery and Development",
+   "source_url": "https://doi.org/10.64898/2026.02.23.707551",
+   "downloaded": "2026-05-29",
+   "txt_sidecar": "2026.02.23.707551v1.full.txt",
+   "notes": "PDF blocked by Cloudflare; metadata + abstract archived via bioRxiv API"
+  },
+  {
+   "doi": "10.48550/arXiv.2410.17430",
+   "filename": "2410.17430v1.pdf",
+   "title": "Real-time experiment-theory closed-loop interaction for autonomous materials science (AMASE)",
+   "source_url": "https://arxiv.org/abs/2410.17430",
+   "downloaded": "2026-05-30",
+   "txt_sidecar": "2410.17430v1.txt"
+  },
+  {
+   "doi": "10.48550/arXiv.2501.16224",
+   "filename": "2501.16224v1.pdf",
+   "title": "Language-Based Bayesian Optimization Research Assistant (BORA)",
+   "source_url": "https://arxiv.org/abs/2501.16224",
+   "downloaded": "2026-05-30",
+   "txt_sidecar": "2501.16224v1.txt"
+  },
+  {
+   "doi": "10.48550/arXiv.2605.24002",
+   "filename": "2605.24002v1.pdf",
+   "title": "Harnessing AtomisticSkills for Agentic Atomistic Research",
+   "source_url": "https://arxiv.org/abs/2605.24002",
+   "downloaded": "2026-05-31",
+   "txt_sidecar": "2605.24002v1.txt"
+  },
+  {
+   "doi": "10.48550/arXiv.2605.26340",
+   "filename": "2605.26340v1.pdf",
+   "title": "ScientistOne: Towards Human-Level Autonomous Research via Chain-of-Evidence",
+   "source_url": "https://arxiv.org/abs/2605.26340",
+   "downloaded": "2026-05-31",
+   "txt_sidecar": "2605.26340v1.txt"
+  },
+  {
+   "doi": "10.48550/arXiv.2605.02092",
+   "filename": "2605.02092v1.pdf",
+   "title": "NORA: A Harness-Engineered Autonomous Research Agent for Spatial Data Science",
+   "source_url": "https://arxiv.org/abs/2605.02092",
+   "downloaded": "2026-05-31",
+   "txt_sidecar": "2605.02092v1.txt"
+  },
+  {
+   "doi": "10.48550/arXiv.2604.27297",
+   "filename": "2604.27297v1.pdf",
+   "title": "Machine Collective Intelligence for Explainable Scientific Discovery (MCI)",
+   "source_url": "https://arxiv.org/abs/2604.27297",
+   "downloaded": "2026-05-31",
+   "txt_sidecar": "2604.27297v1.txt"
+  },
+  {
+   "doi": "10.48550/arXiv.2605.07306",
+   "filename": "2605.07306v1.pdf",
+   "title": "BioProVLA-Agent: An Affordable, Protocol-Driven, Vision-Enhanced VLA-Enabled Embodied Multi-Agent System for Biological Laboratory Manipulation",
+   "source_url": "https://arxiv.org/abs/2605.07306",
+   "downloaded": "2026-05-31",
+   "txt_sidecar": "2605.07306v1.txt"
+  },
+  {
+   "doi": "10.48550/arXiv.2605.20242",
+   "filename": "2605.20242v1.pdf",
+   "title": "LEAP: A closed-loop framework for perovskite precursor additive discovery",
+   "source_url": "https://arxiv.org/abs/2605.20242",
+   "downloaded": "2026-06-01",
+   "txt_sidecar": "2605.20242v1.txt"
+  },
+  {
+   "doi": "10.48550/arXiv.2605.28655",
+   "filename": "2605.28655v1.pdf",
+   "title": "AutoScientists: Self-Organizing Agent Teams for Long-Running Scientific Experimentation",
+   "source_url": "https://arxiv.org/abs/2605.28655",
+   "downloaded": "2026-06-01",
+   "txt_sidecar": "2605.28655v1.txt"
+  },
+  {
+   "doi": "10.48550/arXiv.2605.11518",
+   "filename": "2605.11518v1.pdf",
+   "title": "AutoLLMResearch: Training Research Agents for Automating LLM Experiment Configuration",
+   "source_url": "https://arxiv.org/abs/2605.11518",
+   "downloaded": "2026-06-01",
+   "txt_sidecar": "2605.11518v1.txt"
+  },
+  {
+   "doi": "10.48550/arXiv.2605.31468",
+   "filename": "2605.31468v1.pdf",
+   "title": "AutoSci: A Memory-Centric Agentic System for the Full Scientific Research Lifecycle",
+   "source_url": "https://arxiv.org/abs/2605.31468",
+   "downloaded": "2026-06-02",
+   "txt_sidecar": "2605.31468v1.txt"
+  },
+  {
+   "doi": "10.48550/arXiv.2605.21825",
+   "filename": "2605.21825v1.pdf",
+   "title": "Toward AI VIS Co-Scientists: A General and End-to-End Agent Harness for Solving Complex Data Visualization Tasks",
+   "source_url": "https://arxiv.org/abs/2605.21825",
+   "downloaded": "2026-06-02",
+   "txt_sidecar": "2605.21825v1.txt"
+  },
+  {
+   "doi": "10.48550/arXiv.2605.21820",
+   "filename": "2605.21820v1.pdf",
+   "title": "Beyond Scalar Objectives: Expert-Feedback-Driven Autonomous Experimentation for Scientific Discovery at the Nanoscale (DKPL)",
+   "source_url": "https://arxiv.org/abs/2605.21820",
+   "downloaded": "2026-06-02",
+   "txt_sidecar": "2605.21820v1.txt"
+  },
+  {
+   "doi": "10.48550/arXiv.2605.18033",
+   "filename": "2605.18033v1.pdf",
+   "title": "Real-time Multi-instrument Autonomous Discovery of Novel Phase-change Memory Materials (MAD)",
+   "source_url": "https://arxiv.org/abs/2605.18033",
+   "downloaded": "2026-06-02",
+   "txt_sidecar": "2605.18033v1.txt"
+  },
+  {
+   "doi": "10.48550/arXiv.2606.05050",
+   "filename": "2606.05050v1.pdf",
+   "title": "Autonomous heterogeneous catalyst discovery with a self-evolving multi-agent digital twin (CatDT)",
+   "source_url": "https://arxiv.org/abs/2606.05050",
+   "downloaded": "2026-06-05",
+   "txt_sidecar": "2606.05050v1.txt"
+  },
+  {
+   "doi": "10.48550/arXiv.2606.01444",
+   "filename": "2606.01444v1.pdf",
+   "title": "Self-Revising Discovery Systems for Science: A Categorical Framework for Agentic Artificial Intelligence (CategoryScienceClaw, Builder/Breaker)",
+   "source_url": "https://arxiv.org/abs/2606.01444",
+   "downloaded": "2026-06-05",
+   "txt_sidecar": "2606.01444v1.txt"
+  },
+  {
+   "doi": "10.48550/arXiv.2606.02386",
+   "filename": "2606.02386v1.pdf",
+   "title": "AgentPLM: Agentic Protein Language Models with Reasoning-Augmented Decoding for Protein Sequence Design",
+   "source_url": "https://arxiv.org/abs/2606.02386",
+   "downloaded": "2026-06-05",
+   "txt_sidecar": "2606.02386v1.txt"
+  },
+  {
+   "doi": "10.48550/arXiv.2606.06473",
+   "filename": "2606.06473v1.pdf",
+   "title": "MLEvolve: A Self-Evolving Framework for Automated Machine Learning Algorithm Discovery",
+   "source_url": "https://arxiv.org/abs/2606.06473",
+   "downloaded": "2026-06-05",
+   "txt_sidecar": "2606.06473v1.txt"
+  },
+  {
+   "doi": "10.1101/2025.06.03.657658",
+   "filename": null,
+   "title": "OriGene: A Self-Evolving Virtual Disease Biologist Automating Therapeutic Target Discovery",
+   "source_url": "https://www.biorxiv.org/content/10.1101/2025.06.03.657658v1",
+   "downloaded": "2026-06-06",
+   "txt_sidecar": "2025.06.03.657658.txt",
+   "note": "bioRxiv PDF/JATS Cloudflare-blocked (403); sidecar assembled from bioRxiv API abstract + project homepage + GitHub repo metadata."
+  },
+  {
+   "doi": "10.48550/arXiv.2512.21782",
+   "filename": "2512.21782.pdf",
+   "title": "Accelerating Scientific Discovery with Autonomous Goal-evolving Agents (SAGA)",
+   "source_url": "https://arxiv.org/abs/2512.21782",
+   "downloaded": "2026-06-07",
+   "txt_sidecar": "2512.21782.txt"
+  },
+  {
+   "doi": "10.48550/arXiv.2510.12787",
+   "filename": "2510.12787.pdf",
+   "title": "Ax-Prover: A Deep Reasoning Agentic Framework for Theorem Proving in Mathematics and Quantum Physics",
+   "source_url": "https://arxiv.org/abs/2510.12787",
+   "downloaded": "2026-06-08",
+   "txt_sidecar": "2510.12787.txt"
+  },
+  {
+   "doi": "10.48550/arXiv.2601.14027",
+   "filename": "2601.14027.pdf",
+   "title": "Numina-Lean-Agent: An Agentic Framework for Formal Theorem Proving in Lean",
+   "source_url": "https://arxiv.org/abs/2601.14027",
+   "downloaded": "2026-06-08",
+   "txt_sidecar": "2601.14027.txt",
+   "note": "Deferred scope-edge: pure theorem proving of given statements (no hypothesis generation / experiment design / data analysis). Archived for Phase B review."
+  },
+  {
+   "doi": "10.48550/arXiv.2510.14861",
+   "filename": "2510.14861.pdf",
+   "title": "LabOS: The AI-XR Co-Scientist That Sees and Works With Humans",
+   "source_url": "https://arxiv.org/abs/2510.14861",
+   "downloaded": "2026-06-09",
+   "txt_sidecar": "2510.14861.txt"
+  }
+ ]
 }

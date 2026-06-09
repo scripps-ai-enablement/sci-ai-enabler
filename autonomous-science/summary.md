@@ -122,3 +122,4 @@ Other systems being tracked for inclusion: **Virtual Lab** (Stanford / CZ Biohub
 - [Wang & Buehler, "Self-Revising Discovery Systems for Science: A Categorical Framework for Agentic Artificial Intelligence" (CategoryScienceClaw), arXiv:2606.01444](https://arxiv.org/abs/2606.01444)
 - [Rahman & Rahman, "AgentPLM: Agentic Protein Language Models with Reasoning-Augmented Decoding for Protein Sequence Design," arXiv:2606.02386 / ICML 2026](https://arxiv.org/abs/2606.02386)
 - [Du, Yu, Liu, Shen, Chen et al., "Accelerating Scientific Discovery with Autonomous Goal-evolving Agents" (SAGA), arXiv:2512.21782](https://arxiv.org/abs/2512.21782)
+- [Cong, Smerkous, Wang et al., "LabOS: The AI-XR Co-Scientist That Sees and Works With Humans," arXiv:2510.14861](https://arxiv.org/abs/2510.14861)

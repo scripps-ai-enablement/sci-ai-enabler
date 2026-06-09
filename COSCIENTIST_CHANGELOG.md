@@ -9,6 +9,22 @@ permalink: /updates/ai-scientists.html
 
 Reverse-chronological log of changes to the [AI scientists tracker](autonomous-science/). Newest at the top.
 
+## 2026-06-09
+
+### Added
+- **LabOS** (Lifecycle: Multi-stage) — Stanford / Princeton AI-XR co-scientist (with Oregon State, U. Washington, NVIDIA) that couples a self-evolving multi-agent digital-lab system with extended-reality smart glasses, a lab-specialized vision-language model, 3D/4D digital twins, and a cobot module to perceive, reason about, and assist in the physical laboratory. The dry-lab module extends the **STELLA** framework (Manager/Planner, Developer, Critic agents plus a Tool-Creation agent feeding a shared "Tool Ocean") for hypothesis generation, experiment design, and analysis; the wet-lab module streams egocentric video to **LabOS-VLM** (Qwen-VL post-trained via SFT + GRPO) for real-time action verification, error detection, and step guidance. Benchmarks: **~32% HLE: Biomedicine, 61% LAB-Bench: DBQA, 65% LAB-Bench: LitQA** (up to 8% over next-best), plus a new **LabSuperVision (LSV)** lab-video benchmark on which LabOS-VLM-235B exceeds 90% error-detection accuracy, beating Claude Opus-4.1, GPT-5, and Gemini 2.5 Pro. Wet-lab: agent-nominated **CEACAM6** confirmed as an NK-cell anti-tumor target in a physical killing assay; **ITSN1** identified as a cell-fusion regulator. Open source ([source](https://arxiv.org/abs/2510.14861)).
+
+### Updated
+- **`autonomous-science/summary.md`** — added the LabOS primary-paper link to Sources. LabOS fits the existing "Biology & medicine carry the strongest evidence" and embodied-systems patterns and tips no superlative; `synthesis_reviewed` was refreshed yesterday (2026-06-08, within the 30-day window), so no synthesis prose was rewritten.
+- **`autonomous-science/curator-state.md`** — added LabOS at the top of `Recently surfaced` (trimming CatDT to keep the window at five).
+- **`sources/manifest.json`** — LabOS (DOI 10.48550/arXiv.2510.14861) entry added by Phase A.
+
+### Flagged
+_None._
+
+### Verified (no changes)
+- All pre-existing system pages remain inside the 30-day re-verification window (oldest `last_verified` is 2026-05-20); no spot-checks required this run.
+
 ## 2026-06-08
 
 ### Added
