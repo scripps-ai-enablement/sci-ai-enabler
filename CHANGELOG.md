@@ -11,6 +11,22 @@ Reverse-chronological log of changes to the [catalog](catalog/). Newest at the t
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-06-09
+
+Directed pass on **Immunology and Microbiology** (Tuesday focus) plus a manifest sweep. WebFetch was unavailable from the runner this entire run (every call returned a backend model 404 — `claude-3-5-haiku` not found), and all `raw.githubusercontent.com`/`github.com`/`api.github.com` `marketplace.json` fetches returned 404, so the marketplace diff and candidate verification leaned on corroborated WebSearch results only. The directed-pass seed queries (IEDB epitope MCP, antibody-design skill, BCR/TCR repertoire MCP, metagenomics/microbiome MCP) reconfirmed the three previously-logged gaps: no Claude-installable wrapper exists for IEDB's PostgREST Query API, for AIRR-seq tooling (Immcantation / nf-core/airrflow / immunarch / immuneML), or for metagenomics pipelines (QIIME2 / Kraken2 / MetaPhlAn). The `anthropics/life-sciences` marketplace contents matched the catalogued set (no new plugins), and a K-Dense diff via search showed the collection steady at ~140/142 skills with no net-new immunology/microbiology directories. No new candidate could be verified to the followable-verbatim install standard from a primary source, so no tool pages were created. No `last_verified` dates exceed the 30-day window (oldest is 2026-05-19, 21 days).
+
+### Added
+- _None._
+
+### Updated
+- _None._
+
+### Flagged
+- _None._
+
+### Verified (no changes)
+- Immunology/Microbiology-relevant entries reviewed against today's seed queries; install paths and capability descriptions remain accurate. IEDB, AIRR-seq (BCR/TCR repertoire), and metagenomics/microbiome confirmed still uncovered by any Claude-installable wrapper — deferral dates refreshed in `curator-state.md`.
+
 ## 2026-06-08
 
 Directed pass on **Chemistry** (Monday focus) plus a manifest sweep. WebFetch was unavailable from the runner this entire run (every call returned a backend model 404 — `claude-3-5-haiku` not found), and all `raw.githubusercontent.com`/`api.github.com` `marketplace.json` fetches returned 404, so the marketplace diff and candidate verification leaned on corroborated WebSearch results only. Because no new candidate could be verified to the followable-verbatim install standard from a primary source this run, no new tool pages were created. The Chemistry surface is already broad (`rdkit-mcp`, `rdkit-skill`, `pubchem`, `chembl`, `datamol`, `molfeat`, `medchem`, `deepchem`, `diffdock`, `rowan`, `matchms`, `pytdc`, `torchdrug`, `molecule-mcp`, `pyopenms`). The directed-pass seed queries (RDKit MCP, retrosynthesis MCP, ChEMBL MCP, Polaris, PubChem MCP) surfaced one genuinely new install path — a hosted/typescript PubChem server (`cyanheads/pubchem-mcp-server`) with an 8-tool read-only surface and a public Streamable HTTP endpoint — which was folded into the existing `pubchem` entry per the one-entry-per-tool rule. Two Chemistry candidates were deferred: a **ZINC Database** Claude Code skill (`davila7/claude-code-templates`) whose exact install flag and SKILL.md tool list could not be verified with WebFetch down, and **retrosynthesis** wrappers (AiZynthFinder/ASKCOS/IBM RXN), still without a Claude-installable surface.
