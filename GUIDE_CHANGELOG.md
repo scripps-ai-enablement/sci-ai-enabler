@@ -11,6 +11,25 @@ Reverse-chronological log of changes to the [guide](guide/). Newest at the top.
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-06-09
+
+### Added
+- **[surfaces/claude-api] New pitfall: Opus 4.7 / 4.8 reject `temperature`, `top_p`, `top_k` with a 400.** Rejection is by presence (not value) and the SDK won't catch it at compile time, so it bites beginners migrating off older models — especially via OpenAI-compat layers or frameworks that inject `temperature`. Grounded in [What's new in Claude Opus 4.8](https://platform.claude.com/docs/en/about-claude/models/whats-new-claude-4-8) (verified this run via WebSearch summary). The page already covered the `budget_tokens` → adaptive-thinking deprecation; this completes the sampling-parameter story.
+
+### Verified (no changes)
+- claude-surfaces.md, surfaces/claude-code.md — install command (`curl -fsSL https://claude.ai/install.sh | bash`) re-verified via WebSearch against `claude.com/product/claude-code`: native installer canonical, Windows `irm …/install.ps1 | iex` / `winget install Anthropic.ClaudeCode`, `brew install --cask claude-code` (stable) / `claude-code@latest`, npm-with-deprecation-banner all unchanged. Latest documented release is v2.1.169 (June): v2.1.165–v2.1.169 are bug fixes plus the `fallbackModel` setting (up to three fallbacks when primary is overloaded), deny-rule glob support, and cross-session-messaging hardening — all below the beginner threshold. `/code-review` (bug-hunting) vs `/simplify` (cleanup-only) split, Channels, Dynamic Workflows (`ultracode`), Claude Security, MCP tunnels, routines, per-surface sandboxing all current.
+- surfaces/claude-api.md — Opus 4.8 default + low/medium/high/xhigh/max effort ladder unchanged; Managed Agents (Outcomes/Dreams/orchestration), mid-conversation system messages, prompt caching all current.
+- surfaces/claude-ai.md, surfaces/claude-desktop.md, surfaces/claude-cowork.md — unchanged.
+- skills.md, mcp-servers.md, plugins.md, marketplaces.md, connectors.md, decision-tree.md — unchanged. June legal/Cowork-plugin and connector news already reflected.
+- advanced/hooks.md, advanced/slash-commands.md, advanced/routines.md, advanced/authentication.md — unchanged.
+
+### Flagged for review
+- WebFetch remained unavailable this run (404 on `claude-3-5-haiku-20241022`, same regression as prior runs). All verification went through WebSearch summaries of `claude.com/product/claude-code`, `code.claude.com/docs/en/changelog`, `github.com/anthropics/claude-code/releases`, `releasebot.io/updates/anthropic`, `anthropic.com/news`, and `platform.claude.com` docs. A human should spot-check the product landing page and changelog directly.
+- **`claude -p` / Agent SDK billing split lands 2026-06-15** — carried over; still 6 days out as of today (2026-06-09); credit-claim emails reportedly arriving ~2026-06-08. Re-verify after 06-15 that `surfaces/claude-code.md` and `surfaces/claude-api.md` describe live behavior, not the pre-launch announcement.
+- **Sonnet 4 / Opus 4 retirement 2026-06-15 9am PT** — carried over; re-verify `surfaces/claude-api.md` after the date that the IDs now error.
+- **Advisor tool (API)** — carried over; still an advanced developer cost-optimization pattern, omitted by scope.
+- **Promote `security-guidance` to its own page** — carried over; schema fixes the file set, stays inside `plugins.md` unless a human expands the topic list.
+
 ## 2026-06-08
 
 No substantive updates — 17 pages spot-checked, all current.
