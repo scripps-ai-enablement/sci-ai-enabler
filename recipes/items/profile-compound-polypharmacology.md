@@ -9,7 +9,7 @@ evidence_level: Reported
 complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Laptop
-last_verified: 2026-05-25
+last_verified: 2026-06-09
 summary: Use the ChEMBL connector in Claude Code to pull every measured activity for one compound, group by target and assay, and surface the off-target profile a medicinal chemist needs before committing to a chemotype.
 ---
 

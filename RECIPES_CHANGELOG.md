@@ -11,6 +11,20 @@ Reverse-chronological log of changes to the [recipes cookbook](recipes/). Newest
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-06-09
+
+### Added
+
+- **Build a phylogenetic tree from a set of sequences** (Problem class: Data analysis; Evidence: Proposed) — rung-2 [Phylogenetics skill](catalog/tools/phylogenetics.html) recipe taking a FASTA of homologous sequences (viral genomes, microbial marker genes, protein families) through MAFFT `--auto` alignment → gap-column trimming → IQ-TREE 2 ModelFinder + ultrafast-bootstrap maximum-likelihood inference → midpoint/outgroup rooting → an ETE3-annotated tree figure, handing the Newick off to the [ETE Toolkit](catalog/tools/etetoolkit.html) and the [16S diversity](recipes/items/compute-16s-microbiome-diversity.html) recipe (which consumes the rooted tree for UniFrac). Immunology and Microbiology focus-day recipe; cookbook's first phylogenetics / tree-building recipe. `Proposed` — no documented LLM-driven phylogenetics workflow; grounded in the field-standard tool references [Katoh & Standley, *MBE* 30:772 (2013)](https://doi.org/10.1093/molbev/mst010), [Minh et al., *MBE* 37:1530 (2020)](https://doi.org/10.1093/molbev/msaa015), [Kalyaanamoorthy et al., *Nat. Methods* 14:587 (2017)](https://doi.org/10.1038/nmeth.4285), and [Hoang et al., *MBE* 35:518 (2018)](https://doi.org/10.1093/molbev/msx281), plus class-level [Biomni](https://doi.org/10.1101/2025.05.30.656746).
+
+### Verified (no changes)
+
+- 3 recipes spot-checked (oldest `last_verified` first), all current; `last_verified` bumped to 2026-06-09: [Scan approved drugs for repurposing candidates against a disease](recipes/items/scan-drug-repurposing-candidates.html), [Profile a compound's polypharmacology from ChEMBL bioactivity data](recipes/items/profile-compound-polypharmacology.html), [Triage an AlphaFold model for structure-based drug design](recipes/items/triage-alphafold-model-for-docking.html). All linked catalog pages resolve and are unflagged; source DOIs stable.
+
+### User requests
+
+- [#12 @goodb] still un-actionable — no `gh` permission to read the issue body from this run; left open for retry.
+
 ## 2026-06-08
 
 ### Added

@@ -9,7 +9,7 @@ evidence_level: Proposed
 complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Laptop
-last_verified: 2026-05-27
+last_verified: 2026-06-09
 summary: Pull a UniProt AlphaFold prediction, surface pLDDT regions and pocket-residue confidence, and produce a go/no-go verdict on whether the model is fit for downstream docking or modelling — all from one MCP server.
 ---
 
@@ -115,7 +115,7 @@ Laptop. A single triage card returns in under 30 seconds: structure retrieval is
 
 ## Evidence
 
-`Proposed`. No documented end-to-end LLM-orchestrated triage workflow using the AlphaFold MCP server in peer-reviewed literature is known as of 2026-05-27. The component pieces are well-validated:
+`Proposed`. No documented end-to-end LLM-orchestrated triage workflow using the AlphaFold MCP server in peer-reviewed literature is known as of 2026-06-09. The component pieces are well-validated:
 
 - **AlphaFold MCP Server** — the server's pLDDT-analysis tools wrap the same EBI API that underpins the published AlphaFold Protein Structure Database (Varadi et al., [*Nucleic Acids Res.* 2022, 50:D439](https://doi.org/10.1093/nar/gkab1061); 2024 update [50:D368](https://doi.org/10.1093/nar/gkad1011)).
 - **pLDDT-thresholding rules of thumb** — the docking-readiness cutoffs above follow the practical benchmarks established for AlphaFold-Multimer and protein-protein docking (Bryant et al., [*Nature Communications* 2022, 13:1265](https://doi.org/10.1038/s41467-022-28865-w); follow-up assessments through 2024–2025 reaffirm interface-pLDDT ≥85 as the strong-confidence regime, 70–85 as the caveat regime).

@@ -9,7 +9,7 @@ evidence_level: Proposed
 complexity: Multi-tool harness
 availability: Subscription required
 compute_requirements: Laptop
-last_verified: 2026-05-24
+last_verified: 2026-06-09
 summary: Given a disease, use Open Targets to rank associated targets, ChEMBL and PubChem for approved-drug bioactivity, and DrugBank for mechanism / indication / interaction context to produce a ranked shortlist of repurposing candidates.
 ---
 
