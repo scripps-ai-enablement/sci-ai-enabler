@@ -7,5 +7,8 @@ output.txt
 # Transient MCP config assembled by the coscientist workflow
 .mcp-config.json
 
+# Transient user-request issue bodies pre-fetched for the curator agents
+.request-bodies/
+
 # macOS metadata
 .DS_Store

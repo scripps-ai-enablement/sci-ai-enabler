@@ -102,6 +102,41 @@ jobs:
             echo "- Walk the simplicity ladder. The lowest rung that solves the problem is the right answer."
           } > .run-prompt.md
 
+      - name: Pre-fetch open user-request issue bodies
+        # The curator agent runs sandboxed (no Bash/gh), but RECIPE_AGENT.md asks
+        # it to read issue bodies for feedback and triage entries. The agent step
+        # has no gh access, so fetch the bodies here (where GH_TOKEN is available)
+        # into `.request-bodies/<NN>.md` for the agent to Read. Cleaned up before
+        # the commit step; gitignored so a mid-run failure can't commit them.
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        run: |
+          STATE="recipes/curator-state.md"
+          mkdir -p .request-bodies
+          [ -f "$STATE" ] || exit 0
+          # Issue numbers in the "## User requests (open)" block (e.g. "[#12 ...]").
+          NUMS=$(awk '
+            /^## User requests \(open\)/ { capture=1; next }
+            /^## / && capture { exit }
+            capture
+          ' "$STATE" | grep -oE '\[#[0-9]+' | tr -d '[#' | sort -u)
+          for NUM in $NUMS; do
+            if gh issue view "$NUM" --repo "$REPO" \
+                --json number,title,author,labels,body \
+                --template '# Issue #{{.number}} — {{.title}}
+          Author: @{{.author.login}}
+          Labels: {{range .labels}}{{.name}} {{end}}
+
+          {{.body}}
+          ' > ".request-bodies/${NUM}.md" 2>/dev/null; then
+              echo "fetched #${NUM}"
+            else
+              echo "could not fetch #${NUM}"
+              rm -f ".request-bodies/${NUM}.md"
+            fi
+          done
+
       - uses: anthropics/claude-code-base-action@e8132bc5e637a42c27763fc757faa37e1ee43b34
         env:
           # WebFetch summarizes pages with the Haiku model; pin it so it does not
@@ -122,6 +157,7 @@ jobs:
           SERVER_URL: ${{ github.server_url }}
         run: |
           rm -f .run-prompt.md .mcp-config.json
+          rm -rf .request-bodies
           git config user.name "recipes-curator[bot]"
           git config user.email "recipes-curator@users.noreply.github.com"
 

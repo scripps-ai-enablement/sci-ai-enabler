@@ -487,6 +487,8 @@ Or, if the responder fell back without a trailer:
 - [#NN @author 2026-MM-DD] (no trailer emitted; needs curator triage) title="…" label=claude:tool-feedback
 ```
 
+The workflow pre-fetches the body of every open user-request issue into `.request-bodies/<NN>.md` before you start, so you can `Read` it directly — you do not have `gh` or a shell. If a `.request-bodies/<NN>.md` file is missing (the fetch failed, e.g. the issue was deleted), leave that entry in `## User requests (open)` and move on; do not guess at its contents.
+
 **Each run, process every entry in `## User requests (open)`:**
 
 1. Read the linked tool page (`catalog/tools/<tool-slug>.md`).
@@ -495,8 +497,8 @@ Or, if the responder fell back without a trailer:
    - `worked but slow` — add a perf note in **Notes**; do not change availability.
    - `got stuck` — investigate. If credible, add to **Notes** with the workaround if the user supplied one. If the install path appears broken, flag the tool in `## Flagged for review`.
    - `found a better way` — record in **Notes**; if the better path is a different cataloged tool, link it.
-   - `something else` — read the issue body via `gh issue view <NN>` and exercise judgment.
-3. For `(no trailer emitted; needs curator triage)` entries, read the issue body via `gh issue view <NN>` and decide what to do (often: leave alone and let the next run reconsider; or flag the request as unactionable).
+   - `something else` — read the issue body from `.request-bodies/<NN>.md` and exercise judgment.
+3. For `(no trailer emitted; needs curator triage)` entries, read the issue body from `.request-bodies/<NN>.md` and decide what to do — the bare entry's `title=`/`label=` rarely carry the request; the body is where the actual feedback lives. (Often: act on it if clear; otherwise flag the request as unactionable. Do not leave a body-bearing entry to "reconsider next run" — it will loop forever.)
 4. **Move each processed entry** from `## User requests (open)` to `## User requests (closed this run)` and append `→ <result note>` describing what shipped or why nothing did. Example:
 
 ```

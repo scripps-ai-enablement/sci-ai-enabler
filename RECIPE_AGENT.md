@@ -381,6 +381,8 @@ Recipes are read by working scientists, engineers, and clinicians who do not kno
 - [#NN @author 2026-MM-DD] (no trailer emitted; needs curator triage) title="…" label=claude:recipe-…
 ```
 
+The workflow pre-fetches the body of every open user-request issue into `.request-bodies/<NN>.md` before you start, so you can `Read` it directly — you do not have `gh` or a shell. If a `.request-bodies/<NN>.md` file is missing (the fetch failed, e.g. the issue was deleted), leave that entry in `## User requests (open)` and move on; do not guess at its contents.
+
 **Each run, process every entry in `## User requests (open)`:**
 
 1. For a `question=` entry: check if an existing recipe in `recipes/items/` already covers it.
@@ -390,9 +392,9 @@ Recipes are read by working scientists, engineers, and clinicians who do not kno
    - `worked great` — refresh `last_verified`; consider promoting `Proposed` → `Reported` if this is the first field report. Add a one-line **Field reports** subsection under **Evidence** if it adds signal.
    - `worked but slow` — add a perf note under **Compute requirements**; do not change evidence.
    - `got stuck` — investigate. Add a one-line **Field reports** note. If multiple users hit the same wall, flag the recipe in `## Flagged for review` and consider raising the rung on the simplicity ladder.
-   - `found a better way` — read the issue body via `gh issue view <NN>`. If the better path uses different cataloged tools, update **Alternatives considered** or write a sibling recipe.
-   - `something else` — read the issue body and exercise judgment.
-3. For `(no trailer emitted; needs curator triage)` entries, read the issue body via `gh issue view <NN>` and decide what to do.
+   - `found a better way` — read the issue body from `.request-bodies/<NN>.md`. If the better path uses different cataloged tools, update **Alternatives considered** or write a sibling recipe.
+   - `something else` — read the issue body from `.request-bodies/<NN>.md` and exercise judgment.
+3. For `(no trailer emitted; needs curator triage)` entries, read the issue body from `.request-bodies/<NN>.md` and decide what to do — the bare entry's `title=`/`label=` rarely carry the request; the body is where the actual feedback lives.
 4. **Move each processed entry** from `## User requests (open)` to `## User requests (closed this run)` and append `→ <result note>` describing what shipped or why nothing did.
 
 Entries not actioned this run stay in `## User requests (open)` and are retried next run. The loop-closer step in `recipes.yml` reads `## User requests (closed this run)` after you exit and resets the section to `_None._` itself.
