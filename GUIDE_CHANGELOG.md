@@ -11,6 +11,28 @@ Reverse-chronological log of changes to the [guide](guide/). Newest at the top.
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-06-10
+
+### Added
+- **[surfaces/claude-api] Claude Fable 5 / Mythos 5 (Mythos-class tier).** Anthropic shipped Fable 5 (`claude-fable-5`) on 2026-06-09 — its most capable generally-available model, a tier above Opus. Added to the model-IDs pitfall plus two new pitfalls covering its different behavior (adaptive-thinking-only, `effort`-controlled, never returns raw CoT, $10/$50 per Mtok, 1M context / 128k output) and its higher refusal rate (HTTP-200 `stop_reason: "refusal"` with `stop_details`; prompt-stage refusals unbilled, mid-stream billed). Noted `claude-mythos-5` is invitation-only (Project Glasswing). Grounded in [Anthropic news](https://www.anthropic.com/news/claude-fable-5-mythos-5) (2026-06-09) and [the model docs](https://platform.claude.com/docs/en/about-claude/models/introducing-claude-fable-5-and-claude-mythos-5) (verified this run).
+- **[surfaces/claude-code] Fable 5 in the model picker.** Selectable via `/model` as of v2.1.170 (2026-06-09); free on Pro/Max/Team/Enterprise through 2026-06-22, then usage-credit-gated from 2026-06-23; cybersecurity / bio-chem / distillation prompts auto-route to Opus 4.8 (<5% of sessions); Opus 4.8 stays the default. Touches ≥2 surfaces (API + Claude Code), so documented per the cross-cutting directive.
+
+### Verified (no changes)
+- claude-surfaces.md, surfaces/claude-code.md — install command (`curl -fsSL https://claude.ai/install.sh | bash`) re-verified via WebFetch of `claude.com/product/claude-code`: native installer canonical, no deprecation banner on the landing page; Windows `irm …/install.ps1 | iex` / `winget install Anthropic.ClaudeCode`, `brew install --cask claude-code` (stable) / `claude-code@latest`, npm-with-deprecation-banner all unchanged. Latest release is v2.1.170 (2026-06-09); its only non-model change is a VS-code-terminal transcript bug fix (below beginner threshold). `/code-review` vs `/simplify` split, Channels, Dynamic Workflows (`ultracode`), Claude Security, MCP tunnels, routines, per-surface sandboxing all current.
+- surfaces/claude-api.md — Opus 4.8 default + low/medium/high/xhigh/max effort ladder unchanged; Managed Agents (Outcomes/Dreams/orchestration), mid-conversation system messages, prompt caching, `temperature`/`top_p`/`top_k` 400 all current.
+- surfaces/claude-ai.md, surfaces/claude-desktop.md, surfaces/claude-cowork.md — unchanged.
+- skills.md, mcp-servers.md, plugins.md, marketplaces.md, connectors.md, decision-tree.md — unchanged.
+- advanced/hooks.md, advanced/slash-commands.md, advanced/routines.md, advanced/authentication.md — unchanged.
+
+### Flagged for review
+- **WebFetch worked this run** for `claude.com/product/claude-code` and `anthropic.com/news/claude-fable-5-mythos-5`; the prior Haiku-404 regression appears resolved. Model-docs detail (`platform.claude.com`) was grounded via WebSearch summary as a backstop.
+- **`claude -p` / Agent SDK billing split lands 2026-06-15** — carried over; still 5 days out as of today (2026-06-10). Re-verify after 06-15 that `surfaces/claude-code.md` and `surfaces/claude-api.md` describe live behavior.
+- **Sonnet 4 / Opus 4 retirement 2026-06-15 9am PT** — carried over; re-verify `surfaces/claude-api.md` after the date that the IDs now error.
+- **Fable 5 subscription-availability flips 2026-06-23** — newly added. Re-verify after 06-22 that the "free until / credits from" dates on `surfaces/claude-api.md` and `surfaces/claude-code.md` reflect live state, and update if Anthropic restores Fable 5 as a standard subscription feature.
+- **Claude Mythos 5 / Project Glasswing** — noted as invitation-only, not a beginner component; left as a one-line aside.
+- **Advisor tool (API)** — carried over; advanced developer cost-optimization pattern, omitted by scope.
+- **Promote `security-guidance` to its own page** — carried over; schema fixes the file set, stays inside `plugins.md` unless a human expands the topic list.
+
 ## 2026-06-09
 
 ### Added
