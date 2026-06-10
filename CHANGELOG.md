@@ -11,6 +11,23 @@ Reverse-chronological log of changes to the [catalog](catalog/). Newest at the t
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-06-10
+
+Directed pass on **Integrative Structural and Computational Biology** (Wednesday focus) plus a manifest sweep. The `anthropics/life-sciences` marketplace (`.claude-plugin/marketplace.json`) matched the catalogued set — every in-scope plugin is already a page; `biorxiv`/`clinical-trials` remain DOA (`mcp.deepsense.ai` NXDOMAIN) and stay flagged. The directed pass cleared two previously-deferred structural candidates by **folding them into existing pages** (one entry per tool, no new files): the `k-yenko/rowan-mcp` MCP server was added as an alternative install path on the existing `rowan` Skill page, and the MIT-licensed `QuentinCody/rcsb-pdb-mcp-server` (hosted RCSB GraphQL endpoint) was added as a second install path on `pdb`. Existing PDB/structure entries verified against today's seed queries (RCSB PDB MCP, GROMACS/MD MCP, molecular visualization) — Molecule-MCP and molecular-dynamics already cover the GROMACS/PyMOL/ChimeraX surface.
+
+### Added
+- _None (two install paths folded into existing entries — see Updated)._
+
+### Updated
+- **Rowan** (Categories: Chemistry, Drug Repurposing and Discovery, Integrative Structural and Computational Biology) — added the `k-yenko/rowan-mcp` MCP server (PyPI `rowan-mcp`, ~45 tools, long-lived HTTP/SSE) as a second install path alongside the K-Dense Skill; retitled page, `tool_type` now `Claude Skill, MCP server`, `last_verified` → 2026-06-10. License unconfirmed upstream — noted ([source](https://github.com/k-yenko/rowan-mcp)).
+- **PDB MCP Server** (Categories: Integrative Structural and Computational Biology, Drug Repurposing and Discovery) — added `QuentinCody/rcsb-pdb-mcp-server` (MIT + academic-citation; hosted Cloudflare Worker exposing the RCSB GraphQL API, incl. Computed Structure Models) as Option B alongside the Augmented Nature REST server; `last_verified` → 2026-06-10 ([source](https://github.com/QuentinCody/rcsb-pdb-mcp-server)).
+
+### Flagged
+- _None._
+
+### Verified (no changes)
+- `anthropics/life-sciences` marketplace diffed — no new plugins. Molecule-MCP, molecular-dynamics, alphafold, esm, diffdock, uniprot reviewed for the structural focus; install paths and capabilities remain accurate (all within the 30-day window).
+
 ## 2026-06-09
 
 Directed pass on **Immunology and Microbiology** (Tuesday focus) plus a manifest sweep. WebFetch was unavailable from the runner this entire run (every call returned a backend model 404 — `claude-3-5-haiku` not found), and all `raw.githubusercontent.com`/`github.com`/`api.github.com` `marketplace.json` fetches returned 404, so the marketplace diff and candidate verification leaned on corroborated WebSearch results only. The directed-pass seed queries (IEDB epitope MCP, antibody-design skill, BCR/TCR repertoire MCP, metagenomics/microbiome MCP) reconfirmed the three previously-logged gaps: no Claude-installable wrapper exists for IEDB's PostgREST Query API, for AIRR-seq tooling (Immcantation / nf-core/airrflow / immunarch / immuneML), or for metagenomics pipelines (QIIME2 / Kraken2 / MetaPhlAn). The `anthropics/life-sciences` marketplace contents matched the catalogued set (no new plugins), and a K-Dense diff via search showed the collection steady at ~140/142 skills with no net-new immunology/microbiology directories. No new candidate could be verified to the followable-verbatim install standard from a primary source, so no tool pages were created. No `last_verified` dates exceed the 30-day window (oldest is 2026-05-19, 21 days).
