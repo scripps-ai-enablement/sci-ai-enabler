@@ -9,6 +9,22 @@ permalink: /updates/ai-scientists.html
 
 Reverse-chronological log of changes to the [AI scientists tracker](autonomous-science/). Newest at the top.
 
+## 2026-06-10
+
+### Added
+- **DarkAgents** (Lifecycle: Multi-stage) — Università di Bologna / INFN language-driven multi-agent system for theoretical astroparticle physics (TAP), and the first end-to-end architecture targeting that domain. An orchestrator interprets a particle-physics model or looser "idea," selects a pipeline branch, writes an execution plan, and dispatches specialized sub-agents (proposal, librarian, critic, plus deterministic compute stages) that each emit a Markdown report and a fixed-schema JSON handoff it checks before proceeding; it pauses for human audit after each step by default but can run fully autonomous. All physical quantities come from deterministic human-validated code to curb hallucination, and the workflow is LLM-agnostic (Mistral, Anthropic/Claude Code, OpenAI/Codex, local Ollama). The first implementation, **DarkAgent-PT**, takes a classically scale-invariant model to a `PTArcade` MCMC fit of the NANOGrav nanohertz gravitational-wave background, then adds a constraint sub-agent and an assumption/prior-auditing sub-agent. Validation: reproduced human Bayesian posteriors across providers (Claude Code Opus 4.8 and Codex GPT-5.5 ran almost autonomously), **identified inconsistencies in some published fits and produced novel fits on the dissipative bulk-flow GW template**, and correctly rejected the sound-wave template where invalid; a noted failure mode is hallucinated references in the final report. Open source ([source](https://arxiv.org/abs/2606.11157)).
+
+### Updated
+- **`autonomous-science/summary.md`** — added the DarkAgents primary-paper link to Sources; re-verified every synthesis claim against the current grouping and bumped `synthesis_reviewed` to 2026-06-10. DarkAgents fits the existing "Physical sciences are the newest frontier" pattern (alongside Dr.Sai and CMBEvolve/CosmoEvolve as in-silico TAP/cosmology work, not embodied apparatus) and tips no superlative, so no synthesis prose was rewritten.
+- **`autonomous-science/curator-state.md`** — added DarkAgents at the top of `Recently surfaced` (trimming MLEvolve to keep the window at five).
+- **`sources/manifest.json`** — DarkAgents (DOI 10.48550/arXiv.2606.11157) entry added by Phase A.
+
+### Flagged
+_None._
+
+### Verified (no changes)
+- All pre-existing system pages remain inside the 30-day re-verification window (most recent additions verified 2026-06-05 through 2026-06-09); no spot-checks required this run.
+
 ## 2026-06-09
 
 ### Added

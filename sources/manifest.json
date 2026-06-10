@@ -533,6 +533,14 @@
    "source_url": "https://arxiv.org/abs/2510.14861",
    "downloaded": "2026-06-09",
    "txt_sidecar": "2510.14861.txt"
+  },
+  {
+   "doi": "10.48550/arXiv.2606.11157",
+   "filename": "2606.11157.pdf",
+   "title": "DarkAgents: towards an agentic system for theoretical astroparticle physics",
+   "source_url": "https://arxiv.org/abs/2606.11157",
+   "downloaded": "2026-06-10",
+   "txt_sidecar": "2606.11157.txt"
   }
  ]
 }
