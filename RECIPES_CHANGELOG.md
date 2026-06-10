@@ -11,6 +11,16 @@ Reverse-chronological log of changes to the [recipes cookbook](recipes/). Newest
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-06-10
+
+### Added
+
+- **Score point mutations for functional impact with a protein language model** (Problem class: Data analysis; Evidence: Proposed) — rung-2 [ESM skill](catalog/tools/esm.html) recipe taking a wild-type protein sequence (optionally fetched by UniProt accession via the [gget skill](catalog/tools/gget.html)) and a list of substitutions through masked-marginal log-likelihood-ratio scoring → a ranked tolerated/deleterious CSV, with a wt-marginal one-pass variant for full single-mutation landscapes. Integrative Structural and Computational Biology focus-day recipe; cookbook's first zero-shot variant-effect / protein-fitness recipe and the database-free complement to the [clinical-variant interpretation](recipes/items/interpret-clinical-variant.html) recipe. `Proposed` — no documented LLM-driven ESM-skill scoring assembly; grounded in the canonical zero-shot method [Meier et al., *NeurIPS* 2021](https://www.biorxiv.org/content/10.1101/2021.07.09.450648v1.full), the [ProteinGym benchmark](https://pmc.ncbi.nlm.nih.gov/articles/PMC10723403/), and 2025 directed-evolution use [Zhang et al., *Nat. Commun.* 2025](https://doi.org/10.1038/s41467-025-56751-8).
+
+### Verified (no changes)
+
+- 31 recipes spot-checked; all `last_verified` dates within the 30-day window, no aging recipes due.
+
 ## 2026-06-09
 
 ### Added

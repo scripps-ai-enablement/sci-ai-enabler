@@ -94,6 +94,7 @@ Proposed. No published benchmark of the exact BioMCP-driven variant-report assem
 - [BioMCP](../../catalog/tools/biomcp.html)
 - [Match a patient summary to recruiting clinical trials](match-patient-to-clinical-trials.html) — chains naturally when the variant is the eligibility driver.
 - [Build a target dossier from gene name to structure to cancer dependency](build-target-dossier.html) — the gene-level analogue; switch when the question is "what is this gene" not "what is this variant".
+- [Score point mutations for functional impact with a protein language model](score-protein-variants-with-esm.html) — the zero-shot, database-free sibling for novel or uncharacterized substitutions.
 - [Biomni](../../autonomous-science/systems/biomni.html) — autonomous-system option.
 
 ## Sources
