@@ -49,7 +49,7 @@ nav_exclude: true
 
 ## User requests (open)
 
-_None._
+- [#26 @rebeccawangxp-del 2026-06-11] queue: catalog | feedback-on=10x-genomics-cloud | sentiment=worked great | author=@rebeccawangxp-del | issue=26
 
 ## User requests (closed this run)
 
