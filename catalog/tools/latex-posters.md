@@ -24,6 +24,9 @@ Create professional research posters in LaTeX using beamerposter, tikzposter, or
 
 ## How to install
 
+<!-- alt-install:sciagent -->
+- **Also packaged in the SciAgent-Skills collection** ([jaechang-hits](https://github.com/jaechang-hits/SciAgent-Skills) (community OSS, CC BY 4.0)): clone [`jaechang-hits/SciAgent-Skills`](https://github.com/jaechang-hits/SciAgent-Skills) and run `/plugin install sciagent-skills` in Claude Code (or copy `skills/scientific-writing/latex-research-posters` into `~/.claude/skills/`).
+<!-- /alt-install:sciagent -->
 - **Claude Code / Claude.ai** — Skills CLI (recommended):
   ```
   npx skills add K-Dense-AI/scientific-agent-skills

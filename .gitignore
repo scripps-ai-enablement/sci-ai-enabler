@@ -12,3 +12,4 @@ output.txt
 
 # macOS metadata
 .DS_Store
+__pycache__/

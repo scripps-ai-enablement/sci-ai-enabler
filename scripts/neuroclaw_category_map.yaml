@@ -1,0 +1,187 @@
+# NeuroClaw (CUHK-AIM-Group/NeuroClaw) → catalog category map
+# ============================================================
+# Auditable scope filter + category tagging for the one-time batch ingestion
+# (see scripts/ingest_collection.py + scripts/collections.yaml).
+#
+# Source repo: 86 skills under skills/<slug>/SKILL.md (2026-06 clone). Repo
+# LICENSE is MIT; per-skill `license` fields confirm "MIT License (NeuroClaw
+# custom skill ...)" for the research skills (a few wrap BSD-3 tools; one is
+# proprietary -> skipped). Install path: clone + `python installer/setup.py`
+# for the full environment, or copy skills/<slug> into ~/.claude/skills/.
+#
+# Disposition: every skills/ slug appears in exactly one of include / augment /
+# skip. NeuroClaw is a tightly integrated neuroimaging agent system: the
+# neuroscience tool wrappers, dataset pipelines, and model docs are in scope;
+# the internal harness, generic dev tooling, and general web/writing utilities
+# are skipped (recorded with reasons).
+#
+# `tool_categories` values per AGENT.md. Nearly everything here is Neuroscience.
+
+# --- CREATE: in-scope neuroscience tools, dataset pipelines, model docs -------
+include:
+  # Neuroimaging tool / modality wrappers
+  freesurfer-tool: [Neuroscience]
+  fsl-tool: [Neuroscience]
+  fmriprep-tool: [Neuroscience]
+  qsiprep-tool: [Neuroscience]
+  conn-tool: [Neuroscience]
+  hcppipeline-tool: [Neuroscience]
+  dipy-tool: [Neuroscience]
+  mne-eeg-tool: [Neuroscience]
+  nilearn-tool: [Neuroscience]
+  nibabel-skill: [Neuroscience]
+  dcm2nii: [Neuroscience]
+  nii2dcm: [Neuroscience]
+  harmonization-tool: [Neuroscience]
+  wmh-segmentation: [Neuroscience]
+  asl-skill: [Neuroscience]
+  pet-skill: [Neuroscience]
+  dwi-skill: [Neuroscience]
+  eeg-skill: [Neuroscience]
+  fmri-skill: [Neuroscience]
+  smri-skill: [Neuroscience]
+  meg-skill: [Neuroscience]
+  brain-visualization: [Neuroscience]
+  # Phenotype-prediction / parcellation / classification model docs
+  bnt: [Neuroscience]
+  brain_gnn: [Neuroscience]
+  combraintf: [Neuroscience]
+  ibgnn: [Neuroscience]
+  lggnn: [Neuroscience]
+  fm_app: [Neuroscience]
+  glm: [Neuroscience]
+  detrending: [Neuroscience]
+  dictlearning: [Neuroscience]
+  filtering: [Neuroscience]
+  hierarchical: [Neuroscience]
+  ica: [Neuroscience]
+  kmeans: [Neuroscience]
+  spacenet: [Neuroscience]
+  svm: [Neuroscience]
+  run_models: [Neuroscience]
+  neurostorm: [Neuroscience]
+  # Dataset-specific end-to-end pipelines
+  abcd-skill: [Neuroscience]
+  abide-skill: [Neuroscience]
+  adhd200-skill: [Neuroscience]
+  adni-skill: [Neuroscience]
+  aibl-skill: [Neuroscience]
+  aomic-skill: [Neuroscience]
+  bold5000-skill: [Neuroscience]
+  camcan-skill: [Neuroscience]
+  cobre-skill: [Neuroscience]
+  hbn-skill: [Neuroscience]
+  hcpa-skill: [Neuroscience]
+  hcpd-skill: [Neuroscience]
+  hcpep-skill: [Neuroscience]
+  hcpya-skill: [Neuroscience]
+  ixi-skill: [Neuroscience]
+  mnd-skill: [Neuroscience]
+  mschallenge-skill: [Neuroscience]
+  nifd-skill: [Neuroscience]
+  nsd-skill: [Neuroscience]
+  oasis-skill: [Neuroscience]
+  pnc-skill: [Neuroscience]
+  ppmi-skill: [Neuroscience]
+  rest-mneta-mdd-skill: [Neuroscience]
+  seed-iv-skill: [Neuroscience]
+  seed-vig-skill: [Neuroscience]
+  tcp-skill: [Neuroscience]
+  ucla-cnp-skill: [Neuroscience]
+  ukb-skill: [Neuroscience]
+  dmt-har-med-skill: [Neuroscience]
+
+# --- AUGMENT: tool already catalogued -> add NeuroClaw as an install path ------
+augment:
+  bids-organizer: bids
+
+# --- SKIP: out of scope (recorded for the audit trail) -----------------------
+skip:
+  claw-shell: "NeuroClaw internal harness (safe shell execution for other skills); not a standalone life-science tool."
+  harness-core: "NeuroClaw internal harness library (self-verification/checkpointing); not a tool."
+  conda-env-manager: "Generic conda environment management; not life-science specific."
+  docker-env-manager: "Generic Docker management; not life-science specific."
+  dependency-planner: "NeuroClaw internal dependency-resolution helper; not a tool."
+  skill-updater: "NeuroClaw internal self-improvement helper; not a tool."
+  beautiful-log: "HTML chat-log formatter; internal utility, not a tool."
+  experiment-controller: "NeuroClaw internal experiment-runner step; not a standalone tool."
+  method-design: "NeuroClaw internal research-workflow step (architecture formalization); not a tool."
+  git-essentials: "Generic git command guide; not life-science specific."
+  git-workflows: "Generic advanced-git guide; not life-science specific."
+  academic-research-hub: "Proprietary license; generic academic search/download — out of scope."
+  multi-search-engine: "Generic multi-engine web search; not life-science specific."
+  knowledge-graph-builder: "Generic literature/DB knowledge-graph builder; not neuroscience-specific."
+  paper-writing: "General manuscript-draft generator; redundant with the scientific-writing entry."
+  research-idea: "General research-ideation helper; redundant with scientific-brainstorming."
+  overleaf-skill: "Overleaf/LaTeX sync utility; niche, redundant with latex-posters / scientific-writing."
+
+# --- pretty display names (slugs that don't title-case cleanly) --------------
+pretty:
+  freesurfer-tool: FreeSurfer
+  fsl-tool: FSL
+  fmriprep-tool: fMRIPrep
+  qsiprep-tool: QSIPrep
+  conn-tool: CONN Toolbox
+  hcppipeline-tool: HCP Pipelines
+  dipy-tool: DIPY
+  mne-eeg-tool: MNE-Python (EEG)
+  nilearn-tool: Nilearn
+  nibabel-skill: NiBabel
+  dcm2nii: dcm2niix (DICOM → NIfTI)
+  nii2dcm: nii2dcm (NIfTI → DICOM)
+  harmonization-tool: NeuroHarmonize (ComBat)
+  wmh-segmentation: WMH Segmentation
+  asl-skill: ASL Perfusion MRI
+  pet-skill: PET Processing
+  dwi-skill: Diffusion MRI (DWI)
+  eeg-skill: EEG Processing
+  fmri-skill: fMRI Processing
+  smri-skill: Structural MRI (sMRI)
+  meg-skill: MEG Processing
+  brain-visualization: Brain Visualization
+  bnt: BrainNetworkTransformer (BNT)
+  brain_gnn: BrainGNN
+  combraintf: Com-BrainTF
+  ibgnn: IBGNN
+  lggnn: LG-GNN
+  fm_app: FM-APP
+  glm: GLM (Task-fMRI)
+  detrending: Signal Detrending
+  dictlearning: Dictionary Learning (rs-fMRI)
+  filtering: Temporal Filtering
+  hierarchical: Hierarchical Parcellation
+  ica: ICA Decomposition
+  kmeans: K-means Parcellation
+  spacenet: SpaceNet Classifier
+  svm: SVM Classifier
+  run_models: Run Models (NeuroClaw)
+  neurostorm: NeuroSTORM
+  abcd-skill: ABCD Study Pipeline
+  abide-skill: ABIDE Pipeline
+  adhd200-skill: ADHD-200 Pipeline
+  adni-skill: ADNI Pipeline
+  aibl-skill: AIBL Pipeline
+  aomic-skill: AOMIC Pipeline
+  bold5000-skill: BOLD5000 Pipeline
+  camcan-skill: Cam-CAN Pipeline
+  cobre-skill: COBRE Pipeline
+  hbn-skill: Healthy Brain Network (HBN) Pipeline
+  hcpa-skill: HCP-Aging Pipeline
+  hcpd-skill: HCP-Development Pipeline
+  hcpep-skill: HCP Early-Psychosis Pipeline
+  hcpya-skill: HCP Young-Adult Pipeline
+  ixi-skill: IXI Pipeline
+  mnd-skill: Motor Neuron Disease (MND) Pipeline
+  mschallenge-skill: MS Lesion Segmentation Challenge Pipeline
+  nifd-skill: NIFD (Frontotemporal Dementia) Pipeline
+  nsd-skill: Natural Scenes Dataset (NSD) Pipeline
+  oasis-skill: OASIS Pipeline
+  pnc-skill: PNC Pipeline
+  ppmi-skill: PPMI Pipeline
+  rest-mneta-mdd-skill: REST-meta-MDD Pipeline
+  seed-iv-skill: SEED-IV (EEG Emotion) Pipeline
+  seed-vig-skill: SEED-VIG (EEG Vigilance) Pipeline
+  tcp-skill: Transdiagnostic Connectome Project (TCP) Pipeline
+  ucla-cnp-skill: UCLA CNP Pipeline
+  ukb-skill: UK Biobank (Brain) Pipeline
+  dmt-har-med-skill: DMT-HAR-MED Pipeline

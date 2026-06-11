@@ -24,6 +24,9 @@ Read-only MCP wrapper over PubChem's public chemical-compound database. Compleme
 
 ## How to install
 
+<!-- alt-install:sciagent -->
+- **Also packaged in the SciAgent-Skills collection** ([jaechang-hits](https://github.com/jaechang-hits/SciAgent-Skills) (community OSS, CC BY 4.0)): clone [`jaechang-hits/SciAgent-Skills`](https://github.com/jaechang-hits/SciAgent-Skills) and run `/plugin install sciagent-skills` in Claude Code (or copy `skills/structural-biology-drug-discovery/pubchem-compound-search` into `~/.claude/skills/`).
+<!-- /alt-install:sciagent -->
 - **Claude Desktop / Code — Smithery one-liner** (handles install + Claude config in one step):
   ```
   npx -y @smithery/cli@latest install @JackKuo666/pubchem-mcp-server --client claude --config "{}"

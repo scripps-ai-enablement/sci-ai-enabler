@@ -1,0 +1,51 @@
+# Community scientific skill-collection registry
+# =================================================
+# Drives scripts/ingest_collection.py — the generalised, multi-collection
+# successor to the K-Dense-only scripts/ingest_kdense.py. Each entry describes
+# one upstream collection so a single batch ingester can render schema-accurate
+# catalog pages (CREATE) and append alternative-install bullets to pages a tool
+# already has from another collection (AUGMENT, one entry per tool).
+#
+# The per-collection scope filter + category tagging lives in a sibling
+# scripts/<key>_category_map.yaml (the auditable include / augment / skip lists),
+# exactly as kdense_category_map.yaml does for K-Dense.
+#
+# Layout values:
+#   flat   -> skills/<slug>/SKILL.md            (K-Dense, NeuroClaw, OpenClaw)
+#   nested -> skills/<group>/<slug>/SKILL.md    (SciAgent — 12 thematic groups)
+#
+# `install` is a named template rendered by ingest_collection.py:
+#   npx     -> `npx skills add <repo>` + manual clone (K-Dense)
+#   plugin  -> clone + Claude Code `/plugin install <plugin_name>` (SciAgent)
+#   library -> clone + copy skills/<slug> into ~/.claude/skills/ (NeuroClaw)
+
+kdense:
+  repo: K-Dense-AI/scientific-agent-skills
+  supplier: K-Dense
+  supplier_link: "[K-Dense Inc.](https://github.com/K-Dense-AI/scientific-agent-skills) (community OSS)"
+  layout: flat
+  skills_subdir: skills
+  install: npx
+  availability_note: "GA — part of the actively maintained K-Dense `scientific-agent-skills` collection"
+  collection_label: "the K-Dense collection"
+
+sciagent:
+  repo: jaechang-hits/SciAgent-Skills
+  supplier: SciAgent
+  supplier_link: "[jaechang-hits](https://github.com/jaechang-hits/SciAgent-Skills) (community OSS, CC BY 4.0)"
+  layout: nested
+  skills_subdir: skills
+  install: plugin
+  plugin_name: sciagent-skills
+  availability_note: "GA — part of the BixBench-evaluated SciAgent-Skills collection"
+  collection_label: "the SciAgent-Skills collection"
+
+neuroclaw:
+  repo: CUHK-AIM-Group/NeuroClaw
+  supplier: NeuroClaw
+  supplier_link: "[CUHK-AIM-Group](https://github.com/CUHK-AIM-Group/NeuroClaw) (community OSS, MIT)"
+  layout: flat
+  skills_subdir: skills
+  install: library
+  availability_note: "GA — part of the NeuroClaw neuroimaging skill library"
+  collection_label: "the NeuroClaw skill library"

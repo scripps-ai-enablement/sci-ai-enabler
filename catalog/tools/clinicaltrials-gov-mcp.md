@@ -24,6 +24,9 @@ Community-maintained MCP server wrapping the ClinicalTrials.gov v2 API. Supports
 
 ## How to install
 
+<!-- alt-install:sciagent -->
+- **Also packaged in the SciAgent-Skills collection** ([jaechang-hits](https://github.com/jaechang-hits/SciAgent-Skills) (community OSS, CC BY 4.0)): clone [`jaechang-hits/SciAgent-Skills`](https://github.com/jaechang-hits/SciAgent-Skills) and run `/plugin install sciagent-skills` in Claude Code (or copy `skills/structural-biology-drug-discovery/clinicaltrials-database-search` into `~/.claude/skills/`).
+<!-- /alt-install:sciagent -->
 - **Claude Code** — point at the hosted public instance (zero install):
 
   ```

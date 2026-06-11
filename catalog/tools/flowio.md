@@ -24,6 +24,9 @@ Claude skill wrapping the BSD-3 `flowio` library for parsing and emitting Flow C
 
 ## How to install
 
+<!-- alt-install:sciagent -->
+- **Also packaged in the SciAgent-Skills collection** ([jaechang-hits](https://github.com/jaechang-hits/SciAgent-Skills) (community OSS, CC BY 4.0)): clone [`jaechang-hits/SciAgent-Skills`](https://github.com/jaechang-hits/SciAgent-Skills) and run `/plugin install sciagent-skills` in Claude Code (or copy `skills/cell-biology/flowio-flow-cytometry` into `~/.claude/skills/`).
+<!-- /alt-install:sciagent -->
 Install via the Skills CLI (recommended): `npx skills add K-Dense-AI/scientific-agent-skills`, then enable the `flowio` skill. Or clone the repo manually:
 
 ```

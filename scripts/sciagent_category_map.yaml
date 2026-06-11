@@ -1,0 +1,335 @@
+# SciAgent-Skills (jaechang-hits/SciAgent-Skills) → catalog category map
+# =======================================================================
+# Auditable scope filter + category tagging for the one-time batch ingestion
+# (see scripts/ingest_collection.py + scripts/collections.yaml).
+#
+# Source repo: 140 skills under skills/<group>/<slug>/SKILL.md across 12 thematic
+# groups (2026-06 clone). Repo LICENSE is CC BY 4.0; per-skill `license` fields
+# vary (BSD/MIT/Apache/GPL/CC). Install path: clone + `/plugin install
+# sciagent-skills` (it ships as a Claude Code plugin); NOT an npm package.
+#
+# Three dispositions for every skill (every skills/ slug must appear in exactly
+# one of include / augment / skip):
+#   include : tool NOT yet catalogued from any source -> CREATE a new page.
+#   augment : tool ALREADY catalogued (usually from K-Dense) -> the generator
+#             appends a sentinel-guarded "also packaged in SciAgent" install
+#             bullet to the existing page (one entry per tool). Value is the
+#             existing catalog slug to augment.
+#   skip    : out of scope -> recorded with a reason, never written.
+#
+# `tool_categories` values must be exactly one or more of the 7 research areas,
+# `All`, or `General-Purpose Utilities` (see AGENT.md).
+
+# --- CREATE: genuinely new life-science (or domain-agnostic) tools -----------
+include:
+  # Electrophysiology (Neuroscience)
+  spikeinterface-electrophysiology: [Neuroscience]
+  # Bio-imaging / microscopy (Molecular and Cellular Biology)
+  cellpose-cell-segmentation: [Molecular and Cellular Biology]
+  napari-image-viewer: [Molecular and Cellular Biology]
+  opencv-bioimage-analysis: [Molecular and Cellular Biology]
+  pyimagej-fiji-bridge: [Molecular and Cellular Biology]
+  scikit-image-processing: [Molecular and Cellular Biology]
+  trackpy-particle-tracking: [Molecular and Cellular Biology]
+  # Genomics / molecular biology
+  homer-motif-analysis: [Molecular and Cellular Biology]
+  macs3-peak-calling: [Molecular and Cellular Biology]
+  western-blot-quantification: [Molecular and Cellular Biology]
+  plannotate-plasmid-annotation: [Molecular and Cellular Biology]
+  sgrna-design-guide: [Molecular and Cellular Biology]
+  viennarna-structure-prediction: [Molecular and Cellular Biology, Integrative Structural and Computational Biology]
+  # Medical imaging (Translational Medicine)
+  nnunet-segmentation: [Translational Medicine]
+  simpleitk-image-registration: [Translational Medicine]
+  # Proteomics / metabolomics databases & pipelines
+  hmdb-database: [Molecular and Cellular Biology]
+  interpro-database: [Integrative Structural and Computational Biology]
+  maxquant-proteomics: [Molecular and Cellular Biology]
+  metabolomics-workbench-database: [Molecular and Cellular Biology]
+  pride-database: [Molecular and Cellular Biology]
+  # Systems biology / multi-omics
+  cellchat-cell-communication: [Molecular and Cellular Biology, Immunology and Microbiology]
+  kegg-pathway-analysis: [Molecular and Cellular Biology]
+  libsbml-network-modeling: [Molecular and Cellular Biology]
+  mofaplus-multi-omics: [Molecular and Cellular Biology]
+  muon-multiomics-singlecell: [Molecular and Cellular Biology]
+  omics-analysis-guide: [Molecular and Cellular Biology]
+  reactome-database: [Molecular and Cellular Biology]
+  string-database-ppi: [Molecular and Cellular Biology, Integrative Structural and Computational Biology]
+  brenda-database: [Molecular and Cellular Biology]
+  # Structural biology / drug discovery
+  autodock-vina-docking: [Chemistry, Drug Repurposing and Discovery, Integrative Structural and Computational Biology]
+  smina-molecular-docking: [Chemistry, Drug Repurposing and Discovery, Integrative Structural and Computational Biology]
+  sar-analysis: [Chemistry, Drug Repurposing and Discovery]
+  mdanalysis-trajectory: [Integrative Structural and Computational Biology]
+  mdtraj-trajectory-analysis: [Integrative Structural and Computational Biology]
+  emdb-database: [Integrative Structural and Computational Biology]
+  # Drug / clinical reference databases
+  dailymed-database: [Translational Medicine, Drug Repurposing and Discovery]
+  ddinter-database: [Translational Medicine, Drug Repurposing and Discovery]
+  fda-database: [Translational Medicine, Drug Repurposing and Discovery]
+  gtopdb-database: [Drug Repurposing and Discovery, Chemistry]
+  opentargets-database: [Drug Repurposing and Discovery, Translational Medicine]
+  unichem-database: [Chemistry, Drug Repurposing and Discovery]
+  zinc-database: [Chemistry, Drug Repurposing and Discovery]
+  # Domain-agnostic utilities (General-Purpose Utilities shelf)
+  plotly-interactive-plots: [General-Purpose Utilities]
+  snakemake-workflow-engine: [General-Purpose Utilities]
+  uspto-database: [General-Purpose Utilities]
+  openalex-database: [General-Purpose Utilities]
+  biorxiv-database: [General-Purpose Utilities]
+  # Genomics — alignment / annotation (skills/genomics-bioinformatics/*)
+  bwa-mem2-dna-aligner: [Molecular and Cellular Biology]
+  samtools-bam-processing: [Molecular and Cellular Biology]
+  star-rna-seq-aligner: [Molecular and Cellular Biology]
+  bakta-genome-annotation: [Molecular and Cellular Biology, Immunology and Microbiology]
+  prokka-genome-annotation: [Molecular and Cellular Biology, Immunology and Microbiology]
+  roary-pangenome: [Immunology and Microbiology, Molecular and Cellular Biology]
+  # Genomics — reference databases
+  archs4-database: [Molecular and Cellular Biology]
+  cbioportal-database: [Translational Medicine, Molecular and Cellular Biology]
+  clinpgx-database: [Translational Medicine, Drug Repurposing and Discovery]
+  clinvar-database: [Translational Medicine, Molecular and Cellular Biology]
+  cosmic-database: [Translational Medicine, Molecular and Cellular Biology]
+  dbsnp-database: [Molecular and Cellular Biology]
+  ena-database: [Molecular and Cellular Biology]
+  encode-database: [Molecular and Cellular Biology]
+  ensembl-database: [Molecular and Cellular Biology]
+  gene-database: [Molecular and Cellular Biology]
+  geo-database: [Molecular and Cellular Biology]
+  gnomad-database: [Translational Medicine, Molecular and Cellular Biology]
+  gwas-database: [Translational Medicine, Molecular and Cellular Biology]
+  jaspar-database: [Molecular and Cellular Biology]
+  kegg-database: [Molecular and Cellular Biology]
+  monarch-database: [Translational Medicine, Molecular and Cellular Biology]
+  mouse-phenome-database: [Molecular and Cellular Biology]
+  quickgo-database: [Molecular and Cellular Biology]
+  regulomedb-database: [Molecular and Cellular Biology]
+  remap-database: [Molecular and Cellular Biology]
+  ucsc-genome-browser: [Molecular and Cellular Biology]
+  # Genomics — interval ops / QC
+  bedtools-genomic-intervals: [Molecular and Cellular Biology]
+  fastp-fastq-preprocessing: [Molecular and Cellular Biology]
+  multiqc-qc-reports: [Molecular and Cellular Biology]
+  # Genomics — RNA-seq
+  deseq2-differential-expression: [Molecular and Cellular Biology]
+  featurecounts-rna-counting: [Molecular and Cellular Biology]
+  gseapy-gene-enrichment: [Molecular and Cellular Biology]
+  salmon-rna-quantification: [Molecular and Cellular Biology]
+  # Genomics — single-cell
+  celltypist-cell-annotation: [Molecular and Cellular Biology]
+  harmony-batch-correction: [Molecular and Cellular Biology]
+  popv-cell-annotation: [Molecular and Cellular Biology]
+  single-cell-annotation-guide: [Molecular and Cellular Biology]
+  # Genomics — variant analysis
+  bcftools-variant-manipulation: [Molecular and Cellular Biology]
+  cnvkit-copy-number: [Molecular and Cellular Biology, Translational Medicine]
+  gatk-variant-calling: [Molecular and Cellular Biology]
+  plink2-gwas-analysis: [Molecular and Cellular Biology, Translational Medicine]
+  snpeff-variant-annotation: [Molecular and Cellular Biology]
+
+# --- AUGMENT: tool already catalogued -> add SciAgent as an install path ------
+augment:
+  pymc-bayesian-modeling: pymc
+  scikit-survival-analysis: scikit-survival
+  statistical-analysis: statistical-analysis
+  statsmodels-statistical-modeling: statsmodels
+  flowio-flow-cytometry: flowio
+  matplotlib-scientific-plotting: matplotlib
+  scientific-visualization: scientific-visualization
+  seaborn-statistical-plots: seaborn
+  arboreto-grn-inference: arboreto
+  biopython-sequence-analysis: biopython
+  etetoolkit: etetoolkit
+  scikit-bio: scikit-bio
+  benchling-integration: benchling-integration
+  opentrons-protocol-api: opentrons-integration
+  protocolsio-integration: protocolsio-integration
+  pylabrobot: pylabrobot
+  histolab-wsi-processing: histolab
+  imaging-data-commons: imaging-data-commons
+  omero-integration: omero-integration
+  pathml: pathml
+  pydicom-medical-imaging: pydicom
+  adaptyv-bio: adaptyv
+  esm-protein-language-model: esm
+  matchms-spectral-matching: matchms
+  pyopenms-mass-spectrometry: pyopenms
+  uniprot-protein-database: uniprot
+  aeon: aeon
+  astropy-astronomy: astropy
+  dask-parallel-computing: dask
+  exploratory-data-analysis: exploratory-data-analysis
+  geopandas-geospatial: geopandas
+  hypogenic-hypothesis-generation: hypogenic
+  matlab-scientific-computing: matlab
+  networkx-graph-analysis: networkx
+  neurokit2: neurokit2
+  neuropixels-analysis: neuropixels-analysis
+  nextflow-workflow-engine: nextflow-development
+  polars-dataframes: polars
+  pyhealth: pyhealth
+  pymatgen: pymatgen
+  pymoo: pymoo
+  scikit-learn-machine-learning: scikit-learn
+  shap-model-explainability: shap
+  simpy-discrete-event-simulation: simpy
+  sympy-symbolic-math: sympy
+  torch-geometric-graph-neural-networks: torch-geometric
+  transformers-bio-nlp: transformers
+  umap-learn: umap-learn
+  vaex-dataframes: vaex
+  zarr-python: zarr-python
+  citation-management: citation-management
+  clinical-decision-support-documents: clinical-decision-support
+  hypothesis-generation: hypothesis-generation
+  latex-research-posters: latex-posters
+  literature-review: literature-review
+  peer-review-methodology: peer-review
+  pubmed-database: pubmed
+  scientific-brainstorming: scientific-brainstorming
+  scientific-critical-thinking: scientific-critical-thinking
+  scientific-schematics: scientific-schematics
+  scientific-slides: scientific-slides
+  scientific-manuscript-writing: scientific-writing
+  scientific-literature-search: literature-review
+  alphafold-database-access: alphafold
+  chembl-database-bioactivity: chembl
+  clinicaltrials-database-search: clinicaltrials-gov-mcp
+  datamol-cheminformatics: datamol
+  deepchem: deepchem
+  diffdock: diffdock
+  drugbank-database-access: drugbank
+  medchem: medchem
+  molfeat-molecular-featurization: molfeat
+  pdb-database: pdb
+  pubchem-compound-search: pubchem
+  pytdc-therapeutics-data-commons: pytdc
+  rdkit-cheminformatics: rdkit-skill
+  rowan: rowan
+  torchdrug: torchdrug
+  cobrapy-metabolic-modeling: cobrapy
+  lamindb-data-management: lamindb
+  pysam-genomic-files: pysam
+  depmap-crispr-essentiality: depmap
+  gget-genomic-databases: gget
+  bioservices-multi-database: bioservices
+  deeptools-ngs-analysis: deeptools
+  geniml: geniml
+  gtars: gtars
+  pydeseq2-differential-expression: pydeseq2
+  anndata-data-structure: anndata
+  cellxgene-census: cellxgene-census
+  scanpy-scrna-seq: scanpy
+  scvi-tools-single-cell: scvi-tools
+
+# --- SKIP: out of scope (recorded for the audit trail) -----------------------
+skip:
+  biopython-molecular-biology: "Duplicate of biopython-sequence-analysis within SciAgent; the biopython page is augmented via the latter."
+  statistical-significance-annotation: "Narrow p-value-asterisk annotation guide; covered by the statistical-analysis + scientific-visualization entries."
+  degenerate-input-filtering: "Input-hygiene helper guide, not a standalone tool."
+  nan-safe-correlation: "NaN-handling helper guide, not a standalone tool."
+  cancer-research-figure-guide: "Per-journal figure-formatting checklist; redundant with scientific-visualization / scientific-schematics."
+  cell-figure-guide: "Per-journal figure-formatting checklist; redundant with scientific-visualization / scientific-schematics."
+  elife-figure-guide: "Per-journal figure-formatting checklist; redundant with scientific-visualization / scientific-schematics."
+  general-figure-guide: "Generic figure QA checklist; redundant with scientific-visualization."
+  lancet-figure-guide: "Per-journal figure-formatting checklist; redundant with scientific-visualization / scientific-schematics."
+  nature-figure-guide: "Per-journal figure-formatting checklist; redundant with scientific-visualization / scientific-schematics."
+  nejm-figure-guide: "Per-journal figure-formatting checklist; redundant with scientific-visualization / scientific-schematics."
+  pnas-figure-guide: "Per-journal figure-formatting checklist; redundant with scientific-visualization / scientific-schematics."
+  science-figure-guide: "Per-journal figure-formatting checklist; redundant with scientific-visualization / scientific-schematics."
+  vcf-variant-filtering: "VCF QC-filtering micro-guide, not a standalone tool."
+  busco-status-interpretation: "BUSCO output-interpretation micro-guide, not a standalone tool."
+
+# --- pretty display names (slugs that don't title-case cleanly) --------------
+pretty:
+  spikeinterface-electrophysiology: SpikeInterface
+  cellpose-cell-segmentation: Cellpose
+  napari-image-viewer: napari
+  opencv-bioimage-analysis: OpenCV (Bio-image)
+  pyimagej-fiji-bridge: PyImageJ / Fiji
+  scikit-image-processing: scikit-image
+  trackpy-particle-tracking: trackpy
+  homer-motif-analysis: HOMER
+  macs3-peak-calling: MACS3
+  western-blot-quantification: Western Blot Quantification
+  plannotate-plasmid-annotation: pLannotate
+  sgrna-design-guide: sgRNA Design
+  viennarna-structure-prediction: ViennaRNA
+  nnunet-segmentation: nnU-Net
+  simpleitk-image-registration: SimpleITK
+  hmdb-database: HMDB
+  interpro-database: InterPro
+  maxquant-proteomics: MaxQuant
+  metabolomics-workbench-database: Metabolomics Workbench
+  pride-database: PRIDE
+  cellchat-cell-communication: CellChat
+  kegg-pathway-analysis: KEGG Pathway Analysis
+  libsbml-network-modeling: libSBML
+  mofaplus-multi-omics: MOFA+
+  muon-multiomics-singlecell: muon
+  omics-analysis-guide: Omics Analysis Guide
+  reactome-database: Reactome
+  string-database-ppi: STRING
+  brenda-database: BRENDA
+  autodock-vina-docking: AutoDock Vina
+  smina-molecular-docking: smina
+  sar-analysis: SAR Analysis
+  mdanalysis-trajectory: MDAnalysis
+  mdtraj-trajectory-analysis: MDTraj
+  emdb-database: EMDB
+  dailymed-database: DailyMed
+  ddinter-database: DDInter
+  fda-database: openFDA
+  gtopdb-database: Guide to Pharmacology (GtoPdb)
+  opentargets-database: Open Targets
+  unichem-database: UniChem
+  zinc-database: ZINC
+  plotly-interactive-plots: Plotly
+  snakemake-workflow-engine: Snakemake
+  uspto-database: USPTO Patents
+  openalex-database: OpenAlex
+  biorxiv-database: bioRxiv / medRxiv
+  bwa-mem2-dna-aligner: BWA-MEM2
+  samtools-bam-processing: SAMtools
+  star-rna-seq-aligner: STAR
+  bakta-genome-annotation: Bakta
+  prokka-genome-annotation: Prokka
+  roary-pangenome: Roary
+  archs4-database: ARCHS4
+  cbioportal-database: cBioPortal
+  clinpgx-database: ClinPGx (PharmGKB)
+  clinvar-database: ClinVar
+  cosmic-database: COSMIC
+  dbsnp-database: dbSNP
+  ena-database: ENA
+  encode-database: ENCODE
+  ensembl-database: Ensembl
+  gene-database: NCBI Gene
+  geo-database: NCBI GEO
+  gnomad-database: gnomAD
+  gwas-database: GWAS Catalog
+  jaspar-database: JASPAR
+  kegg-database: KEGG Database (REST API)
+  monarch-database: Monarch Initiative
+  mouse-phenome-database: Mouse Phenome Database
+  quickgo-database: QuickGO
+  regulomedb-database: RegulomeDB
+  remap-database: ReMap
+  ucsc-genome-browser: UCSC Genome Browser
+  bedtools-genomic-intervals: BEDTools
+  fastp-fastq-preprocessing: fastp
+  multiqc-qc-reports: MultiQC
+  deseq2-differential-expression: DESeq2 (R/Bioconductor)
+  featurecounts-rna-counting: featureCounts
+  gseapy-gene-enrichment: GSEApy
+  salmon-rna-quantification: Salmon
+  celltypist-cell-annotation: CellTypist
+  harmony-batch-correction: Harmony
+  popv-cell-annotation: popV
+  single-cell-annotation-guide: Single-Cell Annotation Guide
+  bcftools-variant-manipulation: BCFtools
+  cnvkit-copy-number: CNVkit
+  gatk-variant-calling: GATK
+  plink2-gwas-analysis: PLINK2
+  snpeff-variant-annotation: SnpEff / SnpSift
