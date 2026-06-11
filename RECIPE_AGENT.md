@@ -186,7 +186,7 @@ For `Proposed`: state explicitly that no documented attempt is known, and list t
 
 ## Curator-only state
 
-`recipes/curator-state.md` holds curator-only lists that do not appear in the public site nav (`nav_exclude: true`). Maintain four sections:
+`recipes/curator-state.md` holds curator-only lists that do not appear in the public site nav (`nav_exclude: true`). Maintain these sections (plus the responder-fed `## User requests (open)` / `## User requests (closed this run)` and the `## Composition reports` demand tally):
 
 ```markdown
 ---
@@ -212,9 +212,13 @@ nav_exclude: true
 ## Missing components
 
 - **<intended recipe>** — needs a `<tool type>` for `<purpose>` that is not yet in `catalog/tools/`. Surfaced YYYY-MM-DD.
+
+## Composition reports
+
+- YYYY-MM-DD outcome=<worked|gap|failed> problem_class=<…> → <what shipped / note>
 ```
 
-Keep all four sections present even when empty (`_None._`). `Recently surfaced` keeps the last ~5 additions. `Missing components` is the agent's communication channel with the catalog curator — review it when planning the next catalog run.
+Keep the sections present even when empty (`_None._`). `Recently surfaced` keeps the last ~5 additions. `Missing components` is the agent's communication channel with the catalog curator — review it when planning the next catalog run. `Composition reports` is the rolling demand signal from the `/compose` plugin (last ~15 lines) — let it bias which problem classes the directed pass covers next.
 
 ## Landscape page (`recipes/summary.md`)
 
@@ -373,11 +377,12 @@ Recipes are read by working scientists, engineers, and clinicians who do not kno
 
 ## User requests (consumed each run)
 
-`recipes/curator-state.md` has a `## User requests (open)` section that the inbound responder workflow appends to whenever a user files `claude:recipe-question` or `claude:recipe-feedback`. Each entry looks like one of:
+`recipes/curator-state.md` has a `## User requests (open)` section that the inbound responder workflow appends to whenever a user files `claude:recipe-question`, `claude:recipe-feedback`, or `claude:composition-report`. Each entry looks like one of:
 
 ```
 - [#NN @author 2026-MM-DD] queue: recipes | question="…" | author=@x | issue=NN
 - [#NN @author 2026-MM-DD] queue: recipes | feedback-on=<recipe-slug> | sentiment=<choice> | author=@x | issue=NN
+- [#NN @author 2026-MM-DD] queue: recipes | report=composition | outcome=<worked|gap|failed> | problem_class=<…> | author=@x | issue=NN
 - [#NN @author 2026-MM-DD] (no trailer emitted; needs curator triage) title="…" label=claude:recipe-…
 ```
 
@@ -394,8 +399,13 @@ The workflow pre-fetches the body of every open user-request issue into `.reques
    - `got stuck` — investigate. Add a one-line **Field reports** note. If multiple users hit the same wall, flag the recipe in `## Flagged for review` and consider raising the rung on the simplicity ladder.
    - `found a better way` — read the issue body from `.request-bodies/<NN>.md`. If the better path uses different cataloged tools, update **Alternatives considered** or write a sibling recipe.
    - `something else` — read the issue body from `.request-bodies/<NN>.md` and exercise judgment.
-3. For `(no trailer emitted; needs curator triage)` entries, read the issue body from `.request-bodies/<NN>.md` and decide what to do — the bare entry's `title=`/`label=` rarely carry the request; the body is where the actual feedback lives.
-4. **Move each processed entry** from `## User requests (open)` to `## User requests (closed this run)` and append `→ <result note>` describing what shipped or why nothing did.
+3. For a `report=composition` entry (filed by the `/compose` Composer plugin), read the issue body from `.request-bodies/<NN>.md` and act on the `outcome`:
+   - `outcome=worked` — a composed assembly ran successfully. If the body names an existing recipe, treat it like a `worked great` field report (refresh `last_verified`; promote `Proposed` → `Reported` if this is the first report). If the body carries a **draft recipe** for a *novel* composition, canonicalize it: validate every component against `catalog/tools/`/`autonomous-science/systems/`, rewrite to the recipe schema, and publish it (counts toward the soft cap). If a needed component is missing, add a `## Missing components` note instead.
+   - `outcome=gap` — a needed component wasn't catalogued. Add a `## Missing components` note for the catalog curator (and a `## Deferred` note if the recipe would be worth writing once the component lands). Do not invent the missing tool.
+   - `outcome=failed` — the assembly ran but wasn't useful. If it maps to an existing recipe, treat like `got stuck`; otherwise record the gap for a future directed pass.
+   Then append one line to `## Composition reports` (the rolling demand tally) and trim it to the last ~15.
+4. For `(no trailer emitted; needs curator triage)` entries, read the issue body from `.request-bodies/<NN>.md` and decide what to do — the bare entry's `title=`/`label=` rarely carry the request; the body is where the actual feedback lives.
+5. **Move each processed entry** from `## User requests (open)` to `## User requests (closed this run)` and append `→ <result note>` describing what shipped or why nothing did.
 
 Entries not actioned this run stay in `## User requests (open)` and are retried next run. The loop-closer step in `recipes.yml` reads `## User requests (closed this run)` after you exit and resets the section to `_None._` itself.
 

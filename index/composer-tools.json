@@ -1,0 +1,6219 @@
+{
+  "version": 1,
+  "generated": "2026-06-11",
+  "count": 338,
+  "tools": [
+    {
+      "slug": "10x-genomics-cloud",
+      "title": "10x Genomics Cloud MCP",
+      "tool_type": "MCP server",
+      "availability": "GA",
+      "tool_categories": [
+        "Drug Repurposing and Discovery",
+        "Immunology and Microbiology",
+        "Integrative Structural and Computational Biology",
+        "Molecular and Cellular Biology",
+        "Neuroscience",
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "Conversational orchestration of 10x Cloud single-cell, immune-profiling, and spatial-transcriptomics analyses.",
+      "keywords": [],
+      "path": "catalog/tools/10x-genomics-cloud.md"
+    },
+    {
+      "slug": "abcd-skill",
+      "title": "ABCD Study Pipeline (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"End-to-end workflow for the ABCD Study dataset, including download via NIMH Data Archive, BIDS organization, and multimodal processing of sMRI, fMRI, and dMRI\"",
+      "keywords": [
+        "ABCD",
+        "BIDS",
+        "dMRI",
+        "End-to-end",
+        "fMRI",
+        "NIMH",
+        "sMRI"
+      ],
+      "path": "catalog/tools/abcd-skill.md"
+    },
+    {
+      "slug": "abide-skill",
+      "title": "ABIDE Pipeline (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"End-to-end workflow for the ABIDE (Autism Brain Imaging Data Exchange) dataset, including download, BIDS organization, and processing of sMRI and rs-fMRI data\"",
+      "keywords": [
+        "ABIDE",
+        "BIDS",
+        "End-to-end",
+        "fMRI",
+        "sMRI"
+      ],
+      "path": "catalog/tools/abide-skill.md"
+    },
+    {
+      "slug": "adaptyv",
+      "title": "Adaptyv (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Immunology and Microbiology",
+        "Drug Repurposing and Discovery",
+        "Integrative Structural and Computational Biology"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "K-Dense skill that submits designed protein and antibody sequences to the Adaptyv cloud lab for wet-lab binding, expression, thermostability, and activity assays, with NetSolP/SoluProt/SolubleMPNN/ESM/ipTM/pSAE pre-screening.",
+      "keywords": [
+        "AlphaFold-Multimer",
+        "DSF",
+        "ESM",
+        "ipTM",
+        "Pre-screens",
+        "pSAE",
+        "SolubleMPNN"
+      ],
+      "path": "catalog/tools/adaptyv.md"
+    },
+    {
+      "slug": "adhd200-skill",
+      "title": "ADHD-200 Pipeline (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"End-to-end workflow for the ADHD-200 dataset, including download, BIDS organization, and processing of sMRI and rs-fMRI data\"",
+      "keywords": [
+        "ADHD",
+        "ADHD-200",
+        "ADHD200",
+        "BIDS",
+        "End-to-end",
+        "fMRI",
+        "sMRI"
+      ],
+      "path": "catalog/tools/adhd200-skill.md"
+    },
+    {
+      "slug": "adisinsight",
+      "title": "AdisInsight Plugin",
+      "tool_type": "Claude Code Plugin",
+      "availability": "GA",
+      "tool_categories": [
+        "Drug Repurposing and Discovery",
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-05-20",
+      "summary": "Springer Nature AdisInsight MCP plugin surfacing drug-development pipeline, clinical-trial, and deal intelligence to Claude for repurposing and competitive scouting.",
+      "keywords": [
+        "Anthropic-packaged",
+        "OAuth-style"
+      ],
+      "path": "catalog/tools/adisinsight.md"
+    },
+    {
+      "slug": "adni-skill",
+      "title": "ADNI Pipeline (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"End-to-end workflow for ADNI data (fMRI + T1), including BIDS preparation, fMRIPrep preprocessing, and DK68 ROI pipeline.\"",
+      "keywords": [
+        "ADNI",
+        "BIDS",
+        "End-to-end",
+        "fMRI",
+        "fMRIPrep",
+        "ROI"
+      ],
+      "path": "catalog/tools/adni-skill.md"
+    },
+    {
+      "slug": "aeon",
+      "title": "aeon (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Time series machine learning tasks including classification, regression, clustering, forecasting, anomaly detection, segmentation, and similarity search.",
+      "keywords": [],
+      "path": "catalog/tools/aeon.md"
+    },
+    {
+      "slug": "aibl-skill",
+      "title": "AIBL Pipeline (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"End-to-end workflow for the AIBL (Australian Imaging, Biomarkers and Lifestyle) dataset, including data access guidance, BIDS organization, and multimodal processing of sMRI and PET …\"",
+      "keywords": [
+        "AIBL",
+        "BIDS",
+        "End-to-end",
+        "FDG",
+        "MRI",
+        "PET",
+        "sMRI"
+      ],
+      "path": "catalog/tools/aibl-skill.md"
+    },
+    {
+      "slug": "aind-data",
+      "title": "AIND Data MCP",
+      "tool_type": "MCP server",
+      "availability": "Beta",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-05-20",
+      "summary": "Official Allen Institute MCP server giving Claude query and NWB-introspection access to AIND's V2 neuroscience data assets.",
+      "keywords": [
+        "AIND",
+        "DocDB",
+        "MongoDB-style",
+        "NWB",
+        "NWB-introspection"
+      ],
+      "path": "catalog/tools/aind-data.md"
+    },
+    {
+      "slug": "allenbrain",
+      "title": "allenbrain-mcp",
+      "tool_type": "MCP server",
+      "availability": "Alpha",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-05-20",
+      "summary": "Community MCP wrapper exposing Allen Brain Atlas RMA queries, cell-types, mouse connectivity, ontologies, and image/grid downloads to Claude.",
+      "keywords": [
+        "RMA"
+      ],
+      "path": "catalog/tools/allenbrain.md"
+    },
+    {
+      "slug": "alphafold",
+      "title": "AlphaFold MCP Server",
+      "tool_type": "MCP server",
+      "availability": "GA",
+      "tool_categories": [
+        "Immunology and Microbiology",
+        "Integrative Structural and Computational Biology",
+        "Molecular and Cellular Biology",
+        "Drug Repurposing and Discovery"
+      ],
+      "last_verified": "2026-05-20",
+      "summary": "MCP server exposing the EBI AlphaFold Protein Structure Database for structure retrieval, pLDDT analysis, comparison, and PyMOL/ChimeraX export.",
+      "keywords": [
+        "EBI",
+        "pLDDT",
+        "PyMOL"
+      ],
+      "path": "catalog/tools/alphafold.md"
+    },
+    {
+      "slug": "anndata",
+      "title": "AnnData (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Immunology and Microbiology",
+        "Molecular and Cellular Biology",
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Claude skill teaching the AnnData annotated-data-matrix format used by Scanpy and scvi-tools for single-cell and other observation/feature matrices.",
+      "keywords": [
+        "SKILL"
+      ],
+      "path": "catalog/tools/anndata.md"
+    },
+    {
+      "slug": "aomic-skill",
+      "title": "AOMIC Pipeline (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"End-to-end workflow for the AOMIC (Amsterdam Open MRI Collection) dataset, including data access, BIDS organization, and multimodal processing of sMRI, rs-fMRI, and task-fMRI\"",
+      "keywords": [
+        "AOMIC",
+        "BIDS",
+        "End-to-end",
+        "fMRI",
+        "MRI",
+        "sMRI"
+      ],
+      "path": "catalog/tools/aomic-skill.md"
+    },
+    {
+      "slug": "arboreto",
+      "title": "Arboreto (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology",
+        "Drug Repurposing and Discovery"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Claude skill for gene-regulatory-network inference with Arboreto — GRNBoost2 / GENIE3 tree-based regression over bulk or single-cell expression, distributed via Dask.",
+      "keywords": [
+        "GENIE3",
+        "GRN",
+        "GRNBoost2",
+        "SKILL"
+      ],
+      "path": "catalog/tools/arboreto.md"
+    },
+    {
+      "slug": "archs4-database",
+      "title": "ARCHS4 (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Query ARCHS4 REST API for uniformly processed RNA-seq expression, tissue patterns, co-expression across 1M+ human/mouse samples.\"",
+      "keywords": [
+        "ARCHS4",
+        "HDF5",
+        "REST",
+        "RNA-seq"
+      ],
+      "path": "catalog/tools/archs4-database.md"
+    },
+    {
+      "slug": "asl-skill",
+      "title": "ASL Perfusion MRI (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Process Arterial Spin Labeling (ASL) perfusion MRI data including CBF (cerebral blood flow) quantification, ASL preprocessing (motion correction, partial volume correction, M0 normalization), or …\"",
+      "keywords": [
+        "ASL",
+        "ASL-based",
+        "CASL",
+        "CBF",
+        "MRI",
+        "PASL",
+        "pCASL"
+      ],
+      "path": "catalog/tools/asl-skill.md"
+    },
+    {
+      "slug": "astropy",
+      "title": "Astropy (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Core Python library for astronomy and astrophysics workflows that need Astropy APIs, including units/quantities, coordinates, FITS I/O, tables, time systems, WCS, and cosmology.",
+      "keywords": [
+        "FITS",
+        "WCS"
+      ],
+      "path": "catalog/tools/astropy.md"
+    },
+    {
+      "slug": "autodock-vina-docking",
+      "title": "AutoDock Vina (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Chemistry",
+        "Drug Repurposing and Discovery",
+        "Integrative Structural and Computational Biology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Molecular docking with AutoDock Vina (Python API).\"",
+      "keywords": [
+        "RDKit"
+      ],
+      "path": "catalog/tools/autodock-vina-docking.md"
+    },
+    {
+      "slug": "autoskill",
+      "title": "Autoskill (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Observe the user's screen via screenpipe, detect repeated research workflows, match them against existing scientific-agent-skills, and draft new skills (or composition recipes that chain …",
+      "keywords": [],
+      "path": "catalog/tools/autoskill.md"
+    },
+    {
+      "slug": "bakta-genome-annotation",
+      "title": "Bakta (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology",
+        "Immunology and Microbiology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Annotate bacterial and archaeal genomes and plasmids with Bakta's Prodigal/HMM/diamond pipeline.\"",
+      "keywords": [
+        "CDS",
+        "CRISPR",
+        "EMBL",
+        "FASTA",
+        "GFF3",
+        "HMM",
+        "NCBI",
+        "NCBI-compatible",
+        "ncRNA",
+        "PGAP",
+        "rRNA",
+        "sORFs"
+      ],
+      "path": "catalog/tools/bakta-genome-annotation.md"
+    },
+    {
+      "slug": "bcftools-variant-manipulation",
+      "title": "BCFtools (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"CLI for VCF/BCF: filter, merge, annotate, query, normalize, compute stats.\"",
+      "keywords": [
+        "BCF",
+        "BCFtools",
+        "GATK",
+        "HTSlib",
+        "rsID",
+        "VCF",
+        "VCFtools"
+      ],
+      "path": "catalog/tools/bcftools-variant-manipulation.md"
+    },
+    {
+      "slug": "bedtools-genomic-intervals",
+      "title": "BEDTools (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Genomic interval ops on BED/BAM/GFF/VCF.\"",
+      "keywords": [
+        "BAM",
+        "BED",
+        "BEDTools",
+        "ChIP-seq",
+        "FASTA",
+        "GFF",
+        "VCF"
+      ],
+      "path": "catalog/tools/bedtools-genomic-intervals.md"
+    },
+    {
+      "slug": "benchling-integration",
+      "title": "Benchling (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology",
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Benchling Python SDK and REST API integration for registry entities, inventory, ELN entries, workflows, Benchling Apps, and Data Warehouse queries.",
+      "keywords": [
+        "ELN",
+        "REST"
+      ],
+      "path": "catalog/tools/benchling-integration.md"
+    },
+    {
+      "slug": "bgpt-paper-search",
+      "title": "BGPT Paper Search (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "All"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Search scientific papers and retrieve structured experimental data extracted from full-text studies via the BGPT MCP server.",
+      "keywords": [
+        "BGPT"
+      ],
+      "path": "catalog/tools/bgpt-paper-search.md"
+    },
+    {
+      "slug": "bids",
+      "title": "BIDS (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Claude skill for organizing, validating, and querying Brain Imaging Data Structure datasets — MRI, EEG, MEG, iEEG, PET, microscopy, behavioral, and 35 BIDS entities.",
+      "keywords": [
+        "BIDS",
+        "BIDS-Apps",
+        "BIDScoin",
+        "BIDSLayout",
+        "DANDI",
+        "DICOM",
+        "DICOM-to-BIDS",
+        "EEG",
+        "fMRIPrep",
+        "GUI-based",
+        "iEEG",
+        "MEG"
+      ],
+      "path": "catalog/tools/bids.md"
+    },
+    {
+      "slug": "bio-research",
+      "title": "bio-research (Claude Code Plugin)",
+      "tool_type": "Claude Code Plugin",
+      "availability": "GA",
+      "tool_categories": [
+        "All"
+      ],
+      "last_verified": "2026-05-20",
+      "summary": "Umbrella plugin bundling 5 analysis skills and ~10 MCP connectors (PubMed, BioRender, ChEMBL, Synapse, Wiley, Open Targets, Benchling, etc.) for preclinical R&D.",
+      "keywords": [
+        "ChEMBL",
+        "Single-Cell"
+      ],
+      "path": "catalog/tools/bio-research.md"
+    },
+    {
+      "slug": "biocontextai",
+      "title": "BioContextAI Knowledgebase MCP",
+      "tool_type": "MCP server",
+      "availability": "GA",
+      "tool_categories": [
+        "All"
+      ],
+      "last_verified": "2026-05-20",
+      "summary": "Read-only MCP that unifies 14+ biomedical databases (Antibody Registry, UniProt, STRING, AlphaFold, KEGG, Open Targets) for immune and protein-context queries.",
+      "keywords": [
+        "BioContextAI",
+        "KEGG",
+        "Read-only",
+        "STRING"
+      ],
+      "path": "catalog/tools/biocontextai.md"
+    },
+    {
+      "slug": "biomcp",
+      "title": "BioMCP",
+      "tool_type": "MCP server",
+      "availability": "GA",
+      "tool_categories": [
+        "All"
+      ],
+      "last_verified": "2026-05-19",
+      "summary": "Unified biomedical lookup across PubMed, ClinicalTrials.gov, MyVariant, and OpenFDA.",
+      "keywords": [
+        "BioMCP",
+        "CTS",
+        "NCI",
+        "OpenFDA"
+      ],
+      "path": "catalog/tools/biomcp.md"
+    },
+    {
+      "slug": "biomni",
+      "title": "Biomni (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "All"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "General-purpose biomedical AI agent that plans and runs multi-step research workflows across genomics, drug discovery, and clinical analysis.",
+      "keywords": [
+        "General-purpose",
+        "SNAP"
+      ],
+      "path": "catalog/tools/biomni.md"
+    },
+    {
+      "slug": "biopython",
+      "title": "BioPython (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "All"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Comprehensive molecular biology toolkit.",
+      "keywords": [
+        "BLAST",
+        "FASTA",
+        "NCBI",
+        "PDB"
+      ],
+      "path": "catalog/tools/biopython.md"
+    },
+    {
+      "slug": "biorender",
+      "title": "BioRender Connector",
+      "tool_type": "MCP server",
+      "availability": "GA",
+      "tool_categories": [
+        "All"
+      ],
+      "last_verified": "2026-05-19",
+      "summary": "Scientific-figure assembly from the 50,000+ BioRender icon and template library.",
+      "keywords": [
+        "Scientific-figure",
+        "Scientific-icon"
+      ],
+      "path": "catalog/tools/biorender.md"
+    },
+    {
+      "slug": "biorxiv-database",
+      "title": "bioRxiv / medRxiv (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Query bioRxiv/medRxiv preprints via REST API.\"",
+      "keywords": [
+        "DOI",
+        "PDFs",
+        "REST"
+      ],
+      "path": "catalog/tools/biorxiv-database.md"
+    },
+    {
+      "slug": "bioservices",
+      "title": "BioServices (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "All"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Unified Python interface to 40+ bioinformatics services.",
+      "keywords": [
+        "ChEMBL",
+        "KEGG"
+      ],
+      "path": "catalog/tools/bioservices.md"
+    },
+    {
+      "slug": "bnt",
+      "title": "BrainNetworkTransformer (BNT) (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Run BrainNetworkTransformer for fMRI phenotype prediction, including data loading, training, and evaluation.\"",
+      "keywords": [
+        "BNT",
+        "DEC",
+        "fMRI"
+      ],
+      "path": "catalog/tools/bnt.md"
+    },
+    {
+      "slug": "bold5000-skill",
+      "title": "BOLD5000 Pipeline (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"End-to-end workflow for the BOLD5000 dataset, including download, BIDS organization, and processing of task-fMRI data with visual image stimuli\"",
+      "keywords": [
+        "BIDS",
+        "BOLD",
+        "BOLD5000",
+        "End-to-end",
+        "fMRI"
+      ],
+      "path": "catalog/tools/bold5000-skill.md"
+    },
+    {
+      "slug": "brain-visualization",
+      "title": "Brain Visualization (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Visualize neuroimaging analysis results, including 3D brain connectivity networks, atlas-based regional activation summaries, or FreeSurfer cortical surface meshes with anatomical colors\"",
+      "keywords": [
+        "PLY",
+        "zALFF"
+      ],
+      "path": "catalog/tools/brain-visualization.md"
+    },
+    {
+      "slug": "brain_gnn",
+      "title": "BrainGNN (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Run BrainGNN for fMRI phenotype prediction, including graph construction, training, and evaluation.\"",
+      "keywords": [
+        "BrainGNN",
+        "fMRI",
+        "HCP"
+      ],
+      "path": "catalog/tools/brain_gnn.md"
+    },
+    {
+      "slug": "brenda-database",
+      "title": "BRENDA (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"BRENDA Enzyme DB SOAP/REST queries: kinetic parameters (Km, Vmax, kcat, Ki), EC classes, substrate specificity, inhibitors, cofactors, organism data.\"",
+      "keywords": [
+        "BRENDA",
+        "REST",
+        "SOAP"
+      ],
+      "path": "catalog/tools/brenda-database.md"
+    },
+    {
+      "slug": "bulk-rnaseq",
+      "title": "Bulk RNA-seq (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "End-to-end bulk RNA-seq orchestrator — takes raw FASTQ reads through QC and trimming (FastQC, fastp/Trim Galore), alignment and quantification (STAR, Salmon, featureCounts), assembles a …",
+      "keywords": [
+        "DESeq2",
+        "End-to-end",
+        "FASTQ",
+        "FastQC",
+        "GSEA",
+        "RNA-seq",
+        "STAR"
+      ],
+      "path": "catalog/tools/bulk-rnaseq.md"
+    },
+    {
+      "slug": "bwa-mem2-dna-aligner",
+      "title": "BWA-MEM2 (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Fast short-read DNA aligner for WGS/WES/ChIP-seq.\"",
+      "keywords": [
+        "BAM",
+        "BWA-MEM",
+        "BWA-MEM2",
+        "ChIP-seq",
+        "DNA",
+        "GATK",
+        "RNA-seq",
+        "SAM",
+        "STAR",
+        "WES",
+        "WGS"
+      ],
+      "path": "catalog/tools/bwa-mem2-dna-aligner.md"
+    },
+    {
+      "slug": "camcan-skill",
+      "title": "Cam-CAN Pipeline (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"End-to-end workflow for the Cam-CAN (Cambridge Centre for Ageing and Neuroscience) dataset, including BIDS validation, multimodal processing of sMRI, rs-fMRI, task-fMRI, and MEG, phenotype …\"",
+      "keywords": [
+        "BIDS",
+        "Cam-CAN",
+        "CamCAN",
+        "CAN",
+        "End-to-end",
+        "fMRI",
+        "MEG",
+        "sMRI"
+      ],
+      "path": "catalog/tools/camcan-skill.md"
+    },
+    {
+      "slug": "cbioportal-database",
+      "title": "cBioPortal (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Translational Medicine",
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Cancer genomics (TCGA et al.) via cBioPortal REST API.\"",
+      "keywords": [
+        "CNAs",
+        "REST",
+        "TCGA",
+        "TMB"
+      ],
+      "path": "catalog/tools/cbioportal-database.md"
+    },
+    {
+      "slug": "cellchat-cell-communication",
+      "title": "CellChat (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology",
+        "Immunology and Microbiology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Infer and visualize intercellular communication from scRNA-seq with CellChat (R).\"",
+      "keywords": [
+        "CellChatDB",
+        "scRNA-seq"
+      ],
+      "path": "catalog/tools/cellchat-cell-communication.md"
+    },
+    {
+      "slug": "cellpose-cell-segmentation",
+      "title": "Cellpose (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"DL cell/nucleus segmentation for fluorescence and brightfield microscopy.\"",
+      "keywords": [
+        "Pre-trained"
+      ],
+      "path": "catalog/tools/cellpose-cell-segmentation.md"
+    },
+    {
+      "slug": "celltypist-cell-annotation",
+      "title": "CellTypist (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Automated scRNA-seq cell type annotation via pre-trained logistic regression.\"",
+      "keywords": [
+        "scRNA-seq"
+      ],
+      "path": "catalog/tools/celltypist-cell-annotation.md"
+    },
+    {
+      "slug": "cellxgene-census",
+      "title": "Cellxgene Census (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology",
+        "Immunology and Microbiology",
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Claude skill for querying the CZ CELLxGENE Discover census — 50M+ standardized single-cell observations across 1,000+ datasets via TileDB-SOMA, with AnnData / Scanpy integration.",
+      "keywords": [
+        "CELLxGENE",
+        "RNA-seq",
+        "SKILL",
+        "TileDB-SOMA",
+        "TileDB-SOMA-backed"
+      ],
+      "path": "catalog/tools/cellxgene-census.md"
+    },
+    {
+      "slug": "chembl",
+      "title": "ChEMBL Connector",
+      "tool_type": "Claude Code Plugin",
+      "availability": "GA",
+      "tool_categories": [
+        "Chemistry",
+        "Drug Repurposing and Discovery"
+      ],
+      "last_verified": "2026-05-30",
+      "summary": "Anthropic-packaged plugin and Claude.ai connector over EMBL-EBI's ChEMBL bioactive-compound database — compound, target, bioactivity, and mechanism-of-action lookup.",
+      "keywords": [
+        "Anthropic-packaged",
+        "ChEMBL",
+        "EMBL-EBI",
+        "REST"
+      ],
+      "path": "catalog/tools/chembl.md"
+    },
+    {
+      "slug": "cirq",
+      "title": "Cirq (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Google quantum computing framework.",
+      "keywords": [
+        "IBM"
+      ],
+      "path": "catalog/tools/cirq.md"
+    },
+    {
+      "slug": "citation-management",
+      "title": "Citation Management (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Comprehensive citation management for academic research.",
+      "keywords": [
+        "DOIs"
+      ],
+      "path": "catalog/tools/citation-management.md"
+    },
+    {
+      "slug": "clinical-decision-support",
+      "title": "Clinical Decision Support (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Generate professional clinical decision support (CDS) documents for pharmaceutical and clinical research settings, including patient cohort analyses (biomarker-stratified with outcomes) and treatment recommendation reports …",
+      "keywords": [
+        "CDS",
+        "GRADE"
+      ],
+      "path": "catalog/tools/clinical-decision-support.md"
+    },
+    {
+      "slug": "clinical-reports",
+      "title": "Clinical Reports (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Write comprehensive clinical reports including case reports (CARE guidelines), diagnostic reports (radiology/pathology/lab), clinical trial reports (ICH-E3, SAE, CSR), and patient documentation (SOAP, H&P, discharge summaries).",
+      "keywords": [
+        "CARE",
+        "CSR",
+        "FDA",
+        "HIPAA",
+        "ICH-E3",
+        "ICH-GCP",
+        "SAE",
+        "SOAP"
+      ],
+      "path": "catalog/tools/clinical-reports.md"
+    },
+    {
+      "slug": "clinical-trial-protocol",
+      "title": "clinical-trial-protocol (Anthropic Healthcare Plugin)",
+      "tool_type": "Claude Code Plugin",
+      "availability": "GA",
+      "tool_categories": [
+        "Translational Medicine",
+        "Drug Repurposing and Discovery"
+      ],
+      "last_verified": "2026-05-23",
+      "summary": "Anthropic Claude Code plugin that drafts FDA/NIH-compliant Phase 2/3 clinical-trial protocols for drugs or devices via a waypoint-based workflow.",
+      "keywords": [
+        "Anthropic-published",
+        "FDA",
+        "NIH",
+        "NIH-compliant"
+      ],
+      "path": "catalog/tools/clinical-trial-protocol.md"
+    },
+    {
+      "slug": "clinicaltrials-gov-mcp",
+      "title": "ClinicalTrials.gov MCP Server (cyanheads)",
+      "tool_type": "MCP server",
+      "availability": "GA",
+      "tool_categories": [
+        "Translational Medicine",
+        "Drug Repurposing and Discovery"
+      ],
+      "last_verified": "2026-05-23",
+      "summary": "Apache-2.0 MCP server over the ClinicalTrials.gov v2 API — trial search, full study records, outcomes / adverse-event extraction, and patient-to-trial matching. Hosted public instance available.",
+      "keywords": [
+        "Apache-2",
+        "Community-maintained",
+        "NCT"
+      ],
+      "path": "catalog/tools/clinicaltrials-gov-mcp.md"
+    },
+    {
+      "slug": "clinpgx-database",
+      "title": "ClinPGx (PharmGKB) (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Translational Medicine",
+        "Drug Repurposing and Discovery"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Query the ClinPGx (formerly PharmGKB) REST API plus the CPIC PostgREST companion API for pharmacogenomic clinical annotations, CPIC/DPWG dosing guidelines, gene-drug pairs, variant-drug associations …\"",
+      "keywords": [
+        "ClinPGx",
+        "CPIC",
+        "DPWG",
+        "EMA",
+        "FDA",
+        "PharmGKB",
+        "PostgREST",
+        "REST",
+        "Two-host"
+      ],
+      "path": "catalog/tools/clinpgx-database.md"
+    },
+    {
+      "slug": "clinvar-database",
+      "title": "ClinVar (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Translational Medicine",
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Query NCBI ClinVar via E-utilities for variant clinical significance, pathogenicity, disease associations.\"",
+      "keywords": [
+        "GWAS",
+        "HGVS",
+        "NCBI",
+        "rsID",
+        "VEP"
+      ],
+      "path": "catalog/tools/clinvar-database.md"
+    },
+    {
+      "slug": "cms-coverage",
+      "title": "CMS Coverage MCP (Anthropic Healthcare)",
+      "tool_type": "MCP server",
+      "availability": "GA",
+      "tool_categories": [
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-05-23",
+      "summary": "Anthropic-published MCP server over the CMS Coverage Database — Local and National Coverage Determinations for Medicare prior-auth, appeals, and policy lookup.",
+      "keywords": [
+        "Anthropic-published",
+        "CMS",
+        "LCDs",
+        "NCDs"
+      ],
+      "path": "catalog/tools/cms-coverage.md"
+    },
+    {
+      "slug": "cnvkit-copy-number",
+      "title": "CNVkit (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology",
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Detect somatic CNVs from WES/WGS/targeted BAMs (CNVkit v0.9.x).\"",
+      "keywords": [
+        "BAMs",
+        "CBS",
+        "CNV",
+        "CNVkit",
+        "CNVs",
+        "GATK",
+        "HMM",
+        "SEG",
+        "VCF",
+        "WES",
+        "WGS"
+      ],
+      "path": "catalog/tools/cnvkit-copy-number.md"
+    },
+    {
+      "slug": "cobrapy",
+      "title": "COBRApy (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology",
+        "Chemistry",
+        "Drug Repurposing and Discovery"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Claude skill driving COBRApy for constraint-based metabolic modelling — FBA, FVA, gene knockouts, flux sampling, gapfilling on SBML genome-scale models.",
+      "keywords": [
+        "COBRA",
+        "COBRApy",
+        "FBA",
+        "FVA",
+        "SBML",
+        "SKILL",
+        "YAML"
+      ],
+      "path": "catalog/tools/cobrapy.md"
+    },
+    {
+      "slug": "cobre-skill",
+      "title": "COBRE Pipeline (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"End-to-end workflow for the COBRE dataset, including download, BIDS organization, and processing of sMRI and rs-fMRI data for schizophrenia research\"",
+      "keywords": [
+        "BIDS",
+        "COBRE",
+        "End-to-end",
+        "fMRI",
+        "sMRI"
+      ],
+      "path": "catalog/tools/cobre-skill.md"
+    },
+    {
+      "slug": "combraintf",
+      "title": "Com-BrainTF (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Run Com-BrainTF (Community-aware Brain Transformer) for fMRI phenotype prediction.\"",
+      "keywords": [
+        "AAL",
+        "BrainTF",
+        "Com-BrainTF",
+        "Community-aware",
+        "DEC",
+        "fMRI"
+      ],
+      "path": "catalog/tools/combraintf.md"
+    },
+    {
+      "slug": "composer",
+      "title": "Composer",
+      "tool_type": "Plugin",
+      "availability": "Beta",
+      "tool_categories": [
+        "All"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "Turns a plain-language scientific problem into a grounded, runnable Claude solution composed from this catalog, reusing recipes and recommending autonomous systems.",
+      "keywords": [],
+      "path": "catalog/tools/composer.md"
+    },
+    {
+      "slug": "conn-tool",
+      "title": "CONN Toolbox (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Perform advanced functional connectivity (ROI-to-ROI, seed-to-voxel, ICA) or effective connectivity (PPI, gPPI, DCM) analysis using the CONN Toolbox\"",
+      "keywords": [
+        "CONN",
+        "DCM",
+        "gPPI",
+        "ICA",
+        "PPI",
+        "ROI-to-ROI"
+      ],
+      "path": "catalog/tools/conn-tool.md"
+    },
+    {
+      "slug": "consciousness-council",
+      "title": "Consciousness Council (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Run a multi-perspective Mind Council deliberation on any question, decision, or creative challenge.",
+      "keywords": [],
+      "path": "catalog/tools/consciousness-council.md"
+    },
+    {
+      "slug": "consensus",
+      "title": "Consensus Plugin",
+      "tool_type": "Claude Code Plugin",
+      "availability": "GA",
+      "tool_categories": [
+        "All"
+      ],
+      "last_verified": "2026-06-07",
+      "summary": "Consensus.app MCP plugin bringing AI-powered scientific literature search and evidence synthesis into Claude across all research areas.",
+      "keywords": [
+        "AI-powered",
+        "Anthropic-packaged"
+      ],
+      "path": "catalog/tools/consensus.md"
+    },
+    {
+      "slug": "cortellis",
+      "title": "Cortellis Plugin",
+      "tool_type": "Claude Code Plugin",
+      "availability": "GA",
+      "tool_categories": [
+        "Drug Repurposing and Discovery",
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-06-07",
+      "summary": "Clarivate Cortellis MCP plugin surfacing global drug-pipeline, clinical-trial, regulatory, safety, and deals intelligence to Claude for competitive scouting and regulatory work.",
+      "keywords": [
+        "Anthropic-packaged",
+        "CRI"
+      ],
+      "path": "catalog/tools/cortellis.md"
+    },
+    {
+      "slug": "cosmic-database",
+      "title": "COSMIC (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Translational Medicine",
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Query COSMIC for cancer somatic mutations, gene census, mutational signatures, drug resistance variants.\"",
+      "keywords": [
+        "COSMIC",
+        "REST"
+      ],
+      "path": "catalog/tools/cosmic-database.md"
+    },
+    {
+      "slug": "dailymed-database",
+      "title": "DailyMed (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Translational Medicine",
+        "Drug Repurposing and Discovery"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Query FDA drug labels (DailyMed) via REST API.\"",
+      "keywords": [
+        "DDIs",
+        "FDA",
+        "NDC",
+        "REST",
+        "RxCUI",
+        "SPLs"
+      ],
+      "path": "catalog/tools/dailymed-database.md"
+    },
+    {
+      "slug": "dask",
+      "title": "Dask (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Distributed computing for larger-than-RAM pandas/NumPy workflows.",
+      "keywords": [],
+      "path": "catalog/tools/dask.md"
+    },
+    {
+      "slug": "database-lookup",
+      "title": "Database Lookup (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "All"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Search 78 public scientific, biomedical, materials science, and economic databases via REST APIs.",
+      "keywords": [
+        "BindingDB",
+        "BioGRID",
+        "ChEMBL",
+        "COD",
+        "COSMIC",
+        "dbSNP",
+        "DisGeNET",
+        "EDGAR",
+        "ENCODE",
+        "EPA",
+        "FDA",
+        "FRED"
+      ],
+      "path": "catalog/tools/database-lookup.md"
+    },
+    {
+      "slug": "datamol",
+      "title": "Datamol (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Chemistry",
+        "Drug Repurposing and Discovery"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Claude skill wrapping Datamol — an RDKit-based Python library for molecular standardization, transformations, featurization, and parallel processing on large compound libraries.",
+      "keywords": [
+        "RDKit-based",
+        "RDKit-built",
+        "SKILL"
+      ],
+      "path": "catalog/tools/datamol.md"
+    },
+    {
+      "slug": "dbsnp-database",
+      "title": "dbSNP (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Query NCBI dbSNP for SNP records by rsID, gene, or region via E-utilities and Variation Services REST API.\"",
+      "keywords": [
+        "dbSNP",
+        "MAF",
+        "MNV",
+        "NCBI",
+        "REST",
+        "rsID",
+        "SNP",
+        "SNV"
+      ],
+      "path": "catalog/tools/dbsnp-database.md"
+    },
+    {
+      "slug": "dcm2nii",
+      "title": "dcm2niix (DICOM → NIfTI) (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Convert DICOM files or folders to NIfTI format (.nii or .nii.gz), extract neuroimaging volumes from clinical DICOM series (MRI, CT, PET, etc.), prepare raw …\"",
+      "keywords": [
+        "DICOM",
+        "MRI",
+        "NIfTI",
+        "PET"
+      ],
+      "path": "catalog/tools/dcm2nii.md"
+    },
+    {
+      "slug": "ddinter-database",
+      "title": "DDInter (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Translational Medicine",
+        "Drug Repurposing and Discovery"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Query DDInter drug-drug interactions via REST API (1.7M+ interactions, 2,400+ drugs).\"",
+      "keywords": [
+        "DDInter",
+        "FDA",
+        "REST"
+      ],
+      "path": "catalog/tools/ddinter-database.md"
+    },
+    {
+      "slug": "deepchem",
+      "title": "DeepChem (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Chemistry",
+        "Drug Repurposing and Discovery"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Claude skill driving DeepChem for molecular machine learning — graph neural nets (GCN, GAT, MPNN, AttentiveFP), featurization, and the MoleculeNet benchmarks (toxicity, ADMET, quantum properties).",
+      "keywords": [
+        "ADMET",
+        "AttentiveFP",
+        "GAT",
+        "GCN",
+        "MPNN",
+        "SKILL"
+      ],
+      "path": "catalog/tools/deepchem.md"
+    },
+    {
+      "slug": "deeptools",
+      "title": "deepTools (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "NGS analysis toolkit.",
+      "keywords": [
+        "ATAC-seq",
+        "BAM",
+        "ChIP-seq",
+        "NGS",
+        "PCA",
+        "RNA-seq",
+        "TSS"
+      ],
+      "path": "catalog/tools/deeptools.md"
+    },
+    {
+      "slug": "depmap",
+      "title": "DepMap (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Drug Repurposing and Discovery",
+        "Molecular and Cellular Biology",
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Claude skill for querying the Cancer Dependency Map — CRISPR Chronos gene-effect scores, PRISM drug sensitivity, mutation, expression, and CN data across cancer cell lines.",
+      "keywords": [
+        "CRISPR",
+        "CRISPRGeneEffect",
+        "OmicsCNGene",
+        "PRISM",
+        "RNAi"
+      ],
+      "path": "catalog/tools/depmap.md"
+    },
+    {
+      "slug": "deseq2-differential-expression",
+      "title": "DESeq2 (R/Bioconductor) (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Bulk RNA-seq DE with R/Bioconductor DESeq2.\"",
+      "keywords": [
+        "DESeq2",
+        "GLM",
+        "LFC",
+        "LRT",
+        "RNA-seq",
+        "TMM"
+      ],
+      "path": "catalog/tools/deseq2-differential-expression.md"
+    },
+    {
+      "slug": "detrending",
+      "title": "Signal Detrending (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Perform neuroimaging signal denoising with classical detrending methods.\"",
+      "keywords": [],
+      "path": "catalog/tools/detrending.md"
+    },
+    {
+      "slug": "dictlearning",
+      "title": "Dictionary Learning (rs-fMRI) (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Perform resting-state network decomposition using DictLearning.\"",
+      "keywords": [
+        "fMRI"
+      ],
+      "path": "catalog/tools/dictlearning.md"
+    },
+    {
+      "slug": "diffdock",
+      "title": "DiffDock (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Drug Repurposing and Discovery",
+        "Integrative Structural and Computational Biology"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Claude skill driving DiffDock, a diffusion-based deep-learning docker that predicts protein–ligand binding poses from PDB plus SMILES with per-pose confidence scores.",
+      "keywords": [
+        "PDB",
+        "SKILL",
+        "SMILES"
+      ],
+      "path": "catalog/tools/diffdock.md"
+    },
+    {
+      "slug": "dipy-tool",
+      "title": "DIPY (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Execute concrete DIPY operations: load DWI (NIfTI+bvals+bvecs), optional masking, DTI fitting, compute FA/MD/AD/RD, and extract ROI statistics.\"",
+      "keywords": [
+        "DIPY",
+        "DTI",
+        "DWI",
+        "MRI",
+        "NIfTI",
+        "ROI"
+      ],
+      "path": "catalog/tools/dipy-tool.md"
+    },
+    {
+      "slug": "dmt-har-med-skill",
+      "title": "DMT-HAR-MED Pipeline (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"End-to-end workflow for the DMT-HAR-MED dataset (ds006644), including download, BIDS organization, and processing of rs-fMRI data from a psychedelic intervention study\"",
+      "keywords": [
+        "BIDS",
+        "DMT",
+        "DMT-HAR-MED",
+        "End-to-end",
+        "fMRI",
+        "HAR",
+        "MED"
+      ],
+      "path": "catalog/tools/dmt-har-med-skill.md"
+    },
+    {
+      "slug": "dnanexus-integration",
+      "title": "DNAnexus (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "DNAnexus cloud genomics platform.",
+      "keywords": [
+        "BAM",
+        "DNAnexus",
+        "FASTQ",
+        "VCF"
+      ],
+      "path": "catalog/tools/dnanexus-integration.md"
+    },
+    {
+      "slug": "docx",
+      "title": "DOCX (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "The user wants to create, read, edit, or manipulate Word documents (.docx files).",
+      "keywords": [
+        "DOCX",
+        "NOT",
+        "PDFs"
+      ],
+      "path": "catalog/tools/docx.md"
+    },
+    {
+      "slug": "drugbank",
+      "title": "DrugBank MCP Server",
+      "tool_type": "MCP server",
+      "availability": "GA",
+      "tool_categories": [
+        "Drug Repurposing and Discovery",
+        "Chemistry",
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-05-20",
+      "summary": "Community MCP server exposing a local DrugBank SQLite (17k+ drugs) with 16 query methods for repurposing, target lookup, interactions, and structural similarity.",
+      "keywords": [
+        "SQLite"
+      ],
+      "path": "catalog/tools/drugbank.md"
+    },
+    {
+      "slug": "dwi-skill",
+      "title": "Diffusion MRI (DWI) (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Preprocess diffusion MRI / DWI data, compute diffusion metrics (FA/MD/AD/RD, etc.), extract ROI-wise diffusion features, or run tractography/connectome-related workflows\"",
+      "keywords": [
+        "DTI",
+        "DWI",
+        "MRI",
+        "QSIPrep",
+        "ROI-wise",
+        "TBSS",
+        "WHAT"
+      ],
+      "path": "catalog/tools/dwi-skill.md"
+    },
+    {
+      "slug": "eeg-skill",
+      "title": "EEG Processing (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Load, preprocess, epoch, filter, or extract features from EEG data (resting-state, task-based, BCI, clinical, motor imagery, emotion, epilepsy, fatigue, etc.)\"",
+      "keywords": [
+        "BCI",
+        "EEG"
+      ],
+      "path": "catalog/tools/eeg-skill.md"
+    },
+    {
+      "slug": "emdb-database",
+      "title": "EMDB (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Integrative Structural and Computational Biology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Look up EMDB cryo-EM density maps and fitted atomic models via the entry REST API + EBI Search WS.\"",
+      "keywords": [
+        "EBI",
+        "EMDB",
+        "PDB",
+        "REST"
+      ],
+      "path": "catalog/tools/emdb-database.md"
+    },
+    {
+      "slug": "ena-database",
+      "title": "ENA (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"ENA REST API for sequences, reads, assemblies, and annotations.\"",
+      "keywords": [
+        "BAM",
+        "EMBL",
+        "ENA",
+        "FASTA",
+        "FASTQ",
+        "NCBI-only",
+        "REST",
+        "XML"
+      ],
+      "path": "catalog/tools/ena-database.md"
+    },
+    {
+      "slug": "encode-database",
+      "title": "ENCODE (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"ENCODE Portal REST API for regulatory genomics: TF ChIP-seq, ATAC-seq/DNase-seq peaks, histone marks, and RNA-seq across 1000+ cell types.\"",
+      "keywords": [
+        "ATAC",
+        "ATAC-seq",
+        "BED",
+        "cCREs",
+        "ChIP",
+        "ChIP-seq",
+        "DNase-seq",
+        "ENCODE",
+        "GWAS",
+        "REST",
+        "RNA-seq",
+        "SCREEN"
+      ],
+      "path": "catalog/tools/encode-database.md"
+    },
+    {
+      "slug": "ensembl",
+      "title": "Ensembl MCP Server",
+      "tool_type": "MCP server",
+      "availability": "GA",
+      "tool_categories": [
+        "Drug Repurposing and Discovery",
+        "Immunology and Microbiology",
+        "Integrative Structural and Computational Biology",
+        "Molecular and Cellular Biology",
+        "Neuroscience",
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "MCP server over the Ensembl REST API for gene/transcript lookup, sequence retrieval, variant consequences, comparative genomics, and assembly lift-over.",
+      "keywords": [
+        "REST"
+      ],
+      "path": "catalog/tools/ensembl.md"
+    },
+    {
+      "slug": "esm",
+      "title": "ESM (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Integrative Structural and Computational Biology"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Comprehensive toolkit for EvolutionaryScale protein language models including ESM3 (generative multimodal design across sequence, structure, and function) and ESM C (efficient embeddings).",
+      "keywords": [
+        "ESM",
+        "ESM3",
+        "ESMFold2"
+      ],
+      "path": "catalog/tools/esm.md"
+    },
+    {
+      "slug": "etetoolkit",
+      "title": "ETE Toolkit (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Immunology and Microbiology",
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Phylogenetic tree toolkit (ETE).",
+      "keywords": [
+        "ETE",
+        "NCBI",
+        "NHX",
+        "SVG"
+      ],
+      "path": "catalog/tools/etetoolkit.md"
+    },
+    {
+      "slug": "exa-search",
+      "title": "Exa Search (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Web toolkit powered by Exa, tuned for scientific and technical content.",
+      "keywords": [
+        "PDFs"
+      ],
+      "path": "catalog/tools/exa-search.md"
+    },
+    {
+      "slug": "exploratory-data-analysis",
+      "title": "Exploratory Data Analysis (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Perform comprehensive exploratory data analysis on scientific data files across 200+ file formats.",
+      "keywords": [],
+      "path": "catalog/tools/exploratory-data-analysis.md"
+    },
+    {
+      "slug": "fastp-fastq-preprocessing",
+      "title": "fastp (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"All-in-one FASTQ QC and adapter trimming.\"",
+      "keywords": [
+        "All-in-one",
+        "Auto-detects",
+        "BWA-MEM2",
+        "FASTQ",
+        "HTML",
+        "STAR"
+      ],
+      "path": "catalog/tools/fastp-fastq-preprocessing.md"
+    },
+    {
+      "slug": "fda-database",
+      "title": "openFDA (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Translational Medicine",
+        "Drug Repurposing and Discovery"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Query openFDA REST API for adverse events (FAERS), labeling, product info, recalls, enforcement.\"",
+      "keywords": [
+        "FAERS",
+        "MedDRA",
+        "NDC",
+        "openFDA",
+        "REST"
+      ],
+      "path": "catalog/tools/fda-database.md"
+    },
+    {
+      "slug": "featurecounts-rna-counting",
+      "title": "featureCounts (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Counts RNA-seq reads overlapping GTF gene features.\"",
+      "keywords": [
+        "BAMs",
+        "GTF",
+        "RNA-seq",
+        "STAR"
+      ],
+      "path": "catalog/tools/featurecounts-rna-counting.md"
+    },
+    {
+      "slug": "fhir-developer",
+      "title": "fhir-developer (Anthropic Healthcare Plugin)",
+      "tool_type": "Claude Code Plugin",
+      "availability": "GA",
+      "tool_categories": [
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-05-20",
+      "summary": "Anthropic Claude Code plugin for authoring FHIR R4 resources with LOINC, SNOMED, and RxNorm validation.",
+      "keywords": [
+        "Anthropic-published",
+        "FHIR",
+        "LOINC",
+        "SNOMED"
+      ],
+      "path": "catalog/tools/fhir-developer.md"
+    },
+    {
+      "slug": "fhir-wso2",
+      "title": "WSO2 FHIR MCP Server",
+      "tool_type": "MCP server",
+      "availability": "GA",
+      "tool_categories": [
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-05-20",
+      "summary": "Open-source MCP bridge that lets Claude search, read, and write FHIR R4 resources against any EHR or sandbox FHIR API with SMART-on-FHIR auth.",
+      "keywords": [
+        "CRUD",
+        "EHR",
+        "FHIR",
+        "FHIR-style",
+        "Open-source",
+        "SMART-on-FHIR",
+        "WSO2"
+      ],
+      "path": "catalog/tools/fhir-wso2.md"
+    },
+    {
+      "slug": "filtering",
+      "title": "Temporal Filtering (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Perform neuroimaging signal denoising with classical temporal filtering methods.\"",
+      "keywords": [],
+      "path": "catalog/tools/filtering.md"
+    },
+    {
+      "slug": "flowio",
+      "title": "FlowIO (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Immunology and Microbiology"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Skill that parses Flow Cytometry Standard (FCS v2–3.1) files into NumPy/pandas for immunophenotyping pipelines and metadata extraction.",
+      "keywords": [
+        "BSD-3",
+        "FCS",
+        "FlowIO"
+      ],
+      "path": "catalog/tools/flowio.md"
+    },
+    {
+      "slug": "fluidsim",
+      "title": "FluidSim (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Framework for computational fluid dynamics simulations using Python.",
+      "keywords": [
+        "FFT",
+        "HPC",
+        "Navier-Stokes"
+      ],
+      "path": "catalog/tools/fluidsim.md"
+    },
+    {
+      "slug": "fm_app",
+      "title": "FM-APP (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Run FM-APP for phenotype prediction using fMRI ROI features and optional sMRI features.\"",
+      "keywords": [
+        "APP",
+        "FM-APP",
+        "fMRI",
+        "ROI",
+        "sMRI"
+      ],
+      "path": "catalog/tools/fm_app.md"
+    },
+    {
+      "slug": "fmri-skill",
+      "title": "fMRI Processing (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Perform fMRI preprocessing, first-level analysis, ROI extraction, functional connectivity, effective connectivity, or atlas-based alignment to MNI152 space using either fMRIPrep, HCP-style pipelines, or CONN Toolbox\"",
+      "keywords": [
+        "BOLD",
+        "CONN",
+        "DCM",
+        "fMRI",
+        "fMRIPrep",
+        "HCP",
+        "HCP-style",
+        "MNI152",
+        "PPI",
+        "ROI"
+      ],
+      "path": "catalog/tools/fmri-skill.md"
+    },
+    {
+      "slug": "fmriprep-tool",
+      "title": "fMRIPrep (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Perform standardized preprocessing of functional MRI (fMRI) and anatomical MRI data using fMRIPrep\"",
+      "keywords": [
+        "BIDS",
+        "BIDS-organized",
+        "BOLD",
+        "fMRI",
+        "fMRIPrep",
+        "MRI"
+      ],
+      "path": "catalog/tools/fmriprep-tool.md"
+    },
+    {
+      "slug": "freesurfer-tool",
+      "title": "FreeSurfer (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Process structural MRI data (T1w, T2w, FLAIR, etc.) with FreeSurfer, especially for cortical/subcortical segmentation, surface reconstruction, parcellation, cortical thickness, volume statistics, or full recon-all pipeline\"",
+      "keywords": [
+        "FLAIR",
+        "MRI",
+        "NIfTI"
+      ],
+      "path": "catalog/tools/freesurfer-tool.md"
+    },
+    {
+      "slug": "fsl-tool",
+      "title": "FSL (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Process neuroimaging data with FSL (FMRIB Software Library), covering structural MRI, functional MRI (fMRI), and diffusion MRI (dMRI/DTI)\"",
+      "keywords": [
+        "BET",
+        "dMRI",
+        "DTI",
+        "FAST",
+        "FEAT",
+        "FLIRT",
+        "fMRI",
+        "FMRIB",
+        "FNIRT",
+        "FSL",
+        "MELODIC",
+        "MRI"
+      ],
+      "path": "catalog/tools/fsl-tool.md"
+    },
+    {
+      "slug": "gatk-variant-calling",
+      "title": "GATK (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"GATK Best Practices for germline SNP/indel calling from WGS/WES BAMs.\"",
+      "keywords": [
+        "BAMs",
+        "BQSR",
+        "BWA-MEM2-aligned",
+        "ENCODE",
+        "GATK",
+        "GenomicsDBImport",
+        "GenotypeGVCFs",
+        "GVCFs",
+        "NIH",
+        "Per-sample",
+        "SNP",
+        "VQSR"
+      ],
+      "path": "catalog/tools/gatk-variant-calling.md"
+    },
+    {
+      "slug": "gene-database",
+      "title": "NCBI Gene (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"NCBI Gene via E-utilities: curated records across 1M+ taxa.\"",
+      "keywords": [
+        "NCBI"
+      ],
+      "path": "catalog/tools/gene-database.md"
+    },
+    {
+      "slug": "generate-image",
+      "title": "Generate Image (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Generate or edit images using AI models (FLUX, Nano Banana 2).",
+      "keywords": [
+        "FLUX"
+      ],
+      "path": "catalog/tools/generate-image.md"
+    },
+    {
+      "slug": "geniml",
+      "title": "geniml (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Working with genomic interval data (BED files) for machine learning tasks.",
+      "keywords": [
+        "ATAC-seq",
+        "BED",
+        "BEDspace",
+        "ML-based",
+        "scATAC-seq"
+      ],
+      "path": "catalog/tools/geniml.md"
+    },
+    {
+      "slug": "geo-database",
+      "title": "NCBI GEO (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"NCBI GEO access via GEOparse and E-utilities.\"",
+      "keywords": [
+        "GEO",
+        "GEOparse",
+        "GPL",
+        "GSE",
+        "GSM",
+        "NCBI"
+      ],
+      "path": "catalog/tools/geo-database.md"
+    },
+    {
+      "slug": "geomaster",
+      "title": "GeoMaster (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Comprehensive geospatial science skill covering remote sensing, GIS, spatial analysis, machine learning for earth observation, and 30+ scientific domains.",
+      "keywords": [
+        "COG",
+        "GIS",
+        "MODIS",
+        "SAR",
+        "STAC"
+      ],
+      "path": "catalog/tools/geomaster.md"
+    },
+    {
+      "slug": "geopandas",
+      "title": "GeoPandas (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Python library for working with geospatial vector data including shapefiles, GeoJSON, and GeoPackage files.",
+      "keywords": [
+        "GeoJSON",
+        "PostGIS"
+      ],
+      "path": "catalog/tools/geopandas.md"
+    },
+    {
+      "slug": "get-available-resources",
+      "title": "Get Available Resources (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "This skill should be used at the start of any computationally intensive scientific task to detect and report available system resources (CPU cores, GPUs …",
+      "keywords": [
+        "GPUs",
+        "JAX"
+      ],
+      "path": "catalog/tools/get-available-resources.md"
+    },
+    {
+      "slug": "gget",
+      "title": "gget (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Drug Repurposing and Discovery",
+        "Immunology and Microbiology",
+        "Integrative Structural and Computational Biology",
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Claude skill wrapping the gget command-line / Python tool for fast unified queries against Ensembl, UniProt, NCBI, PDB, COSMIC, and other genomics databases.",
+      "keywords": [
+        "COSMIC",
+        "NCBI",
+        "PDB"
+      ],
+      "path": "catalog/tools/gget.md"
+    },
+    {
+      "slug": "ginkgo-cloud-lab",
+      "title": "Ginkgo Cloud Lab (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Submit and manage protocols on Ginkgo Bioworks Cloud Lab (cloud.ginkgo.bio), a web-based interface for autonomous lab execution on Reconfigurable Automation Carts (RACs).",
+      "keywords": [
+        "RACs"
+      ],
+      "path": "catalog/tools/ginkgo-cloud-lab.md"
+    },
+    {
+      "slug": "glm",
+      "title": "GLM (Task-fMRI) (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Run a classical General Linear Model (GLM) for task-evoked fMRI activation analysis.\"",
+      "keywords": [
+        "fMRI",
+        "GLM",
+        "Task-fMRI"
+      ],
+      "path": "catalog/tools/glm.md"
+    },
+    {
+      "slug": "glycoengineering",
+      "title": "Glycoengineering (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Immunology and Microbiology",
+        "Drug Repurposing and Discovery"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Claude skill for protein-glycosylation analysis — N-glycosylation sequon scanning, O-glycosylation hotspot prediction, and access to NetOGlyc/GlycoShield/GlycoWorkbench for therapeutic antibody and vaccine design.",
+      "keywords": [
+        "AlphaFold-Multimer",
+        "DTU",
+        "Fc-region",
+        "NetNGlyc",
+        "NetOGlyc",
+        "Thr-rich"
+      ],
+      "path": "catalog/tools/glycoengineering.md"
+    },
+    {
+      "slug": "gnomad-database",
+      "title": "gnomAD (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Translational Medicine",
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"GnomAD v4 population variant frequencies via GraphQL API.\"",
+      "keywords": [
+        "AFR",
+        "AMR",
+        "ASJ",
+        "EAS",
+        "FIN",
+        "gnomAD",
+        "GnomAD",
+        "GraphQL",
+        "GWAS",
+        "LOEUF",
+        "MID",
+        "NFE"
+      ],
+      "path": "catalog/tools/gnomad-database.md"
+    },
+    {
+      "slug": "gseapy-gene-enrichment",
+      "title": "GSEApy (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"GSEA and over-representation analysis (ORA) for RNA-seq and proteomics.\"",
+      "keywords": [
+        "DESeq2",
+        "GSEA",
+        "GSEApy",
+        "KEGG",
+        "MSigDB",
+        "ORA",
+        "RNA-seq"
+      ],
+      "path": "catalog/tools/gseapy-gene-enrichment.md"
+    },
+    {
+      "slug": "gtars",
+      "title": "gtars (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "High-performance toolkit for genomic interval analysis in Rust with Python bindings.",
+      "keywords": [
+        "BED",
+        "High-performance"
+      ],
+      "path": "catalog/tools/gtars.md"
+    },
+    {
+      "slug": "gtopdb-database",
+      "title": "Guide to Pharmacology (GtoPdb) (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Drug Repurposing and Discovery",
+        "Chemistry"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Query IUPHAR/BPS Guide to Pharmacology (GtoPdb) for receptor-ligand interactions, target/ligand metadata, families, and approved drugs.\"",
+      "keywords": [
+        "BPS",
+        "IUPHAR",
+        "pIC50",
+        "SMILES"
+      ],
+      "path": "catalog/tools/gtopdb-database.md"
+    },
+    {
+      "slug": "gwas-database",
+      "title": "GWAS Catalog (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Translational Medicine",
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"NHGRI-EBI GWAS Catalog REST API for SNP-trait associations from published GWAS.\"",
+      "keywords": [
+        "GWAS",
+        "NHGRI-EBI",
+        "PRS",
+        "REST",
+        "SNP-trait"
+      ],
+      "path": "catalog/tools/gwas-database.md"
+    },
+    {
+      "slug": "harmonization-tool",
+      "title": "NeuroHarmonize (ComBat) (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Remove site/scanner/batch effects from neuroimaging features before running downstream models, run mega-analysis across multiple datasets, or evaluate models with leave-site-out / site-stratified protocols\"",
+      "keywords": [],
+      "path": "catalog/tools/harmonization-tool.md"
+    },
+    {
+      "slug": "harmony-batch-correction",
+      "title": "Harmony (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Harmony batch correction for scRNA-seq and other omics.\"",
+      "keywords": [
+        "PCA",
+        "scRNA-seq",
+        "UMAP"
+      ],
+      "path": "catalog/tools/harmony-batch-correction.md"
+    },
+    {
+      "slug": "hbn-skill",
+      "title": "Healthy Brain Network (HBN) Pipeline (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"End-to-end workflow for the Healthy Brain Network (HBN) dataset, including download, BIDS organization, and multimodal processing of sMRI, dMRI, rs-fMRI, task-fMRI, and EEG data\"",
+      "keywords": [
+        "BIDS",
+        "dMRI",
+        "EEG",
+        "End-to-end",
+        "fMRI",
+        "HBN",
+        "sMRI"
+      ],
+      "path": "catalog/tools/hbn-skill.md"
+    },
+    {
+      "slug": "hcpa-skill",
+      "title": "HCP-Aging Pipeline (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"End-to-end workflow for the HCP Aging (HCP-A) dataset, including dataset download, BIDS organization, and multimodal processing of sMRI, fMRI, and dMRI\"",
+      "keywords": [
+        "BIDS",
+        "dMRI",
+        "End-to-end",
+        "fMRI",
+        "HCP",
+        "HCP-A",
+        "HCP-Aging",
+        "sMRI"
+      ],
+      "path": "catalog/tools/hcpa-skill.md"
+    },
+    {
+      "slug": "hcpd-skill",
+      "title": "HCP-Development Pipeline (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"End-to-end workflow for the HCP Development (HCP-D) dataset, including dataset download, BIDS organization, and multimodal processing of sMRI, fMRI, and dMRI\"",
+      "keywords": [
+        "BIDS",
+        "dMRI",
+        "End-to-end",
+        "fMRI",
+        "HCP",
+        "HCP-D",
+        "HCP-Development",
+        "sMRI"
+      ],
+      "path": "catalog/tools/hcpd-skill.md"
+    },
+    {
+      "slug": "hcpep-skill",
+      "title": "HCP Early-Psychosis Pipeline (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"End-to-end workflow for the HCP Early Psychosis (HCP-EP) dataset, including dataset download, BIDS organization, and multimodal processing of sMRI, fMRI, and dMRI\"",
+      "keywords": [
+        "BIDS",
+        "dMRI",
+        "Early-Psychosis",
+        "End-to-end",
+        "fMRI",
+        "HCP",
+        "HCP-EP",
+        "sMRI"
+      ],
+      "path": "catalog/tools/hcpep-skill.md"
+    },
+    {
+      "slug": "hcppipeline-tool",
+      "title": "HCP Pipelines (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Perform high-quality, HCP-style preprocessing of multimodal MRI data (structural, functional, diffusion) using the official HCP Pipelines\"",
+      "keywords": [
+        "HCP",
+        "HCP-style",
+        "ICA-FIX",
+        "MRI",
+        "MSMAll"
+      ],
+      "path": "catalog/tools/hcppipeline-tool.md"
+    },
+    {
+      "slug": "hcpya-skill",
+      "title": "HCP Young-Adult Pipeline (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"End-to-end workflow for the HCP Young Adult (HCP-YA / HCP1200) dataset, including dataset download, BIDS organization, and multimodal processing of sMRI, fMRI, and dMRI\"",
+      "keywords": [
+        "BIDS",
+        "dMRI",
+        "DTI",
+        "End-to-end",
+        "fMRI",
+        "HCP",
+        "HCP-YA",
+        "HCP1200",
+        "sMRI",
+        "Young-Adult"
+      ],
+      "path": "catalog/tools/hcpya-skill.md"
+    },
+    {
+      "slug": "hierarchical",
+      "title": "Hierarchical Parcellation (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Perform brain parcellation using Hierarchical clustering.\"",
+      "keywords": [],
+      "path": "catalog/tools/hierarchical.md"
+    },
+    {
+      "slug": "histolab",
+      "title": "histolab (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Lightweight WSI tile extraction and preprocessing.",
+      "keywords": [
+        "WSI"
+      ],
+      "path": "catalog/tools/histolab.md"
+    },
+    {
+      "slug": "hmdb-database",
+      "title": "HMDB (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Parse HMDB (Human Metabolome Database) local XML for metabolite info, chemical properties, biological context, disease links, spectra, and cross-DB mapping.\"",
+      "keywords": [
+        "HMDB",
+        "REST",
+        "XML"
+      ],
+      "path": "catalog/tools/hmdb-database.md"
+    },
+    {
+      "slug": "homer-motif-analysis",
+      "title": "HOMER (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"De novo and known TF motif enrichment in ChIP-seq/ATAC-seq peaks via HOMER.\"",
+      "keywords": [
+        "ATAC-seq",
+        "ChIP-seq",
+        "HOMER",
+        "MACS3",
+        "TSS"
+      ],
+      "path": "catalog/tools/homer-motif-analysis.md"
+    },
+    {
+      "slug": "hugging-science",
+      "title": "Hugging Science (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "The user is doing AI/ML work in a scientific domain such as biology, chemistry, physics, astronomy, climate, genomics, materials, medicine, ecology, energy, engineering, math …",
+      "keywords": [
+        "PDE"
+      ],
+      "path": "catalog/tools/hugging-science.md"
+    },
+    {
+      "slug": "hypogenic",
+      "title": "HypoGeniC (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Automated LLM-driven hypothesis generation and testing on tabular datasets.",
+      "keywords": [
+        "LLM-driven"
+      ],
+      "path": "catalog/tools/hypogenic.md"
+    },
+    {
+      "slug": "hypothesis-generation",
+      "title": "Hypothesis Generation (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "All"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Structured hypothesis formulation from observations.",
+      "keywords": [
+        "LLM-driven"
+      ],
+      "path": "catalog/tools/hypothesis-generation.md"
+    },
+    {
+      "slug": "ibgnn",
+      "title": "IBGNN (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Run IBGNN (Interpretable Brain Graph Neural Network) for fMRI phenotype prediction.\"",
+      "keywords": [
+        "fMRI",
+        "GNN",
+        "IBGNN",
+        "MLP",
+        "PyG-based"
+      ],
+      "path": "catalog/tools/ibgnn.md"
+    },
+    {
+      "slug": "ica",
+      "title": "ICA Decomposition (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Perform resting-state network decomposition using ICA.\"",
+      "keywords": [
+        "fMRI",
+        "ICA"
+      ],
+      "path": "catalog/tools/ica.md"
+    },
+    {
+      "slug": "icd-10-codes",
+      "title": "ICD-10 Codes MCP (Anthropic Healthcare)",
+      "tool_type": "MCP server",
+      "availability": "GA",
+      "tool_categories": [
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-05-23",
+      "summary": "Anthropic-published MCP server for ICD-10 diagnosis and procedure code lookup, sourced from CMS and CDC, for medical coding and claims workflows.",
+      "keywords": [
+        "Anthropic-published",
+        "CDC",
+        "CMS",
+        "ICD-10",
+        "ICD-10-CM",
+        "ICD-10-PCS"
+      ],
+      "path": "catalog/tools/icd-10-codes.md"
+    },
+    {
+      "slug": "imaging-data-commons",
+      "title": "Imaging Data Commons (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Query and download public cancer imaging data from NCI Imaging Data Commons using idc-index.",
+      "keywords": [
+        "NCI",
+        "PET"
+      ],
+      "path": "catalog/tools/imaging-data-commons.md"
+    },
+    {
+      "slug": "infographics",
+      "title": "Infographics (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Create professional infographics using Nano Banana Pro AI with smart iterative refinement.",
+      "keywords": [],
+      "path": "catalog/tools/infographics.md"
+    },
+    {
+      "slug": "instrument-data-to-allotrope",
+      "title": "instrument-data-to-allotrope",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Chemistry",
+        "Drug Repurposing and Discovery",
+        "Immunology and Microbiology",
+        "Molecular and Cellular Biology",
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-05-19",
+      "summary": "Converts 40+ lab-instrument output formats to Allotrope Simple Model JSON / CSV for LIMS and data-lake ingestion.",
+      "keywords": [
+        "ASM",
+        "LIMS",
+        "PDF-table",
+        "TXT"
+      ],
+      "path": "catalog/tools/instrument-data-to-allotrope.md"
+    },
+    {
+      "slug": "interpro-database",
+      "title": "InterPro (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Integrative Structural and Computational Biology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Query InterPro REST API for protein domain architecture, family classification, and member-DB integration.\"",
+      "keywords": [
+        "CDD",
+        "NCBIfam",
+        "PANTHER",
+        "PDB",
+        "PIRSF",
+        "PRINTS",
+        "PROSITE",
+        "REST",
+        "SMART"
+      ],
+      "path": "catalog/tools/interpro-database.md"
+    },
+    {
+      "slug": "iso-13485-certification",
+      "title": "ISO 13485 Certification (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Comprehensive toolkit for preparing ISO 13485 certification documentation for medical device Quality Management Systems.",
+      "keywords": [
+        "FDA",
+        "ISO",
+        "MDR",
+        "QMS",
+        "QMSR"
+      ],
+      "path": "catalog/tools/iso-13485-certification.md"
+    },
+    {
+      "slug": "ixi-skill",
+      "title": "IXI Pipeline (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"End-to-end workflow for the IXI (Information eXtraction from Images) dataset, including data download, BIDS organization, and multimodal processing of T1w, T2w, and MRA\"",
+      "keywords": [
+        "BIDS",
+        "End-to-end",
+        "IXI",
+        "MRA",
+        "MRI"
+      ],
+      "path": "catalog/tools/ixi-skill.md"
+    },
+    {
+      "slug": "jaspar-database",
+      "title": "JASPAR (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"JASPAR 2024 TF binding profiles via REST API and pyJASPAR.\"",
+      "keywords": [
+        "bHLH",
+        "ChIP-seq",
+        "DNA",
+        "JASPAR",
+        "PFMs",
+        "PWMs",
+        "pyJASPAR",
+        "REST",
+        "TFBS"
+      ],
+      "path": "catalog/tools/jaspar-database.md"
+    },
+    {
+      "slug": "kegg-database",
+      "title": "KEGG Database (REST API) (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"KEGG REST API (academic only).\"",
+      "keywords": [
+        "KEGG",
+        "NCBI",
+        "REST"
+      ],
+      "path": "catalog/tools/kegg-database.md"
+    },
+    {
+      "slug": "kegg-pathway-analysis",
+      "title": "KEGG Pathway Analysis (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Guide to KEGG pathway enrichment for DEG results.\"",
+      "keywords": [
+        "DEG",
+        "GSEA",
+        "KEGG",
+        "ORA"
+      ],
+      "path": "catalog/tools/kegg-pathway-analysis.md"
+    },
+    {
+      "slug": "kmeans",
+      "title": "K-means Parcellation (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Perform brain parcellation using K-means.\"",
+      "keywords": [],
+      "path": "catalog/tools/kmeans.md"
+    },
+    {
+      "slug": "labarchive-integration",
+      "title": "LabArchives (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Electronic lab notebook API integration.",
+      "keywords": [
+        "ELN",
+        "REDCap"
+      ],
+      "path": "catalog/tools/labarchive-integration.md"
+    },
+    {
+      "slug": "lamindb",
+      "title": "LaminDB (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Working with LaminDB, the open-source lineage-native lakehouse for biological datasets and models.",
+      "keywords": [
+        "LaminDB"
+      ],
+      "path": "catalog/tools/lamindb.md"
+    },
+    {
+      "slug": "latchbio-integration",
+      "title": "LatchBio (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Latch platform for bioinformatics workflows.",
+      "keywords": [],
+      "path": "catalog/tools/latchbio-integration.md"
+    },
+    {
+      "slug": "latex-posters",
+      "title": "LaTeX Posters (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Create professional research posters in LaTeX using beamerposter, tikzposter, or baposter.",
+      "keywords": [],
+      "path": "catalog/tools/latex-posters.md"
+    },
+    {
+      "slug": "lggnn",
+      "title": "LG-GNN (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Run LG-GNN (Local-to-Global GNN) for fMRI phenotype prediction.\"",
+      "keywords": [
+        "fMRI",
+        "GNN",
+        "LG-GNN",
+        "Local-to-Global",
+        "PyG-based",
+        "SABP",
+        "Self-Attention"
+      ],
+      "path": "catalog/tools/lggnn.md"
+    },
+    {
+      "slug": "libsbml-network-modeling",
+      "title": "libSBML (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Build, read, validate, modify SBML biological network models via the libSBML Python API.\"",
+      "keywords": [
+        "COBRApy",
+        "COPASI",
+        "FBC",
+        "libSBML",
+        "ODE",
+        "SBML"
+      ],
+      "path": "catalog/tools/libsbml-network-modeling.md"
+    },
+    {
+      "slug": "liteparse",
+      "title": "LiteParse (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Local document and PDF parsing with spatial text and bounding boxes.",
+      "keywords": [
+        "DOCX",
+        "OCR",
+        "PDFs",
+        "PNG",
+        "RAG"
+      ],
+      "path": "catalog/tools/liteparse.md"
+    },
+    {
+      "slug": "literature-review",
+      "title": "Literature Review (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "All"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Conduct comprehensive, systematic literature reviews using multiple academic databases (PubMed, arXiv, bioRxiv, Semantic Scholar, etc.).",
+      "keywords": [
+        "APA",
+        "PDFs"
+      ],
+      "path": "catalog/tools/literature-review.md"
+    },
+    {
+      "slug": "macs3-peak-calling",
+      "title": "MACS3 (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Poisson-model peak caller for ChIP-seq/ATAC-seq BAMs.\"",
+      "keywords": [
+        "ATAC-seq",
+        "BAMs",
+        "BED",
+        "ChIP-seq",
+        "MACS3",
+        "Poisson-model"
+      ],
+      "path": "catalog/tools/macs3-peak-calling.md"
+    },
+    {
+      "slug": "markdown-mermaid-writing",
+      "title": "Markdown & Mermaid Writing (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Comprehensive markdown and Mermaid diagram writing skill.",
+      "keywords": [],
+      "path": "catalog/tools/markdown-mermaid-writing.md"
+    },
+    {
+      "slug": "markitdown",
+      "title": "MarkItDown (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Convert files and office documents to Markdown.",
+      "keywords": [
+        "DOCX",
+        "HTML",
+        "OCR",
+        "PPTX",
+        "XLSX",
+        "XML",
+        "ZIP"
+      ],
+      "path": "catalog/tools/markitdown.md"
+    },
+    {
+      "slug": "matchms",
+      "title": "matchms (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Chemistry"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Spectral similarity and compound identification for metabolomics.",
+      "keywords": [
+        "LC-MS"
+      ],
+      "path": "catalog/tools/matchms.md"
+    },
+    {
+      "slug": "matlab",
+      "title": "MATLAB / Octave (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "MATLAB and GNU Octave numerical computing for matrix operations, data analysis, visualization, and scientific computing.",
+      "keywords": [
+        "GNU",
+        "MATLAB"
+      ],
+      "path": "catalog/tools/matlab.md"
+    },
+    {
+      "slug": "matplotlib",
+      "title": "Matplotlib (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Low-level plotting library for full customization.",
+      "keywords": [
+        "Low-level",
+        "PNG",
+        "SVG"
+      ],
+      "path": "catalog/tools/matplotlib.md"
+    },
+    {
+      "slug": "maxquant-proteomics",
+      "title": "MaxQuant (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"MaxQuant + Perseus proteomics pipeline: run MaxQuant for LFQ and SILAC; parse proteinGroups.txt in Python; filter contaminants/decoys; log2 + median-normalize; impute MNAR; t-test with …\"",
+      "keywords": [
+        "FDR",
+        "GPU-accelerated",
+        "LFQ",
+        "MNAR",
+        "MSFragger",
+        "SILAC",
+        "Thermo-native"
+      ],
+      "path": "catalog/tools/maxquant-proteomics.md"
+    },
+    {
+      "slug": "mdanalysis-trajectory",
+      "title": "MDAnalysis (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Integrative Structural and Computational Biology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Analyze MD trajectories from GROMACS, AMBER, NAMD, CHARMM, LAMMPS.\"",
+      "keywords": [
+        "AMBER",
+        "CHARMM",
+        "GROMACS",
+        "LAMMPS",
+        "MDAnalysis",
+        "NAMD",
+        "OpenMM",
+        "PCA",
+        "RMSD",
+        "RMSF"
+      ],
+      "path": "catalog/tools/mdanalysis-trajectory.md"
+    },
+    {
+      "slug": "mdtraj-trajectory-analysis",
+      "title": "MDTraj (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Integrative Structural and Computational Biology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Mdtraj molecular dynamics trajectory analysis (Python).\"",
+      "keywords": [
+        "DCD",
+        "DSSP",
+        "GROMACS",
+        "MDTraj",
+        "NetCDF",
+        "NMR",
+        "OpenMM",
+        "PDB",
+        "RMSD",
+        "RMSF",
+        "SASA",
+        "TRR"
+      ],
+      "path": "catalog/tools/mdtraj-trajectory-analysis.md"
+    },
+    {
+      "slug": "medchem",
+      "title": "MedChem (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Chemistry",
+        "Drug Repurposing and Discovery"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Claude skill wrapping MedChem — drug-likeness filters (Lipinski, Veber, Egan, Muegge), ADMET-flag detection, and medicinal-chemistry alerts on top of RDKit.",
+      "keywords": [
+        "ADMET-flag",
+        "RDKit",
+        "SKILL"
+      ],
+      "path": "catalog/tools/medchem.md"
+    },
+    {
+      "slug": "meg-skill",
+      "title": "MEG Processing (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Process MEG (magnetoencephalography) data including source localization, time-frequency analysis, connectivity analysis, sensor-level preprocessing, or MEG-specific feature extraction\"",
+      "keywords": [
+        "MEG",
+        "MEG-specific"
+      ],
+      "path": "catalog/tools/meg-skill.md"
+    },
+    {
+      "slug": "metabolomics-workbench-database",
+      "title": "Metabolomics Workbench (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Query Metabolomics Workbench REST API (4,200+ NIH studies) for metabolite ID, study discovery, RefMet standardization, m/z precursor searches, and gene/protein annotations.\"",
+      "keywords": [
+        "NIH",
+        "REST",
+        "XML"
+      ],
+      "path": "catalog/tools/metabolomics-workbench-database.md"
+    },
+    {
+      "slug": "mnd-skill",
+      "title": "Motor Neuron Disease (MND) Pipeline (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"End-to-end workflow for the Motor Neuron Disease (MND) dataset from OpenNeuro ds005874, including BIDS validation, multimodal processing of rs-fMRI and task-fMRI, phenotype extraction, and …\"",
+      "keywords": [
+        "ALS",
+        "BIDS",
+        "End-to-end",
+        "fMRI",
+        "MND"
+      ],
+      "path": "catalog/tools/mnd-skill.md"
+    },
+    {
+      "slug": "mne-eeg-tool",
+      "title": "MNE-Python (EEG) (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Execute concrete MNE-Python operations for EEG loading, preprocessing, filtering, artifact removal, epoching, frequency-band analysis, or feature extraction.\"",
+      "keywords": [
+        "EEG",
+        "MNE-Python"
+      ],
+      "path": "catalog/tools/mne-eeg-tool.md"
+    },
+    {
+      "slug": "modal",
+      "title": "Modal (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Modal is a serverless cloud platform for running Python on demand, including on-demand GPUs.",
+      "keywords": [
+        "GPU-accelerated",
+        "GPUs"
+      ],
+      "path": "catalog/tools/modal.md"
+    },
+    {
+      "slug": "mofaplus-multi-omics",
+      "title": "MOFA+ (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Multi-Omics Factor Analysis v2 (MOFA+) with mofapy2.\"",
+      "keywords": [
+        "ATAC",
+        "MOFA",
+        "Multi-group",
+        "Multi-Omics",
+        "scRNA"
+      ],
+      "path": "catalog/tools/mofaplus-multi-omics.md"
+    },
+    {
+      "slug": "molecular-dynamics",
+      "title": "Molecular Dynamics (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Integrative Structural and Computational Biology",
+        "Drug Repurposing and Discovery"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Claude skill that runs and analyzes OpenMM molecular dynamics simulations and MDAnalysis trajectory analyses for proteins, ligands, and biomolecular complexes.",
+      "keywords": [
+        "MDAnalysis",
+        "OpenMM",
+        "SKILL"
+      ],
+      "path": "catalog/tools/molecular-dynamics.md"
+    },
+    {
+      "slug": "molecule-mcp",
+      "title": "Molecule-MCP",
+      "tool_type": "MCP server",
+      "availability": "GA",
+      "tool_categories": [
+        "Chemistry",
+        "Integrative Structural and Computational Biology",
+        "Drug Repurposing and Discovery"
+      ],
+      "last_verified": "2026-05-20",
+      "summary": "MCP bundle letting Claude drive PyMOL and ChimeraX visualization and run GROMACS molecular dynamics simulations via natural language.",
+      "keywords": [
+        "GROMACS",
+        "Molecule-MCP",
+        "PyMOL"
+      ],
+      "path": "catalog/tools/molecule-mcp.md"
+    },
+    {
+      "slug": "molfeat",
+      "title": "Molfeat (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Chemistry",
+        "Drug Repurposing and Discovery"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Claude skill wrapping Molfeat — a unified API over 100+ molecular featurizers spanning classical fingerprints, descriptors, and pre-trained chemical foundation-model embeddings.",
+      "keywords": [
+        "ChemBERTa",
+        "ECFP",
+        "MACCS",
+        "MolBERT",
+        "RDKit",
+        "SKILL",
+        "Uni-Mol"
+      ],
+      "path": "catalog/tools/molfeat.md"
+    },
+    {
+      "slug": "monarch-database",
+      "title": "Monarch Initiative (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Translational Medicine",
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Monarch Initiative knowledge graph REST API for disease-gene-phenotype associations and cross-species orthology.\"",
+      "keywords": [
+        "GWAS",
+        "MONDO",
+        "REST"
+      ],
+      "path": "catalog/tools/monarch-database.md"
+    },
+    {
+      "slug": "mouse-phenome-database",
+      "title": "Mouse Phenome Database (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Retrieve mouse phenotype data from the Jackson Laboratory Mouse Phenome Database (MPD) via its REST API.\"",
+      "keywords": [
+        "LS-mean",
+        "MPD",
+        "QTL",
+        "REST"
+      ],
+      "path": "catalog/tools/mouse-phenome-database.md"
+    },
+    {
+      "slug": "mschallenge-skill",
+      "title": "MS Lesion Segmentation Challenge Pipeline (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"End-to-end workflow for the Longitudinal MS Lesion Segmentation Challenge dataset, including data validation, multimodal processing of T1w, T2w, FLAIR, and PD, lesion segmentation, and …\"",
+      "keywords": [
+        "End-to-end",
+        "FLAIR",
+        "ISBI"
+      ],
+      "path": "catalog/tools/mschallenge-skill.md"
+    },
+    {
+      "slug": "multiqc-qc-reports",
+      "title": "MultiQC (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Aggregates QC from 150+ bioinformatics tools into one interactive HTML report.\"",
+      "keywords": [
+        "FastQC",
+        "GATK",
+        "HISAT2",
+        "HTML",
+        "MultiQC",
+        "NGS",
+        "STAR"
+      ],
+      "path": "catalog/tools/multiqc-qc-reports.md"
+    },
+    {
+      "slug": "muon-multiomics-singlecell",
+      "title": "muon (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Multi-modal single-cell analysis with muon/MuData.\"",
+      "keywords": [
+        "ATAC",
+        "CITE-seq",
+        "MOFA",
+        "Multi-modal",
+        "RNA",
+        "WNN"
+      ],
+      "path": "catalog/tools/muon-multiomics-singlecell.md"
+    },
+    {
+      "slug": "napari-image-viewer",
+      "title": "napari (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Interactive viewer for microscopy.\"",
+      "keywords": [
+        "FIJI",
+        "Python-native"
+      ],
+      "path": "catalog/tools/napari-image-viewer.md"
+    },
+    {
+      "slug": "networkx",
+      "title": "NetworkX (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Comprehensive toolkit for creating, analyzing, and visualizing complex networks and graphs in Python.",
+      "keywords": [],
+      "path": "catalog/tools/networkx.md"
+    },
+    {
+      "slug": "neurokit2",
+      "title": "NeuroKit2 (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience",
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Claude skill for biosignal processing — ECG, EEG, EDA, RSP, PPG, EMG, and EOG analysis including HRV, event-related responses, and multi-modal physiological insights.",
+      "keywords": [
+        "ECG",
+        "EDA",
+        "EEG",
+        "EMG",
+        "EOG",
+        "fMRI",
+        "HRV",
+        "Multi-modal",
+        "PPG",
+        "RSA",
+        "RSP"
+      ],
+      "path": "catalog/tools/neurokit2.md"
+    },
+    {
+      "slug": "neuropixels-analysis",
+      "title": "Neuropixels-Analysis (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Claude skill for end-to-end Neuropixels analysis — SpikeGLX/Open Ephys/NWB loading, preprocessing, motion correction, and Kilosort4/SpykingCircus2/Mountainsort5 spike sorting.",
+      "keywords": [
+        "AI-assisted",
+        "Neuropixels-Analysis",
+        "NWB",
+        "SpikeGLX"
+      ],
+      "path": "catalog/tools/neuropixels-analysis.md"
+    },
+    {
+      "slug": "neurosift",
+      "title": "Neurosift Tools MCP",
+      "tool_type": "MCP server",
+      "availability": "Beta",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-05-20",
+      "summary": "MCP server that lets Claude search DANDI/OpenNeuro and introspect NWB neurophysiology files, plus semantic search over PyNWB docs.",
+      "keywords": [
+        "DANDI",
+        "NWB",
+        "NWB-format",
+        "PyNWB"
+      ],
+      "path": "catalog/tools/neurosift.md"
+    },
+    {
+      "slug": "neurostorm",
+      "title": "NeuroSTORM (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Run the NeuroSTORM multi-model fMRI platform: preprocessing, pretraining (MAE or contrastive), fine-tuning, inference, or benchmarking.\"",
+      "keywords": [
+        "ABCD",
+        "ADHD200",
+        "BNT",
+        "BOLD5000",
+        "BrainGNN",
+        "BrainNetCNN",
+        "BrainTF",
+        "COBRE",
+        "Com-BrainTF",
+        "fMRI",
+        "GNN",
+        "HCP"
+      ],
+      "path": "catalog/tools/neurostorm.md"
+    },
+    {
+      "slug": "nextflow-development",
+      "title": "nextflow-development",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Drug Repurposing and Discovery",
+        "Immunology and Microbiology",
+        "Integrative Structural and Computational Biology",
+        "Molecular and Cellular Biology",
+        "Neuroscience",
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-05-19",
+      "summary": "Runs nf-core rnaseq, sarek, and atacseq pipelines on local FASTQ or GEO/SRA inputs.",
+      "keywords": [
+        "FASTQ",
+        "GEO",
+        "SRA"
+      ],
+      "path": "catalog/tools/nextflow-development.md"
+    },
+    {
+      "slug": "nibabel-skill",
+      "title": "NiBabel (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"NeuroClaw needs concrete nibabel operations for neuroimaging files: loading and validating NIfTI images, inspecting shapes and affine matrices, saving derived images, converting voxel coordinates …\"",
+      "keywords": [
+        "MNI",
+        "NIfTI"
+      ],
+      "path": "catalog/tools/nibabel-skill.md"
+    },
+    {
+      "slug": "nifd-skill",
+      "title": "NIFD (Frontotemporal Dementia) Pipeline (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"End-to-end workflow for the Neuroimaging in Frontotemporal Dementia (NIFD) dataset, including BIDS validation, multimodal processing of sMRI, rs-fMRI, and dMRI, phenotype extraction, and QC integration\"",
+      "keywords": [
+        "BIDS",
+        "bvFTD",
+        "dMRI",
+        "End-to-end",
+        "fMRI",
+        "FTD",
+        "NIFD",
+        "PPA",
+        "sMRI"
+      ],
+      "path": "catalog/tools/nifd-skill.md"
+    },
+    {
+      "slug": "nii2dcm",
+      "title": "nii2dcm (NIfTI → DICOM) (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Convert NIfTI files (.nii or .nii.gz) to DICOM format, create DICOM series from processed neuroimaging results, write segmentation/registration/analysis outputs back to DICOM for PACS …\"",
+      "keywords": [
+        "DICOM",
+        "NIfTI",
+        "NOT",
+        "PACS",
+        "SVR"
+      ],
+      "path": "catalog/tools/nii2dcm.md"
+    },
+    {
+      "slug": "nilearn-tool",
+      "title": "Nilearn (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Execute concrete Nilearn operations: ROI/atlas time-series extraction, confounds handling (fMRIPrep), seed-based connectivity maps, ROI-to-ROI connectivity matrices, and optional GLM/decoding utilities.\"",
+      "keywords": [
+        "fMRI",
+        "fMRIPrep",
+        "GLM",
+        "ROI",
+        "ROI-to-ROI"
+      ],
+      "path": "catalog/tools/nilearn-tool.md"
+    },
+    {
+      "slug": "nnunet-segmentation",
+      "title": "nnU-Net (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Medical image segmentation with nnU-Net's self-configuring framework — auto-selects architecture, preprocessing, training for any modality.\"",
+      "keywords": [
+        "MRI"
+      ],
+      "path": "catalog/tools/nnunet-segmentation.md"
+    },
+    {
+      "slug": "npi-registry",
+      "title": "NPI Registry MCP (Anthropic Healthcare)",
+      "tool_type": "MCP server",
+      "availability": "GA",
+      "tool_categories": [
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-05-30",
+      "summary": "Anthropic-published MCP server over the CMS NPPES NPI Registry — validate, look up, and search US healthcare providers by National Provider Identifier.",
+      "keywords": [
+        "Anthropic-published",
+        "CMS",
+        "NPI",
+        "NPPES"
+      ],
+      "path": "catalog/tools/npi-registry.md"
+    },
+    {
+      "slug": "nsd-skill",
+      "title": "Natural Scenes Dataset (NSD) Pipeline (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"End-to-end workflow for the Natural Scenes Dataset (NSD), including data access, BIDS validation, multimodal processing of task-fMRI and structural MRI, stimulus metadata extraction, and …\"",
+      "keywords": [
+        "BIDS",
+        "End-to-end",
+        "fMRI",
+        "MRI",
+        "NSD"
+      ],
+      "path": "catalog/tools/nsd-skill.md"
+    },
+    {
+      "slug": "oasis-skill",
+      "title": "OASIS Pipeline (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"End-to-end workflow for the OASIS (Open Access Series of Imaging Studies) dataset, including BIDS validation, multimodal processing of sMRI, and phenotype extraction for aging …\"",
+      "keywords": [
+        "BIDS",
+        "End-to-end",
+        "OASIS",
+        "OASIS-1",
+        "OASIS-2",
+        "OASIS-3",
+        "sMRI"
+      ],
+      "path": "catalog/tools/oasis-skill.md"
+    },
+    {
+      "slug": "omero-integration",
+      "title": "OMERO (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Microscopy data management platform.",
+      "keywords": [
+        "OMERO",
+        "ROIs"
+      ],
+      "path": "catalog/tools/omero-integration.md"
+    },
+    {
+      "slug": "omics-analysis-guide",
+      "title": "Omics Analysis Guide (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Three-tiered approach to omics data analysis (transcriptomics, proteomics) covering validated pipelines, standard workflows, and custom methods\"",
+      "keywords": [
+        "Three-tiered"
+      ],
+      "path": "catalog/tools/omics-analysis-guide.md"
+    },
+    {
+      "slug": "open-notebook",
+      "title": "Open Notebook (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Self-hosted, open-source alternative to Google NotebookLM for AI-powered research and document analysis.",
+      "keywords": [
+        "AI-powered",
+        "NotebookLM",
+        "OpenAI",
+        "PDFs",
+        "Self-hosted"
+      ],
+      "path": "catalog/tools/open-notebook.md"
+    },
+    {
+      "slug": "open-targets",
+      "title": "Open Targets Plugin",
+      "tool_type": "Claude Code Plugin",
+      "availability": "GA",
+      "tool_categories": [
+        "Drug Repurposing and Discovery",
+        "Molecular and Cellular Biology",
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-05-20",
+      "summary": "Official Open Targets MCP plugin giving Claude GraphQL access to target-disease associations, drug evidence, and target-prioritisation scores.",
+      "keywords": [
+        "Anthropic-packaged",
+        "GraphQL"
+      ],
+      "path": "catalog/tools/open-targets.md"
+    },
+    {
+      "slug": "openalex-database",
+      "title": "OpenAlex (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Query OpenAlex REST API for 250M+ scholarly works, authors, institutions, journals, concepts.\"",
+      "keywords": [
+        "DOI",
+        "ORCID",
+        "REST"
+      ],
+      "path": "catalog/tools/openalex-database.md"
+    },
+    {
+      "slug": "opencv-bioimage-analysis",
+      "title": "OpenCV (Bio-image) (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Computer vision for bio-image preprocessing, feature detection, real-time microscopy.\"",
+      "keywords": [
+        "Bio-image",
+        "OpenCV"
+      ],
+      "path": "catalog/tools/opencv-bioimage-analysis.md"
+    },
+    {
+      "slug": "openfda",
+      "title": "OpenFDA MCP Server (ythalorossy)",
+      "tool_type": "MCP server",
+      "availability": "GA",
+      "tool_categories": [
+        "Drug Repurposing and Discovery",
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-06-06",
+      "summary": "MIT-licensed npm MCP server over the openFDA drug API — adverse events, safety/labeling, manufacturer lookups, and NDC resolution.",
+      "keywords": [
+        "FDA",
+        "MIT-licensed",
+        "NDC",
+        "OpenFDA",
+        "openFDA"
+      ],
+      "path": "catalog/tools/openfda.md"
+    },
+    {
+      "slug": "openneuro",
+      "title": "OpenNeuro MCP",
+      "tool_type": "MCP server",
+      "availability": "Beta",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-05-29",
+      "summary": "Community MCP server giving Claude GraphQL access to the OpenNeuro archive of MRI, MEG, EEG, iEEG, and ECoG datasets.",
+      "keywords": [
+        "EEG",
+        "GraphQL",
+        "iEEG",
+        "MEG",
+        "MRI"
+      ],
+      "path": "catalog/tools/openneuro.md"
+    },
+    {
+      "slug": "opentargets-database",
+      "title": "Open Targets (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Drug Repurposing and Discovery",
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Query Open Targets GraphQL API for target-disease associations, evidence, drug links, safety.\"",
+      "keywords": [
+        "ChEMBL",
+        "EFO",
+        "GraphQL"
+      ],
+      "path": "catalog/tools/opentargets-database.md"
+    },
+    {
+      "slug": "opentrons-integration",
+      "title": "Opentrons (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Official Opentrons Protocol API for OT-2 and Flex robots.",
+      "keywords": [
+        "OT-2"
+      ],
+      "path": "catalog/tools/opentrons-integration.md"
+    },
+    {
+      "slug": "optimize-for-gpu",
+      "title": "Optimize for GPU (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "GPU-accelerate Python code using CuPy, Numba CUDA, Warp, cuDF, cuML, cuGraph, KvikIO, cuCIM, cuxfilter, cuVS, cuSpatial, and RAFT.",
+      "keywords": [
+        "CPU-bound",
+        "cuCIM",
+        "CUDA",
+        "cuDF",
+        "cuML",
+        "cuVS",
+        "DEM",
+        "GPU-accelerate",
+        "GPUDirect",
+        "KvikIO",
+        "NVIDIA",
+        "RAFT"
+      ],
+      "path": "catalog/tools/optimize-for-gpu.md"
+    },
+    {
+      "slug": "owkin",
+      "title": "Owkin Pathology Explorer Connector",
+      "tool_type": "Claude.ai Connector",
+      "availability": "GA",
+      "tool_categories": [
+        "Drug Repurposing and Discovery",
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-05-24",
+      "summary": "Owkin's Pathology Explorer agent — H&E whole-slide image analysis, cell-type detection, and tumour-microenvironment profiling — exposed to Claude as a remote MCP connector.",
+      "keywords": [
+        "Cell-type",
+        "Cohort-level",
+        "TCGA",
+        "Whole-slide"
+      ],
+      "path": "catalog/tools/owkin.md"
+    },
+    {
+      "slug": "pacsomatic",
+      "title": "pacsomatic (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology",
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Operator toolkit for nf-core/pacsomatic matched tumor-normal workflows from BAM inputs.",
+      "keywords": [
+        "BAM",
+        "LSF",
+        "PBS",
+        "SGE"
+      ],
+      "path": "catalog/tools/pacsomatic.md"
+    },
+    {
+      "slug": "paper-lookup",
+      "title": "Paper Lookup (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "All"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Search 10 academic paper databases via REST APIs for research papers, preprints, and scholarly articles.",
+      "keywords": [
+        "CORE",
+        "DOI",
+        "PMC",
+        "PMID",
+        "REST"
+      ],
+      "path": "catalog/tools/paper-lookup.md"
+    },
+    {
+      "slug": "parallel-web",
+      "title": "Parallel Web (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "All-in-one web toolkit powered by parallel-cli, with a strong emphasis on academic and scientific sources.",
+      "keywords": [
+        "All-in-one",
+        "ANY",
+        "PDFs"
+      ],
+      "path": "catalog/tools/parallel-web.md"
+    },
+    {
+      "slug": "pathml",
+      "title": "PathML (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Full-featured computational pathology toolkit.",
+      "keywords": [
+        "CODEX",
+        "Full-featured",
+        "PathML",
+        "WSI"
+      ],
+      "path": "catalog/tools/pathml.md"
+    },
+    {
+      "slug": "pathway-enrichment",
+      "title": "Pathway Enrichment (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Run pathway and gene-set enrichment analysis on gene lists or ranked gene data, then interpret the results.",
+      "keywords": [
+        "CRISPR-screen",
+        "GSEA",
+        "GSVA",
+        "KEGG",
+        "MSigDB",
+        "ORA",
+        "PyDESeq2",
+        "ssGSEA"
+      ],
+      "path": "catalog/tools/pathway-enrichment.md"
+    },
+    {
+      "slug": "pdb",
+      "title": "PDB MCP Server",
+      "tool_type": "MCP server",
+      "availability": "GA",
+      "tool_categories": [
+        "Integrative Structural and Computational Biology",
+        "Drug Repurposing and Discovery"
+      ],
+      "last_verified": "2026-06-10",
+      "summary": "MCP server that lets Claude search, fetch, and validate RCSB Protein Data Bank structures with UniProt cross-referencing.",
+      "keywords": [
+        "GraphQL",
+        "PDB",
+        "RCSB",
+        "REST",
+        "REST-based"
+      ],
+      "path": "catalog/tools/pdb.md"
+    },
+    {
+      "slug": "pdf",
+      "title": "PDF (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "The user wants to do anything with PDF files.",
+      "keywords": [
+        "OCR",
+        "PDFs"
+      ],
+      "path": "catalog/tools/pdf.md"
+    },
+    {
+      "slug": "peer-review",
+      "title": "Peer Review (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Structured manuscript/grant review with checklist-based evaluation.",
+      "keywords": [
+        "CONSORT",
+        "STROBE"
+      ],
+      "path": "catalog/tools/peer-review.md"
+    },
+    {
+      "slug": "pennylane",
+      "title": "PennyLane (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Hardware-agnostic quantum ML framework with automatic differentiation.",
+      "keywords": [
+        "Hardware-agnostic",
+        "IBM",
+        "JAX",
+        "QAOA",
+        "VQE"
+      ],
+      "path": "catalog/tools/pennylane.md"
+    },
+    {
+      "slug": "pet-skill",
+      "title": "PET Processing (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Process PET neuroimaging data including spatial normalization to T1w/MNI space, SUVR computation, reference region quantification, partial volume correction, or tracer-specific workflows (PiB amyloid, FDG …\"",
+      "keywords": [
+        "FDG",
+        "MNI",
+        "PET",
+        "SUVR"
+      ],
+      "path": "catalog/tools/pet-skill.md"
+    },
+    {
+      "slug": "phylogenetics",
+      "title": "Phylogenetics (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Immunology and Microbiology",
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Build and analyze phylogenetic trees using MAFFT (multiple alignment), IQ-TREE 2 (maximum likelihood), and FastTree (fast NJ/ML).",
+      "keywords": [
+        "ETE3",
+        "IQ-TREE",
+        "MAFFT",
+        "TREE"
+      ],
+      "path": "catalog/tools/phylogenetics.md"
+    },
+    {
+      "slug": "plannotate-plasmid-annotation",
+      "title": "pLannotate (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Auto-annotate plasmids with features (promoters, terminators, resistance, origins, tags, fluorescent proteins) via BLAST against curated DBs (Addgene, fpbase, SnapGene).\"",
+      "keywords": [
+        "Auto-annotate",
+        "BLAST",
+        "FASTA",
+        "HTML"
+      ],
+      "path": "catalog/tools/plannotate-plasmid-annotation.md"
+    },
+    {
+      "slug": "plink2-gwas-analysis",
+      "title": "PLINK2 (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology",
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"GWAS and population genetics tool.\"",
+      "keywords": [
+        "BGEN",
+        "GWAS",
+        "HWE",
+        "IBD",
+        "MAF",
+        "Manhattan-ready",
+        "PCA",
+        "PLINK",
+        "PLINK2",
+        "SAIGE",
+        "VCF"
+      ],
+      "path": "catalog/tools/plink2-gwas-analysis.md"
+    },
+    {
+      "slug": "plotly-interactive-plots",
+      "title": "Plotly (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Interactive scientific visualization with Plotly.\"",
+      "keywords": [
+        "HTML",
+        "PNG",
+        "SVG"
+      ],
+      "path": "catalog/tools/plotly-interactive-plots.md"
+    },
+    {
+      "slug": "pnc-skill",
+      "title": "PNC Pipeline (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"End-to-end workflow for the Philadelphia Neurodevelopmental Cohort (PNC) dataset, including BIDS validation, multimodal processing of sMRI, rs-fMRI, task-fMRI, and dMRI, phenotype extraction, and QC integration\"",
+      "keywords": [
+        "BIDS",
+        "dMRI",
+        "End-to-end",
+        "fMRI",
+        "PNC",
+        "sMRI"
+      ],
+      "path": "catalog/tools/pnc-skill.md"
+    },
+    {
+      "slug": "polars-bio",
+      "title": "Polars-Bio (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "High-performance genomic interval operations and bioinformatics file I/O on Polars DataFrames.",
+      "keywords": [
+        "BAM",
+        "BED",
+        "GFF",
+        "High-performance",
+        "Polars-Bio",
+        "VCF"
+      ],
+      "path": "catalog/tools/polars-bio.md"
+    },
+    {
+      "slug": "polars",
+      "title": "Polars (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Fast in-memory DataFrame library for datasets that fit in RAM.",
+      "keywords": [
+        "ETL"
+      ],
+      "path": "catalog/tools/polars.md"
+    },
+    {
+      "slug": "popv-cell-annotation",
+      "title": "popV (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Consensus cell type annotation: runs 10+ algorithms (KNN-Harmony/BBKNN/Scanorama/scVI, CellTypist, ONCLASS, Random Forest, SCANVI, SVM, XGBoost) on a labeled reference and transfers labels via majority voting.\"",
+      "keywords": [
+        "BBKNN",
+        "KNN-Harmony",
+        "ONCLASS",
+        "SCANVI",
+        "scVI",
+        "SVM",
+        "XGBoost"
+      ],
+      "path": "catalog/tools/popv-cell-annotation.md"
+    },
+    {
+      "slug": "ppmi-skill",
+      "title": "PPMI Pipeline (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"End-to-end workflow for the Parkinson's Progression Markers Initiative (PPMI) dataset, including BIDS validation, multimodal processing of sMRI, rs-fMRI, and dMRI, phenotype extraction, and QC integration\"",
+      "keywords": [
+        "BIDS",
+        "dMRI",
+        "End-to-end",
+        "fMRI",
+        "PPMI",
+        "sMRI"
+      ],
+      "path": "catalog/tools/ppmi-skill.md"
+    },
+    {
+      "slug": "pptx-posters",
+      "title": "PPTX Posters (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Create research posters using HTML/CSS that can be exported to PDF or PPTX.",
+      "keywords": [
+        "CSS",
+        "HTML",
+        "ONLY",
+        "PPTX"
+      ],
+      "path": "catalog/tools/pptx-posters.md"
+    },
+    {
+      "slug": "pptx",
+      "title": "PPTX (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "A .pptx file is involved in any way — as input, output, or both.",
+      "keywords": [
+        "PPTX"
+      ],
+      "path": "catalog/tools/pptx.md"
+    },
+    {
+      "slug": "pride-database",
+      "title": "PRIDE (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Search the PRIDE Archive v3 REST API for proteomics datasets: discover projects by keyword + faceted filters (organism, instrument, disease, software), fetch project metadata …\"",
+      "keywords": [
+        "FASTA",
+        "FTP",
+        "PEAK",
+        "PRIDE",
+        "PSM-level",
+        "RAW",
+        "REST",
+        "RESULT"
+      ],
+      "path": "catalog/tools/pride-database.md"
+    },
+    {
+      "slug": "primekg",
+      "title": "PrimeKG (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Drug Repurposing and Discovery",
+        "Molecular and Cellular Biology",
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Query the Precision Medicine Knowledge Graph (PrimeKG) for multiscale biological data including genes, drugs, diseases, phenotypes, and more.",
+      "keywords": [
+        "PrimeKG"
+      ],
+      "path": "catalog/tools/primekg.md"
+    },
+    {
+      "slug": "prior-auth-review",
+      "title": "prior-auth-review (Anthropic Healthcare Plugin)",
+      "tool_type": "Claude Code Plugin",
+      "availability": "GA",
+      "tool_categories": [
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-05-20",
+      "summary": "Anthropic Claude Code plugin that reviews prior-authorization request documents and surfaces gaps against payer rules.",
+      "keywords": [
+        "Anthropic-published",
+        "CPT",
+        "ICD-10"
+      ],
+      "path": "catalog/tools/prior-auth-review.md"
+    },
+    {
+      "slug": "prokka-genome-annotation",
+      "title": "Prokka (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology",
+        "Immunology and Microbiology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Annotate prokaryotic genomes (bacteria, archaea, viruses) via Prokka's BLAST/HMM pipeline.\"",
+      "keywords": [
+        "BLAST",
+        "CDS",
+        "FASTA",
+        "GFF3",
+        "HMM",
+        "NCBI",
+        "NCBI-compatible",
+        "PGAP",
+        "rRNA",
+        "TIGRFAMs",
+        "tmRNA",
+        "tRNA"
+      ],
+      "path": "catalog/tools/prokka-genome-annotation.md"
+    },
+    {
+      "slug": "protocolsio-integration",
+      "title": "Protocols.io (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Integration with protocols.io API for managing scientific protocols.",
+      "keywords": [],
+      "path": "catalog/tools/protocolsio-integration.md"
+    },
+    {
+      "slug": "pubchem",
+      "title": "PubChem MCP Server",
+      "tool_type": "MCP server",
+      "availability": "GA",
+      "tool_categories": [
+        "Chemistry",
+        "Drug Repurposing and Discovery"
+      ],
+      "last_verified": "2026-06-08",
+      "summary": "MCP server that lets Claude query PubChem for compounds by name, SMILES, CID, or formula and pull structure files.",
+      "keywords": [
+        "ChEMBL",
+        "CID",
+        "Read-only",
+        "SMILES"
+      ],
+      "path": "catalog/tools/pubchem.md"
+    },
+    {
+      "slug": "pubmed",
+      "title": "Anthropic PubMed Connector",
+      "tool_type": "MCP server",
+      "availability": "GA",
+      "tool_categories": [
+        "All"
+      ],
+      "last_verified": "2026-05-19",
+      "summary": "Anthropic-managed NCBI literature search via PubMed and PubMed Central.",
+      "keywords": [
+        "Anthropic-managed",
+        "NCBI",
+        "PMC"
+      ],
+      "path": "catalog/tools/pubmed.md"
+    },
+    {
+      "slug": "pufferlib",
+      "title": "PufferLib (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "High-performance reinforcement learning framework optimized for speed and scale.",
+      "keywords": [
+        "High-performance"
+      ],
+      "path": "catalog/tools/pufferlib.md"
+    },
+    {
+      "slug": "pydeseq2",
+      "title": "PyDESeq2 (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Drug Repurposing and Discovery",
+        "Immunology and Microbiology",
+        "Molecular and Cellular Biology",
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Claude skill for bulk RNA-seq differential expression with PyDESeq2 — size factors, dispersion, Wald / LRT testing, BH-adjusted p-values.",
+      "keywords": [
+        "BH-adjusted",
+        "DESeq2",
+        "GLM",
+        "LRT",
+        "PyDESeq2",
+        "RNA-seq"
+      ],
+      "path": "catalog/tools/pydeseq2.md"
+    },
+    {
+      "slug": "pydicom",
+      "title": "pydicom (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Python library for working with DICOM (Digital Imaging and Communications in Medicine) files.",
+      "keywords": [
+        "DICOM",
+        "MRI",
+        "PACS"
+      ],
+      "path": "catalog/tools/pydicom.md"
+    },
+    {
+      "slug": "pyhealth",
+      "title": "PyHealth (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Build clinical/healthcare deep-learning pipelines with PyHealth — loading EHR/signal/imaging datasets (MIMIC-III/IV, eICU, OMOP, SleepEDF, ChestXray14, EHRShot), defining tasks (mortality, readmission, length-of-stay, drug recommendation, sleep …",
+      "keywords": [
+        "ATC",
+        "CNN",
+        "EEG",
+        "EHR",
+        "EHRShot",
+        "eICU",
+        "GAMENet",
+        "ICD",
+        "MICRON",
+        "MIMIC",
+        "MIMIC-III",
+        "MLP"
+      ],
+      "path": "catalog/tools/pyhealth.md"
+    },
+    {
+      "slug": "pyimagej-fiji-bridge",
+      "title": "PyImageJ / Fiji (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Python bridge to ImageJ2/Fiji for macros, plugins (Bio-Formats, TrackMate, Analyze Particles), NumPy↔ImagePlus/ImgLib2 exchange, and ImageJ Ops.\"",
+      "keywords": [
+        "Bio-Formats"
+      ],
+      "path": "catalog/tools/pyimagej-fiji-bridge.md"
+    },
+    {
+      "slug": "pylabrobot",
+      "title": "PyLabRobot (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Vendor-agnostic lab automation framework.",
+      "keywords": [
+        "Opentrons-only",
+        "Vendor-agnostic"
+      ],
+      "path": "catalog/tools/pylabrobot.md"
+    },
+    {
+      "slug": "pymatgen",
+      "title": "Pymatgen (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Materials science toolkit.",
+      "keywords": [
+        "CIF",
+        "DOS",
+        "POSCAR"
+      ],
+      "path": "catalog/tools/pymatgen.md"
+    },
+    {
+      "slug": "pymc",
+      "title": "PyMC (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Bayesian modeling with PyMC.",
+      "keywords": [
+        "LOO",
+        "MCMC",
+        "NUTS",
+        "PyMC",
+        "WAIC"
+      ],
+      "path": "catalog/tools/pymc.md"
+    },
+    {
+      "slug": "pymoo",
+      "title": "pymoo (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Multi-objective optimization framework.",
+      "keywords": [
+        "DTLZ",
+        "MOEA",
+        "Multi-objective",
+        "NSGA-II",
+        "NSGA-III",
+        "ZDT"
+      ],
+      "path": "catalog/tools/pymoo.md"
+    },
+    {
+      "slug": "pyopenms",
+      "title": "pyOpenMS (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Integrative Structural and Computational Biology",
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Complete mass spectrometry analysis platform.",
+      "keywords": [
+        "LC-MS",
+        "pyOpenMS"
+      ],
+      "path": "catalog/tools/pyopenms.md"
+    },
+    {
+      "slug": "pysam",
+      "title": "pysam (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Genomic file toolkit.",
+      "keywords": [
+        "BAM",
+        "BCF",
+        "CRAM",
+        "FASTA",
+        "FASTQ",
+        "NGS",
+        "SAM",
+        "VCF"
+      ],
+      "path": "catalog/tools/pysam.md"
+    },
+    {
+      "slug": "pytdc",
+      "title": "PyTDC (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Drug Repurposing and Discovery",
+        "Chemistry",
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Claude skill driving PyTDC for Therapeutics Data Commons benchmarks — ADMET, drug-target / drug-drug interactions, drug response, molecular generation, retrosynthesis.",
+      "keywords": [
+        "ADMET",
+        "PyTDC",
+        "SKILL"
+      ],
+      "path": "catalog/tools/pytdc.md"
+    },
+    {
+      "slug": "pytorch-lightning",
+      "title": "PyTorch Lightning (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Deep learning framework (PyTorch Lightning / lightning package).",
+      "keywords": [
+        "DDP",
+        "FSDP",
+        "TPU"
+      ],
+      "path": "catalog/tools/pytorch-lightning.md"
+    },
+    {
+      "slug": "pyzotero",
+      "title": "pyzotero (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Interact with Zotero reference management libraries using the pyzotero Python client.",
+      "keywords": [],
+      "path": "catalog/tools/pyzotero.md"
+    },
+    {
+      "slug": "qiskit",
+      "title": "Qiskit (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "IBM quantum computing framework.",
+      "keywords": [
+        "IBM"
+      ],
+      "path": "catalog/tools/qiskit.md"
+    },
+    {
+      "slug": "qsiprep-tool",
+      "title": "QSIPrep (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Run QSIPrep (BIDS App) for diffusion MRI (DWI) preprocessing with best-practice workflows (topup/eddy, denoising/unringing options, susceptibility/motion correction, coregistration/normalization, QC reports) on BIDS datasets.\"",
+      "keywords": [
+        "BIDS",
+        "DWI",
+        "MRI",
+        "QSIPrep"
+      ],
+      "path": "catalog/tools/qsiprep-tool.md"
+    },
+    {
+      "slug": "quickgo-database",
+      "title": "QuickGO (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Query EBI QuickGO REST API for GO terms and protein annotations.\"",
+      "keywords": [
+        "EBI",
+        "QuickGO",
+        "REST"
+      ],
+      "path": "catalog/tools/quickgo-database.md"
+    },
+    {
+      "slug": "qutip",
+      "title": "QuTiP (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Quantum physics simulation library for open quantum systems.",
+      "keywords": [
+        "NOT",
+        "QED"
+      ],
+      "path": "catalog/tools/qutip.md"
+    },
+    {
+      "slug": "rdkit-mcp",
+      "title": "RDKit MCP Server",
+      "tool_type": "MCP server",
+      "availability": "GA",
+      "tool_categories": [
+        "Chemistry",
+        "Drug Repurposing and Discovery"
+      ],
+      "last_verified": "2026-05-20",
+      "summary": "MCP server exposing the full RDKit API as discrete tool calls so Claude can run cheminformatics without executing Python locally.",
+      "keywords": [
+        "Auto-generated",
+        "RDKit"
+      ],
+      "path": "catalog/tools/rdkit-mcp.md"
+    },
+    {
+      "slug": "rdkit-skill",
+      "title": "RDKit Cheminformatics Skill",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Chemistry"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Claude skill providing RDKit recipes for SMILES parsing, descriptors, fingerprints, substructure search, reactions, and 2D/3D molecular generation.",
+      "keywords": [
+        "RDKit",
+        "SKILL",
+        "SMILES"
+      ],
+      "path": "catalog/tools/rdkit-skill.md"
+    },
+    {
+      "slug": "reactome-database",
+      "title": "Reactome (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Query Reactome pathways via REST: pathway queries, entity lookup, keyword search, gene list enrichment, hierarchy, cross-refs.\"",
+      "keywords": [
+        "KEGG",
+        "PPIs",
+        "REST"
+      ],
+      "path": "catalog/tools/reactome-database.md"
+    },
+    {
+      "slug": "regulomedb-database",
+      "title": "RegulomeDB (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Query RegulomeDB v2 GET REST API to score variants for regulatory function and retrieve overlapping evidence (TF binding, histone marks, DNase peaks, footprints, motifs …\"",
+      "keywords": [
+        "eQTLs",
+        "GET",
+        "GWAS",
+        "RegulomeDB",
+        "REST"
+      ],
+      "path": "catalog/tools/regulomedb-database.md"
+    },
+    {
+      "slug": "remap-database",
+      "title": "ReMap (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Query ReMap 2022 TF ChIP-seq peak database via REST API and BED downloads.\"",
+      "keywords": [
+        "BED",
+        "ChIP-seq",
+        "ENCODE",
+        "PWM",
+        "REST",
+        "TF-cell"
+      ],
+      "path": "catalog/tools/remap-database.md"
+    },
+    {
+      "slug": "research-grants",
+      "title": "Research Grants (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Write competitive research proposals for NSF, NIH, DOE, DARPA, and Taiwan NSTC.",
+      "keywords": [
+        "Agency-specific",
+        "DARPA",
+        "DOE",
+        "NIH",
+        "NSF",
+        "NSTC"
+      ],
+      "path": "catalog/tools/research-grants.md"
+    },
+    {
+      "slug": "research-lookup",
+      "title": "Research Lookup (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Look up current research information using parallel-cli search (primary, fast web search), the Parallel Chat API (deep research), or Perplexity sonar-pro-search (academic paper searches).",
+      "keywords": [],
+      "path": "catalog/tools/research-lookup.md"
+    },
+    {
+      "slug": "rest-mneta-mdd-skill",
+      "title": "REST-meta-MDD Pipeline (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"End-to-end workflow for the REST-meta-MDD (Resting-State Meta-Major Depressive Disorder) dataset, including BIDS validation, processing of rs-fMRI, phenotype extraction, and QC integration\"",
+      "keywords": [
+        "BIDS",
+        "End-to-end",
+        "fMRI",
+        "MDD",
+        "Meta-Major",
+        "REST-meta-MDD",
+        "Resting-State"
+      ],
+      "path": "catalog/tools/rest-mneta-mdd-skill.md"
+    },
+    {
+      "slug": "roary-pangenome",
+      "title": "Roary (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Immunology and Microbiology",
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Compute the bacterial pan-genome from Prokka/Bakta GFF3 annotations with Roary's CD-HIT + BLAST + MCL clustering pipeline.\"",
+      "keywords": [
+        "BLAST",
+        "CD-HIT",
+        "FASTA",
+        "GFF3",
+        "HIT",
+        "MCL",
+        "PIRATE",
+        "PPanGGOLiN"
+      ],
+      "path": "catalog/tools/roary-pangenome.md"
+    },
+    {
+      "slug": "rowan",
+      "title": "Rowan",
+      "tool_type": "Claude Skill, MCP server",
+      "availability": "GA",
+      "tool_categories": [
+        "Chemistry",
+        "Drug Repurposing and Discovery",
+        "Integrative Structural and Computational Biology"
+      ],
+      "last_verified": "2026-06-10",
+      "summary": "Cloud-native molecular modeling and medicinal-chemistry workflow platform, installable as a Claude Skill or an MCP server.",
+      "keywords": [
+        "Cloud-native",
+        "HPC",
+        "MSA"
+      ],
+      "path": "catalog/tools/rowan.md"
+    },
+    {
+      "slug": "run_models",
+      "title": "Run Models (NeuroClaw) (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Run phenotype-prediction models, browse model cards, map model inputs/outputs, or choose an execution route for fMRI/sMRI based models.\"",
+      "keywords": [
+        "fMRI",
+        "sMRI"
+      ],
+      "path": "catalog/tools/run_models.md"
+    },
+    {
+      "slug": "salmon-rna-quantification",
+      "title": "Salmon (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Ultra-fast RNA-seq transcript/gene quantification via quasi-mapping (no BAM).\"",
+      "keywords": [
+        "BAM",
+        "DESeq2",
+        "FASTA",
+        "RNA-seq",
+        "STAR",
+        "TPM",
+        "Ultra-fast"
+      ],
+      "path": "catalog/tools/salmon-rna-quantification.md"
+    },
+    {
+      "slug": "samtools-bam-processing",
+      "title": "SAMtools (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"CLI toolkit for SAM/BAM/CRAM: sort, index, convert, filter, QC alignments.\"",
+      "keywords": [
+        "BAM",
+        "CRAM",
+        "Python-native",
+        "SAM",
+        "SAMtools"
+      ],
+      "path": "catalog/tools/samtools-bam-processing.md"
+    },
+    {
+      "slug": "sar-analysis",
+      "title": "SAR Analysis (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Chemistry",
+        "Drug Repurposing and Discovery"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Structure-activity relationship (SAR) analysis guide for drug discovery including molecular descriptor analysis, scaffold analysis, and activity cliff detection\"",
+      "keywords": [
+        "SAR",
+        "Structure-activity"
+      ],
+      "path": "catalog/tools/sar-analysis.md"
+    },
+    {
+      "slug": "scanpy",
+      "title": "Scanpy-MCP",
+      "tool_type": "MCP server",
+      "availability": "GA",
+      "tool_categories": [
+        "Drug Repurposing and Discovery",
+        "Immunology and Microbiology",
+        "Integrative Structural and Computational Biology",
+        "Molecular and Cellular Biology",
+        "Neuroscience",
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-05-20",
+      "summary": "MCP server wrapping Scanpy so Claude can run end-to-end single-cell RNA-seq analyses (QC, clustering, DE, plotting) from natural language.",
+      "keywords": [
+        "HVGs",
+        "PCA",
+        "RNA-seq",
+        "Scanpy-MCP",
+        "UMAP"
+      ],
+      "path": "catalog/tools/scanpy.md"
+    },
+    {
+      "slug": "scholar-evaluation",
+      "title": "Scholar Evaluation (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Systematically evaluate scholarly work using the ScholarEval framework, providing structured assessment across research quality dimensions including problem formulation, methodology, analysis, and writing with quantitative …",
+      "keywords": [],
+      "path": "catalog/tools/scholar-evaluation.md"
+    },
+    {
+      "slug": "scholar-gateway",
+      "title": "Scholar Gateway Connector (Wiley)",
+      "tool_type": "MCP server",
+      "availability": "Beta",
+      "tool_categories": [
+        "All"
+      ],
+      "last_verified": "2026-05-20",
+      "summary": "Wiley remote connector for peer-reviewed scholarly content — 3M+ articles, 300+ Life Sciences journals.",
+      "keywords": [
+        "DOI-linked",
+        "Scholarly-article",
+        "STEM",
+        "Wiley-indexed"
+      ],
+      "path": "catalog/tools/scholar-gateway.md"
+    },
+    {
+      "slug": "scientific-brainstorming",
+      "title": "Scientific Brainstorming (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "All"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Creative research ideation and exploration.",
+      "keywords": [],
+      "path": "catalog/tools/scientific-brainstorming.md"
+    },
+    {
+      "slug": "scientific-critical-thinking",
+      "title": "Scientific Critical Thinking (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "All"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Evaluate scientific claims and evidence quality.",
+      "keywords": [
+        "GRADE"
+      ],
+      "path": "catalog/tools/scientific-critical-thinking.md"
+    },
+    {
+      "slug": "scientific-problem-selection",
+      "title": "scientific-problem-selection",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "All"
+      ],
+      "last_verified": "2026-05-20",
+      "summary": "Structured framework for research project ideation, risk assessment, and troubleshooting, based on Fischbach & Walsh (Cell 2024).",
+      "keywords": [],
+      "path": "catalog/tools/scientific-problem-selection.md"
+    },
+    {
+      "slug": "scientific-schematics",
+      "title": "Scientific Schematics (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Create publication-quality scientific diagrams using Nano Banana 2 AI with smart iterative refinement.",
+      "keywords": [],
+      "path": "catalog/tools/scientific-schematics.md"
+    },
+    {
+      "slug": "scientific-slides",
+      "title": "Scientific Slides (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Build slide decks and presentations for research talks.",
+      "keywords": [],
+      "path": "catalog/tools/scientific-slides.md"
+    },
+    {
+      "slug": "scientific-visualization",
+      "title": "Scientific Visualization (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Meta-skill for publication-ready figures.",
+      "keywords": [
+        "Meta-skill"
+      ],
+      "path": "catalog/tools/scientific-visualization.md"
+    },
+    {
+      "slug": "scientific-writing",
+      "title": "Scientific Writing (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Core skill for the deep research and writing tool.",
+      "keywords": [
+        "AMA",
+        "APA",
+        "CONSORT",
+        "IMRAD",
+        "PRISMA",
+        "STROBE"
+      ],
+      "path": "catalog/tools/scientific-writing.md"
+    },
+    {
+      "slug": "scikit-bio",
+      "title": "scikit-bio (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Immunology and Microbiology",
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Skill for microbiome ecology — reads BIOM/FASTA, computes alpha/beta diversity (UniFrac), PCoA, PERMANOVA, and builds phylogenetic trees.",
+      "keywords": [
+        "BIOM",
+        "FASTA",
+        "PERMANOVA"
+      ],
+      "path": "catalog/tools/scikit-bio.md"
+    },
+    {
+      "slug": "scikit-image-processing",
+      "title": "scikit-image (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Python image processing for microscopy and bioimage analysis.\"",
+      "keywords": [
+        "OpenCV"
+      ],
+      "path": "catalog/tools/scikit-image-processing.md"
+    },
+    {
+      "slug": "scikit-learn",
+      "title": "scikit-learn (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Machine learning in Python with scikit-learn.",
+      "keywords": [],
+      "path": "catalog/tools/scikit-learn.md"
+    },
+    {
+      "slug": "scikit-survival",
+      "title": "scikit-survival (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Comprehensive toolkit for survival analysis and time-to-event modeling in Python using scikit-survival.",
+      "keywords": [
+        "SVMs"
+      ],
+      "path": "catalog/tools/scikit-survival.md"
+    },
+    {
+      "slug": "scvelo",
+      "title": "scVelo (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology",
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Claude skill for RNA-velocity analysis with scVelo — estimates cell-state transitions from unspliced/spliced mRNA counts, infers trajectories, latent time, and driver genes.",
+      "keywords": [
+        "mRNA",
+        "RNA-seq",
+        "RNA-velocity",
+        "SKILL"
+      ],
+      "path": "catalog/tools/scvelo.md"
+    },
+    {
+      "slug": "scvi-tools",
+      "title": "scvi-tools",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Drug Repurposing and Discovery",
+        "Immunology and Microbiology",
+        "Integrative Structural and Computational Biology",
+        "Molecular and Cellular Biology",
+        "Neuroscience",
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-05-19",
+      "summary": "Deep-learning workflows for scVI, scANVI, totalVI, MultiVI, PeakVI, DestVI, and related scvi-tools models for single-cell omics.",
+      "keywords": [
+        "ATAC",
+        "CITE-seq",
+        "contrastiveVI",
+        "Deep-learning",
+        "DestVI",
+        "MultiVI",
+        "PeakVI",
+        "RNA",
+        "scANVI",
+        "scVI",
+        "sysVI",
+        "totalVI"
+      ],
+      "path": "catalog/tools/scvi-tools.md"
+    },
+    {
+      "slug": "seaborn",
+      "title": "Seaborn (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Statistical visualization with pandas integration.",
+      "keywords": [],
+      "path": "catalog/tools/seaborn.md"
+    },
+    {
+      "slug": "seed-iv-skill",
+      "title": "SEED-IV (EEG Emotion) Pipeline (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"End-to-end workflow for the SEED-IV (SJTU Emotion EEG Dataset - 4 emotions) dataset, including EEG validation, preprocessing, feature extraction, and emotion classification\"",
+      "keywords": [
+        "EEG",
+        "End-to-end",
+        "SEED-IV",
+        "SEED4",
+        "SJTU"
+      ],
+      "path": "catalog/tools/seed-iv-skill.md"
+    },
+    {
+      "slug": "seed-vig-skill",
+      "title": "SEED-VIG (EEG Vigilance) Pipeline (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"End-to-end workflow for the SEED-VIG (SJTU Emotion EEG Dataset - Vigilance) dataset, including EEG validation, preprocessing, feature extraction, and vigilance/fatigue detection\"",
+      "keywords": [
+        "EEG",
+        "End-to-end",
+        "SEED-VIG",
+        "SEEDVIG",
+        "SJTU"
+      ],
+      "path": "catalog/tools/seed-vig-skill.md"
+    },
+    {
+      "slug": "sgrna-design-guide",
+      "title": "sgRNA Design (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Three-tiered sgRNA design guide using validated Addgene sequences, CRISPick pre-computed datasets, or de novo design rules for CRISPR experiments\"",
+      "keywords": [
+        "CRISPick",
+        "CRISPR",
+        "sgRNA",
+        "Three-tiered"
+      ],
+      "path": "catalog/tools/sgrna-design-guide.md"
+    },
+    {
+      "slug": "shap",
+      "title": "SHAP (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Model interpretability and explainability using SHAP (SHapley Additive exPlanations).",
+      "keywords": [
+        "LightGBM",
+        "SHAP",
+        "XGBoost"
+      ],
+      "path": "catalog/tools/shap.md"
+    },
+    {
+      "slug": "simpleitk-image-registration",
+      "title": "SimpleITK (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Register, segment, filter, resample 3D medical images (MRI, CT, microscopy) via SimpleITK Python; DICOM, NIfTI, multi-modal.\"",
+      "keywords": [
+        "DICOM",
+        "MRI",
+        "NIfTI",
+        "SimpleITK"
+      ],
+      "path": "catalog/tools/simpleitk-image-registration.md"
+    },
+    {
+      "slug": "simpy",
+      "title": "SimPy (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Process-based discrete-event simulation framework in Python.",
+      "keywords": [
+        "Process-based"
+      ],
+      "path": "catalog/tools/simpy.md"
+    },
+    {
+      "slug": "single-cell-annotation-guide",
+      "title": "Single-Cell Annotation Guide (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Decision framework for manual marker-based, automated (CellTypist), and reference-based (popV) cell type annotation in scRNA-seq.\"",
+      "keywords": [
+        "scRNA-seq",
+        "Single-Cell",
+        "Three-tier"
+      ],
+      "path": "catalog/tools/single-cell-annotation-guide.md"
+    },
+    {
+      "slug": "single-cell-rna-qc",
+      "title": "single-cell-rna-qc",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Drug Repurposing and Discovery",
+        "Immunology and Microbiology",
+        "Integrative Structural and Computational Biology",
+        "Molecular and Cellular Biology",
+        "Neuroscience",
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-05-19",
+      "summary": "scverse MAD-based QC for .h5ad and 10x .h5 single-cell RNA-seq inputs.",
+      "keywords": [
+        "MAD-based",
+        "RNA-seq"
+      ],
+      "path": "catalog/tools/single-cell-rna-qc.md"
+    },
+    {
+      "slug": "smina-molecular-docking",
+      "title": "smina (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Chemistry",
+        "Drug Repurposing and Discovery",
+        "Integrative Structural and Computational Biology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Smina molecular docking CLI.\"",
+      "keywords": [
+        "MOL2",
+        "PDB",
+        "PDBQT",
+        "Python-bindings",
+        "RDKit",
+        "SDF"
+      ],
+      "path": "catalog/tools/smina-molecular-docking.md"
+    },
+    {
+      "slug": "smri-skill",
+      "title": "Structural MRI (sMRI) (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Process structural MRI (sMRI) such as T1w/T2w/FLAIR for brain extraction, bias correction, tissue segmentation (GM/WM/CSF), registration to MNI, cortical/subcortical parcellation, cortical thickness/volumetry (FreeSurfer), HCP-style …\"",
+      "keywords": [
+        "CSF",
+        "DICOM",
+        "FLAIR",
+        "HCP-style",
+        "MNI",
+        "MRI",
+        "ROI-wise",
+        "sMRI",
+        "WHAT",
+        "WMH"
+      ],
+      "path": "catalog/tools/smri-skill.md"
+    },
+    {
+      "slug": "snakemake-workflow-engine",
+      "title": "Snakemake (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Python-based workflow manager for reproducible, scalable pipelines.\"",
+      "keywords": [
+        "AWS",
+        "GCP",
+        "LSF",
+        "NGS",
+        "Python-based",
+        "SLURM"
+      ],
+      "path": "catalog/tools/snakemake-workflow-engine.md"
+    },
+    {
+      "slug": "snpeff-variant-annotation",
+      "title": "SnpEff / SnpSift (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Annotate and filter VCF variants with SnpEff and SnpSift.\"",
+      "keywords": [
+        "ANNOVAR",
+        "dbSNP",
+        "HGVS",
+        "HIGH",
+        "LOW",
+        "MODERATE",
+        "MODIFIER",
+        "REST",
+        "VCF",
+        "VEP"
+      ],
+      "path": "catalog/tools/snpeff-variant-annotation.md"
+    },
+    {
+      "slug": "spacenet",
+      "title": "SpaceNet Classifier (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Perform disease classification with SpaceNet.\"",
+      "keywords": [],
+      "path": "catalog/tools/spacenet.md"
+    },
+    {
+      "slug": "spikeinterface-electrophysiology",
+      "title": "SpikeInterface (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Unified Python framework for extracellular electrophysiology.\"",
+      "keywords": [
+        "ISI",
+        "Neuropixels-specific",
+        "NWB",
+        "PSTH",
+        "SNR",
+        "SpikeGLX"
+      ],
+      "path": "catalog/tools/spikeinterface-electrophysiology.md"
+    },
+    {
+      "slug": "stable-baselines3",
+      "title": "Stable-Baselines3 (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Production-ready reinforcement learning algorithms (PPO, SAC, DQN, TD3, DDPG, A2C) with scikit-learn-like API.",
+      "keywords": [
+        "DDPG",
+        "DQN",
+        "PPO",
+        "Production-ready",
+        "SAC",
+        "Stable-Baselines3"
+      ],
+      "path": "catalog/tools/stable-baselines3.md"
+    },
+    {
+      "slug": "star-rna-seq-aligner",
+      "title": "STAR (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Splice-aware RNA-seq aligner producing sorted BAM and splice junction tables.\"",
+      "keywords": [
+        "BAM",
+        "ENCODE",
+        "IGV",
+        "RNA-seq",
+        "Splice-aware",
+        "STAR"
+      ],
+      "path": "catalog/tools/star-rna-seq-aligner.md"
+    },
+    {
+      "slug": "statistical-analysis",
+      "title": "Statistical Analysis (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Guided statistical analysis with test selection and reporting.",
+      "keywords": [
+        "APA-formatted"
+      ],
+      "path": "catalog/tools/statistical-analysis.md"
+    },
+    {
+      "slug": "statsmodels",
+      "title": "statsmodels (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Statistical models library for Python.",
+      "keywords": [
+        "APA",
+        "ARIMA",
+        "GLM",
+        "OLS"
+      ],
+      "path": "catalog/tools/statsmodels.md"
+    },
+    {
+      "slug": "string-database-ppi",
+      "title": "STRING (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology",
+        "Integrative Structural and Computational Biology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Query STRING REST API for PPIs (59M proteins, 20B interactions, 5000+ species).\"",
+      "keywords": [
+        "KEGG",
+        "PPI",
+        "PPIs",
+        "REST",
+        "STRING"
+      ],
+      "path": "catalog/tools/string-database-ppi.md"
+    },
+    {
+      "slug": "svm",
+      "title": "SVM Classifier (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Perform disease classification with SVM.\"",
+      "keywords": [
+        "ROI-wise",
+        "SVM"
+      ],
+      "path": "catalog/tools/svm.md"
+    },
+    {
+      "slug": "sympy",
+      "title": "SymPy (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "You need exact symbolic math in Python — algebra, calculus, equation solving, symbolic linear algebra, or code generation via lambdify/LaTeX.",
+      "keywords": [],
+      "path": "catalog/tools/sympy.md"
+    },
+    {
+      "slug": "synapse",
+      "title": "Synapse.org Connector",
+      "tool_type": "MCP server",
+      "availability": "GA",
+      "tool_categories": [
+        "All"
+      ],
+      "last_verified": "2026-05-20",
+      "summary": "Discovery and metadata retrieval across Synapse-hosted biomedical datasets and consortium projects.",
+      "keywords": [
+        "Synapse-hosted"
+      ],
+      "path": "catalog/tools/synapse.md"
+    },
+    {
+      "slug": "tcp-skill",
+      "title": "Transdiagnostic Connectome Project (TCP) Pipeline (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"End-to-end workflow for the Transdiagnostic Connectome Project (TCP) dataset, including BIDS validation, multimodal processing of sMRI, rs-fMRI, and dMRI, phenotype extraction, and QC integration\"",
+      "keywords": [
+        "BIDS",
+        "dMRI",
+        "End-to-end",
+        "fMRI",
+        "sMRI",
+        "TCP"
+      ],
+      "path": "catalog/tools/tcp-skill.md"
+    },
+    {
+      "slug": "tiledbvcf",
+      "title": "TileDB-VCF (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Efficient storage and retrieval of genomic variant data using TileDB.",
+      "keywords": [
+        "BCF",
+        "TileDB",
+        "TileDB-VCF",
+        "VCF"
+      ],
+      "path": "catalog/tools/tiledbvcf.md"
+    },
+    {
+      "slug": "timesfm-forecasting",
+      "title": "TimesFM (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Zero-shot time series forecasting with Google's TimesFM foundation model.",
+      "keywords": [
+        "TimesFM",
+        "Zero-shot"
+      ],
+      "path": "catalog/tools/timesfm-forecasting.md"
+    },
+    {
+      "slug": "tooluniverse",
+      "title": "ToolUniverse",
+      "tool_type": "MCP server",
+      "availability": "GA",
+      "tool_categories": [
+        "All"
+      ],
+      "last_verified": "2026-05-24",
+      "summary": "Harvard / MIT MCP server bundling 600+ vetted scientific tools — literature, chemistry, omics, clinical trials — for AI-scientist-style hypothesis exploration.",
+      "keywords": [
+        "AI-scientist",
+        "AI-scientist-style",
+        "MIT"
+      ],
+      "path": "catalog/tools/tooluniverse.md"
+    },
+    {
+      "slug": "torch-geometric",
+      "title": "PyTorch Geometric (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "PyTorch Geometric (PyG) for graph neural networks — node/link/graph classification, message passing (GCN, GAT, GraphSAGE, GIN), heterogeneous graphs, neighbor sampling, and custom datasets.",
+      "keywords": [
+        "GAT",
+        "GCN",
+        "GIN",
+        "GraphSAGE"
+      ],
+      "path": "catalog/tools/torch-geometric.md"
+    },
+    {
+      "slug": "torchdrug",
+      "title": "TorchDrug (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Chemistry",
+        "Drug Repurposing and Discovery",
+        "Integrative Structural and Computational Biology"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "PyTorch-native graph neural networks for molecules and proteins.",
+      "keywords": [
+        "GNN",
+        "PyTorch-native"
+      ],
+      "path": "catalog/tools/torchdrug.md"
+    },
+    {
+      "slug": "trackpy-particle-tracking",
+      "title": "trackpy (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Python library for single-particle tracking (SPT) in video microscopy via the Crocker-Grier algorithm.\"",
+      "keywords": [
+        "AVI",
+        "Crocker-Grier",
+        "MSD",
+        "SPT",
+        "TIF"
+      ],
+      "path": "catalog/tools/trackpy-particle-tracking.md"
+    },
+    {
+      "slug": "transformers",
+      "title": "Transformers (Hugging Face) (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Hugging Face Transformers for loading Hub models, running pipeline inference, text generation, and Trainer fine-tuning on NLP, vision, audio, and multimodal tasks.",
+      "keywords": [
+        "NLP"
+      ],
+      "path": "catalog/tools/transformers.md"
+    },
+    {
+      "slug": "treatment-plans",
+      "title": "Treatment Plans (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Generate concise (3-4 page), focused medical treatment plans in LaTeX/PDF format for all clinical specialties.",
+      "keywords": [
+        "HIPAA",
+        "SMART"
+      ],
+      "path": "catalog/tools/treatment-plans.md"
+    },
+    {
+      "slug": "ucla-cnp-skill",
+      "title": "UCLA CNP Pipeline (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"End-to-end workflow for the UCLA CNP (Consortium for Neuropsychiatric Phenomics) dataset, including BIDS validation, multimodal processing of sMRI, task-fMRI, and dMRI, phenotype extraction, and …\"",
+      "keywords": [
+        "BIDS",
+        "CNP",
+        "dMRI",
+        "End-to-end",
+        "fMRI",
+        "sMRI",
+        "UCLA"
+      ],
+      "path": "catalog/tools/ucla-cnp-skill.md"
+    },
+    {
+      "slug": "ucsc-genome-browser",
+      "title": "UCSC Genome Browser (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Query UCSC Genome Browser REST API for DNA sequences, tracks, gene models, and conservation across 100+ assemblies.\"",
+      "keywords": [
+        "BED",
+        "DNA",
+        "GENCODE",
+        "REST",
+        "UCSC",
+        "VEP"
+      ],
+      "path": "catalog/tools/ucsc-genome-browser.md"
+    },
+    {
+      "slug": "ukb-skill",
+      "title": "UK Biobank (Brain) Pipeline (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Analyze already available UK Biobank data for brain-related research, including neurological outcomes, cognitive phenotypes, brain MRI derived phenotypes, survival analysis, subgroup analysis, propensity score …\"",
+      "keywords": [
+        "MRI",
+        "RAP"
+      ],
+      "path": "catalog/tools/ukb-skill.md"
+    },
+    {
+      "slug": "umap-learn",
+      "title": "UMAP-learn (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "UMAP dimensionality reduction.",
+      "keywords": [
+        "HDBSCAN",
+        "UMAP",
+        "UMAP-learn"
+      ],
+      "path": "catalog/tools/umap-learn.md"
+    },
+    {
+      "slug": "unichem-database",
+      "title": "UniChem (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Chemistry",
+        "Drug Repurposing and Discovery"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Cross-reference compound IDs across 20+ databases (ChEMBL, DrugBank, PubChem, ChEBI, PDB, SureChEMBL, HMDB, DrugCentral, BindingDB) via UniChem REST API.\"",
+      "keywords": [
+        "BindingDB",
+        "ChEBI",
+        "ChEMBL",
+        "Cross-reference",
+        "GET",
+        "HMDB",
+        "InChIKeys",
+        "PDB",
+        "POST",
+        "REST",
+        "SureChEMBL"
+      ],
+      "path": "catalog/tools/unichem-database.md"
+    },
+    {
+      "slug": "uniprot",
+      "title": "UniProt MCP Server",
+      "tool_type": "MCP server",
+      "availability": "GA",
+      "tool_categories": [
+        "Immunology and Microbiology",
+        "Integrative Structural and Computational Biology",
+        "Molecular and Cellular Biology",
+        "Drug Repurposing and Discovery"
+      ],
+      "last_verified": "2026-05-20",
+      "summary": "MCP server giving Claude 26 tools over the UniProt REST API for protein search, domains, orthologs, PTMs, pathways, and multi-format export.",
+      "keywords": [
+        "PTMs",
+        "REST"
+      ],
+      "path": "catalog/tools/uniprot.md"
+    },
+    {
+      "slug": "usfiscaldata",
+      "title": "US Fiscal Data (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Query the U.S.",
+      "keywords": [
+        "REST"
+      ],
+      "path": "catalog/tools/usfiscaldata.md"
+    },
+    {
+      "slug": "uspto-database",
+      "title": "USPTO Patents (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Access USPTO patent data via PatentsView REST API and Google Patents Public Data (BigQuery).\"",
+      "keywords": [
+        "CPC",
+        "REST",
+        "USPTO"
+      ],
+      "path": "catalog/tools/uspto-database.md"
+    },
+    {
+      "slug": "vaex",
+      "title": "Vaex (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Processing and analyzing large tabular datasets (billions of rows) that exceed available RAM.",
+      "keywords": [
+        "HDF5"
+      ],
+      "path": "catalog/tools/vaex.md"
+    },
+    {
+      "slug": "venue-templates",
+      "title": "Venue Templates (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Access comprehensive LaTeX templates, formatting requirements, and submission guidelines for major scientific publication venues (Nature, Science, PLOS, IEEE, ACM), academic conferences (NeurIPS, ICML, CVPR …",
+      "keywords": [
+        "ACM",
+        "CHI",
+        "CVPR",
+        "DARPA",
+        "DOE",
+        "ICML",
+        "IEEE",
+        "NeurIPS",
+        "NIH",
+        "NSF",
+        "PLOS"
+      ],
+      "path": "catalog/tools/venue-templates.md"
+    },
+    {
+      "slug": "viennarna-structure-prediction",
+      "title": "ViennaRNA (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology",
+        "Integrative Structural and Computational Biology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Predict RNA secondary structure, MFE folding, base-pair probabilities, RNA-RNA interactions via ViennaRNA Python bindings.\"",
+      "keywords": [
+        "MFE",
+        "RNA",
+        "RNA-RNA",
+        "RNAfold",
+        "sgRNA",
+        "siRNA",
+        "ViennaRNA"
+      ],
+      "path": "catalog/tools/viennarna-structure-prediction.md"
+    },
+    {
+      "slug": "western-blot-quantification",
+      "title": "Western Blot Quantification (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Protocols and best practices for western blot quantification and analysis including band detection, normalization, and statistical methods\"",
+      "keywords": [],
+      "path": "catalog/tools/western-blot-quantification.md"
+    },
+    {
+      "slug": "what-if-oracle",
+      "title": "What-If Oracle (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Run structured What-If scenario analysis with 4–6 branch possibility exploration (best, likely, worst, wild card, contrarian, second-order).",
+      "keywords": [
+        "What-If"
+      ],
+      "path": "catalog/tools/what-if-oracle.md"
+    },
+    {
+      "slug": "wmh-segmentation",
+      "title": "WMH Segmentation (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Perform automated white matter hyperintensity (WMH) segmentation on structural MRI data using the MARS-WMH nnU-Net model.\"",
+      "keywords": [
+        "FLAIR",
+        "MARS-WMH",
+        "MRI",
+        "NIfTI",
+        "WMH"
+      ],
+      "path": "catalog/tools/wmh-segmentation.md"
+    },
+    {
+      "slug": "xlsx",
+      "title": "XLSX (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Create, edit, analyze, or convert Excel spreadsheets (.xlsx, .xlsm) where the workbook file is the primary deliverable.",
+      "keywords": [
+        "HTML",
+        "NOT",
+        "XLSX"
+      ],
+      "path": "catalog/tools/xlsx.md"
+    },
+    {
+      "slug": "zarr-python",
+      "title": "Zarr-Python (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-06-04",
+      "summary": "Chunked N-D arrays for cloud storage (Zarr-Python 3).",
+      "keywords": [
+        "GCS",
+        "Zarr-Python"
+      ],
+      "path": "catalog/tools/zarr-python.md"
+    },
+    {
+      "slug": "zinc-database",
+      "title": "ZINC (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Chemistry",
+        "Drug Repurposing and Discovery"
+      ],
+      "last_verified": "2026-06-11",
+      "summary": "\"Query ZINC15/ZINC22 virtual compound libraries (1.4B compounds, 750M purchasable).\"",
+      "keywords": [
+        "SMILES",
+        "ZINC",
+        "ZINC15",
+        "ZINC22"
+      ],
+      "path": "catalog/tools/zinc-database.md"
+    }
+  ]
+}

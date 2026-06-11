@@ -1,0 +1,2080 @@
+{
+  "version": 1,
+  "generated": "2026-06-11",
+  "counts": {
+    "tools": 338,
+    "recipes": 35,
+    "systems": 65
+  },
+  "tools_file": "composer-tools.json",
+  "recipes": [
+    {
+      "slug": "assemble-reference-atlas-from-cellxgene-census",
+      "title": "Assemble a tissue reference atlas from the CELLxGENE Census",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Molecular and Cellular Biology",
+        "Immunology and Microbiology",
+        "Translational Medicine"
+      ],
+      "evidence_level": "Reported",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Workstation with GPU",
+      "last_verified": "2026-05-28",
+      "summary": "Use the cellxgene-census Claude skill to slice a tissue- or disease-specific AnnData from the CZ CELLxGENE Census, optionally fetching the precomputed scVI embedding for reference mapping or downstream integration.",
+      "keywords": [
+        "CELLxGENE",
+        "CZ-trained",
+        "scVI",
+        "TileDB-SOMA-backed",
+        "UMAP"
+      ],
+      "path": "recipes/items/assemble-reference-atlas-from-cellxgene-census.md"
+    },
+    {
+      "slug": "benchmark-admet-property-with-pytdc",
+      "title": "Benchmark an ADMET property with PyTDC",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Drug Repurposing and Discovery",
+        "Chemistry"
+      ],
+      "evidence_level": "Reported",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-05-31",
+      "summary": "Drive the PyTDC Claude skill to load a Therapeutics Data Commons ADMET dataset with its leaderboard split, train or score a baseline model, and emit the standard TDC metrics so a new method can be compared head-to-head against the leaderboard.",
+      "keywords": [
+        "ADMET",
+        "AMES",
+        "Caco-2",
+        "CYP3A4",
+        "hERG",
+        "Morgan-fingerprint",
+        "PyTDC",
+        "TDC"
+      ],
+      "path": "recipes/items/benchmark-admet-property-with-pytdc.md"
+    },
+    {
+      "slug": "build-phylogenetic-tree-from-sequences",
+      "title": "Build a phylogenetic tree from a set of sequences",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Immunology and Microbiology",
+        "Molecular and Cellular Biology"
+      ],
+      "evidence_level": "Proposed",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-06-09",
+      "summary": "Use the phylogenetics Claude skill to take a FASTA of homologous sequences through MAFFT alignment, IQ-TREE 2 maximum-likelihood inference with bootstrap support, and an annotated tree figure.",
+      "keywords": [
+        "ETE3",
+        "FASTA",
+        "GISAID",
+        "IQ-TREE",
+        "MAFFT",
+        "TREE"
+      ],
+      "path": "recipes/items/build-phylogenetic-tree-from-sequences.md"
+    },
+    {
+      "slug": "build-target-dossier",
+      "title": "Build a target dossier from gene name to structure to cancer dependency",
+      "problem_class": "Knowledge synthesis",
+      "subject_areas": [
+        "Molecular and Cellular Biology",
+        "Drug Repurposing and Discovery",
+        "Translational Medicine"
+      ],
+      "evidence_level": "Proposed",
+      "complexity": "Multi-tool harness",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-05-29",
+      "summary": "Combine the Open Targets plugin, UniProt MCP, AlphaFold MCP, and the DepMap skill to produce a one-page dossier on a candidate gene — disease evidence, protein annotation, predicted structure, and cancer-cell-line essentiality.",
+      "keywords": [
+        "CRISPR",
+        "PTMs"
+      ],
+      "path": "recipes/items/build-target-dossier.md"
+    },
+    {
+      "slug": "compute-16s-microbiome-diversity",
+      "title": "Compute 16S microbiome alpha/beta diversity from a BIOM table",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Immunology and Microbiology"
+      ],
+      "evidence_level": "Proposed",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-06-02",
+      "summary": "Use the scikit-bio Claude skill to take a BIOM feature table and sample metadata through Shannon/Simpson/Faith's PD, UniFrac, PCoA, and PERMANOVA in one chat.",
+      "keywords": [
+        "BIOM",
+        "Bray-Curtis",
+        "PERMANOVA",
+        "QIIME",
+        "rRNA"
+      ],
+      "path": "recipes/items/compute-16s-microbiome-diversity.md"
+    },
+    {
+      "slug": "compute-hrv-from-ecg-recording",
+      "title": "Compute HRV from an ECG recording",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Neuroscience",
+        "Translational Medicine"
+      ],
+      "evidence_level": "Proposed",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-05-29",
+      "summary": "Use the NeuroKit2 Claude Skill to clean an ECG trace, detect R-peaks, and return time-domain, frequency-domain, and non-linear HRV indices from a single conversation.",
+      "keywords": [
+        "ECG",
+        "EDF",
+        "HRV",
+        "RMSSD",
+        "SDNN"
+      ],
+      "path": "recipes/items/compute-hrv-from-ecg-recording.md"
+    },
+    {
+      "slug": "convert-instrument-data-to-allotrope-asm",
+      "title": "Convert raw analytical instrument data to Allotrope ASM JSON",
+      "problem_class": "Workflow automation",
+      "subject_areas": [
+        "Chemistry",
+        "Drug Repurposing and Discovery",
+        "Molecular and Cellular Biology",
+        "Translational Medicine"
+      ],
+      "evidence_level": "Reported",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-06-01",
+      "summary": "Drop a raw instrument file (cell counter, plate reader, HPLC, qPCR) onto Claude Code and get back valid Allotrope Simple Model JSON, a flattened CSV for LIMS, and a standalone Python parser script.",
+      "keywords": [
+        "ASM",
+        "Bio-Rad",
+        "BMG",
+        "CELL",
+        "CFX",
+        "ELN",
+        "HPLC",
+        "HPLC-DAD",
+        "HPLCs",
+        "JSON-LD",
+        "LIMS",
+        "OMEGA"
+      ],
+      "path": "recipes/items/convert-instrument-data-to-allotrope-asm.md"
+    },
+    {
+      "slug": "discover-nwb-recordings-on-dandi",
+      "title": "Discover NWB recordings on DANDI and prepare them for sorting",
+      "problem_class": "Knowledge synthesis",
+      "subject_areas": [
+        "Neuroscience"
+      ],
+      "evidence_level": "Reported",
+      "complexity": "Multi-tool harness",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-05-29",
+      "summary": "Use the Neurosift Tools MCP to find Neuropixels (or other extracellular) NWB sessions on DANDI matching your hypothesis, inspect them in-place, and stage a download list for downstream spike sorting.",
+      "keywords": [
+        "DANDI",
+        "NWB"
+      ],
+      "path": "recipes/items/discover-nwb-recordings-on-dandi.md"
+    },
+    {
+      "slug": "dock-ligand-library-with-diffdock",
+      "title": "Dock a ligand library into a target structure with DiffDock",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Integrative Structural and Computational Biology",
+        "Drug Repurposing and Discovery",
+        "Chemistry"
+      ],
+      "evidence_level": "Proposed",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Workstation with GPU",
+      "last_verified": "2026-06-03",
+      "summary": "Drive DiffDock from Claude Code to generate per-ligand binding poses against a PDB or AlphaFold target, filter by confidence, and emit a ranked pose set ready for MM/PBSA rescoring or visualization.",
+      "keywords": [
+        "GNINA",
+        "PBSA",
+        "PDB",
+        "pLDDT",
+        "PoseBusters-style",
+        "SDF",
+        "SMILES"
+      ],
+      "path": "recipes/items/dock-ligand-library-with-diffdock.md"
+    },
+    {
+      "slug": "draft-phase23-clinical-trial-protocol",
+      "title": "Draft a Phase 2/3 clinical-trial protocol from an indication brief",
+      "problem_class": "Manuscript prep",
+      "subject_areas": [
+        "Translational Medicine",
+        "Drug Repurposing and Discovery"
+      ],
+      "evidence_level": "Reported",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-05-30",
+      "summary": "Use the Anthropic clinical-trial-protocol plugin to expand a short indication / endpoint brief into an FDA/NIH-compliant Phase 2/3 protocol draft, with regulatory pathway, competitive landscape, and sample-size calculation already wired in.",
+      "keywords": [
+        "FDA",
+        "IND",
+        "IND-enabling",
+        "NIH",
+        "NIH-compliant"
+      ],
+      "path": "recipes/items/draft-phase23-clinical-trial-protocol.md"
+    },
+    {
+      "slug": "enumerate-analogs-around-a-lead",
+      "title": "Enumerate analogs around a lead compound for SAR expansion",
+      "problem_class": "Hypothesis generation",
+      "subject_areas": [
+        "Chemistry",
+        "Drug Repurposing and Discovery"
+      ],
+      "evidence_level": "Proposed",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-06-07",
+      "summary": "Use the Datamol skill in Claude Code to enumerate standardized, drug-like analogs around a lead SMILES — tautomers, stereoisomers, and fragment-substituted variants — as a ranked SAR-expansion table.",
+      "keywords": [
+        "SAR",
+        "SAR-expansion",
+        "SMILES"
+      ],
+      "path": "recipes/items/enumerate-analogs-around-a-lead.md"
+    },
+    {
+      "slug": "estimate-pk-properties",
+      "title": "Estimate pharmacokinetic properties of a small molecule",
+      "problem_class": "Knowledge synthesis",
+      "subject_areas": [
+        "Chemistry",
+        "Drug Repurposing and Discovery"
+      ],
+      "evidence_level": "Reported",
+      "complexity": "Multi-tool harness",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-06-09",
+      "summary": "Combine RDKit physchem descriptors, MedChem rule-based ADMET flags, and measured ChEMBL bioactivity / DMPK endpoints to build a defensible PK estimate for one compound without an ML predictor in the loop.",
+      "keywords": [
+        "ADMET",
+        "ADMET-flag",
+        "ChEMBL",
+        "DMPK",
+        "RDKit",
+        "SMILES"
+      ],
+      "path": "recipes/items/estimate-pk-properties.md"
+    },
+    {
+      "slug": "filter-virtual-screening-hits",
+      "title": "Filter a virtual screening hit list with drug-likeness rules and structural alerts",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Chemistry",
+        "Drug Repurposing and Discovery"
+      ],
+      "evidence_level": "Reported",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-06-04",
+      "summary": "Use the MedChem skill in Claude Code to cascade Lipinski / Veber / PAINS / BRENK filters over a SMILES hit list and emit a triaged CSV with per-rule flags and a final keep/drop column.",
+      "keywords": [
+        "BRENK",
+        "NIH",
+        "PAINS",
+        "SMILES"
+      ],
+      "path": "recipes/items/filter-virtual-screening-hits.md"
+    },
+    {
+      "slug": "fit-survival-model-to-clinical-outcomes",
+      "title": "Fit a survival model to censored clinical outcomes",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Translational Medicine"
+      ],
+      "evidence_level": "Proposed",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-06-06",
+      "summary": "Use the scikit-survival Claude Skill to fit Cox and Random Survival Forest models to censored time-to-event data and report concordance with proper validation.",
+      "keywords": [
+        "Kaplan-Meier",
+        "RSF",
+        "Time-to-event"
+      ],
+      "path": "recipes/items/fit-survival-model-to-clinical-outcomes.md"
+    },
+    {
+      "slug": "identify-unknown-compound-from-msms-spectrum",
+      "title": "Identify an unknown compound from an MS/MS spectrum",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Chemistry"
+      ],
+      "evidence_level": "Proposed",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-06-08",
+      "summary": "Use the matchms skill in Claude Code to clean an unknown MS/MS spectrum and rank candidate identities by spectral similarity against a reference library.",
+      "keywords": [
+        "GNPS",
+        "mzML"
+      ],
+      "path": "recipes/items/identify-unknown-compound-from-msms-spectrum.md"
+    },
+    {
+      "slug": "infer-gene-regulatory-network-from-scrnaseq",
+      "title": "Infer a gene-regulatory network from single-cell RNA-seq",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Molecular and Cellular Biology",
+        "Drug Repurposing and Discovery"
+      ],
+      "evidence_level": "Reported",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Workstation with GPU",
+      "last_verified": "2026-05-28",
+      "summary": "Use the Arboreto Claude skill to run GRNBoost2 on a QC'd single-cell AnnData and recover a ranked TF–target edge list — the first step of a SCENIC regulon pipeline.",
+      "keywords": [
+        "AUCell",
+        "GRNBoost2",
+        "pySCENIC",
+        "RNA-seq",
+        "SCENIC"
+      ],
+      "path": "recipes/items/infer-gene-regulatory-network-from-scrnaseq.md"
+    },
+    {
+      "slug": "integrate-single-cell-datasets",
+      "title": "Integrate multiple single-cell RNA-seq datasets across batches",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Molecular and Cellular Biology",
+        "Immunology and Microbiology",
+        "Neuroscience"
+      ],
+      "evidence_level": "Reported",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Workstation with GPU",
+      "last_verified": "2026-06-04",
+      "summary": "Use the scvi-tools skill in Claude Code to fit scVI (or scANVI when labels are available) on a concatenated AnnData of multiple batches, returning a batch-corrected latent space and integrated UMAP.",
+      "keywords": [
+        "RNA-seq",
+        "scANVI",
+        "scANVI-propagated",
+        "scVI",
+        "UMAP"
+      ],
+      "path": "recipes/items/integrate-single-cell-datasets.md"
+    },
+    {
+      "slug": "interpret-clinical-variant",
+      "title": "Interpret a clinical variant from a natural-language query",
+      "problem_class": "Knowledge synthesis",
+      "subject_areas": [
+        "Translational Medicine",
+        "Molecular and Cellular Biology"
+      ],
+      "evidence_level": "Proposed",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-06-04",
+      "summary": "Use BioMCP to convert a free-text variant query (\"BRAF V600E\", \"rs113993960\", \"NM_004985.5:c.35G>A\") into a one-page clinical report with ClinVar significance, population frequency, in-silico predictions, and linked literature.",
+      "keywords": [
+        "BioMCP",
+        "BRAF",
+        "CADD",
+        "gnomAD",
+        "HGVS",
+        "HGVS-c",
+        "HGVS-p",
+        "rsID",
+        "SIFT"
+      ],
+      "path": "recipes/items/interpret-clinical-variant.md"
+    },
+    {
+      "slug": "match-patient-to-clinical-trials",
+      "title": "Match a patient summary to recruiting clinical trials",
+      "problem_class": "Knowledge synthesis",
+      "subject_areas": [
+        "Translational Medicine",
+        "Drug Repurposing and Discovery"
+      ],
+      "evidence_level": "Reported",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-06-04",
+      "summary": "Use BioMCP (or the standalone ClinicalTrials.gov MCP) to take a free-text patient summary and return a ranked list of currently-recruiting trials with eligibility rationale.",
+      "keywords": [
+        "BioMCP",
+        "Clinical-trial"
+      ],
+      "path": "recipes/items/match-patient-to-clinical-trials.md"
+    },
+    {
+      "slug": "organize-raw-dicom-to-bids-layout",
+      "title": "Organize a raw DICOM dataset into a BIDS layout",
+      "problem_class": "Workflow automation",
+      "subject_areas": [
+        "Neuroscience"
+      ],
+      "evidence_level": "Proposed",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-06-05",
+      "summary": "Drive HeuDiConv or dcm2bids from Claude Code via the K-Dense BIDS skill to convert a raw DICOM dump into a validated BIDS dataset ready for BIDS-Apps and OpenNeuro submission.",
+      "keywords": [
+        "BIDS",
+        "BIDS-App",
+        "BIDS-Apps",
+        "BIDS-valid",
+        "BIDS-validator",
+        "DICOM",
+        "DICOMs",
+        "fMRIPrep",
+        "MRI",
+        "MRIQC",
+        "QSIPrep"
+      ],
+      "path": "recipes/items/organize-raw-dicom-to-bids-layout.md"
+    },
+    {
+      "slug": "parse-fcs-flow-cytometry-files",
+      "title": "Parse FCS flow-cytometry files for downstream immunophenotyping",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Immunology and Microbiology"
+      ],
+      "evidence_level": "Proposed",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-06-02",
+      "summary": "Use the FlowIO Claude skill to parse FCS 2.0/3.0/3.1 files into tidy DataFrames with channel categorisation and batch metadata extraction, ready for downstream immunophenotyping or QC.",
+      "keywords": [
+        "BSD-3",
+        "FCS",
+        "FCS-parsing",
+        "FlowIO"
+      ],
+      "path": "recipes/items/parse-fcs-flow-cytometry-files.md"
+    },
+    {
+      "slug": "predict-gene-knockout-phenotypes-with-fba",
+      "title": "Predict gene-knockout phenotypes with flux balance analysis",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Molecular and Cellular Biology",
+        "Drug Repurposing and Discovery"
+      ],
+      "evidence_level": "Proposed",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-06-11",
+      "summary": "Use the COBRApy Claude Skill to load a genome-scale metabolic model and screen single/double gene deletions for growth phenotypes and essential genes.",
+      "keywords": [
+        "COBRApy",
+        "Constraint-based",
+        "FBA",
+        "SBML"
+      ],
+      "path": "recipes/items/predict-gene-knockout-phenotypes-with-fba.md"
+    },
+    {
+      "slug": "prioritize-targets-within-a-disease",
+      "title": "Prioritize targets within a disease via Open Targets",
+      "problem_class": "Knowledge synthesis",
+      "subject_areas": [
+        "Drug Repurposing and Discovery",
+        "Translational Medicine",
+        "Molecular and Cellular Biology"
+      ],
+      "evidence_level": "Reported",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-05-31",
+      "summary": "Drive the Open Targets MCP plugin to rank candidate targets within a disease across the four prioritisation pillars (precedence, tractability, doability, safety) and emit a cited target shortlist.",
+      "keywords": [
+        "Drug-discovery",
+        "EFO",
+        "GraphQL",
+        "MONDO"
+      ],
+      "path": "recipes/items/prioritize-targets-within-a-disease.md"
+    },
+    {
+      "slug": "profile-chipseq-atacseq-signal-around-features",
+      "title": "Profile ChIP-seq or ATAC-seq signal around genomic features",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Molecular and Cellular Biology",
+        "Immunology and Microbiology"
+      ],
+      "evidence_level": "Proposed",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-06-11",
+      "summary": "Use the deepTools Claude Skill to turn aligned ChIP-seq/ATAC-seq BAMs into normalized bigWig tracks and TSS/peak-centered profile and heatmap figures.",
+      "keywords": [
+        "ATAC-seq",
+        "BAM",
+        "BAMs",
+        "BPM",
+        "ChIP-seq",
+        "CPM",
+        "CUT",
+        "RPKM",
+        "RUN",
+        "TSS",
+        "TSSs"
+      ],
+      "path": "recipes/items/profile-chipseq-atacseq-signal-around-features.md"
+    },
+    {
+      "slug": "profile-compound-polypharmacology",
+      "title": "Profile a compound's polypharmacology from ChEMBL bioactivity data",
+      "problem_class": "Knowledge synthesis",
+      "subject_areas": [
+        "Chemistry",
+        "Drug Repurposing and Discovery"
+      ],
+      "evidence_level": "Reported",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-06-09",
+      "summary": "Use the ChEMBL connector in Claude Code to pull every measured activity for one compound, group by target and assay, and surface the off-target profile a medicinal chemist needs before committing to a chemotype.",
+      "keywords": [
+        "ChEMBL",
+        "pChEMBL",
+        "REST",
+        "SMILES"
+      ],
+      "path": "recipes/items/profile-compound-polypharmacology.md"
+    },
+    {
+      "slug": "qc-single-cell-rna-seq",
+      "title": "Run first-pass QC on a single-cell RNA-seq dataset",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Molecular and Cellular Biology",
+        "Immunology and Microbiology",
+        "Neuroscience"
+      ],
+      "evidence_level": "Reported",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-05-29",
+      "summary": "Use Anthropic's single-cell-rna-qc skill to MAD-filter a 10x .h5 or AnnData .h5ad file and emit standard QC figures before downstream Scanpy or scvi-tools work.",
+      "keywords": [
+        "MAD-filter",
+        "MAD-filtered",
+        "RNA-seq"
+      ],
+      "path": "recipes/items/qc-single-cell-rna-seq.md"
+    },
+    {
+      "slug": "run-bulk-rnaseq-differential-expression",
+      "title": "Run bulk RNA-seq differential expression from a counts matrix",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Molecular and Cellular Biology",
+        "Immunology and Microbiology",
+        "Translational Medicine",
+        "Drug Repurposing and Discovery"
+      ],
+      "evidence_level": "Reported",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-05-29",
+      "summary": "Use the PyDESeq2 Claude Skill to fit a negative-binomial GLM from a counts matrix and sample-condition table, returning ranked log2 fold-change and BH-adjusted p-values.",
+      "keywords": [
+        "BH-adjusted",
+        "DESeq2",
+        "GLM",
+        "PyDESeq2",
+        "RNA-seq",
+        "Wald-test"
+      ],
+      "path": "recipes/items/run-bulk-rnaseq-differential-expression.md"
+    },
+    {
+      "slug": "run-functional-enrichment-on-a-gene-list",
+      "title": "Run functional enrichment on a gene list",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Molecular and Cellular Biology",
+        "Immunology and Microbiology",
+        "Drug Repurposing and Discovery"
+      ],
+      "evidence_level": "Reported",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-06-04",
+      "summary": "Use the gget Claude skill to run a gene list through Enrichr against GO, KEGG, Reactome, and disease libraries, then ask Claude to summarise the enriched terms back to the biology with explicit citations.",
+      "keywords": [
+        "CRISPR",
+        "DAVID",
+        "Enrichr-backed",
+        "GPT-4",
+        "KEGG"
+      ],
+      "path": "recipes/items/run-functional-enrichment-on-a-gene-list.md"
+    },
+    {
+      "slug": "scan-adverse-events-for-drug-safety-signal",
+      "title": "Scan adverse-event reports for a drug-safety signal",
+      "problem_class": "Knowledge synthesis",
+      "subject_areas": [
+        "Translational Medicine",
+        "Drug Repurposing and Discovery"
+      ],
+      "evidence_level": "Proposed",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-06-06",
+      "summary": "Use the OpenFDA MCP server to pull FAERS adverse-event reports and label warnings for a drug, rank the top reported reactions, and assemble a pharmacovigilance snapshot.",
+      "keywords": [
+        "FAERS",
+        "FDA",
+        "OpenFDA",
+        "openFDA"
+      ],
+      "path": "recipes/items/scan-adverse-events-for-drug-safety-signal.md"
+    },
+    {
+      "slug": "scan-drug-repurposing-candidates",
+      "title": "Scan approved drugs for repurposing candidates against a disease",
+      "problem_class": "Knowledge synthesis",
+      "subject_areas": [
+        "Drug Repurposing and Discovery",
+        "Translational Medicine"
+      ],
+      "evidence_level": "Proposed",
+      "complexity": "Multi-tool harness",
+      "availability": "Subscription required",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-06-09",
+      "summary": "Given a disease, use Open Targets to rank associated targets, ChEMBL and PubChem for approved-drug bioactivity, and DrugBank for mechanism / indication / interaction context to produce a ranked shortlist of repurposing candidates.",
+      "keywords": [
+        "ChEMBL",
+        "EFO",
+        "ENSG",
+        "MONDO"
+      ],
+      "path": "recipes/items/scan-drug-repurposing-candidates.md"
+    },
+    {
+      "slug": "score-protein-variants-with-esm",
+      "title": "Score point mutations for functional impact with a protein language model",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Integrative Structural and Computational Biology",
+        "Molecular and Cellular Biology"
+      ],
+      "evidence_level": "Proposed",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Workstation with GPU",
+      "last_verified": "2026-06-10",
+      "summary": "Use the ESM skill to compute zero-shot masked-marginal log-likelihood-ratio scores for a list of point mutations, ranking them by predicted functional effect without any labelled data.",
+      "keywords": [
+        "DMS",
+        "DNA",
+        "ESM",
+        "FASTA",
+        "VUS"
+      ],
+      "path": "recipes/items/score-protein-variants-with-esm.md"
+    },
+    {
+      "slug": "set-up-protein-md-simulation-in-gromacs",
+      "title": "Set up a protein molecular dynamics simulation in GROMACS from a PDB ID",
+      "problem_class": "Experimental design",
+      "subject_areas": [
+        "Chemistry",
+        "Integrative Structural and Computational Biology"
+      ],
+      "evidence_level": "Proposed",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Workstation with GPU",
+      "last_verified": "2026-06-01",
+      "summary": "Drive the GROMACS Copilot component of molecule-mcp to take a PDB ID through topology, solvation, ion neutralisation, minimisation, NVT/NPT equilibration, and a short production MD, with RMSD/RMSF/Rg analysis on the resulting trajectory.",
+      "keywords": [
+        "GROMACS",
+        "GROMACS-ready",
+        "NPT",
+        "NVT",
+        "PDB",
+        "RMSD",
+        "RMSF",
+        "SOL"
+      ],
+      "path": "recipes/items/set-up-protein-md-simulation-in-gromacs.md"
+    },
+    {
+      "slug": "sort-spikes-from-neuropixels-recording",
+      "title": "Sort spikes from a Neuropixels recording end-to-end",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Neuroscience"
+      ],
+      "evidence_level": "Reported",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Workstation with GPU",
+      "last_verified": "2026-06-04",
+      "summary": "Use the K-Dense neuropixels-analysis skill in Claude Code to take a raw SpikeGLX or Open Ephys Neuropixels recording through preprocessing, drift correction, and Kilosort4 to curated single units.",
+      "keywords": [
+        "AI-assisted",
+        "Allen-style",
+        "NWB",
+        "SpikeGLX"
+      ],
+      "path": "recipes/items/sort-spikes-from-neuropixels-recording.md"
+    },
+    {
+      "slug": "triage-alphafold-model-for-docking",
+      "title": "Triage an AlphaFold model for structure-based drug design",
+      "problem_class": "Knowledge synthesis",
+      "subject_areas": [
+        "Integrative Structural and Computational Biology",
+        "Drug Repurposing and Discovery"
+      ],
+      "evidence_level": "Proposed",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-06-09",
+      "summary": "Pull a UniProt AlphaFold prediction, surface pLDDT regions and pocket-residue confidence, and produce a go/no-go verdict on whether the model is fit for downstream docking or modelling — all from one MCP server.",
+      "keywords": [
+        "EBI",
+        "PDB",
+        "pLDDT",
+        "PyMOL",
+        "RCSB"
+      ],
+      "path": "recipes/items/triage-alphafold-model-for-docking.md"
+    },
+    {
+      "slug": "triage-new-preprints",
+      "title": "Triage a stack of new preprints in your field",
+      "problem_class": "Literature triage",
+      "subject_areas": [
+        "All"
+      ],
+      "evidence_level": "Reported",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-05-29",
+      "summary": "Use the bio-research plugin in Claude Code to pull last-week bioRxiv and PubMed hits, rank by relevance, and produce a one-paragraph readout per paper.",
+      "keywords": [],
+      "path": "recipes/items/triage-new-preprints.md"
+    }
+  ],
+  "systems": [
+    {
+      "slug": "agenticsciml",
+      "title": "AgenticSciML",
+      "domain": "Scientific machine learning",
+      "lifecycle_stages": [
+        "Hypothesis",
+        "Experiment design"
+      ],
+      "validation_type": "Benchmark",
+      "autonomy": "Semi-autonomous",
+      "availability": "Code on request",
+      "access": "Code on request",
+      "last_verified": "2026-05-21",
+      "summary": "Multi-agent LLM system that debates and evolutionarily refines scientific-machine-learning architectures.",
+      "keywords": [
+        "AgenticSciML",
+        "Multi-agent"
+      ],
+      "path": "autonomous-science/systems/agenticsciml.md"
+    },
+    {
+      "slug": "agentplm",
+      "title": "AgentPLM",
+      "domain": "Biology / protein engineering",
+      "lifecycle_stages": [
+        "Experiment design"
+      ],
+      "validation_type": "Benchmark",
+      "autonomy": "Semi-autonomous",
+      "availability": "Closed",
+      "access": "Closed",
+      "last_verified": "2026-06-05",
+      "summary": "Agentic protein language model that interleaves sequence generation with structure and docking tool calls.",
+      "keywords": [
+        "AgentPLM",
+        "ESMFold",
+        "Reasoning-Augmented"
+      ],
+      "path": "autonomous-science/systems/agentplm.md"
+    },
+    {
+      "slug": "ai-cfd-scientist",
+      "title": "AI CFD Scientist",
+      "domain": "Computational fluid dynamics",
+      "lifecycle_stages": [
+        "Multi-stage",
+        "Writing"
+      ],
+      "validation_type": "Benchmark",
+      "autonomy": "Semi-autonomous",
+      "availability": "Open source",
+      "access": "Open source",
+      "last_verified": "2026-05-21",
+      "summary": "Open-source AI scientist for computational fluid dynamics, from ideation to solver runs to figure-grounded writing.",
+      "keywords": [
+        "CFD",
+        "Open-source",
+        "OpenFOAM"
+      ],
+      "path": "autonomous-science/systems/ai-cfd-scientist.md"
+    },
+    {
+      "slug": "ai-co-mathematician",
+      "title": "AI co-mathematician",
+      "domain": "Mathematics",
+      "lifecycle_stages": [
+        "Multi-stage",
+        "Writing"
+      ],
+      "validation_type": "Mixed",
+      "autonomy": "Semi-autonomous",
+      "availability": "Closed / limited release",
+      "access": "Closed",
+      "last_verified": "2026-05-23",
+      "summary": "Google DeepMind agentic workbench for open-ended mathematics research with parallel ideation and proving.",
+      "keywords": [],
+      "path": "autonomous-science/systems/ai-co-mathematician.md"
+    },
+    {
+      "slug": "ai-scientist-sakana",
+      "title": "AI Scientist (Sakana)",
+      "domain": "Machine-learning research",
+      "lifecycle_stages": [
+        "Multi-stage",
+        "Writing"
+      ],
+      "validation_type": "Benchmark",
+      "autonomy": "Fully autonomous",
+      "availability": "Open source",
+      "access": "Open source",
+      "last_verified": "2026-05-20",
+      "summary": "End-to-end LLM agent that ideates, codes, runs ML experiments, and writes its own reviewed paper.",
+      "keywords": [
+        "End-to-end"
+      ],
+      "path": "autonomous-science/systems/ai-scientist-sakana.md"
+    },
+    {
+      "slug": "aila",
+      "title": "AILA",
+      "domain": "Materials / scanning-probe microscopy",
+      "lifecycle_stages": [
+        "Experiment design",
+        "Analysis"
+      ],
+      "validation_type": "Wet-lab",
+      "autonomy": "Semi-autonomous",
+      "availability": "Open source",
+      "access": "Open source",
+      "last_verified": "2026-05-21",
+      "summary": "Multi-agent LLM framework that autonomously operates an atomic force microscope, with the AFMBench suite.",
+      "keywords": [
+        "AFMBench",
+        "AILA",
+        "Multi-agent"
+      ],
+      "path": "autonomous-science/systems/aila.md"
+    },
+    {
+      "slug": "aira",
+      "title": "AIRA (AIRA-Compose and AIRA-Design)",
+      "domain": "Machine learning (foundation-model architecture)",
+      "lifecycle_stages": [
+        "Multi-stage"
+      ],
+      "validation_type": "Benchmark",
+      "autonomy": "Semi-autonomous",
+      "availability": "Closed",
+      "access": "Closed",
+      "last_verified": "2026-05-23",
+      "summary": "Pair of Meta FAIR LLM-agent frameworks that autonomously discover novel foundation-model architectures.",
+      "keywords": [
+        "AIRA",
+        "AIRA-Compose",
+        "AIRA-Design",
+        "FAIR",
+        "LLM-agent"
+      ],
+      "path": "autonomous-science/systems/aira.md"
+    },
+    {
+      "slug": "aleks",
+      "title": "Aleks",
+      "domain": "Plant science / agriculture",
+      "lifecycle_stages": [
+        "Multi-stage"
+      ],
+      "validation_type": "Benchmark",
+      "autonomy": "Fully autonomous",
+      "availability": "Unknown",
+      "access": "Unknown",
+      "last_verified": "2026-05-25",
+      "summary": "Cornell multi-agent system that turns a plant-science question and dataset into interpretable ML models.",
+      "keywords": [],
+      "path": "autonomous-science/systems/aleks.md"
+    },
+    {
+      "slug": "amase",
+      "title": "AMASE",
+      "domain": "Materials science (thin-film phase diagrams)",
+      "lifecycle_stages": [
+        "Multi-stage"
+      ],
+      "validation_type": "Wet-lab",
+      "autonomy": "Fully autonomous",
+      "availability": "Open source — code and data released as part of the manuscript",
+      "access": "Open source",
+      "last_verified": "2026-05-30",
+      "summary": "Autonomous Materials Search Engine pairing robotic thin-film XRD with CALPHAD phase-diagram prediction.",
+      "keywords": [
+        "AMASE",
+        "CALPHAD",
+        "CALPHAD-based",
+        "Gibbs-free-energy",
+        "XRD"
+      ],
+      "path": "autonomous-science/systems/amase.md"
+    },
+    {
+      "slug": "aris",
+      "title": "ARIS",
+      "domain": "Machine learning research",
+      "lifecycle_stages": [
+        "Multi-stage",
+        "Writing"
+      ],
+      "validation_type": "Benchmark",
+      "autonomy": "Semi-autonomous",
+      "availability": "Open source",
+      "access": "Open source",
+      "last_verified": "2026-05-22",
+      "summary": "Autonomous ML research harness using cross-model adversarial collaboration between executor and reviewer.",
+      "keywords": [
+        "ARIS"
+      ],
+      "path": "autonomous-science/systems/aris.md"
+    },
+    {
+      "slug": "atlas-active-theory-learning",
+      "title": "ATLAS",
+      "domain": "Cognitive science (computational behavioral modeling)",
+      "lifecycle_stages": [
+        "Multi-stage"
+      ],
+      "validation_type": "Benchmark",
+      "autonomy": "Semi-autonomous",
+      "availability": "No code released as of 2026-06-11 (none stated in preprint)",
+      "access": "Unknown",
+      "last_verified": "2026-06-11",
+      "summary": "DeepMind active-learning loop that designs experiments to discover interpretable mechanistic models of behavior.",
+      "keywords": [
+        "ATLAS"
+      ],
+      "path": "autonomous-science/systems/atlas-active-theory-learning.md"
+    },
+    {
+      "slug": "atomisticskills",
+      "title": "AtomisticSkills",
+      "domain": "Materials / chemistry / drug discovery (atomistic simulation)",
+      "lifecycle_stages": [
+        "Multi-stage"
+      ],
+      "validation_type": "Benchmark",
+      "autonomy": "Semi-autonomous",
+      "availability": "Open source",
+      "access": "Open source",
+      "last_verified": "2026-05-31",
+      "summary": "Open-source skill library that lets coding agents run atomistic research in materials, chemistry, and drug discovery.",
+      "keywords": [
+        "Open-source"
+      ],
+      "path": "autonomous-science/systems/atomisticskills.md"
+    },
+    {
+      "slug": "autollmresearch",
+      "title": "AutoLLMResearch",
+      "domain": "Machine learning (LLM experiment configuration)",
+      "lifecycle_stages": [
+        "Experiment design",
+        "Analysis"
+      ],
+      "validation_type": "Benchmark",
+      "autonomy": "Semi-autonomous",
+      "availability": "Open source",
+      "access": "Open source",
+      "last_verified": "2026-06-01",
+      "summary": "RL-trained agent that extrapolates from cheap LLM runs to configure expensive scalable experiments.",
+      "keywords": [
+        "AutoLLMResearch",
+        "LLM-experiment",
+        "RL-trained"
+      ],
+      "path": "autonomous-science/systems/autollmresearch.md"
+    },
+    {
+      "slug": "autoresearchclaw",
+      "title": "AutoResearchClaw",
+      "domain": "Machine learning, plus high-energy physics, systems biology, and statistics via sandboxed domain agents",
+      "lifecycle_stages": [
+        "Multi-stage",
+        "Writing"
+      ],
+      "validation_type": "Benchmark",
+      "autonomy": "Semi-autonomous",
+      "availability": "Open source",
+      "access": "Open source",
+      "last_verified": "2026-05-24",
+      "summary": "Multi-agent ML research pipeline with structured debate, a self-healing executor, and human-in-the-loop modes.",
+      "keywords": [
+        "Multi-agent"
+      ],
+      "path": "autonomous-science/systems/autoresearchclaw.md"
+    },
+    {
+      "slug": "autosci",
+      "title": "AutoSci",
+      "domain": "General (case studies in GPU kernel optimization and biomedical drug discovery)",
+      "lifecycle_stages": [
+        "Multi-stage",
+        "Writing"
+      ],
+      "validation_type": "Benchmark",
+      "autonomy": "Fully autonomous",
+      "availability": "Open source",
+      "access": "Open source",
+      "last_verified": "2026-06-02",
+      "summary": "Memory-centric agent that runs the full research lifecycle over persistent memory and evolves its own skills.",
+      "keywords": [
+        "Memory-centric"
+      ],
+      "path": "autonomous-science/systems/autosci.md"
+    },
+    {
+      "slug": "autoscientists",
+      "title": "AutoScientists",
+      "domain": "General (biomedical ML, language-model training, protein engineering)",
+      "lifecycle_stages": [
+        "Multi-stage"
+      ],
+      "validation_type": "Benchmark",
+      "autonomy": "Fully autonomous",
+      "availability": "Open source",
+      "access": "Open source",
+      "last_verified": "2026-06-01",
+      "summary": "Decentralized team of AI agents that self-organize around hypotheses and share results across teams.",
+      "keywords": [],
+      "path": "autonomous-science/systems/autoscientists.md"
+    },
+    {
+      "slug": "autotts",
+      "title": "AutoTTS",
+      "domain": "Machine learning (test-time scaling for LLM reasoning)",
+      "lifecycle_stages": [
+        "Hypothesis",
+        "Experiment design",
+        "Analysis"
+      ],
+      "validation_type": "Benchmark",
+      "autonomy": "Semi-autonomous",
+      "availability": "Open source",
+      "access": "Open source",
+      "last_verified": "2026-05-23",
+      "summary": "Agentic framework that autonomously discovers test-time-scaling controllers for LLM reasoning.",
+      "keywords": [
+        "AutoTTS",
+        "Environment-driven",
+        "TTS"
+      ],
+      "path": "autonomous-science/systems/autotts.md"
+    },
+    {
+      "slug": "ax-prover",
+      "title": "Ax-Prover",
+      "domain": "Math & symbolic (formal theorem proving in Lean; quantum physics)",
+      "lifecycle_stages": [
+        "Analysis"
+      ],
+      "validation_type": "Benchmark",
+      "autonomy": "Semi-autonomous",
+      "availability": "Open source",
+      "access": "Open source",
+      "last_verified": "2026-06-08",
+      "summary": "Multi-agent Lean theorem prover that gives general-purpose LLMs Lean tools to verify proofs across math and quantum physics.",
+      "keywords": [
+        "Ax-Prover",
+        "Multi-agent"
+      ],
+      "path": "autonomous-science/systems/ax-prover.md"
+    },
+    {
+      "slug": "biomni",
+      "title": "Biomni",
+      "domain": "Biomedicine (general purpose)",
+      "lifecycle_stages": [
+        "Multi-stage"
+      ],
+      "validation_type": "Benchmark",
+      "autonomy": "Semi-autonomous",
+      "availability": "Open source",
+      "access": "Open source",
+      "last_verified": "2026-05-21",
+      "summary": "General-purpose biomedical AI agent pairing a large tool environment with a code-executing planner.",
+      "keywords": [
+        "DbQA",
+        "General-purpose",
+        "LAB-Bench",
+        "SeqQA"
+      ],
+      "path": "autonomous-science/systems/biomni.md"
+    },
+    {
+      "slug": "bioprovla-agent",
+      "title": "BioProVLA-Agent",
+      "domain": "Biology (wet-lab manipulation)",
+      "lifecycle_stages": [
+        "Experiment design"
+      ],
+      "validation_type": "Wet-lab",
+      "autonomy": "Semi-autonomous",
+      "availability": "Unknown",
+      "access": "Unknown",
+      "last_verified": "2026-05-31",
+      "summary": "Affordable embodied multi-agent system using Vision-Language-Action models for wet-lab manipulation.",
+      "keywords": [
+        "BioProVLA-Agent",
+        "Vision-Language-Action",
+        "VLA"
+      ],
+      "path": "autonomous-science/systems/bioprovla-agent.md"
+    },
+    {
+      "slug": "bora",
+      "title": "BORA",
+      "domain": "Chemistry / materials (general black-box optimization; demonstrated on photocatalytic hydrogen evolution)",
+      "lifecycle_stages": [
+        "Experiment design",
+        "Hypothesis"
+      ],
+      "validation_type": "Benchmark",
+      "autonomy": "Semi-autonomous",
+      "availability": "Open source",
+      "access": "Open source",
+      "last_verified": "2026-05-30",
+      "summary": "Language-based assistant coupling an LLM with Bayesian optimization for literature-grounded experiment design.",
+      "keywords": [
+        "BORA",
+        "Language-based",
+        "Language-Based"
+      ],
+      "path": "autonomous-science/systems/bora.md"
+    },
+    {
+      "slug": "catdt",
+      "title": "CatDT",
+      "domain": "Chemistry / heterogeneous catalysis",
+      "lifecycle_stages": [
+        "Multi-stage"
+      ],
+      "validation_type": "Benchmark",
+      "autonomy": "Semi-autonomous",
+      "availability": "Code on request (release pending publication)",
+      "access": "Code on request",
+      "last_verified": "2026-06-05",
+      "summary": "Self-evolving multi-agent system that builds a condition-aware digital twin of a heterogeneous catalyst.",
+      "keywords": [
+        "CatDT",
+        "Self-evolving"
+      ],
+      "path": "autonomous-science/systems/catdt.md"
+    },
+    {
+      "slug": "categoryscienceclaw",
+      "title": "CategoryScienceClaw",
+      "domain": "Materials science / mechanics",
+      "lifecycle_stages": [
+        "Multi-stage"
+      ],
+      "validation_type": "Benchmark",
+      "autonomy": "Semi-autonomous",
+      "availability": "Open source",
+      "access": "Open source",
+      "last_verified": "2026-06-05",
+      "summary": "Discovery framework adding a category-theoretic, proof-carrying layer to ScienceClaw for verifiable transitions.",
+      "keywords": [
+        "Self-revising"
+      ],
+      "path": "autonomous-science/systems/categoryscienceclaw.md"
+    },
+    {
+      "slug": "chemcrow",
+      "title": "ChemCrow",
+      "domain": "Chemistry (organic synthesis, reaction planning)",
+      "lifecycle_stages": [
+        "Experiment design",
+        "Analysis"
+      ],
+      "validation_type": "Wet-lab",
+      "autonomy": "Semi-autonomous",
+      "availability": "Open source",
+      "access": "Open source",
+      "last_verified": "2026-05-20",
+      "summary": "GPT-4-driven chemistry agent combining reasoning with expert tools for retrosynthesis and reaction execution.",
+      "keywords": [
+        "GPT-4-driven"
+      ],
+      "path": "autonomous-science/systems/chemcrow.md"
+    },
+    {
+      "slug": "cmbevolve-cosmoevolve",
+      "title": "CMBEvolve and CosmoEvolve",
+      "domain": "Cosmology and astrophysics",
+      "lifecycle_stages": [
+        "Multi-stage"
+      ],
+      "validation_type": "Benchmark",
+      "autonomy": "Semi-autonomous",
+      "availability": "Code on request",
+      "access": "Code on request",
+      "last_verified": "2026-05-23",
+      "summary": "Cambridge cosmology pair of agentic systems for code evolution and virtual-research-lab simulation.",
+      "keywords": [
+        "CMBEvolve",
+        "LLM-guided"
+      ],
+      "path": "autonomous-science/systems/cmbevolve-cosmoevolve.md"
+    },
+    {
+      "slug": "co-scientist-google",
+      "title": "Co-Scientist (Google)",
+      "domain": "General (validated in biomedicine)",
+      "lifecycle_stages": [
+        "Hypothesis",
+        "Experiment design"
+      ],
+      "validation_type": "Wet-lab",
+      "autonomy": "Semi-autonomous",
+      "availability": "Closed / API only",
+      "access": "Closed",
+      "last_verified": "2026-05-20",
+      "summary": "Gemini-based multi-agent reasoning engine for biomedical hypothesis generation.",
+      "keywords": [
+        "Co-Scientist",
+        "Elo-style",
+        "Gemini-based"
+      ],
+      "path": "autonomous-science/systems/co-scientist-google.md"
+    },
+    {
+      "slug": "coscientist-cmu",
+      "title": "Coscientist (CMU)",
+      "domain": "Chemistry (catalysis, palladium-catalyzed cross-couplings)",
+      "lifecycle_stages": [
+        "Experiment design",
+        "Analysis"
+      ],
+      "validation_type": "Wet-lab",
+      "autonomy": "Fully autonomous",
+      "availability": "Code on request",
+      "access": "Code on request",
+      "last_verified": "2026-05-20",
+      "summary": "GPT-4 planner driving a robotic chemistry platform fully autonomously across the experimental loop.",
+      "keywords": [
+        "CMU",
+        "GPT-4"
+      ],
+      "path": "autonomous-science/systems/coscientist-cmu.md"
+    },
+    {
+      "slug": "crispr-gpt",
+      "title": "CRISPR-GPT",
+      "domain": "Biology (CRISPR-Cas gene editing)",
+      "lifecycle_stages": [
+        "Experiment design",
+        "Analysis"
+      ],
+      "validation_type": "Wet-lab",
+      "autonomy": "Assistive",
+      "availability": "Closed",
+      "access": "Closed",
+      "last_verified": "2026-05-20",
+      "summary": "Four-agent LLM planner for CRISPR-Cas gene-editing experiments across knockout, base, prime, and epigenetic editing.",
+      "keywords": [
+        "CRISPR-Cas",
+        "CRISPR-GPT",
+        "Four-agent"
+      ],
+      "path": "autonomous-science/systems/crispr-gpt.md"
+    },
+    {
+      "slug": "cvevolve",
+      "title": "CVEvolve",
+      "domain": "Scientific imaging — x-ray fluorescence microscopy, x-ray diffraction, high-energy diffraction microscopy",
+      "lifecycle_stages": [
+        "Analysis"
+      ],
+      "validation_type": "Benchmark",
+      "autonomy": "Semi-autonomous",
+      "availability": "Unknown",
+      "access": "Unknown",
+      "last_verified": "2026-05-24",
+      "summary": "Argonne agentic harness that discovers data-processing algorithms for experimental images via zero-code search.",
+      "keywords": [
+        "CVEvolve"
+      ],
+      "path": "autonomous-science/systems/cvevolve.md"
+    },
+    {
+      "slug": "darkagents",
+      "title": "DarkAgents",
+      "domain": "Theoretical astroparticle physics (cosmological phase transitions, gravitational waves)",
+      "lifecycle_stages": [
+        "Multi-stage"
+      ],
+      "validation_type": "Benchmark",
+      "autonomy": "Semi-autonomous",
+      "availability": "Open source",
+      "access": "Open source",
+      "last_verified": "2026-06-10",
+      "summary": "Language-driven multi-agent system that takes a particle-physics model to a fit against astroparticle data, with explicit assumption and prior auditing.",
+      "keywords": [
+        "Language-driven"
+      ],
+      "path": "autonomous-science/systems/darkagents.md"
+    },
+    {
+      "slug": "deep-research-bioagents",
+      "title": "Deep Research (BioAgents)",
+      "domain": "Biology / biomedical",
+      "lifecycle_stages": [
+        "Multi-stage"
+      ],
+      "validation_type": "Benchmark",
+      "autonomy": "Semi-autonomous",
+      "availability": "Open source (orchestrator) + closed sub-agents",
+      "access": "Open source",
+      "last_verified": "2026-05-22",
+      "summary": "Open-source interactive multi-agent system for biomedical research, running in minutes per cycle.",
+      "keywords": [
+        "Open-source"
+      ],
+      "path": "autonomous-science/systems/deep-research-bioagents.md"
+    },
+    {
+      "slug": "deep-researcher-agent",
+      "title": "Deep Researcher Agent",
+      "domain": "Machine-learning / deep-learning research",
+      "lifecycle_stages": [
+        "Multi-stage"
+      ],
+      "validation_type": "Benchmark",
+      "autonomy": "Fully autonomous",
+      "availability": "Open source",
+      "access": "Open source",
+      "last_verified": "2026-05-25",
+      "summary": "Open-source framework running LLM agents 24/7 through full deep-learning experiment cycles.",
+      "keywords": [
+        "Open-source"
+      ],
+      "path": "autonomous-science/systems/deep-researcher-agent.md"
+    },
+    {
+      "slug": "dkpl",
+      "title": "DKPL",
+      "domain": "Materials (nanoscale microscopy, ferroelectrics)",
+      "lifecycle_stages": [
+        "Experiment design",
+        "Analysis"
+      ],
+      "validation_type": "Wet-lab",
+      "autonomy": "Semi-autonomous",
+      "availability": "Unknown",
+      "access": "Unknown",
+      "last_verified": "2026-06-02",
+      "summary": "Autonomous-microscopy framework that learns a utility from expert pairwise judgements to plan nanoscale experiments.",
+      "keywords": [
+        "Autonomous-microscopy",
+        "Bayesian-optimization",
+        "Deep-Kernel",
+        "DKPL"
+      ],
+      "path": "autonomous-science/systems/dkpl.md"
+    },
+    {
+      "slug": "dr-sai",
+      "title": "Dr.Sai",
+      "domain": "High-energy physics (BESIII collider experiment)",
+      "lifecycle_stages": [
+        "Analysis",
+        "Experiment design"
+      ],
+      "validation_type": "Wet-lab",
+      "autonomy": "Semi-autonomous",
+      "availability": "Unknown",
+      "access": "Unknown",
+      "last_verified": "2026-05-21",
+      "summary": "Multi-agent LLM system for autonomous end-to-end high-energy-physics data analysis on the BESIII detector.",
+      "keywords": [
+        "BESIII",
+        "LLM-powered",
+        "Multi-agent"
+      ],
+      "path": "autonomous-science/systems/dr-sai.md"
+    },
+    {
+      "slug": "eos-ai-agent",
+      "title": "EOS AI agent",
+      "domain": "Laboratory automation across chemistry, biology, and materials science",
+      "lifecycle_stages": [
+        "Experiment design",
+        "Analysis"
+      ],
+      "validation_type": "Wet-lab",
+      "autonomy": "Semi-autonomous",
+      "availability": "Unknown",
+      "access": "Unknown",
+      "last_verified": "2026-05-24",
+      "summary": "UNC AI agent that creates, runs, and analyzes lab protocols and optimization campaigns from text requests.",
+      "keywords": [
+        "EOS",
+        "UNC",
+        "UNC-Chapel"
+      ],
+      "path": "autonomous-science/systems/eos-ai-agent.md"
+    },
+    {
+      "slug": "evomaster",
+      "title": "EvoMaster",
+      "domain": "General",
+      "lifecycle_stages": [
+        "Multi-stage"
+      ],
+      "validation_type": "Benchmark",
+      "autonomy": "Semi-autonomous",
+      "availability": "Open source",
+      "access": "Open source",
+      "last_verified": "2026-05-27",
+      "summary": "Domain-agnostic harness for building self-evolving scientific agents; underpins the SciMaster ecosystem.",
+      "keywords": [
+        "Domain-agnostic"
+      ],
+      "path": "autonomous-science/systems/evomaster.md"
+    },
+    {
+      "slug": "evoscientist",
+      "title": "EvoScientist",
+      "domain": "General (evaluated on AI/ML research tasks)",
+      "lifecycle_stages": [
+        "Multi-stage"
+      ],
+      "validation_type": "Benchmark",
+      "autonomy": "Fully autonomous",
+      "availability": "Open source (announced)",
+      "access": "Open source",
+      "last_verified": "2026-05-22",
+      "summary": "Evolving multi-agent AI scientist whose agents share memories distilling past runs into reusable strategies.",
+      "keywords": [],
+      "path": "autonomous-science/systems/evoscientist.md"
+    },
+    {
+      "slug": "graft-athena",
+      "title": "GRAFT-ATHENA",
+      "domain": "Scientific computing / scientific machine learning",
+      "lifecycle_stages": [
+        "Multi-stage"
+      ],
+      "validation_type": "Benchmark",
+      "autonomy": "Semi-autonomous",
+      "availability": "Code on request (planned GitHub release upon acceptance)",
+      "access": "Code on request",
+      "last_verified": "2026-05-21",
+      "summary": "Self-improving agentic framework that expands its own action space to discover numerical algorithms.",
+      "keywords": [
+        "GRAFT-ATHENA",
+        "Self-improving"
+      ],
+      "path": "autonomous-science/systems/graft-athena.md"
+    },
+    {
+      "slug": "jr-ai-scientist",
+      "title": "Jr. AI Scientist",
+      "domain": "Machine learning / computer vision",
+      "lifecycle_stages": [
+        "Multi-stage",
+        "Writing"
+      ],
+      "validation_type": "Benchmark",
+      "autonomy": "Fully autonomous",
+      "availability": "Open source",
+      "access": "Open source",
+      "last_verified": "2026-05-22",
+      "summary": "Autonomous AI scientist mimicking a novice student improving on a baseline paper through iterated experiments.",
+      "keywords": [],
+      "path": "autonomous-science/systems/jr-ai-scientist.md"
+    },
+    {
+      "slug": "kosmos",
+      "title": "Kosmos",
+      "domain": "General (data-driven discovery)",
+      "lifecycle_stages": [
+        "Multi-stage",
+        "Writing"
+      ],
+      "validation_type": "Mixed",
+      "autonomy": "Semi-autonomous",
+      "availability": "Closed / API only",
+      "access": "Closed",
+      "last_verified": "2026-05-21",
+      "summary": "AI scientist automating data-driven discovery via long cycles of parallel analysis against a world model.",
+      "keywords": [],
+      "path": "autonomous-science/systems/kosmos.md"
+    },
+    {
+      "slug": "labos",
+      "title": "LabOS",
+      "domain": "Biology & medicine (cancer immunology, stem-cell engineering; also materials science)",
+      "lifecycle_stages": [
+        "Multi-stage"
+      ],
+      "validation_type": "Mixed",
+      "autonomy": "Semi-autonomous",
+      "availability": "Open source (GitHub)",
+      "access": "Open source",
+      "last_verified": "2026-06-09",
+      "summary": "AI-XR co-scientist pairing self-evolving agents with smart glasses to reason about and act in the physical lab.",
+      "keywords": [
+        "AI-XR",
+        "LabOS"
+      ],
+      "path": "autonomous-science/systems/labos.md"
+    },
+    {
+      "slug": "latent-y",
+      "title": "Latent-Y",
+      "domain": "Biology / drug discovery (biologics)",
+      "lifecycle_stages": [
+        "Multi-stage"
+      ],
+      "validation_type": "Wet-lab",
+      "autonomy": "Fully autonomous",
+      "availability": "Closed / platform access",
+      "access": "Closed",
+      "last_verified": "2026-05-29",
+      "summary": "Lab-validated autonomous agent that runs complete de novo antibody design campaigns from text prompts.",
+      "keywords": [
+        "Lab-validated",
+        "Latent-Y"
+      ],
+      "path": "autonomous-science/systems/latent-y.md"
+    },
+    {
+      "slug": "leap",
+      "title": "LEAP",
+      "domain": "Materials / chemistry (perovskite solar cells)",
+      "lifecycle_stages": [
+        "Multi-stage"
+      ],
+      "validation_type": "Wet-lab",
+      "autonomy": "Semi-autonomous",
+      "availability": "Unknown",
+      "access": "Unknown",
+      "last_verified": "2026-06-01",
+      "summary": "Expert-in-the-loop framework coupling a domain LLM with Bayesian optimization for perovskite additive discovery.",
+      "keywords": [
+        "Expert-in-the-loop",
+        "LEAP"
+      ],
+      "path": "autonomous-science/systems/leap.md"
+    },
+    {
+      "slug": "mad",
+      "title": "MAD",
+      "domain": "Materials (phase-change memory thin films)",
+      "lifecycle_stages": [
+        "Experiment design",
+        "Analysis"
+      ],
+      "validation_type": "Wet-lab",
+      "autonomy": "Fully autonomous",
+      "availability": "Partial — some Python integration code on GitHub",
+      "access": "Code on request",
+      "last_verified": "2026-06-02",
+      "summary": "Closed-loop framework orchestrating multiple characterization instruments for thin-film materials discovery.",
+      "keywords": [
+        "Closed-loop",
+        "MAD",
+        "Multi-instrument"
+      ],
+      "path": "autonomous-science/systems/mad.md"
+    },
+    {
+      "slug": "mars",
+      "title": "MARS",
+      "domain": "Materials / chemistry (perovskites)",
+      "lifecycle_stages": [
+        "Multi-stage"
+      ],
+      "validation_type": "Wet-lab",
+      "autonomy": "Fully autonomous",
+      "availability": "Open source",
+      "access": "Open source",
+      "last_verified": "2026-05-21",
+      "summary": "Hierarchical multi-agent and robotic framework that designs, synthesizes, and optimizes perovskites.",
+      "keywords": [
+        "MARS"
+      ],
+      "path": "autonomous-science/systems/mars.md"
+    },
+    {
+      "slug": "mci",
+      "title": "MCI",
+      "domain": "General (symbolic equation discovery across deterministic, stochastic, and uncharacterized dynamical systems)",
+      "lifecycle_stages": [
+        "Hypothesis",
+        "Analysis"
+      ],
+      "validation_type": "Benchmark",
+      "autonomy": "Fully autonomous",
+      "availability": "Unknown",
+      "access": "Unknown",
+      "last_verified": "2026-05-31",
+      "summary": "Multi-agent framework blending symbolism and metaheuristics to discover explainable governing equations.",
+      "keywords": [
+        "MCI",
+        "Multi-agent"
+      ],
+      "path": "autonomous-science/systems/mci.md"
+    },
+    {
+      "slug": "mlevolve",
+      "title": "MLEvolve",
+      "domain": "Machine learning (algorithm discovery)",
+      "lifecycle_stages": [
+        "Multi-stage"
+      ],
+      "validation_type": "Benchmark",
+      "autonomy": "Semi-autonomous",
+      "availability": "Open source",
+      "access": "Open source",
+      "last_verified": "2026-06-05",
+      "summary": "Self-evolving multi-agent framework that discovers end-to-end ML solutions via Progressive Monte Carlo Graph Search.",
+      "keywords": [
+        "LLM-based",
+        "MLEvolve",
+        "Self-evolving"
+      ],
+      "path": "autonomous-science/systems/mlevolve.md"
+    },
+    {
+      "slug": "neuroclaw",
+      "title": "NeuroClaw",
+      "domain": "Biology (neuroimaging)",
+      "lifecycle_stages": [
+        "Experiment design",
+        "Analysis"
+      ],
+      "validation_type": "Benchmark",
+      "autonomy": "Semi-autonomous",
+      "availability": "Open source",
+      "access": "Open source",
+      "last_verified": "2026-05-27",
+      "summary": "Domain-specialized multi-agent assistant for reproducible neuroimaging research on raw MRI/fMRI/EEG data.",
+      "keywords": [
+        "dMRI",
+        "Domain-specialized",
+        "EEG",
+        "fMRI",
+        "MRI",
+        "sMRI"
+      ],
+      "path": "autonomous-science/systems/neuroclaw.md"
+    },
+    {
+      "slug": "nora",
+      "title": "NORA",
+      "domain": "Spatial data science / GIScience",
+      "lifecycle_stages": [
+        "Multi-stage",
+        "Writing"
+      ],
+      "validation_type": "Benchmark",
+      "autonomy": "Semi-autonomous",
+      "availability": "Unknown",
+      "access": "Unknown",
+      "last_verified": "2026-05-31",
+      "summary": "Multi-agent autonomous research system purpose-built for GIScience and spatial data science.",
+      "keywords": [
+        "GIScience",
+        "Multi-agent",
+        "NORA"
+      ],
+      "path": "autonomous-science/systems/nora.md"
+    },
+    {
+      "slug": "novelseek",
+      "title": "NovelSeek",
+      "domain": "General (12 AI-for-Science tasks)",
+      "lifecycle_stages": [
+        "Multi-stage"
+      ],
+      "validation_type": "Benchmark",
+      "autonomy": "Semi-autonomous",
+      "availability": "Open source",
+      "access": "Open source",
+      "last_verified": "2026-05-20",
+      "summary": "Closed-loop multi-agent framework evaluated across 12 AI-for-Science research tasks.",
+      "keywords": [
+        "AI-for-Science",
+        "Closed-loop",
+        "Scientist-v2"
+      ],
+      "path": "autonomous-science/systems/novelseek.md"
+    },
+    {
+      "slug": "openscientist",
+      "title": "OpenScientist",
+      "domain": "Biomedicine (clinical)",
+      "lifecycle_stages": [
+        "Multi-stage"
+      ],
+      "validation_type": "Wet-lab",
+      "autonomy": "Semi-autonomous",
+      "availability": "Open source",
+      "access": "Open source",
+      "last_verified": "2026-05-20",
+      "summary": "Open-source AI co-scientist for biomedical discovery, built on Claude Code with domain-specific Agent Skills.",
+      "keywords": [
+        "Open-source"
+      ],
+      "path": "autonomous-science/systems/openscientist.md"
+    },
+    {
+      "slug": "origene",
+      "title": "OriGene",
+      "domain": "Biology & medicine (therapeutic target discovery / drug development)",
+      "lifecycle_stages": [
+        "Hypothesis",
+        "Analysis"
+      ],
+      "validation_type": "Wet-lab",
+      "autonomy": "Semi-autonomous",
+      "availability": "Open source (GitHub; custom NOASSERTION license)",
+      "access": "Open source",
+      "last_verified": "2026-06-06",
+      "summary": "Self-evolving multi-agent \"virtual disease biologist\" that nominates mechanism-grounded drug targets.",
+      "keywords": [
+        "Self-evolving"
+      ],
+      "path": "autonomous-science/systems/origene.md"
+    },
+    {
+      "slug": "pantheonos",
+      "title": "PantheonOS",
+      "domain": "Biology / single-cell and spatial genomics",
+      "lifecycle_stages": [
+        "Multi-stage"
+      ],
+      "validation_type": "Wet-lab",
+      "autonomy": "Semi-autonomous",
+      "availability": "Open source (ecosystem at github.com/aristoteleo); platform at pantheonos.stanford.edu",
+      "access": "Open source",
+      "last_verified": "2026-05-29",
+      "summary": "Privacy-preserving multi-agent framework for single-cell and multi-omics analysis that evolves its own code.",
+      "keywords": [
+        "PantheonOS",
+        "Privacy-preserving"
+      ],
+      "path": "autonomous-science/systems/pantheonos.md"
+    },
+    {
+      "slug": "perturboagent",
+      "title": "PerTurboAgent",
+      "domain": "Biology — single-cell perturbation screens (Perturb-seq)",
+      "lifecycle_stages": [
+        "Experiment design",
+        "Analysis"
+      ],
+      "validation_type": "Benchmark",
+      "autonomy": "Semi-autonomous",
+      "availability": "Unknown",
+      "access": "Unknown",
+      "last_verified": "2026-05-25",
+      "summary": "Self-planning Genentech LLM agent that designs iterative Perturb-seq screens, round by round.",
+      "keywords": [
+        "Perturb-seq",
+        "Self-planning"
+      ],
+      "path": "autonomous-science/systems/perturboagent.md"
+    },
+    {
+      "slug": "pharmaswarm",
+      "title": "PharmaSwarm",
+      "domain": "Drug discovery (target identification, repurposing, lead compounds)",
+      "lifecycle_stages": [
+        "Hypothesis",
+        "Analysis"
+      ],
+      "validation_type": "Design-only",
+      "autonomy": "Semi-autonomous",
+      "availability": "Unknown",
+      "access": "Unknown",
+      "last_verified": "2026-05-25",
+      "summary": "Multi-agent LLM swarm for hypothesis-driven drug discovery with a central Evaluator ranking targets and compounds.",
+      "keywords": [
+        "Multi-agent"
+      ],
+      "path": "autonomous-science/systems/pharmaswarm.md"
+    },
+    {
+      "slug": "poise",
+      "title": "POISE",
+      "domain": "Machine-learning research — reinforcement-learning algorithm discovery for LLMs",
+      "lifecycle_stages": [
+        "Multi-stage"
+      ],
+      "validation_type": "Benchmark",
+      "autonomy": "Semi-autonomous",
+      "availability": "Unknown",
+      "access": "Unknown",
+      "last_verified": "2026-05-25",
+      "summary": "Closed-loop Fudan framework that autonomously discovers policy-optimization algorithms for LLM reinforcement learning.",
+      "keywords": [
+        "Closed-loop",
+        "POISE"
+      ],
+      "path": "autonomous-science/systems/poise.md"
+    },
+    {
+      "slug": "qiushi-discovery-engine",
+      "title": "Qiushi Discovery Engine",
+      "domain": "Optics / photonics (free-space optical platform)",
+      "lifecycle_stages": [
+        "Multi-stage"
+      ],
+      "validation_type": "Wet-lab",
+      "autonomy": "Fully autonomous",
+      "availability": "Unknown",
+      "access": "Unknown",
+      "last_verified": "2026-05-21",
+      "summary": "Agentic system performing end-to-end autonomous discovery on a real free-space optical platform.",
+      "keywords": [
+        "LLM-based",
+        "Meta-Trace"
+      ],
+      "path": "autonomous-science/systems/qiushi-discovery-engine.md"
+    },
+    {
+      "slug": "qumus",
+      "title": "Qumus",
+      "domain": "Quantum materials / 2D materials and van der Waals device fabrication",
+      "lifecycle_stages": [
+        "Multi-stage"
+      ],
+      "validation_type": "Wet-lab",
+      "autonomy": "Fully autonomous",
+      "availability": "Code on request (GitHub release stated as forthcoming)",
+      "access": "Code on request",
+      "last_verified": "2026-05-21",
+      "summary": "Embodied multi-agent system that fabricates 2D quantum materials and vdW device stacks in a robotic mini-lab.",
+      "keywords": [],
+      "path": "autonomous-science/systems/qumus.md"
+    },
+    {
+      "slug": "robin",
+      "title": "Robin (FutureHouse)",
+      "domain": "Biology / therapeutics",
+      "lifecycle_stages": [
+        "Multi-stage"
+      ],
+      "validation_type": "Wet-lab",
+      "autonomy": "Semi-autonomous",
+      "availability": "Open source + closed agent platform",
+      "access": "Open source",
+      "last_verified": "2026-05-20",
+      "summary": "Multi-agent system integrating hypothesis generation with data analysis in a lab-in-the-loop workflow.",
+      "keywords": [
+        "Multi-agent"
+      ],
+      "path": "autonomous-science/systems/robin.md"
+    },
+    {
+      "slug": "saga",
+      "title": "SAGA",
+      "domain": "Scientific design (antibiotics, nanobodies, DNA sequences, materials, chemical processes)",
+      "lifecycle_stages": [
+        "Multi-stage"
+      ],
+      "validation_type": "Wet-lab",
+      "autonomy": "Semi-autonomous",
+      "availability": "Open source — MIT license (github.com/btyu/SAGA)",
+      "access": "Open source",
+      "last_verified": "2026-06-07",
+      "summary": "Bi-level agent that autonomously evolves the objective functions of a scientific design problem rather than treating them as fixed.",
+      "keywords": [
+        "Bi-level",
+        "Goal-evolving",
+        "SAGA"
+      ],
+      "path": "autonomous-science/systems/saga.md"
+    },
+    {
+      "slug": "scientistone",
+      "title": "ScientistOne",
+      "domain": "General (frontier ML research, plus medical imaging, fine-grained recognition, 3D perception, parameter-constrained LM)",
+      "lifecycle_stages": [
+        "Multi-stage",
+        "Writing"
+      ],
+      "validation_type": "Benchmark",
+      "autonomy": "Fully autonomous",
+      "availability": "Closed / API only",
+      "access": "Closed",
+      "last_verified": "2026-05-31",
+      "summary": "End-to-end autonomous research system maintaining verifiable evidence chains for every claim.",
+      "keywords": [
+        "End-to-end"
+      ],
+      "path": "autonomous-science/systems/scientistone.md"
+    },
+    {
+      "slug": "spark",
+      "title": "SPARK",
+      "domain": "Biology / cancer pathology",
+      "lifecycle_stages": [
+        "Multi-stage"
+      ],
+      "validation_type": "Wet-lab",
+      "autonomy": "Fully autonomous",
+      "availability": "Open source",
+      "access": "Open source",
+      "last_verified": "2026-05-22",
+      "summary": "System of pathology agents that turns biological concepts into tools applied to H&E and spatial-biology data.",
+      "keywords": [
+        "SPARK"
+      ],
+      "path": "autonomous-science/systems/spark.md"
+    },
+    {
+      "slug": "talk2qsp",
+      "title": "Talk2QSP",
+      "domain": "Quantitative Systems Pharmacology / kinetic ODE modelling",
+      "lifecycle_stages": [
+        "Experiment design"
+      ],
+      "validation_type": "Benchmark",
+      "autonomy": "Assistive",
+      "availability": "Closed",
+      "access": "Closed",
+      "last_verified": "2026-05-20",
+      "summary": "Agent framework converting literature clinical scenarios into executable QSP/SBML model interventions.",
+      "keywords": [
+        "Agent-based",
+        "QSP",
+        "SBML",
+        "Talk2QSP"
+      ],
+      "path": "autonomous-science/systems/talk2qsp.md"
+    },
+    {
+      "slug": "virtual-biotech",
+      "title": "The Virtual Biotech",
+      "domain": "Biology / therapeutic discovery and development",
+      "lifecycle_stages": [
+        "Multi-stage"
+      ],
+      "validation_type": "Benchmark",
+      "autonomy": "Semi-autonomous",
+      "availability": "Unknown",
+      "access": "Unknown",
+      "last_verified": "2026-05-29",
+      "summary": "Multi-agent framework mirroring a biotech org, with a CSO agent delegating computational drug discovery to specialists.",
+      "keywords": [
+        "CSO",
+        "Multi-agent"
+      ],
+      "path": "autonomous-science/systems/virtual-biotech.md"
+    },
+    {
+      "slug": "vis-co-scientist",
+      "title": "VIS Co-Scientist",
+      "domain": "Scientific visualization (cross-domain — climate, materials, sonar, neuroscience, mantle convection)",
+      "lifecycle_stages": [
+        "Analysis"
+      ],
+      "validation_type": "Benchmark",
+      "autonomy": "Fully autonomous",
+      "availability": "Code release pending organizational review",
+      "access": "Code on request",
+      "last_verified": "2026-06-02",
+      "summary": "Agentic harness that autonomously designs custom visual-analysis apps from a dataset and task description.",
+      "keywords": [
+        "Co-Scientist",
+        "End-to-end",
+        "VIS"
+      ],
+      "path": "autonomous-science/systems/vis-co-scientist.md"
+    }
+  ]
+}

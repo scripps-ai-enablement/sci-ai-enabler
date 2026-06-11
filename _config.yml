@@ -37,6 +37,9 @@ exclude:
   - README.md
   - sources/
   - docs/
+  - index/
+  - composer/
+  - .claude-plugin/
   - Gemfile
   - Gemfile.lock
   - vendor/

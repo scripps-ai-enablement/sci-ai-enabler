@@ -12,6 +12,7 @@ Use this table to find the right component type for a goal you have in mind.
 
 | If you want to… | Reach for | Why |
 |---|---|---|
+| Go from "I have problem X" to a grounded, runnable solution without first knowing which components exist | **The [Composer](../catalog/tools/composer.md) plugin** (`/compose`) | It matches your problem against the whole catalog/recipes/systems index, assembles the simplest grounded solution, and offers to install and run it. |
 | Search a database (PubMed, ClinicalTrials.gov, ChEMBL, …) from Claude | **MCP server** | Databases expose searchable APIs; MCP wraps them as tools Claude can call. |
 | Add a one-click integration inside Claude.ai chat | **Connector** | Connectors are toggled from `claude.ai/directory/connectors` without install commands. Requires Pro/Team/Enterprise for unlimited custom connectors. |
 | Give Claude Code a focused capability (e.g., "design a clinical trial protocol") | **Skill** | Skills load context and conventions for one task. The same `SKILL.md` works in Cowork and other Skill-compatible agents. |

@@ -7,7 +7,21 @@ permalink: /
 
 # Life Science AI Ecosystem
 
-An information resource for scientists, engineers, and clinicians working at the intersection of AI and the life sciences. Four sections, kept current:
+An information resource for scientists, engineers, and clinicians working at the intersection of AI and the life sciences.
+
+## Compose a solution — the fastest way in
+
+Don't know which of the components below you need? Install the **[Composer](catalog/tools/composer.md)** plugin and describe your problem in plain language — it composes a grounded, runnable solution from everything in this resource, reusing a recipe when one fits and recommending a pre-built autonomous system when that's the right call.
+
+```
+/plugin marketplace add scripps-ai-enablement/sci-ai-enabler
+/plugin install composer@sci-ai-enabler
+/compose I have a stack of new single-cell preprints and need to triage them
+```
+
+[About the Composer →](catalog/tools/composer.md){: .btn .btn-primary }
+
+Or browse the four sections directly, all kept current:
 
 ## [Catalog](catalog/) — what to install
 

@@ -44,3 +44,15 @@ _None._
 ## User requests (closed this run)
 
 _None._
+
+## Composition reports
+
+Demand signal from the `/compose` Composer plugin. The responder routes
+`report=composition` entries into `## User requests (open)` like any other request;
+process them there each run (promote a success, write a recipe for a gap), then keep a
+rolling tally here so the directed pass can prioritize the problem classes and subject
+areas scientists actually compose against. Keep the last ~15 lines.
+
+Format: `- YYYY-MM-DD outcome=<worked|gap|failed> problem_class=<…> → <what shipped / note>`
+
+_None._
