@@ -11,6 +11,23 @@ Reverse-chronological log of changes to the [catalog](catalog/). Newest at the t
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-06-11
+
+Directed pass on **Molecular and Cellular Biology** (Thursday focus) plus a manifest sweep and one user-request action. The `anthropics/life-sciences` marketplace matched the catalogued set — every in-scope plugin/skill is already a page; `biorxiv`/`clinical-trials` stay flagged (`mcp.deepsense.ai` NXDOMAIN). The directed pass added two MCB entries: **Biomni** (Stanford SNAP Lab biomedical agent, packaged as a Claude Code skill in `davila7/claude-code-templates`) and the **Ensembl MCP Server** (`effieklimi/ensembl-mcp-server`), which clears the long-deferred Ensembl item now that a stable npm install path exists.
+
+### Added
+- **Biomni** (Categories: All) — Stanford SNAP Lab general-purpose biomedical AI agent; Claude Code skill via `npx skills add … --skill biomni` driving the `biomni` PyPI package (~11GB data lake). Apache-2.0; some bundled tools more restrictive ([source](https://github.com/snap-stanford/Biomni)).
+- **Ensembl MCP Server** (Categories: Drug Repurposing and Discovery, Immunology and Microbiology, Integrative Structural and Computational Biology, Molecular and Cellular Biology, Neuroscience, Translational Medicine) — MIT; npm `ensembl-mcp-server`, 10 read-only tools over the Ensembl REST API (lookup, sequence, variation/VEP, compara, mapping/lift-over, regulatory, protein features, ontotax, meta) ([source](https://github.com/effieklimi/ensembl-mcp-server)).
+
+### Updated
+- **10x Genomics Cloud MCP** — user field report (#26, "worked great") confirming the Claude Code plugin-marketplace install path; added a dated note in **Notes**, `last_verified` → 2026-06-11.
+
+### Flagged
+- _None._
+
+### Verified (no changes)
+- `anthropics/life-sciences` marketplace diffed — no new plugins/skills. All 13 entries (PubMed, BioRender, Synapse, Scholar Gateway, Consensus, Cortellis, AdisInsight, 10x Genomics, single-cell-rna-qc, instrument-data-to-allotrope, nextflow-development, scvi-tools, scientific-problem-selection) already catalogued.
+
 ## 2026-06-10
 
 Directed pass on **Integrative Structural and Computational Biology** (Wednesday focus) plus a manifest sweep. The `anthropics/life-sciences` marketplace (`.claude-plugin/marketplace.json`) matched the catalogued set — every in-scope plugin is already a page; `biorxiv`/`clinical-trials` remain DOA (`mcp.deepsense.ai` NXDOMAIN) and stay flagged. The directed pass cleared two previously-deferred structural candidates by **folding them into existing pages** (one entry per tool, no new files): the `k-yenko/rowan-mcp` MCP server was added as an alternative install path on the existing `rowan` Skill page, and the MIT-licensed `QuentinCody/rcsb-pdb-mcp-server` (hosted RCSB GraphQL endpoint) was added as a second install path on `pdb`. Existing PDB/structure entries verified against today's seed queries (RCSB PDB MCP, GROMACS/MD MCP, molecular visualization) — Molecule-MCP and molecular-dynamics already cover the GROMACS/PyMOL/ChimeraX surface.

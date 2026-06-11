@@ -8,11 +8,11 @@ nav_exclude: true
 
 ## Recently surfaced
 
+- **Biomni** (added 2026-06-11) — Stanford SNAP Lab general-purpose biomedical AI agent, packaged as a Claude Code skill in `davila7/claude-code-templates` (`npx skills add … --skill biomni`) backed by the `biomni` PyPI package + ~11GB data lake. Plans/executes multi-step workflows across genomics, drug discovery, molecular biology, and clinical analysis. Apache-2.0 (some bundled tools more restrictive). Tagged `All`. Surfaced on the Molecular and Cellular Biology directed pass.
+- **Ensembl MCP Server** (added 2026-06-11) — `effieklimi/ensembl-mcp-server` (MIT; npm `ensembl-mcp-server`, 10 read-only tools over the Ensembl REST API: lookup, sequence, feature-overlap, mapping/lift-over, variation/VEP, compara, regulatory, protein features, ontotax, meta). Resolves the long-deferred Ensembl item now that a stable npm install path exists. Tagged the six omics-relevant research areas (not Chemistry).
 - **Rowan MCP** (updated 2026-06-10) — folded `k-yenko/rowan-mcp` (PyPI `rowan-mcp`, ~45 tools, long-lived HTTP/SSE) into the existing `rowan` page as a second install path; retitled to drop the "(Claude Skill)" qualifier, `tool_type` now `Claude Skill, MCP server`. License unconfirmed upstream — flagged inline. Cleared from Deferred.
 - **QuentinCody RCSB PDB MCP** (updated 2026-06-10) — folded `QuentinCody/rcsb-pdb-mcp-server` (MIT + academic-citation; hosted Cloudflare Worker over the RCSB GraphQL API incl. Computed Structure Models) into the existing `pdb` page as Option B alongside the Augmented Nature REST server. One entry per data source.
 - **PubChem MCP — cyanheads variant** (updated 2026-06-08) — folded the TypeScript `cyanheads/pubchem-mcp-server` into the existing `pubchem` entry as an alternative install path: hosted Streamable HTTP endpoint (`https://pubchem.caseyjhand.com/mcp`), `mcp-remote` Desktop proxy, and local `bunx` stdio. Documented its wider 8-tool read-only surface (substructure/superstructure/2D-similarity search, GHS hazard classification). One-entry-per-tool, not a new page.
-- **Cortellis Plugin** (added 2026-06-07) — Clarivate Cortellis MCP plugin in `anthropics/life-sciences`; global drug-pipeline / clinical-trial / regulatory / safety / deals intelligence. Subscription-gated (free install). Tagged Drug Repurposing and Discovery + Translational Medicine. CRI MCP integration announced 2026-03-10.
-- **Consensus Plugin** (added 2026-06-07) — Consensus.app MCP plugin in `anthropics/life-sciences`; AI-powered scientific literature search / evidence synthesis. Requires a Consensus account (free tier). Tagged `All`.
 
 ## Flagged for review
 
@@ -28,7 +28,7 @@ nav_exclude: true
 - **ZINC Database Skill** (`davila7/claude-code-templates`, `cli-tool/components/skills/scientific/zinc-database/SKILL.md`) — installable scientific Claude Code skill over UCSF's ZINC22 (~230M+ purchasable compounds; CartBlanche22 API) for similarity search, analog discovery, and docking-ready 3D structure download; install path `npx claude-code-templates@latest` (interactive) or the per-skill flag. **Not** in the K-Dense repo we ingested (distinct chemistry/drug-discovery tool). Surfaced on the 2026-06-08 Chemistry pass; deferred because WebFetch was unavailable from the runner this run and the exact `--skill` flag path and SKILL.md tool list could not be verified to followable-verbatim standard from a primary source. Revisit and add as a discrete Chemistry + Drug Repurposing and Discovery entry once the SKILL.md and the exact install command are confirmed.
 - **MCP_Vina** (`shogo-d-nakamura/MCP_Vina`) — AutoDock Vina MCP server with `dock_molecule` / `get_available_targets` tools; currently single-target (AKT1 only) with `uv`-based local install. Surfaced on the 2026-06-01 Chemistry pass but deferred because the target list is too narrow to justify a catalog entry today; revisit once additional targets or a docking-grid-builder workflow lands upstream.
 - **OpenClaw Medical Skills Library** — 869-skill MIT-licensed collection; batch-ingest the life-science-relevant subset using the K-Dense pipeline (`scripts/ingest_kdense.py` parameterised for this repo), with cross-collection dedup against existing entries (one entry per tool).
-- **Ensembl MCP servers** (`munch-group/ensembl-mcp`, `effieklimi/ensembl-mcp-server`) — both early-stage; revisit when one stabilises.
+- **Ensembl MCP — munch-group variant** (`munch-group/ensembl-mcp`) — still early-stage. The `effieklimi/ensembl-mcp-server` sibling was catalogued 2026-06-11 (`ensembl.md`) once its npm install path stabilised; one entry per data source already covers Ensembl, so the munch-group variant only warrants folding in as an alternative install path if it matures.
 - **UCSC Genome MCP** (`hlydecker/ucsc-genome-mcp`) — 12 tools over the UCSC Genome Browser API.
 - **NCBI Datasets MCP** (`Augmented-Nature/NCBI-Datasets-MCP-Server`) — 31 tools over the NCBI Datasets API.
 - **OpenFDA MCP — Augmented-Nature variant** (`Augmented-Nature/OpenFDA-MCP-Server`) — broader drug+device+food openFDA wrapper (~16 tools incl. 510(k) clearances, MAUDE device events, recalls). Investigated 2026-06-06 but deferred: README not fetchable from the runner, LICENSE file unconfirmed ("standard licensing terms" only), exact tool list and registration snippet could not be verified to followable-verbatim standard. The drug-endpoint subset is now covered by the catalogued `ythalorossy/openfda` entry (`openfda.md`); revisit the device/food superset once the license and a copy-pasteable install snippet are confirmed from a primary source.
@@ -49,8 +49,8 @@ nav_exclude: true
 
 ## User requests (open)
 
-- [#26 @rebeccawangxp-del 2026-06-11] queue: catalog | feedback-on=10x-genomics-cloud | sentiment=worked great | author=@rebeccawangxp-del | issue=26
+_None._
 
 ## User requests (closed this run)
 
-_None._
+- [#26 @rebeccawangxp-del 2026-06-11] queue: catalog | feedback-on=10x-genomics-cloud | sentiment=worked great | author=@rebeccawangxp-del | issue=26 → added 2026-06-11 field-report note to 10x-genomics-cloud Notes confirming the Claude Code plugin-marketplace install path works; last_verified bumped 2026-05-19 → 2026-06-11.
