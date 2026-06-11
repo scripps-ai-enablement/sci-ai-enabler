@@ -1,8 +1,12 @@
 # Claude Code base action event log (written to the workspace during runs)
 output.txt
 
-# Transient prompt assembled by the workflow
+# Transient prompts assembled by the workflows
 .run-prompt.md
+.digest-prompt.md
+
+# Transient weekly digest written by the digest agent before it is posted
+.digest.md
 
 # Transient MCP config assembled by the coscientist workflow
 .mcp-config.json
