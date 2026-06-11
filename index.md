@@ -15,16 +15,22 @@ Don't know which of the components below you need? Install the **[Composer](cata
 
 ### 1. Install it (once)
 
-The Composer is a **Claude Code / Cowork plugin** — it runs where you assemble pipelines, not in Claude.ai chat (chat uses [Connectors](guide/connectors.md) instead). You'll need Claude Code (or Cowork) and an Anthropic account.
+**What you need:** [Claude Code](https://code.claude.com/) (or Cowork), signed in to your Anthropic account. That's it. The Composer is a Claude Code / Cowork plugin — it runs where you assemble pipelines, **not** in Claude.ai chat (chat uses [Connectors](guide/connectors.md) instead).
 
-In a Claude Code or Cowork session, run:
+**You do not need to clone this repository or be in any particular folder.** The `scripps-ai-enablement/sci-ai-enabler` shorthand below tells Claude Code to fetch the marketplace straight from GitHub (it keeps its own copy internally). The repo is public, so no tokens, SSH keys, or git setup are involved.
+
+Open **any** Claude Code or Cowork session, in any directory, and run these two commands (type them at the prompt exactly as written, including the leading `/`):
 
 ```
 /plugin marketplace add scripps-ai-enablement/sci-ai-enabler
 /plugin install composer@sci-ai-enabler
 ```
 
-That registers this repository as a [plugin marketplace](guide/marketplaces.md) and installs the Composer from it. To update later as the catalog grows, run `/plugin marketplace update sci-ai-enabler`.
+- The first command registers this repository as a [plugin marketplace](guide/marketplaces.md).
+- The second installs the Composer from it. If Claude Code asks whether to install for **this project** or your **user account**, choose **user** so `/composer:compose` is available in every project.
+- Confirm it worked: run `/plugin` and check that **composer** is listed (or type `/composer:` and see the command autocomplete).
+
+Later, as the catalog grows, refresh your copy with `/plugin marketplace update sci-ai-enabler`.
 
 ### 2. Use it
 
@@ -36,7 +42,7 @@ Invoke it explicitly with the slash command, or just describe your problem in ch
 
 ### 3. Try it — paste any of these
 
-Each prompt exercises a different path through the Composer. Run them as-is to see how it behaves:
+Each prompt exercises a different path through the Composer. Run them as-is to see how it behaves. Some will offer to install additional components and run the workflow on your data — the Composer always asks before installing or changing anything.
 
 - `/composer:compose I have a stack of new single-cell preprints and need to triage them`
   — *reuses a curated recipe* and offers to run it against your field right away.

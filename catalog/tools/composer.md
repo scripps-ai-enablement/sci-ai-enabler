@@ -24,13 +24,14 @@ A Claude Code / Cowork plugin that takes a plain-language scientific problem and
 
 ## How to install
 
-- **Claude Code / Cowork** — plugin marketplace:
-  ```
-  /plugin marketplace add scripps-ai-enablement/sci-ai-enabler
-  /plugin install composer@sci-ai-enabler
-  ```
+No clone or local checkout needed — the `owner/repo` shorthand fetches this public marketplace straight from GitHub. In **any** Claude Code or Cowork session, in any directory, run:
 
-Then run `/composer:compose <your problem>` (or just describe the problem in chat — the skill triggers on intent).
+```
+/plugin marketplace add scripps-ai-enablement/sci-ai-enabler
+/plugin install composer@sci-ai-enabler
+```
+
+If prompted for install scope, choose **user** to make the command available everywhere; confirm with `/plugin`. Then run `/composer:compose <your problem>` (or just describe the problem in chat — the skill triggers on intent). Refresh later with `/plugin marketplace update sci-ai-enabler`.
 
 ## What it does
 
