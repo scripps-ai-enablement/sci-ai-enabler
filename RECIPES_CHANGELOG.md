@@ -11,6 +11,17 @@ Reverse-chronological log of changes to the [recipes cookbook](recipes/). Newest
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-06-11
+
+### Added
+
+- **Profile ChIP-seq or ATAC-seq signal around genomic features** (Problem class: Data analysis; Evidence: Proposed) — rung-2 [deepTools skill](catalog/tools/deeptools.html) recipe taking aligned ChIP-seq/ATAC-seq BAMs through `bamCoverage` BPM-normalized bigWig generation → `multiBamSummary` + `plotCorrelation` replicate QC → `computeMatrix` + `plotHeatmap`/`plotProfile` TSS/peak-centered visualization, with upstream BAM handling via the [pysam skill](catalog/tools/pysam.html). Molecular and Cellular Biology focus-day recipe; cookbook's first ChIP-seq/ATAC-seq coverage-profiling recipe. `Proposed` — no documented LLM-driven deepTools workflow; grounded in [Ramírez et al., *NAR* 44:W160 (2016)](https://doi.org/10.1093/nar/gkw257) plus class-level [Biomni](autonomous-science/systems/biomni.html).
+- **Predict gene-knockout phenotypes with flux balance analysis** (Problem class: Data analysis; Evidence: Proposed) — rung-2 [COBRApy skill](catalog/tools/cobrapy.html) recipe taking a genome-scale SBML model through baseline FBA sanity-check → genome-wide `single_gene_deletion` essentiality ranking → focused `double_gene_deletion` synthetic-lethality screen, with an explicit growth-ratio essentiality threshold. Molecular and Cellular Biology focus-day recipe; cookbook's first constraint-based metabolic-modelling recipe. `Proposed` — no documented LLM-driven COBRApy workflow; grounded in [Ebrahim et al., *BMC Syst. Biol.* 7:74 (2013)](https://doi.org/10.1186/1752-0509-7-74) and [Orth et al., *Nat. Biotechnol.* 28:245 (2010)](https://doi.org/10.1038/nbt.1614), plus class-level [Biomni](autonomous-science/systems/biomni.html).
+
+### Verified (no changes)
+
+- 33 recipes spot-checked; all `last_verified` dates within the 30-day window, no aging recipes due.
+
 ## 2026-06-10
 
 ### Added
