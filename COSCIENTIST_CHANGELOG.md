@@ -9,6 +9,22 @@ permalink: /updates/ai-scientists.html
 
 Reverse-chronological log of changes to the [AI scientists tracker](autonomous-science/). Newest at the top.
 
+## 2026-06-11
+
+### Added
+- **ATLAS** (Lifecycle: Multi-stage) — Google DeepMind (Éltető, Daw, Stachenfeld, Miller; with Princeton/Columbia/UCL) "Active Theory Learning for Automated Science," an active-learning framework — not an LLM orchestration — that closes the hypothesis-generation ↔ experiment-design loop to discover interpretable mechanistic models of behavior. It iterates a Hypothesis Generator (an ensemble of sparse Disentangled RNNs whose latent-variable interactions form candidate computational graphs), an Experiment Optimizer (hill-climbs binary reward-matrix designs to maximize ensemble disagreement / expected information gain, BALD-style), and an Experiment Runner that executes the chosen design. Validation is in-silico (benchmark-tier): recovering Q-learning and Leaky Actor-Critic agents from bandit behavior, scored on behavioral, structural, and dynamical (bisimulation) similarity. **5–10× sample-efficiency gain over random experimentation, 8/8 correct computational-graph recovery in 100 experiments where baselines needed ~1,000, and matched or surpassed expert-designed experiments.** Adds a non-LLM, cognitive-science exemplar to the ML & scientific-computing cluster. No code released ([source](https://arxiv.org/abs/2606.12386)).
+
+### Updated
+- **`autonomous-science/summary.md`** — added the ATLAS primary-paper link to Sources; re-verified every synthesis claim against the current grouping and bumped `synthesis_reviewed` to 2026-06-11. ATLAS fits the existing "ML & scientific computing is a large, benchmark-validated cluster" pattern and tips no superlative (Biology & medicine remains the largest group and strongest-evidence tier), so no synthesis prose was rewritten.
+- **`autonomous-science/curator-state.md`** — added ATLAS at the top of `Recently surfaced` (trimming OriGene to keep the window at five).
+- **`sources/manifest.json`** — ATLAS (DOI 10.48550/arXiv.2606.12386) entry added by Phase A.
+
+### Flagged
+_None._
+
+### Verified (no changes)
+- All pre-existing system pages remain inside the 30-day re-verification window (oldest additions verified 2026-05-20, 22 days ago); no spot-checks required this run.
+
 ## 2026-06-10
 
 ### Added

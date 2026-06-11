@@ -2,7 +2,7 @@
 title: Landscape
 parent: AI scientists
 nav_order: 1
-synthesis_reviewed: 2026-06-10
+synthesis_reviewed: 2026-06-11
 ---
 
 # The autonomous AI scientist landscape
@@ -124,3 +124,4 @@ Other systems being tracked for inclusion: **Virtual Lab** (Stanford / CZ Biohub
 - [Du, Yu, Liu, Shen, Chen et al., "Accelerating Scientific Discovery with Autonomous Goal-evolving Agents" (SAGA), arXiv:2512.21782](https://arxiv.org/abs/2512.21782)
 - [Cong, Smerkous, Wang et al., "LabOS: The AI-XR Co-Scientist That Sees and Works With Humans," arXiv:2510.14861](https://arxiv.org/abs/2510.14861)
 - [Lucente, Pascoli, Sala, Zandi, "DarkAgents: towards an agentic system for theoretical astroparticle physics," arXiv:2606.11157](https://arxiv.org/abs/2606.11157)
+- [Éltető, Daw, Stachenfeld, Miller, "ATLAS: Active Theory Learning for Automated Science," arXiv:2606.12386](https://arxiv.org/abs/2606.12386)

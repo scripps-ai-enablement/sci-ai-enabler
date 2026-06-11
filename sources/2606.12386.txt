@@ -1,0 +1,1094 @@
+arXiv:2606.12386v1 [cs.LG] 10 Jun 2026
+
+ ATLAS:
+Active Theory Learning for Automated Science
+
+Noémi Éltető
+Google DeepMind
+London, UK
+noemielteto@deepmind.com
+
+Nathaniel D. Daw
+Princeton University; Google DeepMind
+Princeton, NJ, USA
+ndaw@deepmind.com
+
+Kimberly L. Stachenfeld
+Google DeepMind; Colombia University
+New York, NY, USA
+stachenfeld@deepmind.com
+
+Kevin J. Miller
+Google DeepMind; University College London
+London, UK
+kevinjmiller@deepmind.com
+
+Abstract
+Advancing scientific understanding through mechanistic modeling requires posing
+the right experimental questions to yield maximally informative data. To automate this pursuit within cognitive science, we introduce ATLAS (Active Theory
+Learning for Automated Science), an active learning framework for the data-driven
+discovery of interpretable behavioral models. ATLAS iterates between generating
+mechanistic hypotheses—instantiated as a diverse ensemble of sparse neural networks (Disentangled RNNs)—and designing experiments that optimally distinguish
+between them. We test this approach on the problem of recovering reinforcement
+learning agents from their behavior in bandit tasks. ATLAS designs varied sequences of qualitatively novel experiments with temporal structure tailored to
+underlying agent characteristics. The models trained on these experiments are
+evaluated against a comprehensive set of metrics for mechanistic modeling that
+capture behavioral, structural, and computational similarity. ATLAS achieves a
+5–10× improvement in sample efficiency across all metrics compared to random
+experimentation, and its performance is further validated against expert-designed
+experiments derived from literature. These in silico results showcase ATLAS’s
+potential to accelerate human-interpretable insights in cognitive science and other
+domains where scientific inquiry relies on discovering mechanistic models.
+
+1
+
+Introduction
+
+A central goal of cognitive science is to discover the algorithms that control the behavior of humans,
+animals, and artificial agents. Research often proceeds via an iterative process of experimentation
+and computational modeling. Models serve as tentative hypotheses about the true algorithm, and
+guide the choice of next experiments. Data from experiments serves in turn to refine models [1]. This
+can be understood as an iterative closed-loop process alternating data-driven hypothesis discovery
+and hypothesis-driven data collection. Accelerating this process using machine learning remains a
+major open direction [2–5].
+Recent techniques for data-driven model discovery make it possible to automatically identify computational models that both match data well and are interpretable to human researchers as plausible
+algorithmic hypotheses [6–13]. These approaches surface a small set of models that are both simple
+and consistent with a dataset, from a vast space of possibilities. This generality comes with a cost:
+these methods typically require large datasets in order to identify meaningful models. This makes
+Preprint.
+
+Q-Learning
+10x
+
+5x
+
+10x
+
+5x
+
+Leaky Actor-Critic
+5x
+
+Figure 1: ATLAS provides 5–10× sample efficiency over random experimentation. Here, we use
+ATLAS to uncover the behavior and structure of two RL agents: Q-learning (Top) and Leaky ActorCritic (Bottom). We compare 8 independent runs of ATLAS to 10 runs of random experimentation.
+(Left) Performance of the best-fitting models at predicting agent behavior in held-out experiments.
+Solid lines indicate the mean performance across independent runs, while the shaded regions represent
+±1 standard error of the mean (SEM). Asterisks indicate significant advantage of ATLAS over
+random experiments (p < 0.05, of Welch’s one-tailed t-test). The horizontal dashed line represents
+the performance ceiling. (Middle) The probability of recovering the true underlying computational
+graph. Solid lines denote the fraction of successful recoveries. Shaded regions represent the 68%
+Wilson score interval. Asterisks indicate significance (p < 0.05, one-tailed Barnards’s exact test).
+(Right) Averaged state prediction MSE for the ground truth agent simulated in the model and vice
+versa. Asterisks indicate significance (p < 0.05, Welch’s one-tailed t-test).
+
+them difficult to apply in situations, typical in cognitive science, where experiments are costly and
+time-consuming.
+Active Learning [14] and Optimal Experiment Design [15] are subfields of statistics and machine
+learning that are concerned with developing automated tools for designing experiments for efficient
+data collection. These tools iterate between identifying the most informative data points to sample
+and updating a model based on the new data. While broadly applied, existing approaches typically
+either optimize black-box predictive models [14, 15], which lack interpretability, or discriminate
+among pre-specified mechanistic models [16, 17], which carry a risk of misspecification and limit
+discovery.
+To bridge this gap, we introduce ATLAS (Active Theory Learning for Automated Science). ATLAS
+implements an Active Learning loop using an ensemble of disentangled recurrent neural networks
+(DisRNNs) [6], which have been used to discover computational models from behavior in a variety
+of contexts [18–21]. DisRNNs use information bottlenecks to encourage solutions that consist of a
+small number of sparsely interacting latent (“cognitive”) variables. The latent variable interactions
+can be interpreted as a hypothetical computational graph for the underlying mechanism. The strength
+of this sparsity constraint can be varied parametrically, and we use this to maintain ensemble diversity.
+We use an evolutionary algorithm to identify experimental parameters that optimize for disagreement
+among the members of the ensemble.
+We apply this approach to the problem of discovering mechanistic models of simple reinforcement
+agents based on their behavior, using as few behavioral experiments as possible (Figure 1). We find
+that ATLAS-designed experiments are able to identify strong models using 5–10× fewer experiments
+than random experiments. These models are not only strong predictive models, accurately describing
+the behavior of the RL agents on out-of-distribution test experiments (Figure 1, left), but also discover
+the correct computational structure (Figure 1, middle) and dynamics (Figure 1, right). We also find
+2
+
+that ATLAS matches or exceeds the performance of fixed, expert-designed baselines by tailoring its
+experiments to the specific agent being studied (Figure 5).
+In addition to performing well, ATLAS-designed experiments often have interpretable structure:
+they exhibit a combination of regular and irregular structure on different timescales that make them
+effective at uncovering behavior, but quite unlike what researchers tend to design.
+Our specific contributions are:
+• We demonstrate that combining methods from disagreement-based active learning with
+methods for automatic discovery of interpretable mechanistic models results in a practical
+framework for closed-loop scientific discovery. We refer to this framework, which links
+data-driven hypothesis generation with hypothesis-driven experiment selection, as Active
+Theory Learning for Automated Science (ATLAS).
+• We demonstrate that Disentangled RNNs [22] perform well in ATLAS, surfacing sufficiently
+diverse hypotheses to enable strong experimental design.
+• We develop an optimizer over experiment designs that consist of binary matrices. We demonstrate that this results in experiments that drive strong disagreement between individual
+handcrafted models, and that it performs well in the context of ATLAS.
+• We apply ATLAS to the problem of discovering reinforcement learning algorithms (Qlearning and Actor-Critic) from their overt behavior. We demonstrate that ATLAS discovers
+strong models of these algorithms using an order of magnitude fewer experiments than
+random experimentation, and that it outperforms even expert-designed experiments.
+
+2
+
+Related Work
+
+Active learning studies how a learner should select the most informative data point to query [14]. A
+foundational approach in this space is Query by Committee (QBC) [23, 24], in which a committee of
+models is maintained, each consistent with the observed data, and the learner queries the instance
+on which the committee members most disagree. QBC provides a natural framework for modeldriven experimentation: the committee’s disagreement identifies regions where the current data
+are insufficient to distinguish between competing hypotheses. Our approach shares this spirit, but
+replaces the committee with an ensemble of neural networks whose structure encourages qualitatively
+distinct models.
+Several measures of committee disagreement have been proposed. Vote entropy [25] and KLdivergence-based measures [26] quantify the diversity of predictions across committee members.
+More recently, Bayesian Active Learning by Disagreement (BALD) [27] formalized disagreement
+as the mutual information between model predictions and model parameters, providing a principled
+information-theoretic objective.
+Optimal Experiment Design applies Active Learning to science where the best experiment is the one
+that is most informative about a scientific theory, written as a computational model [28, 29]. Indeed,
+the expected information gain about the parameters of a scientific model [30–33] is theoretically
+unified with BALD [34].
+Optimal experiment design has been applied to numerous prediction and design problems, including materials discovery [35], drug design [36], physics simulations [37], and cognitive science
+[38]. Notably, these applications involve fitting blackbox predictive models rather than identifying
+interpretable mechanistic models.
+In cognitive science and psychology, automated experiment design has been developed for parameter
+estimation of a fixed model [39, 40], as well as for discriminating among model classes [16, 17].
+However, as Rainforth et al. [29] note, “experiment design is only ever as good as the underlying
+model.” If the assumed model is fundamentally misspecified, it can drive a vicious cycle of biased
+data collection in irrelevant corners of the design space; escaping this trap remains an open challenge.
+Indeed, complex ground-truth models and/or restrictive model classes sometimes result in situations
+where random experiments outperform those selected by active learning [41, 42]. This motivates
+approaches that reason over the model structure itself. Our work addresses this by leveraging
+structurally constrained neural networks, whose internal diversity naturally encodes qualitatively
+distinct mechanistic hypotheses.
+3
+
+Interpretable recurrent neural network models. Our approach builds on the Disentangled RNN
+(DisRNN; [6]), which learns recurrent dynamics with sparse, disentangled latent states. By penalizing
+superfluous internal representations, DisRNNs converge on tunably minimal models, ensuring that
+ensemble disagreement reflects meaningful structural differences rather than superficial parameter
+variation. This distinguishes our approach from standard deep ensemble methods [43], where
+disagreement may arise from random initialization without corresponding to interpretably different
+hypotheses.
+
+3
+
+The ATLAS pipeline
+
+ATLAS consists of iterative cycles of model discovery and experimental design (Figure 2). We
+consider problems that involve discovering the computational structure of an unknown reinforcement
+learning agent, based on observations of its behavior on context-free bandit problems with binary
+rewards. In each experiment the agent chooses repeatedly one of A available actions for up to T
+trials and observes a binary reward. Different agents will adapt their future choices in response to the
+rewards in ways that reflect different computational structures and assumptions about the environment.
+These problems are close in silico analogs of the problem of discovering the algorithms of human and
+animal reward learning from behavior, a widely-studied open problem in cognitive science [44, 45].
+
+Experiment
+Runner
+
+Experiment
+design
+
+Results
+
+Experiment
+Optimizer
+Ensemble
+
+Dataset
+
+Hypothesis
+Generator
+
+Figure 2: Schematic of ATLAS. An ATLAS cycle begins with either an initial, very small, dataset,
+from which it generates an ensemble of mechanistic models (Hypothesis Generator) or with a fixed
+set of models provided as input. Next it maximizes disagreement among the models to optimize the
+information gain of the experiment design (Experiment Optimizer). Finally, it runs that experiment
+(Experiment Runner) to expand the continually growing Dataset.
+
+3.1
+
+Experiment Optimizer
+
+Generally, an experiment design D can be expressed as a tensor of time-varying inputs to the system
+of study. In our setting, we constrain D to be a binary T ×A matrix D, where each entry Dt (a)
+defines the reward received by an agent taking action a at timestep t.
+Each Hypothesis Generation step yields an ensemble E of K mechanistic models. These can
+be thought of as competing hypotheses, plausible based on the data so far, for the generative
+reinforcement learning agent that ATLAS is trying to discover. Each model E i consists of an initial
+state vector s0 and an update rule st+1 , πt+1 = F (st , at , rt ), which takes in the current state st ,
+action at , and reward rt and outputs the updated state st+1 and the next action probabilities πt+1 (a).
+Given a candidate experiment D and a model E i , simulated choice behavior can be sampled from
+the model. At each timestep t, upon the agent’s choice at , the resulting reward is obtained from the
+experiment as rt = Dt (at ). This yields a simulated trajectory τ i = (ai1 , r1i , . . . , aiT , rTi ). To reduce
+variance, we generate a batch B of B independent trajectories for each model, with τbi indicating the
+bth trajectory sampled under model Ei .
+4
+
+To compute model disagreement, we first compute the log-likelihood of the simulated trajectories
+under each model:
+B T
+
+
+1 XX
+i
+ℓij = ÊB log p(τ i | E j ) =
+log πtj (ait |a1:t−1 , r1:t−1
+)
+B
+t=1
+
+(1)
+
+b=1
+
+where ℓij gives the average log-likelihood under the model E j of a batch of B trajectories τ i generated
+by model E i .
+The expected information gain (EIG) from an experiment design D is approximated by the ensemble
+disagreement – that is, by how much more likely each model considers its own trajectories compared
+to the trajectories of the other models:
+K
+
+K
+
+XX
+1
+EIG(d) =
+K(K−1) i=1 j=1
+j̸=i
+
+ℓii
+|{z}
+
+self-agreement
+
+−
+
+ℓij
+|{z}
+
+
+
+.
+
+(2)
+
+cross-agreement
+
+EIG(d) is high when individual ensemble members predict distinct behavioral trajectories with high
+confidence, leading to strong disagreement among the models. Analogous to the BALD [27] objective,
+this score quantifies the expected information gain about the true identity of the generative model
+given the experimental outcome. Identifying a high-quality experiment for a given ensemble therefore
+requires finding an input D that maximizes this disagreement, thereby making the underlying models
+highly distinguishable.
+We optimize Eq. 2 using an iterative hill climbing strategy. We initialize the binary experiment design
+matrix D randomly. We then consider elements one-at-a-time in a random order without replacement,
+flipping the associated bit and accepting the change if it increases the EIG and rejecting it otherwise.
+Once all elements have been considered we repeat this process, until a full pass through all entries
+yields no improvement, indicating that hill climbing has converged. To mitigate the risk of converging
+to a local optimum, we repeat this process 128 times using different randomly initialized experiments.
+We evaluate each converged experiment on a new set of rollouts B ′ and select the experiment with
+the highest score.
+We first evaluate the Experiment Optimizer in isolation from the rest of ATLAS to demonstrate
+its sensitivity to differences within an ensemble. For this, we set up a simple example where the
+ensemble members are identical Q-learning agents that differ only in a single parameter: the learning
+rate. Specifically, we fixed a reference agent QMedium (α = 0.2) and paired it with one of four
+comparison agents spanning slower (QVery Slow , α = 0.05; QSlow , α = 0.1) and faster (QFast , α = 0.4;
+QVery Fast , α = 0.8) learning rates.
+Each of the four optimized experiments shows remarkable temporal structure (Figure 3). For example,
+the experiment optimized to distinguish QMedium from QVery Slow features a partially overlapping block
+structure: initially, only one choice is rewarding, followed by both, then the alternative choice, both
+again, and finally returning to the first. Notably, this pattern is interrupted by an anomalous reward
+omission. This omission must necessarily improve EIG; otherwise, the optimization algorithm would
+have flipped it prior to convergence. Indeed, this specific trial was part of the optimized design in all
+10 independent runs (Appendix A.1).
+Examining the timeseries of choice probabilities from QMedium and QVery Slow , we see that these
+anomalous trials cause a distinct fast or slow change in policy. We also see that the timing of the block
+changes is not arbitrary – the blocks change when the policies of the two agents become similar. The
+other three experiments—optimized to distinguish QSlow , QFast , and QVery Fast from the reference—are
+temporally scaled versions of the first experiment. The frequency of alternation in these block designs
+maps faithfully onto the difference in learning timescales between the agents, confirming that the
+Experiment Optimizer successfully exploits meaningful ensemble diversity to maximize information
+gain, and the designs can be interpreted post-hoc.
+3.2
+
+Experiment Runner and Dataset
+
+The Dataset is initially seeded with two random experiments. In each subsequent ATLAS cycle, the
+newly optimized experiment is executed, yielding a single behavioral trajectory from the ground-truth
+agent that is appended to the Dataset.
+5
+
+reward
+no reward
+
+r-Critic
+Figure 3: Optimized experiments for Q-Learners with different learning rates. We optimized
+binary reward matrices to distinguish a reference agent QMedium with learning rate α = 0.2 from
+four comparison agents spanning slower and faster learning rates α = 0.05 to α = 0.8. (Left) For
+the QMedium and QVery Slow pair, the expected information gain (EIG) converges in < 5,000 evolution
+timesteps. Thin lines in teal correspond to 128 seeds optimized on a batch of simulated agent
+trajectories B = 10 × 1024, and the thick line in pink is the experiment with the highest EIG as
+evaluated on a separate batch B ′ = 10 × 1024. Vertical lines represent convergence checks. (Right)
+The four panels display the optimized experiments for four pairs of Q-learning agents. Experiments
+consist of a binary reward matrix where gray indicates that a reward of 1 will be given depending
+on the action, and white indicates a reward of 0. Superimposed on each experiment is a small batch
+of 100 trajectories generated from each agent, with the action probabilities from the fixed reference
+agent QMedium in pink, and the comparison agent (QVery Slow , QSlow , QFast , or QVery Fast ) in burgundy.
+3.3
+
+Hypothesis Generator
+
+Once the new experiment and its results have been added to the dataset, the next step in the ATLAS
+cycle is to create a new ensemble of hypotheses, instantiated as sparse neural networks. This involves
+two stages: First we generate a large and diverse set of candidate hypotheses, then we choose a subset
+of these to be used as the next ensemble of interest.
+Specifically, the Hypothesis Generator trains a new set of Disentangled RNNs (DisRNNs, [6]) from
+scratch on the updated dataset. The set includes both multiple random seeds as well as a range of
+values for the DisRNN penalty parameter, which controls the tradeoff between quality-of-fit and
+model complexity (Appendix A.3). For each set of hyperparameters, we train three networks: two
+networks on the two halves of the dataset (even and odd-numbered experiments), and one on the
+entire dataset. We evaluate quality-of-fit for a set of hyperparameters using cross-validation between
+the even and odd splits, and take the model trained on the entire dataset as the hypothesis discovered
+with those hyperparameters.
+This results in a large set of models with different tradeoffs between quality-of-fit and simplicity.
+Some of these, with higher values of the complexity penalty, will represent hypotheses that are too
+structurally simple to capture the existing experimental data, and will have poor quality of fit due
+to underfitting. Others, with lower values of the complexity penalty, will be too complex, and have
+poor quality of fit due to overfitting (Figure 10). Models with good cross-validated quality of fit
+may be plausible mechanistic models given the current dataset. To select an ensemble of these, we
+sample models probabilistically using an offset softmax distribution over candidate cross-validation
+likelihoods (Appendix A.6). This has the effect that ATLAS is more exploratory on early cycles when
+model quality is poor, and more strongly prefers performant hypotheses in later cycles when quality
+is higher (Appendix A.6). ATLAS is robust to other reasonable choices of ensemble selection, as
+uniform selection and top-K selection also yield competitive results (Appendix A.6.1).
+
+4
+
+Results
+
+4.1
+
+Experimental Setup
+
+We tested ATLAS separately with two ground-truth agents: a Q-learning agent and a Leaky ActorCritic Agent [46] (see Appendix A.2 for details). We selected these agents because they represent two
+6
+
+Cycle 20
+
+Cycle 10
+
+Cycle 20
+
+Q-Learning
+
+Cycle 50
+
+Cycle 100
+
+Best Model
+
+Experiment
+
+Ensemble
+
+Cycle 10
+
+Leaky Actor-Critic
+Cycle 100
+
+Best Model
+
+Experiment
+
+Ensemble
+
+Cycle 50
+
+Figure 4: Structured models drive structured experiments in ATLAS. Example cycles from
+an arbitrarily chosen run (seed 2) are shown for Q-learning (top) and Leaky Actor-Critic (bottom).
+For each agent: (First Row) Computational graphs of the two ensemble members. (Second Row)
+Optimized experiments and 100 simulated trajectories of the two ensemble members. There is rich
+temporal structure within each experiment, as well as a variety of structures over the sequence of
+experiments. (Third Row) Graph representations of the best-fit models, reflecting the shift from
+over-sparse approximations to a complex model that is isomorphic to the ground truth graph by cycle
+100. Tick marks indicate isomorphism with the ground truth.
+
+different computational structures that both have relevance in cognitive science, and have previously
+been used as a test case for DisRNN [6]. To evaluate consistency, we performed eight independent
+ATLAS runs for each dataset, each for a total of 100 cycles. We compare ATLAS to two open-loop
+strategies for generating experiments: random rewards drawn i.i.d. or from Gaussian random walks.
+Random experimentation is robust and widely applied when well-informed models are unavailable,
+from random mutagenesis in molecular biology [47], to random screening in drug discovery [48],
+to random neural perturbations in neuroscience [49, 50]. Within cognitive science, Musslick et al.
+[42] clearly demonstrated cases where unbiased experimentation is superior to active learning, which
+tends to sample narrowly when guided by misspecified models. Therefore, our first baseline consists
+of a set of i.i.d. experiments where rewards on each trial are sampled independently with a probability
+of 0.5.
+Rather than relying on random designs, neuroscience and psychology labs typically study rewardguided learning and decision-making using fully handcrafted tasks or expert-defined procedural
+generators. A common example is to sample rewards from independent Gaussian random walks
+[51, 52, 22, 12], which allows for substantial autocorrelation in reward probabilities and encourages
+the subject to develop strong preferences for one alternative or the other at various times in the
+experiment. We adopt this generator as our second baseline, matching the particular walks used in
+[22], an early dataset collected with the goal of supporting data-driven model discovery.
+7
+
+4.2
+
+Evaluation
+
+ATLAS is a tool for choosing which experiments to run, and its output is the resulting dataset. A
+dataset is successful if it is sufficient to allow discovering strong models of the ground-truth agent.
+We evaluate this by fitting a sweep of DisRNNs in a configuration that is optimized for discovery of a
+single strong model rather than for efficiently identifying a set of reasonable models (see Appendix
+A.3 for details), then by evaluating the discovered model.
+
+Q-Learning
+
+Leaky Actor-Critic
+
+Figure 5: ATLAS is competitive with expert-designed experiments. We compare 8 independent
+runs for ATLAS, 10 runs for expert-designed on Q-learning, and 10 runs for expert-designed on leaky
+actor-critic. (Left) Performance of the best-fitting models at predicting agent behavior in held-out
+experiments. Solid lines indicate the mean performance across independent runs, while the shaded
+regions represent ±1 standard error of the mean (SEM) Asterisks indicate a significant advantage
+of ATLAS over expert-designed experiments (p < 0.05, Welch’s one-tailed t-test). The horizontal
+dashed line represents the performance ceiling. (Middle) The probability of recovering the true
+underlying computational graph. Solid lines denote the fraction of successful recoveries. Shaded
+regions represent the 68% Wilson score interval. Asterisks indicate significance (p < 0.05, one-tailed
+Barnards’s exact test). (Right) Averaged state prediction error for the ground truth agent simulated in
+the model and vice versa. Asterisks indicate significance (p < 0.05, Welch’s one-tailed t-test).
+We consider three criteria of strong mechanistic models. The first is behavioral similarity: its behavior
+should be quantitatively like that of the system. We measure this using a test dataset of behavior
+from the ground-truth agent on a battery of handcrafted experiments designed to expose key patterns
+(see Appendix A.4 for details). We quantify the likelihood of this test dataset under the model. For
+strong models, this likelihood will approach that of the ground-truth agent itself. We find that ATLAS
+achieves high behavioral similarity with remarkable efficiency: after only 100 ATLAS-designed
+experiments, its performance nearly matches that of random search after 1,000 steps. Furthermore,
+when comparing equal milestones, ATLAS yields significantly higher behavioral similarity than
+random search after just 20 experiments for Q-learning, and after 100 experiments for Actor-Critic
+(Figure 1, left).
+The second criterion is structural similarity: whether there exists a 1:1 mapping between the components of the model and the components of the system. We represent the structure of each ground truth
+agent as a directed graph in which nodes are input variables (previous choice, previous reward), latent
+variables (for Q-learning: action values; for Leaky Actor-Critic: state value and policy parameters)
+or output variables (probability of next choice), and directed edges connect variables that causally
+affect one another (Figures 7 and 8). Similarly, a computational graph can be extracted from a fit
+DisRNN by examining the information bottlenecks, which encourage causal sparsity [6]. The nodes
+of this graph are similarly input variables, internal variables (activities of individual network units)
+and output variables, connected by directed edges when those variables are connected in the network
+by open information bottlenecks. After training the DisRNN parameters, including the fitted noise σ
+8
+
+for each bottleneck, we threshold the bottlenecks to be either “open” (information passes) if σ < .5
+or “closed” (no information passes) otherwise. This thresholded DisRNN is structurally similar
+to the ground truth agent when their computational graphs are isomorphic. We find that ATLAS
+succeeds in recovering the correct computational graph for 8/8 seeds after 100 experiments for both
+the Q-learning and Leaky Actor-Critic agents. For the Q-learning agent, both the random and the
+expert-designed baselines required 1,000 experiments to reach this performance (Figure 1, middle;
+Figure 5, middle). For the Actor-Critic agent, the random baseline achieved this in 1,000 experiments,
+while the expert-designed baseline never achieved it.
+The third and final criterion is dynamical similarity. To measure this, we borrow a notion from
+theoretical computer science [53, 54], which defines systems as computationally equivalent if they are
+able to perfectly simulate one another. This means that a one-to-one mapping exists from the states of
+one system to the states of the other. If a pair of computationally equivalent systems are initialized to
+corresponding states and given an identical sequence of inputs, the sequences of states that they trace
+out will correspond perfectly. This notion was defined for discrete systems, but has been generalized
+to continuous systems like ours as “approximate bisimulation” [55, 56]. We quantify this by running
+the ground-truth system on a battery of held-out experiments, generating a dataset of their internal
+states, and training neural networks to map the states of the ground truth system to the states of
+the discovered models, and the other way around. We evaluate the quality of these mappings on a
+separate dataset of internal states, and report the normalized mean-squared errors averaged over the
+two simulation directions (see Appendix A.5 for details). On Q-learning, ATLAS’s bisimulation score
+after 100 steps matched that of random after 500 steps. On both Q-Learning and Leaky Actor-Critic,
+the bisimulation error was significantly lower for models trained on ATLAS-designed experiments,
+compared with random, after 100 experiments 1, right). These results hold for simulation error in
+each direction separately (Figure 9 in Appendix A.5). In line with the results on structure recovery,
+ATLAS was competitive with the expert-designed baseline on Q-learning, and even surpassed it on
+Actor-Critic, allowing for significantly lower bisimulation error by 100 experiments (Figure 5, right).
+
+5
+
+Discussion
+
+We introduce ATLAS, a pipeline for discovering mechanistic models through interpretable experimental design. Uniquely, ATLAS drives its optimal experimental design and ensemble-based active
+learning using a class of data-driven interpretable models. We compare ATLAS to random experimentation on the problem of recovering the ground truth structure of reinforcement learning agents, and
+find that ATLAS is able to successfully recover mechanistic models that behaviorally, structurally,
+and computationally match the ground truth using an order of magnitude fewer experiments. We
+observe that ATLAS selects intriguingly structured experiments that bear only slight resemblance
+to the kind of experiments researchers employ. Finally, we compare to a class of expert-designed
+experiments and find that ATLAS closely matches or outperforms that baseline.
+While ATLAS is a general framework, we focused on the problem setting of recovering reinforcement
+learning algorithms for a few reasons. First, understanding the response of humans and animals (and
+artificial agents) to positive feedback is a problem of scientific, clinical, and societal importance,
+and one that has been a longstanding problem in cognitive science [57, 46]. Second, and more
+pragmatically, there has been substantial work developing data-driven interpretable modeling to
+reward-guided learning behaviors [22, 8, 10, 12]. As our method relies crucially on such models, it
+makes sense to test in a domain where these models have been well tested. Third, we wanted to test
+our method on problems with a known ground truth before extending to unknown systems. Future
+work with ATLAS would include applying it to domains outside of reinforcement learning and to
+experimental data collection in real world settings.
+There are a number of limitations to the methodology in its present form. In our setup, the rate-limiting
+step is training ensemble models, as these models are trained from scratch on each step. Future work
+might consider finetuning approaches that update the existing ensembles more efficiently. Using
+ATLAS with different methods for interpretable modeling also merit future work [8, 10]. ATLAS
+uses an evolutionary approach to selects experiments greedily with respect to the EIG objective.
+Future work might optimize a batch of experiments [58], or leverage RL to maximize cumulative
+information gain [59]. Although optimizing sequences of experiments is computationally expensive,
+amortization [33] makes non-myopic design practical.
+9
+
+Accelerating data collection is a vital challenge given the ubiquity of data-driven modeling in AI.
+In many lines of scientific investigation, within and beyond cognitive science, data collection is the
+rate-limiting step, owing to the time and cost of real-world interventions. Our work addresses this
+for the problem of experimentally distinguishing and optimizing interpretable mechanistic models
+as opposed to blackbox predictive models. Such models play a vital role in cognitive science and
+beyond for instantiating specific, high-level hypotheses about the underlying mechanisms driving
+observed scientific process. Our work is an important step for developing methods that accelerate
+the design of experiments that optimally uncover information about the underlying process while
+maintaining structure and interpretability.
+
+Acknowledgments
+We thank Will Dabney, Andre Barreto, Diana Borsa, Bernardo Avila Pires, Kalesha Bullard, and
+Martin Engelcke for helpful discussions, and the rest of the Neuroscience Lab and Agency Team at
+Google DeepMind for the supportive research environment. We also thank Will Dabney and Hado
+van Hasselt for providing feedback on earlier versions of the manuscript.
+
+References
+[1] George E. P. Box. Science and statistics. Journal of the American Statistical Association, 71
+(356):791–799, 1976.
+[2] Mayank Agrawal, Joshua C Peterson, and Thomas L Griffiths. Scaling up psychology via
+scientific regret minimization. Proceedings of the National Academy of Sciences, 117(16):
+8825–8835, 2020.
+[3] Hanchen Wang, Tianfan Fu, Yuanqi Du, Wenhao Gao, Kexin Huang, Ziming Liu, Payal
+Chandak, Shengchao Liu, Peter Van Katwyk, Andreea Deac, et al. Scientific discovery in the
+age of artificial intelligence. Nature, 620(7972):47–60, 2023.
+[4] Sebastian Musslick, Laura K. Bartlett, Suyog H. Chandramouli, Marina Dubova, Fernand Gobet,
+Thomas L. Griffiths, Jessica Hullman, Ross D. King, J. Nathan Kutz, Christopher G. Lucas,
+Suhas Mahesh, Franco Pestilli, Sabina J. Sloman, and William R. Holmes. Automating the
+practice of science: Opportunities, challenges, and implications. Proceedings of the National
+Academy of Sciences, 122(5):e2401238121, 2025. doi: 10.1073/pnas.2401238121. URL
+https://www.pnas.org/doi/abs/10.1073/pnas.2401238121.
+[5] Akshay K Jagadish, Milena Rmus, Kristin Witte, Marvin Mathony, Marcel Binz, and Eric
+Schulz. Can we automatize scientific discovery in the cognitive sciences? arXiv preprint
+arXiv:2603.20988, 2026.
+[6] Kevin Miller, Maria Eckstein, Matt Botvinick, and Zeb Kurth-Nelson. Cognitive model
+discovery via disentangled rnns. Advances in Neural Information Processing Systems, 36:
+61377–61394, 2023.
+[7] Manuel Brenner, Christoph Jürgen Hemmer, Zahra Monfared, and Daniel Durstewitz. Almostlinear rnns yield highly interpretable symbolic codes in dynamical systems reconstruction.
+Advances in Neural Information Processing Systems, 37:36829–36868, 2024.
+[8] Li Ji-An, Marcus K Benna, and Marcelo G Mattar. Discovering cognitive strategies with tiny
+recurrent neural networks. Nature, 644(8078):993–1001, 2025.
+[9] Milena Rmus, Akshay K. Jagadish, Marvin Mathony, Tobias Ludwig, and Eric Schulz. Generating computational cognitive models using large language models, 2025. URL https:
+//arxiv.org/abs/2502.00879.
+[10] Pablo Samuel Castro, Nenad Tomasev, Ankit Anand, Navodita Sharma, Rishika Mohanta,
+Aparna Dev, Kuba Perlin, Siddhant Jain, Kyle Levin, Noemi Elteto, Will Dabney, Alexander
+Novikov, Glenn C Turner, Maria K Eckstein, Nathaniel D. Daw, Kevin J Miller, and Kim
+Stachenfeld. Discovering symbolic cognitive models from human and animal behavior. In Aarti
+Singh, Maryam Fazel, Daniel Hsu, Simon Lacoste-Julien, Felix Berkenkamp, Tegan Maharaj,
+10
+
+Kiri Wagstaff, and Jerry Zhu, editors, Proceedings of the 42nd International Conference on
+Machine Learning, volume 267 of Proceedings of Machine Learning Research, pages 6849–
+6890. PMLR, 13–19 Jul 2025. URL https://proceedings.mlr.press/v267/castro25a.
+html.
+[11] Kyle J LaFollette, Janni Yuval, Roey Schurr, David Melnikoff, and Amit Goldenberg. Datadriven equation discovery reveals nonlinear reinforcement learning in humans. Proceedings of
+the National Academy of Sciences, 122(31):e2413441122, 2025.
+[12] Maria K Eckstein, Christopher Summerfield, Nathaniel D Daw, and Kevin J Miller. Hybrid
+neural–cognitive models reveal how memory shapes human reward learning. Nature Human
+Behaviour, pages 1–16, 2026.
+[13] Daniel Kasenberg, Pablo Samuel Castro, Maria K Eckstein, Noemi Elteto, Will Dabney, Caroline L Wang, Martin Engelcke, Rishika Mohanta, Aparna Dev, Matthew M Botvinick, et al.
+Ai-discovered cognitive models reveal novel insights into human and animal learning. bioRxiv,
+pages 2026–05, 2026.
+[14] Burr Settles. Active learning literature survey. 2009.
+[15] Xun Huan, Jayanth Jagalur, and Youssef Marzouk. Optimal experimental design: Formulations
+and computations. Acta Numerica, 33:715–840, 2024. ISSN 1474-0508. doi: 10.1017/
+s0962492924000023. URL http://dx.doi.org/10.1017/S0962492924000023.
+[16] Jay I Myung and Mark A Pitt. Optimal experimental design for model discrimination. Psychological review, 116(3):499, 2009.
+[17] Daniel R Cavagnaro, Jay I Myung, Mark A Pitt, and Janne V Kujala. Adaptive design optimization: A mutual information-based approach to model discrimination in cognitive science.
+Neural computation, 22(4):887–905, 2010.
+[18] Peiyu Liu, Kevin J. Miller, and Hyojung Seo. Discovering cognitive models in a competitive
+mixed-strategy game. In Proceedings of the 2024 Conference on Cognitive Computational
+Neuroscience (CCN), Boston, MA, USA, 2024. URL https://2024.ccneuro.org/pdf/
+68_Paper_authored_Liu-et-al-CCN2024-authored.pdf.
+[19] Siddhant Jain, Nathaniel D. Daw, Kimberly L. Stachenfeld, and Kevin J. Miller. Simultaneous modeling of behavior and dopamine with disentangled RNNs. In Proceedings of the
+2025 Conference on Cognitive Computational Neuroscience (CCN), Amsterdam, Netherlands,
+2025. URL https://2025.ccneuro.org/abstract_pdf/Jain_2025_Simultaneous_
+modeling_behavior_dopamine_disentangled_RNNs.pdf.
+[20] Isabelle Hoxha and Anne E. Urai. Uncovering the structure of trial-to-trial variability in perceptual decision-making using disentangled recurrent neural networks. In Proceedings of the
+2025 Conference on Cognitive Computational Neuroscience (CCN), Amsterdam, Netherlands,
+2025. URL https://2025.ccneuro.org/abstract_pdf/Hoxha_2025_Uncovering_
+Structure_Trial-to-Trial_Variability_Perceptual_Decision-Making.pdf.
+[21] Xinyue Zhu and Daniel L. Kimmel. Disentangling interpretable cognitive variables that support
+human generalization. In NeurIPS 2025 Workshop on Interpreting Cognition in Deep Learning
+Models (CogInterp), 2025. URL https://openreview.net/forum?id=HyfwJjytjB.
+[22] Kevin J Miller, Matthew M Botvinick, and Carlos D Brody. From predictive models to cognitive
+models: an analysis of rat behavior in the two-armed bandit task. BioRxiv, page 461129, 2018.
+[23] H Sebastian Seung, Manfred Opper, and Haim Sompolinsky. Query by committee. In Proceedings of the fifth annual workshop on Computational learning theory, pages 287–294,
+1992.
+[24] Yoav Freund, H Sebastian Seung, Eli Shamir, and Naftali Tishby. Information, prediction, and
+query by committee. Advances in neural information processing systems, 5, 1992.
+[25] Ido Dagan and Sean P Engelson. Committee-based sampling for training probabilistic classifiers.
+In Machine learning proceedings 1995, pages 150–157. Elsevier, 1995.
+11
+
+[26] Andrew Kachites McCallum, Kamal Nigam, et al. Employing em and pool-based active learning
+for text classification. In ICML, pages 350–358, 1998.
+[27] Neil Houlsby, Ferenc Huszár, Zoubin Ghahramani, and Máté Lengyel. Bayesian active learning
+for classification and preference learning. arXiv preprint arXiv:1112.5745, 2011.
+[28] Elizabeth G Ryan, Christopher C Drovandi, James M McGree, and Anthony N Pettitt. A review
+of modern computational algorithms for bayesian optimal design. International Statistical
+Review, 84(1):128–154, 2016.
+[29] Tom Rainforth, Adam Foster, Desi R Ivanova, and Freddie Bickford Smith. Modern bayesian
+experimental design. Statistical Science, 39(1):100–114, 2024.
+[30] Dennis V Lindley. On a measure of the information provided by an experiment. The Annals of
+Mathematical Statistics, 27(4):986–1005, 1956.
+[31] David JC MacKay. Information-based objective functions for active data selection. Neural
+computation, 4(4):590–604, 1992.
+[32] Kathryn Chaloner and Isabella Verdinelli. Bayesian experimental design: A review. Statistical
+science, pages 273–304, 1995.
+[33] Adam Foster, Desi R Ivanova, Ilyas Malik, and Tom Rainforth. Deep adaptive design: Amortizing sequential bayesian experimental design. In International conference on machine learning,
+pages 3384–3395. PMLR, 2021.
+[34] Andreas Kirsch and Yarin Gal. Unifying approaches in active learning and active sampling via
+fisher information and information-theoretic quantities. arXiv preprint arXiv:2208.00549, 2022.
+[35] Turab Lookman, Prasanna V Balachandran, Dezhen Xue, and Ruihao Yuan. Active learning in
+materials science with emphasis on adaptive sampling using uncertainties for targeted design.
+npj Computational Materials, 5(1):21, 2019.
+[36] Manfred K Warmuth, Jun Liao, Gunnar Rätsch, Michael Mathieson, Santosh Putta, and Christian
+Lemmen. Active learning with support vector machines in the drug discovery process. Journal
+of chemical information and computer sciences, 43(2):667–673, 2003.
+[37] Atılım Güneş Baydin, Kyle Cranmer, Pablo de Castro Manzano, Christophe Delaere, Denis
+Derkach, Julien Donini, Tommaso Dorigo, Andrea Giammanco, Jan Kieseler, Lukas Layer,
+et al. Toward machine learning optimization of experimental design. Nuclear Physics News, 31
+(1):25–28, 2021.
+[38] Prakhar Godara, Frederick Callaway, and Marcelo G Mattar. Adversarial construction as
+a potential solution to the experiment design problem in large task spaces. arXiv preprint
+arXiv:2602.03172, 2026.
+[39] Jay I Myung, Daniel R Cavagnaro, and Mark A Pitt. A tutorial on adaptive design optimization.
+Journal of mathematical psychology, 57(3-4):53–67, 2013.
+[40] Long Ouyang, Michael Henry Tessler, Daniel Ly, and Noah Goodman. Practical optimal
+experiment design with probabilistic programs. arXiv preprint arXiv:1608.05046, 2016.
+[41] Marina Dubova, Arseny Moskvichev, and Kevin Zollman. Against theory-motivated experimentation: Can random experimental choice lead to better theories? Collective Intelligence, 5,
+2026.
+[42] Sebastian Musslick, Joshua TS Hewson, Benjamin W Andrew, Younes Strittmatter, Chad C
+Williams, George T Dang, Marina Dubova, and John Gerrard Holland. An evaluation of
+experimental sampling strategies for autonomous empirical research in cognitive science. In
+Proceedings of the annual meeting of the cognitive science society, volume 45, 2023.
+[43] Balaji Lakshminarayanan, Alexander Pritzel, and Charles Blundell. Simple and scalable
+predictive uncertainty estimation using deep ensembles. Advances in neural information
+processing systems, 30, 2017.
+12
+
+[44] Anne Gabrielle Eva Collins. Reinforcement learning: bringing together computation and
+cognition. Current Opinion in Behavioral Sciences, 29:63–68, 2019. doi: 10.1016/j.cobeha.
+2019.04.011.
+[45] Maria Eckstein, Linda Wilbrecht, and Anne Collins. What do reinforcement learning models
+measure? interpreting model parameters in cognition and neuroscience. Current Opinion in
+Behavioral Sciences, 41:128–137, 2021. doi: 10.1016/j.cobeha.2021.06.004.
+[46] Richard S. Sutton and Andrew G. Barto. Reinforcement Learning: An Introduction. The MIT
+Press, Cambridge, Massachusetts, second edition, 2018.
+[47] Saurabh Rajendra Nirantar. Directed evolution methods for enzyme engineering. Molecules, 26
+(18):5599, 2021.
+[48] Fabien Vincent, Arsenio Nueda, Jonathan Lee, Monica Schenone, Marco Prunotto, and Mark
+Mercola. Phenotypic drug discovery: recent successes, lessons learned and new directions.
+Nature Reviews Drug Discovery, 21(12):899–914, 2022.
+[49] E J Chichilnisky. A simple white noise analysis of neuronal light responses. Network, 12(2):
+199–213, 2001.
+[50] John Widloski, Michael P Marder, and Ila R Fiete. Inferring circuit mechanisms from sparse
+neural recording and global perturbation in grid cells. Elife, 7:e33503, 2018.
+[51] Nathaniel D Daw, John P O’doherty, Peter Dayan, Ben Seymour, and Raymond J Dolan. Cortical
+substrates for exploratory decisions in humans. Nature, 441(7095):876–879, 2006.
+[52] Mark E Walton, Timothy EJ Behrens, Mark J Buckley, Peter H Rudebeck, and Matthew FS
+Rushworth. Separable learning systems in the macaque brain and the role of orbitofrontal cortex
+in contingent learning. Neuron, 65(6):927–939, 2010.
+[53] John E. Savage. Models of Computation: Exploring the Power of Computing. Addison-Wesley,
+Reading, MA, 1998.
+[54] Edmund M. Clarke Jr, Orna Grumberg, Daniel Kroening, Doron Peled, and Helmut Veith.
+Model Checking. MIT Press, 2018.
+[55] Antoine Girard and George J Pappas. Approximate bisimulation: A bridge between computer
+science and control theory. European Journal of Control, 17(5-6):568–578, 2011.
+[56] Vladimir Mikulik, Grégoire Delétang, Tom McGrath, Tim Genewein, Miljan Martic, Shane
+Legg, and Pedro Ortega. Meta-trained agents implement bayes-optimal agents. Advances in
+neural information processing systems, 33:18691–18703, 2020.
+[57] Yael Niv. Reinforcement learning in the brain. Journal of Mathematical Psychology, 53(3):139–
+154, 2009. ISSN 0022-2496. doi: https://doi.org/10.1016/j.jmp.2008.12.005. URL https://
+www.sciencedirect.com/science/article/pii/S0022249608001181. Special Issue:
+Dynamic Decision Making.
+[58] Andreas Kirsch, Joost Van Amersfoort, and Yarin Gal. Batchbald: Efficient and diverse batch
+acquisition for deep bayesian active learning. Advances in neural information processing
+systems, 32, 2019.
+[59] Neythen J. Treloar, Nathan Braniff, Brian Ingalls, and Chris P. Barnes. Deep reinforcement
+learning for optimal experimental design in biology. PLOS Computational Biology, 18(11):1–24,
+11 2022. doi: 10.1371/journal.pcbi.1010695. URL https://doi.org/10.1371/journal.
+pcbi.1010695.
+[60] William H Beluch, Tim Genewein, Andreas Nürnberger, and Jan M Köhler. The power of
+ensembles for active learning in image classification. In Proceedings of the IEEE conference on
+computer vision and pattern recognition, pages 9368–9377, 2018.
+[61] Amir Dezfouli, Richard Nock, and Peter Dayan. Adversarial vulnerabilities of human decisionmaking. Proceedings of the National Academy of Sciences, 117(46):29221–29228, 2020.
+13
+
+A
+
+Appendix
+
+A.1
+
+Robustness of Experiment Optimizer
+
+We analyzed the robustness of the Experiment Optimizer on the example problem of distinguishing
+two Q-learning agents with different learning rates: QMedium with learning rate α = 0.2 and QVery Slow
+with learning rate α = 0.05 (corresponding to the first pair of agents shown in 3). In this analysis,
+we evolved 1,000 independent samples starting from different seeds. All samples converged within
+2,000 steps. Within 10 subsets of 100 independent samples (considered as ’run’ in our analysis),
+the best EIG score converges to the same value within < 0.1% coefficient of variation. The best
+experiments on the 10 runs show remarkable consistency: they are arm-invariant versions of the
+same qualitative design. Each of the 10 best experiments has a partially-overlapping block structure,
+in which first only one choice is rewarding, then both are, then only the other choice is rewarding,
+then both are again, and finally only the first. Each optimal experiment includes several anomalous
+trials which deviate from the block structure. This confirms that 100 samples are sufficient for robust
+convergence in this problem setting.
+
+Figure 6: Robustness of optimized experiments for Q-Learners with different learning rates. We
+optimized binary reward matrices to distinguish a QMedium with learning rate α = 0.2 from QVery Slow
+with α = 0.05. (Left) The expected information gain (EIG) converges in < 2,000 evolution timesteps.
+Each line corresponds to one of 1,000 optimization runs, and different colors indicate subsets of
+100 runs. Thick lines are the best experiment from each subset as evaluated on separate batches
+B = 2 × 1024, and crosses represent the score of this experiment on an additional, larger batch
+B ′ = 10 × 1024. Vertical lines represent convergence checks. (Right) Each panel displays the best
+optimized experiment from each subset of the runs. Experiments consist of a binary reward matrix
+where gray indicates that a reward of 1 will be given, and white indicates a reward of 0. Superimposed
+on each experiment is a batch of N = 100 trajectories generated from each agent, with the action
+probabilities from QVery Slow in pink, and from QMedium in burgundy. The subsets identify highly
+similar experiments, with a partially overlapping reward block design.
+A.2
+
+Agents
+
+The data generating agents used in our experiments were two simple reinforcement learning agents a
+Q-learning agent and an actor-critic agent [46].
+A.2.1
+
+Q-Learning Agent
+
+The Q-learning agent maintains a latent variable Q associated with each available action, and updates
+these following a reward according to:
+Qt+1 (at ) = (1 − α)Qt (at ) + αrt
+
+(3)
+
+Qt+1 (a ̸= at ) = Qt (a ̸= at )
+
+(4)
+
+and
+where α is a learning rate parameter set to α = 0.1. The Q-learning agent makes choices according
+to:
+at ∼ Softmax(βQt )
+(5)
+where β is a softmax inverse temperature parameter controlling the degree of randomness in decisionmaking (set to β = 5).
+14
+
+Figure 7: The computational graph of Q-learning. Viewed as a computational graph, the Q-learning
+agent with A = 2 has two input nodes (previous choice and previous reward), two internal state nodes
+(Q1 and Q2 ) and one output node (next choice probability). This computational graph is moderately
+sparse: both inputs directly affect only two state variables, and those state variables directly affect the
+output but not each other.
+A.2.2
+
+Leaky Actor-Critic Agent
+
+The leaky actor-critic agent maintains a set of action preferences θ for each available action, updated
+via a gradient bandit algorithm with a forgetting mechanism, as well as a running estimate of the
+recent reward rate, v.
+The critic updates its value estimate v following a reward rt according to:
+vt+1 = (1 − αc )vt + αc rt
+where αc is the critic’s learning rate parameter, which we set to αc = 0.3.This value serves as a
+baseline to compute the reward prediction error:
+δt = rt − vt
+The actor makes choices based on its current preferences θt by applying a softmax function to
+determine the probability of choosing action a:
+exp(θt (a))
+′
+a′ exp(θt (a ))
+
+πt (a) = P
+
+Following an action at , the preferences are updated using the prediction error δt , an actor learning
+rate αa (set to αa = 1.0), and a forgetting rate parameter αf (set to αf = 0.05). The preference for
+the chosen action at is updated according to:
+θt+1 (at ) = (1 − αf )θt (at ) + αa δt (1 − πt (at ))
+and for the unchosen action a ̸= at :
+θt+1 (a ̸= at ) = (1 − αf )θt (a ̸= at ) − αa δt πt (a ̸= at )
+
+Figure 8: The computational graph of Leaky Actor-Critic. Viewed as a computational graph, the
+leaky actor-critic agent with A = 2 has two input nodes (previous choice and previous reward), two
+internal state nodes (the critic, denoted by z0 , which depends on previous reward only, and the actor,
+denoted by z1 , which depends on the critic, the previous reward, and the previous action) and one
+output node affected only by the critic (next choice probability).
+A.3
+A.3.1
+
+DisRNN Hyperparameters and Fitting
+In ATLAS
+
+On every ATLAS cycle, we train DisRNNs on a range of hyperparameters to generate candidate
+models, which are then filtered to produce the ensemble. Specifically, we fit a total of 128 networks
+sweeping the DisRNN penalty parameter β between between 10−4 and 10−1 and fitting four networks
+with different random seeds for each level of the penalty. We train the networks for 10,000 steps.
+15
+
+We evaluate each set of hyperparameters by computing a two-fold cross-validated likelihood score
+Lcv . We then obtain a single model for each set of hyperparameters by fitting a new network to the
+entire dataset. This results in a large set of models with very different tradeoffs between quality-of-fit
+and simplicity (Figure 10).
+A.3.2
+
+In evaluation
+
+To find the best-fitting model given a dataset produced by ATLAS, we fit a total of 64 networks
+sweeping the DisRNN penalty parameter β between between 10−5 and 10−1 and fitting two networks
+with different random seeds for each level of the penalty. We train the networks for 100,000 steps.
+Similarly to our model selection strategy within ATLAS, the best-fitting model is obtained by first
+selecting the set of hyperparameters that score highest in Lcv , and then fitting a network to the entire
+dataset using those hyperparameters.
+A.4
+
+Battery of Held-out Experiments
+
+The held-out test set consists of a comprehensive grid of two-armed drifting bandit tasks. To ensure
+a robust evaluation across diverse environmental volatilities and learning timescales, the battery is
+generated by sweeping across combinations of initial reward probabilities, Gaussian random walk
+drift rates, and random seeds. Specifically, we generate a grid consisting of 6 linearly spaced initial
+reward probabilities between 0 and 1 for each of the two arms, 6 drift rates uniformly spaced between
+0 and 0.3, and 6 random seed instantiations per combination. This yields a diverse suite of 1,296
+unique experiments.
+A.5
+
+Bisimulation Analyses
+
+We compute a bisimulation score for each of our discovered models by first learning mappings
+between their internal states and those of the ground-truth models. For this training phase, we
+simulate the ground-truth agent on the battery of heldout experiments (Appendix A.4) to extract a
+trajectory of latents states, as well as to generate a dataset actions and rewards. We then pass the
+dataset of actions and rewards to the discovered model to extract its corresponding latent states.
+
+Q-Learning
+
+Leaky Actor-Critic
+
+Figure 9: Sample efficiency on bisimulation for ATLAS-designed versus random experiments.
+We compare 8 independent runs of ATLAS to 10 runs of random experimentation. (Left) State
+prediction MSE for the ground truth agent (GT; Q-learning or Leaky Actor-Critic) simulated in
+the model. (Right) State prediction MSE for the discovered model simulated in the ground truth.
+Asterisks indicate significance (p < 0.05, Welch’s one-tailed t-test).
+Next, we train two small feedforward neural networks: one to map the discovered model’s state
+(e.g., recurrent unit activations) onto the ground-truth agent’s state (e.g., Q-values), and the other
+16
+
+to map the ground-truth agent’s state onto the discovered model’s state. Both mapping networks
+are multilayer perceptrons (MLPs) comprising 8 hidden layers with 32 hidden units each. These
+networks are trained with a batch size of 128 and a learning rate of 1 × 10−4 for 5,000 steps.
+Once these mappings are trained, we can "simulate" one system within the other: mapping an initial
+state across systems, applying the target’s transition dynamics, and mapping the predicted states
+back. To evaluate fidelity, we generate 10 independent 32-timestep evaluation sequences and record
+the state traces for both systems.To ensure our evaluation is symmetric and invariant to the scale of
+different state spaces, we compute the final bisimulation score bidirectionally. First, we calculate
+the raw mean squared error (MSE) between the true and predicted traces in both directions (the
+discoevred model simulated in the ground-truth model and vice versa), averaged across time and
+state dimensions. We then normalize each raw MSE by dividing it by the mean standard deviation of
+its target system’s states (computed across the time and batch dimensions, and bounded below by
+10−8 to prevent division by zero). The final bisimulation score is the arithmetic mean of these two
+normalized MSEs (Figure 9), yielding a balanced, scale-invariant measure of algorithmic equivalence
+between the systems.
+A.6
+
+Softmax Ensemble Sampling
+
+Default ATLAS explores hypotheses by sampling from an offset softmax distribution over the crossvalidated scores.
+Let M denote the candidate models generated in Section 3.3. For each model mi ∈ M with a
+normalized cross-validation likelihood Lcv
+i , we compute the weight:
+ cv
+
+Li − c
+wi = 1 + exp
+(6)
+τ
+where the baseline c = 0.5 is set to match at-chance performance, and the temperature τ is a
+hyperparameter that controls the sharpness of the distribution. The +1 floor acts as a uniform mixture
+prior, guaranteeing a non-zero
+P selection probability for the lowest-performing models. We then use
+the distribution pi = wi / j∈M wj to sample K models from M without replacement, forming our
+final ensemble E. In our experiments we set a low temperature of τ = 0.01.
+The rationale behind the offset softmax sampling is to focus experiment design on distinguishing
+the best models unless there are too few experiments to support any good models. The softmax rule
+implements this principle, effectively exploring more among the many overfit models on early cycles
+and preferring the top-scoring models on late cycles (Figure 10).
+A.6.1
+
+Robustness to Ensemble Selection Strategies
+
+The Active Learning literature describes a variety of ensemble selection heuristics, yet identifying
+the optimal approach for a given application remains an open challenge. We evaluated ATLAS’s
+sensitivity to the ensemble selection strategy against other approaches adapted from the this literature
+on Q-learning agent recovery. Alongside ATLAS’s default sampling softmax strategy, we evaluated
+a uniform sampling strategy, which effectively yields a discrete approximation of the Bayesian
+posterior necessary for information-theoretic acquisition functions like BALD [60, 27]. Furthermore,
+we evaluated a top-k selection strategy, which acts as a practical proxy for sampling from the version
+space in Query-by-Committee approaches [23].
+Overall, there was no significant difference among the three different strategies when testing the
+hypothesis that at least one of the strategies differed from the others, on any of the three metrics
+(all p > 0.05, One-Way ANOVA and Chi-Square tests). However, BALD-ATLAS converged on the
+ground truth earlier and by 50 experiments, it had a significant advantage over the default softmaxATLAS, as revealed by Welch’s one-tailed t-test (p < 0.05). This is a positive indication of ATLAS’s
+robustness to different ensemble selection strategies.
+A.6.2
+
+ATLAS with GRU ensembles
+
+In order to better understand the effect of DisRNNs models on experimental design, we replaced
+the DisRNN models in the ensemble with vanilla gated recurrent units (GRUs), class of models
+shown to be effective at learning behavior models [61]. We induced diversity in the pool of candidate
+17
+
+Early Cycle (2 Experiments)
+
+Late Cycle (50 Experiments)
+
+softmax-ATLAS
+top-k-ATLAS
+uniform-ATLAS
+
+0.59
+0.58
+
+101
+
+# experiments
+
+102
+
+Discovered Models
+Match Computational Structure
+1.0
+0.5
+0.0
+
+101
+
+# experiments
+
+102
+
+Simulation Error
+
+0.60
+
+Discovered Models
+Match Behavior
+
+Fraction of Runs
+
+Norm. Likelihood
+Test Experiments
+
+Figure 10: Examples of early exploration using softmax ensemble selection. (Left) The performance of the entire sweep of networks is plotted. The dashed line represents the unity line. Shades
+of green mark membership to one of the computational graph clusters that make up 80% of the
+networks. (Other networks belonging to graph clusters with low counts are marked in gray). Darker
+shades mark higher average cross-validated normalized likelihood within the cluster. The two chosen
+ensemble members are marked in pink and burgundy and indicated with arrows. (Right) The set of
+unique graphs that cluster 80% of the networks is shown in decreasing order of their cross-validated
+normalized likelihood, and the two chosen ensemble members are marked in pink and burgundy. In
+effect, softmax ensemble selection explores more on early cycles when models are closer to chance
+performance (Top), and more greedily later when more models have better performance (Bottom), as
+is evident in the selection of high-performing models nearer the start of the list later in training.
+
+Discovered Models
+Match Computational Dynamics
+10 2
+101
+
+# experiments
+
+102
+
+Figure 11: ATLAS performance is robust to ensemble selection strategies. On the task of
+recovering the Q-learning agent, the differences among the three ensemble selection strategies were
+not significant on any metric (all p > 0.05, One-Way ANOVA and Chi-Square tests).
+
+models, and therefore in the ensembles, by sweeping the number of hidden layer units from 1 to 32,
+analogously to the effect of sweeping the penalty of DisRNNs.
+Experiments designed by GRU-ATLAS show far less temporal structure (quantified by sequence
+entropy, see Appendix A.6.3) than those designed by DisRNN-ATLAS (Figure 12).
+GRU-ATLAS was also assessed in terms of its sample efficiency for recovering mechanistic models by
+fitting DisRNNs – that is, while GRUs formed the ensembles for experiment design, DisRNNs were
+trained and evaluated on the data from those experiments. In terms of performance, GRU-ATLAS
+18
+
+GRU-ATLAS
+
+disRNN-ATLAS
+
+Figure 12: DisRNN-ATLAS designs more structured experiments than GRU-ATLAS. (Left)
+There is a marked and stable difference in the sequential entropy of experiments designed by GRUATLAS and DisRNN-ATLAS across 8 seeds. (Right) Example experiments and simulated trajectories
+from the two ensemble members are shown from the first 10 experiments on an arbitrarily chosen
+seed (seed 2) for GRU-ATLAS (Top) and DisRNN-ATLAS (Bottom).
+underperformed DisRNN-ATLAS albeit not significantly, except for a small performance decrement
+in terms of generalization (Figure 13).
+
+Q-Learning
+
+DisRNN-ATLAS
+GRU-ATLAS
+
+Leaky Actor-Critic
+
+Figure 13: GRU-ATLAS is on par with DisRNN-ATLAS. We compare 8 independent runs of
+GRU-ATLAS and DisRNN-ATLAS on recovering Q-learning (Top) and leaky actor-critic (Bottom).
+(Left) Performance of the best-fitting models at predicting agent behavior in held-out experiments.
+Solid lines indicate the mean performance across independent runs, while the shaded regions represent
+±1 standard error of the mean (SEM). Asterisks indicate significant advantage of DisRNN-ATLAS
+over GRU-ATLAS (p < 0.05, of Welch’s one-tailed t-test). The horizontal dashed line represents the
+performance ceiling. (Middle) The probability of recovering the true underlying computational graph.
+Solid lines denote the fraction of successful recoveries on 8 seeds. Shaded regions represent the 68%
+Wilson score interval. No significant differences were found (all p > 0.05, one-tailed Barnard’s exact
+test). (Right) State prediction MSE for the ground truth agent simulated in the model. No significant
+differences were found (all p > 0.05, Welch’s one-tailed t-test).
+A.6.3
+
+Experiment Entropy
+
+We quantified the first-order temporal structure in our experiment designs. Given a T × A design
+matrix D, we calculated the conditional entropy of a reward given the immediately preceding reward
+for each action, averaged across all A actions. The average sequential entropy is defined as:
+A
+
+1 X
+Hseq =
+H(Dt+1 (a) | Dt (a))
+A a=1
+19
+
+where the conditional entropy for a given action’s reward sequence is calculated using the empirical
+joint and marginal probabilities of successive reward pairs:
+
+
+X
+X
+P (Dt , Dt+1 )
+H(Dt+1 (a) | Dt (a)) = −
+P (Dt , Dt+1 ) log2
+P (Dt )
+Dt ∈{0,1} Dt+1 ∈{0,1}
+
+P (Dt , Dt+1 ) and P (Dt ) refer to the empirical probabilities computed over the T timesteps for
+action a.
+A.7
+
+Compute resources
+
+On each cycle, an ATLAS run involves fitting 128 neural networks (32 penalty values and 4 seeds) and
+evolving experiments on 128 trajectories started from 128 different seeds. Each set of 8 independent
+ATLAS runs presented in the results requires a total of 1028 workers. One ATLAS cycle of generating
+novel hypotheses and designing an experiment takes ∼ 30 to ∼ 60 minutes. In our experiments, we
+ran ATLAS closed-loop for 100 cycles in ∼ 48 to ∼ 96 hours.
+
+20
+
+

@@ -541,6 +541,14 @@
    "source_url": "https://arxiv.org/abs/2606.11157",
    "downloaded": "2026-06-10",
    "txt_sidecar": "2606.11157.txt"
+  },
+  {
+   "doi": "10.48550/arXiv.2606.12386",
+   "filename": "2606.12386.pdf",
+   "title": "ATLAS: Active Theory Learning for Automated Science",
+   "source_url": "https://arxiv.org/abs/2606.12386",
+   "downloaded": "2026-06-11",
+   "txt_sidecar": "2606.12386.txt"
   }
  ]
 }
