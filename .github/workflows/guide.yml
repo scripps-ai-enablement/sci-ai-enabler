@@ -2,8 +2,9 @@ name: Guide
 
 on:
   schedule:
-    # Daily at 08:00 UTC (= 01:00 PDT / 00:00 PST). One hour after the catalog cron.
-    - cron: '0 8 * * *'
+    # Weekly on Saturday at 01:00 UTC. One full pass per weekend (the guide has no
+    # category rotation), an hour after the catalog weekend run begins.
+    - cron: '0 1 * * 6'
   workflow_dispatch:
     inputs:
       topic:

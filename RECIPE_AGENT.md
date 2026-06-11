@@ -262,19 +262,19 @@ A claim that traces only to pre-training is not grounded. Treat any "I rememberâ
 
 ## Topic-focused rotation
 
-To make sure each subject area gets attention, run a directed pass on a rotating focus area each day, mirroring the catalog curator's rhythm:
+To make sure each subject area gets attention, run a directed pass on a rotating focus area in each weekend slot, mirroring the catalog curator's rhythm (the recipes cron runs once a week, spread across the weekend in seven 6-hour slots, trailing each catalog slot by 3 hours so it sees that category's fresh catalog state):
 
-| Day of week (UTC) | Focus subject area |
+| Weekend slot (UTC) | Focus subject area |
 |---|---|
-| Monday | Chemistry |
-| Tuesday | Immunology and Microbiology |
-| Wednesday | Integrative Structural and Computational Biology |
-| Thursday | Molecular and Cellular Biology |
-| Friday | Neuroscience |
-| Saturday | Translational Medicine |
-| Sunday | Drug Repurposing and Discovery |
+| Saturday 03:00 | Chemistry |
+| Saturday 09:00 | Immunology and Microbiology |
+| Saturday 15:00 | Integrative Structural and Computational Biology |
+| Saturday 21:00 | Molecular and Cellular Biology |
+| Sunday 03:00 | Neuroscience |
+| Sunday 09:00 | Translational Medicine |
+| Sunday 15:00 | Drug Repurposing and Discovery |
 
-The workflow injects today's focus into the run prompt as `focus_area:`. On a daily run, the directed pass should:
+The workflow injects the slot's focus into the run prompt as `focus_area:`. On each run, the directed pass should:
 
 1. Read every `catalog/tools/<slug>.md` whose `tool_categories` includes the focus area (plus `All`-tagged tools).
 2. Read every `autonomous-science/systems/<slug>.md` whose `domain` is biomedicine-relevant.

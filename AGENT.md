@@ -264,19 +264,19 @@ Do not rely on `mcp.so` or `smithery.ai` from the GitHub Actions runner — they
 
 ## Topic-focused rotation
 
-The manifest-driven sweep above tends to surface horizontal tools — broad literature search, figure-building, generic omics — because the seed marketplaces are themselves horizontal. To find category-specific tools (chemistry-only skills, neuroscience-only MCPs, etc.), each run also performs **one directed pass on a rotating focus category**:
+The manifest-driven sweep above tends to surface horizontal tools — broad literature search, figure-building, generic omics — because the seed marketplaces are themselves horizontal. To find category-specific tools (chemistry-only skills, neuroscience-only MCPs, etc.), each run also performs **one directed pass on a rotating focus category**. The catalog cron runs **once a week, spread across the weekend in seven 6-hour slots**, one focus category per slot, so all seven categories are covered every weekend. The slot's category is derived from the UTC day and 6-hour bucket:
 
-| Day of week (UTC) | Focus category |
+| Weekend slot (UTC) | Focus category |
 |---|---|
-| Monday | Chemistry |
-| Tuesday | Immunology and Microbiology |
-| Wednesday | Integrative Structural and Computational Biology |
-| Thursday | Molecular and Cellular Biology |
-| Friday | Neuroscience |
-| Saturday | Translational Medicine |
-| Sunday | Drug Repurposing and Discovery |
+| Saturday 00:00 | Chemistry |
+| Saturday 06:00 | Immunology and Microbiology |
+| Saturday 12:00 | Integrative Structural and Computational Biology |
+| Saturday 18:00 | Molecular and Cellular Biology |
+| Sunday 00:00 | Neuroscience |
+| Sunday 06:00 | Translational Medicine |
+| Sunday 12:00 | Drug Repurposing and Discovery |
 
-The workflow injects today's focus category into the run prompt as `focus_category:`. Use the table below to drive the directed pass.
+The workflow injects the slot's focus category into the run prompt as `focus_category:`. Use the table below to drive the directed pass.
 
 ### Chemistry
 
@@ -393,7 +393,7 @@ The workflow injects today's focus category into the run prompt as `focus_catego
 
 ### Directed-pass procedure
 
-1. **Identify the focus category** from `focus_category:` in the run prompt (workflow-injected) — or, if absent, derive it from today's UTC weekday using the table above.
+1. **Identify the focus category** from `focus_category:` in the run prompt (workflow-injected) — or, if absent, derive it from the current UTC weekend slot using the table above.
 2. **Run 2–3 of the seed queries** via `WebSearch`. Stop early if you have 1–3 strong candidates not already in `catalog/tools/`.
 3. **Verify each candidate**: fetch a primary source (vendor docs, GitHub README, official blog) and confirm it is *installable today* in Claude Code, Claude Desktop, or Claude.ai. A library without a Claude wrapper is out of scope.
 4. **Write the tool page** under `catalog/tools/<slug>.md` per the schema above. Tag `tool_categories` honestly — most directed-pass finds will be single-category or two-category, not `[All]`.
