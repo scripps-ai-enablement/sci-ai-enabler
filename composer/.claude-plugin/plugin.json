@@ -1,0 +1,11 @@
+{
+  "name": "composer",
+  "version": "0.1.0",
+  "description": "Compose a grounded, runnable Claude solution for a plain-language scientific problem, drawing on the sci-ai-enabler catalog, recipes, and autonomous-science tracker.",
+  "author": {
+    "name": "Scripps AI Enablement",
+    "url": "https://github.com/scripps-ai-enablement/sci-ai-enabler"
+  },
+  "homepage": "https://scripps-ai-enablement.github.io/sci-ai-enabler/",
+  "keywords": ["life-science", "research", "compose", "recipe", "autonomous-science"]
+}

@@ -1,0 +1,65 @@
+name: Composer index
+
+on:
+  schedule:
+    # Daily at 10:30 UTC — 30 min after the recipes curator (the last agent in the
+    # daily chain: catalog 07:00 -> guide 08:00 -> coscientist 09:00 -> recipes 10:00).
+    # Running last captures every domain's same-day edits in one index rebuild.
+    - cron: '30 10 * * *'
+  push:
+    branches: [main]
+    # Rebuild whenever a human PR (or any commit) changes the knowledge-base content,
+    # so a manual edit never strands the index. The index outputs (index/**,
+    # composer/skills/compose/data/**) are NOT in these paths, so the workflow's own
+    # commit cannot re-trigger it — no loop.
+    paths:
+      - 'catalog/tools/**'
+      - 'recipes/items/**'
+      - 'autonomous-science/systems/**'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: index
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Build the Composer index
+        run: python3 scripts/build_index.py
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "composer-index[bot]"
+          git config user.email "composer-index@users.noreply.github.com"
+
+          if [ -z "$(git status --porcelain index/ composer/skills/compose/data/)" ]; then
+            echo "No index changes this run."
+            exit 0
+          fi
+
+          DATE=$(date -u +%Y-%m-%d)
+          git add index/ composer/skills/compose/data/
+          git commit -m "Rebuild Composer index ${DATE}"
+          # Rebase onto anything that landed during this run (the curators push throughout
+          # the morning); retry the rebase+push a few times under contention.
+          for attempt in 1 2 3; do
+            git pull --rebase origin main && git push && exit 0
+            echo "push attempt ${attempt} failed; retrying after rebase"
+            sleep 5
+          done
+          echo "Could not push index after 3 attempts" >&2
+          exit 1

@@ -33,7 +33,7 @@ jobs:
         env:
           LABELS: ${{ toJson(github.event.issue.labels) }}
         run: |
-          MATCH=$(echo "$LABELS" | jq -r '.[].name' | grep -E '^claude:(recipe-question|recipe-feedback|tool-feedback)$' | head -1)
+          MATCH=$(echo "$LABELS" | jq -r '.[].name' | grep -E '^claude:(recipe-question|recipe-feedback|tool-feedback|composition-report)$' | head -1)
           if [ -z "$MATCH" ]; then
             echo "No claude:* form label on this issue; exiting silently."
             echo "skip=true" >> "$GITHUB_OUTPUT"
@@ -172,6 +172,9 @@ jobs:
 
           SENTIMENTS = {"worked great", "worked but slow", "got stuck",
                         "found a better way", "something else"}
+          PROBLEM_CLASSES = {"Literature triage", "Hypothesis generation",
+                             "Experimental design", "Data analysis", "Knowledge synthesis",
+                             "Manuscript prep", "Workflow automation"}
 
           def parse_form(md):
               # GitHub issue forms render each answer as "### <label>\n\n<value>".
@@ -217,6 +220,21 @@ jobs:
                            f'| author=@{author} | issue={num}')
               elif sentiment:
                   inner = f'(no trailer emitted; needs curator triage) sentiment="{sentiment}" label={label}'
+          elif label == "claude:composition-report":
+              # Map the verbose outcome dropdown to a short token.
+              raw_outcome = val(s, "How did it turn out?").lower()
+              outcome = ("worked" if raw_outcome.startswith("worked")
+                         else "gap" if raw_outcome.startswith("hit a gap")
+                         else "failed" if raw_outcome.startswith("failed")
+                         else "")
+              pclass = val(s, "Problem class")
+              pclass = pclass if pclass in PROBLEM_CLASSES else ""
+              if outcome:
+                  parts = ["queue: recipes", "report=composition", f"outcome={outcome}"]
+                  if pclass:
+                      parts.append(f"problem_class={pclass}")
+                  parts += [f"author=@{author}", f"issue={num}"]
+                  inner = " | ".join(parts)
 
           if inner is None:
               inner = f'(no trailer emitted; needs curator triage) title="{sanitize(title)}" label={label}'

@@ -1,0 +1,20 @@
+{
+  "name": "sci-ai-enabler",
+  "owner": {
+    "name": "Scripps AI Enablement",
+    "url": "https://github.com/scripps-ai-enablement/sci-ai-enabler"
+  },
+  "metadata": {
+    "description": "Plugins built on the sci-ai-enabler knowledge base for life scientists.",
+    "homepage": "https://scripps-ai-enablement.github.io/sci-ai-enabler/"
+  },
+  "plugins": [
+    {
+      "name": "composer",
+      "source": "./composer",
+      "description": "Turn a plain-language scientific problem into a grounded, runnable Claude solution — composed from the cataloged Skills/MCP servers/Plugins, reusing a curated recipe when one fits, and recommending a pre-built autonomous system when that's the right call.",
+      "category": "life-sciences",
+      "keywords": ["life-science", "research", "compose", "recipe", "mcp", "skill", "autonomous-science"]
+    }
+  ]
+}

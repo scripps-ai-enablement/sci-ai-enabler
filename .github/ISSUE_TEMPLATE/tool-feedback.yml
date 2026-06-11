@@ -50,8 +50,8 @@ body:
         - bioservices
         - bnt
         - bold5000-skill
-        - brain-visualization
         - brain_gnn
+        - brain-visualization
         - brenda-database
         - bulk-rnaseq
         - bwa-mem2-dna-aligner
@@ -75,6 +75,7 @@ body:
         - cobrapy
         - cobre-skill
         - combraintf
+        - composer
         - conn-tool
         - consciousness-council
         - consensus

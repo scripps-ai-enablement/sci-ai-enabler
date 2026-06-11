@@ -1,0 +1,98 @@
+# .github/ISSUE_TEMPLATE/composition-report.yml
+name: Report a composed solution
+description: "The /compose Composer worked through a problem with you — share how it went so the cookbook can learn."
+title: "[Composition report] "
+labels: ["claude:composition-report"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This form is usually pre-filled for you by the **Composer** (`/compose`) at the end of a session — but you can file it by hand too. It feeds the recipe curator: successful compositions get promoted into durable recipes, and gaps get turned into new ones.
+
+        **Before you submit:** check the text below for anything you can't share publicly (patient data, internal project names, unpublished targets). This repo is public. Abstract anything sensitive.
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem did you compose a solution for?
+      description: 1–3 sentences. Abstract any sensitive specifics.
+      placeholder: "e.g., Rank a batch of new single-cell preprints in a subfield by relevance to a mechanism of interest."
+    validations:
+      required: true
+  - type: dropdown
+    id: outcome
+    attributes:
+      label: How did it turn out?
+      options:
+        - worked — the composed solution ran and gave a useful result
+        - hit a gap — a needed component wasn't in the catalog
+        - failed — it ran but the result wasn't useful
+    validations:
+      required: true
+  - type: dropdown
+    id: problem_class
+    attributes:
+      label: Problem class
+      description: Pick the closest. If unsure, pick the last option.
+      options:
+        - Literature triage
+        - Hypothesis generation
+        - Experimental design
+        - Data analysis
+        - Knowledge synthesis
+        - Manuscript prep
+        - Workflow automation
+        - I'm not sure
+    validations:
+      required: true
+  - type: dropdown
+    id: subject_area
+    attributes:
+      label: Subject area
+      description: Pick the closest. If unsure, pick the last option.
+      options:
+        - Chemistry
+        - Immunology and Microbiology
+        - Integrative Structural and Computational Biology
+        - Molecular and Cellular Biology
+        - Neuroscience
+        - Translational Medicine
+        - Drug Repurposing and Discovery
+        - All / cross-cutting
+        - I'm not sure
+    validations:
+      required: true
+  - type: dropdown
+    id: rung
+    attributes:
+      label: What did the solution use?
+      description: The simplicity-ladder rung the Composer landed on.
+      options:
+        - Claude Code alone
+        - One skill or MCP
+        - Multi-tool harness
+        - Autonomous system
+        - I'm not sure
+    validations:
+      required: false
+  - type: textarea
+    id: components
+    attributes:
+      label: Which components? (optional)
+      description: Tool/recipe/system slugs the Composer used, comma-separated.
+      placeholder: "e.g., biorxiv, triage-new-preprints"
+    validations:
+      required: false
+  - type: textarea
+    id: draft_recipe
+    attributes:
+      label: Draft recipe (optional — for a novel success)
+      description: If this was a new composition that worked, the Composer may paste a draft recipe here for the curator to canonicalize.
+    validations:
+      required: false
+  - type: textarea
+    id: details
+    attributes:
+      label: Anything else? (optional)
+      description: Commands, errors, dataset size, hardware, wall-clock — concrete details help the curator.
+    validations:
+      required: false
