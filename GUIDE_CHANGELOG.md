@@ -11,6 +11,48 @@ Reverse-chronological log of changes to the [guide](guide/). Newest at the top.
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-06-11
+
+### Added
+- **[advanced/slash-commands] Nested subagents (up to 5 levels deep).** v2.1.172 (2026-06-09) reversed the long-standing rule that a subagent could not spawn subagents — now any subagent can call the Task tool, down to a hard 5-level cap, to keep noisy sub-tasks out of the main conversation's context. Added one clause to the subagent definition. Grounded in the [Claude Code changelog](https://code.claude.com/docs/en/changelog) (v2.1.172) cross-checked against [a v2.1.172 writeup](https://claudefa.st/blog/guide/agents/nested-subagents).
+
+### Verified (no changes)
+- claude-surfaces.md, surfaces/claude-code.md — install command (`curl -fsSL https://claude.ai/install.sh | bash`) re-verified via WebFetch of `claude.com/product/claude-code`: native installer canonical, no deprecation banner; Windows/winget/brew/npm-deprecated options unchanged. Latest release is v2.1.173 (2026-06-11); v2.1.171–v2.1.173 are bug fixes plus below-beginner-threshold items (`/cd`, `--safe-mode`, `continueOnBlock`, `defaultEnabled: false`). `/code-review` vs `/simplify` split, Channels, Dynamic Workflows (`ultracode`), Claude Security, MCP tunnels, routines, Fable 5 picker, per-surface sandboxing all current.
+- surfaces/claude-api.md — Fable 5 / Opus 4.8 model lines, effort ladder, Managed Agents, mid-conversation system messages, prompt caching, sampling-parameter 400 all current.
+- surfaces/claude-ai.md, surfaces/claude-desktop.md, surfaces/claude-cowork.md — unchanged.
+- skills.md, mcp-servers.md, plugins.md, marketplaces.md, connectors.md, decision-tree.md — unchanged.
+- advanced/hooks.md, advanced/routines.md, advanced/authentication.md — unchanged.
+
+### Flagged for review
+- **`claude -p` / Agent SDK billing split lands 2026-06-15** — carried over; 4 days out. Re-verify after 06-15 that `surfaces/claude-code.md` and `surfaces/claude-api.md` describe live behavior.
+- **Sonnet 4 / Opus 4 retirement 2026-06-15 9am PT** — carried over; re-verify `surfaces/claude-api.md` after the date that the IDs now error.
+- **Fable 5 subscription-availability flips 2026-06-23** — carried over; re-verify the "free until / credits from" dates after 06-22.
+- **Anthropic news (06-01 to 06-03): SEC S-1 draft, Services Track / Partner Hub, AI cyber-threats report, Project Glasswing expansion** — none are beginner-facing components; out of scope.
+- **Advisor tool (API)** — carried over; advanced cost-optimization pattern, omitted by scope.
+- **Promote `security-guidance` to its own page** — carried over; stays inside `plugins.md` unless a human expands the topic list.
+
+## 2026-06-10
+
+### Added
+- **[surfaces/claude-api] Claude Fable 5 / Mythos 5 (Mythos-class tier).** Anthropic shipped Fable 5 (`claude-fable-5`) on 2026-06-09 — its most capable generally-available model, a tier above Opus. Added to the model-IDs pitfall plus two new pitfalls covering its different behavior (adaptive-thinking-only, `effort`-controlled, never returns raw CoT, $10/$50 per Mtok, 1M context / 128k output) and its higher refusal rate (HTTP-200 `stop_reason: "refusal"` with `stop_details`; prompt-stage refusals unbilled, mid-stream billed). Noted `claude-mythos-5` is invitation-only (Project Glasswing). Grounded in [Anthropic news](https://www.anthropic.com/news/claude-fable-5-mythos-5) (2026-06-09) and [the model docs](https://platform.claude.com/docs/en/about-claude/models/introducing-claude-fable-5-and-claude-mythos-5) (verified this run).
+- **[surfaces/claude-code] Fable 5 in the model picker.** Selectable via `/model` as of v2.1.170 (2026-06-09); free on Pro/Max/Team/Enterprise through 2026-06-22, then usage-credit-gated from 2026-06-23; cybersecurity / bio-chem / distillation prompts auto-route to Opus 4.8 (<5% of sessions); Opus 4.8 stays the default. Touches ≥2 surfaces (API + Claude Code), so documented per the cross-cutting directive.
+
+### Verified (no changes)
+- claude-surfaces.md, surfaces/claude-code.md — install command (`curl -fsSL https://claude.ai/install.sh | bash`) re-verified via WebFetch of `claude.com/product/claude-code`: native installer canonical, no deprecation banner on the landing page; Windows `irm …/install.ps1 | iex` / `winget install Anthropic.ClaudeCode`, `brew install --cask claude-code` (stable) / `claude-code@latest`, npm-with-deprecation-banner all unchanged. Latest release is v2.1.170 (2026-06-09); its only non-model change is a VS-code-terminal transcript bug fix (below beginner threshold). `/code-review` vs `/simplify` split, Channels, Dynamic Workflows (`ultracode`), Claude Security, MCP tunnels, routines, per-surface sandboxing all current.
+- surfaces/claude-api.md — Opus 4.8 default + low/medium/high/xhigh/max effort ladder unchanged; Managed Agents (Outcomes/Dreams/orchestration), mid-conversation system messages, prompt caching, `temperature`/`top_p`/`top_k` 400 all current.
+- surfaces/claude-ai.md, surfaces/claude-desktop.md, surfaces/claude-cowork.md — unchanged.
+- skills.md, mcp-servers.md, plugins.md, marketplaces.md, connectors.md, decision-tree.md — unchanged.
+- advanced/hooks.md, advanced/slash-commands.md, advanced/routines.md, advanced/authentication.md — unchanged.
+
+### Flagged for review
+- **WebFetch worked this run** for `claude.com/product/claude-code` and `anthropic.com/news/claude-fable-5-mythos-5`; the prior Haiku-404 regression appears resolved. Model-docs detail (`platform.claude.com`) was grounded via WebSearch summary as a backstop.
+- **`claude -p` / Agent SDK billing split lands 2026-06-15** — carried over; still 5 days out as of today (2026-06-10). Re-verify after 06-15 that `surfaces/claude-code.md` and `surfaces/claude-api.md` describe live behavior.
+- **Sonnet 4 / Opus 4 retirement 2026-06-15 9am PT** — carried over; re-verify `surfaces/claude-api.md` after the date that the IDs now error.
+- **Fable 5 subscription-availability flips 2026-06-23** — newly added. Re-verify after 06-22 that the "free until / credits from" dates on `surfaces/claude-api.md` and `surfaces/claude-code.md` reflect live state, and update if Anthropic restores Fable 5 as a standard subscription feature.
+- **Claude Mythos 5 / Project Glasswing** — noted as invitation-only, not a beginner component; left as a one-line aside.
+- **Advisor tool (API)** — carried over; advanced developer cost-optimization pattern, omitted by scope.
+- **Promote `security-guidance` to its own page** — carried over; schema fixes the file set, stays inside `plugins.md` unless a human expands the topic list.
+
 ## 2026-06-09
 
 ### Added

@@ -11,6 +11,27 @@ Reverse-chronological log of changes to the [recipes cookbook](recipes/). Newest
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-06-11
+
+### Added
+
+- **Profile ChIP-seq or ATAC-seq signal around genomic features** (Problem class: Data analysis; Evidence: Proposed) — rung-2 [deepTools skill](catalog/tools/deeptools.html) recipe taking aligned ChIP-seq/ATAC-seq BAMs through `bamCoverage` BPM-normalized bigWig generation → `multiBamSummary` + `plotCorrelation` replicate QC → `computeMatrix` + `plotHeatmap`/`plotProfile` TSS/peak-centered visualization, with upstream BAM handling via the [pysam skill](catalog/tools/pysam.html). Molecular and Cellular Biology focus-day recipe; cookbook's first ChIP-seq/ATAC-seq coverage-profiling recipe. `Proposed` — no documented LLM-driven deepTools workflow; grounded in [Ramírez et al., *NAR* 44:W160 (2016)](https://doi.org/10.1093/nar/gkw257) plus class-level [Biomni](autonomous-science/systems/biomni.html).
+- **Predict gene-knockout phenotypes with flux balance analysis** (Problem class: Data analysis; Evidence: Proposed) — rung-2 [COBRApy skill](catalog/tools/cobrapy.html) recipe taking a genome-scale SBML model through baseline FBA sanity-check → genome-wide `single_gene_deletion` essentiality ranking → focused `double_gene_deletion` synthetic-lethality screen, with an explicit growth-ratio essentiality threshold. Molecular and Cellular Biology focus-day recipe; cookbook's first constraint-based metabolic-modelling recipe. `Proposed` — no documented LLM-driven COBRApy workflow; grounded in [Ebrahim et al., *BMC Syst. Biol.* 7:74 (2013)](https://doi.org/10.1186/1752-0509-7-74) and [Orth et al., *Nat. Biotechnol.* 28:245 (2010)](https://doi.org/10.1038/nbt.1614), plus class-level [Biomni](autonomous-science/systems/biomni.html).
+
+### Verified (no changes)
+
+- 33 recipes spot-checked; all `last_verified` dates within the 30-day window, no aging recipes due.
+
+## 2026-06-10
+
+### Added
+
+- **Score point mutations for functional impact with a protein language model** (Problem class: Data analysis; Evidence: Proposed) — rung-2 [ESM skill](catalog/tools/esm.html) recipe taking a wild-type protein sequence (optionally fetched by UniProt accession via the [gget skill](catalog/tools/gget.html)) and a list of substitutions through masked-marginal log-likelihood-ratio scoring → a ranked tolerated/deleterious CSV, with a wt-marginal one-pass variant for full single-mutation landscapes. Integrative Structural and Computational Biology focus-day recipe; cookbook's first zero-shot variant-effect / protein-fitness recipe and the database-free complement to the [clinical-variant interpretation](recipes/items/interpret-clinical-variant.html) recipe. `Proposed` — no documented LLM-driven ESM-skill scoring assembly; grounded in the canonical zero-shot method [Meier et al., *NeurIPS* 2021](https://www.biorxiv.org/content/10.1101/2021.07.09.450648v1.full), the [ProteinGym benchmark](https://pmc.ncbi.nlm.nih.gov/articles/PMC10723403/), and 2025 directed-evolution use [Zhang et al., *Nat. Commun.* 2025](https://doi.org/10.1038/s41467-025-56751-8).
+
+### Verified (no changes)
+
+- 31 recipes spot-checked; all `last_verified` dates within the 30-day window, no aging recipes due.
+
 ## 2026-06-09
 
 ### Added

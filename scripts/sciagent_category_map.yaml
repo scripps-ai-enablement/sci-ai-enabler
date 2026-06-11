@@ -94,7 +94,6 @@ include:
   dbsnp-database: [Molecular and Cellular Biology]
   ena-database: [Molecular and Cellular Biology]
   encode-database: [Molecular and Cellular Biology]
-  ensembl-database: [Molecular and Cellular Biology]
   gene-database: [Molecular and Cellular Biology]
   geo-database: [Molecular and Cellular Biology]
   gnomad-database: [Translational Medicine, Molecular and Cellular Biology]
@@ -215,6 +214,7 @@ augment:
   gget-genomic-databases: gget
   bioservices-multi-database: bioservices
   deeptools-ngs-analysis: deeptools
+  ensembl-database: ensembl       # main catalogued the Ensembl MCP as ensembl.md same day; fold in, don't duplicate
   geniml: geniml
   gtars: gtars
   pydeseq2-differential-expression: pydeseq2

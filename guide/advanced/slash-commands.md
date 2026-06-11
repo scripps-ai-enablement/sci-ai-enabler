@@ -13,7 +13,7 @@ nav_order: 2
 
 A **slash command** is a reusable prompt invoked with `/name`. Drop a markdown file in `.claude/commands/<name>.md` (project) or `~/.claude/commands/<name>.md` (personal); Claude Code wires it up automatically. Slash commands have largely converged with [Skills](../skills.md) — both create `/name` shortcuts, but a skill folder under `.claude/skills/` also supports autonomous activation.
 
-A **subagent** is a separately-scoped Claude instance with its own context window, tools, and system prompt. Define one in `.claude/agents/<name>.md` (project) or `~/.claude/agents/<name>.md` (personal). Claude's orchestrator can spawn defined subagents via the Task tool; up to 10 can run in parallel.
+A **subagent** is a separately-scoped Claude instance with its own context window, tools, and system prompt. Define one in `.claude/agents/<name>.md` (project) or `~/.claude/agents/<name>.md` (personal). Claude's orchestrator can spawn defined subagents via the Task tool; up to 10 can run in parallel. Since v2.1.172 (June 2026) a subagent can itself spawn subagents — up to 5 levels deep — so noisy sub-tasks stay out of the main conversation's context.
 
 ## When to use it
 
@@ -59,4 +59,4 @@ For a subagent, write `.claude/agents/<name>.md` with `name`, `description`, `to
 - [Slash Commands in the SDK](https://code.claude.com/docs/en/agent-sdk/slash-commands) — Anthropic docs; verified 2026-05-19 (this run).
 - [Slash Commands (platform docs)](https://platform.claude.com/docs/en/agent-sdk/slash-commands) — Anthropic docs; verified 2026-05-19.
 - [Claude Code customization guide](https://alexop.dev/posts/claude-code-customization-guide-claudemd-skills-subagents/) — Alex Op; verified 2026-05-19.
-- [Claude Code changelog (v2.1.152)](https://code.claude.com/docs/en/changelog) — `disallowed-tools` frontmatter on slash commands and skills; verified 2026-05-29 (this run).
+- [Claude Code changelog (v2.1.152, v2.1.172)](https://code.claude.com/docs/en/changelog) — `disallowed-tools` frontmatter on slash commands and skills (v2.1.152); subagents can spawn subagents up to 5 levels deep (v2.1.172, 2026-06-09); verified 2026-06-11 (this run).

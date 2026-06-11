@@ -44,6 +44,7 @@ Claude Code is where Skills, MCP servers, Plugins, Hooks, and slash commands all
 - Linux distros: `apt`, `dnf`, `apk` packages also available.
 - npm install (`npm install -g @anthropic-ai/claude-code`) still works but Anthropic now prints a yellow "npm installation is deprecated" banner. Use the native installer for new setups.
 - Web: `https://claude.ai/code` (Pro, Max, Team, or premium Enterprise seats).
+- Pick a model with `/model` (or `--model` at launch). **Claude Fable 5** — a "Mythos-class" tier above Opus — is selectable as of v2.1.170 (2026-06-09); it's included free on Pro / Max / Team / Enterprise through 2026-06-22, then needs usage credits from 2026-06-23. Cybersecurity, biology / chemistry, and distillation prompts are auto-routed to Opus 4.8 (under ~5% of sessions). Opus 4.8 remains the default.
 
 ## Common pitfalls
 
@@ -70,3 +71,4 @@ Claude Code is where Skills, MCP servers, Plugins, Hooks, and slash commands all
 - [Orchestrate subagents at scale with dynamic workflows](https://code.claude.com/docs/en/workflows) — Anthropic docs; verified 2026-06-06 (this run) — single-task keyword renamed `workflow` → `ultracode` in v2.1.160; `/effort ultracode` session setting (xhigh + auto-orchestration); v2.1.154 requirement; `CLAUDE_CODE_DISABLE_WORKFLOWS` env var.
 - [Install Claude Code the Right Way in 2026](https://vanja.io/install-claude-code/) — secondary; npm-deprecation banner and native-installer migration path; verified 2026-05-25.
 - [Anthropic puts Claude agents on a meter across its subscriptions](https://www.infoworld.com/article/4171274/anthropic-puts-claude-agents-on-a-meter-across-its-subscriptions.html) — InfoWorld; published 2026-05-14 — `claude -p` and Agent SDK move off subscription limits onto a separate credit pool 2026-06-15; verified 2026-06-02 (this run).
+- [Claude Fable 5 and Claude Mythos 5](https://www.anthropic.com/news/claude-fable-5-mythos-5) — Anthropic news; published 2026-06-09 — Mythos-class tier; Fable 5 selectable in Claude Code v2.1.170; subscription-free through 2026-06-22 then credit-gated; Opus-4.8 safety fallback (<5% of sessions). Verified 2026-06-10 (this run).

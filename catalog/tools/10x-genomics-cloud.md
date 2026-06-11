@@ -6,7 +6,7 @@ tool_type: MCP server
 supplier: 10x Genomics
 availability: GA
 tool_categories: [Drug Repurposing and Discovery, Immunology and Microbiology, Integrative Structural and Computational Biology, Molecular and Cellular Biology, Neuroscience, Translational Medicine]
-last_verified: 2026-05-19
+last_verified: 2026-06-11
 summary: Conversational orchestration of 10x Cloud single-cell, immune-profiling, and spatial-transcriptomics analyses.
 ---
 
@@ -41,6 +41,8 @@ Project and analysis listing, reference and annotation-model lookup, analysis-ou
 ## Notes
 
 Local MCPB binary hosted by 10x Genomics, not bundled in `anthropics/life-sciences`. Auth via 10x Cloud access token from Security settings. Requires existing cloud projects to be useful.
+
+Field report (2026-06-11): a user confirmed the Claude Code plugin-marketplace install path works as documented.
 
 ## Sources
 

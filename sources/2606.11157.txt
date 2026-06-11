@@ -1,0 +1,665 @@
+SciPost Physics
+
+Prepared for submission to SciPost Physics
+
+DarkAgents:
+towards an agentic system for theoretical astroparticle physics
+Michele Lucente, Silvia Pascoli, Filippo Sala∗ , Matteo Zandi†
+Dipartimento di Fisica e Astronomia, Università di Bologna, via Irnerio 46, 40126, Italy
+INFN, Sezione di Bologna, viale Berti Pichat 6/2, 40127, Bologna, Italy
+June 10, 2026
+
+arXiv:2606.11157v1 [hep-ph] 9 Jun 2026
+
+Abstract
+We present DarkAgents: a multi-agent system that leverages the reasoning and codegeneration capabilities of large language models (LLMs), together with deterministic tested
+human-written code, to build orchestrated pipelines for theoretical astroparticle physics
+research. While related approaches have been proposed in collider physics and cosmology,
+DarkAgents targets the specific challenges of this domain, such as model building, complex pipeline computations, multiple constraints and assumption auditing. The framework
+can be powered by different agentic command-line tools, including Mistral’s, Anthropic’s,
+OpenAI’s and local LLMs via Ollama. As first implementation, we apply DarkAgents to
+the study of cosmological first order transitions, starting from a classically scale-invariant
+particle-physics model and ending with the fit to the NANOGrav nanohertz gravitationalwaves spectrum. DarkAgent-PT provides as output i) the best-fit values of model parameters, ii) their existing experimental and observational constraints, iii) an audit report of
+the assumptions and priors entering both i) and ii), of particular relevance for astroparticle
+physics. Our test runs identify inconsistencies in some fits in the literature and produce
+novel ones based on the dissipative bulk-flow GW template. The code is publicly available
+at https://github.com/PhysicsZandi/DarkAgents.
+
+Contents
+1 Introduction
+
+2
+
+2 Architecture
+2.1 Principles and strategy
+2.2 Orchestrator and sub-agents
+2.3 DarkAgents implementation
+2.4 DarkAgent-PT
+
+3
+3
+3
+4
+5
+
+3 Results
+3.1 Validation strategy
+3.2 Example runs
+
+6
+6
+7
+
+4 Discussion and outlook
+
+8
+
+References
+
+10
+
+∗
+†
+
+on leave from LPTHE, CNRS & Sorbonne U., Paris
+matteo.zandi2@studio.unibo.it
+
+1
+
+SciPost Physics
+
+1
+
+1
+
+Introduction
+
+Introduction
+
+Theoretical astroparticle physics (TAP) focuses on open questions about the Universe
+and its fundamental laws and constituents, as well as about its most extreme environments [1]. In order to look for answers, it brings together knowledge and methods from a
+very broad spectrum: particle theory and phenomenology, cosmology, astrophysics, gravity and astronomy. While TAP has reached a very good level of maturity and a deep
+understanding of the interconnection between its subfields, their co-existence still induces
+major additional challenges for scientific research compared to a single domain.
+A first challenge is the breadth of the knowledge and methodologies needed for scientific progress, reflected in the proliferation of software tools for very specific aspects of
+an astroparticle problem, whose connection often needs to be engineered by hand by the
+researcher. A stark contrast is, for example, provided by collider physics phenomenology,
+where the Beyond-the-Standard-Model (BSM) workflow connects a theoretical model encoded in a Lagrangian with its experimental collider signals, and relies on an extremely
+well integrated toolchain.
+A second challenge is given by the wide range of independent assumptions and uncertainties associated both to observable theoretical predictions and to how we model our
+Universe. Examples range from the gravitational-wave templates from phase transitions
+or topological defects, often applied well beyond their realm of validity, to the fact that
+the extraction of fundamental-physics knowledge from astrophysical systems often relies
+on fragile assumptions about them and becomes, therefore, prior-dependent. This is again
+very different from i) the quantifiable and controlled uncertainties that accompany theoretical predictions of, e.g., collider and binary GW signals, and ii) with the control of initial
+states achieved in laboratory experiments, that heavily reduces the prior-dependence of
+their physics implications.
+These challenges not only hinder newcomers from navigating TAP, but might put under
+question the validity of some of its findings in broader scientific circles. All in all, they
+ultimately slow down the pace of TAP scientific progress.
+The revolution of large language models (LLMs), that we are witnessing as we write,
+opens up a novel realm of possibilities to address the challenges specific to TAP. Adjacent
+domains of science have very recently seen the blossoming of end-to-end architectures,
+that can perform research tasks in theory and phenomenology relying on AI agents, without the need of humans in the loop. These include for example FERMIACC [2] and
+DeepInflation [3] (theory models from measurements at colliders and in cosmology, respectively), ColliderAgent [4] (collider predictions from theory models) and the Mudur et
+al. [5] cosmological framework (predictions from theory and vice-versa).
+While these efforts are pioneering the path for the partial automation of scientific
+discovery, to our knowledge none of them addresses the specific TAP challenges identified
+above. In order to do so, an end-to-end architecture should
+a) call deterministic human-written tools in the different domains of TAP, and orchestrate them in a flexible and modular manner that mimics how research is carried
+out in TAP;
+b) audit the explicit and implicit assumptions in the use of the tools of a) and in the
+assessment of their physics findings against observations in any of the TAP domains.
+In this article we present DarkAgents, the first language-driven multi-agent end-toend architecture with properties a) and b), that addresses specific questions in TAP going
+from a theoretical idea to its experimental and observational consequences. Here, we
+2
+
+SciPost Physics
+
+2
+
+Architecture
+
+focus on a specific physics problem to illustrate our proposal, and present the implementation of DarkAgent-PT, whose input is a particle-physics model and whose outputs are
+i) the best-fit values of its parameters that reproduce the nHz stochastic background of
+gravitational-waves (SBGW) observed by NANOGrav in 2023 [6], ii) existing experimental
+and observational constraints on such parameters, iii) an audit report of the assumptions
+and priors entering both i) and ii). The longer-term goal is to develop a DarkAgent community, comprising DarkAgent-PT and many others, each of which addresses a specific
+aspect of TAP with an optimised dedicated pipeline. Their communication and interconnection will be orchestrated such that a specific theory idea can be robustly tested against
+different experimental and observational results.
+In addition to the requirements a) and b) demanded by TAP, DarkAgents maintains
+and facilitates human-control, supervision and direction by being open-access, by providing
+full written reports and codes for every step of the pipeline, and by being usable with
+different agentic command-line tools, including Mistral’s [7], Anthropic’s [8], OpenAI’s [9]
+and local LLMs via Ollama [10]. The latter property will also allow us to leverage possible
+differences in their future development and scaling.
+
+2
+
+Architecture
+
+2.1
+
+Principles and strategy
+
+Before describing our implementation, we list the criteria that guided its design. The
+framework needs to be (1) reliable, ensuring correct results and reducing hallucination
+or silent failure, with all physical quantities produced by deterministic human-validated
+code; (2) auditable, so that every step can be inspected and reproduced by a human;
+(3) modular and extensible, allowing new physics pipelines to be added without system
+re-engineering and letting users run only the steps they need; (4) LLM-agnostic, freeing
+users from being forced to use a single LLM provider and allowing them to follow the
+rapidly evolving landscape of available LLM models; (5) efficient and sustainable, enabling
+a complete analysis to run on a personal computer at the cost of a standard Pro-tier
+consumer subscription (at the current terms in June 2026).
+We identified two possible strategies to build a multi-agent system of this kind. The
+first is a custom-coded agentic framework, where the orchestration logic, communication
+between sub-agents and tool calls are all written explicitly as a Python script interfacing with LLMs through API. This gives better control over each sub-agent but requires
+substantial engineering. The second strategy, which we adopt, uses agentic command-line
+tools. In this setup, the whole workflow, consisting of the orchestrator, the specialized
+sub-agents and their skills, is primarily written in plain Markdown instructions and documentation. Agentic command-line tools are also typically equipped with tools for shell
+access, file reading and writing, web search and fetch, and operate within a local workspace.
+Each sub-agent is injected with the relevant instructions and skills at the moment it is
+invoked, while the orchestrator provides the task specification. In collider physics, an
+example of the former approach is FERMIACC [2], whereas an example of the latter is
+ColliderAgent [4].
+
+2.2
+
+Orchestrator and sub-agents
+
+The framework is built around an orchestrator. First, it performs a check of the system
+and environment, and installs the packages needed for the deterministic backend to run.
+Then, it interprets the user’s prompt and accordingly selects a supported pipeline branch,
+3
+
+SciPost Physics
+
+2
+
+Architecture
+
+writes an explicit execution plan, and invokes the specialized sub-agents in the right order.
+If it cannot install the required environment, the orchestrator flags this issue in the
+report and stops, rather than proceeding with an incomplete setup.
+The instruction file, named after the sub-agent, contains the scope, the task workflow and rules that the sub-agent needs to follow. Furthermore, the instruction file is
+provided with information about the upstream inputs that the sub-agent needs to read
+and the downstream output that it needs to produce: apart from the code files, the subagent is asked to produce a human-readable Markdown report for user’s inspection and a
+machine-readable structured JSON file that should follow a fixed scheme, containing the
+information that the downstream sub-agents will need to read and use. The JSON handoff
+is checked by the orchestrator after each sub-agent terminates its task. On top of this,
+the orchestrator pauses the workflow after each sub-agent finishes and provides the user
+with a summary of the sub-agent’s report, giving them the possibility to interact with the
+sub-agent and ask for clarifications or corrections. It is also possible to render the process
+autonomous end-to-end by asking the orchestrator not to stop at each step.
+The architecture is LLM-agnostic by construction. We give generic names to the
+orchestrator, the sub-agents and the skills files and to the instruction directory. We map
+these generic names to the convention of each provider. For example, the orchestrator file
+is named CLAUDE.md and the instruction directory .claude for Claude Code compatibility,
+while they are respectively named AGENTS.md and .codex for Codex.
+The system is designed to be easily generalizable. Although the current release implements a single pipeline branch, adding or substituting a workflow is straightforward:
+an implementer should add the set of sub-agents required for the new branch, register
+the branch with the orchestrator and add compatibility instructions so that the shared
+upstream and downstream sub-agents can use the new handoffs.
+At this stage, the instructions for each sub-agent are very detailed, so that even less
+capable AI models can complete the workflow and avoid hallucinations. As future AI
+models become more capable, the set of instructions can be simplified, while maintaining the deterministic backend and the architecture, keeping DarkAgents on par with AI
+developments.
+
+2.3
+
+DarkAgents implementation
+
+The current version of DarkAgents is depicted in Fig. 1.
+The first stage is the proposal one. Users have two options: they can either provide
+a self-contained well-described particle-physics model or they can give only an idea of
+the particle-physics model and the target signal they have in mind. In the latter case, a
+proposal-sub-agent is triggered to identify all the particle-physics information needed
+for the workflow. In both cases, first a librarian-sub-agent performs a light review of
+the literature trying to address the novelty of the particle-physics model and whether there
+are any regions of the parameter space of particular interest. This step helps downstream
+sub-agents to have an understanding of the current state of the art and gives a hint on
+where they should start to search in the parameter space, if similar results are present
+in the literature. After that, a critic-sub-agent tries to find potential issues in the
+particle-physics model, including QFT inconsistency, and proposes a solution to each of
+them.
+The second stage is branch-dependent. In the current release, only a single branch
+is present and it implements the pipeline that connects a particle-physics model to its
+gravitational wave signature due to a cosmological first-order phase transition (FOPT) in
+classically scale-invariant scenarios, see later for details.
+
+4
+
+SciPost Physics
+
+2
+
+Architecture
+
+Figure 1: Architecture of DarkAgents. An orchestrator organises and coordinates the workflow of the sub-agents (robot icon in the small rectangular boxes),
+based on the user’s prompts. Humans can audit the progress after each task. The
+displayed implementation is for DarkAgent-PT, aimed at studying cosmological
+FOPT: between the proposal and astroparticle stages, it employs the dedicated
+FOPT-PTA pipeline. Additional pipelines are shown to illustrate the long-term
+architectural vision and the expected structure of future versions.
+The third stage is the astroparticle one, which is a novel aspect compared to previous
+implementations in e.g. collider physics. A constraint-sub-agent takes the preferred
+region of the parameter space and confronts it with current constraints from particle
+physics experiments, astrophysics and cosmology. It also highlights the possible need
+for further analysis for a reliable application of such constraints, if the ones available in
+the literature cannot be directly applied to the given particle model. This step will be
+further investigated in future versions of DarkAgents: if the constraint-sub-agent flags
+a missing analysis for which a dedicated branch has been developed, it should communicate
+with the orchestrator that will interface with the required set of sub-agents to run
+the workflow of that branch and provide the results as input for another analysis of the
+constraint-sub-agent. After this part, a prior-sub-agent is invoked to find and audit
+any assumption, prior, approximation, uncertainty, validity domain, caveat, limitation or
+warning across the whole workflow that could affect the validity of the final result. Finally,
+a report-sub-agent writes down a LaTeX report with a summary of the whole workflow.
+
+2.4
+
+DarkAgent-PT
+
+As a specific example of the use of DarkAgents, we focus on a cosmological FOPT. We
+consider the evolution of a scalar field that spontaneously breaks a gauge symmetry in
+the Early Universe via a FOPT, generating a SGWB. This explanation has been invoked
+as a possible origin of the nanohertz SGWB observed by NANOGrav [6] and other PTA
+experiments in 2023 and subsequently in 2025 [11–13]. The workflow from a theoretical
+model to its GW signal requires i) to compute the effective potential of the scalar field
+comprising of loop and finite-temperature contributions; ii) to follow the evolution of the
+5
+
+SciPost Physics
+
+3
+
+Results
+
+FOPT by tracking the minima of the potential and by computing the bounce action, which
+controls the nucleation rate due to quantum tunneling or thermal fluctuations; iii) to obtain
+the relevant cosmological parameters that control the FOPT: transition temperature T∗ ,
+strength α, inverse duration β/H, the bubble wall velocity vw ; iv) to use a template
+to translate them into a GW spectrum and v) to perform a fit to the data to extract
+constraints on the particle-physics model parameters. See [14–17] for phenomenological
+studies and [18] for a review.
+The FOPT-PTA branch has the goal to apply the described pipeline interfacing with
+deterministic human-written code. It comprises two sub-agents and their tasks are inspired
+by the actual work of a theoretical astroparticle physicist. Both sub-agents read the report
+of the librarian-sub-agent, which allows them to use previous analyses of similar models
+as initial hints.
+The fopt-sub-agent uses the code developed for [14] to compute the FOPT parameters from the particle-physics model parameters. The semi-analytic fast and efficient
+implementation in [14] is crucial at this stage for a very efficient and fast survey of the
+parameters space without the need of external clusters. Another optimization is given by
+the fact that fopt-sub-agent provides a preliminary estimate of the expected values of
+the parameters, by performing a dimensional analysis of the peak frequency of the GW
+spectrum.
+Then, the pta-sub-agent selects the correct GW spectrum template, based on the acquired knowledge about the FOPT parameters, and it uses it to carry out a first parameter
+estimate by fitting the spectra within the NANOGrav violins. Once it has identified the
+correct prior distribution for the particle-physics model parameters, it proceeds to write
+a dedicated code to use PTArcade [19, 20] and runs the MCMC scan. After collecting the
+Bayesian analysis results, it can propose a further scan with an enlarged prior distribution
+if the 3σ region touches the boundary of the prior distribution, signaling a too narrow
+initial choice. After this check, it is able to plot the GW spectrum as a function of the
+frequency together with the NANOGrav violins for comparison.
+For other TAP problems, other branches can be easily implemented as complementary
+or in substitution to this workflow.
+
+3
+
+Results
+
+In order to validate DarkAgents, we tested whether the system can be trusted to execute
+deterministic code without fabricating the final results and whether the resulting physical
+statements were consistent.
+
+3.1
+
+Validation strategy
+
+It is known that the use of LLMs intrinsically introduces a source of stochasticity, and
+their outputs depend on the choice of the LLM model. Therefore, additional checks are
+needed that are not present when writing deterministic code. We humans carried out a
+traditional analysis of the same TAP problem studied by DarkAgent-PT, using the same
+particle-physics model and deterministic backend, and compared the human and agentic
+outputs at the level of posterior distributions in Fig. 2. Additionally, we let DarkAgents
+repeat the same tasks across several LLM providers, and several times with the same
+prompt, in the period March-June 2026. State-of-the-art models, such as Claude Code
+(Opus 4.8) and Codex (ChatGPT 5.5), were able to complete the full workflow almost
+autonomously. Less capable models, such as Mistral Vibe (mistral-medium-3.5), required
+
+6
+
+SciPost Physics
+
+3
+
+Results
+
+stronger human guidance and were less reliable in identifying constraints and implicit
+assumptions, even when they produced a numerically correct run.
+We also tested whether the system fails safely: when provided with a model incompatible with the deterministic backend, the orchestrator did not force the task into an
+incorrect branch, but instead stopped and reported the incompatibility.
+Finally, we tested the literature-injection importance of the sub-agents: when they
+were supplied with relevant previous analyses and benchmark points, they were inclined
+to perform their analysis correctly, since they start from a region of the parameter space
+already surveyed.
+However, we found that using the web tools to search the literature, LLMs were spotted
+to hallucinate some papers in the reference section of the final report. This indicates that
+a more thorough examination is needed.
+
+3.2
+
+Example runs
+
+We now report some representative runs of DarkAgent-PT. The purpose of these examples
+is not to show a complete phenomenological study, but to test if the agentic system can correctly reproduce the fopt-branch by translating a model into backend-compatible code,
+choosing the appropriate priors, running the inference analysis, identifying the relevant
+constraints and assumptions.
+Since the initial user’s prompt can be given in two different ways, we investigate
+both possibilities: i) as an explicit particle-physics model, we choose a minimal classically scale-invariant dark U (1)D model, with the radiatively-generated vacuum expectation value v and the gauge coupling gD as free parameters; ii) as a generic prompt
+without specifying a given Lagrangian (referred to as “idea” in Fig. 1), we asked to find
+if a classically scale-invariant U (1) model with a dark scalar, a dark gauge boson and a
+dark fermion can explain the NANOGrav signal through a cosmological FOPT. We have
+tried different prompts for “ideas”, such as non-abelian models, and also in these cases
+DarkAgent-PT has produced new meaningful results, see reports in the public repository
+https://github.com/PhysicsZandi/DarkAgents.
+The comparison between the Bayesian posterior distribution obtained by DarkAgent-PT
+and by a human researcher for both particle-physics models is reported in Fig. 2. We
+see that DarkAgent-PT is able to reproduce very closely the traditional research results
+with very similar Bayesian posterior distributions. Beyond generating the correct codes
+and obtaining right results, the state-of-the-art models demonstrated the ability to make
+appropriate physical choices. They rejected the sound-wave spectrum template [22, 23] in
+the regime of α where it is not valid and selected the (dissipative) bulk-flow one [21]. They
+explicitly acknowledged the residual uncertainty in the template choice without carrying
+out a detailed study. It turns out that such rejection is indeed correct, see Sec. 4 of [24]
+for a more detailed discussion.
+Furthermore, in searching for constraints, we highlight that they were able to identify
+cosmological constraints due to the relativistic degrees of freedom, ∆Neff , to reheating
+before Big Bang Nucleosynthesis and to dark-sector thermal history as well as astrophysical bounds from Supernova (SN1987A) cooling and experimental ones from beam-dump,
+fixed-target, collider experiments [25, 26]. However, the kinetic and scalar mixing, potentially present in this type of rich dark sector extensions of the Standard Model [27], are
+not included at this stage and no backend or instruction is given to compute the physical
+quantities relevant to apply these bounds, such as widths and lifetimes. The system did
+not proceed with hallucinations about the impact of these bounds, but raised warnings
+that there is not enough information to evaluate them and went even further, by indicating
+which phenomenological analyses need to be carried out in order to assess the impact of
+7
+
+SciPost Physics
+
+4
+
+Discussion and outlook
+
+Human
+DarkAgents (Claude Code - Opus 4.8)
+
+Human
+DarkAgents (Codex - GPT-5.5)
+
+0.8
+
+g
+
+0.7
+0.6
+0.5
+
+0.60
+g
+
+1.0
+
+y
+
+0.55
+
+0.6
+
+0.2
+
+0.50
+−0.8
+
+−0.4
+0.0
+log10 (χ0 /GeV)
+
+0.52
+
+0.56
+
+0.60
+
+−0.5
+0.0
+log10 (χ0 /GeV)
+
+0.64
+
+g
+
+0.5
+
+0.6
+
+0.7
+g
+
+0.8
+
+0.2
+
+0.6
+y
+
+1.0
+
+Figure 2: Comparison of the Bayesian posterior distributions against the
+NANOGrav 15yr dataset [6] obtained with PTArcade [19, 20], using the (dissipative) bulk flow template [21]. On the left the user-provided minimal U (1) model
+with a dark scalar and a dark photon, whereas on the right the idea-provided
+U (1) model with the addition of a dark fermion. The red region is computed by
+a human researcher, whereas the blue one is one of the outputs of DarkAgent-PT.
+those limits. As discussed already, in the future, additional DarkAgents should be developed and would be activated to provide the detailed computations needed to assess and
+apply each type of constraint.
+Regarding the implicit assumptions, DarkAgents-PT also diagnosed limitations of the
+(deliberately simplified) version of the pipeline of [14] that we provided, correctly noting that a better renormalization-scale choice, resummation of daisy terms, running of
+the couplings and treatment of gauge dependence should be included, together with the
+missing bubble wall velocity calculation.
+It is non-trivial that DarkAgents has succeeded in obtaining correct results and in
+meaningfully auditing assumptions both in its pipeline and in the constraints, despite the
+fact that we designed it with such goals in mind. While this success admittedly concerns
+a specific physics problem, it indicates that the architecture we propose may be a step in
+the right direction of facilitating and accelerating TAP research with the assistance of AI.
+A set of complete example runs for both particle-physics models and all LLM providers,
+including every generated script, report, handoff and figure, is provided in the public
+repository https://github.com/PhysicsZandi/DarkAgents.
+
+4
+
+Discussion and outlook
+
+We have presented DarkAgents: a multi-agent system that leverages new developments
+in Large Language Models (LLMs) for reasoning and code-generation, to address a given
+question in theoretical astroparticle physics (TAP). It is an end-to-end architecture that
+takes as input a particle physics idea or model, and produces as output a report presenting
+its phenomenological analysis. It is organized in three stages: a proposal, a pipeline dedicated to a specific problem of interest, and an astroparticle stage, see Fig. 1. DarkAgents
+mimics how TAP physicists typically work not only in its structure, but also in method8
+
+SciPost Physics
+
+4
+
+Discussion and outlook
+
+ology: first making guesses educated by Naive Dimensional Analysis (NDA), and subsequently revising them through an iterative improving procedure, based on the outcome of
+the previous attempts.
+Our code is open access and can be found, together with test prompts and reports, at
+https://github.com/PhysicsZandi/DarkAgents.
+DarkAgents is designed to address the specific challenges of TAP that slow down
+the pace of its progress. One is the breadth of the knowledge and methodologies required for its advancement. This challenge is addressed by calling and orchestrating diverse deterministic human-written tools, as well as by an astroparticle-specific sub-agent,
+constraint-sub-agent, with the role of identifying and combining a plethora of experimental and observational constraints. Another TAP challenge is the dependence of some of
+its findings on assumptions. DarkAgents addresses it with a second astroparticle-specific
+sub-agent, prior-sub-agent, that searches for explicit and hidden physical assumptions
+in the derivation of the results obtained within the entire architecture, and so identifies
+the limits of validity of its results. These sub-agents are able to perform these tasks
+efficiently, and also to identify the missing phenomenological analysis required to apply
+existing bounds.
+As an example, we have implemented DarkAgents as DarkAgent-PT, to study scaleinvariant scalar extensions of the Standard Model, in which a FOPT at the GeV scale may
+explain the observation of a nanohertz SGWB by NANOGrav and other PTA experiments.
+We find that DarkAgent-PT is able to reproduce human-generated results both in the case
+in which the researcher provides the model, i.e. a U (1)D minimal model with a complex
+scalar and a dark photon, and in the case in which DarkAgent-PT is given more freedom
+to define the model starting from a less structured prompt, see Fig. 2. We find relatively
+large values of gauge couplings and GeV-scale vevs for the scalar, significantly larger than
+in analysis that use the sound-wave template. Remarkably, it was DarkAgent-PT that
+autonomously and correctly found out that, for those models, the optimal GW template
+to use is not the sound-wave one often employed in the literature, but the dissipative bulk
+flow of [21], as pointed out in [24]. While our design succeeds in bringing down silent
+fails and hallucinations, some drawbacks remain, like made-up references in the final pdf
+reports. Ultimate human control and supervision stays essential to guide the developments
+and to ensure reliability of results.
+In order to adress the specific challenges of TAP, we designed DarkAgents based on
+the principles of i) reliability, reducing hallucination or silent failure, ii) the option of
+human-audit at every step, iii) modularity and possibility to extend it without system
+re-engineering, iv) LLM-agnosticism, that also allows to keep up with rapid developments
+in the LLM models, and v) efficiency and sustainability.
+One important driver for the design of DarkAgents has been the lurking question
+“When will DarkAgents just be surpassed by the increased power of generic LLM?”. This
+question is linked to “the bitter lesson” [28], that search and learning with little other
+input have so far proven to become more powerful with increase in computing power,
+than ad-hoc design with too much engineering. This has pushed us to a design that does
+not rely on such engineering and that calls at every step an LLM, in order to benefit
+from their dramatic future scaling.1 The bitter lesson has also pushed us further, to
+make the architecture flexible in different key respects. First, it is flexible in the level of
+human control and supervision. Researchers can audit each step of the pipeline to ensure
+the reliability of results, but they do not need to if the workflow can be trusted. It is
+1
+For example, it is not inconceivable that eventually the prior-sub-agent will not limit itself to identify
+inconsistencies between the assumptions of some constraints or tools used, but will go beyond and derive
+new constraints or propose new tools that are suitable to the problem at hand.
+
+9
+
+SciPost Physics
+
+References
+
+expected that going forward the need of human supervision at intermediate steps will
+decrease, and DarkAgents has already been designed to adapt to this evolution. Second,
+the architecture as well as the sub-agents we implemented are flexible in that they work
+with different agentic tools including Mistral’s, Anthropic’s, OpenAI’s and local LLMs via
+Ollama. This not only frees the researcher from the need of changing the LLM code but
+also allows to exploit the most advanced ones at a given moment, keeping in line with the
+rapid developments in the field.
+Another driver in shaping our design, especially its modularity, has been our vision
+that each problem in TAP should have its own DarkAgent. In this sense, DarkAgents-PT
+is thought of the first one in TAP, by which we want to demonstrate the efficiency and
+capabilities of the entire architecture for astroparticle studies. Together, the DarkAgents
+would constitute a community that can communicate and interact under an orchestrator,
+in order to study a given model from all required points of view. To this aim, we advocate
+for the development of other DarkAgents on specific astroparticle areas and for their Open
+Access, in order to fully exploit the extraordinary impact that AI via LLM can have on
+our ability to perform efficiently and effectively research in astroparticle physics. We
+think that such strategy will be of great aid in facilitating and accelerating research in
+astroparticle physics, in an AI-assisted human-controlled manner.
+
+Acknowledgements
+This work has been partly funded by the European Union under the Horizon Europe’s
+Project: 101201278 – DarkSHunt - ERC - 2024 ADG and by the Italian INFN program
+on Theoretical Astroparticle Physics (TAsP). Views and opinions expressed are however
+those of the author(s) only and do not necessarily reflect those of the European Union
+or the European Research Council Executive Agency. Neither the European Union nor
+the granting authority can be held responsible for them. During a significant part of
+this project, ML was funded by the European Union under the Horizon Europe’s Marie
+Sklodowska-Curie project 101068791 — NuBridge. FS thanks the public library ‘Biblioteca
+delle Oblate’ in Firenze for hospitality while part of this work was being completed.
+
+References
+[1] R. Alves Batista et al., EuCAPT White Paper: Opportunities and Challenges for
+Theoretical Astroparticle Physics in the Next Decade (2021), 2110.10074.
+[2] P. Agrawal, N. Craig, A. Madden and I. V. Lombera, The FERMIACC: Agents for
+Particle Theory (2026), 2603.22538.
+[3] Z.-Y. Peng, H.-S. Yuan, Q. Lai, J.-Q. Jiang, G. Ye, J. Zhang and Y.-S. Piao, DeepInflation: an AI agent for research and model discovery of inflation (2026), 2601.14288.
+[4] S. Qiu, Z. Cai, J. Wei, Z. Li, Y. Yin, Q.-H. Cao, C. Liu, M.-x. Luo, X.-B. Yuan
+and H. X. Zhu, An End-to-end Architecture for Collider Physics and Beyond (2026),
+2603.14553.
+[5] N. Mudur, C. Cuesta-Lazaro, M. W. Toomey and D. Finkbeiner, An llm-driven
+framework for cosmological model-building and exploration, In LLM for Scientific
+Discovery: Reasoning, Assistance, and Collaboration.
+10
+
+SciPost Physics
+
+References
+
+[6] G. Agazie et al., The NANOGrav 15 yr Data Set: Evidence for a Gravitational-wave
+Background, Astrophys. J. Lett. 951(1), L8 (2023), doi:10.3847/2041-8213/acdac6,
+2306.16213.
+[7] Mistral, https://mistral.ai/, Accessed: 2026-06-09.
+[8] Claude, https://claude.com/, Accessed: 2026-06-09.
+[9] OpenAI, https://openai.com/, Accessed: 2026-06-09.
+[10] Ollama, https://ollama.com/, Accessed: 2026-06-09.
+[11] J. Antoniadis et al., The second data release from the European Pulsar Timing Array
+- III. Search for gravitational wave signals, Astron. Astrophys. 678, A50 (2023),
+doi:10.1051/0004-6361/202346844, 2306.16214.
+[12] H. Xu et al., Searching for the Nano-Hertz Stochastic Gravitational Wave Background
+with the Chinese Pulsar Timing Array Data Release I, Res. Astron. Astrophys. 23(7),
+075024 (2023), doi:10.1088/1674-4527/acdfa5, 2306.16216.
+[13] D. J. Reardon et al., Search for an Isotropic Gravitational-wave Background
+with the Parkes Pulsar Timing Array, Astrophys. J. Lett. 951(1), L6 (2023),
+doi:10.3847/2041-8213/acdd02, 2306.16215.
+[14] S. Pascoli, S. Rosauro-Alcaraz and M. Zandi, Cosmological phase transitions: from
+particle physics to gravitational waves, semi-analytically (2026), 2602.02829.
+[15] F. Costa, J. Hoefken Zink, M. Lucente, S. Pascoli and S. Rosauro-Alcaraz, Supercooled
+dark scalar phase transitions explanation of NANOGrav data, Phys. Lett. B 868,
+139634 (2025), doi:10.1016/j.physletb.2025.139634, 2501.15649.
+[16] S. Balan, T. Bringmann, F. Kahlhoefer, J. Matuszak and C. Tasillo, Sub-GeV dark
+matter and nano-Hertz gravitational waves from a classically conformal dark sector,
+JCAP 08, 062 (2025), doi:10.1088/1475-7516/2025/08/062, 2502.19478.
+[17] J. Gonçalves, D. Marfatia, A. P. Morais and R. Pasechnik, Supercooled phase transitions in conformal dark sectors explain NANOGrav data, Phys. Lett. B 869, 139829
+(2025), doi:10.1016/j.physletb.2025.139829, 2501.11619.
+[18] P. Athron, C. Balázs, A. Fowlie, L. Morris and L. Wu, Cosmological phase transitions:
+From perturbative particle physics to gravitational waves, Prog. Part. Nucl. Phys. 135,
+104094 (2024), doi:10.1016/j.ppnp.2023.104094, 2305.02357.
+[19] A. Mitridate, D. Wright, R. von Eckardstein, T. Schröder, J. Nay, K. Olum,
+K. Schmitz and T. Trickle, PTArcade (2023), 2306.16377.
+[20] W. G. Lamb, S. R. Taylor and R. van Haasteren,
+Rapid refitting techniques for Bayesian spectral characterization of the gravitational wave background using pulsar timing arrays,
+Phys. Rev. D 108(10), 103019 (2023),
+doi:10.1103/PhysRevD.108.103019, 2303.15442.
+[21] M. Lewicki and V. Vaskonen, Impact of cosmic expansion on gravitational wave
+spectra from strongly supercooled first-order phase transitions (2025), 2511.15687.
+[22] R. Jinno, T. Konstandin, H. Rubira and I. Stomberg,
+cosmological phase transitions and gravitational waves,
+doi:10.1088/1475-7516/2023/02/011, 2209.04369.
+11
+
+Higgsless simulations of
+JCAP 02, 011 (2023),
+
+SciPost Physics
+
+References
+
+[23] C. Caprini, R. Jinno, M. Lewicki, E. Madge, M. Merchand, G. Nardini, M. Pieroni,
+A. Roper Pol and V. Vaskonen, Gravitational waves from first-order phase transitions
+in LISA: reconstruction pipeline and physics interpretation, JCAP 10, 020 (2024),
+doi:10.1088/1475-7516/2024/10/020, 2403.03723.
+[24] A. Musumeci, J. Nava, S. Pascoli and F. Sala, Nanohertz gravitational waves from
+the baryon-dark matter coincidence (2026), 2604.26860.
+[25] P. Agrawal et al., Feebly-interacting particles: FIPs 2020 workshop report, Eur. Phys.
+J. C 81(11), 1015 (2021), doi:10.1140/epjc/s10052-021-09703-7, 2102.12143.
+[26] C. Antel et al., Feebly-interacting particles: FIPs 2022 Workshop Report, Eur. Phys.
+J. C 83(12), 1122 (2023), doi:10.1140/epjc/s10052-023-12168-5, 2305.01715.
+[27] A. Abdullahi et al.,
+From oversimplified to overlooked:
+The case
+for exploring rich dark sectors,
+Nucl. Phys. B 1020, 117148 (2025),
+doi:10.1016/j.nuclphysb.2025.117148, 2505.05663.
+[28] R. S. Sutton, The Bitter Lesson, Accessed: 2026-06-04 (2019).
+
+12
+
+
