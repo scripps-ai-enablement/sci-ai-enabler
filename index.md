@@ -9,17 +9,48 @@ permalink: /
 
 An information resource for scientists, engineers, and clinicians working at the intersection of AI and the life sciences.
 
-## Compose a solution — the fastest way in
+## Start here: the Composer
 
-Don't know which of the components below you need? Install the **[Composer](catalog/tools/composer.md)** plugin and describe your problem in plain language — it composes a grounded, runnable solution from everything in this resource, reusing a recipe when one fits and recommending a pre-built autonomous system when that's the right call.
+Don't know which of the components below you need? Install the **[Composer](catalog/tools/composer.md)** plugin, describe your problem in plain language, and it composes a grounded, runnable solution from everything in this resource — reusing a curated recipe when one fits, assembling the simplest set of tools when it doesn't, and recommending a pre-built autonomous system when that's the right call. It never invents a tool, always shows the evidence/availability/compute trade-offs, and offers to install the pieces and run them for you.
+
+### 1. Install it (once)
+
+The Composer is a **Claude Code / Cowork plugin** — it runs where you assemble pipelines, not in Claude.ai chat (chat uses [Connectors](guide/connectors.md) instead). You'll need Claude Code (or Cowork) and an Anthropic account.
+
+In a Claude Code or Cowork session, run:
 
 ```
 /plugin marketplace add scripps-ai-enablement/sci-ai-enabler
 /plugin install composer@sci-ai-enabler
-/composer:compose I have a stack of new single-cell preprints and need to triage them
 ```
 
+That registers this repository as a [plugin marketplace](guide/marketplaces.md) and installs the Composer from it. To update later as the catalog grows, run `/plugin marketplace update sci-ai-enabler`.
+
+### 2. Use it
+
+Invoke it explicitly with the slash command, or just describe your problem in chat and the skill triggers on intent:
+
+```
+/composer:compose <describe what you're trying to do>
+```
+
+### 3. Try it — paste any of these
+
+Each prompt exercises a different path through the Composer. Run them as-is to see how it behaves:
+
+- `/composer:compose I have a stack of new single-cell preprints and need to triage them`
+  — *reuses a curated recipe* and offers to run it against your field right away.
+- `/composer:compose rank microglial scRNA-seq preprints by relevance to neuroinflammation`
+  — *matches on meaning across research areas*, even though the wording spans Neuroscience and Molecular & Cellular Biology.
+- `/composer:compose convert a folder of vendor instrument CSVs into a tidy long-format table`
+  — *walks the simplicity ladder*, recommending the cheapest assembly that solves it.
+- `/composer:compose I want an agent to go from a disease hypothesis through experiment design to analysis end to end`
+  — *recommends a pre-built autonomous system* (e.g. Robin, OpenScientist, or Biomni) with the evidence behind it.
+- `/composer:compose predict crystal packing for a small molecule from its SMILES`
+  — *tells you honestly when nothing in the catalog fits* rather than inventing a tool, and offers to file the gap so a recipe gets written.
+
 [About the Composer →](catalog/tools/composer.md){: .btn .btn-primary }
+[New to plugins?](guide/plugins.md){: .btn }
 
 Or browse the four sections directly, all kept current:
 
