@@ -35,13 +35,16 @@ body:
         - match-patient-to-clinical-trials
         - organize-raw-dicom-to-bids-layout
         - parse-fcs-flow-cytometry-files
+        - predict-gene-knockout-phenotypes-with-fba
         - prioritize-targets-within-a-disease
+        - profile-chipseq-atacseq-signal-around-features
         - profile-compound-polypharmacology
         - qc-single-cell-rna-seq
         - run-bulk-rnaseq-differential-expression
         - run-functional-enrichment-on-a-gene-list
         - scan-adverse-events-for-drug-safety-signal
         - scan-drug-repurposing-candidates
+        - score-protein-variants-with-esm
         - set-up-protein-md-simulation-in-gromacs
         - sort-spikes-from-neuropixels-recording
         - triage-alphafold-model-for-docking

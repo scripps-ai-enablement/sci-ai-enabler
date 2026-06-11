@@ -15,26 +15,51 @@ body:
       description: Auto-synced from the catalog. Pick "Not listed" if your feedback isn't about one of these.
       options:
         - 10x-genomics-cloud
+        - abcd-skill
+        - abide-skill
         - adaptyv
+        - adhd200-skill
         - adisinsight
+        - adni-skill
         - aeon
+        - aibl-skill
         - aind-data
         - allenbrain
         - alphafold
         - anndata
+        - aomic-skill
         - arboreto
+        - archs4-database
+        - asl-skill
         - astropy
+        - autodock-vina-docking
         - autoskill
+        - bakta-genome-annotation
+        - bcftools-variant-manipulation
+        - bedtools-genomic-intervals
         - benchling-integration
         - bgpt-paper-search
         - bids
         - bio-research
         - biocontextai
         - biomcp
+        - biomni
         - biopython
         - biorender
+        - biorxiv-database
         - bioservices
+        - bnt
+        - bold5000-skill
+        - brain-visualization
+        - brain_gnn
+        - brenda-database
         - bulk-rnaseq
+        - bwa-mem2-dna-aligner
+        - camcan-skill
+        - cbioportal-database
+        - cellchat-cell-communication
+        - cellpose-cell-segmentation
+        - celltypist-cell-annotation
         - cellxgene-census
         - chembl
         - cirq
@@ -43,74 +68,161 @@ body:
         - clinical-reports
         - clinical-trial-protocol
         - clinicaltrials-gov-mcp
+        - clinpgx-database
+        - clinvar-database
         - cms-coverage
+        - cnvkit-copy-number
         - cobrapy
+        - cobre-skill
+        - combraintf
+        - conn-tool
         - consciousness-council
         - consensus
         - cortellis
+        - cosmic-database
+        - dailymed-database
         - dask
         - database-lookup
         - datamol
+        - dbsnp-database
+        - dcm2nii
+        - ddinter-database
         - deepchem
         - deeptools
         - depmap
+        - deseq2-differential-expression
+        - detrending
+        - dictlearning
         - diffdock
+        - dipy-tool
+        - dmt-har-med-skill
         - dnanexus-integration
         - docx
         - drugbank
+        - dwi-skill
+        - eeg-skill
+        - emdb-database
+        - ena-database
+        - encode-database
+        - ensembl
         - esm
         - etetoolkit
         - exa-search
         - exploratory-data-analysis
+        - fastp-fastq-preprocessing
+        - fda-database
+        - featurecounts-rna-counting
         - fhir-developer
         - fhir-wso2
+        - filtering
         - flowio
         - fluidsim
+        - fm_app
+        - fmri-skill
+        - fmriprep-tool
+        - freesurfer-tool
+        - fsl-tool
+        - gatk-variant-calling
+        - gene-database
         - generate-image
         - geniml
+        - geo-database
         - geomaster
         - geopandas
         - get-available-resources
         - gget
         - ginkgo-cloud-lab
+        - glm
         - glycoengineering
+        - gnomad-database
+        - gseapy-gene-enrichment
         - gtars
+        - gtopdb-database
+        - gwas-database
+        - harmonization-tool
+        - harmony-batch-correction
+        - hbn-skill
+        - hcpa-skill
+        - hcpd-skill
+        - hcpep-skill
+        - hcppipeline-tool
+        - hcpya-skill
+        - hierarchical
         - histolab
+        - hmdb-database
+        - homer-motif-analysis
         - hugging-science
         - hypogenic
         - hypothesis-generation
+        - ibgnn
+        - ica
         - icd-10-codes
         - imaging-data-commons
         - infographics
         - instrument-data-to-allotrope
+        - interpro-database
         - iso-13485-certification
+        - ixi-skill
+        - jaspar-database
+        - kegg-database
+        - kegg-pathway-analysis
+        - kmeans
         - labarchive-integration
         - lamindb
         - latchbio-integration
         - latex-posters
+        - lggnn
+        - libsbml-network-modeling
         - liteparse
         - literature-review
+        - macs3-peak-calling
         - markdown-mermaid-writing
         - markitdown
         - matchms
         - matlab
         - matplotlib
+        - maxquant-proteomics
+        - mdanalysis-trajectory
+        - mdtraj-trajectory-analysis
         - medchem
+        - meg-skill
+        - metabolomics-workbench-database
+        - mnd-skill
+        - mne-eeg-tool
         - modal
+        - mofaplus-multi-omics
         - molecular-dynamics
         - molecule-mcp
         - molfeat
+        - monarch-database
+        - mouse-phenome-database
+        - mschallenge-skill
+        - multiqc-qc-reports
+        - muon-multiomics-singlecell
+        - napari-image-viewer
         - networkx
         - neurokit2
         - neuropixels-analysis
         - neurosift
+        - neurostorm
         - nextflow-development
+        - nibabel-skill
+        - nifd-skill
+        - nii2dcm
+        - nilearn-tool
+        - nnunet-segmentation
         - npi-registry
+        - nsd-skill
+        - oasis-skill
         - omero-integration
+        - omics-analysis-guide
         - open-notebook
         - open-targets
+        - openalex-database
+        - opencv-bioimage-analysis
         - openfda
         - openneuro
+        - opentargets-database
         - opentrons-integration
         - optimize-for-gpu
         - owkin
@@ -123,13 +235,22 @@ body:
         - pdf
         - peer-review
         - pennylane
+        - pet-skill
         - phylogenetics
+        - plannotate-plasmid-annotation
+        - plink2-gwas-analysis
+        - plotly-interactive-plots
+        - pnc-skill
         - polars
         - polars-bio
+        - popv-cell-annotation
+        - ppmi-skill
         - pptx
         - pptx-posters
+        - pride-database
         - primekg
         - prior-auth-review
+        - prokka-genome-annotation
         - protocolsio-integration
         - pubchem
         - pubmed
@@ -137,6 +258,7 @@ body:
         - pydeseq2
         - pydicom
         - pyhealth
+        - pyimagej-fiji-bridge
         - pylabrobot
         - pymatgen
         - pymc
@@ -147,12 +269,23 @@ body:
         - pytorch-lightning
         - pyzotero
         - qiskit
+        - qsiprep-tool
+        - quickgo-database
         - qutip
         - rdkit-mcp
         - rdkit-skill
+        - reactome-database
+        - regulomedb-database
+        - remap-database
         - research-grants
         - research-lookup
+        - rest-mneta-mdd-skill
+        - roary-pangenome
         - rowan
+        - run_models
+        - salmon-rna-quantification
+        - samtools-bam-processing
+        - sar-analysis
         - scanpy
         - scholar-evaluation
         - scholar-gateway
@@ -164,34 +297,60 @@ body:
         - scientific-visualization
         - scientific-writing
         - scikit-bio
+        - scikit-image-processing
         - scikit-learn
         - scikit-survival
         - scvelo
         - scvi-tools
         - seaborn
+        - seed-iv-skill
+        - seed-vig-skill
+        - sgrna-design-guide
         - shap
+        - simpleitk-image-registration
         - simpy
+        - single-cell-annotation-guide
         - single-cell-rna-qc
+        - smina-molecular-docking
+        - smri-skill
+        - snakemake-workflow-engine
+        - snpeff-variant-annotation
+        - spacenet
+        - spikeinterface-electrophysiology
         - stable-baselines3
+        - star-rna-seq-aligner
         - statistical-analysis
         - statsmodels
+        - string-database-ppi
+        - svm
         - sympy
         - synapse
+        - tcp-skill
         - tiledbvcf
         - timesfm-forecasting
         - tooluniverse
         - torch-geometric
         - torchdrug
+        - trackpy-particle-tracking
         - transformers
         - treatment-plans
+        - ucla-cnp-skill
+        - ucsc-genome-browser
+        - ukb-skill
         - umap-learn
+        - unichem-database
         - uniprot
         - usfiscaldata
+        - uspto-database
         - vaex
         - venue-templates
+        - viennarna-structure-prediction
+        - western-blot-quantification
         - what-if-oracle
+        - wmh-segmentation
         - xlsx
         - zarr-python
+        - zinc-database
         - Not listed
     validations:
       required: true
