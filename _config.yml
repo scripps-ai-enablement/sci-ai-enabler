@@ -40,6 +40,8 @@ exclude:
   - index/
   - composer/
   - .claude-plugin/
+  - tests/
+  - scripts/
   - Gemfile
   - Gemfile.lock
   - vendor/
