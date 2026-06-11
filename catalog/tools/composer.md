@@ -43,6 +43,19 @@ Given a problem like *"I have a stack of new single-cell preprints and need to t
 
 Matches on *meaning* (each catalog entry's summary and keywords), not on the subject-area categories, which are non-mutually-exclusive Scripps departments. The bundled index is regenerated daily from the catalog, recipes, and autonomous-science tracker; run `/plugin marketplace update sci-ai-enabler` to refresh it. Composition reports are filed only with your confirmation, and an abstracted-text option is offered because this repository is public.
 
+## Troubleshooting
+
+| Symptom | Fix |
+|---|---|
+| `/plugin install` says the plugin can't be found | Make sure you ran `/plugin marketplace add scripps-ai-enablement/sci-ai-enabler` first, and that you included the marketplace suffix: `composer@sci-ai-enabler`, not bare `composer`. |
+| `/plugin marketplace add` fails, or `/plugin` isn't recognized at all | Your Claude Code is likely too old. Check with `claude --version` and update to the latest; the plugin/marketplace commands need a current release. |
+| Marketplace add fails with "not found" after you'd added it before | Your local copy of the marketplace is stale. Run `/plugin marketplace update sci-ai-enabler` (or remove and re-add: `/plugin marketplace remove sci-ai-enabler` then add again). |
+| `/composer:compose` returns "unknown command" | The command is namespaced by the plugin. Use `/composer:compose <problem>` (not bare `/compose`), or just describe your problem in chat — the skill triggers on intent. |
+| Installed, but the command doesn't show up | Run `/plugin list` to confirm it's enabled; if it's disabled, `/plugin enable composer`. After editing plugin files locally, `/reload-plugins`. Check the install scope — if you installed it for one project, it won't appear in others (reinstall with **user** scope). |
+| It recommends against an old tool, or misses a brand-new one | The bundled index reflects your last marketplace update. Run `/plugin marketplace update sci-ai-enabler` to pull the latest. |
+
+This repository is public, so no tokens, SSH keys, or org access are needed to install.
+
 ## Sources
 
 - [sci-ai-enabler repository](https://github.com/scripps-ai-enablement/sci-ai-enabler) — verified 2026-06-11 (this run).
