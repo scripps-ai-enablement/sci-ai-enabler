@@ -19,13 +19,20 @@ those entries are your source links — reuse them; do not invent URLs.
 
 | Area | Changelog file | Updates page | Thread |
 |---|---|---|---|
-| Catalog (installable tools) | `CHANGELOG.md` | `/updates/catalog.html` | "Catalog updates" |
-| Guide (how-to docs) | `GUIDE_CHANGELOG.md` | `/updates/guide.html` | "Guide updates" |
-| AI co-scientists (named systems) | `COSCIENTIST_CHANGELOG.md` | `/updates/ai-scientists.html` | "AI co-scientist updates" |
-| Recipes (workflows) | `RECIPES_CHANGELOG.md` | `/updates/recipes.html` | "Recipes updates" |
+| Catalog (installable tools) | `CHANGELOG.md` | `https://scripps-ai-enablement.github.io/sci-ai-enabler/updates/catalog.html` | "Catalog updates" |
+| Guide (how-to docs) | `GUIDE_CHANGELOG.md` | `https://scripps-ai-enablement.github.io/sci-ai-enabler/updates/guide.html` | "Guide updates" |
+| AI co-scientists (named systems) | `COSCIENTIST_CHANGELOG.md` | `https://scripps-ai-enablement.github.io/sci-ai-enabler/updates/ai-scientists.html` | "AI co-scientist updates" |
+| Recipes (workflows) | `RECIPES_CHANGELOG.md` | `https://scripps-ai-enablement.github.io/sci-ai-enabler/updates/recipes.html` | "Recipes updates" |
 
-Pages base URL: `https://scripps-ai-enablement.github.io/sci-ai-enabler`. Prefix
-the per-area Updates pages above with it to make absolute links.
+Pages base URL for tool/recipe/system pages: `https://scripps-ai-enablement.github.io/sci-ai-enabler` (a page like `catalog/tools/gatk.md` becomes `…/catalog/tools/gatk.html`).
+
+**Every link you write must be an absolute `https://` URL.** The digest renders
+in a GitHub issue comment and is emailed to subscribers, where relative or
+root-relative links (e.g. `/updates/catalog.html`, `catalog/tools/gatk.html`)
+break. Commit `[View commit]` links copied from the changelogs are already
+absolute — keep them as-is. For area Updates pages use the full URLs in the
+table above; for a specific tool/recipe/system page, build the absolute Pages
+URL from the base above. Never emit a link that starts with `/` or a bare path.
 
 The run prompt's `## This run` stanza gives you the **date window** (`since` …
 `today`) and the **output path** to write to. Only consider changelog entries
@@ -60,9 +67,11 @@ Write the digest to the output path with `Write`. Structure:
   high-impact new capability outranks ten routine `last_verified` bumps.
 - **Synthesize, don't concatenate.** You are writing one coherent view, not
   stapling four changelogs together. Merge duplicates, draw the throughline.
-- **Be concrete and link everything.** Every claim points to a commit or a page
-  the reader can open. Prefer durable Pages URLs for new tool/recipe pages and
-  commit URLs for everything else — both are already in the changelog entries.
+- **Be concrete and link everything, with absolute URLs.** Every claim points to
+  a commit or a page the reader can open. Prefer durable Pages URLs for new
+  tool/recipe pages and commit URLs for everything else. Every link must be a
+  full `https://` URL (see the link rule above) — no relative or root-relative
+  paths, since this is read in an issue comment and email.
 - **Be honest about a slow week.** If little shipped, a three-line digest is the
   right answer. Do not pad. Never invent activity that isn't in the changelogs.
 - **Plain, warm, professional tone.** This is an email a colleague reads on
