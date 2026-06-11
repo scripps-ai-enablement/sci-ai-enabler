@@ -280,9 +280,9 @@ def build_system(path: Path, errors: list) -> dict | None:
     }
 
 
-def collect(glob: str, builder, errors: list) -> list[dict]:
+def collect(repo: Path, glob: str, builder, errors: list) -> list[dict]:
     out = []
-    for path in sorted((REPO).glob(glob)):
+    for path in sorted(repo.glob(glob)):
         if path.name == "index.md":
             continue
         try:
@@ -294,11 +294,19 @@ def collect(glob: str, builder, errors: list) -> list[dict]:
     return out
 
 
-def main() -> int:
+def build_all(repo: Path) -> tuple[list[dict], list[dict], list[dict], list[str]]:
+    """Parse every page under `repo` into (tools, recipes, systems, errors).
+    Pure: reads the corpus, writes nothing. Tests call this against the real repo
+    and against synthetic temp corpora; main() wraps it with file output."""
     errors: list[str] = []
-    tools = collect("catalog/tools/*.md", build_tool, errors)
-    recipes = collect("recipes/items/*.md", build_recipe, errors)
-    systems = collect("autonomous-science/systems/*.md", build_system, errors)
+    tools = collect(repo, "catalog/tools/*.md", build_tool, errors)
+    recipes = collect(repo, "recipes/items/*.md", build_recipe, errors)
+    systems = collect(repo, "autonomous-science/systems/*.md", build_system, errors)
+    return tools, recipes, systems, errors
+
+
+def main() -> int:
+    tools, recipes, systems, errors = build_all(REPO)
 
     if errors:
         print(f"build_index: {len(errors)} page error(s):", file=sys.stderr)
