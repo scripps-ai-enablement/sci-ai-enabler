@@ -2,8 +2,9 @@ name: Autonomous science
 
 on:
   schedule:
-    # Daily at 09:00 UTC (= 02:00 PDT / 01:00 PST). One hour after the guide cron.
-    - cron: '0 9 * * *'
+    # Weekly on Saturday at 02:00 UTC. One full pass per weekend, an hour after
+    # the guide cron and before the first recipes weekend slot (03:00).
+    - cron: '0 2 * * 6'
   workflow_dispatch:
     inputs:
       scope:

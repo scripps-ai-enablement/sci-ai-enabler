@@ -2,8 +2,12 @@ name: Curate catalog
 
 on:
   schedule:
-    # Daily at 07:00 UTC (= 00:00 PDT / 23:00 PST). Catalog runs first in the overnight slot.
-    - cron: '0 7 * * *'
+    # Weekend run, seven 6-hour slots so all seven focus categories are covered
+    # once each weekend (one category per slot — see the derivation below).
+    # Catalog leads the chain; guide/autonomous-science run once early Saturday
+    # and recipes trails each catalog slot by 3 hours.
+    - cron: '0 0,6,12,18 * * 6'   # Sat 00/06/12/18 UTC -> categories 1-4
+    - cron: '0 0,6,12 * * 0'      # Sun 00/06/12 UTC    -> categories 5-7
   workflow_dispatch:
     inputs:
       category:
@@ -43,11 +47,17 @@ jobs:
           SCOPE="${{ inputs.category }}"
           SCOPE="${SCOPE:-all}"
 
-          # Derive today's focus category from the UTC weekday (1=Mon … 7=Sun).
-          # Used by the directed-pass procedure described under
-          # "Topic-focused rotation" in AGENT.md.
-          DOW=$(date -u +%u)
-          case "${DOW}" in
+          # One focus category per weekend slot, so all seven are covered each
+          # weekend. Derive the category from the UTC day + 6-hour bucket
+          # (Sat buckets 0-3 -> 1-4, Sun buckets 0-2 -> 5-7); the bucket
+          # tolerates the usual cron delay within a slot. Used by the
+          # directed-pass procedure under "Topic-focused rotation" in AGENT.md.
+          DOW=$(date -u +%u)                   # 6=Sat, 7=Sun
+          BUCKET=$(( 10#$(date -u +%H) / 6 ))  # 0..3 within the day
+          if [ "${DOW}" = "7" ]; then IDX=$(( BUCKET + 5 )); else IDX=$(( BUCKET + 1 )); fi
+          if [ "${IDX}" -lt 1 ]; then IDX=1; fi
+          if [ "${IDX}" -gt 7 ]; then IDX=7; fi
+          case "${IDX}" in
             1) FOCUS="Chemistry" ;;
             2) FOCUS="Immunology and Microbiology" ;;
             3) FOCUS="Integrative Structural and Computational Biology" ;;

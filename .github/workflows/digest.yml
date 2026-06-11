@@ -1,0 +1,100 @@
+name: Weekly digest
+
+on:
+  schedule:
+    # Sunday 18:00 UTC — after the last weekend curation slot (recipes Sun 15:00,
+    # capped at ~25 min) so every area's run has finished and committed its
+    # changelog. Gives a >2h margin over the latest slot plus cron delay.
+    - cron: '0 18 * * 0'
+  workflow_dispatch:
+    inputs:
+      since:
+        description: 'Include changelog entries on/after this date (YYYY-MM-DD). Default: 7 days ago.'
+        required: false
+        default: ''
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: digest
+  cancel-in-progress: false
+
+jobs:
+  digest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Compose run prompt
+        env:
+          SINCE_INPUT: ${{ inputs.since }}
+        run: |
+          TODAY=$(date -u +%F)
+          SINCE="${SINCE_INPUT}"
+          if [ -z "${SINCE}" ]; then
+            SINCE=$(date -u -d '7 days ago' +%F)
+          fi
+
+          {
+            cat DIGEST_AGENT.md
+            echo ""
+            echo "---"
+            echo ""
+            echo "## This run"
+            echo "- UTC date (today): ${TODAY}"
+            echo "- since: ${SINCE}  (include only \`## YYYY-MM-DD\` entries on or after this date)"
+            echo "- Output path: write the finished digest to \`.digest.md\` (and nothing else)."
+            echo "- Read \`CHANGELOG.md\`, \`GUIDE_CHANGELOG.md\`, \`COSCIENTIST_CHANGELOG.md\`, and \`RECIPES_CHANGELOG.md\`; synthesize one prioritized, email-ready digest per your instructions."
+          } > .digest-prompt.md
+
+      - uses: anthropics/claude-code-base-action@e8132bc5e637a42c27763fc757faa37e1ee43b34
+        env:
+          # Pin the small/fast model in case any internal Haiku call is made, for
+          # parity with the other workflows (the bundled CC v1.0.88 reads the OLD
+          # var name ANTHROPIC_SMALL_FAST_MODEL). Do NOT bump the action to a
+          # CC 2.x pin — its context_management feature is rejected by this org's
+          # HIPAA/ZDR key (400 on turn 1).
+          ANTHROPIC_SMALL_FAST_MODEL: claude-haiku-4-5-20251001
+          ANTHROPIC_DEFAULT_HAIKU_MODEL: claude-haiku-4-5-20251001
+        with:
+          prompt_file: .digest-prompt.md
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          model: claude-opus-4-8
+          # Read-only synthesis of four local changelogs + one Write. No gh/Bash
+          # (the post step below comments to the issue) and no web access.
+          allowed_tools: "Read,Glob,Grep,Write"
+          timeout_minutes: "12"
+
+      - name: Post digest to the Weekly digest issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        run: |
+          rm -f .digest-prompt.md
+          if [ ! -s .digest.md ]; then
+            echo "No digest produced (.digest.md missing or empty); nothing to post."
+            exit 0
+          fi
+
+          # Find or create the pinned tracking issue — the single channel people
+          # subscribe to for the weekly update email.
+          ISSUE=$(gh issue list \
+            --state open \
+            --search 'in:title "Weekly digest"' \
+            --json number,title \
+            --jq '[.[] | select(.title == "Weekly digest")][0].number')
+          if [ -z "${ISSUE}" ] || [ "${ISSUE}" = "null" ]; then
+            ISSUE_URL=$(gh issue create \
+              --title "Weekly digest" \
+              --body $'One overarching, prioritized summary of the week\'s catalog, guide, AI co-scientist, and recipe activity — posted here every Sunday.\n\n**Subscribe to this issue** (Subscribe, top-right) to get the weekly update as an email. Each comment is one week.')
+            ISSUE="${ISSUE_URL##*/}"
+            gh issue pin "${ISSUE}" || true
+          fi
+
+          gh issue comment "${ISSUE}" --body-file .digest.md
+          rm -f .digest.md

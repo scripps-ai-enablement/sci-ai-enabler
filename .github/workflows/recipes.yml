@@ -2,10 +2,14 @@ name: Recipes
 
 on:
   schedule:
-    # Daily at 10:00 UTC (= 03:00 PDT / 02:00 PST). One hour after the
-    # autonomous-science cron, so the recipe assembler sees a fresh systems
-    # index and catalog state.
-    - cron: '0 10 * * *'
+    # Weekend run, seven 6-hour slots (same cadence as catalog) so all seven
+    # focus subject areas are covered once each weekend. Trails the catalog
+    # slot by 3 hours and runs after the once-Saturday autonomous-science cron,
+    # so the assembler sees a fresh systems index and catalog state. The 3-hour
+    # offset stays inside the same 6-hour bucket, so the derived area matches the
+    # catalog category of that slot.
+    - cron: '0 3,9,15,21 * * 6'   # Sat 03/09/15/21 UTC -> areas 1-4
+    - cron: '0 3,9,15 * * 0'      # Sun 03/09/15 UTC    -> areas 5-7
   workflow_dispatch:
     inputs:
       scope:
@@ -68,10 +72,18 @@ jobs:
           SCOPE="${{ inputs.scope }}"
           SCOPE="${SCOPE:-all}"
 
-          # Derive today's focus subject area from the UTC weekday (1=Mon … 7=Sun).
-          # Used by the topic-focused rotation described in RECIPE_AGENT.md.
-          DOW=$(date -u +%u)
-          case "${DOW}" in
+          # One focus subject area per weekend slot, so all seven are covered
+          # each weekend. Derive the area from the UTC day + 6-hour bucket
+          # (Sat buckets 0-3 -> 1-4, Sun buckets 0-2 -> 5-7); the 3-hour offset
+          # from the catalog slot stays in the same bucket, so the area matches
+          # that slot's catalog category. Used by the topic-focused rotation
+          # described in RECIPE_AGENT.md.
+          DOW=$(date -u +%u)                   # 6=Sat, 7=Sun
+          BUCKET=$(( 10#$(date -u +%H) / 6 ))  # 0..3 within the day
+          if [ "${DOW}" = "7" ]; then IDX=$(( BUCKET + 5 )); else IDX=$(( BUCKET + 1 )); fi
+          if [ "${IDX}" -lt 1 ]; then IDX=1; fi
+          if [ "${IDX}" -gt 7 ]; then IDX=7; fi
+          case "${IDX}" in
             1) FOCUS="Chemistry" ;;
             2) FOCUS="Immunology and Microbiology" ;;
             3) FOCUS="Integrative Structural and Computational Biology" ;;
