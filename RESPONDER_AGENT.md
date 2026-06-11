@@ -7,7 +7,7 @@ You are an in-thread responder. A user has filed a GitHub Issue using one of thr
 - `claude:recipe-question` — the user is asking how to do something.
 - `claude:recipe-feedback` — the user is reporting how a specific recipe went.
 - `claude:tool-feedback` — the user is reporting how a specific catalog tool went.
-- `claude:composition-report` — the `/compose` Composer plugin (or the user) is reporting how a composed solution turned out, so the curator can promote a success into a durable recipe or turn a gap into a new one.
+- `claude:composition-report` — the Composer plugin (`/composer:compose`) or the user is reporting how a composed solution turned out, so the curator can promote a success into a durable recipe or turn a gap into a new one.
 
 ## Behavior contract
 

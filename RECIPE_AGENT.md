@@ -218,7 +218,7 @@ nav_exclude: true
 - YYYY-MM-DD outcome=<worked|gap|failed> problem_class=<…> → <what shipped / note>
 ```
 
-Keep the sections present even when empty (`_None._`). `Recently surfaced` keeps the last ~5 additions. `Missing components` is the agent's communication channel with the catalog curator — review it when planning the next catalog run. `Composition reports` is the rolling demand signal from the `/compose` plugin (last ~15 lines) — let it bias which problem classes the directed pass covers next.
+Keep the sections present even when empty (`_None._`). `Recently surfaced` keeps the last ~5 additions. `Missing components` is the agent's communication channel with the catalog curator — review it when planning the next catalog run. `Composition reports` is the rolling demand signal from the Composer plugin (`/composer:compose`, last ~15 lines) — let it bias which problem classes the directed pass covers next.
 
 ## Landscape page (`recipes/summary.md`)
 
@@ -399,7 +399,7 @@ The workflow pre-fetches the body of every open user-request issue into `.reques
    - `got stuck` — investigate. Add a one-line **Field reports** note. If multiple users hit the same wall, flag the recipe in `## Flagged for review` and consider raising the rung on the simplicity ladder.
    - `found a better way` — read the issue body from `.request-bodies/<NN>.md`. If the better path uses different cataloged tools, update **Alternatives considered** or write a sibling recipe.
    - `something else` — read the issue body from `.request-bodies/<NN>.md` and exercise judgment.
-3. For a `report=composition` entry (filed by the `/compose` Composer plugin), read the issue body from `.request-bodies/<NN>.md` and act on the `outcome`:
+3. For a `report=composition` entry (filed by the Composer plugin, `/composer:compose`), read the issue body from `.request-bodies/<NN>.md` and act on the `outcome`:
    - `outcome=worked` — a composed assembly ran successfully. If the body names an existing recipe, treat it like a `worked great` field report (refresh `last_verified`; promote `Proposed` → `Reported` if this is the first report). If the body carries a **draft recipe** for a *novel* composition, canonicalize it: validate every component against `catalog/tools/`/`autonomous-science/systems/`, rewrite to the recipe schema, and publish it (counts toward the soft cap). If a needed component is missing, add a `## Missing components` note instead.
    - `outcome=gap` — a needed component wasn't catalogued. Add a `## Missing components` note for the catalog curator (and a `## Deferred` note if the recipe would be worth writing once the component lands). Do not invent the missing tool.
    - `outcome=failed` — the assembly ran but wasn't useful. If it maps to an existing recipe, treat like `got stuck`; otherwise record the gap for a future directed pass.

@@ -16,7 +16,7 @@ A Claude Code / Cowork plugin that takes a plain-language scientific problem and
 
 | | |
 |---|---|
-| **Type** | Plugin (bundles the `compose` skill + the `/compose` command + a bundled index) |
+| **Type** | Plugin (bundles the `compose` skill + the `/composer:compose` command + a bundled index) |
 | **Supplier** | [Scripps AI Enablement](https://github.com/scripps-ai-enablement/sci-ai-enabler) |
 | **Availability** | Beta (Claude Code and Cowork) |
 | **Pricing** | Free / OSS — included with this repository; normal model-token usage applies |
@@ -30,7 +30,7 @@ A Claude Code / Cowork plugin that takes a plain-language scientific problem and
   /plugin install composer@sci-ai-enabler
   ```
 
-Then run `/compose <your problem>` (or just describe the problem — the skill triggers on intent).
+Then run `/composer:compose <your problem>` (or just describe the problem in chat — the skill triggers on intent).
 
 ## What it does
 

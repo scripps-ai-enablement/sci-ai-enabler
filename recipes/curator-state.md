@@ -47,7 +47,7 @@ _None._
 
 ## Composition reports
 
-Demand signal from the `/compose` Composer plugin. The responder routes
+Demand signal from the Composer plugin (`/composer:compose`). The responder routes
 `report=composition` entries into `## User requests (open)` like any other request;
 process them there each run (promote a success, write a recipe for a gap), then keep a
 rolling tally here so the directed pass can prioritize the problem classes and subject

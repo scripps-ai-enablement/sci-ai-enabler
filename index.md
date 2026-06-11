@@ -16,7 +16,7 @@ Don't know which of the components below you need? Install the **[Composer](cata
 ```
 /plugin marketplace add scripps-ai-enablement/sci-ai-enabler
 /plugin install composer@sci-ai-enabler
-/compose I have a stack of new single-cell preprints and need to triage them
+/composer:compose I have a stack of new single-cell preprints and need to triage them
 ```
 
 [About the Composer →](catalog/tools/composer.md){: .btn .btn-primary }

@@ -6,7 +6,7 @@ description: >-
   Connectors to use, how to assemble them, or whether a pre-built autonomous-science system fits —
   and especially when they want it actually set up and run, not just described. Triggers on "how do I
   use Claude to…", "what tools should I use for…", "compose a solution for…", "is there an AI system
-  that can…", "/compose".
+  that can…", and the "/composer:compose" command.
 ---
 
 # Compose a scientific solution
