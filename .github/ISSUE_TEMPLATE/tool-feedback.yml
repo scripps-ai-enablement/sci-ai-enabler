@@ -50,8 +50,8 @@ body:
         - bioservices
         - bnt
         - bold5000-skill
-        - brain_gnn
         - brain-visualization
+        - brain_gnn
         - brenda-database
         - bulk-rnaseq
         - bwa-mem2-dna-aligner
