@@ -24,6 +24,9 @@ MCP wrapper over the EBI AlphaFold Protein Structure Database — predicted stru
 
 ## How to install
 
+<!-- alt-install:sciagent -->
+- **Also packaged in the SciAgent-Skills collection** ([jaechang-hits](https://github.com/jaechang-hits/SciAgent-Skills) (community OSS, CC BY 4.0)): clone [`jaechang-hits/SciAgent-Skills`](https://github.com/jaechang-hits/SciAgent-Skills) and run `/plugin install sciagent-skills` in Claude Code (or copy `skills/structural-biology-drug-discovery/alphafold-database-access` into `~/.claude/skills/`).
+<!-- /alt-install:sciagent -->
 ```
 git clone https://github.com/Augmented-Nature/AlphaFold-MCP-Server
 cd AlphaFold-MCP-Server

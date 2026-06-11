@@ -24,6 +24,9 @@ Anthropic-managed search across PubMed and PubMed Central via NCBI E-utilities, 
 
 ## How to install
 
+<!-- alt-install:sciagent -->
+- **Also packaged in the SciAgent-Skills collection** ([jaechang-hits](https://github.com/jaechang-hits/SciAgent-Skills) (community OSS, CC BY 4.0)): clone [`jaechang-hits/SciAgent-Skills`](https://github.com/jaechang-hits/SciAgent-Skills) and run `/plugin install sciagent-skills` in Claude Code (or copy `skills/scientific-writing/pubmed-database` into `~/.claude/skills/`).
+<!-- /alt-install:sciagent -->
 - **Claude Code** — plugin marketplace:
   ```
   /plugin marketplace add anthropics/life-sciences

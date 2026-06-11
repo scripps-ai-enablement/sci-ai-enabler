@@ -24,6 +24,9 @@ Claude skill for working with the Broad Institute's Cancer Dependency Map data â
 
 ## How to install
 
+<!-- alt-install:sciagent -->
+- **Also packaged in the SciAgent-Skills collection** ([jaechang-hits](https://github.com/jaechang-hits/SciAgent-Skills) (community OSS, CC BY 4.0)): clone [`jaechang-hits/SciAgent-Skills`](https://github.com/jaechang-hits/SciAgent-Skills) and run `/plugin install sciagent-skills` in Claude Code (or copy `skills/genomics-bioinformatics/databases/depmap-crispr-essentiality` into `~/.claude/skills/`).
+<!-- /alt-install:sciagent -->
 - **Claude Code / Claude.ai** â€” Skills CLI (recommended):
   ```
   npx skills add K-Dense-AI/scientific-agent-skills

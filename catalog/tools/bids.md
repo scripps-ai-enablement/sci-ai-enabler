@@ -24,6 +24,9 @@ Claude skill for the Brain Imaging Data Structure standard — dataset creation,
 
 ## How to install
 
+<!-- alt-install:neuroclaw -->
+- **Also packaged in the NeuroClaw skill library** ([CUHK-AIM-Group](https://github.com/CUHK-AIM-Group/NeuroClaw) (community OSS, MIT)): clone [`CUHK-AIM-Group/NeuroClaw`](https://github.com/CUHK-AIM-Group/NeuroClaw) and copy `skills/bids-organizer` into `~/.claude/skills/`.
+<!-- /alt-install:neuroclaw -->
 - **Claude Code / Claude.ai** — Skills CLI (recommended):
   ```
   npx skills add K-Dense-AI/scientific-agent-skills

@@ -24,6 +24,9 @@ An MCP server that exposes the Ensembl REST API so Claude can look up genes and 
 
 ## How to install
 
+<!-- alt-install:sciagent -->
+- **Also packaged in the SciAgent-Skills collection** ([jaechang-hits](https://github.com/jaechang-hits/SciAgent-Skills) (community OSS, CC BY 4.0)): clone [`jaechang-hits/SciAgent-Skills`](https://github.com/jaechang-hits/SciAgent-Skills) and run `/plugin install sciagent-skills` in Claude Code (or copy `skills/genomics-bioinformatics/databases/ensembl-database` into `~/.claude/skills/`).
+<!-- /alt-install:sciagent -->
 The server is published to npm as `ensembl-mcp-server` and runs over stdio via `npx`.
 
 - **Claude Code** — direct MCP add (stdio; Claude Code launches the process itself, so don't run `npx` separately):
