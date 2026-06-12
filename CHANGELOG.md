@@ -7,7 +7,7 @@ permalink: /updates/catalog.html
 
 # Catalog updates
 
-Reverse-chronological log of changes to the [catalog](catalog/). Newest at the top.
+Reverse-chronological log of changes to the [catalog]({{ '/catalog/' | relative_url }}). Newest at the top.
 
 <!-- Curator appends new dated entries directly below this line. -->
 

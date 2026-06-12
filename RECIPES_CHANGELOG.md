@@ -7,7 +7,7 @@ permalink: /updates/recipes.html
 
 # Recipes updates
 
-Reverse-chronological log of changes to the [recipes cookbook](recipes/). Newest at the top.
+Reverse-chronological log of changes to the [recipes cookbook]({{ '/recipes/' | relative_url }}). Newest at the top.
 
 <!-- Curator appends new dated entries directly below this line. -->
 

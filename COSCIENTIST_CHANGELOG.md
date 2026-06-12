@@ -7,7 +7,7 @@ permalink: /updates/ai-scientists.html
 
 # AI scientist updates
 
-Reverse-chronological log of changes to the [AI scientists tracker](autonomous-science/). Newest at the top.
+Reverse-chronological log of changes to the [AI scientists tracker]({{ '/autonomous-science/' | relative_url }}). Newest at the top.
 
 ## 2026-06-11
 

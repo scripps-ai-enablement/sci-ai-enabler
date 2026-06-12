@@ -7,7 +7,7 @@ description: "Install the Composer plugin in Claude Code or Cowork and try it on
 
 # Start here: the Composer
 
-Don't know which of the cataloged components you need? Install the **[Composer](catalog/tools/composer.md)** plugin, describe your problem in plain language, and it composes a grounded, runnable solution from everything in this resource — reusing a curated [recipe](recipes/) when one fits, assembling the simplest set of tools when it doesn't, and recommending a pre-built [autonomous system](autonomous-science/) when that's the right call. It never invents a tool, always shows the evidence / availability / compute trade-offs, and offers to install the pieces and run them for you.
+Don't know which of the cataloged components you need? Install the **[Composer](catalog/tools/composer.md)** plugin, describe your problem in plain language, and it composes a grounded, runnable solution from everything in this resource — reusing a curated [recipe]({{ '/recipes/' | relative_url }}) when one fits, assembling the simplest set of tools when it doesn't, and recommending a pre-built [autonomous system]({{ '/autonomous-science/' | relative_url }}) when that's the right call. It never invents a tool, always shows the evidence / availability / compute trade-offs, and offers to install the pieces and run them for you.
 
 ## 1. Install it (once)
 
@@ -58,7 +58,7 @@ See the [Composer's troubleshooting table](catalog/tools/composer.md#troubleshoo
 
 ## Prefer to browse first?
 
-- [Recipes](recipes/) — concrete problem → solution pairings, if you'd rather start from a worked example.
-- [Guide](guide/) — what Skills, MCP servers, Plugins, and Connectors are, if the terms are new.
-- [Catalog](catalog/) — every installable component, by research area.
-- [Autonomous AI scientists](autonomous-science/) — the frontier of systems that take real initiative.
+- [Recipes]({{ '/recipes/' | relative_url }}) — concrete problem → solution pairings, if you'd rather start from a worked example.
+- [Guide]({{ '/guide/' | relative_url }}) — what Skills, MCP servers, Plugins, and Connectors are, if the terms are new.
+- [Catalog]({{ '/catalog/' | relative_url }}) — every installable component, by research area.
+- [Autonomous AI scientists]({{ '/autonomous-science/' | relative_url }}) — the frontier of systems that take real initiative.

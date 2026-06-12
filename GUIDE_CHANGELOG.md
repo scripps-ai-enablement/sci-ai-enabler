@@ -7,7 +7,7 @@ permalink: /updates/guide.html
 
 # Guide updates
 
-Reverse-chronological log of changes to the [guide](guide/). Newest at the top.
+Reverse-chronological log of changes to the [guide]({{ '/guide/' | relative_url }}). Newest at the top.
 
 <!-- Curator appends new dated entries directly below this line. -->
 
