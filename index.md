@@ -8,7 +8,7 @@ permalink: /
 <div class="home" markdown="0">
 
 <div class="home-hero">
-  <p class="eyebrow">Life Science AI Ecosystem</p>
+  <p class="eyebrow">Life Science AI Enabler</p>
   <h1 class="hero-title">Find, assemble, and run Claude solutions for real research.</h1>
   <p class="hero-sub">Installable Claude components, plain-language guides, and a tracker of autonomous AI scientists — plus a plugin that turns a problem you describe into a working solution, so you don't have to know what exists first.</p>
 </div>
