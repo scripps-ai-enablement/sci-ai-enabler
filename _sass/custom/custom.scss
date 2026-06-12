@@ -1,0 +1,203 @@
+// ── Life Science AI Ecosystem — lab-notebook / editorial theme ──────────────
+// Warm paper, ink, a single viridian (microscopy-green) signal accent.
+// Fraunces for display, IBM Plex Sans for body, JetBrains Mono for commands.
+// Loaded after just-the-docs, so these rules win.
+
+:root {
+  --paper:      #faf9f6;
+  --paper-2:    #f3f0e7; // raised surfaces
+  --ink:        #1a1a17;
+  --ink-soft:   #5a564c; // secondary text
+  --rule:       #e4dfd2; // hairlines
+  --viridian:   #1f6f5c;
+  --viridian-d: #16513f; // hover / pressed
+}
+
+// ── Base typography & surfaces ──────────────────────────────────────────────
+body {
+  background-color: var(--paper);
+  color: var(--ink);
+  font-family: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.side-bar {
+  background-color: var(--paper-2);
+  border-right: 1px solid var(--rule);
+}
+.main { background-color: var(--paper); }
+
+h1, h2, h3, h4, h5, h6,
+.site-title {
+  font-family: "Fraunces", Georgia, "Times New Roman", serif !important;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.site-title.lh-tight { font-weight: 600; }
+
+code, kbd, pre, samp, .highlight,
+.text-mono {
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+// Content links in the signal accent (leave .btn alone — styled below).
+.main-content a:not(.btn) { color: var(--viridian); }
+.main-content a:not(.btn):hover { color: var(--viridian-d); }
+
+// Selected / hovered nav + search pickup the accent.
+.nav-list .nav-list-item .nav-list-link.active { color: var(--viridian); }
+.search-input:focus { border-color: var(--viridian); }
+
+// Buttons.
+.btn-primary {
+  background-color: var(--viridian);
+  background-image: none;
+  color: var(--paper);
+  border: 1px solid var(--viridian);
+  box-shadow: none;
+  &:hover { background-color: var(--viridian-d); border-color: var(--viridian-d); color: var(--paper); }
+}
+.btn:not(.btn-primary) {
+  background-color: transparent;
+  background-image: none;
+  color: var(--ink);
+  border: 1px solid var(--rule);
+  box-shadow: none;
+  &:hover { border-color: var(--viridian); color: var(--viridian); }
+}
+
+// ── Home: hero ───────────────────────────────────────────────────────────────
+.home { max-width: 56rem; }
+
+.home-hero { margin: 0.5rem 0 2.5rem; }
+.home-hero .eyebrow {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--viridian);
+  margin: 0 0 0.9rem;
+}
+.home-hero .hero-title {
+  font-size: clamp(2rem, 4.4vw, 3.05rem);
+  line-height: 1.06;
+  font-weight: 600;
+  margin: 0 0 0.9rem;
+  max-width: 22ch;
+}
+.home-hero .hero-sub {
+  font-size: 1.075rem;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  max-width: 60ch;
+  margin: 0;
+}
+
+// ── Home: Composer band ──────────────────────────────────────────────────────
+.composer-band {
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--viridian);
+  background: var(--paper-2);
+  border-radius: 4px;
+  padding: 1.4rem 1.6rem 1.5rem;
+  margin: 0 0 2.75rem;
+}
+.composer-band .label {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--viridian);
+  margin: 0 0 0.5rem;
+}
+.composer-band h2 {
+  font-size: 1.4rem;
+  margin: 0 0 0.4rem;
+  font-weight: 600;
+}
+.composer-band p { color: var(--ink-soft); margin: 0 0 1rem; max-width: 62ch; }
+
+// Terminal-style command block.
+.composer-band .term {
+  background: var(--ink);
+  color: var(--paper);
+  border-radius: 4px;
+  padding: 0.9rem 1.05rem;
+  margin: 0 0 1.1rem;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.82rem;
+  line-height: 1.7;
+  overflow-x: auto;
+}
+.composer-band .term .cmd { display: block; white-space: pre-wrap; }
+.composer-band .term .cmd::before {
+  content: "› ";
+  color: var(--viridian);
+}
+.composer-band .actions .btn { margin: 0 0.5rem 0 0; }
+
+// ── Home: intent doors ───────────────────────────────────────────────────────
+.choose {
+  font-family: "JetBrains Mono", monospace !important;
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  border-top: 1px solid var(--rule);
+  padding-top: 1.4rem;
+  margin: 0 0 1.25rem;
+}
+.door-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin: 0 0 1.5rem;
+}
+@media (max-width: 740px) { .door-grid { grid-template-columns: 1fr; } }
+
+.door {
+  display: block;
+  border: 1px solid var(--rule);
+  border-radius: 5px;
+  background: var(--paper);
+  padding: 1.3rem 1.35rem 1.2rem;
+  text-decoration: none !important;
+  color: var(--ink) !important;
+  transition: transform 0.12s ease, border-color 0.12s ease, box-shadow 0.12s ease;
+}
+.door:hover {
+  border-color: var(--viridian);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 22px rgba(26, 26, 23, 0.07);
+}
+.door .num {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.78rem;
+  color: var(--viridian);
+  letter-spacing: 0.1em;
+}
+.door h3 {
+  font-size: 1.22rem;
+  margin: 0.5rem 0 0.45rem;
+  font-weight: 600;
+}
+.door p { color: var(--ink-soft); font-size: 0.94rem; line-height: 1.45; margin: 0 0 1rem; }
+.door .to {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.76rem;
+  color: var(--ink);
+  border-top: 1px solid var(--rule);
+  padding-top: 0.7rem;
+  display: block;
+}
+.door:hover .to { color: var(--viridian); }
+
+// ── Home: fork note + quicklinks ─────────────────────────────────────────────
+.fork {
+  font-size: 0.92rem;
+  color: var(--ink-soft);
+  font-style: italic;
+  margin: 0 0 2.5rem;
+}
+.fork a { font-style: normal; }
+
+.home hr { border: 0; border-top: 1px solid var(--rule); margin: 2rem 0; }
