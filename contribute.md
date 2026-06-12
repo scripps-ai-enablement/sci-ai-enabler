@@ -55,5 +55,5 @@ The bot will not invent tools or recipes that don't exist. If a question reaches
 ## Other ways to engage
 
 - **General discussion** — open-ended questions and chatter that don't fit a form belong in [Discussions](https://github.com/scripps-ai-enablement/sci-ai-enabler/discussions).
-- **Track changes** — each section posts to a pinned tracking issue when a daily run produced changes. Watch the [repository](https://github.com/scripps-ai-enablement/sci-ai-enabler) on GitHub to subscribe by email.
+- **Track changes** — the easiest way to follow along is the **[Weekly digest](https://github.com/scripps-ai-enablement/sci-ai-enabler/issues/29)**: one prioritized summary of the week's catalog, guide, tracker, and recipe activity, posted every Sunday. Open it and click **Subscribe** (top-right) to get it by email. For every change as it lands instead, watch the [repository](https://github.com/scripps-ai-enablement/sci-ai-enabler).
 - **See the machinery** — the [About](about.html) page describes the four scheduled curator agents and how the schedules are wired up.

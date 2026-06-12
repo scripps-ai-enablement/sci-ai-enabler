@@ -86,4 +86,4 @@ gh workflow run recipes.yml -f scope=literature-triage  # one problem class
 
 1. Add an `ANTHROPIC_API_KEY` repository secret (**Settings → Secrets and variables → Actions**).
 2. Enable GitHub Pages from the `main` branch root (**Settings → Pages → Source: Deploy from a branch → main / (root)**).
-3. Watch the repo (or the **Catalog updates**, **Guide updates**, **AI co-scientist updates**, and **Recipes updates** issues once the first runs create them) to receive email notifications.
+3. Subscribe to the **Weekly digest** issue (opened by the `digest.yml` workflow on its first run) for one weekly summary email — or watch the repo, or the per-section **Catalog updates**, **Guide updates**, **AI co-scientist updates**, and **Recipes updates** issues, for finer-grained notifications.
