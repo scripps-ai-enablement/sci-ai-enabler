@@ -49,7 +49,7 @@ The repo lives at [`scripps-ai-enablement/sci-ai-enabler`](https://github.com/sc
 
 1. Add an `ANTHROPIC_API_KEY` repository secret (**Settings → Secrets and variables → Actions**).
 2. Enable GitHub Pages from the `main` branch root (**Settings → Pages → Source: Deploy from a branch → main / (root)**).
-3. Watch the repo (or the three "updates" issues once the first runs create them) to receive email notifications.
+3. Subscribe to the **Weekly digest** issue (the `digest.yml` workflow opens it on its first run) for one summary email a week — or watch the repo, or the per-section "updates" issues, for finer-grained notifications.
 
 ## Updates
 

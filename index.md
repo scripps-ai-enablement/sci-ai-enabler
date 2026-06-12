@@ -63,4 +63,4 @@ The catalog, guide, tracker, and recipes grow in response to user input — and 
 
 ## Stay current
 
-Four independent curators refresh the catalog, guide, tracker, and recipes daily and post a notice to a pinned GitHub issue when content changes. [Watch the repository](https://github.com/scripps-ai-enablement/sci-ai-enabler) to subscribe. Search any page from the box at the top.
+Four independent curators refresh the catalog, guide, tracker, and recipes daily. For one email a week instead of a notification firehose, subscribe to the **[Weekly digest](https://github.com/scripps-ai-enablement/sci-ai-enabler/issues/29)** — a single prioritized summary of everything that changed, posted every Sunday (open the issue and click **Subscribe**, top-right). Prefer every change as it lands? [Watch the repository](https://github.com/scripps-ai-enablement/sci-ai-enabler) instead. Search any page from the box at the top.
