@@ -6,7 +6,7 @@ tool_type: MCP server
 supplier: TandemAI
 availability: GA
 tool_categories: [Chemistry, Drug Repurposing and Discovery]
-last_verified: 2026-05-20
+last_verified: 2026-06-13
 summary: MCP server exposing the full RDKit API as discrete tool calls so Claude can run cheminformatics without executing Python locally.
 ---
 

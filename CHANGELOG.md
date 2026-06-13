@@ -11,6 +11,23 @@ Reverse-chronological log of changes to the [catalog]({{ '/catalog/' | relative_
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-06-13
+
+Chemistry directed pass plus a manifest sweep. The `anthropics/life-sciences` marketplace matched the catalogued set — every in-scope plugin/skill/connector is already a page. The Chemistry pass surfaced two genuinely-new installable cheminformatics MCP servers (ChemLint, ChemCP); MoziChem-MCP (chemical-engineering thermodynamics) and the still-missing retrosynthesis wrapper were deferred.
+
+### Added
+- **ChemLint** (Categories: Chemistry, Drug Repurposing and Discovery) — MIT; `molML/ChemLint` MCP server exposing 150+ molecular machine-learning tools (SMILES cleaning, descriptors/fingerprints, scaffolds, similarity/clustering, 33+ ML algorithms, stats, activity cliffs, dim-reduction); stdio, `uv`-launched ([source](https://github.com/molML/ChemLint)).
+- **ChemCP** (Categories: Chemistry) — `scottmreed/ChemCP` MCP App rendering interactive 2D molecular structures from SMILES via RDKit.js with basic property readouts; npm install, stdio for Desktop / HTTP+tunnel for Claude.ai. License undeclared upstream — flagged ([source](https://github.com/scottmreed/ChemCP)).
+
+### Updated
+- **RDKit MCP Server (TandemAI)** — re-verified; source live, `last_verified` 2026-05-20 → 2026-06-13 (no field changes).
+
+### Flagged
+- **ChemCP** — no LICENSE file declared upstream; Free / OSS claim and redistribution terms marked `Unverified —` pending an explicit license.
+
+### Verified (no changes)
+- 1 entry re-verified (rdkit-mcp).
+
 ## 2026-06-11
 
 Two threads this date: (1) the daily directed pass on **Molecular and Cellular Biology** (Thursday focus) plus a manifest sweep and one user-request action; and (2) a **batch ingest of two life-science skill collections** following the K-Dense precedent (2026-06-04). For the batch, the K-Dense-only ingester was generalised into a reusable, collection-parameterised pipeline — `scripts/ingest_collection.py` driven by `scripts/collections.yaml` (per-collection registry) + an auditable `scripts/<collection>_category_map.yaml` (include = CREATE a new page, augment = add this collection's install path to an existing page, skip = recorded out-of-scope). It handles flat and nested `skills/` layouts and idempotent augmentation (a `<!-- alt-install:<key> -->` sentinel). Catalog tool pages: 179 -> 338. The `anthropics/life-sciences` marketplace matched the catalogued set — every in-scope plugin/skill is already a page; `biorxiv`/`clinical-trials` stay flagged (`mcp.deepsense.ai` NXDOMAIN).
