@@ -141,6 +141,7 @@ Proposed. No documented end-to-end attempt of "Claude Code + molecule-mcp GROMAC
 ## See also
 
 - [Molecule-MCP (MCP server bundle)](../../catalog/tools/molecule-mcp.html)
+- [Analyze an existing MD trajectory for stability, flexibility, and contacts](analyze-md-trajectory-with-mdanalysis.html) — the deeper-analysis follow-on (contact maps, H-bond occupancy, PCA) once the production run finishes.
 - [Triage an AlphaFold model for structure-based drug design](triage-alphafold-model-for-docking.html) — natural upstream step if you do not have an experimental PDB.
 
 ## Sources
