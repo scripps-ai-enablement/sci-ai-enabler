@@ -13,6 +13,19 @@ Reverse-chronological log of changes to the [catalog]({{ '/catalog/' | relative_
 
 ## 2026-06-13
 
+Immunology and Microbiology directed pass plus a manifest sweep. The `anthropics/life-sciences` marketplace matched the catalogued set — every in-scope plugin/skill/connector is already a page. The Immunology pass surfaced one genuinely-new installable MCP server (Human Protein Atlas, an antibody-based resource). IEDB, BCR/TCR-repertoire (Immcantation), and metagenomics (Kraken2/QIIME2/MetaPhlAn) still lack discrete Claude-installable wrappers — BioinfoMCP is a converter framework, not a discrete tool — and were re-deferred; BoltzGen (binder/antibody design) was deferred as an unverifiable wrapper over a model-weight artifact.
+
+### Added
+- **Human Protein Atlas MCP Server** (Categories: Immunology and Microbiology, Molecular and Cellular Biology, Translational Medicine) — MIT; `Augmented-Nature/ProteinAtlas-MCP-Server`, 14 read-only tools over the Human Protein Atlas (protein search, tissue/blood/brain expression, subcellular localization, cancer prognostic markers, batch lookup, antibody validation/staining); stdio, install from source ([source](https://github.com/Augmented-Nature/ProteinAtlas-MCP-Server)).
+
+### Flagged
+- _None this slot._
+
+### Verified (no changes)
+- No entries are older than 30 days; nothing required re-verification this slot.
+
+## 2026-06-13
+
 Chemistry directed pass plus a manifest sweep. The `anthropics/life-sciences` marketplace matched the catalogued set — every in-scope plugin/skill/connector is already a page. The Chemistry pass surfaced two genuinely-new installable cheminformatics MCP servers (ChemLint, ChemCP); MoziChem-MCP (chemical-engineering thermodynamics) and the still-missing retrosynthesis wrapper were deferred.
 
 ### Added
