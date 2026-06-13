@@ -91,6 +91,7 @@ Proposed. No documented attempt at an LLM-driven (Claude + deepTools skill) ChIP
 
 - [deepTools (Claude Skill)](../../catalog/tools/deeptools.html)
 - [pysam (Claude Skill)](../../catalog/tools/pysam.html) — for upstream BAM filtering/region extraction before coverage.
+- [Call peaks and find enriched motifs from ChIP-seq or ATAC-seq](call-peaks-and-motifs-from-chipseq-atacseq.html) — the upstream peak-calling + motif companion (MACS3 → HOMER) this recipe deliberately stops before.
 - [Run bulk RNA-seq differential expression from a counts matrix](run-bulk-rnaseq-differential-expression.html) — sister NGS-quantification recipe.
 - [Run functional enrichment on a gene list](run-functional-enrichment-on-a-gene-list.html) — downstream of genes assigned to peaks.
 
