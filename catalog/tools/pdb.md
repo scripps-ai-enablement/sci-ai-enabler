@@ -6,19 +6,19 @@ tool_type: MCP server
 supplier: Augmented Nature
 availability: GA
 tool_categories: [Integrative Structural and Computational Biology, Drug Repurposing and Discovery]
-last_verified: 2026-06-10
-summary: MCP server that lets Claude search, fetch, and validate RCSB Protein Data Bank structures with UniProt cross-referencing.
+last_verified: 2026-06-13
+summary: MCP server that lets Claude search, fetch, and validate RCSB Protein Data Bank structures with PDBe/UniProt cross-referencing.
 ---
 
 # PDB MCP Server
 
-MCP server fronting the RCSB Protein Data Bank — experimental structures, validation reports, and UniProt cross-references. Two community servers are catalogued here: a local REST-based server (Augmented Nature) and a hosted GraphQL server (QuentinCody).
+MCP server fronting the RCSB Protein Data Bank — experimental structures, validation reports, and UniProt cross-references. Three community servers are catalogued here: a local REST-based server (Augmented Nature), a hosted GraphQL server (QuentinCody), and a multi-provider server orchestrating RCSB PDB + PDBe + UniProt (cyanheads).
 
 | | |
 |---|---|
 | **Type** | MCP server |
-| **Supplier** | [Augmented Nature](https://github.com/Augmented-Nature/PDB-MCP-Server) · [QuentinCody](https://github.com/QuentinCody/rcsb-pdb-mcp-server) (community OSS) |
-| **Availability** | GA — both actively published; Augmented Nature on mcpservers.org/LobeHub, QuentinCody deployed on Cloudflare Workers |
+| **Supplier** | [Augmented Nature](https://github.com/Augmented-Nature/PDB-MCP-Server) · [QuentinCody](https://github.com/QuentinCody/rcsb-pdb-mcp-server) · [cyanheads](https://github.com/cyanheads/protein-mcp-server) (community OSS) |
+| **Availability** | GA — all actively published; Augmented Nature on mcpservers.org/LobeHub, QuentinCody on Cloudflare Workers, cyanheads in the official MCP Registry |
 | **Pricing** | Free / OSS |
 | **Capabilities** | Read-only |
 
@@ -56,7 +56,29 @@ For Claude Code, the equivalent registration is (stdio — Claude launches the p
 claude mcp add --transport stdio pdb-server -- node /path/to/PDB-MCP-Server/build/index.js
 ```
 
-**Option B — QuentinCody (hosted, GraphQL).** This server is deployed on Cloudflare Workers; nothing to build or keep running locally. Register the remote endpoint with Claude Code:
+**Option B — cyanheads (multi-provider, RCSB PDB + PDBe + UniProt).** Published to npm as `protein-mcp-server`; requires [Bun](https://bun.sh/) ≥ 1.2.0. No clone needed. Register with Claude Code over stdio (Claude launches the process itself — no separate terminal needed):
+
+```
+claude mcp add --transport stdio protein-mcp-server --env MCP_TRANSPORT_TYPE=stdio -- bunx protein-mcp-server@latest
+```
+
+For Claude Desktop, add the equivalent stdio entry to `claude_desktop_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "protein-mcp-server": {
+      "command": "bunx",
+      "args": ["protein-mcp-server@latest"],
+      "env": { "MCP_TRANSPORT_TYPE": "stdio" }
+    }
+  }
+}
+```
+
+(The server defaults to HTTP on port 3010; setting `MCP_TRANSPORT_TYPE=stdio` forces stdio so Claude Desktop, which has no native HTTP transport, can launch it directly.)
+
+**Option C — QuentinCody (hosted, GraphQL).** This server is deployed on Cloudflare Workers; nothing to build or keep running locally. Register the remote endpoint with Claude Code:
 
 ```
 claude mcp add --transport sse rcsb-pdb https://rcsb-pdb-mcp-server.quentincody.workers.dev/sse
@@ -87,17 +109,27 @@ For Claude Desktop (no native SSE transport), use an `mcp-remote` proxy entry in
 
 **QuentinCody (GraphQL)** — exposes the RCSB Data API's GraphQL endpoint so Claude composes arbitrary queries: entry metadata, experimental method, molecules/sequences, and Computed Structure Models (CSMs).
 
+**cyanheads (multi-provider)** — orchestrates RCSB PDB, PDBe, and UniProt behind a unified tool set:
+
+- `protein_search_structures` — keyword/filter search with pagination
+- `protein_get_structure` — full structure data by PDB ID
+- `protein_find_similar` — structural / sequence homologs
+- `protein_track_ligands` — find structures binding a given small molecule
+- `protein_compare_structures` / `protein_analyze_collection` — comparison and database statistics (marked in development upstream)
+
 **Primary use cases**: Pull experimental 3D structures into Claude workflows; map UniProt to PDB; assess structure validation quality before downstream modeling; flexible GraphQL queries over PDB metadata and computed models.
 
 ## Notes
 
-The Augmented Nature server is Node/stdio, no auth, calls the public RCSB REST API; its LICENSE file is present but type unspecified in the README — verify before redistributing. The QuentinCody server is a hosted Cloudflare Worker (MIT License with an academic-citation requirement) and exposes a single GraphQL query surface rather than discrete typed tools. Both are read-only.
+The Augmented Nature server is Node/stdio, no auth, calls the public RCSB REST API; its LICENSE file is present but type unspecified in the README — verify before redistributing. The QuentinCody server is a hosted Cloudflare Worker (MIT License with an academic-citation requirement) and exposes a single GraphQL query surface rather than discrete typed tools. The cyanheads server is Apache-2.0, requires Bun ≥ 1.2.0, needs no API key by default (supports optional JWT/OAuth modes), and supports both HTTP (default, port 3010) and stdio transports. All three are read-only.
 
 ## Sources
 
 - [`Augmented-Nature/PDB-MCP-Server`](https://github.com/Augmented-Nature/PDB-MCP-Server)
 - [mcpservers.org listing](https://mcpservers.org/servers/Augmented-Nature/PDB-MCP-Server)
 - [`QuentinCody/rcsb-pdb-mcp-server`](https://github.com/QuentinCody/rcsb-pdb-mcp-server)
+- [`cyanheads/protein-mcp-server`](https://github.com/cyanheads/protein-mcp-server)
+- [MCP Registry: `io.github.cyanheads/protein-mcp-server`](https://registry.modelcontextprotocol.io/)
 
 ---
 

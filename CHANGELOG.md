@@ -13,6 +13,16 @@ Reverse-chronological log of changes to the [catalog]({{ '/catalog/' | relative_
 
 ## 2026-06-13
 
+Integrative Structural and Computational Biology directed pass plus a manifest sweep. The `anthropics/life-sciences` marketplace matched the catalogued set (all 21 plugins/skills/connectors already have pages); `anthropics/claude-plugins-official` contains no life-science plugins. The Structural pass surfaced one genuinely-new structural-biology MCP — `cyanheads/protein-mcp-server` (Apache-2.0, in the official MCP Registry), which orchestrates RCSB PDB + PDBe + UniProt with structure-similarity and ligand-tracking tools — folded into the existing `pdb.md` page as a third install option (one entry per data source). The ChatMol GROMACS/PyMOL/ChimeraX MCP and the AlphaFold DB MCP that the seed queries surfaced are already catalogued. A Foldseek structure-search skill (mcpmarket) and cryo-EM (RELION/cryoSPARC/EMDB) wrappers remain without verifiable primary sources and were deferred.
+
+### Added
+- **PDB MCP Server** (Categories: Integrative Structural and Computational Biology, Drug Repurposing and Discovery) — added `cyanheads/protein-mcp-server` (Apache-2.0) as a third install option on the existing page: a multi-provider MCP orchestrating RCSB PDB + PDBe + UniProt with `protein_search_structures` / `protein_get_structure` / `protein_find_similar` / `protein_track_ligands` ([source](https://github.com/cyanheads/protein-mcp-server)).
+
+### Verified (no changes)
+- **AlphaFold MCP Server** — re-verified upstream repo active, LICENSE present, ~20+ tools, install path unchanged (`last_verified` left at 2026-05-20 pending the next full sweep).
+
+## 2026-06-13
+
 Immunology and Microbiology directed pass plus a manifest sweep. The `anthropics/life-sciences` marketplace matched the catalogued set — every in-scope plugin/skill/connector is already a page. The Immunology pass surfaced one genuinely-new installable MCP server (Human Protein Atlas, an antibody-based resource). IEDB, BCR/TCR-repertoire (Immcantation), and metagenomics (Kraken2/QIIME2/MetaPhlAn) still lack discrete Claude-installable wrappers — BioinfoMCP is a converter framework, not a discrete tool — and were re-deferred; BoltzGen (binder/antibody design) was deferred as an unverifiable wrapper over a model-weight artifact.
 
 ### Added
