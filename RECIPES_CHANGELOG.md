@@ -11,6 +11,16 @@ Reverse-chronological log of changes to the [recipes cookbook]({{ '/recipes/' | 
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-06-13
+
+### Added
+
+- **Compute a bacterial pan-genome from a set of genome assemblies** (Problem class: Data analysis; Evidence: Proposed) — rung-3 toolbelt chaining the [Bakta skill](catalog/tools/bakta-genome-annotation.html) (identical per-genome annotation → GFF3) into the [Roary skill](catalog/tools/roary-pangenome.html) (CD-HIT/BLAST/MCL clustering → core/soft-core/shell/cloud partition, `gene_presence_absence.csv`, and a `core_gene_alignment.aln` that feeds the [phylogenetics recipe](recipes/items/build-phylogenetic-tree-from-sequences.html)). Immunology and Microbiology focus-day recipe; cookbook's first comparative-genomics / pan-genome recipe. `Proposed` — no documented LLM-driven Bakta→Roary assembly; grounded in the field-standard pipeline ([Page et al., *Bioinformatics* 2015](https://doi.org/10.1093/bioinformatics/btv421); [Schwengers et al., *Microb. Genom.* 2021](https://doi.org/10.1099/mgen.0.000685)) and a 2025 27,884-genome application ([Sholeh et al., *Mol. Genet. Genomics* 2025](https://doi.org/10.1007/s00438-025-02265-3)).
+
+### Verified (no changes)
+
+- 35 recipes spot-checked; all `last_verified` dates within the 30-day window, no aging recipes due.
+
 ## 2026-06-11
 
 ### Added
