@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "generated": "2026-06-12",
+  "generated": "2026-06-13",
   "counts": {
-    "tools": 338,
-    "recipes": 35,
+    "tools": 341,
+    "recipes": 37,
     "systems": 65
   },
   "tools_file": "composer-tools.json",
@@ -124,6 +124,27 @@
         "rRNA"
       ],
       "path": "recipes/items/compute-16s-microbiome-diversity.md"
+    },
+    {
+      "slug": "compute-bacterial-pangenome-from-assemblies",
+      "title": "Compute a bacterial pan-genome from a set of genome assemblies",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Immunology and Microbiology",
+        "Molecular and Cellular Biology"
+      ],
+      "evidence_level": "Proposed",
+      "complexity": "Multi-tool harness",
+      "availability": "Fully open",
+      "compute_requirements": "Workstation with GPU",
+      "last_verified": "2026-06-13",
+      "summary": "Annotate a panel of bacterial assemblies with Bakta, then cluster genes into core/accessory partitions with Roary to get a pan-genome and presence/absence matrix.",
+      "keywords": [
+        "FASTA",
+        "GFF3",
+        "GFF3s"
+      ],
+      "path": "recipes/items/compute-bacterial-pangenome-from-assemblies.md"
     },
     {
       "slug": "compute-hrv-from-ecg-recording",
@@ -686,6 +707,26 @@
         "openFDA"
       ],
       "path": "recipes/items/scan-adverse-events-for-drug-safety-signal.md"
+    },
+    {
+      "slug": "scan-antibody-glycosylation-sites",
+      "title": "Scan a therapeutic antibody for glycosylation sites",
+      "problem_class": "Experimental design",
+      "subject_areas": [
+        "Immunology and Microbiology",
+        "Drug Repurposing and Discovery"
+      ],
+      "evidence_level": "Proposed",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-06-13",
+      "summary": "Use the Glycoengineering skill to scan an antibody sequence for N-glycosylation sequons and O-glycosylation hotspots before committing to a cell-line or developability campaign.",
+      "keywords": [
+        "ADCC",
+        "Asn-297"
+      ],
+      "path": "recipes/items/scan-antibody-glycosylation-sites.md"
     },
     {
       "slug": "scan-drug-repurposing-candidates",

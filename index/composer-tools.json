@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "generated": "2026-06-12",
-  "count": 338,
+  "generated": "2026-06-13",
+  "count": 341,
   "tools": [
     {
       "slug": "10x-genomics-cloud",
@@ -892,6 +892,44 @@
         "REST"
       ],
       "path": "catalog/tools/chembl.md"
+    },
+    {
+      "slug": "chemcp",
+      "title": "ChemCP",
+      "tool_type": "MCP server",
+      "availability": "GA",
+      "tool_categories": [
+        "Chemistry"
+      ],
+      "last_verified": "2026-06-13",
+      "summary": "MCP App that renders interactive 2D molecular structures from SMILES and computes basic properties inside Claude conversations via RDKit.js.",
+      "keywords": [
+        "ChemCP",
+        "RDKit",
+        "SMILES",
+        "TPSA"
+      ],
+      "path": "catalog/tools/chemcp.md"
+    },
+    {
+      "slug": "chemlint",
+      "title": "ChemLint",
+      "tool_type": "MCP server",
+      "availability": "GA",
+      "tool_categories": [
+        "Chemistry",
+        "Drug Repurposing and Discovery"
+      ],
+      "last_verified": "2026-06-13",
+      "summary": "MCP server exposing 150+ molecular machine-learning tools — SMILES cleaning, descriptors, similarity, clustering, model training — so Claude runs cheminformatics ML without Python scripting.",
+      "keywords": [
+        "ECFP",
+        "MACCS",
+        "RDKit",
+        "SMILES",
+        "TPSA"
+      ],
+      "path": "catalog/tools/chemlint.md"
     },
     {
       "slug": "cirq",
@@ -2599,6 +2637,21 @@
         "PDE"
       ],
       "path": "catalog/tools/hugging-science.md"
+    },
+    {
+      "slug": "human-protein-atlas",
+      "title": "Human Protein Atlas MCP Server",
+      "tool_type": "MCP server",
+      "availability": "GA",
+      "tool_categories": [
+        "Immunology and Microbiology",
+        "Molecular and Cellular Biology",
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-06-13",
+      "summary": "\"Query the Human Protein Atlas — tissue/blood/brain expression, subcellular localization, cancer markers, and antibody validation/staining data.\"",
+      "keywords": [],
+      "path": "catalog/tools/human-protein-atlas.md"
     },
     {
       "slug": "hypogenic",
@@ -4811,7 +4864,7 @@
         "Chemistry",
         "Drug Repurposing and Discovery"
       ],
-      "last_verified": "2026-05-20",
+      "last_verified": "2026-06-13",
       "summary": "MCP server exposing the full RDKit API as discrete tool calls so Claude can run cheminformatics without executing Python locally.",
       "keywords": [
         "Auto-generated",
