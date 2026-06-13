@@ -549,6 +549,15 @@
    "source_url": "https://arxiv.org/abs/2606.12386",
    "downloaded": "2026-06-11",
    "txt_sidecar": "2606.12386.txt"
+  },
+  {
+   "doi": "10.48550/arXiv.2606.13662",
+   "filename": "2606.13662.pdf",
+   "title": "EurekAgent: Agent Environment Engineering is All You Need For Autonomous Scientific Discovery",
+   "source_url": "https://arxiv.org/abs/2606.13662",
+   "downloaded": "2026-06-13",
+   "txt_sidecar": "2606.13662.txt",
+   "note": "Deferred scope-edge: metric-driven optimization discovery (circle packing, Erdos min-overlap, kernel engineering, MLE-Bench) framed as environment-engineering agent substrate, not natural-science hypothesis generation / experiment design / data analysis. Overlaps catalogued ML/math discovery systems and deferred CORAL. Archived for review."
   }
  ]
 }

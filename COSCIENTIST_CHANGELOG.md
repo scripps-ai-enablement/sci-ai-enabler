@@ -9,6 +9,16 @@ permalink: /updates/ai-scientists.html
 
 Reverse-chronological log of changes to the [AI scientists tracker]({{ '/autonomous-science/' | relative_url }}). Newest at the top.
 
+## 2026-06-13
+
+No new systems surfaced — seed queries (arXiv, bioRxiv, medRxiv via `papers` MCP, plus WebSearch fallback) returned only out-of-scope work and already-catalogued systems.
+
+### Deferred
+- **EurekAgent** (arXiv:2606.13662, Tsinghua + Zhipu AI) — metric-driven autonomous-discovery agent ("environment engineering"; open-sourced) with new SOTA on circle packing, an autocorrelation inequality, a TriMul kernel, and an MLE-Bench subset for ~$11 API cost. Scope-edge: an optimization/discovery substrate on math/kernel/ML benchmarks, not natural-science hypothesis generation, experiment design, or data analysis. PDF archived and logged in the manifest; deferred pending a more science-leaning case ([source](https://arxiv.org/abs/2606.13662)).
+
+### Verified (no changes)
+- All system pages remain inside the 30-day re-verification window (oldest verified 2026-05-20, 24 days ago); no spot-checks required. `summary.md` synthesis last reviewed 2026-06-11 (2 days ago), within cadence — no re-verification needed.
+
 ## 2026-06-11
 
 ### Added
