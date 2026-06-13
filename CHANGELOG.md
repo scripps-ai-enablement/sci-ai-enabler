@@ -13,6 +13,15 @@ Reverse-chronological log of changes to the [catalog]({{ '/catalog/' | relative_
 
 ## 2026-06-13
 
+Molecular and Cellular Biology directed pass plus a manifest sweep. The `anthropics/life-sciences` marketplace matched the catalogued set (the `medidata` plugin remains gated behind account onboarding; `clinical-trial-protocol-skill` is already a page); `anthropics/claude-plugins-official` contains no life-science plugins. The directed pass surfaced the scmcphub single-cell MCP ecosystem — the already-catalogued `scanpy-mcp` has three sibling servers not yet in the catalog: **LIANA-MCP** (cell-cell communication), **decoupler-MCP** (pathway / TF activity), and **CellRank-MCP** (cell-fate / trajectory). Each is a discrete `pip`-installable MCP following the same `<pkg> run` stdio pattern, so all three were added as their own entries. No Bioconductor MCP and no standalone CRISPR-design MCP/Skill with a verifiable primary source surfaced this pass.
+
+### Added
+- **LIANA-MCP** (Categories: Immunology and Microbiology, Molecular and Cellular Biology) — scmcphub MCP wrapping liana-py for cell-cell communication (multi-method ligand-receptor inference, rank aggregation, circle/dotplot); `pip install liana-mcp` → `liana-mcp run` ([source](https://github.com/scmcphub/liana-mcp)).
+- **decoupler-MCP** (Categories: Immunology and Microbiology, Molecular and Cellular Biology) — scmcphub MCP wrapping decoupler for pathway (PROGENy) and transcription-factor (CollecTRI) activity inference; `pip install decoupler-mcp` → `decoupler-mcp run` ([source](https://github.com/scmcphub/decoupler-mcp)).
+- **CellRank-MCP** (Categories: Molecular and Cellular Biology) — scmcphub MCP wrapping CellRank for cell-fate / trajectory modeling (kernels, GPCCA, terminal/initial states, fate probabilities); `pip install cellrank-mcp` → `cellrank-mcp run` ([source](https://github.com/scmcphub/cellrank-mcp)).
+
+## 2026-06-13
+
 Integrative Structural and Computational Biology directed pass plus a manifest sweep. The `anthropics/life-sciences` marketplace matched the catalogued set (all 21 plugins/skills/connectors already have pages); `anthropics/claude-plugins-official` contains no life-science plugins. The Structural pass surfaced one genuinely-new structural-biology MCP — `cyanheads/protein-mcp-server` (Apache-2.0, in the official MCP Registry), which orchestrates RCSB PDB + PDBe + UniProt with structure-similarity and ligand-tracking tools — folded into the existing `pdb.md` page as a third install option (one entry per data source). The ChatMol GROMACS/PyMOL/ChimeraX MCP and the AlphaFold DB MCP that the seed queries surfaced are already catalogued. A Foldseek structure-search skill (mcpmarket) and cryo-EM (RELION/cryoSPARC/EMDB) wrappers remain without verifiable primary sources and were deferred.
 
 ### Added
