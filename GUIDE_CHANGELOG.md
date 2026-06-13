@@ -11,6 +11,26 @@ Reverse-chronological log of changes to the [guide]({{ '/guide/' | relative_url 
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-06-13
+
+### Updated
+- **[plugins] Noted the `/plugin` marketplace search box.** v2.1.172 (2026-06-10) added a type-to-filter search to `/plugin` marketplace browsing — a small discoverability win for beginners scanning a large marketplace. Added one clause to the management paragraph. Grounded in the [Claude Code changelog](https://code.claude.com/docs/en/changelog) (v2.1.172) re-fetched this run.
+
+### Verified (no changes)
+- claude-surfaces.md, surfaces/claude-code.md — install command (`curl -fsSL https://claude.ai/install.sh | bash`) re-verified via WebFetch of `claude.com/product/claude-code`: native installer canonical, no deprecation banner on the landing page; Desktop/VS Code/JetBrains/web/Slack/iOS surfaces unchanged. Latest release is **v2.1.176 (2026-06-12)**; v2.1.174–176 are bug fixes plus admin/enterprise-only settings (`enforceAvailableModels`, `footerLinksRegexes`, Bedrock credential caching, hook `if`-condition path-matching fix for `Edit(src/**)` / `Read(~/.ssh/**)`) — all below the beginner threshold. `/code-review` vs `/simplify` split, Channels, Dynamic Workflows (`ultracode`), Claude Security, MCP tunnels, routines, Fable 5 picker, per-surface sandboxing all current.
+- surfaces/claude-api.md — Fable 5 / Opus 4.8 model lines, effort ladder, Managed Agents, mid-conversation system messages, prompt caching, sampling-parameter 400 all current.
+- surfaces/claude-ai.md, surfaces/claude-desktop.md, surfaces/claude-cowork.md — unchanged.
+- skills.md, mcp-servers.md, marketplaces.md, connectors.md, decision-tree.md — unchanged.
+- advanced/hooks.md, advanced/slash-commands.md, advanced/routines.md, advanced/authentication.md — unchanged. (Hooks `if`-condition path-matching fix in v2.1.176 corrects existing behavior the page does not document; no edit warranted.)
+
+### Flagged for review
+- **`claude -p` / Agent SDK billing split lands 2026-06-15** — carried over; 2 days out. Re-verify after 06-15 that `surfaces/claude-code.md` and `surfaces/claude-api.md` describe live behavior.
+- **Sonnet 4 / Opus 4 retirement 2026-06-15 9am PT** — carried over; re-verify `surfaces/claude-api.md` after the date that the exact IDs now error.
+- **Fable 5 subscription-availability flips 2026-06-23** — carried over; re-verify the "free until / credits from" dates after 06-22.
+- **Anthropic news (06-11 to 06-12): Claude Corps fellowship, TCS / DXC regulated-industry partnerships** — none are beginner-facing components; out of scope.
+- **Advisor tool (API)** — carried over; advanced cost-optimization pattern, omitted by scope.
+- **Promote `security-guidance` to its own page** — carried over; stays inside `plugins.md` unless a human expands the topic list.
+
 ## 2026-06-11
 
 ### Added
