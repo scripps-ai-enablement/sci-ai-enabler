@@ -11,6 +11,20 @@ Reverse-chronological log of changes to the [catalog]({{ '/catalog/' | relative_
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-06-14
+
+Neuroscience directed pass plus a manifest sweep. The `anthropics/life-sciences` marketplace matched the catalogued set (15 plugins/skills/connectors already have pages; `medidata` and `tooluniverse` remain noted/deferred); `anthropics/claude-plugins-official` contains no life-science plugins. The Neuroscience pass surfaced **SpikeLab** (`braingeneers/SpikeLab`, MIT) — a suite of computational-neuroscience agent skills for MEA spike-train data including a Kilosort2/4/RT-Sort spike-sorter skill and an optional built-in MCP server — added as a new page. The Allen Brain Atlas (`allenbrain-mcp`, already flagged on license) and AIND data MCP queries matched catalogued entries. While re-verifying, found that **Neurosift Tools MCP** now ships a `.claude-plugin` marketplace, so its page gained a `/plugin install neurosift-tools@neurosift-mcps` path alongside the existing manual build. The `mne-neurophysiology-analysis` mcpmarket listing and `dandi-query-mcp` boilerplate remain without a verifiable real tool surface and stay deferred.
+
+### Added
+- **SpikeLab** (Categories: Neuroscience) — Braingeneers agent-skill suite for MEA spike-train analysis and spike sorting (Kilosort2/Kilosort4/RT-Sort); `pip install "spikelab[all]"` + copy `agent/skills/` into `~/.claude/skills/`, with an optional MCP server via the `mcp` extra ([source](https://github.com/braingeneers/SpikeLab)).
+
+### Updated
+- **Neurosift Tools MCP** — added a Claude Code plugin-marketplace install path (`/plugin marketplace add` + `/plugin install neurosift-tools@neurosift-mcps`) and a Claude Desktop stdio JSON snippet; `last_verified` bumped (repo confirmed active per upstream README).
+- **AIND Data MCP** — re-verified (repo active, MIT, `uvx`/`uv tool install aind-data-mcp`); `last_verified` bumped, no field changes.
+
+### Verified (no changes)
+- 1 additional Neuroscience entry spot-checked.
+
 ## 2026-06-13
 
 Molecular and Cellular Biology directed pass plus a manifest sweep. The `anthropics/life-sciences` marketplace matched the catalogued set (the `medidata` plugin remains gated behind account onboarding; `clinical-trial-protocol-skill` is already a page); `anthropics/claude-plugins-official` contains no life-science plugins. The directed pass surfaced the scmcphub single-cell MCP ecosystem — the already-catalogued `scanpy-mcp` has three sibling servers not yet in the catalog: **LIANA-MCP** (cell-cell communication), **decoupler-MCP** (pathway / TF activity), and **CellRank-MCP** (cell-fate / trajectory). Each is a discrete `pip`-installable MCP following the same `<pkg> run` stdio pattern, so all three were added as their own entries. No Bioconductor MCP and no standalone CRISPR-design MCP/Skill with a verifiable primary source surfaced this pass.

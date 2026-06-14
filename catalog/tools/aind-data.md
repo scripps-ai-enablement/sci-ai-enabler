@@ -6,7 +6,7 @@ tool_type: MCP server
 supplier: Allen Institute for Neural Dynamics
 availability: Beta
 tool_categories: [Neuroscience]
-last_verified: 2026-05-20
+last_verified: 2026-06-14
 summary: Official Allen Institute MCP server giving Claude query and NWB-introspection access to AIND's V2 neuroscience data assets.
 ---
 

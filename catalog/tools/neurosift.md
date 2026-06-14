@@ -6,7 +6,7 @@ tool_type: MCP server
 supplier: Flatiron Institute
 availability: Beta
 tool_categories: [Neuroscience]
-last_verified: 2026-05-20
+last_verified: 2026-06-14
 summary: MCP server that lets Claude search DANDI/OpenNeuro and introspect NWB neurophysiology files, plus semantic search over PyNWB docs.
 ---
 
@@ -24,18 +24,32 @@ MCP server for discovering, inspecting, and writing analyses against NWB-format 
 
 ## How to install
 
-```
-git clone https://github.com/magland/neurosift-mcps
-cd neurosift-mcps/neurosift-tools
-npm install
-npm run build
-```
-
-Register with Claude Code (replace `/path/to/neurosift-tools` with the absolute path — e.g., `$(pwd)` if you're still inside `neurosift-mcps/neurosift-tools` from the previous step):
-
-```
-claude mcp add --transport stdio neurosift-tools -- node /path/to/neurosift-tools/build/index.js
-```
+- **Claude Code** — plugin marketplace (recommended):
+  ```
+  /plugin marketplace add https://github.com/magland/neurosift-mcps.git
+  /plugin install neurosift-tools@neurosift-mcps
+  ```
+  (The companion `plot-vision` server is optional: `/plugin install plot-vision@neurosift-mcps`.)
+- **Claude Code / Desktop** — manual build + stdio registration:
+  ```
+  git clone https://github.com/magland/neurosift-mcps
+  cd neurosift-mcps/neurosift-tools
+  npm install
+  npm run build
+  ```
+  Register with Claude Code (replace `/path/to/neurosift-tools` with the absolute path — e.g., `$(pwd)` if you're still inside `neurosift-mcps/neurosift-tools` from the previous step):
+  ```
+  claude mcp add --transport stdio neurosift-tools -- node /path/to/neurosift-tools/build/index.js
+  ```
+  For Claude Desktop, add the equivalent stdio entry to `claude_desktop_config.json`:
+  ```json
+  {
+    "mcpServers": {
+      "neurosift-tools": { "command": "node", "args": ["/path/to/neurosift-tools/build/index.js"] }
+    }
+  }
+  ```
+  (Claude launches the server over stdio — no long-running process to keep open.)
 
 ## What it does
 
