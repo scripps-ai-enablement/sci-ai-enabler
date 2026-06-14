@@ -9,7 +9,7 @@ evidence_level: Reported
 complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Workstation with GPU
-last_verified: 2026-05-28
+last_verified: 2026-06-14
 summary: Use the cellxgene-census Claude skill to slice a tissue- or disease-specific AnnData from the CZ CELLxGENE Census, optionally fetching the precomputed scVI embedding for reference mapping or downstream integration.
 ---
 
