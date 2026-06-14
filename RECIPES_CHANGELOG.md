@@ -11,6 +11,13 @@ Reverse-chronological log of changes to the [recipes cookbook]({{ '/recipes/' | 
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-06-14
+
+### Added
+
+- **Run a GWAS on case-control genotype data** (Problem class: Data analysis; Evidence: Proposed) — rung-2 [PLINK2 skill](catalog/tools/plink2-gwas-analysis.html) recipe taking a PLINK/VCF genotype set through sample + variant QC (call rate, MAF, HWE-in-controls) → LD pruning → genotype PCA → PCA-adjusted logistic-regression `--glm` association with a lambda_GC inflation check, handing genome-wide-significant loci to the [GWAS Catalog skill](catalog/tools/gwas-database.html) for annotation. Translational Medicine focus-day recipe; cookbook's first GWAS recipe. `Proposed` — no documented LLM-driven PLINK2 assembly; grounded in [Chang et al., *GigaScience* 4:7 (2015)](https://doi.org/10.1186/s13742-015-0047-8) and the canonical QC tutorial ([Marees et al., *Int. J. Methods Psychiatr. Res.* 27:e1608 (2018)](https://doi.org/10.1002/mpr.1608)).
+- **Build a pharmacogenomic dosing report from a patient's diplotypes** (Problem class: Knowledge synthesis; Evidence: Proposed) — rung-2 [ClinPGx skill](catalog/tools/clinpgx-database.html) recipe taking star-allele diplotypes plus a medication list through diplotype→metabolizer-phenotype translation (CPIC PostgREST API) → per-drug CPIC/DPWG dosing recommendation lookup → a cited drug|gene|phenotype|recommendation table, with explicit "no actionable guidance" flagging and a [DDInter](catalog/tools/ddinter-database.html) phenoconversion overlay noted. Translational Medicine focus-day recipe; cookbook's first pharmacogenomic-dosing recipe, distinct from the germline-pathogenicity [variant-interpretation recipe](recipes/items/interpret-clinical-variant.html). `Proposed` — no documented LLM-driven ClinPGx/CPIC assembly; grounded in the CPIC guideline corpus ([Amstutz et al., *Clin. Pharmacol. Ther.* 2018](https://doi.org/10.1002/cpt.911); [Molden & Jukić, *Front. Pharmacol.* 2021](https://doi.org/10.3389/fphar.2021.650750)).
+
 ## 2026-06-13
 
 ### Added
