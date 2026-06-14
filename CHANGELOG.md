@@ -13,6 +13,16 @@ Reverse-chronological log of changes to the [catalog]({{ '/catalog/' | relative_
 
 ## 2026-06-14
 
+Translational Medicine directed pass plus a manifest sweep of `anthropics/life-sciences`. Re-fetching the marketplace showed the `medidata` plugin now publishes a concrete HTTP MCP install path (`medidata/.claude-plugin/plugin.json` → `https://mcp.imedidata.com/mcp`), so the long-deferred **Medidata Connector** was promoted to a full page. The remaining clinical entries in the marketplace (clinical-trials, clinical-trial-protocol, cortellis, adisinsight) already have pages. FHIR (`fhir-developer`, `fhir-wso2`), CMS coverage, OpenFDA, and ClinicalTrials.gov directed-pass targets all matched catalogued entries; no other new installable Translational Medicine tool surfaced this slot.
+
+### Added
+- **Medidata Connector** (Categories: Translational Medicine) — Medidata's hosted clinical-trial MCP: Platform Help (Knowledge Hub Q&A for Rave EDC / Data Connect / Clinical Data Studio) and Predictive Site Ranking (rank trial sites by predicted enrollment during protocol planning); `/plugin install medidata@life-sciences` or `claude mcp add --transport http medidata https://mcp.imedidata.com/mcp` ([source](https://github.com/anthropics/life-sciences)).
+
+### Verified (no changes)
+- `anthropics/life-sciences` marketplace re-fetched; aside from `medidata` all clinical/translational plugins already catalogued.
+
+## 2026-06-14
+
 Neuroscience directed pass plus a manifest sweep. The `anthropics/life-sciences` marketplace matched the catalogued set (15 plugins/skills/connectors already have pages; `medidata` and `tooluniverse` remain noted/deferred); `anthropics/claude-plugins-official` contains no life-science plugins. The Neuroscience pass surfaced **SpikeLab** (`braingeneers/SpikeLab`, MIT) — a suite of computational-neuroscience agent skills for MEA spike-train data including a Kilosort2/4/RT-Sort spike-sorter skill and an optional built-in MCP server — added as a new page. The Allen Brain Atlas (`allenbrain-mcp`, already flagged on license) and AIND data MCP queries matched catalogued entries. While re-verifying, found that **Neurosift Tools MCP** now ships a `.claude-plugin` marketplace, so its page gained a `/plugin install neurosift-tools@neurosift-mcps` path alongside the existing manual build. The `mne-neurophysiology-analysis` mcpmarket listing and `dandi-query-mcp` boilerplate remain without a verifiable real tool surface and stay deferred.
 
 ### Added
