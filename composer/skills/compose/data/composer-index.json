@@ -1,13 +1,40 @@
 {
   "version": 1,
-  "generated": "2026-06-13",
+  "generated": "2026-06-14",
   "counts": {
-    "tools": 341,
-    "recipes": 37,
+    "tools": 346,
+    "recipes": 43,
     "systems": 65
   },
   "tools_file": "composer-tools.json",
   "recipes": [
+    {
+      "slug": "analyze-md-trajectory-with-mdanalysis",
+      "title": "Analyze an existing MD trajectory for stability, flexibility, and contacts",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Chemistry",
+        "Integrative Structural and Computational Biology"
+      ],
+      "evidence_level": "Proposed",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Workstation with GPU",
+      "last_verified": "2026-06-13",
+      "summary": "Drive the MDAnalysis skill (MDTraj as backup) to take a finished GROMACS/AMBER/NAMD trajectory through RMSD/RMSF/Rg, contact maps, H-bonds, and PCA without writing the analysis script by hand.",
+      "keywords": [
+        "AMBER",
+        "CHARMM",
+        "GROMACS",
+        "MDAnalysis",
+        "MDTraj",
+        "NAMD",
+        "PCA",
+        "RMSD",
+        "RMSF"
+      ],
+      "path": "recipes/items/analyze-md-trajectory-with-mdanalysis.md"
+    },
     {
       "slug": "assemble-reference-atlas-from-cellxgene-census",
       "title": "Assemble a tissue reference atlas from the CELLxGENE Census",
@@ -59,6 +86,31 @@
       "path": "recipes/items/benchmark-admet-property-with-pytdc.md"
     },
     {
+      "slug": "build-pharmacogenomic-dosing-report",
+      "title": "Build a pharmacogenomic dosing report from a patient's diplotypes",
+      "problem_class": "Knowledge synthesis",
+      "subject_areas": [
+        "Translational Medicine",
+        "Drug Repurposing and Discovery"
+      ],
+      "evidence_level": "Proposed",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-06-14",
+      "summary": "Turn a patient's PGx diplotypes plus a medication list into CPIC/DPWG genotype-to-dosing recommendations with cited guideline sources.",
+      "keywords": [
+        "ClinPGx",
+        "CPIC",
+        "CYP2C19",
+        "CYP2D6",
+        "DPWG",
+        "PGx-consult",
+        "PharmGKB"
+      ],
+      "path": "recipes/items/build-pharmacogenomic-dosing-report.md"
+    },
+    {
       "slug": "build-phylogenetic-tree-from-sequences",
       "title": "Build a phylogenetic tree from a set of sequences",
       "problem_class": "Data analysis",
@@ -95,13 +147,39 @@
       "complexity": "Multi-tool harness",
       "availability": "Fully open",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-05-29",
+      "last_verified": "2026-06-14",
       "summary": "Combine the Open Targets plugin, UniProt MCP, AlphaFold MCP, and the DepMap skill to produce a one-page dossier on a candidate gene — disease evidence, protein annotation, predicted structure, and cancer-cell-line essentiality.",
       "keywords": [
         "CRISPR",
         "PTMs"
       ],
       "path": "recipes/items/build-target-dossier.md"
+    },
+    {
+      "slug": "call-peaks-and-motifs-from-chipseq-atacseq",
+      "title": "Call peaks and find enriched motifs from ChIP-seq or ATAC-seq",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Molecular and Cellular Biology",
+        "Immunology and Microbiology"
+      ],
+      "evidence_level": "Proposed",
+      "complexity": "Multi-tool harness",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-06-13",
+      "summary": "Chain the MACS3 peak-calling skill into the HOMER motif skill to turn aligned ChIP-seq/ATAC-seq BAMs into a called-peak set with nearest-gene annotation and enriched TF motifs.",
+      "keywords": [
+        "ATAC-seq",
+        "BAMs",
+        "BED",
+        "ChIP-seq",
+        "CUT",
+        "HOMER",
+        "MACS3",
+        "RUN"
+      ],
+      "path": "recipes/items/call-peaks-and-motifs-from-chipseq-atacseq.md"
     },
     {
       "slug": "compute-16s-microbiome-diversity",
@@ -258,7 +336,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-05-30",
+      "last_verified": "2026-06-14",
       "summary": "Use the Anthropic clinical-trial-protocol plugin to expand a short indication / endpoint brief into an FDA/NIH-compliant Phase 2/3 protocol draft, with regulatory pathway, competitive landscape, and sample-size calculation already wired in.",
       "keywords": [
         "FDA",
@@ -374,6 +452,28 @@
         "mzML"
       ],
       "path": "recipes/items/identify-unknown-compound-from-msms-spectrum.md"
+    },
+    {
+      "slug": "infer-cell-cell-communication-from-scrnaseq",
+      "title": "Infer cell-cell communication from single-cell RNA-seq",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Molecular and Cellular Biology",
+        "Immunology and Microbiology"
+      ],
+      "evidence_level": "Proposed",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-06-13",
+      "summary": "Use the LIANA-MCP server to run multiple ligand-receptor methods on an annotated AnnData object, aggregate their ranks, and plot the consensus communication network.",
+      "keywords": [
+        "CellPhoneDB",
+        "LIANA-MCP",
+        "NATMI",
+        "RNA-seq"
+      ],
+      "path": "recipes/items/infer-cell-cell-communication-from-scrnaseq.md"
     },
     {
       "slug": "infer-gene-regulatory-network-from-scrnaseq",
@@ -564,6 +664,29 @@
       "path": "recipes/items/prioritize-targets-within-a-disease.md"
     },
     {
+      "slug": "profile-cancer-cohort-genomics-with-cbioportal",
+      "title": "Profile a cancer cohort's genomics with cBioPortal",
+      "problem_class": "Knowledge synthesis",
+      "subject_areas": [
+        "Translational Medicine",
+        "Molecular and Cellular Biology"
+      ],
+      "evidence_level": "Reported",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-06-14",
+      "summary": "Use the cBioPortal Claude Skill to query TCGA-scale studies for mutation frequency, oncoprints, TMB, and survival by genomic subgroup in plain language.",
+      "keywords": [
+        "Kaplan-Meier",
+        "REST",
+        "TCGA",
+        "TCGA-scale",
+        "TMB"
+      ],
+      "path": "recipes/items/profile-cancer-cohort-genomics-with-cbioportal.md"
+    },
+    {
       "slug": "profile-chipseq-atacseq-signal-around-features",
       "title": "Profile ChIP-seq or ATAC-seq signal around genomic features",
       "problem_class": "Data analysis",
@@ -685,6 +808,34 @@
         "KEGG"
       ],
       "path": "recipes/items/run-functional-enrichment-on-a-gene-list.md"
+    },
+    {
+      "slug": "run-gwas-on-case-control-genotypes",
+      "title": "Run a GWAS on case-control genotype data",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Translational Medicine",
+        "Molecular and Cellular Biology"
+      ],
+      "evidence_level": "Proposed",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Workstation with GPU",
+      "last_verified": "2026-06-14",
+      "summary": "Drive PLINK2 from QC through PCA-adjusted logistic-regression association on a case-control cohort, returning Manhattan-ready summary stats.",
+      "keywords": [
+        "GWAS",
+        "Hardy-Weinberg",
+        "HWE",
+        "LD-pruned",
+        "Manhattan-ready",
+        "PCA-adjusted",
+        "PLINK",
+        "PLINK2",
+        "SNPs",
+        "VCF"
+      ],
+      "path": "recipes/items/run-gwas-on-case-control-genotypes.md"
     },
     {
       "slug": "scan-adverse-events-for-drug-safety-signal",

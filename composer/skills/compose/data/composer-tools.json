@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "generated": "2026-06-13",
-  "count": 341,
+  "generated": "2026-06-14",
+  "count": 346,
   "tools": [
     {
       "slug": "10x-genomics-cloud",
@@ -184,7 +184,7 @@
       "tool_categories": [
         "Neuroscience"
       ],
-      "last_verified": "2026-05-20",
+      "last_verified": "2026-06-14",
       "summary": "Official Allen Institute MCP server giving Claude query and NWB-introspection access to AIND's V2 neuroscience data assets.",
       "keywords": [
         "AIND",
@@ -839,6 +839,22 @@
       "path": "catalog/tools/cellpose-cell-segmentation.md"
     },
     {
+      "slug": "cellrank-mcp",
+      "title": "CellRank-MCP",
+      "tool_type": "MCP server",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-13",
+      "summary": "MCP server wrapping CellRank so Claude can model cell fate and trajectories from single-cell data in natural language.",
+      "keywords": [
+        "CellRank-MCP",
+        "GPCCA"
+      ],
+      "path": "catalog/tools/cellrank-mcp.md"
+    },
+    {
       "slug": "celltypist-cell-annotation",
       "title": "CellTypist (Claude Skill)",
       "tool_type": "Claude Skill",
@@ -1417,6 +1433,25 @@
         "REST"
       ],
       "path": "catalog/tools/ddinter-database.md"
+    },
+    {
+      "slug": "decoupler-mcp",
+      "title": "decoupler-MCP",
+      "tool_type": "MCP server",
+      "availability": "GA",
+      "tool_categories": [
+        "Immunology and Microbiology",
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-13",
+      "summary": "MCP server wrapping decoupler so Claude can infer pathway and transcription-factor activities from expression data in natural language.",
+      "keywords": [
+        "CollecTRI",
+        "MLM",
+        "PROGENy",
+        "ULM"
+      ],
+      "path": "catalog/tools/decoupler-mcp.md"
     },
     {
       "slug": "deepchem",
@@ -3000,6 +3035,25 @@
       "path": "catalog/tools/lggnn.md"
     },
     {
+      "slug": "liana-mcp",
+      "title": "LIANA-MCP",
+      "tool_type": "MCP server",
+      "availability": "GA",
+      "tool_categories": [
+        "Immunology and Microbiology",
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-13",
+      "summary": "MCP server wrapping LIANA so Claude can infer and plot cell-cell communication from single-cell data in natural language.",
+      "keywords": [
+        "CellPhoneDB",
+        "LIANA",
+        "LIANA-MCP",
+        "NATMI"
+      ],
+      "path": "catalog/tools/liana-mcp.md"
+    },
+    {
       "slug": "libsbml-network-modeling",
       "title": "libSBML (Claude Skill)",
       "tool_type": "Claude Skill",
@@ -3244,6 +3298,22 @@
         "SKILL"
       ],
       "path": "catalog/tools/medchem.md"
+    },
+    {
+      "slug": "medidata",
+      "title": "Medidata Connector",
+      "tool_type": "Claude.ai Connector",
+      "availability": "GA",
+      "tool_categories": [
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-06-14",
+      "summary": "Medidata's clinical-trial MCP connector — query platform documentation (Rave EDC, Data Connect) and predict high-enrollment trial sites during protocol planning.",
+      "keywords": [
+        "Anthropic-listed",
+        "EDC"
+      ],
+      "path": "catalog/tools/medidata.md"
     },
     {
       "slug": "meg-skill",
@@ -3582,7 +3652,7 @@
       "tool_categories": [
         "Neuroscience"
       ],
-      "last_verified": "2026-05-20",
+      "last_verified": "2026-06-14",
       "summary": "MCP server that lets Claude search DANDI/OpenNeuro and introspect NWB neurophysiology files, plus semantic search over PyNWB docs.",
       "keywords": [
         "DANDI",
@@ -4112,11 +4182,12 @@
         "Integrative Structural and Computational Biology",
         "Drug Repurposing and Discovery"
       ],
-      "last_verified": "2026-06-10",
-      "summary": "MCP server that lets Claude search, fetch, and validate RCSB Protein Data Bank structures with UniProt cross-referencing.",
+      "last_verified": "2026-06-13",
+      "summary": "MCP server that lets Claude search, fetch, and validate RCSB Protein Data Bank structures with PDBe/UniProt cross-referencing.",
       "keywords": [
         "GraphQL",
         "PDB",
+        "PDBe",
         "RCSB",
         "REST",
         "REST-based"
@@ -5661,6 +5732,23 @@
         "SpikeGLX"
       ],
       "path": "catalog/tools/spikeinterface-electrophysiology.md"
+    },
+    {
+      "slug": "spikelab",
+      "title": "SpikeLab",
+      "tool_type": "Claude Skill",
+      "availability": "Beta",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-14",
+      "summary": "Agent-skill suite for multi-electrode-array spike-train analysis and spike sorting (Kilosort2/4, RT-Sort), with an optional built-in MCP server.",
+      "keywords": [
+        "Agent-skill",
+        "MEA",
+        "RT-Sort"
+      ],
+      "path": "catalog/tools/spikelab.md"
     },
     {
       "slug": "stable-baselines3",
