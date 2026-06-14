@@ -13,6 +13,16 @@ Reverse-chronological log of changes to the [catalog]({{ '/catalog/' | relative_
 
 ## 2026-06-14
 
+Drug Repurposing and Discovery directed pass plus a manifest sweep. The `anthropics/life-sciences` marketplace matched the catalogued set (PubMed, BioRender, Synapse, Scholar Gateway, Consensus, Cortellis, AdisInsight, 10x Genomics Cloud, the four skills, plus the noted `medidata`/`tooluniverse` — all have pages). The directed pass confirmed the official **Open Targets MCP** and the **ToolUniverse** MCP server are already catalogued, but found that the ToolUniverse repo also ships ~68 discrete **agent skills** under `skills/` (installable via `npx skills add mims-harvard/ToolUniverse`) that are distinct from the MCP-server entry. Added the **Drug Repurposing** skill (`tooluniverse-drug-repurposing`) as a new page; deferred the sibling drug-discovery skills. DrugBank and ADMET seed queries surfaced only already-catalogued or non-installable targets.
+
+### Added
+- **Drug Repurposing (Claude Skill)** (Categories: Drug Repurposing and Discovery, Translational Medicine) — ToolUniverse agent skill identifying repurposing candidates via target-, compound-, and disease-driven strategies with mechanism and feasibility scoring; `npx skills add mims-harvard/ToolUniverse` (requires the ToolUniverse MCP server) ([source](https://github.com/mims-harvard/ToolUniverse)).
+
+### Verified (no changes)
+- `anthropics/life-sciences` marketplace re-fetched; all 13 entries already catalogued. Official Open Targets MCP (`open-targets.md`) and ToolUniverse MCP server (`tooluniverse.md`) confirmed current.
+
+## 2026-06-14
+
 Translational Medicine directed pass plus a manifest sweep of `anthropics/life-sciences`. Re-fetching the marketplace showed the `medidata` plugin now publishes a concrete HTTP MCP install path (`medidata/.claude-plugin/plugin.json` → `https://mcp.imedidata.com/mcp`), so the long-deferred **Medidata Connector** was promoted to a full page. The remaining clinical entries in the marketplace (clinical-trials, clinical-trial-protocol, cortellis, adisinsight) already have pages. FHIR (`fhir-developer`, `fhir-wso2`), CMS coverage, OpenFDA, and ClinicalTrials.gov directed-pass targets all matched catalogued entries; no other new installable Translational Medicine tool surfaced this slot.
 
 ### Added
