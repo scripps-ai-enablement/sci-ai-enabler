@@ -104,6 +104,7 @@ No published comparison of LLM-driven survival analysis against a hand-coded `sk
 - [scikit-survival (Claude Skill)](../../catalog/tools/scikit-survival.html)
 - [PyHealth (Claude Skill)](../../catalog/tools/pyhealth.html) — the deep-learning escalation for large EHR cohorts.
 - [Run bulk RNA-seq differential expression](run-bulk-rnaseq-differential-expression.html) — the upstream step when survival covariates are expression-derived signatures.
+- [Profile a cancer cohort's genomics with cBioPortal](profile-cancer-cohort-genomics-with-cbioportal.html) — the first-read Kaplan-Meier split; escalate here when you need adjusted, validated modelling.
 
 ## Sources
 

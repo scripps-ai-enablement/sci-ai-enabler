@@ -9,7 +9,7 @@ evidence_level: Proposed
 complexity: Multi-tool harness
 availability: Fully open
 compute_requirements: Laptop
-last_verified: 2026-05-29
+last_verified: 2026-06-14
 summary: Combine the Open Targets plugin, UniProt MCP, AlphaFold MCP, and the DepMap skill to produce a one-page dossier on a candidate gene — disease evidence, protein annotation, predicted structure, and cancer-cell-line essentiality.
 ---
 
@@ -94,6 +94,7 @@ Proposed. No published end-to-end benchmark of this exact four-component assembl
 - [AlphaFold MCP Server](../../catalog/tools/alphafold.html)
 - [DepMap (Claude Skill)](../../catalog/tools/depmap.html)
 - [gget (Claude Skill)](../../catalog/tools/gget.html) — lower-rung alternative when DepMap and Open Targets are not needed.
+- [Profile a cancer cohort's genomics with cBioPortal](profile-cancer-cohort-genomics-with-cbioportal.html) — the cohort-centric complement (how a gene behaves across a tumor's patients).
 - [Biomni](../../autonomous-science/systems/biomni.html) — the autonomous-science option one rung up.
 
 ## Sources
