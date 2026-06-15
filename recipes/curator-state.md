@@ -40,7 +40,7 @@ _None._
 
 ## User requests (open)
 
-_None._
+- [#41 @goodb 2026-06-15] queue: recipes | feedback-on=run-functional-enrichment-on-a-gene-list | sentiment=got stuck | author=@goodb | issue=41
 
 ## User requests (closed this run)
 
