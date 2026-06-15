@@ -52,7 +52,7 @@ nav_exclude: true
 
 ## User requests (open)
 
-_None._
+- [#42 @goodb 2026-06-15] queue: catalog | feedback-on=open-targets | sentiment=got stuck | author=@goodb | issue=42
 
 ## User requests (closed this run)
 
