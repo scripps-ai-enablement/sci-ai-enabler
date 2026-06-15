@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "generated": "2026-06-14",
+  "generated": "2026-06-15",
   "counts": {
-    "tools": 346,
-    "recipes": 43,
+    "tools": 347,
+    "recipes": 44,
     "systems": 65
   },
   "tools_file": "composer-tools.json",
@@ -48,7 +48,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Workstation with GPU",
-      "last_verified": "2026-05-28",
+      "last_verified": "2026-06-14",
       "summary": "Use the cellxgene-census Claude skill to slice a tissue- or disease-specific AnnData from the CZ CELLxGENE Census, optionally fetching the precomputed scVI embedding for reference mapping or downstream integration.",
       "keywords": [
         "CELLxGENE",
@@ -923,6 +923,25 @@
         "VUS"
       ],
       "path": "recipes/items/score-protein-variants-with-esm.md"
+    },
+    {
+      "slug": "screen-polypharmacy-for-drug-interactions",
+      "title": "Screen a polypharmacy medication list for drug-drug interactions",
+      "problem_class": "Knowledge synthesis",
+      "subject_areas": [
+        "Drug Repurposing and Discovery",
+        "Translational Medicine"
+      ],
+      "evidence_level": "Reported",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-06-14",
+      "summary": "Ground Claude in the DDInter skill to screen a multi-drug medication list for pairwise interactions with severity and mechanism, instead of asking the model from memory.",
+      "keywords": [
+        "DDInter"
+      ],
+      "path": "recipes/items/screen-polypharmacy-for-drug-interactions.md"
     },
     {
       "slug": "set-up-protein-md-simulation-in-gromacs",

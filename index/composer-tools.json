@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "generated": "2026-06-14",
-  "count": 346,
+  "generated": "2026-06-15",
+  "count": 347,
   "tools": [
     {
       "slug": "10x-genomics-cloud",
@@ -1657,6 +1657,20 @@
         "PDFs"
       ],
       "path": "catalog/tools/docx.md"
+    },
+    {
+      "slug": "drug-repurposing",
+      "title": "Drug Repurposing (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Drug Repurposing and Discovery",
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-06-14",
+      "summary": "ToolUniverse agent skill that finds drug-repurposing candidates via target-, compound-, and disease-driven strategies with mechanism and feasibility scoring.",
+      "keywords": [],
+      "path": "catalog/tools/drug-repurposing.md"
     },
     {
       "slug": "drugbank",
