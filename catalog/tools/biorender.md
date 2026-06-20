@@ -6,7 +6,7 @@ tool_type: MCP server
 supplier: BioRender
 availability: GA
 tool_categories: [All]
-last_verified: 2026-05-19
+last_verified: 2026-06-20
 summary: Scientific-figure assembly from the 50,000+ BioRender icon and template library.
 ---
 

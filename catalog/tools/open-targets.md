@@ -5,8 +5,9 @@ grand_parent: Catalog
 tool_type: Claude Code Plugin
 supplier: Open Targets
 availability: GA
+flagged: MCP endpoint fails `initialize` handshake with JSON-RPC -32602 ("Invalid request parameters") under protocolVersion 2025-06-18 and 2024-11-05 — no tools register; reported 2026-06-15
 tool_categories: [Drug Repurposing and Discovery, Molecular and Cellular Biology, Translational Medicine]
-last_verified: 2026-05-20
+last_verified: 2026-06-20
 summary: Official Open Targets MCP plugin giving Claude GraphQL access to target-disease associations, drug evidence, and target-prioritisation scores.
 ---
 
@@ -47,6 +48,8 @@ Anthropic-packaged Claude Code plugin that wraps the **official Open Targets MCP
 ## Notes
 
 Streamable HTTP transport, no auth. The `bio-research` umbrella plugin references Open Targets indirectly; this is the discrete first-party entry. Tagged experimental — schema may evolve.
+
+**Field report (2026-06-15):** The remote endpoint `https://mcp.platform.opentargets.org/mcp` currently fails the MCP `initialize` handshake, returning JSON-RPC `-32602 "Invalid request parameters"` under both protocolVersion `2025-06-18` and `2024-11-05`. The endpoint is reachable (HTTP 200, `content-type: text/event-stream`) but non-compliant on initialize, so `claude mcp list` shows "Failed to connect", no tools register, and a Claude Code restart does not help (server-side issue). Workarounds that work today: (1) query the Open Targets public GraphQL API directly at `https://api.platform.opentargets.org/api/v4/graphql`, or (2) use [ToolUniverse](tooluniverse.html)'s `OpenTargets_*` / `disease_target_score` tools.
 
 ## Sources
 

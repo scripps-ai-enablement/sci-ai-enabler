@@ -6,7 +6,7 @@ tool_type: Claude Skill
 supplier: Anthropic
 availability: GA
 tool_categories: [Chemistry, Drug Repurposing and Discovery, Immunology and Microbiology, Molecular and Cellular Biology, Translational Medicine]
-last_verified: 2026-05-19
+last_verified: 2026-06-20
 summary: Converts 40+ lab-instrument output formats to Allotrope Simple Model JSON / CSV for LIMS and data-lake ingestion.
 ---
 

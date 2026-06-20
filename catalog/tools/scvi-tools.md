@@ -6,7 +6,7 @@ tool_type: Claude Skill
 supplier: Anthropic
 availability: GA
 tool_categories: [Drug Repurposing and Discovery, Immunology and Microbiology, Integrative Structural and Computational Biology, Molecular and Cellular Biology, Neuroscience, Translational Medicine]
-last_verified: 2026-05-19
+last_verified: 2026-06-20
 summary: Deep-learning workflows for scVI, scANVI, totalVI, MultiVI, PeakVI, DestVI, and related scvi-tools models for single-cell omics.
 ---
 

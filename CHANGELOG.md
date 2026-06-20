@@ -11,7 +11,23 @@ Reverse-chronological log of changes to the [catalog]({{ '/catalog/' | relative_
 
 <!-- Curator appends new dated entries directly below this line. -->
 
-## 2026-06-20
+## 2026-06-20 (Immunology and Microbiology slot)
+
+Immunology and Microbiology directed pass plus a manifest sweep. The `anthropics/life-sciences` marketplace matched the catalogued set (no new entries). The directed pass found no Claude-installable wrapper for IEDB, Immcantation/AIRR (BCR/TCR) repertoire analysis, or a discrete metagenomics/microbiome server — those gaps persist (deferred items unchanged). It did surface the **Bio-MCP** organization's discrete per-tool MCP servers; **BLAST** (`bio-mcp/bio-mcp-blast`, MIT) wraps NCBI BLAST+ as an MCP server with a clear clone-and-install path and was added as a new page (tagged `All`, since similarity search is a cross-cutting primitive heavily used in microbiology/metagenomics). Acted on user request #42 (open-targets): its `.request-bodies/42.md` prefetch is now present and the report is credible.
+
+### Added
+- **BLAST (Bio-MCP)** (Categories: All) — MCP server wrapping NCBI BLAST+ (`blastn`/`blastp`/`makeblastdb` + async job tools) over stdio; MIT, clone + `pip install -e .` ([source](https://github.com/bio-mcp/bio-mcp-blast)).
+
+### Updated
+- **Open Targets Plugin** — added a dated field report to Notes documenting a server-side MCP `initialize`-handshake failure (`-32602` under protocolVersion 2025-06-18 and 2024-11-05; no tools register) with two workarounds (direct GraphQL API; ToolUniverse `OpenTargets_*` tools); flagged in front-matter (per user request #42).
+
+### Flagged
+- **Open Targets Plugin** — remote MCP endpoint `https://mcp.platform.opentargets.org/mcp` non-compliant on `initialize` as of 2026-06-15 (reachable but returns `-32602`).
+
+### Verified (no changes)
+- 6 stale (>30-day) `anthropics/life-sciences` entries re-verified against the live marketplace listing (PubMed, BioRender, scvi-tools, single-cell-rna-qc, nextflow-development, instrument-data-to-allotrope); `last_verified` bumped.
+
+## 2026-06-20 (Chemistry slot)
 
 Chemistry directed pass plus a manifest sweep. The official MCP Registry surfaced **CovaSyn Chemistry MCP** (`com.covasyn/chemistry`, v1.27.2, registered 2026-06-02) — a hosted streamable-HTTP server with 130+ deterministic tools spanning ADMET, docking, retrosynthesis, ICH M7 toxicology, NMR/MS, and biologics design. It is installable today (free tier + `npx @covasyn/mcp-client` stdio proxy / remote `https://mcp.covasyn.com/mcp`), so it was added as a new page; it closes the long-standing "no Claude-installable retrosynthesis/ADMET wrapper" gaps noted in the curator state. The RDKit (`rdkit-mcp`, `rdkit-skill`), ChEMBL, PubChem, ChemLint, and ChemCP seed-query hits are already catalogued; AiZynthFinder/ASKCOS still ship only REST APIs with no discrete MCP/Skill, and Polaris has no Claude wrapper. User request #42 (open-targets) could not be actioned this run — the `.request-bodies/42.md` prefetch was missing, so the entry stays open per protocol.
 
