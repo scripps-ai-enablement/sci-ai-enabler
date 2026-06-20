@@ -11,6 +11,16 @@ Reverse-chronological log of changes to the [catalog]({{ '/catalog/' | relative_
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-06-20
+
+Chemistry directed pass plus a manifest sweep. The official MCP Registry surfaced **CovaSyn Chemistry MCP** (`com.covasyn/chemistry`, v1.27.2, registered 2026-06-02) — a hosted streamable-HTTP server with 130+ deterministic tools spanning ADMET, docking, retrosynthesis, ICH M7 toxicology, NMR/MS, and biologics design. It is installable today (free tier + `npx @covasyn/mcp-client` stdio proxy / remote `https://mcp.covasyn.com/mcp`), so it was added as a new page; it closes the long-standing "no Claude-installable retrosynthesis/ADMET wrapper" gaps noted in the curator state. The RDKit (`rdkit-mcp`, `rdkit-skill`), ChEMBL, PubChem, ChemLint, and ChemCP seed-query hits are already catalogued; AiZynthFinder/ASKCOS still ship only REST APIs with no discrete MCP/Skill, and Polaris has no Claude wrapper. User request #42 (open-targets) could not be actioned this run — the `.request-bodies/42.md` prefetch was missing, so the entry stays open per protocol.
+
+### Added
+- **CovaSyn Chemistry MCP** (Categories: Chemistry, Drug Repurposing and Discovery) — hosted deterministic cheminformatics MCP (130+ tools: ADMET, docking, retrosynthesis, ICH M7, NMR/MS, biologics); freemium, `npx @covasyn/mcp-client` or remote `https://mcp.covasyn.com/mcp` ([source](https://github.com/oliverkraft93-ops/covasyn-mcp-examples)).
+
+### Verified (no changes)
+- Chemistry seed queries (RDKit, retrosynthesis, ChEMBL, Polaris, cheminformatics MCP) re-run; all installable hits already catalogued.
+
 ## 2026-06-14
 
 Drug Repurposing and Discovery directed pass plus a manifest sweep. The `anthropics/life-sciences` marketplace matched the catalogued set (PubMed, BioRender, Synapse, Scholar Gateway, Consensus, Cortellis, AdisInsight, 10x Genomics Cloud, the four skills, plus the noted `medidata`/`tooluniverse` — all have pages). The directed pass confirmed the official **Open Targets MCP** and the **ToolUniverse** MCP server are already catalogued, but found that the ToolUniverse repo also ships ~68 discrete **agent skills** under `skills/` (installable via `npx skills add mims-harvard/ToolUniverse`) that are distinct from the MCP-server entry. Added the **Drug Repurposing** skill (`tooluniverse-drug-repurposing`) as a new page; deferred the sibling drug-discovery skills. DrugBank and ADMET seed queries surfaced only already-catalogued or non-installable targets.
