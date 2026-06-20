@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "generated": "2026-06-19",
-  "count": 347,
+  "generated": "2026-06-20",
+  "count": 349,
   "tools": [
     {
       "slug": "10x-genomics-cloud",
@@ -592,7 +592,7 @@
       "tool_categories": [
         "All"
       ],
-      "last_verified": "2026-05-19",
+      "last_verified": "2026-06-20",
       "summary": "Scientific-figure assembly from the 50,000+ BioRender icon and template library.",
       "keywords": [
         "Scientific-figure",
@@ -632,6 +632,23 @@
         "KEGG"
       ],
       "path": "catalog/tools/bioservices.md"
+    },
+    {
+      "slug": "blast",
+      "title": "BLAST (Bio-MCP)",
+      "tool_type": "MCP server",
+      "availability": "GA",
+      "tool_categories": [
+        "All"
+      ],
+      "last_verified": "2026-06-20",
+      "summary": "\"MCP server wrapping NCBI BLAST+ for nucleotide/protein similarity search and custom database creation, run locally over stdio.\"",
+      "keywords": [
+        "Bio-MCP",
+        "BLAST",
+        "NCBI"
+      ],
+      "path": "catalog/tools/blast.md"
     },
     {
       "slug": "bnt",
@@ -1297,6 +1314,24 @@
         "REST"
       ],
       "path": "catalog/tools/cosmic-database.md"
+    },
+    {
+      "slug": "covasyn",
+      "title": "CovaSyn Chemistry MCP",
+      "tool_type": "MCP server",
+      "availability": "GA",
+      "tool_categories": [
+        "Chemistry",
+        "Drug Repurposing and Discovery"
+      ],
+      "last_verified": "2026-06-20",
+      "summary": "Hosted deterministic cheminformatics MCP with 130+ tools spanning ADMET, docking, retrosynthesis, ICH M7 toxicology, NMR/MS, and biologics design.",
+      "keywords": [
+        "ADMET",
+        "ICH",
+        "NMR"
+      ],
+      "path": "catalog/tools/covasyn.md"
     },
     {
       "slug": "dailymed-database",
@@ -2828,7 +2863,7 @@
         "Molecular and Cellular Biology",
         "Translational Medicine"
       ],
-      "last_verified": "2026-05-19",
+      "last_verified": "2026-06-20",
       "summary": "Converts 40+ lab-instrument output formats to Allotrope Simple Model JSON / CSV for LIMS and data-lake ingestion.",
       "keywords": [
         "ASM",
@@ -3715,7 +3750,7 @@
         "Neuroscience",
         "Translational Medicine"
       ],
-      "last_verified": "2026-05-19",
+      "last_verified": "2026-06-20",
       "summary": "Runs nf-core rnaseq, sarek, and atacseq pipelines on local FASTQ or GEO/SRA inputs.",
       "keywords": [
         "FASTQ",
@@ -3934,7 +3969,7 @@
         "Molecular and Cellular Biology",
         "Translational Medicine"
       ],
-      "last_verified": "2026-05-20",
+      "last_verified": "2026-06-20",
       "summary": "Official Open Targets MCP plugin giving Claude GraphQL access to target-disease associations, drug evidence, and target-prioritisation scores.",
       "keywords": [
         "Anthropic-packaged",
@@ -4609,7 +4644,7 @@
       "tool_categories": [
         "All"
       ],
-      "last_verified": "2026-05-19",
+      "last_verified": "2026-06-20",
       "summary": "Anthropic-managed NCBI literature search via PubMed and PubMed Central.",
       "keywords": [
         "Anthropic-managed",
@@ -5449,7 +5484,7 @@
         "Neuroscience",
         "Translational Medicine"
       ],
-      "last_verified": "2026-05-19",
+      "last_verified": "2026-06-20",
       "summary": "Deep-learning workflows for scVI, scANVI, totalVI, MultiVI, PeakVI, DestVI, and related scvi-tools models for single-cell omics.",
       "keywords": [
         "ATAC",
@@ -5616,7 +5651,7 @@
         "Neuroscience",
         "Translational Medicine"
       ],
-      "last_verified": "2026-05-19",
+      "last_verified": "2026-06-20",
       "summary": "scverse MAD-based QC for .h5ad and 10x .h5 single-cell RNA-seq inputs.",
       "keywords": [
         "MAD-based",
