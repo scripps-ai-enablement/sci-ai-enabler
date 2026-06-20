@@ -9,7 +9,7 @@ evidence_level: Reported
 complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Workstation with GPU
-last_verified: 2026-05-28
+last_verified: 2026-06-20
 summary: Use the Arboreto Claude skill to run GRNBoost2 on a QC'd single-cell AnnData and recover a ranked TF–target edge list — the first step of a SCENIC regulon pipeline.
 ---
 
