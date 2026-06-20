@@ -45,8 +45,7 @@ _None._
 
 ## User requests (closed this run)
 
-- [#41 @goodb 2026-06-15] feedback-on=run-functional-enrichment-on-a-gene-list | sentiment=got stuck → Fixed the install block: removed the non-existent `K-Dense-AI/claude-scientific-skills` marketplace, replaced with the catalog's `npx skills add K-Dense-AI/scientific-agent-skills` + manual-HTTPS-clone paths; added a Field-reports note; bumped `last_verified` to 2026-06-20. No rung change.
-- [#43 @goodb 2026-06-15] report=composition | outcome=worked | problem_class=Knowledge synthesis → Canonicalized the draft into a new `Reported` recipe, [map-disease-to-genes-and-pathways](items/map-disease-to-genes-and-pathways.html) (rung-3 chain of two existing recipes). Also cascaded the Open Targets MCP `initialize` handshake breakage (`-32602`) into [prioritize-targets-within-a-disease](items/prioritize-targets-within-a-disease.html): added a known-issue note recommending the direct GraphQL API / ToolUniverse `OpenTargets_*` tools and a Field-reports entry. The `open-targets` catalog-page flag is the catalog curator's job (tool-feedback filed separately per #43).
+_None._
 
 ## Composition reports
 
