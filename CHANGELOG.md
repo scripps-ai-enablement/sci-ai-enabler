@@ -11,6 +11,24 @@ Reverse-chronological log of changes to the [catalog]({{ '/catalog/' | relative_
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-06-20 (Molecular and Cellular Biology slot)
+
+Molecular & cellular-biology directed pass plus a manifest sweep. The `anthropics/life-sciences` marketplace matched the catalogued set (no new entries). The directed pass surfaced a new first-party skill collection, **`google-deepmind/science-skills`** (Apache-2.0 code / CC-BY-4.0 docs, ~37 skills, Agent Skills spec). Most of its skills wrap databases already catalogued (ChEMBL, ClinVar, dbSNP, Ensembl, gnomAD, ENCODE, etc.), but three are genuinely new and central to molecular/cellular biology and were added: **AlphaGenome single-variant analysis**, the **GTEx expression database** skill, and the **UniBind TF binding-sites** skill. Remaining new-to-catalog skills from this collection (foldseek structural search, EMBL-EBI OLS) are deferred.
+
+### Added
+- **AlphaGenome Single-Variant Analysis** (Categories: Molecular and Cellular Biology) — Claude Skill wrapping the AlphaGenome API to predict non-coding variant effects on expression, chromatin accessibility, histone marks, splicing, and TF binding; Apache-2.0, API key required ([source](https://github.com/google-deepmind/science-skills/blob/main/skills/alphagenome_single_variant_analysis/SKILL.md)).
+- **GTEx Expression Database** (Categories: Molecular and Cellular Biology) — Claude Skill over the GTEx Portal API for median TPM expression across 54 tissues and eQTLs; Apache-2.0, no key ([source](https://github.com/google-deepmind/science-skills/blob/main/skills/gtex_database/SKILL.md)).
+- **UniBind TF Binding Sites** (Categories: Molecular and Cellular Biology) — Claude Skill over the UniBind REST API for experimentally validated TF binding sites (BED/FASTA download); Apache-2.0, no key ([source](https://github.com/google-deepmind/science-skills/blob/main/skills/unibind_database/SKILL.md)).
+
+### Updated
+- _None._
+
+### Flagged
+- _None._
+
+### Verified (no changes)
+- `anthropics/life-sciences` marketplace re-checked against the catalogued set (no new entries).
+
 ## 2026-06-20 (Integrative Structural and Computational Biology slot)
 
 Structural & computational-biology directed pass plus a manifest sweep. The `anthropics/life-sciences` marketplace matched the catalogued set (no new entries). The directed pass found no Claude-installable cryo-EM (RELION/cryoSPARC/CTFFIND) wrapper — that gap persists. It surfaced two molecular-dynamics MCP candidates: **OpenMM MCP Server** (`PhelanShao/openmm-mcp-server`, GPLv3) was added as a new page — a discrete stdio server that *runs* MD/DFT jobs via managed tool calls, distinct from the existing K-Dense `molecular-dynamics` skill — while `egtai/gmx-vmd-mcp` was deferred (placeholder clone URL, unenumerated tools, unconfirmed license). The PDB and AlphaFold MCP candidates from the seed queries are already comprehensively catalogued (`pdb.md` covers all three RCSB/PDB servers).
