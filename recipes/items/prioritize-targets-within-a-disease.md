@@ -9,7 +9,7 @@ evidence_level: Reported
 complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Laptop
-last_verified: 2026-05-31
+last_verified: 2026-06-20
 summary: Drive the Open Targets MCP plugin to rank candidate targets within a disease across the four prioritisation pillars (precedence, tractability, doability, safety) and emit a cited target shortlist.
 ---
 
@@ -38,6 +38,8 @@ Drug-discovery teams routinely have to walk into a new indication and ask: *of t
    /plugin marketplace add anthropics/life-sciences
    /plugin install open-targets@life-sciences
    ```
+
+   > **Known issue (2026-06):** a field report ([#43](https://github.com/scripps-ai-enablement/sci-ai-enabler/issues/43)) found the hosted Open Targets MCP endpoint (`https://mcp.platform.opentargets.org/mcp`) rejecting the MCP `initialize` handshake with JSON-RPC error `-32602` under protocol revisions 2025-06-18 and 2024-11-05, so the plugin never connects. Until it's fixed, drive the same queries against the **direct GraphQL API** (`https://api.platform.opentargets.org/api/v4/graphql`) from plain Claude Code, or use the [ToolUniverse](../../catalog/tools/tooluniverse.html) `OpenTargets_*` tools. Both hit the identical backend (a cross-check confirmed identical disease resolution and gene data); the only caveat is that ToolUniverse exposes per-datasource scores rather than the single `overall` association score, so for overall-score ranking prefer the GraphQL `disease.associatedTargets(orderByScore: "score")` field.
 
 2. **Drive the prioritisation with a single prompt.** A minimal version:
 
@@ -79,6 +81,10 @@ Laptop. Pure HTTP GraphQL calls; nothing local. A 30-target prioritisation call 
 
 Reported. The Open Targets target-prioritisation framework is the canonical, peer-reviewed framework for this task — [Buniello et al., *Nucleic Acids Research* 53(D1):D1467–D1475 (2025)](https://doi.org/10.1093/nar/gkae1128) documents the four-pillar approach and its data sources. The framework itself is informed by [Minikel et al., *Nature* 629:624–629 (2024)](https://doi.org/10.1038/s41586-024-07316-0), which quantifies how human-genetics evidence improves clinical-success rates ~2× and underpins the precedence pillar. The Open Targets MCP server (release 2026.03.1, April 2026) exposes the same prioritisation fields used in the platform's web UI, so the Claude assembly inherits the framework's validation. No published head-to-head benchmark of the *MCP-driven* prioritisation against the *web UI* prioritisation is known — they call the same API, so the comparison is identity by construction. Closest documented LLM application: the agentic drug-repurposing literature cites Open Targets as a primary evidence source ([Zunzunegui Sanz et al., *bioRxiv* 2025-06-13](https://doi.org/10.1101/2025.06.13.659527); [More et al., *npj Precision Oncology* 10:95 (2025)](https://doi.org/10.1038/s41698-025-01265-1)).
 
+### Field reports
+
+- **2026-06-20 (@goodb, #43):** Ran as step 1 of a knee-OA (EFO_0004616) disease → genes → pathways chain. The hosted Open Targets MCP endpoint failed the `initialize` handshake (see the known-issue note in step 1), so the report drove the **direct GraphQL API** instead; it returned a sensible overall-score ranking (top genes NGF, GDF5, ACAN, COL27A1, PTGS2, SMAD3, FGF18, ALDH1A2) and ran end-to-end on a laptop in under a minute. A ToolUniverse cross-check confirmed identical disease resolution and backend gene data, differing only in that ToolUniverse exposes per-datasource scores (no single overall-association tool). The MCP-connectivity breakage is also flagged on the [Open Targets catalog page](../../catalog/tools/open-targets.html).
+
 ## Alternatives considered
 
 - **gget alone** ([catalog page](../../catalog/tools/gget.html)). gget has a wrapper for Open Targets associations but does not expose the prioritisation panel directly. Use gget when the question is just "what diseases is this gene linked to" — for ranking within a disease, the MCP plugin is required.
@@ -89,6 +95,7 @@ Reported. The Open Targets target-prioritisation framework is the canonical, pee
 ## See also
 
 - [Open Targets Plugin](../../catalog/tools/open-targets.html)
+- [Map a disease to its implicated genes and pathways](map-disease-to-genes-and-pathways.html) — chains this ranking into functional enrichment.
 - [Build a target dossier](build-target-dossier.html) — the natural next step once the shortlist is ranked.
 - [Scan approved drugs for repurposing candidates against a disease](scan-drug-repurposing-candidates.html) — drug-out-of-disease version of the same problem.
 - [gget (Claude Skill)](../../catalog/tools/gget.html) — lower-rung alternative when prioritisation pillars are not required.

@@ -90,6 +90,7 @@ Proposed. No documented attempt at an LLM-driven (Claude + LIANA-MCP) cell-cell 
 - [Run first-pass QC on a single-cell RNA-seq dataset](qc-single-cell-rna-seq.html) — upstream; produce the annotated object this recipe consumes.
 - [Integrate multiple single-cell RNA-seq datasets across batches](integrate-single-cell-datasets.html) — sister single-cell recipe.
 - [Infer a gene-regulatory network from single-cell RNA-seq](infer-gene-regulatory-network-from-scrnaseq.html) — complementary intracellular-network view.
+- [Infer transcription-factor and pathway activities from expression](infer-tf-and-pathway-activities-from-expression.html) — sibling scmcphub MCP scoring regulator activities on the same object.
 
 ## Sources
 

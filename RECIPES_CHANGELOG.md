@@ -11,6 +11,18 @@ Reverse-chronological log of changes to the [recipes cookbook]({{ '/recipes/' | 
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-06-20
+
+### Added
+
+- **Infer transcription-factor and pathway activities from expression** (Problem class: Data analysis; Evidence: Proposed) — rung-2 [decoupler-MCP](catalog/tools/decoupler-mcp.html) recipe taking an annotated AnnData through `tf_activity` (CollecTRI/ULM) and `pathway_activity` (PROGENy/MLM) footprint inference → between-condition ranked activity tables → a grounded summary with a positive-control check. Immunology and Microbiology focus-day recipe; cookbook's first footprint/activity-inference recipe, kept distinct from over-representation enrichment and de-novo GRN inference. `Proposed` — no documented LLM-driven decoupler-MCP assembly; grounded in [Badia-i-Mompel et al., *Bioinform. Adv.* 2022](https://doi.org/10.1093/bioadv/vbac016), [Schubert et al., *Nat. Commun.* 2018 (PROGENy)](https://doi.org/10.1038/s41467-017-02391-6), and [Müller-Dott et al., *NAR* 2023 (CollecTRI)](https://doi.org/10.1093/nar/gkad841).
+- **Map a disease to its implicated genes and pathways** (Problem class: Knowledge synthesis; Evidence: Reported) — rung-3 chain of two existing Reported recipes: [Open Targets target ranking](recipes/items/prioritize-targets-within-a-disease.html) (overall association score) → [gget/Enrichr functional enrichment](recipes/items/run-functional-enrichment-on-a-gene-list.html), with DisGeNET as a positive control and a grounded synthesis. Canonicalized from composition report [#43](https://github.com/scripps-ai-enablement/sci-ai-enabler/issues/43) (knee OA, EFO_0004616). `Reported` — #43 documents the chain running end-to-end on a laptop in under a minute with the disease recovered as a DisGeNET positive control.
+
+### Updated
+
+- **Run functional enrichment on a gene list** — fixed the gget install block (per [#41](https://github.com/scripps-ai-enablement/sci-ai-enabler/issues/41)): removed the non-existent `K-Dense-AI/claude-scientific-skills` marketplace, replaced with the catalog's `npx skills add` + manual-HTTPS-clone paths; added a Field-reports note.
+- **Prioritize targets within a disease via Open Targets** — added a known-issue note (per [#43](https://github.com/scripps-ai-enablement/sci-ai-enabler/issues/43)) that the hosted Open Targets MCP endpoint is failing its `initialize` handshake (JSON-RPC `-32602`); documented the direct GraphQL API and ToolUniverse `OpenTargets_*` tools as the working path, plus a Field-reports entry.
+
 ## 2026-06-14
 
 ### Added

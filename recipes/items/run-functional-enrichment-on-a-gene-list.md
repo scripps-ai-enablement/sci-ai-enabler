@@ -9,7 +9,7 @@ evidence_level: Reported
 complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Laptop
-last_verified: 2026-06-04
+last_verified: 2026-06-20
 summary: Use the gget Claude skill to run a gene list through Enrichr against GO, KEGG, Reactome, and disease libraries, then ask Claude to summarise the enriched terms back to the biology with explicit citations.
 ---
 
@@ -32,11 +32,18 @@ Functional enrichment is the canonical "so what does this gene list mean" step t
 
 ## Recommended approach
 
-1. **Install the [gget Claude Skill](../../catalog/tools/gget.html).** From the K-Dense marketplace:
+1. **Install the [gget Claude Skill](../../catalog/tools/gget.html)** (gget is a Skill, not a marketplace plugin). Skills CLI (recommended), then install the Python package:
 
    ```
-   /plugin marketplace add K-Dense-AI/claude-scientific-skills
-   /plugin install gget@claude-scientific-skills
+   npx skills add K-Dense-AI/scientific-agent-skills
+   pip install gget
+   ```
+
+   Or clone the collection manually over HTTPS and copy the skill into place:
+
+   ```
+   git clone https://github.com/K-Dense-AI/scientific-agent-skills
+   cp -r scientific-agent-skills/skills/gget ~/.claude/skills/
    pip install gget
    ```
 
@@ -96,6 +103,10 @@ Laptop. The whole workflow is HTTP requests against Enrichr; a 200-gene list acr
 
 Reported. The strongest reference for the assembly *class* is **GeneAgent** ([Wang et al., *Nature Methods* 22:1677, 2025, DOI:10.1038/s41592-025-02748-6](https://doi.org/10.1038/s41592-025-02748-6); [PMID 40721871](https://pubmed.ncbi.nlm.nih.gov/40721871/)), a self-verification LLM agent that queries Enrichr and other curated databases to ground gene-set claims; across 1,106 gene sets it lifted ROUGE-L on MSigDB from 0.239 ± 0.038 (GPT-4 alone) to 0.310 ± 0.047 (GeneAgent), with 84% of 15,848 generated claims supported by database evidence and 92% of self-verification decisions judged correct by two human experts on a 132-claim sample. The recipe here is a smaller-grain composition (one skill, no autonomous loop) but the underlying database-grounding pattern is the same. Complementary anchors: [Hu et al., *Nature Methods* 21:2353, 2024 — "Evaluation of large language models for discovery of gene set function" (DOI:10.1038/s41592-024-02525-x)](https://doi.org/10.1038/s41592-024-02525-x) shows GPT-4 names common gene-set functions with high specificity but only when grounded against a database; [Joshi et al., *llm2geneset* preprint 2024-11 (DOI:10.1101/2024.11.11.621189)](https://doi.org/10.1101/2024.11.11.621189) shows LLM-generated gene sets can be used as Enrichr-compatible inputs. No peer-reviewed benchmark of "Claude + gget skill + Enrichr" against hand-written `gget enrichr` code is known — the agent loop adds reproducibility and the verification pass, not new statistics.
 
+### Field reports
+
+- **2026-06-20 (@goodb, #41):** Used as the enrichment leg of a knee-OA disease → genes → pathways chain (Open Targets prioritisation → gget/Enrichr) and ran end-to-end on a laptop in under a minute. The original install block was wrong (it pointed at a non-existent `K-Dense-AI/claude-scientific-skills` marketplace); the `npx skills add` / manual-HTTPS-clone paths above now match the [catalog page](../../catalog/tools/gget.html) and the manual clone is confirmed working.
+
 ## Alternatives considered
 
 - **Plain Claude Code with the Enrichr REST API.** Works for one-off analyses but the model has to re-derive the right `userListId` ⇒ `enrich` flow and the right library shortnames each time, and is less likely to retain the per-library result tables in a reproducible form. Reach for it only when the gget skill isn't installed and the analysis is throwaway.
@@ -108,6 +119,7 @@ Reported. The strongest reference for the assembly *class* is **GeneAgent** ([Wa
 
 - [gget (Claude Skill)](../../catalog/tools/gget.html)
 - [Run bulk RNA-seq differential expression from a counts matrix](run-bulk-rnaseq-differential-expression.html) — the upstream step that produces the gene list this recipe interprets.
+- [Map a disease to its implicated genes and pathways](map-disease-to-genes-and-pathways.html) — supplies this recipe's gene list from a disease association ranking.
 - [Infer a gene-regulatory network from single-cell RNA-seq](infer-gene-regulatory-network-from-scrnaseq.html) — alternative downstream interpretation of a DE result.
 - [Build a target dossier from gene name to structure to cancer dependency](build-target-dossier.html) — drill into one enriched gene at a time.
 - [Biomni](../../autonomous-science/systems/biomni.html) — autonomous-system alternative.
