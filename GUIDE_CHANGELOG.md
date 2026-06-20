@@ -11,6 +11,27 @@ Reverse-chronological log of changes to the [guide]({{ '/guide/' | relative_url 
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-06-20
+
+### Updated
+- **[surfaces/claude-code, surfaces/claude-api] Fable 5 / Mythos 5 suspended worldwide.** On 2026-06-12 a U.S. government export-control directive forced Anthropic to disable Fable 5 and Mythos 5 for *all* customers worldwide; the previously-documented "free in the picker through 2026-06-22" framing is now wrong. Rewrote the Claude Code model-picker line and the Claude API model-IDs / Fable-5 pitfalls to state Fable 5 is currently unavailable (Opus 4.8 is the default and is unaffected), folding the old Fable-5 behavior/refusal detail into one parenthetical. Grounded in [Anthropic's statement](https://www.anthropic.com/news/fable-mythos-access) (2026-06-12) re-fetched this run.
+- **[surfaces/claude-code, surfaces/claude-api] Agent SDK / `claude -p` billing split was paused, not shipped.** Anthropic shelved the planned 2026-06-15 move of programmatic usage onto a separate credit pool; the Help Center now opens with a pause notice. Rewrote both billing pitfalls from "moves on 2026-06-15" to "was paused; still draws from your subscription." Grounded in the [Agent SDK plan help-center article](https://support.claude.com/en/articles/15036540-use-the-claude-agent-sdk-with-your-claude-plan) re-fetched this run.
+- **[surfaces/claude-api] Sonnet 4 / Opus 4 retirement is now past, not pending.** Changed the deprecation pitfall to past tense (IDs and the `-4-0` aliases now error as of 2026-06-15 9am PT), pointed the Opus migration at `claude-opus-4-8`, and noted consumer Claude.ai / Claude Code managed environments were unaffected. Grounded in [Model deprecations](https://platform.claude.com/docs/en/about-claude/model-deprecations) re-fetched this run.
+
+### Verified (no changes)
+- claude-surfaces.md, surfaces/claude-code.md — install command (`curl -fsSL https://claude.ai/install.sh | bash`) re-verified via WebFetch of `claude.com/product/claude-code`: native installer canonical, no deprecation banner; Terminal / VS Code / JetBrains / web / Slack / Desktop surfaces unchanged. Latest release is **v2.1.183 (2026-06-19)**; v2.1.178–v2.1.183 are mostly below the beginner threshold (`/config key=value`, `--safe-mode`, `/cd`, agent-teams setup simplification, destructive-git-command guard). Channels, Dynamic Workflows (`ultracode`), Claude Security, MCP tunnels, routines, per-surface sandboxing all current.
+- surfaces/claude-ai.md, surfaces/claude-desktop.md, surfaces/claude-cowork.md — unchanged.
+- skills.md, mcp-servers.md, plugins.md, marketplaces.md, connectors.md, decision-tree.md — unchanged.
+- advanced/hooks.md, advanced/slash-commands.md, advanced/routines.md, advanced/authentication.md — unchanged.
+
+### Flagged for review
+- **Fable 5 / Mythos 5 restoration** — suspension is open-ended with no Anthropic timeline; re-check the statement and model docs each run and restore the Fable 5 lines when access returns.
+- **Agent SDK billing split** — paused, not cancelled; Anthropic says it will give notice before any future change. Re-verify the help-center pause notice each run.
+- **Anthropic news (06-11 to 06-17): Claude Corps, TCS / DXC regulated-industry partnerships, Seoul office, Public Record** — none are beginner-facing components; out of scope.
+- **Agent teams (experimental)** — `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS`; spawn simplified in v2.1.178. Experimental and env-gated; below beginner threshold for now — watch for GA.
+- **Advisor tool (API)** — carried over; advanced cost-optimization pattern, omitted by scope.
+- **Promote `security-guidance` to its own page** — carried over; stays inside `plugins.md` unless a human expands the topic list.
+
 ## 2026-06-13
 
 ### Updated
