@@ -9,6 +9,25 @@ permalink: /updates/ai-scientists.html
 
 Reverse-chronological log of changes to the [AI scientists tracker]({{ '/autonomous-science/' | relative_url }}). Newest at the top.
 
+## 2026-06-20
+
+### Added
+- **CALMS** (Lifecycle: Experiment design, Analysis) — Argonne National Laboratory (Center for Nanoscale Materials + Advanced Photon Source; Vriza, Prince, Zhou, Chan, Cherukara) AutoGen-based multi-agent framework that operates two real scientific user facilities — a Hard X-ray Nanoprobe (HXN) beamline and an N9 robotic thin-film station. Specialized agents (code writer, code critic, administrator, paper scraper, image explainer, teachability) orchestrate multistep workflows, interpret multimodal nano-diffraction/nano-fluorescence images, and learn on the job by storing human guidance as input–output pairs in a ChromaDB vector store (with a similarity threshold to skip redundant memories). Live demos: natural-language → correct 2D-scan commands and cross-modality scan-region selection at HXN (only o3 reliably reasoned across modalities with high positional precision), and end-to-end fabrication of a defect-free PEDOT:PSS thin film after the literature-scraper agent extracted coating parameters (90 °C, 1 mm/s) from a PDF — teachability markedly improved long-horizon sequential success. Open source ([source](https://arxiv.org/abs/2509.00098)).
+
+### Updated
+- **`autonomous-science/summary.md`** — added the CALMS primary-paper link to Sources. CALMS fits the existing "Chemistry and materials are the most loop-closed" / embodied-instrument pattern (alongside MARS, AMASE, MAD, Qumus) and tips no superlative (Biology & medicine remains the largest group and strongest-evidence tier), so no synthesis prose was rewritten; `synthesis_reviewed` last refreshed 2026-06-11, within the 30-day cadence.
+- **`autonomous-science/curator-state.md`** — added CALMS at the top of `Recently surfaced` (trimming SAGA to keep the window at five); deferred BioMedAgent and logged the link/repo re-verification backlog.
+- **`sources/manifest.json`** — CALMS (DOI 10.48550/arXiv.2509.00098) entry added by Phase A.
+
+### Deferred
+- **BioMedAgent / CAS** (Bu et al., *Nat. Biomed. Eng.*, doi:10.1038/s41551-026-01634-6, 2026) — named, benchmark-validated autonomous biomedical-analysis agent (CAS; BioMed-AQA, 327 tasks, ~77% success; generalizes to BixBench), in-scope as an analysis-stage system. Phase A located no openly downloadable PDF (closed access, no preprint), so Phase B could not ground a page; deferred until a citable open source is available ([source](https://doi.org/10.1038/s41551-026-01634-6)).
+
+### Flagged
+_None._
+
+### Verified (no changes)
+- 19 bootstrap entries crossed the 30-day window today (last_verified 2026-05-20/21). Phase B has no web/MCP tools to confirm link/repo liveness, so `last_verified` was intentionally not bumped; the backlog is logged under `Deferred — next-run priority` for the next Phase A to fetch.
+
 ## 2026-06-13
 
 No new systems surfaced — seed queries (arXiv, bioRxiv, medRxiv via `papers` MCP, plus WebSearch fallback) returned only out-of-scope work and already-catalogued systems.

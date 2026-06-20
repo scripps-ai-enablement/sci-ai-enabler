@@ -558,6 +558,15 @@
    "downloaded": "2026-06-13",
    "txt_sidecar": "2606.13662.txt",
    "note": "Deferred scope-edge: metric-driven optimization discovery (circle packing, Erdos min-overlap, kernel engineering, MLE-Bench) framed as environment-engineering agent substrate, not natural-science hypothesis generation / experiment design / data analysis. Overlaps catalogued ML/math discovery systems and deferred CORAL. Archived for review."
+  },
+  {
+   "doi": "10.48550/arXiv.2509.00098",
+   "filename": "2509.00098.pdf",
+   "title": "Operating advanced scientific instruments with AI agents that learn on the job (CALMS)",
+   "source_url": "https://arxiv.org/abs/2509.00098",
+   "downloaded": "2026-06-20",
+   "txt_sidecar": "2509.00098.txt",
+   "note": "Published as npj Comput Mater 12, 160 (2026), doi:10.1038/s41524-026-02005-0. Argonne CALMS agent operating an X-ray nanoprobe beamline plus an autonomous robotic materials station; orchestrates multistep workflows, interprets multimodal data, learns on the job via in-context expert guidance."
   }
  ]
 }

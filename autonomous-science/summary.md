@@ -125,3 +125,4 @@ Other systems being tracked for inclusion: **Virtual Lab** (Stanford / CZ Biohub
 - [Cong, Smerkous, Wang et al., "LabOS: The AI-XR Co-Scientist That Sees and Works With Humans," arXiv:2510.14861](https://arxiv.org/abs/2510.14861)
 - [Lucente, Pascoli, Sala, Zandi, "DarkAgents: towards an agentic system for theoretical astroparticle physics," arXiv:2606.11157](https://arxiv.org/abs/2606.11157)
 - [Éltető, Daw, Stachenfeld, Miller, "ATLAS: Active Theory Learning for Automated Science," arXiv:2606.12386](https://arxiv.org/abs/2606.12386)
+- [Vriza, Prince, Zhou, Chan, Cherukara, "Operating advanced scientific instruments with AI agents that learn on the job" (CALMS), arXiv:2509.00098 / *npj Comput. Mater.* 12, 160 (2026)](https://arxiv.org/abs/2509.00098)
