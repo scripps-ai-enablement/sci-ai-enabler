@@ -57,4 +57,4 @@ _None._
 
 ## User requests (closed this run)
 
-- [#42 @goodb 2026-06-15] queue: catalog | feedback-on=open-targets | sentiment=got stuck | author=@goodb | issue=42 → confirmed credible: added a dated field report to open-targets Notes documenting the `-32602` initialize-handshake failure plus two workarounds (direct GraphQL API; ToolUniverse `OpenTargets_*` tools); flagged the tool in front-matter and under Flagged for review; last_verified bumped to 2026-06-20.
+_None._
