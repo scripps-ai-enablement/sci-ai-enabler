@@ -6,7 +6,7 @@ tool_type: MCP server
 supplier: Augmented Nature
 availability: GA
 tool_categories: [Immunology and Microbiology, Integrative Structural and Computational Biology, Molecular and Cellular Biology, Drug Repurposing and Discovery]
-last_verified: 2026-05-20
+last_verified: 2026-06-20
 summary: MCP server exposing the EBI AlphaFold Protein Structure Database for structure retrieval, pLDDT analysis, comparison, and PyMOL/ChimeraX export.
 ---
 

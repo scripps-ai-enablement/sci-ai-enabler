@@ -11,6 +11,22 @@ Reverse-chronological log of changes to the [catalog]({{ '/catalog/' | relative_
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-06-20 (Integrative Structural and Computational Biology slot)
+
+Structural & computational-biology directed pass plus a manifest sweep. The `anthropics/life-sciences` marketplace matched the catalogued set (no new entries). The directed pass found no Claude-installable cryo-EM (RELION/cryoSPARC/CTFFIND) wrapper — that gap persists. It surfaced two molecular-dynamics MCP candidates: **OpenMM MCP Server** (`PhelanShao/openmm-mcp-server`, GPLv3) was added as a new page — a discrete stdio server that *runs* MD/DFT jobs via managed tool calls, distinct from the existing K-Dense `molecular-dynamics` skill — while `egtai/gmx-vmd-mcp` was deferred (placeholder clone URL, unenumerated tools, unconfirmed license). The PDB and AlphaFold MCP candidates from the seed queries are already comprehensively catalogued (`pdb.md` covers all three RCSB/PDB servers).
+
+### Added
+- **OpenMM MCP Server** (Categories: Integrative Structural and Computational Biology, Drug Repurposing and Discovery) — stdio MCP server that sets up and runs OpenMM molecular dynamics (protein/membrane templates, advanced sampling) and Abacus DFT jobs from natural language; GPLv3, clone + `pip install -r requirements.txt` ([source](https://github.com/PhelanShao/openmm-mcp-server)).
+
+### Updated
+- **AlphaFold MCP Server** — re-verified upstream repo, install path, EBI API, and ~21–25 tool count; `last_verified` 2026-05-20 → 2026-06-20.
+
+### Flagged
+- _None._
+
+### Verified (no changes)
+- AlphaFold MCP Server (>30-day) re-verified; `anthropics/life-sciences` marketplace re-checked against the catalogued set.
+
 ## 2026-06-20 (Immunology and Microbiology slot)
 
 Immunology and Microbiology directed pass plus a manifest sweep. The `anthropics/life-sciences` marketplace matched the catalogued set (no new entries). The directed pass found no Claude-installable wrapper for IEDB, Immcantation/AIRR (BCR/TCR) repertoire analysis, or a discrete metagenomics/microbiome server — those gaps persist (deferred items unchanged). It did surface the **Bio-MCP** organization's discrete per-tool MCP servers; **BLAST** (`bio-mcp/bio-mcp-blast`, MIT) wraps NCBI BLAST+ as an MCP server with a clear clone-and-install path and was added as a new page (tagged `All`, since similarity search is a cross-cutting primitive heavily used in microbiology/metagenomics). Acted on user request #42 (open-targets): its `.request-bodies/42.md` prefetch is now present and the report is credible.
