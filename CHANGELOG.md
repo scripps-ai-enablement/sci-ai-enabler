@@ -11,6 +11,24 @@ Reverse-chronological log of changes to the [catalog]({{ '/catalog/' | relative_
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-06-21 (Neuroscience slot)
+
+Neuroscience directed pass plus a manifest sweep — no substantive additions. The `anthropics/life-sciences` marketplace matched the catalogued set (no new entries). The Neuroscience directed pass (Allen Brain Atlas / NWB / DANDI / spike-sorting / EEG-fMRI seed queries) surfaced only tools already catalogued (`allenbrain-mcp`, SpikeLab, Neuropixels-Analysis) or already deferred/declined (`bendichter/dandi-query-mcp` boilerplate, ABC Atlas / BrainGlobe / OpenNeuro have no Claude-installable wrapper). The NeuroClaw collection (focus-category source) was re-diffed: all 86 upstream skills match `scripts/neuroclaw_category_map.yaml` exactly — none added, none removed.
+
+### Added
+- _None._
+
+### Updated
+- _None._
+
+### Flagged
+- _None._
+
+### Verified (no changes)
+- **allenbrain-mcp** — upstream repo still live, no LICENSE added, install path and 10-tool list unchanged; `last_verified` bumped to 2026-06-21 (license flag stands).
+- `anthropics/life-sciences` marketplace re-checked against the catalogued set (no new entries).
+- NeuroClaw (`CUHK-AIM-Group/NeuroClaw`) re-diffed in diff-only mode — 86 skills, all accounted for in the category map.
+
 ## 2026-06-20 (Molecular and Cellular Biology slot)
 
 Molecular & cellular-biology directed pass plus a manifest sweep. The `anthropics/life-sciences` marketplace matched the catalogued set (no new entries). The directed pass surfaced a new first-party skill collection, **`google-deepmind/science-skills`** (Apache-2.0 code / CC-BY-4.0 docs, ~37 skills, Agent Skills spec). Most of its skills wrap databases already catalogued (ChEMBL, ClinVar, dbSNP, Ensembl, gnomAD, ENCODE, etc.), but three are genuinely new and central to molecular/cellular biology and were added: **AlphaGenome single-variant analysis**, the **GTEx expression database** skill, and the **UniBind TF binding-sites** skill. Remaining new-to-catalog skills from this collection (foldseek structural search, EMBL-EBI OLS) are deferred.

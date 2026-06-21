@@ -6,7 +6,7 @@ tool_type: MCP server
 supplier: maflot (community)
 availability: Alpha
 tool_categories: [Neuroscience]
-last_verified: 2026-05-20
+last_verified: 2026-06-21
 summary: Community MCP wrapper exposing Allen Brain Atlas RMA queries, cell-types, mouse connectivity, ontologies, and image/grid downloads to Claude.
 ---
 
