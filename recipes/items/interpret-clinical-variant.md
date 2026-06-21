@@ -9,7 +9,7 @@ evidence_level: Proposed
 complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Laptop
-last_verified: 2026-06-04
+last_verified: 2026-06-21
 summary: Use BioMCP to convert a free-text variant query ("BRAF V600E", "rs113993960", "NM_004985.5:c.35G>A") into a one-page clinical report with ClinVar significance, population frequency, in-silico predictions, and linked literature.
 ---
 

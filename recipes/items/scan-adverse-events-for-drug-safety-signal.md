@@ -9,7 +9,7 @@ evidence_level: Proposed
 complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Laptop
-last_verified: 2026-06-06
+last_verified: 2026-06-21
 summary: Use the OpenFDA MCP server to pull FAERS adverse-event reports and label warnings for a drug, rank the top reported reactions, and assemble a pharmacovigilance snapshot.
 ---
 
