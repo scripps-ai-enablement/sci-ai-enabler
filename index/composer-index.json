@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "generated": "2026-06-20",
+  "generated": "2026-06-21",
   "counts": {
-    "tools": 349,
-    "recipes": 47,
+    "tools": 355,
+    "recipes": 53,
     "systems": 66
   },
   "tools_file": "composer-tools.json",
@@ -61,6 +61,26 @@
         "tRNA"
       ],
       "path": "recipes/items/annotate-a-bacterial-genome.md"
+    },
+    {
+      "slug": "annotate-cell-types-in-single-cell-data",
+      "title": "Annotate cell types in a single-cell dataset",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Molecular and Cellular Biology",
+        "Immunology and Microbiology",
+        "Neuroscience"
+      ],
+      "evidence_level": "Reported",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-06-20",
+      "summary": "Use the SciAgent CellTypist skill to put reference-backed cell-type labels on a QC'd AnnData, escalating to the popV consensus skill when you need ensemble uncertainty.",
+      "keywords": [
+        "PanglaoDB"
+      ],
+      "path": "recipes/items/annotate-cell-types-in-single-cell-data.md"
     },
     {
       "slug": "assemble-reference-atlas-from-cellxgene-census",
@@ -307,6 +327,31 @@
       "path": "recipes/items/convert-instrument-data-to-allotrope-asm.md"
     },
     {
+      "slug": "detect-somatic-cnvs-from-tumor-sequencing",
+      "title": "Detect somatic copy-number variants from tumor sequencing",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Translational Medicine",
+        "Molecular and Cellular Biology"
+      ],
+      "evidence_level": "Reported",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Workstation with GPU",
+      "last_verified": "2026-06-21",
+      "summary": "Use the CNVkit Claude Skill to call somatic gene amplifications and deletions from tumor WES/targeted-panel BAMs and export segmented, plotted copy-number profiles.",
+      "keywords": [
+        "BAMs",
+        "CNVkit",
+        "CNVs",
+        "SEG",
+        "VCF",
+        "WES",
+        "WGS"
+      ],
+      "path": "recipes/items/detect-somatic-cnvs-from-tumor-sequencing.md"
+    },
+    {
       "slug": "discover-nwb-recordings-on-dandi",
       "title": "Discover NWB recordings on DANDI and prepare them for sorting",
       "problem_class": "Knowledge synthesis",
@@ -452,7 +497,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-06-06",
+      "last_verified": "2026-06-21",
       "summary": "Use the scikit-survival Claude Skill to fit Cox and Random Survival Forest models to censored time-to-event data and report concordance with proper validation.",
       "keywords": [
         "Kaplan-Meier",
@@ -589,7 +634,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-06-04",
+      "last_verified": "2026-06-21",
       "summary": "Use BioMCP to convert a free-text variant query (\"BRAF V600E\", \"rs113993960\", \"NM_004985.5:c.35G>A\") into a one-page clinical report with ClinVar significance, population frequency, in-silico predictions, and linked literature.",
       "keywords": [
         "BioMCP",
@@ -639,7 +684,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-06-04",
+      "last_verified": "2026-06-21",
       "summary": "Use BioMCP (or the standalone ClinicalTrials.gov MCP) to take a free-text patient summary and return a ranked list of currently-recruiting trials with eligibility rationale.",
       "keywords": [
         "BioMCP",
@@ -717,6 +762,83 @@
         "SBML"
       ],
       "path": "recipes/items/predict-gene-knockout-phenotypes-with-fba.md"
+    },
+    {
+      "slug": "predict-hospital-readmission-from-ehr",
+      "title": "Predict hospital readmission from EHR data",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Translational Medicine"
+      ],
+      "evidence_level": "Proposed",
+      "complexity": "One skill or MCP",
+      "availability": "Institutional access",
+      "compute_requirements": "Workstation with GPU",
+      "last_verified": "2026-06-21",
+      "summary": "Use the PyHealth Claude Skill to build a 30-day readmission predictor on MIMIC/OMOP EHR data with a reproducible dataset → task → model → metrics pipeline.",
+      "keywords": [
+        "ATC",
+        "AUPRC",
+        "AUROC",
+        "CDM",
+        "EHR",
+        "eICU",
+        "ICD",
+        "MIMIC",
+        "MIMIC-IV",
+        "OMOP",
+        "SQL"
+      ],
+      "path": "recipes/items/predict-hospital-readmission-from-ehr.md"
+    },
+    {
+      "slug": "predict-noncoding-variant-regulatory-effects",
+      "title": "Predict the regulatory effect of a non-coding variant",
+      "problem_class": "Knowledge synthesis",
+      "subject_areas": [
+        "Molecular and Cellular Biology",
+        "Integrative Structural and Computational Biology"
+      ],
+      "evidence_level": "Reported",
+      "complexity": "One skill or MCP",
+      "availability": "Subscription required",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-06-20",
+      "summary": "Use the DeepMind AlphaGenome skill to score how a single non-coding variant changes expression, chromatin accessibility, histone marks, splicing, and TF binding.",
+      "keywords": [
+        "eQTL",
+        "GWAS",
+        "Wet-lab"
+      ],
+      "path": "recipes/items/predict-noncoding-variant-regulatory-effects.md"
+    },
+    {
+      "slug": "predict-rna-secondary-structure-and-accessibility",
+      "title": "Predict RNA secondary structure and target-site accessibility",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Integrative Structural and Computational Biology",
+        "Molecular and Cellular Biology"
+      ],
+      "evidence_level": "Proposed",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-06-20",
+      "summary": "Use the ViennaRNA skill to fold an RNA, get its MFE structure, base-pair probabilities, and the accessibility of a candidate target site — for siRNA/sgRNA/ASO design or riboswitch analysis.",
+      "keywords": [
+        "ASO",
+        "MFE",
+        "mRNA",
+        "RNA",
+        "RNAfold",
+        "RNAplfold",
+        "sgRNA",
+        "siRNA",
+        "UTR",
+        "ViennaRNA"
+      ],
+      "path": "recipes/items/predict-rna-secondary-structure-and-accessibility.md"
     },
     {
       "slug": "prioritize-targets-within-a-disease",
@@ -927,7 +1049,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-06-06",
+      "last_verified": "2026-06-21",
       "summary": "Use the OpenFDA MCP server to pull FAERS adverse-event reports and label warnings for a drug, rank the top reported reactions, and assemble a pharmacovigilance snapshot.",
       "keywords": [
         "FAERS",
@@ -1020,6 +1142,24 @@
         "DDInter"
       ],
       "path": "recipes/items/screen-polypharmacy-for-drug-interactions.md"
+    },
+    {
+      "slug": "segment-organ-or-tumor-in-medical-image",
+      "title": "Segment an organ or tumor in a medical image with nnU-Net",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Translational Medicine"
+      ],
+      "evidence_level": "Reported",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Workstation with GPU",
+      "last_verified": "2026-06-21",
+      "summary": "Drive nnU-Net's self-configuring framework from Claude Code to train and run a voxel-accurate segmentation model for an organ or lesion in CT/MRI, with 5-fold cross-validated Dice.",
+      "keywords": [
+        "MRI"
+      ],
+      "path": "recipes/items/segment-organ-or-tumor-in-medical-image.md"
     },
     {
       "slug": "set-up-protein-md-simulation-in-gromacs",

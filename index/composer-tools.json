@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "generated": "2026-06-20",
-  "count": 349,
+  "generated": "2026-06-21",
+  "count": 355,
   "tools": [
     {
       "slug": "10x-genomics-cloud",
@@ -203,7 +203,7 @@
       "tool_categories": [
         "Neuroscience"
       ],
-      "last_verified": "2026-05-20",
+      "last_verified": "2026-06-21",
       "summary": "Community MCP wrapper exposing Allen Brain Atlas RMA queries, cell-types, mouse connectivity, ontologies, and image/grid downloads to Claude.",
       "keywords": [
         "RMA"
@@ -221,7 +221,7 @@
         "Molecular and Cellular Biology",
         "Drug Repurposing and Discovery"
       ],
-      "last_verified": "2026-05-20",
+      "last_verified": "2026-06-20",
       "summary": "MCP server exposing the EBI AlphaFold Protein Structure Database for structure retrieval, pLDDT analysis, comparison, and PyMOL/ChimeraX export.",
       "keywords": [
         "EBI",
@@ -229,6 +229,24 @@
         "PyMOL"
       ],
       "path": "catalog/tools/alphafold.md"
+    },
+    {
+      "slug": "alphagenome",
+      "title": "AlphaGenome Single-Variant Analysis (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "Preview",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-20",
+      "summary": "\"Predict non-coding variant effects on expression, chromatin accessibility, histone marks, splicing, and TF binding via the AlphaGenome API.\"",
+      "keywords": [
+        "ChIP",
+        "DNASE",
+        "RNA-seq",
+        "Single-Variant"
+      ],
+      "path": "catalog/tools/alphagenome.md"
     },
     {
       "slug": "anndata",
@@ -1988,6 +2006,25 @@
       "path": "catalog/tools/fhir-developer.md"
     },
     {
+      "slug": "fhir-momentum",
+      "title": "Momentum FHIR MCP Server",
+      "tool_type": "MCP server",
+      "availability": "GA",
+      "tool_categories": [
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-06-21",
+      "summary": "MIT-licensed FHIR R4 MCP server with full CRUD, document ingestion/chunking, and Pinecone-backed semantic search over clinical records.",
+      "keywords": [
+        "CRUD",
+        "FHIR",
+        "MIT-licensed",
+        "Open-source",
+        "Pinecone-backed"
+      ],
+      "path": "catalog/tools/fhir-momentum.md"
+    },
+    {
       "slug": "fhir-wso2",
       "title": "WSO2 FHIR MCP Server",
       "tool_type": "MCP server",
@@ -2443,6 +2480,26 @@
         "High-performance"
       ],
       "path": "catalog/tools/gtars.md"
+    },
+    {
+      "slug": "gtex-database",
+      "title": "GTEx Expression Database (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-20",
+      "summary": "\"Query the GTEx Portal for median RNA expression (TPM) across 54 human tissues and eQTLs linking variants to gene expression.\"",
+      "keywords": [
+        "eQTLs",
+        "Genotype-Tissue",
+        "GTEx",
+        "QTL",
+        "RNA",
+        "TPM"
+      ],
+      "path": "catalog/tools/gtex-database.md"
     },
     {
       "slug": "gtopdb-database",
@@ -3349,6 +3406,26 @@
       "path": "catalog/tools/medchem.md"
     },
     {
+      "slug": "medical-terminologies-mcp",
+      "title": "Medical Terminologies MCP",
+      "tool_type": "MCP server",
+      "availability": "GA",
+      "tool_categories": [
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-06-21",
+      "summary": "MIT-licensed MCP server giving Claude unified lookup and cross-mapping across ICD-11, SNOMED CT, LOINC, RxNorm, MeSH, and ATC.",
+      "keywords": [
+        "ATC",
+        "ICD-11",
+        "LOINC",
+        "MeSH",
+        "MIT-licensed",
+        "SNOMED"
+      ],
+      "path": "catalog/tools/medical-terminologies-mcp.md"
+    },
+    {
       "slug": "medidata",
       "title": "Medidata Connector",
       "tool_type": "Claude.ai Connector",
@@ -4029,6 +4106,23 @@
         "openFDA"
       ],
       "path": "catalog/tools/openfda.md"
+    },
+    {
+      "slug": "openmm-mcp",
+      "title": "OpenMM MCP Server",
+      "tool_type": "MCP server",
+      "availability": "GA",
+      "tool_categories": [
+        "Integrative Structural and Computational Biology",
+        "Drug Repurposing and Discovery"
+      ],
+      "last_verified": "2026-06-20",
+      "summary": "MCP server that sets up and runs OpenMM molecular dynamics simulations (protein, membrane, advanced sampling) and Abacus DFT jobs from natural language.",
+      "keywords": [
+        "DFT",
+        "OpenMM"
+      ],
+      "path": "catalog/tools/openmm-mcp.md"
     },
     {
       "slug": "openneuro",
@@ -6166,6 +6260,28 @@
         "UMAP-learn"
       ],
       "path": "catalog/tools/umap-learn.md"
+    },
+    {
+      "slug": "unibind-database",
+      "title": "UniBind TF Binding Sites (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-20",
+      "summary": "\"Query UniBind for experimentally validated transcription-factor binding sites; download BED/FASTA coordinates by species, cell line, or TF.\"",
+      "keywords": [
+        "BED",
+        "ChIP-seq",
+        "ChIP-seq-derived",
+        "DAMO",
+        "DNA",
+        "FASTA",
+        "JASPAR",
+        "REST"
+      ],
+      "path": "catalog/tools/unibind-database.md"
     },
     {
       "slug": "unichem-database",
