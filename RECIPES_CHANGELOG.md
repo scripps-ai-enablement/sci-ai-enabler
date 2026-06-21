@@ -11,6 +11,17 @@ Reverse-chronological log of changes to the [recipes cookbook]({{ '/recipes/' | 
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-06-21
+
+### Added
+
+- **Detect somatic copy-number variants from tumor sequencing** (Problem class: Data analysis; Evidence: Reported) — rung-2 [CNVkit skill](catalog/tools/cnvkit-copy-number.html) recipe taking tumor WES/targeted-panel BAMs through pooled-reference construction → coverage binning + bias correction → CBS segmentation → gene-level amplification/deletion calls (with stated log2 thresholds) → scatter/diagram QC plots and SEG/VCF export, with purity/ploidy and matched-normal caveats surfaced. Translational Medicine focus-day recipe; cookbook's first somatic-CNV recipe, paired with the [cBioPortal cohort recipe](recipes/items/profile-cancer-cohort-genomics-with-cbioportal.html) for cohort-level context. `Reported` — CNVkit is the field-standard engine for copy-number from targeted/exome data ([Talevich et al., *PLOS Comput. Biol.* 2016](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1004873)); the Claude-skill assembly is not independently benchmarked.
+- **Predict hospital readmission from EHR data** (Problem class: Data analysis; Evidence: Proposed) — rung-2 [PyHealth skill](catalog/tools/pyhealth.html) recipe taking a credentialed EHR extract (MIMIC-IV/eICU/OMOP) through the dataset → 30-day-readmission task → RETAIN/Transformer sequence model → patient-level-split AUROC/AUPRC + calibration vs a logistic-regression baseline, with data-use-agreement and cross-institution-transfer caveats surfaced. Translational Medicine focus-day recipe; cookbook's first EHR clinical-prediction recipe, complementing the [survival-model recipe](recipes/items/fit-survival-model-to-clinical-outcomes.html). `Proposed` — no documented LLM-driven PyHealth assembly; grounded in [Yang et al., *KDD 2023*](https://dl.acm.org/doi/10.1145/3580305.3599178) and [PyHealth 2.0, arXiv:2601.16414 (2026)](https://arxiv.org/abs/2601.16414). `Institutional access` (PhysioNet credentialed datasets).
+
+### Verified (no changes)
+
+- Aging-recipe spot-check skipped: oldest `last_verified` in the cookbook is 2026-06-01 (20 days), inside the 30-day verification window.
+
 ## 2026-06-20
 
 ### Added
