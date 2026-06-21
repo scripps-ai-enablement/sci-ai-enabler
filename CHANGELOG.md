@@ -11,6 +11,24 @@ Reverse-chronological log of changes to the [catalog]({{ '/catalog/' | relative_
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-06-21 (Translational Medicine slot)
+
+Translational Medicine directed pass plus a manifest sweep. The `anthropics/life-sciences` marketplace matched the catalogued set (no new entries; the raw `marketplace.json` URL 404s but the repo content matches existing pages). The directed pass surfaced two distinct, MIT-licensed clinical MCP servers not previously catalogued. The Augmented-Nature OpenFDA device superset was re-investigated and remains deferred (license + registration snippet still unverified).
+
+### Added
+- **Momentum FHIR MCP Server** (Categories: Translational Medicine) — MIT FHIR R4 MCP with full CRUD plus document ingestion/chunking and Pinecone-backed semantic search; distinct from the WSO2 CRUD bridge and Anthropic `fhir-developer` authoring plugin ([source](https://github.com/the-momentum/fhir-mcp-server))
+- **Medical Terminologies MCP** (Categories: Translational Medicine) — MIT MCP exposing 31–37 tools across ICD-11, SNOMED CT, LOINC, RxNorm, MeSH, and ATC with cross-mapping; broader than the single-terminology Anthropic ICD-10 connector ([source](https://github.com/SidneyBissoli/medical-terminologies-mcp))
+
+### Updated
+- _None._
+
+### Flagged
+- _None._
+
+### Verified (no changes)
+- `anthropics/life-sciences` marketplace re-checked against the catalogued set (no new entries).
+- **Augmented-Nature OpenFDA-MCP-Server** re-investigated (10-tool drug+device list + clone/build steps now confirmed) but kept deferred — license still "standard licensing terms" only and no copy-pasteable registration snippet.
+
 ## 2026-06-21 (Neuroscience slot)
 
 Neuroscience directed pass plus a manifest sweep — no substantive additions. The `anthropics/life-sciences` marketplace matched the catalogued set (no new entries). The Neuroscience directed pass (Allen Brain Atlas / NWB / DANDI / spike-sorting / EEG-fMRI seed queries) surfaced only tools already catalogued (`allenbrain-mcp`, SpikeLab, Neuropixels-Analysis) or already deferred/declined (`bendichter/dandi-query-mcp` boilerplate, ABC Atlas / BrainGlobe / OpenNeuro have no Claude-installable wrapper). The NeuroClaw collection (focus-category source) was re-diffed: all 86 upstream skills match `scripts/neuroclaw_category_map.yaml` exactly — none added, none removed.
