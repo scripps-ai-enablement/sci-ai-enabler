@@ -9,7 +9,7 @@ evidence_level: Reported
 complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Laptop
-last_verified: 2026-05-31
+last_verified: 2026-06-21
 summary: Drive the PyTDC Claude skill to load a Therapeutics Data Commons ADMET dataset with its leaderboard split, train or score a baseline model, and emit the standard TDC metrics so a new method can be compared head-to-head against the leaderboard.
 ---
 
@@ -97,14 +97,14 @@ Reported. The canonical benchmark itself is established in [Huang et al., *NeurI
 
 ## Sources
 
-- [Therapeutics Data Commons home](https://tdcommons.ai/) — verified 2026-05-31 (this run).
-- [TDC ADMET_Group leaderboard](https://tdcommons.ai/benchmark/admet_group/overview/) — verified 2026-05-31 (this run).
+- [Therapeutics Data Commons home](https://tdcommons.ai/) — verified 2026-06-21 (this run).
+- [TDC ADMET_Group leaderboard](https://tdcommons.ai/benchmark/admet_group/overview/) — verified 2026-06-21 (this run).
 - [Huang et al., "Therapeutics Data Commons: Machine Learning Datasets and Tasks for Drug Discovery and Development," *NeurIPS Datasets and Benchmarks* 2021 (arXiv:2102.09548)](https://arxiv.org/abs/2102.09548).
 - [Velez-Arce et al., "Signals in the Cells: Multimodal and Contextualized ML Foundations for Therapeutics," NeurIPS 2024 (TDC-2)](https://openreview.net/forum?id=kL8dlYp6IM).
 - [Hao et al., "PharmaBench: Enhancing ADMET benchmarks with large language models," *Scientific Data* 11:864 (2024)](https://doi.org/10.1038/s41597-024-03793-0).
 - [Yuan et al., "Tx-LLM: A Large Language Model for Therapeutics," arXiv:2406.06316 (2024)](https://arxiv.org/abs/2406.06316).
-- [`mims-harvard/TDC`](https://github.com/mims-harvard/TDC) — verified 2026-05-31 (this run).
-- [`K-Dense-AI/scientific-agent-skills` (`scientific-skills/pytdc/SKILL.md`)](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/pytdc/SKILL.md) — verified 2026-05-31 (this run).
+- [`mims-harvard/TDC`](https://github.com/mims-harvard/TDC) — verified 2026-06-21 (this run).
+- [`K-Dense-AI/scientific-agent-skills` (`scientific-skills/pytdc/SKILL.md`)](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/pytdc/SKILL.md) — verified 2026-06-21 (this run).
 
 ---
 
