@@ -6,7 +6,7 @@ tool_type: MCP server
 supplier: openpharma-org (community)
 availability: GA
 tool_categories: [Drug Repurposing and Discovery, Chemistry, Translational Medicine]
-last_verified: 2026-05-20
+last_verified: 2026-06-21
 summary: Community MCP server exposing a local DrugBank SQLite (17k+ drugs) with 16 query methods for repurposing, target lookup, interactions, and structural similarity.
 ---
 
@@ -66,11 +66,12 @@ claude mcp add --transport stdio drugbank -- node /path/to/drugbank-mcp-server/b
 
 ## Notes
 
-Unofficial — verify against DrugBank's current terms before use. The user must independently obtain the DrugBank XML (license-gated). Local stdio MCP; sub-10ms queries; ~50-100 MB RAM.
+Unofficial — verify against DrugBank's current terms before use. The user must independently obtain the DrugBank XML (license-gated). Local stdio MCP; sub-10ms queries; ~50-100 MB RAM. DrugBank also ships an **official hosted MCP** ([go.drugbank.com/mcp](https://go.drugbank.com/mcp)) querying its curated knowledge graph directly, but it is gated behind a paid DrugBank OS account with MCP access enabled (contact your account manager); the community server above is the only free/self-hosted path.
 
 ## Sources
 
 - [`openpharma-org/drugbank-mcp-server`](https://github.com/openpharma-org/drugbank-mcp-server)
+- [DrugBank official MCP](https://go.drugbank.com/mcp)
 - [LobeHub listing](https://lobehub.com/mcp/openpharma-org-drugbank-mcp-server)
 
 ---

@@ -11,6 +11,24 @@ Reverse-chronological log of changes to the [catalog]({{ '/catalog/' | relative_
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-06-21 (Drug Repurposing and Discovery slot)
+
+Drug Repurposing and Discovery directed pass plus a manifest sweep. The `anthropics/life-sciences` raw `marketplace.json` URL 404s; repo content still matches the catalogued set (no new entries). The directed pass surfaced the DrugBank official hosted MCP (paid/gated — noted on the existing community page) and confirmed three deferred ToolUniverse drug-discovery sibling skills against their upstream `SKILL.md` files, which were catalogued.
+
+### Added
+- **Drug Research (ToolUniverse Claude Skill)** (Categories: Drug Repurposing and Discovery, Translational Medicine) — 12-step comprehensive drug dossier (mechanism, ADMET, trials, FAERS, pharmacogenomics, approval history) over the ToolUniverse MCP ([source](https://github.com/mims-harvard/ToolUniverse/blob/main/skills/tooluniverse-drug-research/SKILL.md))
+- **Drug Target Validation (ToolUniverse Claude Skill)** (Categories: Drug Repurposing and Discovery, Molecular and Cellular Biology, Translational Medicine) — four-gate 0–100 target validation score with GO/NO-GO tiers ([source](https://github.com/mims-harvard/ToolUniverse/blob/main/skills/tooluniverse-drug-target-validation/SKILL.md))
+- **Drug Synergy (ToolUniverse Claude Skill)** (Categories: Drug Repurposing and Discovery) — Bliss/HSA/Loewe/ZIP/Chou-Talalay combination-synergy scoring over user-supplied effect data ([source](https://github.com/mims-harvard/ToolUniverse/blob/main/skills/tooluniverse-drug-synergy/SKILL.md))
+
+### Updated
+- **DrugBank MCP Server** — added note + source for DrugBank's official hosted MCP (`go.drugbank.com/mcp`, paid DrugBank OS gated); `last_verified` 2026-05-20 → 2026-06-21 ([source](https://go.drugbank.com/mcp))
+
+### Flagged
+- _None._
+
+### Verified (no changes)
+- `anthropics/life-sciences` marketplace re-checked against the catalogued set (no new entries).
+
 ## 2026-06-21 (Translational Medicine slot)
 
 Translational Medicine directed pass plus a manifest sweep. The `anthropics/life-sciences` marketplace matched the catalogued set (no new entries; the raw `marketplace.json` URL 404s but the repo content matches existing pages). The directed pass surfaced two distinct, MIT-licensed clinical MCP servers not previously catalogued. The Augmented-Nature OpenFDA device superset was re-investigated and remains deferred (license + registration snippet still unverified).
