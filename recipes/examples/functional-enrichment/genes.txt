@@ -1,0 +1,11 @@
+# Example gene list: up-regulated genes from a (synthetic) human DE run.
+# One symbol per line. Comments and blanks are ignored.
+ATF4
+ATF3
+DDIT3
+HSPA5
+XBP1
+EIF2AK3
+HMOX1
+NQO1
+HSPA1A

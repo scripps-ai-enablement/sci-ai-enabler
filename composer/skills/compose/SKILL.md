@@ -25,7 +25,7 @@ record that makes the knowledge base smarter for the next scientist.
 1. **Simplicity ladder — recommend the cheapest rung that solves the problem.**
    1. Claude Code alone (a good prompt; no Skill, MCP, or Plugin).
    2. Claude Code + one Skill or MCP server.
-   3. Claude Code + a small toolbelt (≤ 3 components).
+   3. Claude Code + a small toolbelt.
    4. A documented autonomous-science system (Biomni, Robin, Co-Scientist, ChemCrow, …).
    Start at the lowest rung that actually solves the problem. You may present rung N **only after
    stating in one sentence why rung N−1 fails.** A jump to rung 3/4 with no stated lower-rung failure
@@ -129,11 +129,24 @@ a scientist should be able to decide in 30 seconds whether it fits.
 Then offer to **make it real** (this is the point of the skill). Each state-changing action needs the
 scientist's explicit go-ahead, and you run **only** commands quoted from a component's catalog page:
 - **Install** the components (`/plugin install …`, `claude mcp add …` — exactly as the page states).
-- **Leave a reusable entry point** — write a parameterized project command at
-  `.claude/commands/<verb-noun>.md` (or a small skill) so they can re-run the workflow later, e.g.
-  `/<verb-noun> <args>`.
-- **Run it once** against their real input so they leave with an actual result, not just a plan.
-Ask which of these they want; don't assume.
+- **Capture the analysis as a durable, reproducible artifact — this is the deliverable of record, not
+  the chat.** Write the workflow to a version-controllable file the scientist owns: a script
+  (`analysis.py`) or notebook (`analysis.ipynb`) for anything with real logic, plus a **pinned
+  environment** (`requirements.txt` / `environment.yml`). Emit a small **provenance record** alongside
+  the outputs — tool/library/MCP-server versions, the external-source release or snapshot date, the
+  model id, the exact inputs, and a hash of the outputs — so the run can be audited and re-attempted.
+  Keep any natural-language synthesis grounded in the saved outputs. The reference pattern is
+  `recipes/examples/functional-enrichment/`; see the guide page *Reproducible, provenance-tracked AI
+  analysis*.
+- **(Optional) leave a convenience wrapper** — a parameterized `.claude/commands/<verb-noun>.md` so
+  they can re-trigger the workflow, e.g. `/<verb-noun> <args>`. Be explicit that this re-invokes the
+  agent and is **not** itself the reproducible record — re-running it can produce different code or
+  results. The committed script + pinned environment + provenance is what reproduces; the slash
+  command is just a shortcut to regenerate or re-run it.
+- **Run it once** against their real input so they leave with an actual result, not just a plan —
+  by executing the captured artifact, so the first result is itself reproducible.
+Ask which of these they want; don't assume — but steer toward the captured artifact: a scientist
+should leave with code they can commit, not a transcript they have to trust.
 
 ### 6. Capture the work (close the loop)
 Every session feeds the knowledge base — see **Capture** below. Do this before you finish.
