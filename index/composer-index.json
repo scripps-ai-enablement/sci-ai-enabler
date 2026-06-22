@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "generated": "2026-06-21",
+  "generated": "2026-06-22",
   "counts": {
-    "tools": 355,
-    "recipes": 53,
+    "tools": 358,
+    "recipes": 54,
     "systems": 66
   },
   "tools_file": "composer-tools.json",
@@ -118,7 +118,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-05-31",
+      "last_verified": "2026-06-21",
       "summary": "Drive the PyTDC Claude skill to load a Therapeutics Data Commons ADMET dataset with its leaderboard split, train or score a baseline model, and emit the standard TDC metrics so a new method can be compared head-to-head against the leaderboard.",
       "keywords": [
         "ADMET",
@@ -1100,6 +1100,27 @@
         "MONDO"
       ],
       "path": "recipes/items/scan-drug-repurposing-candidates.md"
+    },
+    {
+      "slug": "score-drug-combination-synergy",
+      "title": "Score a drug-combination screen for synergy",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Drug Repurposing and Discovery",
+        "Chemistry"
+      ],
+      "evidence_level": "Proposed",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-06-21",
+      "summary": "Drive the ToolUniverse Drug Synergy skill to pick the right reference model (Bliss / HSA / Loewe / ZIP / Chou-Talalay) for your combination data and classify a two-drug pairing as synergistic, additive, or antagonistic.",
+      "keywords": [
+        "Chou-Talalay",
+        "HSA",
+        "ZIP"
+      ],
+      "path": "recipes/items/score-drug-combination-synergy.md"
     },
     {
       "slug": "score-protein-variants-with-esm",

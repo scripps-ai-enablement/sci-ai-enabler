@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "generated": "2026-06-21",
-  "count": 355,
+  "generated": "2026-06-22",
+  "count": 358,
   "tools": [
     {
       "slug": "10x-genomics-cloud",
@@ -1735,7 +1735,7 @@
         "Chemistry",
         "Translational Medicine"
       ],
-      "last_verified": "2026-05-20",
+      "last_verified": "2026-06-21",
       "summary": "Community MCP server exposing a local DrugBank SQLite (17k+ drugs) with 16 query methods for repurposing, target lookup, interactions, and structural similarity.",
       "keywords": [
         "SQLite"
@@ -6083,6 +6083,57 @@
         "Zero-shot"
       ],
       "path": "catalog/tools/timesfm-forecasting.md"
+    },
+    {
+      "slug": "tooluniverse-drug-research",
+      "title": "Drug Research (ToolUniverse Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Drug Repurposing and Discovery",
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-06-21",
+      "summary": "ToolUniverse agent skill that compiles a comprehensive drug dossier — mechanism, targets, ADMET, trials, FAERS safety, pharmacogenomics, and approval history.",
+      "keywords": [
+        "ADMET",
+        "FAERS"
+      ],
+      "path": "catalog/tools/tooluniverse-drug-research.md"
+    },
+    {
+      "slug": "tooluniverse-drug-synergy",
+      "title": "Drug Synergy (ToolUniverse Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Drug Repurposing and Discovery"
+      ],
+      "last_verified": "2026-06-21",
+      "summary": "ToolUniverse agent skill that quantifies drug-combination synergy using Bliss, HSA, Loewe, ZIP, and Chou-Talalay reference models.",
+      "keywords": [
+        "Chou-Talalay",
+        "HSA",
+        "ZIP"
+      ],
+      "path": "catalog/tools/tooluniverse-drug-synergy.md"
+    },
+    {
+      "slug": "tooluniverse-drug-target-validation",
+      "title": "Drug Target Validation (ToolUniverse Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Drug Repurposing and Discovery",
+        "Molecular and Cellular Biology",
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-06-21",
+      "summary": "ToolUniverse agent skill that scores a drug target 0–100 across genetic, druggability, safety, and clinical-precedent gates with a GO/NO-GO recommendation.",
+      "keywords": [
+        "NO-GO"
+      ],
+      "path": "catalog/tools/tooluniverse-drug-target-validation.md"
     },
     {
       "slug": "tooluniverse",
