@@ -79,6 +79,19 @@ Every recipe carries one of three `evidence_level` values:
 
 **One recipe per problem.** If the same problem has two genuinely different recommended assemblies (e.g., a `Validated` autonomous-system path and a `Reported` toolbelt path), keep both — write them as two recipes that link to each other in **See also**, and use the **Alternatives considered** section of each to explain when to reach for the other.
 
+## Reproducibility (standing requirement)
+
+Every recipe's **Recommended approach** must converge on a **durable, version-controllable artifact** — a script, a notebook, or a parameterized command file plus a pinned environment — *not* an open-ended interactive chat as the end state. The chat is how the artifact gets authored; the artifact is what the scientist keeps, cites, and re-runs. Recipes that read as "ask Claude to do X, then ask it to do Y" are malformed: rewrite them so the deliverable is the captured code, the environment that runs it, and a provenance record (the tool/library versions, the external-database release or snapshot date, and the model/agent identity).
+
+Concretely, when you write a recipe:
+
+- **Make the artifact explicit.** Name the file(s) the run leaves behind (`enrichment.py`, `analysis.ipynb`, `.claude/commands/<verb-noun>.md`) and say they belong under version control.
+- **Pin what can be pinned.** Point at a `requirements.txt` / `environment.yml` / lockfile for libraries; state the exact tool, skill, or MCP-server version where it matters.
+- **Record what cannot be pinned.** Calls to live external services (Enrichr, Open Targets, UniProt, an MCP server, the model itself) are not byte-reproducible — libraries and indexes move. Require the recipe to capture the release/snapshot **date** and a content hash or accession so divergence is visible rather than silent. This is an extension of the existing `last_verified` discipline, not a replacement.
+- **Keep grounding mechanical.** Saved tables/outputs are the audit trail; any natural-language synthesis must cite only what appears in them.
+
+The canonical worked example is [`recipes/examples/functional-enrichment/`](recipes/examples/functional-enrichment/) (script + pinned env + recorded fixture + emitted `provenance.json`, with a CI test that re-runs it and asserts byte-identical output). New and revised recipes should model their artifact on it; link to the [Reproducible, provenance-tracked AI analysis](guide/advanced/reproducibility.md) guide page rather than re-explaining the pattern inline.
+
 ## Storage model
 
 The cookbook is rendered as a [just-the-docs](https://just-the-docs.com/) GitHub Pages site, mirroring the catalog and tracker:
@@ -130,11 +143,11 @@ summary: <≤ 25-word plain-language statement of the problem and the recommende
 
 ## Recommended approach
 
-<The actual recipe. Step-by-step. Name each cataloged tool and link to its catalog page. Include the prompts/configs/flags that matter. Do NOT repeat install instructions — link out.>
+<The actual recipe. Step-by-step. Name each cataloged tool and link to its catalog page. Include the prompts/configs/flags that matter. Do NOT repeat install instructions — link out. The steps must culminate in a **durable artifact** (a committed script/notebook/command file + a pinned environment + a provenance record) — see "Reproducibility (standing requirement)" above — not an interactive session as the end state.>
 
 1. Step one — e.g., install [<Tool A>](../../catalog/tools/<slug-a>.html); then …
-2. Step two — …
-3. Step three — …
+2. Step two — have the assistant write the analysis to a versioned script/notebook (name the file); pin the environment.
+3. Step three — run it, then record provenance (tool/library versions, external-source snapshot date, model id) so the run can be audited and re-attempted.
 
 ## Why this assembly
 

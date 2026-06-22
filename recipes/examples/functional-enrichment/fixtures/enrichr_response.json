@@ -1,0 +1,31 @@
+{
+  "source": {
+    "provider": "Enrichr via gget (recorded snapshot)",
+    "gget_version": "0.29.0",
+    "endpoint": "https://maayanlab.cloud/Enrichr/",
+    "snapshot_date": "2026-06-04",
+    "note": "Recorded response used for the deterministic offline replay and the test suite. A live run (no --offline) re-queries Enrichr and may differ as the libraries are updated; that is expected and is why the snapshot date is recorded."
+  },
+  "results": {
+    "GO_Biological_Process_2023": [
+      {"term": "response to endoplasmic reticulum stress (GO:0034976)", "adj_p_val": 2.1e-09, "combined_score": 412.7, "overlapping_genes": ["ATF4", "DDIT3", "HSPA5", "XBP1", "ATF3"], "accession": "GO:0034976"},
+      {"term": "PERK-mediated unfolded protein response (GO:0036499)", "adj_p_val": 5.4e-07, "combined_score": 301.2, "overlapping_genes": ["ATF4", "DDIT3", "EIF2AK3"], "accession": "GO:0036499"},
+      {"term": "cellular response to oxidative stress (GO:0034599)", "adj_p_val": 1.8e-03, "combined_score": 88.5, "overlapping_genes": ["ATF4", "HMOX1", "NQO1"], "accession": "GO:0034599"}
+    ],
+    "KEGG_2021_Human": [
+      {"term": "Protein processing in endoplasmic reticulum", "adj_p_val": 3.3e-08, "combined_score": 355.0, "overlapping_genes": ["HSPA5", "DDIT3", "XBP1", "ATF4"], "accession": "hsa04141"},
+      {"term": "MAPK signaling pathway", "adj_p_val": 9.2e-03, "combined_score": 47.1, "overlapping_genes": ["ATF4", "DDIT3", "HSPA1A"], "accession": "hsa04010"}
+    ],
+    "Reactome_2022": [
+      {"term": "Unfolded Protein Response (UPR) R-HSA-381119", "adj_p_val": 1.2e-08, "combined_score": 388.4, "overlapping_genes": ["ATF4", "DDIT3", "HSPA5", "XBP1"], "accession": "R-HSA-381119"},
+      {"term": "ATF4 activates genes in response to ER stress R-HSA-380994", "adj_p_val": 4.0e-06, "combined_score": 244.9, "overlapping_genes": ["ATF4", "DDIT3", "ATF3"], "accession": "R-HSA-380994"}
+    ],
+    "MSigDB_Hallmark_2020": [
+      {"term": "Unfolded Protein Response", "adj_p_val": 7.7e-07, "combined_score": 277.6, "overlapping_genes": ["ATF4", "DDIT3", "XBP1", "HSPA5"], "accession": "HALLMARK_UNFOLDED_PROTEIN_RESPONSE"},
+      {"term": "Hypoxia", "adj_p_val": 2.4e-02, "combined_score": 33.8, "overlapping_genes": ["DDIT3", "HMOX1"], "accession": "HALLMARK_HYPOXIA"}
+    ],
+    "DisGeNET": [
+      {"term": "Endoplasmic Reticulum Stress", "adj_p_val": 6.6e-05, "combined_score": 180.2, "overlapping_genes": ["DDIT3", "HSPA5", "ATF4"], "accession": "C1158387"}
+    ]
+  }
+}

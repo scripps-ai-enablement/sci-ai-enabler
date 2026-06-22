@@ -106,6 +106,7 @@ Reported. The strongest reference for the assembly *class* is **GeneAgent** ([Wa
 
 ## See also
 
+- [Reproducible example bundle](../examples/functional-enrichment/) — this recipe captured as a committed script + pinned environment + `provenance.json`, with a CI test that re-runs it and asserts byte-identical output. The reference for the [reproducible-analysis pattern](../../guide/advanced/reproducibility.html).
 - [gget (Claude Skill)](../../catalog/tools/gget.html)
 - [Run bulk RNA-seq differential expression from a counts matrix](run-bulk-rnaseq-differential-expression.html) — the upstream step that produces the gene list this recipe interprets.
 - [Infer a gene-regulatory network from single-cell RNA-seq](infer-gene-regulatory-network-from-scrnaseq.html) — alternative downstream interpretation of a DE result.

@@ -1,0 +1,10 @@
+# Pinned environment for the live (online) run of enrichment.py.
+# The offline replay (--offline) needs none of these — it is standard-library
+# only — but the live run calls the real Enrichr API through gget.
+#
+# Pin exact versions so a re-run uses the same code. Regenerate with:
+#   pip freeze > requirements.lock.txt
+# and record the lock file alongside a run when full reproducibility matters.
+gget==0.29.0
+pandas==2.2.2
+requests==2.32.3
