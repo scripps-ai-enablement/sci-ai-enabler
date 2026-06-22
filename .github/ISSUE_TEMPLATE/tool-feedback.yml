@@ -26,6 +26,7 @@ body:
         - aind-data
         - allenbrain
         - alphafold
+        - alphagenome
         - anndata
         - aomic-skill
         - arboreto
@@ -48,6 +49,7 @@ body:
         - biorender
         - biorxiv-database
         - bioservices
+        - blast
         - bnt
         - bold5000-skill
         - brain-visualization
@@ -59,9 +61,12 @@ body:
         - cbioportal-database
         - cellchat-cell-communication
         - cellpose-cell-segmentation
+        - cellrank-mcp
         - celltypist-cell-annotation
         - cellxgene-census
         - chembl
+        - chemcp
+        - chemlint
         - cirq
         - citation-management
         - clinical-decision-support
@@ -81,6 +86,7 @@ body:
         - consensus
         - cortellis
         - cosmic-database
+        - covasyn
         - dailymed-database
         - dask
         - database-lookup
@@ -88,6 +94,7 @@ body:
         - dbsnp-database
         - dcm2nii
         - ddinter-database
+        - decoupler-mcp
         - deepchem
         - deeptools
         - depmap
@@ -99,6 +106,7 @@ body:
         - dmt-har-med-skill
         - dnanexus-integration
         - docx
+        - drug-repurposing
         - drugbank
         - dwi-skill
         - eeg-skill
@@ -114,6 +122,7 @@ body:
         - fda-database
         - featurecounts-rna-counting
         - fhir-developer
+        - fhir-momentum
         - fhir-wso2
         - filtering
         - flowio
@@ -138,6 +147,7 @@ body:
         - gnomad-database
         - gseapy-gene-enrichment
         - gtars
+        - gtex-database
         - gtopdb-database
         - gwas-database
         - harmonization-tool
@@ -153,6 +163,7 @@ body:
         - hmdb-database
         - homer-motif-analysis
         - hugging-science
+        - human-protein-atlas
         - hypogenic
         - hypothesis-generation
         - ibgnn
@@ -173,6 +184,7 @@ body:
         - latchbio-integration
         - latex-posters
         - lggnn
+        - liana-mcp
         - libsbml-network-modeling
         - liteparse
         - literature-review
@@ -186,6 +198,8 @@ body:
         - mdanalysis-trajectory
         - mdtraj-trajectory-analysis
         - medchem
+        - medical-terminologies-mcp
+        - medidata
         - meg-skill
         - metabolomics-workbench-database
         - mnd-skill
@@ -222,6 +236,7 @@ body:
         - openalex-database
         - opencv-bioimage-analysis
         - openfda
+        - openmm-mcp
         - openneuro
         - opentargets-database
         - opentrons-integration
@@ -318,6 +333,7 @@ body:
         - snpeff-variant-annotation
         - spacenet
         - spikeinterface-electrophysiology
+        - spikelab
         - stable-baselines3
         - star-rna-seq-aligner
         - statistical-analysis
@@ -330,6 +346,9 @@ body:
         - tiledbvcf
         - timesfm-forecasting
         - tooluniverse
+        - tooluniverse-drug-research
+        - tooluniverse-drug-synergy
+        - tooluniverse-drug-target-validation
         - torch-geometric
         - torchdrug
         - trackpy-particle-tracking
@@ -339,6 +358,7 @@ body:
         - ucsc-genome-browser
         - ukb-skill
         - umap-learn
+        - unibind-database
         - unichem-database
         - uniprot
         - usfiscaldata

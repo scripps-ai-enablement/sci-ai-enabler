@@ -14,13 +14,20 @@ body:
       label: Which recipe?
       description: Auto-synced from the cookbook. Pick "Not listed" if your feedback isn't about one of these.
       options:
+        - analyze-md-trajectory-with-mdanalysis
+        - annotate-a-bacterial-genome
+        - annotate-cell-types-in-single-cell-data
         - assemble-reference-atlas-from-cellxgene-census
         - benchmark-admet-property-with-pytdc
+        - build-pharmacogenomic-dosing-report
         - build-phylogenetic-tree-from-sequences
         - build-target-dossier
+        - call-peaks-and-motifs-from-chipseq-atacseq
         - compute-16s-microbiome-diversity
+        - compute-bacterial-pangenome-from-assemblies
         - compute-hrv-from-ecg-recording
         - convert-instrument-data-to-allotrope-asm
+        - detect-somatic-cnvs-from-tumor-sequencing
         - discover-nwb-recordings-on-dandi
         - dock-ligand-library-with-diffdock
         - draft-phase23-clinical-trial-protocol
@@ -29,22 +36,34 @@ body:
         - filter-virtual-screening-hits
         - fit-survival-model-to-clinical-outcomes
         - identify-unknown-compound-from-msms-spectrum
+        - infer-cell-cell-communication-from-scrnaseq
         - infer-gene-regulatory-network-from-scrnaseq
+        - infer-tf-and-pathway-activities-from-expression
         - integrate-single-cell-datasets
         - interpret-clinical-variant
+        - map-disease-to-genes-and-pathways
         - match-patient-to-clinical-trials
         - organize-raw-dicom-to-bids-layout
         - parse-fcs-flow-cytometry-files
         - predict-gene-knockout-phenotypes-with-fba
+        - predict-hospital-readmission-from-ehr
+        - predict-noncoding-variant-regulatory-effects
+        - predict-rna-secondary-structure-and-accessibility
         - prioritize-targets-within-a-disease
+        - profile-cancer-cohort-genomics-with-cbioportal
         - profile-chipseq-atacseq-signal-around-features
         - profile-compound-polypharmacology
         - qc-single-cell-rna-seq
         - run-bulk-rnaseq-differential-expression
         - run-functional-enrichment-on-a-gene-list
+        - run-gwas-on-case-control-genotypes
         - scan-adverse-events-for-drug-safety-signal
+        - scan-antibody-glycosylation-sites
         - scan-drug-repurposing-candidates
+        - score-drug-combination-synergy
         - score-protein-variants-with-esm
+        - screen-polypharmacy-for-drug-interactions
+        - segment-organ-or-tumor-in-medical-image
         - set-up-protein-md-simulation-in-gromacs
         - sort-spikes-from-neuropixels-recording
         - triage-alphafold-model-for-docking
