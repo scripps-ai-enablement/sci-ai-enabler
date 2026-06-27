@@ -11,6 +11,12 @@ Reverse-chronological log of changes to the [recipes cookbook]({{ '/recipes/' | 
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-06-27 (Immunology and Microbiology directed pass)
+
+### Added
+
+- **Annotate and verify an engineered plasmid construct** (Problem class: Experimental design; Evidence: Reported) — rung-2 [pLannotate skill](catalog/tools/plannotate-plasmid-annotation.html) recipe taking a plasmid FASTA/GenBank through a local BLAST run against curated genetic-parts databases (Addgene, fpbase, Swiss-Prot, Rfam) → an annotated GenBank + feature table + HTML map, with the *fragment* column surfaced as the construct-verification signal and a committed `annotate_plasmid.py` + pinned env + `provenance.json` (pLannotate DB version + input sha256). Immunology and Microbiology / Molecular and Cellular Biology focus-day recipe; cookbook's first engineered-plasmid recipe, cross-linked to the [bacterial-genome annotation recipe](recipes/items/annotate-a-bacterial-genome.html) (chromosomal counterpart) and explicitly contrasted with Prokka/Bakta, which don't recognize engineered parts. `Reported` — pLannotate is the established engineered-plasmid annotator ([McGuffie & Barrick, *Nucleic Acids Res.* 2021](https://doi.org/10.1093/nar/gkab374): annotates recombinant/synthetic/engineered elements and reports incomplete fragments that genome pipelines miss); the Claude-skill assembly is not independently benchmarked. `Fully open`; `Laptop`.
+
 ## 2026-06-27
 
 ### Added
