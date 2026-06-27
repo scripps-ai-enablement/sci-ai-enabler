@@ -11,6 +11,23 @@ Reverse-chronological log of changes to the [catalog]({{ '/catalog/' | relative_
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-06-27 (Chemistry slot)
+
+Chemistry directed pass plus a manifest sweep. The `anthropics/claude-plugins-official` marketplace surfaced a new in-scope life-science plugin, **Boltz**, catalogued this run. The Chemistry directed pass (RDKit, Polaris, docking queries) found no genuinely new installable tools — the chemistry surface (rdkit-mcp, rdkit-skill, chemcp, chemlint, molecule-mcp, covasyn, autodock/smina/diffdock, datamol, medchem, molfeat, matchms) is already covered; Polaris ships no Claude wrapper, and the AKT1-only MCP_Vina remains deferred.
+
+### Added
+- **Boltz (Claude Code Plugin)** (Categories: Chemistry, Drug Repurposing and Discovery, Immunology and Microbiology, Integrative Structural and Computational Biology) — skills driving the hosted Boltz API for structure/binding prediction, small-molecule and protein/antibody screening, and de novo binder design; `/plugin install boltz@claude-plugins-official` ([source](https://github.com/boltz-bio/boltz-api-skills))
+
+### Updated
+- **Molecule-MCP** — re-verified upstream (`chatmol/molecule-mcp`, MIT, install instructions unchanged); `last_verified` 2026-05-20 → 2026-06-27 ([source](https://github.com/chatmol/molecule-mcp))
+
+### Flagged
+- _None._
+
+### Verified (no changes)
+- `anthropics/life-sciences` marketplace re-checked against the catalogued set (no new entries; all plugins already catalogued).
+- RDKit MCP (`rdkit-mcp.md`) spot-checked upstream during the directed pass; still current (verified 2026-06-13).
+
 ## 2026-06-21 (Drug Repurposing and Discovery slot)
 
 Drug Repurposing and Discovery directed pass plus a manifest sweep. The `anthropics/life-sciences` raw `marketplace.json` URL 404s; repo content still matches the catalogued set (no new entries). The directed pass surfaced the DrugBank official hosted MCP (paid/gated — noted on the existing community page) and confirmed three deferred ToolUniverse drug-discovery sibling skills against their upstream `SKILL.md` files, which were catalogued.

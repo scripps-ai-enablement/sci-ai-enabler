@@ -6,7 +6,7 @@ tool_type: MCP server
 supplier: chatmol
 availability: GA
 tool_categories: [Chemistry, Integrative Structural and Computational Biology, Drug Repurposing and Discovery]
-last_verified: 2026-05-20
+last_verified: 2026-06-27
 summary: MCP bundle letting Claude drive PyMOL and ChimeraX visualization and run GROMACS molecular dynamics simulations via natural language.
 ---
 
