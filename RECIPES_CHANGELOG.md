@@ -11,6 +11,16 @@ Reverse-chronological log of changes to the [recipes cookbook]({{ '/recipes/' | 
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-06-27 (Integrative Structural and Computational Biology directed pass)
+
+### Added
+
+- **Infer the function of an uncharacterized protein from its 3D structure** (Problem class: Knowledge synthesis; Evidence: Reported) — rung-2 [Foldseek Structural Search skill](catalog/tools/foldseek-structural-search.html) recipe: a `.pdb`/`.cif` coordinate file → hosted Foldseek search against annotated structure DBs (`afdb-swissprot`, `pdb100`, `afdb50`) → ranked hit table + a banded (STRONG/SUGGESTIVE/NO-CONFIDENT-HIT) function call read off the top hits' annotations, with a committed `.claude/commands/foldseek-function.md`, `uv`-pinned skill env, and `provenance.json` (Foldseek API date + DB version strings + input sha256). The structure-side fallback for when sequence search (BLAST/HMMER/InterPro) returns nothing; cookbook's first structural-homology / function-inference recipe, cross-linked to the [AlphaFold-triage recipe](recipes/items/triage-alphafold-model-for-docking.html) (structure-quality counterpart) and the [ESM variant-scoring recipe](recipes/items/score-protein-variants-with-esm.html). `Reported` — Foldseek is peer-reviewed and field-defining ([van Kempen et al., *Nature Biotechnology* 2023](https://doi.org/10.1038/s41587-023-01773-0): 4–5 orders of magnitude faster than DALI/TM-align at 86–133% of their sensitivity), and the skill is a maintained Google DeepMind release; the Claude-skill assembly is not independently benchmarked. `Fully open`; `Laptop`.
+
+### Verified (no changes)
+
+- All recipes within the 30-day `last_verified` window (oldest 2026-06-03); no aging verification due this run.
+
 ## 2026-06-27 (Immunology and Microbiology directed pass)
 
 ### Added
