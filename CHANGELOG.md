@@ -11,6 +11,23 @@ Reverse-chronological log of changes to the [catalog]({{ '/catalog/' | relative_
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-06-27 (Molecular and Cellular Biology slot)
+
+Molecular and Cellular Biology directed pass plus a manifest sweep. The `anthropics/life-sciences` (21 plugins) and `claude-plugins-official` marketplaces hold no new in-scope life-science entries (Boltz/fiftyone already covered or general-purpose). The MCB pass surfaced the `GoekeLab/awesome-genomic-skills` meta-list and the MCPmed bioinformatics-MCP family (Briefings in Bioinformatics 2026, bbag076), yielding three additions: **ChatSpatial** (spatial-transcriptomics MCP), the **Clair** variant-caller skill, and the first-party **MCPmed GEO MCP** (folded into the existing `geo-database.md`). MCPmed's PLSDB MCP was deferred on an unspecified upstream license.
+
+### Added
+- **ChatSpatial** (Categories: Molecular and Cellular Biology) — MCP server for spatial transcriptomics: 20 tools over ~65 Scanpy/Squidpy methods (preprocessing, spatial domains, deconvolution, cell-cell communication, SVG detection, trajectory/RNA velocity, CNV); MIT, `pip install chatspatial` or Docker ([source](https://github.com/cafferychen777/ChatSpatial))
+- **Clair Variant Caller (Claude Skill)** (Categories: Molecular and Cellular Biology) — agent skill for the Clair suite: Clair3 (germline), Clair3-RNA (long-read RNA), ClairS / ClairS-TO (somatic), Clair-Mosaic; `git clone` into a skills dir ([source](https://github.com/HKU-BAL/Clair-skills))
+
+### Updated
+- **NCBI GEO** (`geo-database.md`) — added the first-party **MCPmed `geo-mcp`** MCP server (BSD-3-Clause, `pip install geo-mcp`, 7 tools over NCBI E-utilities, stdio/HTTP) as Option A; page generalized from a SciAgent-skill-only entry to a dual skill+MCP entry per one-entry-per-data-source; `last_verified` 2026-06-11 → 2026-06-27 ([source](https://github.com/MCPmed/GEOmcp))
+
+### Flagged
+- _None._
+
+### Verified (no changes)
+- `anthropics/life-sciences` (21 plugins) and `claude-plugins-official` marketplace inventories diffed against catalog — no new in-scope entries.
+
 ## 2026-06-27 (Integrative Structural and Computational Biology slot)
 
 Integrative Structural and Computational Biology directed pass plus a manifest sweep. The `anthropics/life-sciences` (21 plugins) and `claude-plugins-official` marketplaces hold no new in-scope life-science entries since the Boltz catalog earlier this run. The Structural directed pass (`RCSB PDB MCP server` and related queries) surfaced the **official first-party RCSB PDB MCP server**, folded into the existing `pdb.md` as the recommended install option. Also catalogued the last two genuinely new-to-catalog skills from `google-deepmind/science-skills` — **PyMOL** (structural visualization) and **EMBL-EBI OLS** (ontology resolution) — which exhausts that collection. Cryo-EM (RELION / cryoSPARC / CTFFIND) remains without any Claude-installable wrapper.
