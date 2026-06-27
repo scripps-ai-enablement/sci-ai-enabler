@@ -11,6 +11,16 @@ Reverse-chronological log of changes to the [recipes cookbook]({{ '/recipes/' | 
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-06-27
+
+### Added
+
+- **Predict an antibody–antigen complex to map an epitope** (Problem class: Experimental design; Evidence: Reported) — rung-2 [Boltz plugin](catalog/tools/boltz.html) recipe taking antibody/nanobody chains + an antigen sequence through a hosted-API `boltz-structure-and-binding` co-fold with a deliberately *wide sample ensemble*, then a local 4.5 Å CDR-contact recomputation per model (committed `epitope_from_boltz.py` + pinned env + `provenance.json` capturing `boltz-api` job IDs and submission date) → a *consensus* epitope across the top models rather than trusting top-1 confidence. Immunology and Microbiology focus-day recipe; cookbook's first co-folding/complex-prediction recipe, cross-linked to the [AlphaFold-triage recipe](recipes/items/triage-alphafold-model-for-docking.html) (single-chain counterpart) and the [antibody-glycosylation recipe](recipes/items/scan-antibody-glycosylation-sites.html). `Reported` — Boltz-2/1x are independently benchmarked on Ab/VHH–antigen complexes ([Gupta et al., *Protein Science* 2026, SNAC-DB](https://doi.org/10.1002/pro.70655): success rates ≤25%, 1000-sample oracle 50.5% vs near-flat confidence ranking; [Ünsal et al., *Brief. Bioinform.* 2026, AntiConf](https://doi.org/10.1093/bib/bbag137)), but the Claude-plugin assembly is not independently benchmarked. `Subscription required` (hosted Boltz API); `Laptop`.
+
+### Verified (no changes)
+
+- 4 recipes spot-checked, all current (`last_verified` bumped to 2026-06-27): set-up-protein-md-simulation-in-gromacs, convert-instrument-data-to-allotrope-asm, compute-16s-microbiome-diversity, parse-fcs-flow-cytometry-files. All linked catalog/system pages resolve and are unflagged; source citations stable.
+
 ## 2026-06-21
 
 ### Added

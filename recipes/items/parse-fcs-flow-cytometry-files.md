@@ -9,7 +9,7 @@ evidence_level: Proposed
 complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Laptop
-last_verified: 2026-06-02
+last_verified: 2026-06-27
 summary: Use the FlowIO Claude skill to parse FCS 2.0/3.0/3.1 files into tidy DataFrames with channel categorisation and batch metadata extraction, ready for downstream immunophenotyping or QC.
 ---
 

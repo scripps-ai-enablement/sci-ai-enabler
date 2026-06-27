@@ -9,7 +9,7 @@ evidence_level: Proposed
 complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Workstation with GPU
-last_verified: 2026-06-01
+last_verified: 2026-06-27
 summary: Drive the GROMACS Copilot component of molecule-mcp to take a PDB ID through topology, solvation, ion neutralisation, minimisation, NVT/NPT equilibration, and a short production MD, with RMSD/RMSF/Rg analysis on the resulting trajectory.
 ---
 

@@ -9,7 +9,7 @@ evidence_level: Proposed
 complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Laptop
-last_verified: 2026-06-02
+last_verified: 2026-06-27
 summary: Use the scikit-bio Claude skill to take a BIOM feature table and sample metadata through Shannon/Simpson/Faith's PD, UniFrac, PCoA, and PERMANOVA in one chat.
 ---
 
