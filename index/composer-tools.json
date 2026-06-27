@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "generated": "2026-06-26",
-  "count": 358,
+  "generated": "2026-06-27",
+  "count": 360,
   "tools": [
     {
       "slug": "10x-genomics-cloud",
@@ -703,6 +703,22 @@
         "fMRI"
       ],
       "path": "catalog/tools/bold5000-skill.md"
+    },
+    {
+      "slug": "boltz",
+      "title": "Boltz (Claude Code Plugin)",
+      "tool_type": "Claude Code Plugin",
+      "availability": "GA",
+      "tool_categories": [
+        "Chemistry",
+        "Drug Repurposing and Discovery",
+        "Immunology and Microbiology",
+        "Integrative Structural and Computational Biology"
+      ],
+      "last_verified": "2026-06-27",
+      "summary": "Skills that drive the hosted Boltz API to predict biomolecular structures, screen and design small molecules, and design protein/antibody binders.",
+      "keywords": [],
+      "path": "catalog/tools/boltz.md"
     },
     {
       "slug": "brain-visualization",
@@ -2156,6 +2172,22 @@
       "path": "catalog/tools/fmriprep-tool.md"
     },
     {
+      "slug": "foldseek-structural-search",
+      "title": "Foldseek Structural Search (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Integrative Structural and Computational Biology"
+      ],
+      "last_verified": "2026-06-27",
+      "summary": "\"Submit a 3D protein structure (.pdb/.cif) and find structurally similar proteins across AFDB, PDB100, SwissProt, and more via the Foldseek API.\"",
+      "keywords": [
+        "AFDB",
+        "PDB100"
+      ],
+      "path": "catalog/tools/foldseek-structural-search.md"
+    },
+    {
       "slug": "freesurfer-tool",
       "title": "FreeSurfer (Claude Skill)",
       "tool_type": "Claude Skill",
@@ -3572,7 +3604,7 @@
         "Integrative Structural and Computational Biology",
         "Drug Repurposing and Discovery"
       ],
-      "last_verified": "2026-05-20",
+      "last_verified": "2026-06-27",
       "summary": "MCP bundle letting Claude drive PyMOL and ChimeraX visualization and run GROMACS molecular dynamics simulations via natural language.",
       "keywords": [
         "GROMACS",

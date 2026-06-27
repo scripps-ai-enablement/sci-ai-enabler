@@ -1,10 +1,10 @@
 {
   "version": 1,
-  "generated": "2026-06-26",
+  "generated": "2026-06-27",
   "counts": {
-    "tools": 358,
-    "recipes": 54,
-    "systems": 66
+    "tools": 360,
+    "recipes": 56,
+    "systems": 67
   },
   "tools_file": "composer-tools.json",
   "recipes": [
@@ -61,6 +61,26 @@
         "tRNA"
       ],
       "path": "recipes/items/annotate-a-bacterial-genome.md"
+    },
+    {
+      "slug": "annotate-and-verify-a-plasmid-construct",
+      "title": "Annotate and verify an engineered plasmid construct",
+      "problem_class": "Experimental design",
+      "subject_areas": [
+        "Molecular and Cellular Biology",
+        "Immunology and Microbiology"
+      ],
+      "evidence_level": "Reported",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-06-27",
+      "summary": "Use the pLannotate skill to auto-annotate an engineered plasmid — promoters, resistance markers, origins, tags — and verify a construct's sequence before you clone or order it.",
+      "keywords": [
+        "DNA",
+        "FASTA"
+      ],
+      "path": "recipes/items/annotate-and-verify-a-plasmid-construct.md"
     },
     {
       "slug": "annotate-cell-types-in-single-cell-data",
@@ -239,7 +259,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-06-02",
+      "last_verified": "2026-06-27",
       "summary": "Use the scikit-bio Claude skill to take a BIOM feature table and sample metadata through Shannon/Simpson/Faith's PD, UniFrac, PCoA, and PERMANOVA in one chat.",
       "keywords": [
         "BIOM",
@@ -308,7 +328,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-06-01",
+      "last_verified": "2026-06-27",
       "summary": "Drop a raw instrument file (cell counter, plate reader, HPLC, qPCR) onto Claude Code and get back valid Allotrope Simple Model JSON, a flattened CSV for LIMS, and a standalone Python parser script.",
       "keywords": [
         "ASM",
@@ -731,7 +751,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-06-02",
+      "last_verified": "2026-06-27",
       "summary": "Use the FlowIO Claude skill to parse FCS 2.0/3.0/3.1 files into tidy DataFrames with channel categorisation and batch metadata extraction, ready for downstream immunophenotyping or QC.",
       "keywords": [
         "BSD-3",
@@ -740,6 +760,27 @@
         "FlowIO"
       ],
       "path": "recipes/items/parse-fcs-flow-cytometry-files.md"
+    },
+    {
+      "slug": "predict-antibody-antigen-complex",
+      "title": "Predict an antibody–antigen complex to map an epitope",
+      "problem_class": "Experimental design",
+      "subject_areas": [
+        "Immunology and Microbiology",
+        "Integrative Structural and Computational Biology"
+      ],
+      "evidence_level": "Reported",
+      "complexity": "One skill or MCP",
+      "availability": "Subscription required",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-06-27",
+      "summary": "Use the Boltz plugin to predict an antibody/nanobody–antigen complex and read off a candidate epitope — with explicit handling of the field's low success rate and unreliable confidence ranking.",
+      "keywords": [
+        "CDR-H3",
+        "HDX-MS",
+        "VHH"
+      ],
+      "path": "recipes/items/predict-antibody-antigen-complex.md"
     },
     {
       "slug": "predict-gene-knockout-phenotypes-with-fba",
@@ -1194,7 +1235,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Workstation with GPU",
-      "last_verified": "2026-06-01",
+      "last_verified": "2026-06-27",
       "summary": "Drive the GROMACS Copilot component of molecule-mcp to take a PDB ID through topology, solvation, ion neutralisation, minimisation, NVT/NPT equilibration, and a short production MD, with RMSD/RMSF/Rg analysis on the resulting trajectory.",
       "keywords": [
         "GROMACS",
@@ -1466,6 +1507,26 @@
         "ARIS"
       ],
       "path": "autonomous-science/systems/aris.md"
+    },
+    {
+      "slug": "artiq-mcp",
+      "title": "ARTIQ-MCP (Duke trapped-ion agent)",
+      "domain": "Quantum physics (trapped-ion experiment control)",
+      "lifecycle_stages": [
+        "Experiment design",
+        "Analysis"
+      ],
+      "validation_type": "Wet-lab",
+      "autonomy": "Semi-autonomous",
+      "availability": "Open source (safety-filter and artiq-mcp components)",
+      "access": "Open source",
+      "last_verified": "2026-06-27",
+      "summary": "LLM agent that writes native ARTIQ code and runs it on real trapped-ion hardware behind a per-call safety gate.",
+      "keywords": [
+        "ARTIQ",
+        "ARTIQ-MCP"
+      ],
+      "path": "autonomous-science/systems/artiq-mcp.md"
     },
     {
       "slug": "atlas-active-theory-learning",
