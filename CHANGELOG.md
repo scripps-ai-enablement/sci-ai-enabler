@@ -11,6 +11,20 @@ Reverse-chronological log of changes to the [catalog]({{ '/catalog/' | relative_
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-06-27 (Integrative Structural and Computational Biology slot)
+
+Integrative Structural and Computational Biology directed pass plus a manifest sweep. The `anthropics/life-sciences` (21 plugins) and `claude-plugins-official` marketplaces hold no new in-scope life-science entries since the Boltz catalog earlier this run. The Structural directed pass (`RCSB PDB MCP server` and related queries) surfaced the **official first-party RCSB PDB MCP server**, folded into the existing `pdb.md` as the recommended install option. Also catalogued the last two genuinely new-to-catalog skills from `google-deepmind/science-skills` — **PyMOL** (structural visualization) and **EMBL-EBI OLS** (ontology resolution) — which exhausts that collection. Cryo-EM (RELION / cryoSPARC / CTFFIND) remains without any Claude-installable wrapper.
+
+### Added
+- **PyMOL (Claude Skill)** (Categories: Integrative Structural and Computational Biology) — headless, GPU-free PyMOL for rendering, structure superposition + RMSD, pLDDT/B-factor coloring, and protein–ligand interaction views, producing publication-quality PNGs and editable `.pse` sessions ([source](https://github.com/google-deepmind/science-skills/blob/main/skills/pymol/SKILL.md))
+- **EMBL-EBI OLS (Claude Skill)** (Categories: All) — resolve and navigate biomedical ontology terms (GO, MONDO, HP, CHEBI, CL, UBERON, EFO, …) across 250+ ontologies via the EMBL-EBI Ontology Lookup Service ([source](https://github.com/google-deepmind/science-skills/blob/main/skills/embl_ebi_ols/SKILL.md))
+
+### Updated
+- **PDB MCP Server** (`pdb.md`) — added the **official first-party `rcsb-mcp`** server (maintained by RCSB PDB, MIT, `uvx rcsb-mcp`, official MCP Registry `io.github.rcsb/rcsb-mcp`, 40+ tools across the RCSB Search/Data/Sequence-Coordinates APIs) as the recommended Option A ahead of the three community servers; `last_verified` 2026-06-13 → 2026-06-27 ([source](https://github.com/rcsb/rcsb-mcp))
+
+### Verified (no changes)
+- `anthropics/life-sciences` (21 plugins) and `claude-plugins-official` marketplace inventories diffed against catalog — no new in-scope entries.
+
 ## 2026-06-27 (Immunology and Microbiology slot)
 
 Immunology and Microbiology directed pass plus a manifest sweep. The `anthropics/life-sciences` marketplace inventory is unchanged from the catalogued set. The Immunology pass (IEDB, antibody/ANARCI, AIRR-seq/Immcantation, metagenomics, AMR queries) again found no genuinely new Claude-installable component — IEDB, Immcantation/airrflow, QIIME2/Kraken2/MetaPhlAn, and AMRFinderPlus all remain CLI/pipeline tools with no discrete MCP/Skill wrapper (gaps tracked in curator state). Instead, catalogued a previously-deferred, primary-source-verified structural-biology skill from `google-deepmind/science-skills`.
