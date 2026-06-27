@@ -11,6 +11,30 @@ Reverse-chronological log of changes to the [guide]({{ '/guide/' | relative_url 
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-06-27
+
+### Added
+- **[claude-surfaces] Claude Tag (Slack) cross-cutting note.** Anthropic launched Claude Tag on 2026-06-23 — a Slack-native `@Claude` that joins channels, takes delegated tasks, works async, and is admin-scoped per channel. It's effectively a fifth surface and explicitly replaces the old Claude-in-Slack app (30-day admin opt-in to migrate), so beginners on Team/Enterprise need to know it exists. Added a cross-cutting bullet on the surfaces page rather than a new sub-page (Team/Enterprise beta only; topic set is fixed). Grounded in [Introducing Claude Tag](https://www.anthropic.com/news/introducing-claude-tag) (2026-06-23) fetched this run.
+
+### Updated
+- **[mcp-servers, advanced/authentication] `claude mcp login` / `claude mcp logout` replace `claude mcp auth`.** v2.1.186 (2026-06-22) added shell-level MCP OAuth: `claude mcp login <name>` runs a server's OAuth flow without opening a session, `claude mcp logout <name>` revokes it, and `--no-browser` supports SSH. The old `claude mcp auth <server>` is no longer documented. Replaced the stale `claude mcp auth` line in authentication.md and added the new commands to the mcp-servers install section. Grounded in [Connect Claude Code to tools via MCP](https://code.claude.com/docs/en/mcp) re-fetched this run.
+
+### Verified (no changes)
+- claude-surfaces.md, surfaces/claude-code.md — install command (`curl -fsSL https://claude.ai/install.sh | bash`) re-verified via WebFetch of `claude.com/product/claude-code`: native installer canonical, no deprecation banner; Terminal / VS Code / JetBrains / web / Desktop / Slack / mobile surfaces unchanged. Latest release is **v2.1.195 (2026-06-26)**; v2.1.183–v2.1.195 are mostly below the beginner threshold (`/rewind`, `/config` mouse settings, `--safe-mode`, `autoMode.classifyAllShell`, `sandbox.credentials`, voice-dictation fixes, hook-matcher exact-match fix, org model-restriction messaging). Fable 5 / Mythos 5 still suspended worldwide (no restoration); Agent SDK billing split still paused; Dynamic Workflows, Channels, Claude Security, MCP tunnels, routines all current.
+- surfaces/claude-api.md — Fable 5 suspension, Opus 4.8 default, model-deprecation past tense, Agent SDK pause, Managed Agents all current.
+- surfaces/claude-ai.md, surfaces/claude-desktop.md, surfaces/claude-cowork.md — unchanged.
+- skills.md, plugins.md, marketplaces.md, connectors.md, decision-tree.md — unchanged.
+- advanced/hooks.md, advanced/slash-commands.md, advanced/routines.md, advanced/reproducibility.md — unchanged.
+
+### Flagged for review
+- **Fable 5 / Mythos 5 restoration** — carried over; suspension still open-ended with no Anthropic timeline. Re-check each run and restore the Fable 5 lines when access returns.
+- **Agent SDK billing split** — carried over; paused, not cancelled. Re-verify the help-center pause notice each run.
+- **Claude Tag** — Team/Enterprise beta; if it reaches Pro or becomes a primary surface, consider a `guide/surfaces/claude-tag.md` sub-page. Watch the old Claude-in-Slack app retirement (~early Aug 2026 per secondary coverage).
+- **Anthropic news (06-17 to 06-23): Seoul office, Korean partnerships, Claude Public Record** — not beginner-facing components; out of scope.
+- **Agent teams (experimental)** — `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS`; `teammateMode: "iterm2"` added v2.1.186. Still experimental and env-gated; below beginner threshold — watch for GA.
+- **Advisor tool (API)** — carried over; advanced cost-optimization pattern, omitted by scope.
+- **Promote `security-guidance` to its own page** — carried over; stays inside `plugins.md` unless a human expands the topic list.
+
 ## 2026-06-20
 
 ### Updated

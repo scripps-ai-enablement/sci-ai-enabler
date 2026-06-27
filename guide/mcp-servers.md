@@ -36,7 +36,7 @@ claude mcp add filesystem -- npx -y @modelcontextprotocol/server-filesystem ~/Do
 claude mcp add --transport http paypal --scope project https://mcp.paypal.com/mcp
 ```
 
-Inside a session, run `/mcp` to see status and trigger OAuth login for servers that require it.
+Inside a session, run `/mcp` to see status and trigger OAuth login for servers that require it. From the shell (no session needed), `claude mcp login <name>` runs a server's OAuth flow and `claude mcp logout <name>` clears it (v2.1.186, June 2026; add `--no-browser` over SSH).
 
 ## Common pitfalls
 
@@ -59,7 +59,7 @@ Inside a session, run `/mcp` to see status and trigger OAuth login for servers t
 
 ## Sources
 
-- [Connect Claude Code to tools via MCP](https://code.claude.com/docs/en/mcp) — Anthropic docs; verified 2026-05-19.
+- [Connect Claude Code to tools via MCP](https://code.claude.com/docs/en/mcp) — Anthropic docs; verified 2026-06-27 (this run) — `claude mcp login` / `claude mcp logout` (v2.1.186) for CLI OAuth, `--no-browser` SSH flow.
 - [Model Context Protocol specification](https://modelcontextprotocol.io/) — verified 2026-05-19.
 - [MCP donated to Linux Foundation Agentic AI Foundation](https://www.anthropic.com/news) — December 2025 announcement; verified 2026-05-19.
 - [New in Claude Managed Agents: self-hosted sandboxes and MCP tunnels](https://claude.com/blog/claude-managed-agents-updates) — Anthropic blog; published 2026-05-19 — MCP tunnels (Research Preview), `cloudflared`-based.

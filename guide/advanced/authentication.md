@@ -37,7 +37,14 @@ export ANTHROPIC_API_KEY=sk-ant-...
 claude setup-token   # copy the printed token to your CI secret store
 ```
 
-For remote MCP, the OAuth flow triggers automatically the first time Claude calls a tool that needs it. Force it with `claude mcp auth <server>`.
+For remote MCP, the OAuth flow triggers automatically the first time Claude calls a tool that needs it. To run it ahead of time from your shell (v2.1.186, June 2026):
+
+```bash
+claude mcp login <server>     # opens a browser, completes OAuth, stores tokens
+claude mcp logout <server>    # revokes the stored credentials
+```
+
+Over SSH or a display-less Linux box, add `--no-browser` so `claude mcp login` prints the URL and prompts you to paste back the redirect (connect with `ssh -t`). Inside a session, `/mcp` does the same thing.
 
 ## Common pitfalls
 
@@ -55,6 +62,7 @@ For remote MCP, the OAuth flow triggers automatically the first time Claude call
 
 ## Sources
 
-- [Claude Code authentication](https://code.claude.com/docs/en/authentication) — Anthropic docs; verified 2026-05-19 (this run).
+- [Claude Code authentication](https://code.claude.com/docs/en/authentication) — Anthropic docs; verified 2026-05-19.
+- [Connect Claude Code to tools via MCP](https://code.claude.com/docs/en/mcp) — Anthropic docs; verified 2026-06-27 (this run) — `claude mcp login <name>` / `claude mcp logout <name>` (v2.1.186) for CLI OAuth, `--no-browser` SSH paste flow; replaces the old `claude mcp auth`.
 - [API authentication](https://platform.claude.com/docs/en/manage-claude/authentication) — Anthropic API docs; verified 2026-05-19.
 - [`anthropics/claude-code-action` setup](https://github.com/anthropics/claude-code-action/blob/main/docs/setup.md) — verified 2026-05-19.
