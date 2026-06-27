@@ -11,6 +11,16 @@ Reverse-chronological log of changes to the [catalog]({{ '/catalog/' | relative_
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-06-27 (Immunology and Microbiology slot)
+
+Immunology and Microbiology directed pass plus a manifest sweep. The `anthropics/life-sciences` marketplace inventory is unchanged from the catalogued set. The Immunology pass (IEDB, antibody/ANARCI, AIRR-seq/Immcantation, metagenomics, AMR queries) again found no genuinely new Claude-installable component — IEDB, Immcantation/airrflow, QIIME2/Kraken2/MetaPhlAn, and AMRFinderPlus all remain CLI/pipeline tools with no discrete MCP/Skill wrapper (gaps tracked in curator state). Instead, catalogued a previously-deferred, primary-source-verified structural-biology skill from `google-deepmind/science-skills`.
+
+### Added
+- **Foldseek Structural Search (Claude Skill)** (Categories: Integrative Structural and Computational Biology) — submit a 3D protein structure and find structurally similar proteins across AFDB/PDB100/SwissProt and more via the hosted Foldseek API; resolves the long-deferred Foldseek-search gap with a verifiable upstream `SKILL.md` ([source](https://github.com/google-deepmind/science-skills/blob/main/skills/foldseek_structural_search/SKILL.md))
+
+### Verified (no changes)
+- `anthropics/life-sciences` marketplace inventory diffed against catalog — no new entries.
+
 ## 2026-06-27 (Chemistry slot)
 
 Chemistry directed pass plus a manifest sweep. The `anthropics/claude-plugins-official` marketplace surfaced a new in-scope life-science plugin, **Boltz**, catalogued this run. The Chemistry directed pass (RDKit, Polaris, docking queries) found no genuinely new installable tools — the chemistry surface (rdkit-mcp, rdkit-skill, chemcp, chemlint, molecule-mcp, covasyn, autodock/smina/diffdock, datamol, medchem, molfeat, matchms) is already covered; Polaris ships no Claude wrapper, and the AKT1-only MCP_Vina remains deferred.
