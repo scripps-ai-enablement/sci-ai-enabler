@@ -11,6 +11,13 @@ Reverse-chronological log of changes to the [recipes cookbook]({{ '/recipes/' | 
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-06-27 (Molecular and Cellular Biology directed pass)
+
+### Added
+
+- **Segment and quantify cells in a microscopy image** (Problem class: Data analysis; Evidence: Reported) — rung-2 [Cellpose skill](catalog/tools/cellpose-cell-segmentation.html) recipe: a fluorescence/brightfield image (or folder) → pretrained generalist instance segmentation (`cyto3`/`nuclei`) → per-cell label masks + a tidy `cells.csv` (count, area, eccentricity, centroid, per-channel mean intensity via scikit-image `regionprops`), with a committed `segment_and_quantify.py` + pinned env + `provenance.json` (cellpose version, model, diameter, flow/cellprob thresholds, input sha256) and an explicit mask-QC step (over-merge/over-split). Cookbook's first cell-microscopy segmentation/quantification recipe, cross-linked to the [scikit-image skill](catalog/tools/scikit-image-processing.html) (classical fallback) and the [nnU-Net medical-image recipe](recipes/items/segment-organ-or-tumor-in-medical-image.html) (radiology counterpart). `Reported` — Cellpose is field-defining ([Stringer et al., *Nature Methods* 2021](https://www.nature.com/articles/s41592-020-01018-x); [Cellpose3, 2025](https://www.nature.com/articles/s41592-025-02595-5)); the Claude-skill assembly is not independently benchmarked. `Fully open`; `Laptop`.
+- **Design CRISPR sgRNAs for a gene knockout** (Problem class: Experimental design; Evidence: Reported) — rung-2 [sgRNA Design skill](catalog/tools/sgrna-design-guide.html) recipe: a gene + genome build → tiered guide selection (validated Addgene libraries → CRISPick pre-computed picks → de novo Rule Set 2 / Azimuth on-target + CFD off-target scoring) → a committed `guides.csv` (sequence, PAM, exon, strand, on/off-target, source tier) + pinned env + `provenance.json` (genome build, skill + source DB versions), with a pre-order exon/PAM/off-target sanity check. Cookbook's first CRISPR guide-design recipe, cross-linked to the [plasmid-verification recipe](recipes/items/annotate-and-verify-a-plasmid-construct.html). `Reported` — scoring rests on the field-standard Rule Set 2 / CFD models ([Doench et al., *Nature Biotechnology* 2016](https://www.nature.com/articles/nbt.3437)); the Claude-skill assembly is not independently benchmarked. `Fully open`; `Laptop`.
+
 ## 2026-06-27 (Integrative Structural and Computational Biology directed pass)
 
 ### Added
