@@ -9,6 +9,22 @@ permalink: /updates/ai-scientists.html
 
 Reverse-chronological log of changes to the [AI scientists tracker]({{ '/autonomous-science/' | relative_url }}). Newest at the top.
 
+## 2026-06-27
+
+### Added
+- **ARTIQ-MCP (Duke trapped-ion agent)** (Lifecycle: Experiment design, Analysis) — Duke Quantum Center (Brown and Linke groups) with University of Maryland. An LLM agent (Claude Opus 4.8) that autonomously writes native ARTIQ control code and runs it on real trapped-ion quantum hardware behind a per-call hardware safety filter: a `safety-filter` MCP proxy issues a content-bound, single-use authorization token only after an AST denylist check plus isolated `dax.sim` simulation that traces every operation against preset per-device bounds (block-by-default on unmapped devices), or a human token for sensitive actions; an `artiq-mcp` server then forwards approved calls to the ARTIQ master over sipyco. Wet-lab validation on a co-trapped 40Ca+/40CaOH+ crystal (full agent-built calibration stack; cross-instrument 60 Hz magnetic-field-stabilization loop) plus interface-level portability on an independent 171Yb+ ARTIQ platform; safety filter red-teamed with 1932 adversarial scripts. Open source ([source](https://arxiv.org/abs/2606.27231)).
+
+### Updated
+- **`autonomous-science/summary.md`** — ARTIQ-MCP joins the existing "Physical sciences and embodied systems are the newest frontier" cluster (Qumus, Qiushi, Dr.Sai, BioProVLA, CALMS), tipping no superlative: Biology & medicine remains the largest group (17) and strongest-evidence tier; Chemistry & materials (14) remains the most loop-closed. No synthesis prose was rewritten; `synthesis_reviewed` bumped to 2026-06-27 after re-checking every superlative against the current 67-system grouping.
+- **`autonomous-science/curator-state.md`** — added ARTIQ-MCP at the top of `Recently surfaced` (trimming Ax-Prover to keep the window at five); refreshed the link/repo re-verification backlog to the 37 entries now past the 30-day window.
+- **`sources/manifest.json`** — ARTIQ-MCP (DOI 10.48550/arXiv.2606.27231) entry added by Phase A.
+
+### Flagged
+_None._
+
+### Verified (no changes)
+- 37 entries have crossed the 30-day re-verification window (last_verified 2026-05-20 through 2026-05-27). Phase B has no web/MCP tools to confirm primary-paper-link or code-repo liveness, so `last_verified` was intentionally not bumped; the backlog is logged under `Deferred — next-run priority` for the next Phase A to fetch.
+
 ## 2026-06-20
 
 ### Added

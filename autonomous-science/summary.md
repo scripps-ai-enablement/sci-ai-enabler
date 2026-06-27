@@ -2,7 +2,7 @@
 title: Landscape
 parent: AI scientists
 nav_order: 1
-synthesis_reviewed: 2026-06-11
+synthesis_reviewed: 2026-06-27
 ---
 
 # The autonomous AI scientist landscape
