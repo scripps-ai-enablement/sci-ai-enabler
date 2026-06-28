@@ -6,7 +6,7 @@ tool_type: MCP server
 supplier: cyanheads (Casey Hand)
 availability: GA
 tool_categories: [Translational Medicine, Drug Repurposing and Discovery]
-last_verified: 2026-05-23
+last_verified: 2026-06-28
 summary: Apache-2.0 MCP server over the ClinicalTrials.gov v2 API — trial search, full study records, outcomes / adverse-event extraction, and patient-to-trial matching. Hosted public instance available.
 ---
 

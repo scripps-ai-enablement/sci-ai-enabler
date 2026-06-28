@@ -11,6 +11,19 @@ Reverse-chronological log of changes to the [catalog]({{ '/catalog/' | relative_
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-06-28 (Translational Medicine slot)
+
+Translational Medicine directed pass plus a manifest sweep. The `anthropics/life-sciences` (~21 plugins) and `claude-plugins-official` marketplaces and the official MCP Registry were diffed against the catalog — no new in-scope marketplace plugins (all life-sciences entries already catalogued). The Translational Medicine pass (FHIR, openFDA, ClinicalTrials.gov queries) surfaced one new installable component, **Certus** — an MIT openFDA MCP server centered on drug-shortage tracking, recalls, and adverse events, with a zero-install hosted endpoint. Existing FHIR servers (Momentum, WSO2), the ythalorossy openFDA server, and the cyanheads ClinicalTrials.gov server were reconfirmed.
+
+### Added
+- **Certus Drug Information MCP Server** (Categories: Drug Repurposing and Discovery, Translational Medicine) — MIT openFDA MCP with 8 tools for drug shortages, recalls, labels, FAERS adverse events, and batch analysis; hosted endpoint + local self-host ([source](https://github.com/zesty-genius128/Certus_server))
+
+### Updated
+- **ClinicalTrials.gov MCP Server (cyanheads)** — re-verified, still GA / Apache-2.0 with hosted + npx/bunx install paths intact; `last_verified` bumped to 2026-06-28
+
+### Verified (no changes)
+- 1 entry re-verified (cyanheads ClinicalTrials.gov MCP); existing FHIR and openFDA entries reconfirmed against current sources.
+
 ## 2026-06-28 (Neuroscience slot)
 
 Neuroscience directed pass plus a manifest sweep. The `anthropics/life-sciences` (21 plugins) and `claude-plugins-official` marketplaces and the official MCP Registry diffed against catalog — no new in-scope marketplace plugins. The Neuroscience pass (NWB/DANDI, Allen Brain Atlas, spike-sorting, EEG queries) surfaced one new installable component, **SciTeX Dataset MCP** — a cross-archive (OpenNeuro/DANDI/PhysioNet/Zenodo) dataset-discovery MCP server, catalogued this run. Two further candidates were deferred for verification: **HED-MCP** (`neuromechanist/hed-mcp`, BIDS/HED sidecar automation — not yet released to PyPI) and **brain-bbqs/NeuroMCP** (in the MCP Registry but the GitHub repo 404s). Already-catalogued neuroscience coverage (Neurosift, SpikeInterface, MNE, Allen Brain, allenbrain-mcp) was reconfirmed.
