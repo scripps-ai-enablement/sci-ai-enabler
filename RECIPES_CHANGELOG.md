@@ -11,6 +11,21 @@ Reverse-chronological log of changes to the [recipes cookbook]({{ '/recipes/' | 
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-06-28 (Drug Repurposing and Discovery directed pass)
+
+### Added
+
+- **Rank a compound library against a target by predicted binding affinity** (Problem class: Data analysis; Evidence: Reported) — rung-2 [Boltz plugin](catalog/tools/boltz.html) recipe driving the hosted `boltz-small-molecule-screen` skill: a target sequence/PDB + a SMILES library → MedChem/Datamol pre-filter ([upstream recipe](recipes/items/filter-virtual-screening-hits.html)) → structure-and-affinity screen on the hosted Boltz API (no local GPU) → `screen_ranked.csv` (affinity, binder probability, structure confidence) + committed `rank_screen.py` + `.claude/commands/boltz-affinity-screen.md` + pinned env + `provenance.json` (Boltz model id, job IDs, submission date, input sha256, target accession), ranking by the classifier score rather than fine affinity gaps. Cookbook's first GPU-free structure-based affinity-screening recipe, cross-linked to the [DiffDock recipe](recipes/items/dock-ligand-library-with-diffdock.html) (GPU pose-level counterpart) and the [virtual-screening hit filter](recipes/items/filter-virtual-screening-hits.html) (upstream). `Reported` — Boltz-2 approaches FEP accuracy (Pearson 0.62 on FEP+, doubles MF-PCBA average precision; [Passaro et al., bioRxiv 2025](https://www.biorxiv.org/content/10.1101/2025.06.14.659707v1)) but an independent eval ([Wan et al., arXiv:2603.05532, 2026](https://arxiv.org/abs/2603.05532)) finds it a good binder classifier yet weak quantitative ranker; the Claude-plugin assembly is not separately benchmarked. `Subscription required`; `Laptop`.
+
+### Updated
+
+- **Scan approved drugs for repurposing candidates against a disease** — spot-checked; all catalog/system links resolve, tags consistent; `last_verified` → 2026-06-28.
+- **Profile a compound's polypharmacology from ChEMBL bioactivity data** — spot-checked; all catalog links resolve, tags consistent; `last_verified` → 2026-06-28.
+
+### Verified (no changes)
+
+- No recipes are over the 30-day `last_verified` window (oldest is 2026-06-03); spot-checked the oldest Drug Repurposing recipes, all current.
+
 ## 2026-06-28 (Translational Medicine directed pass)
 
 ### Added
