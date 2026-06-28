@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "generated": "2026-06-27",
+  "generated": "2026-06-28",
   "counts": {
-    "tools": 360,
-    "recipes": 56,
+    "tools": 366,
+    "recipes": 62,
     "systems": 67
   },
   "tools_file": "composer-tools.json",
@@ -347,6 +347,30 @@
       "path": "recipes/items/convert-instrument-data-to-allotrope-asm.md"
     },
     {
+      "slug": "design-crispr-sgrnas-for-a-gene-knockout",
+      "title": "Design CRISPR sgRNAs for a gene knockout",
+      "problem_class": "Experimental design",
+      "subject_areas": [
+        "Molecular and Cellular Biology"
+      ],
+      "evidence_level": "Reported",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-06-27",
+      "summary": "Use the sgRNA Design skill to pick CRISPR-Cas9 knockout guides for a gene — preferring validated/CRISPick guides, falling back to Rule Set 2 + CFD de novo rules.",
+      "keywords": [
+        "CFD",
+        "CRISPick",
+        "CRISPR",
+        "CRISPR-Cas9",
+        "PAM",
+        "sgRNA",
+        "sgRNAs"
+      ],
+      "path": "recipes/items/design-crispr-sgrnas-for-a-gene-knockout.md"
+    },
+    {
       "slug": "detect-somatic-cnvs-from-tumor-sequencing",
       "title": "Detect somatic copy-number variants from tumor sequencing",
       "problem_class": "Data analysis",
@@ -527,6 +551,30 @@
       "path": "recipes/items/fit-survival-model-to-clinical-outcomes.md"
     },
     {
+      "slug": "harmonize-clinical-terms-to-standard-codes",
+      "title": "Harmonize free-text clinical terms to standard codes",
+      "problem_class": "Knowledge synthesis",
+      "subject_areas": [
+        "Translational Medicine"
+      ],
+      "evidence_level": "Proposed",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-06-28",
+      "summary": "Use the Medical Terminologies MCP to map a column of free-text diagnoses, drugs, or labs to ICD-11/SNOMED/RxNorm/LOINC codes as a committed, reviewable crosswalk.",
+      "keywords": [
+        "ATC",
+        "ICD-10",
+        "ICD-11",
+        "LOINC",
+        "NDCs",
+        "OMOP",
+        "SNOMED"
+      ],
+      "path": "recipes/items/harmonize-clinical-terms-to-standard-codes.md"
+    },
+    {
       "slug": "identify-unknown-compound-from-msms-spectrum",
       "title": "Identify an unknown compound from an MS/MS spectrum",
       "problem_class": "Data analysis",
@@ -589,6 +637,31 @@
         "SCENIC"
       ],
       "path": "recipes/items/infer-gene-regulatory-network-from-scrnaseq.md"
+    },
+    {
+      "slug": "infer-protein-function-from-structure",
+      "title": "Infer the function of an uncharacterized protein from its 3D structure",
+      "problem_class": "Knowledge synthesis",
+      "subject_areas": [
+        "Integrative Structural and Computational Biology"
+      ],
+      "evidence_level": "Reported",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-06-27",
+      "summary": "Submit a protein structure to Foldseek, pull structurally similar annotated hits across AFDB/PDB/SwissProt, and infer likely function where sequence search finds nothing.",
+      "keywords": [
+        "AFDB",
+        "BLAST",
+        "DALI",
+        "HMMER",
+        "ORF",
+        "PDB",
+        "PSI-BLAST",
+        "TM-align"
+      ],
+      "path": "recipes/items/infer-protein-function-from-structure.md"
     },
     {
       "slug": "infer-tf-and-pathway-activities-from-expression",
@@ -1001,6 +1074,27 @@
       "path": "recipes/items/qc-single-cell-rna-seq.md"
     },
     {
+      "slug": "register-longitudinal-medical-scans",
+      "title": "Register longitudinal medical scans to a common frame",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Translational Medicine"
+      ],
+      "evidence_level": "Reported",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Workstation with GPU",
+      "last_verified": "2026-06-28",
+      "summary": "Drive SimpleITK from Claude Code to rigidly then deformably align a patient's baseline and follow-up CT/MRI, propagate contours, and emit a reproducible transform + warped volume.",
+      "keywords": [
+        "CBCT",
+        "GUI",
+        "MRI",
+        "SimpleITK"
+      ],
+      "path": "recipes/items/register-longitudinal-medical-scans.md"
+    },
+    {
       "slug": "run-bulk-rnaseq-differential-expression",
       "title": "Run bulk RNA-seq differential expression from a counts matrix",
       "problem_class": "Data analysis",
@@ -1206,6 +1300,22 @@
       "path": "recipes/items/screen-polypharmacy-for-drug-interactions.md"
     },
     {
+      "slug": "segment-and-quantify-cells-in-microscopy",
+      "title": "Segment and quantify cells in a microscopy image",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Molecular and Cellular Biology"
+      ],
+      "evidence_level": "Reported",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-06-27",
+      "summary": "Use the Cellpose skill to segment cells or nuclei in fluorescence/brightfield images and extract per-cell counts, areas, and intensities to a committed table.",
+      "keywords": [],
+      "path": "recipes/items/segment-and-quantify-cells-in-microscopy.md"
+    },
+    {
       "slug": "segment-organ-or-tumor-in-medical-image",
       "title": "Segment an organ or tumor in a medical image with nnU-Net",
       "problem_class": "Data analysis",
@@ -1269,6 +1379,25 @@
         "SpikeGLX"
       ],
       "path": "recipes/items/sort-spikes-from-neuropixels-recording.md"
+    },
+    {
+      "slug": "tile-and-normalize-whole-slide-image",
+      "title": "Tile and stain-normalize a whole-slide image for ML",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Translational Medicine"
+      ],
+      "evidence_level": "Reported",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Workstation with GPU",
+      "last_verified": "2026-06-28",
+      "summary": "Use the histolab skill to turn a gigapixel H&E slide into a tissue-masked, stain-normalized tile dataset with a committed, re-runnable script.",
+      "keywords": [
+        "Re-implementing",
+        "WSIs"
+      ],
+      "path": "recipes/items/tile-and-normalize-whole-slide-image.md"
     },
     {
       "slug": "triage-alphafold-model-for-docking",

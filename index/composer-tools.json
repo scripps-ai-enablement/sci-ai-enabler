@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "generated": "2026-06-27",
-  "count": 360,
+  "generated": "2026-06-28",
+  "count": 366,
   "tools": [
     {
       "slug": "10x-genomics-cloud",
@@ -942,6 +942,41 @@
       "path": "catalog/tools/cellxgene-census.md"
     },
     {
+      "slug": "certus",
+      "title": "Certus Drug Information MCP Server",
+      "tool_type": "MCP server",
+      "availability": "GA",
+      "tool_categories": [
+        "Drug Repurposing and Discovery",
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-06-28",
+      "summary": "MIT openFDA MCP server focused on drug shortages, recalls, labels, and adverse events — with a zero-install hosted endpoint and batch analysis across up to 25 drugs.",
+      "keywords": [
+        "FDA",
+        "MIT",
+        "openFDA"
+      ],
+      "path": "catalog/tools/certus.md"
+    },
+    {
+      "slug": "chatspatial",
+      "title": "ChatSpatial",
+      "tool_type": "MCP server",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-27",
+      "summary": "\"MCP server for spatial transcriptomics — preprocessing, spatial domains, deconvolution, cell-cell communication, and SVG detection via Scanpy/Squidpy.\"",
+      "keywords": [
+        "CNV",
+        "RNA",
+        "SVG"
+      ],
+      "path": "catalog/tools/chatspatial.md"
+    },
+    {
       "slug": "chembl",
       "title": "ChEMBL Connector",
       "tool_type": "Claude Code Plugin",
@@ -1029,6 +1064,22 @@
       "path": "catalog/tools/citation-management.md"
     },
     {
+      "slug": "clair-variant-caller",
+      "title": "Clair Variant Caller (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-06-27",
+      "summary": "\"Agent skill for the Clair suite — germline, somatic, mosaic, and long-read RNA variant calling with Clair3/ClairS/Clair-Mosaic.\"",
+      "keywords": [
+        "Clair-Mosaic",
+        "RNA"
+      ],
+      "path": "catalog/tools/clair-variant-caller.md"
+    },
+    {
       "slug": "clinical-decision-support",
       "title": "Clinical Decision Support (Claude Skill)",
       "tool_type": "Claude Skill",
@@ -1094,7 +1145,7 @@
         "Translational Medicine",
         "Drug Repurposing and Discovery"
       ],
-      "last_verified": "2026-05-23",
+      "last_verified": "2026-06-28",
       "summary": "Apache-2.0 MCP server over the ClinicalTrials.gov v2 API — trial search, full study records, outcomes / adverse-event extraction, and patient-to-trial matching. Hosted public instance available.",
       "keywords": [
         "Apache-2",
@@ -1796,6 +1847,27 @@
       "path": "catalog/tools/eeg-skill.md"
     },
     {
+      "slug": "embl-ebi-ols",
+      "title": "EMBL-EBI OLS (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "All"
+      ],
+      "last_verified": "2026-06-27",
+      "summary": "\"Resolve and navigate biomedical ontology terms (GO, MONDO, HP, CHEBI, CL, UBERON, EFO, …) across 250+ ontologies via the EMBL-EBI Ontology Lookup Service.\"",
+      "keywords": [
+        "CHEBI",
+        "EFO",
+        "EMBL-EBI",
+        "MONDO",
+        "OLS",
+        "OLS4",
+        "UBERON"
+      ],
+      "path": "catalog/tools/embl-ebi-ols.md"
+    },
+    {
       "slug": "emdb-database",
       "title": "EMDB (Claude Skill)",
       "tool_type": "Claude Skill",
@@ -2307,20 +2379,21 @@
     },
     {
       "slug": "geo-database",
-      "title": "NCBI GEO (Claude Skill)",
+      "title": "NCBI GEO",
       "tool_type": "Claude Skill",
       "availability": "GA",
       "tool_categories": [
         "Molecular and Cellular Biology"
       ],
-      "last_verified": "2026-06-11",
-      "summary": "\"NCBI GEO access via GEOparse and E-utilities.\"",
+      "last_verified": "2026-06-27",
+      "summary": "\"NCBI GEO access — keyword/series search, GSE matrices, GPL/GSM metadata — as a SciAgent skill or the MCPmed GEO MCP server.\"",
       "keywords": [
         "GEO",
         "GEOparse",
         "GPL",
         "GSE",
         "GSM",
+        "MCPmed",
         "NCBI"
       ],
       "path": "catalog/tools/geo-database.md"
@@ -4357,14 +4430,13 @@
         "Integrative Structural and Computational Biology",
         "Drug Repurposing and Discovery"
       ],
-      "last_verified": "2026-06-13",
-      "summary": "MCP server that lets Claude search, fetch, and validate RCSB Protein Data Bank structures with PDBe/UniProt cross-referencing.",
+      "last_verified": "2026-06-27",
+      "summary": "MCP servers that let Claude search, fetch, and validate RCSB Protein Data Bank structures — including the official first-party RCSB server.",
       "keywords": [
         "GraphQL",
         "PDB",
         "PDBe",
         "RCSB",
-        "REST",
         "REST-based"
       ],
       "path": "catalog/tools/pdb.md"
@@ -4926,6 +4998,23 @@
         "WAIC"
       ],
       "path": "catalog/tools/pymc.md"
+    },
+    {
+      "slug": "pymol",
+      "title": "PyMOL (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Integrative Structural and Computational Biology"
+      ],
+      "last_verified": "2026-06-27",
+      "summary": "\"Visualize, align, and render protein/molecular structures with PyMOL — headless, GPU-free, producing publication-quality PNGs and editable .pse sessions.\"",
+      "keywords": [
+        "GPU-free",
+        "PNGs",
+        "PyMOL"
+      ],
+      "path": "catalog/tools/pymol.md"
     },
     {
       "slug": "pymoo",
@@ -5577,6 +5666,24 @@
         "SVMs"
       ],
       "path": "catalog/tools/scikit-survival.md"
+    },
+    {
+      "slug": "scitex",
+      "title": "SciTeX Dataset MCP",
+      "tool_type": "MCP server",
+      "availability": "Beta",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-06-28",
+      "summary": "MCP server giving Claude a unified search across OpenNeuro, DANDI, PhysioNet, and Zenodo for BIDS/NWB neuroscience datasets.",
+      "keywords": [
+        "BIDS",
+        "DANDI",
+        "NWB",
+        "NWB-aware"
+      ],
+      "path": "catalog/tools/scitex.md"
     },
     {
       "slug": "scvelo",
