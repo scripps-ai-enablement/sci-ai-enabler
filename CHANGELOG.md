@@ -11,6 +11,20 @@ Reverse-chronological log of changes to the [catalog]({{ '/catalog/' | relative_
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-06-28 (Drug Repurposing and Discovery slot)
+
+Drug Repurposing and Discovery directed pass plus a manifest sweep. The `anthropics/life-sciences` (~21 plugins) and `claude-plugins-official` marketplaces were diffed against the catalog — no new in-scope marketplace plugins (all life-sciences entries already catalogued; Boltz also present). The directed pass (DrugBank, drug-repurposing, target-prioritization queries) confirmed DrugBank is already well-covered (community + official MCP on `drugbank.md`) and surfaced **SandboxAQ** as an Anthropic-official connector — but its drug-discovery models (AQPotency, AQCell) are still waitlist-gated "coming soon" and only its materials-science catalyst model is live, so it was deferred. Two ToolUniverse drug-discovery agent skills (a deferred next-run priority) were verified against their upstream `SKILL.md` and catalogued.
+
+### Added
+- **Drug-Drug Interaction (ToolUniverse Claude Skill)** (Categories: Drug Repurposing and Discovery, Translational Medicine) — CYP/transporter PK + PD interaction assessment with 0-100 clinical risk scoring, over the ToolUniverse MCP server ([source](https://github.com/mims-harvard/ToolUniverse/blob/main/skills/tooluniverse-drug-drug-interaction/SKILL.md))
+- **Precision Oncology (ToolUniverse Claude Skill)** (Categories: Drug Repurposing and Discovery, Translational Medicine) — maps a tumor molecular profile to matched FDA-approved/investigational therapies, resistance mechanisms, and clinical trials (CIViC/OncoKB/COSMIC/GDC/Open Targets) ([source](https://github.com/mims-harvard/ToolUniverse/blob/main/skills/tooluniverse-precision-oncology/SKILL.md))
+
+### Flagged
+- _None._
+
+### Verified (no changes)
+- DrugBank (community + official MCP), Open Targets, and ToolUniverse core/sibling entries reconfirmed against current sources; no field changes.
+
 ## 2026-06-28 (Translational Medicine slot)
 
 Translational Medicine directed pass plus a manifest sweep. The `anthropics/life-sciences` (~21 plugins) and `claude-plugins-official` marketplaces and the official MCP Registry were diffed against the catalog — no new in-scope marketplace plugins (all life-sciences entries already catalogued). The Translational Medicine pass (FHIR, openFDA, ClinicalTrials.gov queries) surfaced one new installable component, **Certus** — an MIT openFDA MCP server centered on drug-shortage tracking, recalls, and adverse events, with a zero-install hosted endpoint. Existing FHIR servers (Momentum, WSO2), the ythalorossy openFDA server, and the cyanheads ClinicalTrials.gov server were reconfirmed.
