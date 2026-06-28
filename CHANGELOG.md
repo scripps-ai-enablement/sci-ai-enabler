@@ -11,6 +11,19 @@ Reverse-chronological log of changes to the [catalog]({{ '/catalog/' | relative_
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-06-28 (Neuroscience slot)
+
+Neuroscience directed pass plus a manifest sweep. The `anthropics/life-sciences` (21 plugins) and `claude-plugins-official` marketplaces and the official MCP Registry diffed against catalog — no new in-scope marketplace plugins. The Neuroscience pass (NWB/DANDI, Allen Brain Atlas, spike-sorting, EEG queries) surfaced one new installable component, **SciTeX Dataset MCP** — a cross-archive (OpenNeuro/DANDI/PhysioNet/Zenodo) dataset-discovery MCP server, catalogued this run. Two further candidates were deferred for verification: **HED-MCP** (`neuromechanist/hed-mcp`, BIDS/HED sidecar automation — not yet released to PyPI) and **brain-bbqs/NeuroMCP** (in the MCP Registry but the GitHub repo 404s). Already-catalogued neuroscience coverage (Neurosift, SpikeInterface, MNE, Allen Brain, allenbrain-mcp) was reconfirmed.
+
+### Added
+- **SciTeX Dataset MCP** (Categories: Neuroscience) — MCP server giving Claude a unified read-only search across OpenNeuro, DANDI, PhysioNet, and Zenodo for BIDS/NWB neuroscience datasets; AGPL-3.0, `uv pip install "scitex[dataset]"` + `scitex mcp start` ([source](https://pypi.org/project/scitex/))
+
+### Flagged
+- _None._
+
+### Verified (no changes)
+- `anthropics/life-sciences` (21 plugins), `claude-plugins-official`, and the official MCP Registry (brain/neuroscience search) diffed against catalog — no new in-scope marketplace entries.
+
 ## 2026-06-27 (Molecular and Cellular Biology slot)
 
 Molecular and Cellular Biology directed pass plus a manifest sweep. The `anthropics/life-sciences` (21 plugins) and `claude-plugins-official` marketplaces hold no new in-scope life-science entries (Boltz/fiftyone already covered or general-purpose). The MCB pass surfaced the `GoekeLab/awesome-genomic-skills` meta-list and the MCPmed bioinformatics-MCP family (Briefings in Bioinformatics 2026, bbag076), yielding three additions: **ChatSpatial** (spatial-transcriptomics MCP), the **Clair** variant-caller skill, and the first-party **MCPmed GEO MCP** (folded into the existing `geo-database.md`). MCPmed's PLSDB MCP was deferred on an unspecified upstream license.
