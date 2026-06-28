@@ -11,6 +11,17 @@ Reverse-chronological log of changes to the [recipes cookbook]({{ '/recipes/' | 
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-06-28 (Translational Medicine directed pass)
+
+### Added
+
+- **Tile and stain-normalize a whole-slide image for ML** (Problem class: Data analysis; Evidence: Reported) — rung-2 [histolab skill](catalog/tools/histolab.html) recipe: a gigapixel H&E WSI (or folder) → tissue masking → fixed-size tile extraction at a chosen magnification → Macenko/Reinhard stain normalization against a committed reference → a `tiles/` folder + `manifest.csv` (slide_id, tile_path, level, mpp, x, y, tissue_pct) + committed `tile_wsi.py` + pinned env + `provenance.json` (histolab/OpenSlide versions, tile size, level, tissue threshold, normalizer + reference sha256, slide sha256), with a contact-sheet QC step. Cookbook's first digital-pathology WSI-preprocessing recipe, cross-linked to the [pathml skill](catalog/tools/pathml.html) (heavier toolkit) and the [microscopy segmentation recipe](recipes/items/segment-and-quantify-cells-in-microscopy.html) (cell-level counterpart). `Reported` — histolab is the peer-reviewed reproducible-preprocessing library ([Marcolini et al., *SoftwareX* 2022](https://doi.org/10.1016/j.softx.2022.101237)); the Claude-skill assembly is not independently benchmarked. `Fully open`; `Workstation with GPU`.
+- **Harmonize free-text clinical terms to standard codes** (Problem class: Knowledge synthesis; Evidence: Proposed) — rung-2 [Medical Terminologies MCP](catalog/tools/medical-terminologies-mcp.html) recipe: a column of free-text diagnoses/drugs/labs → grounded lookup against ICD-11/RxNorm/ATC/LOINC → ranked `candidates.csv` (all hits per term) → a curated `crosswalk.csv` (term, chosen code/system/concept, match_type, n_candidates) + committed `harmonize_terms.py` + pinned env + `provenance.json` (MCP version, per-service terminology release dates, run date, model id, input sha256), with an expert-review pass on `needs_review` rows. Cookbook's first clinical-terminology harmonization recipe, cross-linked to the [PyHealth skill](catalog/tools/pyhealth.html) (in-pipeline code utilities) and the [pharmacogenomic dosing report](recipes/items/build-pharmacogenomic-dosing-report.html) (closest documented LLM-driving-clinical-references workflow). `Proposed` — grounding rests on authoritative WHO/RxNorm/LOINC services; no documented attempt of this exact LLM+MCP assembly is known. `Fully open`; `Laptop`.
+
+### Verified (no changes)
+
+- No recipes are over the 30-day `last_verified` window (oldest is 2026-06-03); spot-checked the oldest, all current.
+
 ## 2026-06-27 (Molecular and Cellular Biology directed pass)
 
 ### Added
