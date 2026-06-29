@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "generated": "2026-06-28",
-  "count": 366,
+  "generated": "2026-06-29",
+  "count": 368,
   "tools": [
     {
       "slug": "10x-genomics-cloud",
@@ -6224,6 +6224,23 @@
       "path": "catalog/tools/timesfm-forecasting.md"
     },
     {
+      "slug": "tooluniverse-drug-drug-interaction",
+      "title": "Drug-Drug Interaction (ToolUniverse Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Drug Repurposing and Discovery",
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-06-28",
+      "summary": "ToolUniverse agent skill that assesses drug-drug interactions via CYP/transporter pharmacokinetics, pharmacodynamic overlap, and 0-100 clinical risk scoring.",
+      "keywords": [
+        "CYP",
+        "Drug-Drug"
+      ],
+      "path": "catalog/tools/tooluniverse-drug-drug-interaction.md"
+    },
+    {
       "slug": "tooluniverse-drug-research",
       "title": "Drug Research (ToolUniverse Claude Skill)",
       "tool_type": "Claude Skill",
@@ -6273,6 +6290,22 @@
         "NO-GO"
       ],
       "path": "catalog/tools/tooluniverse-drug-target-validation.md"
+    },
+    {
+      "slug": "tooluniverse-precision-oncology",
+      "title": "Precision Oncology (ToolUniverse Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Drug Repurposing and Discovery",
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-06-28",
+      "summary": "ToolUniverse agent skill that maps a tumor molecular profile to matched FDA-approved/investigational therapies, resistance mechanisms, and clinical trials.",
+      "keywords": [
+        "FDA-approved"
+      ],
+      "path": "catalog/tools/tooluniverse-precision-oncology.md"
     },
     {
       "slug": "tooluniverse",

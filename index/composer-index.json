@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "generated": "2026-06-28",
+  "generated": "2026-06-29",
   "counts": {
-    "tools": 366,
-    "recipes": 62,
+    "tools": 368,
+    "recipes": 63,
     "systems": 67
   },
   "tools_file": "composer-tools.json",
@@ -1041,7 +1041,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-06-09",
+      "last_verified": "2026-06-28",
       "summary": "Use the ChEMBL connector in Claude Code to pull every measured activity for one compound, group by target and assay, and surface the off-target profile a medicinal chemist needs before committing to a chemotype.",
       "keywords": [
         "ChEMBL",
@@ -1072,6 +1072,28 @@
         "RNA-seq"
       ],
       "path": "recipes/items/qc-single-cell-rna-seq.md"
+    },
+    {
+      "slug": "rank-compound-library-by-predicted-affinity",
+      "title": "Rank a compound library against a target by predicted binding affinity",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Drug Repurposing and Discovery",
+        "Chemistry",
+        "Integrative Structural and Computational Biology"
+      ],
+      "evidence_level": "Reported",
+      "complexity": "One skill or MCP",
+      "availability": "Subscription required",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-06-28",
+      "summary": "Use the Boltz plugin's hosted small-molecule screen to rank a SMILES library against a target by predicted binding affinity — no local GPU — and treat the score as a binder/non-binder enrichment filter, not a quantitative ranker.",
+      "keywords": [
+        "GNINA",
+        "PDB",
+        "SMILES"
+      ],
+      "path": "recipes/items/rank-compound-library-by-predicted-affinity.md"
     },
     {
       "slug": "register-longitudinal-medical-scans",
@@ -1226,7 +1248,7 @@
       "complexity": "Multi-tool harness",
       "availability": "Subscription required",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-06-09",
+      "last_verified": "2026-06-28",
       "summary": "Given a disease, use Open Targets to rank associated targets, ChEMBL and PubChem for approved-drug bioactivity, and DrugBank for mechanism / indication / interaction context to produce a ranked shortlist of repurposing candidates.",
       "keywords": [
         "ChEMBL",
