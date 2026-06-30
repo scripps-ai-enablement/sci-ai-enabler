@@ -7,4 +7,4 @@
 # and record the lock file alongside a run when full reproducibility matters.
 gget==0.29.0
 pandas==2.2.2
-requests==2.32.3
+requests==2.33.0
