@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "generated": "2026-07-03",
+  "generated": "2026-07-04",
   "counts": {
-    "tools": 368,
-    "recipes": 63,
+    "tools": 370,
+    "recipes": 65,
     "systems": 67
   },
   "tools_file": "composer-tools.json",
@@ -189,7 +189,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-06-09",
+      "last_verified": "2026-07-04",
       "summary": "Use the phylogenetics Claude skill to take a FASTA of homologous sequences through MAFFT alignment, IQ-TREE 2 maximum-likelihood inference with bootstrap support, and an annotated tree figure.",
       "keywords": [
         "ETE3",
@@ -427,7 +427,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Workstation with GPU",
-      "last_verified": "2026-06-03",
+      "last_verified": "2026-07-04",
       "summary": "Drive DiffDock from Claude Code to generate per-ligand binding poses against a PDB or AlphaFold target, filter by confidence, and emit a ranked pose set ready for MM/PBSA rescoring or visualization.",
       "keywords": [
         "GNINA",
@@ -520,7 +520,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-06-04",
+      "last_verified": "2026-07-04",
       "summary": "Use the MedChem skill in Claude Code to cascade Lipinski / Veber / PAINS / BRENK filters over a SMILES hit list and emit a triaged CSV with per-rule flags and a final keep/drop column.",
       "keywords": [
         "BRENK",
@@ -573,6 +573,26 @@
         "SNOMED"
       ],
       "path": "recipes/items/harmonize-clinical-terms-to-standard-codes.md"
+    },
+    {
+      "slug": "identify-bacterial-isolate-from-16s-sequence",
+      "title": "Identify a bacterial isolate from its 16S rRNA sequence",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Immunology and Microbiology"
+      ],
+      "evidence_level": "Reported",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-07-04",
+      "summary": "Use the BLAST MCP server to search a Sanger 16S rRNA read against a pinned reference database and assign genus/species by the standard identity thresholds.",
+      "keywords": [
+        "BLAST",
+        "PCR",
+        "rRNA"
+      ],
+      "path": "recipes/items/identify-bacterial-isolate-from-16s-sequence.md"
     },
     {
       "slug": "identify-unknown-compound-from-msms-spectrum",
@@ -704,7 +724,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Workstation with GPU",
-      "last_verified": "2026-06-04",
+      "last_verified": "2026-07-04",
       "summary": "Use the scvi-tools skill in Claude Code to fit scVI (or scANVI when labels are available) on a concatenated AnnData of multiple batches, returning a batch-corrected latent space and integrated UMAP.",
       "keywords": [
         "RNA-seq",
@@ -1301,6 +1321,29 @@
         "VUS"
       ],
       "path": "recipes/items/score-protein-variants-with-esm.md"
+    },
+    {
+      "slug": "screen-genome-for-resistance-and-virulence-genes",
+      "title": "Screen a bacterial genome for resistance and virulence genes",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Immunology and Microbiology"
+      ],
+      "evidence_level": "Reported",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-07-04",
+      "summary": "Use the BLAST MCP server to search a bacterial assembly's proteins against CARD and VFDB, emitting a curated resistance- and virulence-gene profile with a committed script and pinned databases.",
+      "keywords": [
+        "AMR",
+        "BLAST",
+        "BMC",
+        "CARD",
+        "FASTA",
+        "VFDB"
+      ],
+      "path": "recipes/items/screen-genome-for-resistance-and-virulence-genes.md"
     },
     {
       "slug": "screen-polypharmacy-for-drug-interactions",

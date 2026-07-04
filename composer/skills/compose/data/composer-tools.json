@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "generated": "2026-07-03",
-  "count": 368,
+  "generated": "2026-07-04",
+  "count": 370,
   "tools": [
     {
       "slug": "10x-genomics-cloud",
@@ -2154,7 +2154,7 @@
       "tool_categories": [
         "Immunology and Microbiology"
       ],
-      "last_verified": "2026-06-04",
+      "last_verified": "2026-07-04",
       "summary": "Skill that parses Flow Cytometry Standard (FCS v2–3.1) files into NumPy/pandas for immunophenotyping pipelines and metadata extraction.",
       "keywords": [
         "BSD-3",
@@ -2999,6 +2999,23 @@
         "PET"
       ],
       "path": "catalog/tools/imaging-data-commons.md"
+    },
+    {
+      "slug": "inductive-bio",
+      "title": "Inductive Bio ADMET Connector",
+      "tool_type": "Claude.ai Connector",
+      "availability": "GA",
+      "tool_categories": [
+        "Chemistry",
+        "Drug Repurposing and Discovery"
+      ],
+      "last_verified": "2026-07-04",
+      "summary": "Claude.ai connector surfacing Inductive Bio's ADMET prediction models so drug-discovery chemists can predict compound properties in-conversation.",
+      "keywords": [
+        "ADMET",
+        "Beacon-1"
+      ],
+      "path": "catalog/tools/inductive-bio.md"
     },
     {
       "slug": "infographics",
@@ -5333,6 +5350,21 @@
         "Resting-State"
       ],
       "path": "catalog/tools/rest-mneta-mdd-skill.md"
+    },
+    {
+      "slug": "revvity-signals",
+      "title": "Revvity Signals AI Connector",
+      "tool_type": "Claude.ai Connector",
+      "availability": "GA",
+      "tool_categories": [
+        "All"
+      ],
+      "last_verified": "2026-07-04",
+      "summary": "Claude.ai connector giving natural-language access to the Revvity Signals electronic lab notebook and connected R&D data.",
+      "keywords": [
+        "ELN"
+      ],
+      "path": "catalog/tools/revvity-signals.md"
     },
     {
       "slug": "roary-pangenome",
