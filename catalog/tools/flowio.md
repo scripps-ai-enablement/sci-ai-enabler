@@ -6,7 +6,7 @@ tool_type: Claude Skill
 supplier: K-Dense
 availability: GA
 tool_categories: [Immunology and Microbiology]
-last_verified: 2026-06-04
+last_verified: 2026-07-04
 summary: Skill that parses Flow Cytometry Standard (FCS v2–3.1) files into NumPy/pandas for immunophenotyping pipelines and metadata extraction.
 ---
 

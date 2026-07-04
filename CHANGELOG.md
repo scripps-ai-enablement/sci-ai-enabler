@@ -11,6 +11,23 @@ Reverse-chronological log of changes to the [catalog]({{ '/catalog/' | relative_
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-07-04 (Immunology and Microbiology slot)
+
+Immunology and Microbiology directed pass plus a manifest sweep. The `anthropics/life-sciences` marketplace (~17 plugins) was re-fetched from `.claude-plugin/marketplace.json` and diffed against the catalog — every entry is already catalogued, no new in-scope plugins. The directed pass ran the IEDB, metagenomics/microbiome, antibody-design, and BCR/TCR/AIRR seed queries and scanned `punkpeye/awesome-mcp-servers`, the MCP Registry, and the K-Dense skills directory: the three standing Immunology gaps (a Claude-installable IEDB wrapper, a BCR/TCR/AIRR-seq skill, a discrete metagenomics/microbiome/AMR MCP) were all reconfirmed absent, and K-Dense has no new immunology skills. No new installable candidates warranted this run; the deferred-gap notes were re-dated in `curator-state.md`.
+
+### Added
+- _None._
+
+### Updated
+- _None._
+
+### Flagged
+- _None._
+
+### Verified (no changes)
+- **FlowIO** (`flowio.md`) — confirmed the K-Dense `flowio` `SKILL.md` still exists upstream and wraps the BSD-3 `flowio` FCS parser; `last_verified` bumped 2026-06-04 → 2026-07-04.
+- Manifest sweep of `anthropics/life-sciences` — no new in-scope plugins.
+
 ## 2026-07-04 (Chemistry slot)
 
 Chemistry directed pass plus a manifest sweep. The `anthropics/life-sciences` (~21 plugins) and `claude-plugins-official` marketplaces were diffed — no new in-scope marketplace plugins (all life-sciences entries already catalogued; Boltz present). The Chemistry seed queries surfaced Anthropic's **Claude Science** launch cohort (2026-06-30/07-01): four new Life Sciences directory connectors. Two were catalogued this run — **Inductive Bio** (ADMET prediction, the focus-category find) and **Revvity Signals AI** (ELN) — both vendor/enterprise-gated with no public MCP URL, so the install path is the directory toggle plus a provisioned account (marked `Unverified —` on exact endpoints). The other two (Helix GenoSphere, Biomni Lab) were deferred under the soft cap. The retrosynthesis-MCP gap was reconfirmed absent (no OSS AiZynthFinder/ASKCOS/IBM RXN wrapper).
