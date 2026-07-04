@@ -11,6 +11,24 @@ Reverse-chronological log of changes to the [catalog]({{ '/catalog/' | relative_
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-07-04 (Integrative Structural and Computational Biology slot)
+
+Integrative Structural and Computational Biology directed pass plus a manifest sweep. The `anthropics/life-sciences` marketplace (~17 plugins) was re-fetched from `.claude-plugin/marketplace.json` and diffed against the catalog — every entry is already catalogued, no new in-scope plugins; the `claude-plugins-official` directory was scanned and remains dev/business tooling with no life-science additions. The directed pass ran the RCSB PDB, cryo-EM (RELION/cryoSPARC), and GROMACS/OpenMM MD seed queries and scanned the MCP Registry and `punkpeye/awesome-mcp-servers`: cryo-EM (RELION/cryoSPARC/CTFFIND) remains unwrapped for Claude (reconfirmed absent, deferred), and the strong protein-structure MCPs (cyanheads, Augmented Nature, QuentinCody, RCSB official) are already folded into `pdb.md`. One genuinely new, distinct data-source entry surfaced: the first-party PDBe Europe MCP servers.
+
+### Added
+- **PDBe MCP Servers** (Categories: Integrative Structural and Computational Biology, Drug Repurposing and Discovery) — first-party PDBe (EMBL-EBI) MCP servers over the PDBe REST API, Solr search, and an optional Neo4j graph; Apache-2.0, PyPI `pdbe-mcp-server` v1.1.4, keyless for API/Search. Distinct from the RCSB-focused servers on `pdb.md` (separate wwPDB partner site, different APIs). ([repo](https://github.com/PDBeurope/pdbe-mcp-servers), [PyPI](https://pypi.org/project/pdbe-mcp-server/))
+
+### Updated
+- _None._
+
+### Flagged
+- _None._
+
+### Verified (no changes)
+- Manifest sweep of `anthropics/life-sciences` and `claude-plugins-official` — no new in-scope plugins.
+- Structural-biology core pages (`pdb.md`, `alphafold.md`, `foldseek-structural-search.md`, `pymol.md`, `openmm-mcp.md`) all within the 30-day verification window; no re-verification due.
+- Cryo-EM (RELION / cryoSPARC / CTFFIND) — reconfirmed no Claude-installable wrapper on the Structural pass; deferred note re-dated.
+
 ## 2026-07-04 (Immunology and Microbiology slot)
 
 Immunology and Microbiology directed pass plus a manifest sweep. The `anthropics/life-sciences` marketplace (~17 plugins) was re-fetched from `.claude-plugin/marketplace.json` and diffed against the catalog — every entry is already catalogued, no new in-scope plugins. The directed pass ran the IEDB, metagenomics/microbiome, antibody-design, and BCR/TCR/AIRR seed queries and scanned `punkpeye/awesome-mcp-servers`, the MCP Registry, and the K-Dense skills directory: the three standing Immunology gaps (a Claude-installable IEDB wrapper, a BCR/TCR/AIRR-seq skill, a discrete metagenomics/microbiome/AMR MCP) were all reconfirmed absent, and K-Dense has no new immunology skills. No new installable candidates warranted this run; the deferred-gap notes were re-dated in `curator-state.md`.
