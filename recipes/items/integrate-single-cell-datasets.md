@@ -9,7 +9,7 @@ evidence_level: Reported
 complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Workstation with GPU
-last_verified: 2026-06-04
+last_verified: 2026-07-04
 summary: Use the scvi-tools skill in Claude Code to fit scVI (or scANVI when labels are available) on a concatenated AnnData of multiple batches, returning a batch-corrected latent space and integrated UMAP.
 ---
 

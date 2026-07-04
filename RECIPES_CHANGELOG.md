@@ -11,6 +11,20 @@ Reverse-chronological log of changes to the [recipes cookbook]({{ '/recipes/' | 
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-07-04 (Immunology and Microbiology directed pass)
+
+### Added
+
+- **Screen a bacterial genome for resistance and virulence genes** (Problem class: Data analysis; Evidence: Reported) — rung-2 [BLAST (Bio-MCP)](catalog/tools/blast.html) recipe: an annotated genome's protein FASTA → `makeblastdb` + `blastp` against pinned CARD and VFDB references → identity/coverage-filtered best-hit-per-database → `resistance_hits.csv` + `virulence_hits.csv` + committed `screen_resistome.py` + pinned env + `provenance.json` (BLAST+ version, CARD release, VFDB download date, FASTA sha256s, cutoffs, input sha256). Picks up the AMR/virulence step the [bacterial-genome-annotation recipe](recipes/items/annotate-a-bacterial-genome.html) explicitly punts to the CLI, cross-linked to it and the [pan-genome recipe](recipes/items/compute-bacterial-pangenome-from-assemblies.html). `Reported` — `blast+` AMR/virulence detection validated at >95% sensitivity/specificity on a 131-isolate reference collection ([Bogaerts et al., *Microb. Genom.* 2021](https://doi.org/10.1099/mgen.0.000531)); the BLAST-MCP assembly is not separately benchmarked. `Fully open`; `Laptop`.
+
+### Flagged
+
+- **Missing component: dedicated resistome caller (RGI / AMRFinderPlus)** — surfaced for the catalog curator; the new AMR recipe is homology-only (no point-mutation resistance models) until such a tool is Claude-installable.
+
+### Verified (no changes)
+
+- 3 recipes spot-checked, all current, `last_verified` bumped to 2026-07-04: [dock-ligand-library-with-diffdock](recipes/items/dock-ligand-library-with-diffdock.html), [integrate-single-cell-datasets](recipes/items/integrate-single-cell-datasets.html), [filter-virtual-screening-hits](recipes/items/filter-virtual-screening-hits.html) — all linked catalog pages resolve and are unflagged.
+
 ## 2026-06-28 (Drug Repurposing and Discovery directed pass)
 
 ### Added
