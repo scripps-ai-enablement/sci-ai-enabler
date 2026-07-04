@@ -9,7 +9,7 @@ evidence_level: Reported
 complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Workstation with GPU
-last_verified: 2026-06-04
+last_verified: 2026-07-04
 summary: Use the K-Dense neuropixels-analysis skill in Claude Code to take a raw SpikeGLX or Open Ephys Neuropixels recording through preprocessing, drift correction, and Kilosort4 to curated single units.
 ---
 
@@ -90,7 +90,7 @@ Workstation with GPU. Kilosort4 effectively requires a CUDA GPU with ≥8 GB VRA
 
 ## Evidence
 
-Reported. The K-Dense [neuropixels-analysis skill](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/neuropixels-analysis/SKILL.md) is the documented assembly and tracks SpikeInterface best practices directly. The closest peer-style evaluation of LLM-driven spike sorting is the [SpikeAgent preprint](https://doi.org/10.1101/2025.02.11.637754) (posted 2025-02-11), which reports a multimodal LLM-based system automating spike-sorting across recording platforms including Neuropixels, with performance varying by backend model — the recipe inherits that "model-dependent" caveat. No peer-reviewed benchmark of *this exact skill* against a hand-tuned SpikeInterface script is known.
+Reported. The K-Dense [neuropixels-analysis skill](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/neuropixels-analysis/SKILL.md) is the documented assembly and tracks SpikeInterface best practices directly. The closest peer-style evaluation of LLM-driven spike sorting is the [SpikeAgent preprint](https://doi.org/10.1101/2025.02.11.637754) (posted 2025-02-11), which reports a multimodal LLM-based system automating spike-sorting across recording platforms including Neuropixels, with performance varying by backend model — the recipe inherits that "model-dependent" caveat. No peer-reviewed benchmark of *this exact skill* against a hand-tuned SpikeInterface script is known.
 
 The component-level evidence for the underlying tools is robust: SpikeInterface (Buccino et al., *eLife* 2020) and Kilosort4 (Pachitariu et al., *Nature Methods* 2024) are widely adopted in the systems-neuroscience community.
 
@@ -109,9 +109,9 @@ The component-level evidence for the underlying tools is robust: SpikeInterface 
 
 ## Sources
 
-- [`neuropixels-analysis/SKILL.md` (K-Dense)](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/neuropixels-analysis/SKILL.md) — last updated 2026-05; verified 2026-06-04 (this run).
+- [`neuropixels-analysis/SKILL.md` (K-Dense)](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/neuropixels-analysis/SKILL.md) — last updated 2026-05; verified 2026-07-04 (this run).
 - [SpikeAgent preprint, doi:10.1101/2025.02.11.637754](https://doi.org/10.1101/2025.02.11.637754) — posted 2025-02-11.
-- [SpikeInterface documentation](https://spikeinterface.readthedocs.io/) — verified 2026-06-04 (this run).
+- [SpikeInterface documentation](https://spikeinterface.readthedocs.io/) — verified 2026-07-04 (this run).
 
 ---
 

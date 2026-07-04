@@ -9,7 +9,7 @@ evidence_level: Proposed
 complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Laptop
-last_verified: 2026-06-05
+last_verified: 2026-07-04
 summary: Drive HeuDiConv or dcm2bids from Claude Code via the K-Dense BIDS skill to convert a raw DICOM dump into a validated BIDS dataset ready for BIDS-Apps and OpenNeuro submission.
 ---
 
@@ -166,8 +166,8 @@ The recipe combines components each of which has independent peer-reviewed valid
 
 ## Sources
 
-- [`K-Dense-AI/scientific-agent-skills` — BIDS skill](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/bids/SKILL.md) — verified 2026-06-05 (this run).
-- [BIDS specification](https://bids-specification.readthedocs.io/) — verified 2026-06-05 (this run).
+- [`K-Dense-AI/scientific-agent-skills` — BIDS skill](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/bids/SKILL.md) — verified 2026-07-04 (this run).
+- [BIDS specification](https://bids-specification.readthedocs.io/) — verified 2026-07-04 (this run).
 - [Gorgolewski et al., *Sci. Data* 3:160044 (2016), doi:10.1038/sdata.2016.44](https://doi.org/10.1038/sdata.2016.44) — published 2016-06-21.
 - [Poldrack et al., *Imaging Neuroscience* 2:1–19 (2024), doi:10.1162/imag_a_00103](https://doi.org/10.1162/imag_a_00103) — published 2024-02-29.
 - [Yarkoni et al., *JOSS* 4(40):1294 (2019), doi:10.21105/joss.01294](https://doi.org/10.21105/joss.01294) — published 2019-08-19.

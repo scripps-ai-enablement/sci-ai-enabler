@@ -11,6 +11,17 @@ Reverse-chronological log of changes to the [recipes cookbook]({{ '/recipes/' | 
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-07-04 (Integrative Structural and Computational Biology directed pass)
+
+### Added
+
+- **Superpose two protein structures and quantify where they differ** (Problem class: Data analysis; Evidence: Proposed) — rung-2 [PyMOL skill](catalog/tools/pymol.html) recipe: two coordinate files (AlphaFold model vs experimental PDB, or apo vs holo) → `cealign`/`super` superposition → global RMSD + per-residue Cα-deviation `perres.csv` + deviation-coloured overlay PNG + `.pse` session + committed `.claude/commands/superpose.md` + `uv`-pinned env + `provenance.json` (PyMOL version, method + cutoff, both input sha256s, chain selectors, aligned-atom count, RMSD, fetch date/accession, model id). First recipe to use the catalogued PyMOL skill; cross-linked to the [Foldseek function recipe](recipes/items/infer-protein-function-from-structure.html) (database-search counterpart) and the [AlphaFold triage recipe](recipes/items/triage-alphafold-model-for-docking.html) (confidence-side counterpart). `Proposed` — no LLM-driven superposition workflow is documented; grounded on peer-reviewed PyMOL `cealign` ([Shindyalov & Bourne, *Protein Eng.* 1998](https://doi.org/10.1093/protein/11.9.739)) and AlphaFold model-vs-experiment RMSD validation ([Jumper et al., *Nature* 2021](https://doi.org/10.1038/s41586-021-03819-2)). `Fully open`; `Laptop`.
+
+### Verified (no changes)
+
+- **Sort spikes from a Neuropixels recording end-to-end** — linked catalog pages (neuropixels-analysis, neurosift, aind-data) resolve and are unflagged; SpikeAgent/SpikeInterface sources current. Corrected the K-Dense SKILL.md source URL path (`scientific-skills/` → `skills/`) to match the catalog page. Bumped `last_verified` to 2026-07-04.
+- **Organize a raw DICOM dataset into a BIDS layout** — linked catalog pages (bids, openneuro) resolve and are unflagged; BIDS-spec and component DOIs current. Bumped `last_verified` to 2026-07-04.
+
 ## 2026-07-04 (Immunology and Microbiology directed pass, later slot)
 
 ### Added
