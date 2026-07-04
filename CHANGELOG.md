@@ -11,6 +11,20 @@ Reverse-chronological log of changes to the [catalog]({{ '/catalog/' | relative_
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-07-04 (Chemistry slot)
+
+Chemistry directed pass plus a manifest sweep. The `anthropics/life-sciences` (~21 plugins) and `claude-plugins-official` marketplaces were diffed — no new in-scope marketplace plugins (all life-sciences entries already catalogued; Boltz present). The Chemistry seed queries surfaced Anthropic's **Claude Science** launch cohort (2026-06-30/07-01): four new Life Sciences directory connectors. Two were catalogued this run — **Inductive Bio** (ADMET prediction, the focus-category find) and **Revvity Signals AI** (ELN) — both vendor/enterprise-gated with no public MCP URL, so the install path is the directory toggle plus a provisioned account (marked `Unverified —` on exact endpoints). The other two (Helix GenoSphere, Biomni Lab) were deferred under the soft cap. The retrosynthesis-MCP gap was reconfirmed absent (no OSS AiZynthFinder/ASKCOS/IBM RXN wrapper).
+
+### Added
+- **Inductive Bio ADMET Connector** (Categories: Chemistry, Drug Repurposing and Discovery) — Claude.ai connector surfacing Inductive Bio's ADMET prediction models (Beacon-1 family; 1st of 370+ in the OpenADMET-ExpansionRx blind challenge) for in-conversation compound design ([source](https://www.prnewswire.com/news-releases/inductive-bio-joins-anthropics-connector-ecosystem-for-life-sciences-surfacing-state-of-the-art-admet-prediction-to-drug-discovery-scientists-through-claude-302813935.html))
+- **Revvity Signals AI Connector** (Categories: All) — Claude.ai connector for natural-language access to the Revvity Signals electronic lab notebook and connected R&D data ([source](https://clpmag.com/lab-essentials/information-technology/middleware-software/revvity-connects-signals-research-platform-anthropic-claude/))
+
+### Flagged
+- _None._
+
+### Verified (no changes)
+- Manifest sweep of `anthropics/life-sciences` and `claude-plugins-official` — no new in-scope plugins.
+
 ## 2026-06-28 (Drug Repurposing and Discovery slot)
 
 Drug Repurposing and Discovery directed pass plus a manifest sweep. The `anthropics/life-sciences` (~21 plugins) and `claude-plugins-official` marketplaces were diffed against the catalog — no new in-scope marketplace plugins (all life-sciences entries already catalogued; Boltz also present). The directed pass (DrugBank, drug-repurposing, target-prioritization queries) confirmed DrugBank is already well-covered (community + official MCP on `drugbank.md`) and surfaced **SandboxAQ** as an Anthropic-official connector — but its drug-discovery models (AQPotency, AQCell) are still waitlist-gated "coming soon" and only its materials-science catalyst model is live, so it was deferred. Two ToolUniverse drug-discovery agent skills (a deferred next-run priority) were verified against their upstream `SKILL.md` and catalogued.
