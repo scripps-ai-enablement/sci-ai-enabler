@@ -11,6 +11,33 @@ Reverse-chronological log of changes to the [guide]({{ '/guide/' | relative_url 
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-07-04
+
+### Added
+- **[claude-surfaces, surfaces/claude-code] Claude in Chrome reached GA (2026-07-01).** The browser extension is now generally available and pairs with Claude Code for a build-test-verify loop. Added a cross-cutting bullet on the surfaces page (it's effectively a sixth place to reach Claude and a discoverability gap for beginners) and a short note on the Claude Code page. Grounded in [Get started with Claude in Chrome](https://support.claude.com/en/articles/12012173-get-started-with-claude-in-chrome) and the v2.1.198 changelog, both fetched this run.
+- **[skills] `/dataviz` built-in skill + stacked skill invocation.** v2.1.198 (2026-07-01) shipped a built-in `/dataviz` skill (charts/dashboards + color-palette validator); v2.1.199 (2026-07-02) made stacked `/a /b /c` invocations load up to 5 skills instead of only the first. Grounded in the Claude Code changelog fetched this run.
+
+### Updated
+- **[surfaces/claude-code, surfaces/claude-api] Claude Sonnet 5 is the new default (2026-06-30).** Sonnet 5 (`claude-sonnet-5`, the `sonnet` alias) is now the default for Free/Pro and the default in Claude Code, with a native 1M-token context window and intro pricing ($2/$10 per Mtok through 2026-08-31). Rewrote the Claude Code model-picker line (was "Opus 4.8 is the default") and the Claude API model-line pitfall, and added a pitfall covering Sonnet 5's ~30%-heavier tokenizer, adaptive-thinking default, and sampling-parameter 400s. Grounded in [Introducing Claude Sonnet 5](https://www.anthropic.com/news/claude-sonnet-5) and [What's new in Claude Sonnet 5](https://platform.claude.com/docs/en/about-claude/models/whats-new-sonnet-5), both fetched this run.
+- **[surfaces/claude-code, surfaces/claude-api] Fable 5 is available again.** The U.S. export-control order was lifted 2026-06-30 and Fable 5 was redeployed globally on 2026-07-01 (Mythos 5 restricted to approved U.S. orgs). Reversed the "currently unavailable" content in both pages back to available, restoring the Fable 5 behavior detail on the API page. Grounded in [Redeploying Claude Fable 5](https://www.anthropic.com/news/redeploying-fable-5) fetched this run.
+- **[advanced/slash-commands] Subagents run in the background by default (v2.1.198).** Claude keeps working while subagents run and is notified on completion; each inherits the session's extended-thinking config. Grounded in the Claude Code changelog fetched this run.
+
+### Verified (no changes)
+- claude-surfaces.md, surfaces/claude-code.md — install command (`curl -fsSL https://claude.ai/install.sh | bash`) re-verified via WebFetch of `claude.com/product/claude-code`: native installer canonical, no deprecation banner; Terminal / VS Code / JetBrains / web / Desktop / Slack / mobile surfaces unchanged. Latest release is **v2.1.201 (2026-07-03)**; v2.1.200's "permission dialogs require manual approval by default" is a sensible-default change noted in Sources but below the beginner topic threshold. Channels, Dynamic Workflows, Claude Security, MCP tunnels, routines all current.
+- surfaces/claude-api.md — Agent SDK / `claude -p` billing split still **paused** (help-center pause notice re-verified this run); Managed Agents, Opus 4.8, model-deprecation past tense all current.
+- surfaces/claude-ai.md, surfaces/claude-desktop.md, surfaces/claude-cowork.md — unchanged.
+- mcp-servers.md, plugins.md, marketplaces.md, connectors.md, decision-tree.md — unchanged.
+- advanced/hooks.md, advanced/routines.md, advanced/authentication.md, advanced/reproducibility.md — unchanged.
+
+### Flagged for review
+- **Agent SDK billing split** — carried over; paused, not cancelled. Re-verify the help-center pause notice each run.
+- **Mythos 5 general availability** — restricted to approved U.S. orgs (Project Glasswing); watch for broader availability.
+- **Claude Tag** — Team/Enterprise beta; if it reaches Pro or becomes a primary surface, consider a `guide/surfaces/claude-tag.md` sub-page. Watch the old Claude-in-Slack app retirement (~early Aug 2026 per secondary coverage).
+- **Claude in Chrome** — if it becomes a distinct beginner-facing component rather than a Claude Code companion, consider promoting the cross-cutting bullet to a sub-page.
+- **Agent teams (experimental)** — `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS`; still env-gated and below beginner threshold — watch for GA.
+- **Advisor tool (API)** — carried over; advanced cost-optimization pattern, omitted by scope.
+- **Promote `security-guidance` to its own page** — carried over; stays inside `plugins.md` unless a human expands the topic list.
+
 ## 2026-06-27
 
 ### Added
