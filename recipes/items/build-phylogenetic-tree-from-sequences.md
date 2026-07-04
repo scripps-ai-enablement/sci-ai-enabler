@@ -9,7 +9,7 @@ evidence_level: Proposed
 complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Laptop
-last_verified: 2026-06-09
+last_verified: 2026-07-04
 summary: Use the phylogenetics Claude skill to take a FASTA of homologous sequences through MAFFT alignment, IQ-TREE 2 maximum-likelihood inference with bootstrap support, and an annotated tree figure.
 ---
 
@@ -98,6 +98,7 @@ Proposed. No documented end-to-end attempt of "Claude Code + the phylogenetics s
 - [Phylogenetics (Claude Skill)](../../catalog/tools/phylogenetics.html)
 - [ETE Toolkit (Claude Skill)](../../catalog/tools/etetoolkit.html) — downstream tree manipulation, orthology detection, and NCBI-taxonomy annotation.
 - [Compute 16S microbiome alpha/beta diversity from a BIOM table](compute-16s-microbiome-diversity.html) — consumes the rooted tree this recipe produces for UniFrac.
+- [Identify a bacterial isolate from its 16S rRNA sequence](identify-bacterial-isolate-from-16s-sequence.html) — single-isolate BLAST identification whose 16S can seed this tree.
 - [Biomni](../../autonomous-science/systems/biomni.html) — autonomous-system option one rung up.
 
 ## Sources

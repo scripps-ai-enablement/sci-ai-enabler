@@ -11,6 +11,16 @@ Reverse-chronological log of changes to the [recipes cookbook]({{ '/recipes/' | 
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-07-04 (Immunology and Microbiology directed pass, later slot)
+
+### Added
+
+- **Identify a bacterial isolate from its 16S rRNA sequence** (Problem class: Data analysis; Evidence: Reported) — rung-2 [BLAST (Bio-MCP)](catalog/tools/blast.html) recipe: a colony-PCR Sanger 16S read (or assembled 16S contig) → `blastn` against a pinned curated 16S database (NCBI `16S_ribosomal_RNA`) → coverage-filtered, identity-ranked `hits.csv` with a threshold-based `assignment` column (98.7% species / 94.5% genus) + committed `identify_16s.py` + pinned env + `provenance.json` (BLAST+ version, 16S DB release + sha256, query sha256, cutoffs, run date, model id). Single-isolate identification counterpart to the community-level [16S diversity recipe](recipes/items/compute-16s-microbiome-diversity.html); cross-linked to the [resistome screen](recipes/items/screen-genome-for-resistance-and-virulence-genes.html) (same BLAST-MCP tool), the [bacterial-genome-annotation recipe](recipes/items/annotate-a-bacterial-genome.html) (consumes the genus hint), and the [phylogenetic-tree recipe](recipes/items/build-phylogenetic-tree-from-sequences.html). `Reported` — 98.7%/94.5% identity thresholds are the community standard ([Kim et al., *IJSEM* 2014](https://doi.org/10.1099/ijs.0.059774-0); [Yarza et al., *Nat. Rev. Microbiol.* 2014](https://doi.org/10.1038/nrmicro3330)); the BLAST-MCP assembly is not separately benchmarked. `Fully open`; `Laptop`.
+
+### Verified (no changes)
+
+- **Build a phylogenetic tree from a set of sequences** — linked catalog pages (phylogenetics, ETE Toolkit, Nextflow) and Biomni system page all resolve; sources current. Bumped `last_verified` to 2026-07-04.
+
 ## 2026-07-04 (Immunology and Microbiology directed pass)
 
 ### Added

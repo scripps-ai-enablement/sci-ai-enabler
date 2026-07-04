@@ -95,6 +95,7 @@ No head-to-head benchmark of the *agent-driven* single-genome annotation versus 
 - [Bakta (Claude Skill)](../../catalog/tools/bakta-genome-annotation.html) — bacterial/archaeal genome and plasmid annotation.
 - [Prokka (Claude Skill)](../../catalog/tools/prokka-genome-annotation.html) — legacy/alternative prokaryotic annotator.
 - [Compute a bacterial pan-genome from a set of genome assemblies](compute-bacterial-pangenome-from-assemblies.html) — the multi-isolate comparative recipe that runs this annotation step at scale.
+- [Identify a bacterial isolate from its 16S rRNA sequence](identify-bacterial-isolate-from-16s-sequence.html) — produces the genus/species hint that improves gene naming here.
 
 ## Sources
 
