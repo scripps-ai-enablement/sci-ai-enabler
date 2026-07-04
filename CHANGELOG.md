@@ -11,6 +11,22 @@ Reverse-chronological log of changes to the [catalog]({{ '/catalog/' | relative_
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-07-04 (Molecular and Cellular Biology slot)
+
+Molecular and Cellular Biology directed pass plus a manifest sweep. The `anthropics/life-sciences` marketplace was re-fetched from `.claude-plugin/marketplace.json` and diffed — every entry (10x-genomics, pubmed, biorender, synapse, wiley-scholar-gateway, biorxiv, clinical-trials, chembl, owkin, open-targets, single-cell-rna-qc, instrument-data-to-allotrope, nextflow-development, scvi-tools, clinical-trial-protocol, scientific-problem-selection, tooluniverse) is already catalogued; no new in-scope plugins. The directed pass ran the Scanpy MCP and CRISPR-design seed queries and scanned the `GoekeLab/awesome-genomic-skills` meta-list: most standalone entries were already catalogued (chatspatial, biomcp, gget, biocontextai, clair-variant-caller), and one genuinely new, verified tool surfaced — the official Seqera MCP.
+
+### Added
+- **Seqera MCP** (Categories: Molecular and Cellular Biology, Immunology and Microbiology, Integrative Structural and Computational Biology) — official hosted MCP server from Seqera Labs (the Nextflow team) at `https://mcp.seqera.io/mcp`; launches/manages Nextflow & nf-core pipelines, provisions Wave containers, and retrieves public SRA/ENA/GEO data. OAuth 2.1 or Seqera token auth; requires a Seqera Platform account (free Cloud/Community tier). ([docs](https://docs.seqera.io/platform-cloud/seqera-mcp/overview))
+
+### Updated
+- **Scanpy-MCP** — re-verified (v0.5.0, BSD-3-Clause, `pip install scanpy-mcp`, scmcphub org all current); `last_verified` bumped 2026-05-20 → 2026-07-04 and an `scmcp` orchestrator alternative-install note added (single server bundling Scanpy + LIANA+ + decoupleR + CellRank 2).
+
+### Flagged
+- _None._
+
+### Verified (no changes)
+- Manifest sweep of `anthropics/life-sciences` (`.claude-plugin/marketplace.json`) — no new in-scope plugins.
+
 ## 2026-07-04 (Integrative Structural and Computational Biology slot)
 
 Integrative Structural and Computational Biology directed pass plus a manifest sweep. The `anthropics/life-sciences` marketplace (~17 plugins) was re-fetched from `.claude-plugin/marketplace.json` and diffed against the catalog — every entry is already catalogued, no new in-scope plugins; the `claude-plugins-official` directory was scanned and remains dev/business tooling with no life-science additions. The directed pass ran the RCSB PDB, cryo-EM (RELION/cryoSPARC), and GROMACS/OpenMM MD seed queries and scanned the MCP Registry and `punkpeye/awesome-mcp-servers`: cryo-EM (RELION/cryoSPARC/CTFFIND) remains unwrapped for Claude (reconfirmed absent, deferred), and the strong protein-structure MCPs (cyanheads, Augmented Nature, QuentinCody, RCSB official) are already folded into `pdb.md`. One genuinely new, distinct data-source entry surfaced: the first-party PDBe Europe MCP servers.

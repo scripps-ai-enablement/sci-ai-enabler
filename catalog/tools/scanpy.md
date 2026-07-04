@@ -6,7 +6,7 @@ tool_type: MCP server
 supplier: scmcphub
 availability: GA
 tool_categories: [Drug Repurposing and Discovery, Immunology and Microbiology, Integrative Structural and Computational Biology, Molecular and Cellular Biology, Neuroscience, Translational Medicine]
-last_verified: 2026-05-20
+last_verified: 2026-07-04
 summary: MCP server wrapping Scanpy so Claude can run end-to-end single-cell RNA-seq analyses (QC, clustering, DE, plotting) from natural language.
 ---
 
@@ -52,6 +52,8 @@ Or with Claude Desktop, add to `claude_desktop_config.json`:
 Compatible with Claude Desktop, Claude Code, Cherry Studio, Cline, and Agno.
 
 **Alternative (skill, not MCP):** K-Dense also ships a `scanpy` Claude Skill that drives Scanpy through local Python instead of an MCP server — `npx skills add K-Dense-AI/scientific-agent-skills`, then enable the `scanpy` skill. Same underlying library; pick whichever workflow you prefer.
+
+**Alternative (orchestrator):** scmcphub also publishes `scmcp` (`pip install scmcp`), a single server that orchestrates Scanpy alongside LIANA+, decoupleR, and CellRank 2, and adds a code-generation mode. Use `scanpy-mcp` for a focused single-cell server; use `scmcp` if you want the broader suite in one install.
 
 ## What it does
 
