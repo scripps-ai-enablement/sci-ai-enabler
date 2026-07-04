@@ -9,6 +9,19 @@ permalink: /updates/ai-scientists.html
 
 Reverse-chronological log of changes to the [AI scientists tracker]({{ '/autonomous-science/' | relative_url }}). Newest at the top.
 
+## 2026-07-04
+
+No new systems surfaced — Phase A's seed queries (arXiv, bioRxiv, medRxiv via `papers` MCP, plus WebSearch fallback) returned only out-of-scope work and already-catalogued systems, so the handoff was `_None._`.
+
+### Updated
+- **`autonomous-science/curator-state.md`** — refreshed the link/repo re-verification backlog to the 55 entries now past the 30-day window (last_verified 2026-05-20 through 2026-06-02).
+
+### Flagged
+_None._
+
+### Verified (no changes)
+- 55 entries have crossed the 30-day re-verification window (last_verified 2026-05-20 through 2026-06-02). Phase B has no web/MCP tools to confirm primary-paper-link or code-repo liveness, so `last_verified` was intentionally not bumped; the backlog is logged under `Deferred — next-run priority` for the next Phase A to fetch. `summary.md` synthesis last reviewed 2026-06-27 (7 days ago) and no systems were added or removed this run, so it remains within the 30-day cadence — no re-verification required.
+
 ## 2026-06-27
 
 ### Added
