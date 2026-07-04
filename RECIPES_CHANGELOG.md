@@ -11,6 +11,12 @@ Reverse-chronological log of changes to the [recipes cookbook]({{ '/recipes/' | 
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-07-04 (Molecular and Cellular Biology directed pass, later slot)
+
+### Added
+
+- **Find selective genetic dependencies for a cancer context with DepMap** (Problem class: Hypothesis generation; Evidence: Reported) — rung-2 [DepMap skill](catalog/tools/depmap.html) recipe: a cancer context (lineage / driver mutation / fusion / expression state) → copy-number-corrected group contrast over the Chronos `CRISPRGeneEffect` matrix → pan-essential-filtered, FDR-corrected `dependencies.csv` (selective effect, p, fdr, copy_number_flag) + committed `find_dependencies.py` + pinned env + `provenance.json` (DepMap release label + matrix sha256s, context/background definition, thresholds, run date, model id). First recipe to use the catalogued DepMap skill as a standalone tool (context-in / genes-out); distinguished from the [target-dossier recipe](recipes/items/build-target-dossier.html) (gene-in, uses DepMap as one of four lookups) and the [prioritize-targets recipe](recipes/items/prioritize-targets-within-a-disease.html) (disease-in, Open Targets associations). Cross-linked to the [sgRNA-design recipe](recipes/items/design-crispr-sgrnas-for-a-gene-knockout.html) for validation. `Reported` — DepMap-mining for selective dependencies is routine, with recent peer-reviewed instances ([Schneider et al., *Cancer Res.* 2024](https://doi.org/10.1158/0008-5472.CAN-23-3560); [Phillips et al., *Nat. Commun.* 2025](https://doi.org/10.1038/s41467-024-55300-z); [Iyer et al., *EMBO J.* 2025](https://doi.org/10.1038/s44318-025-00526-w)); the Claude-skill assembly is not separately benchmarked. `Fully open`; `Laptop`.
+
 ## 2026-07-04 (Integrative Structural and Computational Biology directed pass)
 
 ### Added
