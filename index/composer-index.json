@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "generated": "2026-07-04",
+  "generated": "2026-07-05",
   "counts": {
-    "tools": 370,
-    "recipes": 65,
+    "tools": 375,
+    "recipes": 69,
     "systems": 67
   },
   "tools_file": "composer-tools.json",
@@ -103,6 +103,31 @@
       "path": "recipes/items/annotate-cell-types-in-single-cell-data.md"
     },
     {
+      "slug": "assemble-cancer-imaging-cohort-from-idc",
+      "title": "Assemble a public cancer imaging cohort from NCI Imaging Data Commons",
+      "problem_class": "Knowledge synthesis",
+      "subject_areas": [
+        "Translational Medicine"
+      ],
+      "evidence_level": "Reported",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-07-05",
+      "summary": "Use the Imaging Data Commons skill to query NCI IDC by modality, body part, and collection, then download a reproducible DICOM cohort ready for segmentation.",
+      "keywords": [
+        "CC-BY",
+        "CC-NC",
+        "DICOM",
+        "IDC",
+        "NCI",
+        "READMEs",
+        "RTSTRUCT",
+        "SEG"
+      ],
+      "path": "recipes/items/assemble-cancer-imaging-cohort-from-idc.md"
+    },
+    {
       "slug": "assemble-reference-atlas-from-cellxgene-census",
       "title": "Assemble a tissue reference atlas from the CELLxGENE Census",
       "problem_class": "Data analysis",
@@ -164,7 +189,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-06-14",
+      "last_verified": "2026-07-05",
       "summary": "Turn a patient's PGx diplotypes plus a medication list into CPIC/DPWG genotype-to-dosing recommendations with cited guideline sources.",
       "keywords": [
         "ClinPGx",
@@ -509,6 +534,24 @@
       "path": "recipes/items/estimate-pk-properties.md"
     },
     {
+      "slug": "extract-structured-data-from-clinical-notes",
+      "title": "Extract structured variables from free-text clinical notes",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Translational Medicine"
+      ],
+      "evidence_level": "Validated",
+      "complexity": "Claude Code alone",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-07-05",
+      "summary": "Use Claude Code alone to extract predefined variables from de-identified clinical notes into a reviewable, provenance-tracked registry table.",
+      "keywords": [
+        "EHR"
+      ],
+      "path": "recipes/items/extract-structured-data-from-clinical-notes.md"
+    },
+    {
       "slug": "filter-virtual-screening-hits",
       "title": "Filter a virtual screening hit list with drug-likeness rules and structural alerts",
       "problem_class": "Data analysis",
@@ -529,6 +572,29 @@
         "SMILES"
       ],
       "path": "recipes/items/filter-virtual-screening-hits.md"
+    },
+    {
+      "slug": "find-selective-cancer-dependencies-with-depmap",
+      "title": "Find selective genetic dependencies for a cancer context with DepMap",
+      "problem_class": "Hypothesis generation",
+      "subject_areas": [
+        "Molecular and Cellular Biology",
+        "Drug Repurposing and Discovery"
+      ],
+      "evidence_level": "Reported",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-07-04",
+      "summary": "Use the DepMap skill to mine genome-wide CRISPR screens for genes selectively essential in a cancer lineage or genotype, corrected for copy-number bias.",
+      "keywords": [
+        "ATP1B1",
+        "CRISPR",
+        "CRISPR-Cas9",
+        "KRAS",
+        "SSX"
+      ],
+      "path": "recipes/items/find-selective-cancer-dependencies-with-depmap.md"
     },
     {
       "slug": "fit-survival-model-to-clinical-outcomes",
@@ -797,7 +863,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-06-21",
+      "last_verified": "2026-07-05",
       "summary": "Use BioMCP (or the standalone ClinicalTrials.gov MCP) to take a free-text patient summary and return a ranked list of currently-recruiting trials with eligibility rationale.",
       "keywords": [
         "BioMCP",
@@ -816,7 +882,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-06-05",
+      "last_verified": "2026-07-04",
       "summary": "Drive HeuDiConv or dcm2bids from Claude Code via the K-Dense BIDS skill to convert a raw DICOM dump into a validated BIDS dataset ready for BIDS-Apps and OpenNeuro submission.",
       "keywords": [
         "BIDS",
@@ -1435,7 +1501,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Workstation with GPU",
-      "last_verified": "2026-06-04",
+      "last_verified": "2026-07-04",
       "summary": "Use the K-Dense neuropixels-analysis skill in Claude Code to take a raw SpikeGLX or Open Ephys Neuropixels recording through preprocessing, drift correction, and Kilosort4 to curated single units.",
       "keywords": [
         "AI-assisted",
@@ -1444,6 +1510,25 @@
         "SpikeGLX"
       ],
       "path": "recipes/items/sort-spikes-from-neuropixels-recording.md"
+    },
+    {
+      "slug": "superpose-two-protein-structures",
+      "title": "Superpose two protein structures and quantify where they differ",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Integrative Structural and Computational Biology"
+      ],
+      "evidence_level": "Proposed",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-07-04",
+      "summary": "Superpose a predicted model onto an experimental structure (or apo onto holo) with the PyMOL skill, then report global RMSD, per-residue deviation, and a rendered overlay.",
+      "keywords": [
+        "PyMOL",
+        "RMSD"
+      ],
+      "path": "recipes/items/superpose-two-protein-structures.md"
     },
     {
       "slug": "tile-and-normalize-whole-slide-image",

@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "generated": "2026-07-04",
-  "count": 370,
+  "generated": "2026-07-05",
+  "count": 375,
   "tools": [
     {
       "slug": "10x-genomics-cloud",
@@ -436,6 +436,24 @@
         "VCFtools"
       ],
       "path": "catalog/tools/bcftools-variant-manipulation.md"
+    },
+    {
+      "slug": "bci-mcp",
+      "title": "BCI-MCP",
+      "tool_type": "MCP server",
+      "availability": "Alpha",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-07-05",
+      "summary": "MCP server streaming live EEG brain-state metrics (focus, calm, attention, band powers) from OpenBCI/Muse/LSL devices — or a hardware-free synthetic mode — into Claude.",
+      "keywords": [
+        "BCI-MCP",
+        "EEG",
+        "LSL",
+        "OpenBCI"
+      ],
+      "path": "catalog/tools/bci-mcp.md"
     },
     {
       "slug": "bedtools-genomic-intervals",
@@ -4459,6 +4477,24 @@
       "path": "catalog/tools/pdb.md"
     },
     {
+      "slug": "pdbe",
+      "title": "PDBe MCP Servers",
+      "tool_type": "MCP server",
+      "availability": "GA",
+      "tool_categories": [
+        "Integrative Structural and Computational Biology",
+        "Drug Repurposing and Discovery"
+      ],
+      "last_verified": "2026-07-04",
+      "summary": "First-party PDBe Europe MCP servers giving Claude access to protein structure data via REST API, Solr search, and an optional Neo4j graph.",
+      "keywords": [
+        "First-party",
+        "PDBe",
+        "REST"
+      ],
+      "path": "catalog/tools/pdbe.md"
+    },
+    {
       "slug": "pdf",
       "title": "PDF (Claude Skill)",
       "tool_type": "Claude Skill",
@@ -5494,7 +5530,7 @@
         "Neuroscience",
         "Translational Medicine"
       ],
-      "last_verified": "2026-05-20",
+      "last_verified": "2026-07-04",
       "summary": "MCP server wrapping Scanpy so Claude can run end-to-end single-cell RNA-seq analyses (QC, clustering, DE, plotting) from natural language.",
       "keywords": [
         "HVGs",
@@ -5817,6 +5853,25 @@
         "SJTU"
       ],
       "path": "catalog/tools/seed-vig-skill.md"
+    },
+    {
+      "slug": "seqera",
+      "title": "Seqera MCP",
+      "tool_type": "MCP server",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology",
+        "Immunology and Microbiology",
+        "Integrative Structural and Computational Biology"
+      ],
+      "last_verified": "2026-07-04",
+      "summary": "Hosted MCP server for launching and managing Nextflow/nf-core pipelines on the Seqera Platform and retrieving public SRA/ENA/GEO sequencing data.",
+      "keywords": [
+        "ENA",
+        "GEO",
+        "SRA"
+      ],
+      "path": "catalog/tools/seqera.md"
     },
     {
       "slug": "sgrna-design-guide",
@@ -6324,6 +6379,25 @@
       "path": "catalog/tools/tooluniverse-drug-target-validation.md"
     },
     {
+      "slug": "tooluniverse-pharmacovigilance",
+      "title": "Pharmacovigilance (ToolUniverse Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Drug Repurposing and Discovery",
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-07-05",
+      "summary": "ToolUniverse agent skill that mines FAERS adverse-event reports and FDA labels, computes disproportionality signals (PRR, ROR, IC), and assesses pharmacogenomic risk.",
+      "keywords": [
+        "FAERS",
+        "FDA",
+        "PRR",
+        "ROR"
+      ],
+      "path": "catalog/tools/tooluniverse-pharmacovigilance.md"
+    },
+    {
       "slug": "tooluniverse-precision-oncology",
       "title": "Precision Oncology (ToolUniverse Claude Skill)",
       "tool_type": "Claude Skill",
@@ -6338,6 +6412,24 @@
         "FDA-approved"
       ],
       "path": "catalog/tools/tooluniverse-precision-oncology.md"
+    },
+    {
+      "slug": "tooluniverse-rare-disease-diagnosis",
+      "title": "Rare Disease Diagnosis (ToolUniverse Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology",
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-07-05",
+      "summary": "ToolUniverse agent skill for rare-disease differential diagnosis — HPO phenotype matching to Orphanet/OMIM, gene-panel prioritization, and ACMG variant interpretation.",
+      "keywords": [
+        "ACMG",
+        "HPO",
+        "OMIM"
+      ],
+      "path": "catalog/tools/tooluniverse-rare-disease-diagnosis.md"
     },
     {
       "slug": "tooluniverse",
