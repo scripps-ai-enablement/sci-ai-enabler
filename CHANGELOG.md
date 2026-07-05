@@ -11,6 +11,22 @@ Reverse-chronological log of changes to the [catalog]({{ '/catalog/' | relative_
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-07-05 (Neuroscience slot)
+
+Neuroscience directed pass plus a manifest sweep. The `anthropics/life-sciences` marketplace was re-fetched from `.claude-plugin/marketplace.json` and diffed — every entry (10x-genomics, pubmed, biorender, synapse, wiley-scholar-gateway, biorxiv, clinical-trials, chembl, owkin, open-targets, single-cell-rna-qc, instrument-data-to-allotrope, nextflow-development, scvi-tools, clinical-trial-protocol, scientific-problem-selection, tooluniverse) is already catalogued; `claude-plugins-official` remains dev/business tooling with only `boltz` in life-science scope (already catalogued). The directed pass ran the Allen Brain Atlas, NWB/DANDI, spike-sorting, and EEG/fMRI MCP seed queries and scanned the MCP Registry: `allenbrain-mcp` (flagged, license unset) and `neurosift` (DANDI/NWB) are already catalogued, `brain-bbqs/NeuroMCP` repo still 404s (stays deferred), and one genuinely new, verified installable tool surfaced — BCI-MCP.
+
+### Added
+- **BCI-MCP** (Categories: Neuroscience) — community MIT MCP server (PyPI/npm `bci-mcp` v0.1.3, 2026-06-24) streaming live EEG brain-state metrics (focus, calm, attention, band powers, signal quality) from OpenBCI/Muse/LSL devices, with a hardware-free `synthetic://` mode; 13 tools incl. neurofeedback and session recording. Stdio FastMCP server, `claude mcp add bci-mcp -- npx -y bci-mcp`. ([repo](https://github.com/enkhbold470/bci-mcp), [PyPI](https://pypi.org/project/bci-mcp/))
+
+### Updated
+- _None._
+
+### Flagged
+- _None._
+
+### Verified (no changes)
+- Manifest sweep of `anthropics/life-sciences` (`.claude-plugin/marketplace.json`) and `claude-plugins-official` — no new in-scope plugins.
+
 ## 2026-07-04 (Molecular and Cellular Biology slot)
 
 Molecular and Cellular Biology directed pass plus a manifest sweep. The `anthropics/life-sciences` marketplace was re-fetched from `.claude-plugin/marketplace.json` and diffed — every entry (10x-genomics, pubmed, biorender, synapse, wiley-scholar-gateway, biorxiv, clinical-trials, chembl, owkin, open-targets, single-cell-rna-qc, instrument-data-to-allotrope, nextflow-development, scvi-tools, clinical-trial-protocol, scientific-problem-selection, tooluniverse) is already catalogued; no new in-scope plugins. The directed pass ran the Scanpy MCP and CRISPR-design seed queries and scanned the `GoekeLab/awesome-genomic-skills` meta-list: most standalone entries were already catalogued (chatspatial, biomcp, gget, biocontextai, clair-variant-caller), and one genuinely new, verified tool surfaced — the official Seqera MCP.
