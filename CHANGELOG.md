@@ -11,6 +11,24 @@ Reverse-chronological log of changes to the [catalog]({{ '/catalog/' | relative_
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-07-05 (Drug Repurposing and Discovery slot)
+
+Drug Repurposing and Discovery directed pass plus a manifest sweep. The `anthropics/life-sciences` (`.claude-plugin/marketplace.json`) and `claude-plugins-official` marketplaces were re-fetched and diffed — no new in-scope plugins. The directed pass ran the Open Targets / DrugBank / ADMET seed queries: the official Open Targets MCP, DepMap, and Inductive Bio ADMET paths are already catalogued (Open Targets MCP still flagged for its non-compliant `initialize`), and three genuinely-new, verified ToolUniverse sibling drug-discovery agent skills surfaced from the upstream `SKILL.md` files.
+
+### Added
+- **Target Research (ToolUniverse Claude Skill)** (Categories: Drug Repurposing and Discovery, Molecular and Cellular Biology, Translational Medicine) — ToolUniverse agent skill profiling a target across nine parallel research paths (expression via GTEx/HPA, pathways, STRING interactions, gnomAD/ClinVar variants, DGIdb/ChEMBL druggability, PubMed) into a 15-section T1–T4 evidence-graded report. Apache-2.0; requires the ToolUniverse MCP server. ([SKILL.md](https://github.com/mims-harvard/ToolUniverse/blob/main/skills/tooluniverse-target-research/SKILL.md))
+- **GWAS Drug Discovery (ToolUniverse Claude Skill)** (Categories: Drug Repurposing and Discovery, Molecular and Cellular Biology, Translational Medicine) — ToolUniverse agent skill turning GWAS loci into druggable targets and repurposing candidates: GWAS Catalog fine-mapping → Open Targets tractability/safety → composite prioritisation → ChEMBL/DGIdb drug matching → openFDA/trial safety. Apache-2.0; requires the ToolUniverse MCP server. ([SKILL.md](https://github.com/mims-harvard/ToolUniverse/blob/main/skills/tooluniverse-gwas-drug-discovery/SKILL.md))
+- **Binder Discovery (ToolUniverse Claude Skill)** (Categories: Chemistry, Drug Repurposing and Discovery, Integrative Structural and Computational Biology) — ToolUniverse agent skill running a 7-phase small-molecule discovery workflow: druggability → ChEMBL/BindingDB/PubChem ligand mining → PDB/AlphaFold structure → NVIDIA NIM DiffDock/Boltz-2 docking → GenMol/MolMIM expansion → ADMET-AI filtering → ranked shortlist. Apache-2.0; requires the ToolUniverse MCP server (NVIDIA NIM tools need NIM access configured). ([SKILL.md](https://github.com/mims-harvard/ToolUniverse/blob/main/skills/tooluniverse-binder-discovery/SKILL.md))
+
+### Updated
+- _None._
+
+### Flagged
+- _None._
+
+### Verified (no changes)
+- Manifest sweep of `anthropics/life-sciences` (`.claude-plugin/marketplace.json`) and `claude-plugins-official` — no new in-scope plugins.
+
 ## 2026-07-05 (Translational Medicine slot)
 
 Translational Medicine directed pass plus a manifest sweep. The `anthropics/life-sciences` (`.claude-plugin/marketplace.json`) and `claude-plugins-official` marketplaces were re-fetched and diffed — no new in-scope plugins (life-sciences entries all catalogued; `boltz` remains the only life-science entry in the official directory and is catalogued). The directed pass ran the FHIR-MCP and ToolUniverse pharmacovigilance/rare-disease seed queries: the Momentum, WSO2, and Anthropic FHIR paths are already catalogued, and two genuinely-new, verified ToolUniverse sibling agent skills surfaced from the upstream `SKILL.md` files.
