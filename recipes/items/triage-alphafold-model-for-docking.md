@@ -9,7 +9,7 @@ evidence_level: Proposed
 complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Laptop
-last_verified: 2026-06-09
+last_verified: 2026-07-05
 summary: Pull a UniProt AlphaFold prediction, surface pLDDT regions and pocket-residue confidence, and produce a go/no-go verdict on whether the model is fit for downstream docking or modelling — all from one MCP server.
 ---
 

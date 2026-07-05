@@ -9,7 +9,7 @@ evidence_level: Reported
 complexity: Multi-tool harness
 availability: Fully open
 compute_requirements: Laptop
-last_verified: 2026-06-09
+last_verified: 2026-07-05
 summary: Combine RDKit physchem descriptors, MedChem rule-based ADMET flags, and measured ChEMBL bioactivity / DMPK endpoints to build a defensible PK estimate for one compound without an ML predictor in the loop.
 ---
 

@@ -10,7 +10,7 @@ complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Laptop
 summary: Use the Datamol skill in Claude Code to enumerate standardized, drug-like analogs around a lead SMILES — tautomers, stereoisomers, and fragment-substituted variants — as a ranked SAR-expansion table.
-last_verified: 2026-06-07
+last_verified: 2026-07-05
 ---
 
 # Enumerate analogs around a lead compound for SAR expansion

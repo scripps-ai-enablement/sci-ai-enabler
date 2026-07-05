@@ -11,6 +11,19 @@ Reverse-chronological log of changes to the [recipes cookbook]({{ '/recipes/' | 
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-07-05 (Drug Repurposing and Discovery directed pass)
+
+### Added
+
+- **Validate a drug target with a GO/NO-GO score before committing bench work** (Problem class: Knowledge synthesis; Evidence: Proposed) — rung-2 [Drug Target Validation skill](catalog/tools/tooluniverse-drug-target-validation.html) over the [ToolUniverse MCP](catalog/tools/tooluniverse.html): a gene + disease → four-gate scoring (disease association 30 / druggability 25 / safety 20 / clinical precedent 15 / validation evidence 10) → committed `.claude/commands/validate-target.md` slash command + `targets/validation_scores.csv` + per-target cited cards + `provenance.json` (tooluniverse version, skill tag, Open Targets/ChEMBL release labels, resolved accessions, run date, model id). Fills the single-target GO/NO-GO gap between the [prioritize-targets recipe](recipes/items/prioritize-targets-within-a-disease.html) (disease-in, ranked list) and the [target-dossier recipe](recipes/items/build-target-dossier.html) (gene-in, free-form). `Proposed` — grounded on the ToolUniverse ecosystem paper's hypercholesterolemia case study ([Gao et al., arXiv:2509.23426, 2025](https://arxiv.org/abs/2509.23426)) and the field-standard genetic-evidence/precedence-tractability-doability-safety framework ([Nelson et al., *Nat. Genet.* 2015](https://doi.org/10.1038/ng.3314); [Ochoa et al., *NAR* 2023](https://doi.org/10.1093/nar/gkac1046)); the composite-score assembly is not separately benchmarked. `Fully open`; `Laptop`.
+
+### Verified (no changes)
+
+- **Enumerate analogs around a lead compound for SAR expansion** — linked catalog pages (datamol, rdkit-skill) resolve and are unflagged; textbook cheminformatics sources current. Bumped `last_verified` to 2026-07-05.
+- **Identify an unknown compound from an MS/MS spectrum** — linked catalog pages (matchms, pyopenms, pubchem) resolve and are unflagged; matchms/SimMS sources current. Bumped `last_verified` to 2026-07-05.
+- **Estimate pharmacokinetic properties of a small molecule** — linked catalog pages (rdkit-skill, medchem, chembl) resolve and are unflagged; ChEMBL/ChemCrow/PharmaBench sources current. Bumped `last_verified` to 2026-07-05.
+- **Triage an AlphaFold model for structure-based drug design** — linked catalog pages (alphafold, pdb, uniprot) resolve and are unflagged; AlphaFold DB / pLDDT-benchmark sources current. Bumped `last_verified` to 2026-07-05.
+
 ## 2026-07-05 (Translational Medicine directed pass)
 
 ### Added
