@@ -9,7 +9,7 @@ evidence_level: Reported
 complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Laptop
-last_verified: 2026-06-21
+last_verified: 2026-07-05
 summary: Use BioMCP (or the standalone ClinicalTrials.gov MCP) to take a free-text patient summary and return a ranked list of currently-recruiting trials with eligibility rationale.
 ---
 

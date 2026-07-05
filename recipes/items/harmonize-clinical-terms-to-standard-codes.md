@@ -108,6 +108,7 @@ Proposed. No documented attempt is known of this exact assembly — Claude drivi
 ## See also
 
 - [Medical Terminologies MCP](../../catalog/tools/medical-terminologies-mcp.html) — unified ICD-11/SNOMED/LOINC/RxNorm/MeSH/ATC lookup and mapping.
+- [Extract structured variables from free-text clinical notes](extract-structured-data-from-clinical-notes.html) — the upstream step: produce the distinct terms this recipe harmonizes.
 - [PyHealth (Claude Skill)](../../catalog/tools/pyhealth.html) — clinical-ML pipelines with built-in code utilities.
 - [Build a pharmacogenomic dosing report](build-pharmacogenomic-dosing-report.html) — the closest documented LLM-driving-clinical-references workflow.
 - [Reproducible, provenance-tracked AI analysis](../../guide/advanced/reproducibility.html) — the committed-artifact pattern this recipe follows.

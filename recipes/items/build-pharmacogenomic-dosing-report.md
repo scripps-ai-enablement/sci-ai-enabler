@@ -9,7 +9,7 @@ evidence_level: Proposed
 complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Laptop
-last_verified: 2026-06-14
+last_verified: 2026-07-05
 summary: Turn a patient's PGx diplotypes plus a medication list into CPIC/DPWG genotype-to-dosing recommendations with cited guideline sources.
 ---
 

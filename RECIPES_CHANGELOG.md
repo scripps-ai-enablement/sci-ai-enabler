@@ -11,6 +11,17 @@ Reverse-chronological log of changes to the [recipes cookbook]({{ '/recipes/' | 
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-07-05 (Translational Medicine directed pass)
+
+### Added
+
+- **Extract structured variables from free-text clinical notes** (Problem class: Data analysis; Evidence: Validated) — rung-1 (Claude Code alone) recipe: a folder of de-identified clinical notes + a versioned `codebook.md` → per-cell extraction with `evidence_quote` and `found/negated/not_mentioned` status into `records.jsonl` → flattened `registry.csv` + committed `extract_registry.py` + pinned env + `provenance.json` (model id, codebook sha256, note count, gold-subset accuracy) + a clinician-abstracted gold-set accuracy check. Cookbook's first note-extraction recipe; the upstream step to the [harmonize-clinical-terms recipe](recipes/items/harmonize-clinical-terms-to-standard-codes.html) (extract → then map terms to codes) and cross-linked to the [readmission-prediction recipe](recipes/items/predict-hospital-readmission-from-ehr.html). `Validated` — Claude 3.5 Sonnet extracted structured binary variables from ILD clinic notes at 96.2% accuracy, matching three-physician consensus ([Chen et al., *J. Med. Internet Res.* 2026](https://pubmed.ncbi.nlm.nih.gov/42361337/)); oncologic-history extraction reached F1 = 0.983 ([Bhayana et al., *Radiology* 2025](https://pubmed.ncbi.nlm.nih.gov/39903072/)). `Fully open`; `Laptop`.
+
+### Verified (no changes)
+
+- **Match a patient summary to recruiting clinical trials** — linked catalog pages (biomcp, clinicaltrials-gov-mcp, clinical-trial-protocol) and the Biomni system page resolve and are unflagged; TrialGPT / MatchMiner-AI sources current. Bumped `last_verified` to 2026-07-05.
+- **Build a pharmacogenomic dosing report from a patient's diplotypes** — linked catalog pages (clinpgx-database, ddinter-database) resolve and are unflagged; CPIC guideline sources current. Bumped `last_verified` to 2026-07-05.
+
 ## 2026-07-04 (Molecular and Cellular Biology directed pass, later slot)
 
 ### Added
