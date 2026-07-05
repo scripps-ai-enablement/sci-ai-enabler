@@ -11,6 +11,23 @@ Reverse-chronological log of changes to the [catalog]({{ '/catalog/' | relative_
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-07-05 (Translational Medicine slot)
+
+Translational Medicine directed pass plus a manifest sweep. The `anthropics/life-sciences` (`.claude-plugin/marketplace.json`) and `claude-plugins-official` marketplaces were re-fetched and diffed — no new in-scope plugins (life-sciences entries all catalogued; `boltz` remains the only life-science entry in the official directory and is catalogued). The directed pass ran the FHIR-MCP and ToolUniverse pharmacovigilance/rare-disease seed queries: the Momentum, WSO2, and Anthropic FHIR paths are already catalogued, and two genuinely-new, verified ToolUniverse sibling agent skills surfaced from the upstream `SKILL.md` files.
+
+### Added
+- **Pharmacovigilance (ToolUniverse Claude Skill)** (Categories: Drug Repurposing and Discovery, Translational Medicine) — ToolUniverse agent skill mining FAERS spontaneous reports (`FAERS_count_reactions_by_drug_event` / `_filter_serious_events` / `_stratify_by_demographics`), FDA labels (`DailyMed_*`, `OpenFDA_search_drug_labels`), and pharmacogenomics (`PharmGKB_search_drugs`, `CPIC_list_guidelines`), computing disproportionality signals (PRR/ROR/IC). Apache-2.0; requires the ToolUniverse MCP server. ([SKILL.md](https://github.com/mims-harvard/ToolUniverse/blob/main/skills/tooluniverse-pharmacovigilance/SKILL.md))
+- **Rare Disease Diagnosis (ToolUniverse Claude Skill)** (Categories: Molecular and Cellular Biology, Translational Medicine) — ToolUniverse agent skill for phenotype-driven differential diagnosis: HPO term matching (`HPO_search_terms`) → Orphanet/OMIM/DisGeNET candidate diseases → MARRVEL/ClinGen/GTEx gene prioritization → ACMG variant interpretation (`FAVOR_annotate_variant`, `ClinVar_get_variant_details`, `gnomad_get_variant`, EVE/SpliceAI) → AlphaFold2/InterPro. Apache-2.0; requires the ToolUniverse MCP server. ([SKILL.md](https://github.com/mims-harvard/ToolUniverse/blob/main/skills/tooluniverse-rare-disease-diagnosis/SKILL.md))
+
+### Updated
+- _None._
+
+### Flagged
+- _None._
+
+### Verified (no changes)
+- Manifest sweep of `anthropics/life-sciences` (`.claude-plugin/marketplace.json`) and `claude-plugins-official` — no new in-scope plugins.
+
 ## 2026-07-05 (Neuroscience slot)
 
 Neuroscience directed pass plus a manifest sweep. The `anthropics/life-sciences` marketplace was re-fetched from `.claude-plugin/marketplace.json` and diffed — every entry (10x-genomics, pubmed, biorender, synapse, wiley-scholar-gateway, biorxiv, clinical-trials, chembl, owkin, open-targets, single-cell-rna-qc, instrument-data-to-allotrope, nextflow-development, scvi-tools, clinical-trial-protocol, scientific-problem-selection, tooluniverse) is already catalogued; `claude-plugins-official` remains dev/business tooling with only `boltz` in life-science scope (already catalogued). The directed pass ran the Allen Brain Atlas, NWB/DANDI, spike-sorting, and EEG/fMRI MCP seed queries and scanned the MCP Registry: `allenbrain-mcp` (flagged, license unset) and `neurosift` (DANDI/NWB) are already catalogued, `brain-bbqs/NeuroMCP` repo still 404s (stays deferred), and one genuinely new, verified installable tool surfaced — BCI-MCP.
