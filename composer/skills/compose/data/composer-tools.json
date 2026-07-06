@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "generated": "2026-07-05",
-  "count": 375,
+  "generated": "2026-07-06",
+  "count": 378,
   "tools": [
     {
       "slug": "10x-genomics-cloud",
@@ -6311,6 +6311,23 @@
       "path": "catalog/tools/timesfm-forecasting.md"
     },
     {
+      "slug": "tooluniverse-binder-discovery",
+      "title": "Binder Discovery (ToolUniverse Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Chemistry",
+        "Drug Repurposing and Discovery",
+        "Integrative Structural and Computational Biology"
+      ],
+      "last_verified": "2026-07-05",
+      "summary": "ToolUniverse agent skill that discovers small-molecule binders for a target via known-ligand mining, similarity expansion, docking, and ADMET filtering into a ranked shortlist.",
+      "keywords": [
+        "ADMET"
+      ],
+      "path": "catalog/tools/tooluniverse-binder-discovery.md"
+    },
+    {
       "slug": "tooluniverse-drug-drug-interaction",
       "title": "Drug-Drug Interaction (ToolUniverse Claude Skill)",
       "tool_type": "Claude Skill",
@@ -6379,6 +6396,24 @@
       "path": "catalog/tools/tooluniverse-drug-target-validation.md"
     },
     {
+      "slug": "tooluniverse-gwas-drug-discovery",
+      "title": "GWAS Drug Discovery (ToolUniverse Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Drug Repurposing and Discovery",
+        "Molecular and Cellular Biology",
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-07-05",
+      "summary": "ToolUniverse agent skill that turns GWAS-significant loci into druggable targets and repurposing candidates via fine-mapping, tractability scoring, and drug matching.",
+      "keywords": [
+        "GWAS",
+        "GWAS-significant"
+      ],
+      "path": "catalog/tools/tooluniverse-gwas-drug-discovery.md"
+    },
+    {
       "slug": "tooluniverse-pharmacovigilance",
       "title": "Pharmacovigilance (ToolUniverse Claude Skill)",
       "tool_type": "Claude Skill",
@@ -6430,6 +6465,24 @@
         "OMIM"
       ],
       "path": "catalog/tools/tooluniverse-rare-disease-diagnosis.md"
+    },
+    {
+      "slug": "tooluniverse-target-research",
+      "title": "Target Research (ToolUniverse Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Drug Repurposing and Discovery",
+        "Molecular and Cellular Biology",
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-07-05",
+      "summary": "ToolUniverse agent skill that profiles a drug target across nine parallel research paths — expression, pathways, interactions, variants, druggability — into a cited report.",
+      "keywords": [
+        "ChEMBL",
+        "GPCR"
+      ],
+      "path": "catalog/tools/tooluniverse-target-research.md"
     },
     {
       "slug": "tooluniverse",

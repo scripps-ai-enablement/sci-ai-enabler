@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "generated": "2026-07-05",
+  "generated": "2026-07-06",
   "counts": {
-    "tools": 375,
-    "recipes": 69,
+    "tools": 378,
+    "recipes": 70,
     "systems": 67
   },
   "tools_file": "composer-tools.json",
@@ -500,7 +500,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-06-07",
+      "last_verified": "2026-07-05",
       "summary": "Use the Datamol skill in Claude Code to enumerate standardized, drug-like analogs around a lead SMILES — tautomers, stereoisomers, and fragment-substituted variants — as a ranked SAR-expansion table.",
       "keywords": [
         "SAR",
@@ -521,7 +521,7 @@
       "complexity": "Multi-tool harness",
       "availability": "Fully open",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-06-09",
+      "last_verified": "2026-07-05",
       "summary": "Combine RDKit physchem descriptors, MedChem rule-based ADMET flags, and measured ChEMBL bioactivity / DMPK endpoints to build a defensible PK estimate for one compound without an ML predictor in the loop.",
       "keywords": [
         "ADMET",
@@ -671,7 +671,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-06-08",
+      "last_verified": "2026-07-05",
       "summary": "Use the matchms skill in Claude Code to clean an unknown MS/MS spectrum and rank candidate identities by spectral similarity against a reference library.",
       "keywords": [
         "GNPS",
@@ -1561,7 +1561,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-06-09",
+      "last_verified": "2026-07-05",
       "summary": "Pull a UniProt AlphaFold prediction, surface pLDDT regions and pocket-residue confidence, and produce a go/no-go verdict on whether the model is fit for downstream docking or modelling — all from one MCP server.",
       "keywords": [
         "EBI",
@@ -1587,6 +1587,28 @@
       "summary": "Use the bio-research plugin in Claude Code to pull last-week bioRxiv and PubMed hits, rank by relevance, and produce a one-paragraph readout per paper.",
       "keywords": [],
       "path": "recipes/items/triage-new-preprints.md"
+    },
+    {
+      "slug": "validate-a-drug-target-with-a-go-no-go-score",
+      "title": "Validate a drug target with a GO/NO-GO score before committing bench work",
+      "problem_class": "Knowledge synthesis",
+      "subject_areas": [
+        "Drug Repurposing and Discovery",
+        "Translational Medicine",
+        "Molecular and Cellular Biology"
+      ],
+      "evidence_level": "Proposed",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-07-05",
+      "summary": "Drive the ToolUniverse Drug Target Validation skill to score one hypothesized target 0–100 across genetics, druggability, safety, and clinical precedent, emitting a cited GO/NO-GO card.",
+      "keywords": [
+        "ADRs",
+        "GWAS",
+        "NO-GO"
+      ],
+      "path": "recipes/items/validate-a-drug-target-with-a-go-no-go-score.md"
     }
   ],
   "systems": [
