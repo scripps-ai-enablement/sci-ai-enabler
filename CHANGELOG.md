@@ -11,6 +11,16 @@ Reverse-chronological log of changes to the [catalog]({{ '/catalog/' | relative_
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-07-11 (Chemistry slot)
+
+Chemistry directed pass plus a manifest sweep. The `anthropics/life-sciences` (`.claude-plugin/marketplace.json`) and `claude-plugins-official` marketplaces were re-fetched and diffed — no new in-scope plugins (all entries already catalogued). The directed pass ran the RDKit / retrosynthesis / ChEMBL seed queries: existing RDKit (TandemAI MCP, K-Dense skill), PubChem, ChEMBL, and ChemCP entries already cover the surface; one genuinely-new, verified RDKit tool surfaced.
+
+### Added
+- **RDKit Agent** (Categories: Chemistry, Drug Repurposing and Discovery) — agent-first cheminformatics CLI / Node library / MCP server / Claude skill powered by RDKit **WASM** (no Python runtime, Node ≥ 16). 20+ tools including SMILES validation/repair, notation conversion, descriptors, Tanimoto similarity, reaction SMIRKS application, atom mapping, and SVG/PNG rendering. MIT, npm `rdkit-agent` v0.1.1. Distinct from the Python-based TandemAI RDKit MCP and K-Dense RDKit skill already catalogued. ([`scottmreed/rdkit-agent`](https://github.com/scottmreed/rdkit-agent), [npm](https://registry.npmjs.org/rdkit-agent))
+
+### Verified (no changes)
+- Manifest sweep of `anthropics/life-sciences` + `claude-plugins-official` — no new in-scope entries.
+
 ## 2026-07-05 (Drug Repurposing and Discovery slot)
 
 Drug Repurposing and Discovery directed pass plus a manifest sweep. The `anthropics/life-sciences` (`.claude-plugin/marketplace.json`) and `claude-plugins-official` marketplaces were re-fetched and diffed — no new in-scope plugins. The directed pass ran the Open Targets / DrugBank / ADMET seed queries: the official Open Targets MCP, DepMap, and Inductive Bio ADMET paths are already catalogued (Open Targets MCP still flagged for its non-compliant `initialize`), and three genuinely-new, verified ToolUniverse sibling drug-discovery agent skills surfaced from the upstream `SKILL.md` files.
