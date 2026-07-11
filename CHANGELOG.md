@@ -11,6 +11,20 @@ Reverse-chronological log of changes to the [catalog]({{ '/catalog/' | relative_
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-07-11 (Immunology and Microbiology slot)
+
+Immunology and Microbiology directed pass plus a manifest sweep. The `anthropics/life-sciences` (`.claude-plugin/marketplace.json`) and `claude-plugins-official` marketplaces were re-fetched and diffed — no new in-scope plugins (all entries already catalogued). The directed pass ran the IEDB epitope / antibody-design / metagenomics / BCR-TCR AIRR-seq seed queries: no standalone IEDB or antibody-design MCP wrapper exists yet, but the `GPTomics/bioSkills` collection (MIT; 561 skills across 63 root-level category directories) surfaced as a rich, cleanly-licensed source of immunology/microbiology skills. Five genuinely-new skills were catalogued under the per-run soft cap; the full collection is deferred for a one-time batch ingest.
+
+### Added
+- **Epitope Prediction (bioSkills)** (Categories: Immunology and Microbiology) — Claude Code skill predicting B-cell and T-cell epitopes for vaccine/epitope-mapping work with BepiPred-3.0, DiscoTope-3.0, the IEDB tools, and NetMHCpan/MHCflurry presentation predictors. Closes the long-tracked IEDB/epitope gap. MIT. ([`immunoinformatics/epitope-prediction/SKILL.md`](https://github.com/GPTomics/bioSkills/blob/main/immunoinformatics/epitope-prediction/SKILL.md))
+- **MHC Binding Prediction (bioSkills)** (Categories: Immunology and Microbiology) — Claude Code skill scoring peptide–MHC class I binding and natural presentation with MHCflurry, NetMHCpan-4.1, and MixMHCpred to nominate CD8 T-cell epitopes/neoantigens. MIT. ([`immunoinformatics/mhc-binding-prediction/SKILL.md`](https://github.com/GPTomics/bioSkills/blob/main/immunoinformatics/mhc-binding-prediction/SKILL.md))
+- **Immcantation BCR Analysis (bioSkills)** (Categories: Immunology and Microbiology) — Claude Code skill reconstructing B-cell clonal families, quantifying somatic hypermutation/selection, and building antibody lineage trees from AIRR-seq data with the Immcantation R suite (alakazam/shazam/scoper/dowser/tigger). Closes the BCR/AIRR-seq gap. MIT. ([`tcr-bcr-analysis/immcantation-analysis/SKILL.md`](https://github.com/GPTomics/bioSkills/blob/main/tcr-bcr-analysis/immcantation-analysis/SKILL.md))
+- **Kraken2 Metagenomic Classification (bioSkills)** (Categories: Immunology and Microbiology) — Claude Code skill classifying shotgun metagenomic reads with Kraken2 minimizer/LCA matching then re-estimating abundance with Bracken. MIT. ([`metagenomics/kraken-classification/SKILL.md`](https://github.com/GPTomics/bioSkills/blob/main/metagenomics/kraken-classification/SKILL.md))
+- **AMR / Resistome Detection (bioSkills)** (Categories: Immunology and Microbiology) — Claude Code skill profiling the antimicrobial-resistance gene content of shotgun metagenomes with RGI, AMR++/MEGARes, deepARG, GROOT, and AMRFinderPlus/ABRicate. Closes the metagenomics/AMR gap. MIT. ([`metagenomics/amr-detection/SKILL.md`](https://github.com/GPTomics/bioSkills/blob/main/metagenomics/amr-detection/SKILL.md))
+
+### Verified (no changes)
+- Manifest sweep of `anthropics/life-sciences` + `claude-plugins-official` — no new in-scope entries.
+
 ## 2026-07-11 (Chemistry slot)
 
 Chemistry directed pass plus a manifest sweep. The `anthropics/life-sciences` (`.claude-plugin/marketplace.json`) and `claude-plugins-official` marketplaces were re-fetched and diffed — no new in-scope plugins (all entries already catalogued). The directed pass ran the RDKit / retrosynthesis / ChEMBL seed queries: existing RDKit (TandemAI MCP, K-Dense skill), PubChem, ChEMBL, and ChemCP entries already cover the surface; one genuinely-new, verified RDKit tool surfaced.
