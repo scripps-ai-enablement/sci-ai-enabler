@@ -9,7 +9,7 @@ evidence_level: Proposed
 complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Workstation with GPU
-last_verified: 2026-06-13
+last_verified: 2026-07-11
 summary: Drive the MDAnalysis skill (MDTraj as backup) to take a finished GROMACS/AMBER/NAMD trajectory through RMSD/RMSF/Rg, contact maps, H-bonds, and PCA without writing the analysis script by hand.
 ---
 

@@ -11,6 +11,24 @@ Reverse-chronological log of changes to the [recipes cookbook]({{ '/recipes/' | 
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-07-11 (Chemistry directed pass)
+
+### Added
+
+- **Prepare the correct protonation state of a ligand before docking** (Problem class: Experimental design; Evidence: Proposed) — rung-2 [Rowan skill](catalog/tools/rowan.html) recipe: ligand SMILES → optional local [Datamol](catalog/tools/datamol.html) standardization → Rowan `submit_macropka_workflow` (pH 0–14) → dominant microspecies at pH 7.4 + governing macro-pKa → committed `prepare_protonation.py` + pinned env + `prepared_ligands.csv` + `provenance.json` (Rowan skill/workflow ids, pH, run date, input/output sha256, model id). Fills the ligand-prep gap upstream of the [DiffDock docking](recipes/items/dock-ligand-library-with-diffdock.html), [affinity-ranking](recipes/items/rank-compound-library-by-predicted-affinity.html), and [GROMACS MD](recipes/items/set-up-protein-md-simulation-in-gromacs.html) recipes, distinguished from the pH-blind standardization in the [enumerate-analogs recipe](recipes/items/enumerate-analogs-around-a-lead.html). `Proposed` — grounded on Rowan's documented pKa/macro-pKa workflows and the established impact of protonation/tautomeric state on docking enrichment ([Kim et al., *J. Comput. Aided Mol. Des.* 2013](https://doi.org/10.1007/s10822-013-9643-9)); the agent-orchestrated prep assembly is not separately benchmarked. `Fully open` (free Rowan tier; cloud submission — data-residency caveat); `Laptop`.
+
+### Updated
+
+- **Analyze an existing MD trajectory for stability, flexibility, and contacts** — `last_verified` bumped to 2026-07-11; linked MDAnalysis/MDTraj catalog pages resolve and are unflagged, sources still current.
+
+### Flagged
+
+- None.
+
+### Verified (no changes)
+
+- 1 recipe spot-checked (MD-trajectory analysis), current.
+
 ## 2026-07-05 (Drug Repurposing and Discovery directed pass)
 
 ### Added
