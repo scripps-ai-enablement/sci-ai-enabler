@@ -11,7 +11,7 @@ Short pages explaining how Claude's component model works — Skills, MCP server
 
 ## Start here
 
-1. [Claude surfaces](claude-surfaces.html) — Claude.ai, Claude Desktop, Claude Code, Cowork, and the Claude API. Start here if you aren't sure which one you're using; each surface has its own sub-page with install and feature detail.
+1. [Claude surfaces](claude-surfaces.html) — Claude.ai, Claude Desktop, Claude Code, Cowork, Claude Science, and the Claude API. Start here if you aren't sure which one you're using; each surface has its own sub-page with install and feature detail.
 2. [Skills](skills.html) — focused capabilities a Claude agent can adopt.
 3. [MCP servers](mcp-servers.html) — external tools and data sources Claude can call.
 4. [Plugins](plugins.html) — bundles that combine skills, MCP servers, and hooks.

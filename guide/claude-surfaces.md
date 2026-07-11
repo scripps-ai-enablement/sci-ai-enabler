@@ -7,7 +7,7 @@ has_children: true
 
 # Claude surfaces
 
-> The places you can use Claude: Claude.ai, Claude Desktop, Claude Code (terminal, IDE, and web), Claude Cowork, and the Claude API.
+> The places you can use Claude: Claude.ai, Claude Desktop, Claude Code (terminal, IDE, and web), Claude Cowork, Claude Science, and the Claude API.
 
 ## What it is
 
@@ -19,6 +19,7 @@ Ways to talk to the same Anthropic models. Each surface has different strengths 
 | [Claude Desktop](surfaces/claude-desktop.html) | The same chat plus local files via MCP | Connectors, MCP servers |
 | [Claude Code](surfaces/claude-code.html) | Multi-step coding (CLI, IDE, web) | Skills, MCP servers, Plugins, Hooks, Routines |
 | [Claude Cowork](surfaces/claude-cowork.html) | Non-coding desktop automation in a sandboxed VM | Connectors, Plugins |
+| [Claude Science](surfaces/claude-science.html) | Reproducible scientific analysis over curated databases | Skills, Connectors, Subagents |
 | [Claude API](surfaces/claude-api.html) | Building your own product, agent, or backend | SDKs, Managed Agents, MCP |
 
 Your account, Projects, and conversation history are shared across Claude.ai and Claude Desktop. Claude Code and Cowork are billed through your Pro/Max/Team/Enterprise subscription or via API.
@@ -57,6 +58,7 @@ Some features span more than one surface — you start them in one place and vie
 - [Claude Code on the web](https://code.claude.com/docs/en/claude-code-on-the-web) — Anthropic docs; verified 2026-05-19.
 - [Claude Code on the web (announcement)](https://www.anthropic.com/news/claude-code-on-the-web) — published 2025-10-20.
 - [Anthropic announces Claude Cowork](https://www.infoq.com/news/2026/01/claude-cowork/) — published 2026-01-13.
+- [Claude Science, an AI workbench for scientists](https://www.anthropic.com/news/claude-science-ai-workbench) — Anthropic news; published 2026-06-30; verified 2026-07-11 (this run) — standalone macOS/Linux app at `claude.com/science`, beta on Pro/Max/Team/Enterprise, orchestrates skills + database connectors + specialist/reviewer subagents; separate surface from Claude.ai and Claude Code.
 - [Cowork and plugins for teams across the enterprise](https://claude.com/blog/cowork-plugins-across-enterprise) — Anthropic blog; published 2026-02-24.
 - [Claude Code changelog (v2.1.144 / v2.1.145, May 18–19 2026)](https://code.claude.com/docs/en/changelog) — `claude --bg`, `/resume`, `claude agents --json`; verified 2026-05-26.
 - [Get started with Claude in Chrome](https://support.claude.com/en/articles/12012173-get-started-with-claude-in-chrome) — Anthropic help center; verified 2026-07-04 (this run) — Chrome extension GA 2026-07-01, build-test-verify pairing with Claude Code, all paid plans, Pro limited to Haiku 4.5, Chrome-only.

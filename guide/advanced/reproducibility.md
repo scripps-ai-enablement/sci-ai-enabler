@@ -41,6 +41,8 @@ A practical recipe for getting there from an interactive session:
 
 Full byte-for-byte reproducibility ends at the network boundary. The honest, achievable standard is **"pin what you can, record the rest"** — which is exactly what lets a colleague understand, trust, and re-attempt your work.
 
+[Claude Science](../surfaces/claude-science.html) builds this discipline in: every figure it produces carries the exact code, environment, and message history that generated it. Working there gives you much of the pattern below for free — but the principle applies on any surface.
+
 ## A worked reference
 
 The cookbook ships a complete example: [`recipes/examples/functional-enrichment/`](https://github.com/scripps-ai-enablement/sci-ai-enabler/tree/main/recipes/examples/functional-enrichment). It pairs the recipe [Run functional enrichment on a gene list](../../recipes/items/run-functional-enrichment-on-a-gene-list.html) with:

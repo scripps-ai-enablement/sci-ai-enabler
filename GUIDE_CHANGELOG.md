@@ -11,6 +11,30 @@ Reverse-chronological log of changes to the [guide]({{ '/guide/' | relative_url 
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-07-11
+
+### Added
+- **[surfaces/claude-science] New surface sub-page for Claude Science.** Anthropic launched Claude Science on 2026-06-30 (beta 2026-07-01) — a standalone macOS/Linux research workbench app at `claude.com/science` that orchestrates 60+ curated skills, scientific database connectors (UniProt, PDB, Ensembl, ClinVar, ChEMBL, GEO), and specialist/reviewer subagents, and records code + environment + message history per figure. It's a distinct, beginner-facing surface directly relevant to this repo's life-sciences audience, running the same models (Opus 4.8 / Sonnet 5) with no gating. Added `guide/surfaces/claude-science.md` and wired it into the surfaces table on `claude-surfaces.md`, the `README.md` reading-order line, and a new `decision-tree.md` row for reproducible scientific analysis. Grounded in [Claude Science, an AI workbench for scientists](https://www.anthropic.com/news/claude-science-ai-workbench) (2026-06-30), the [`claude.com/science`](https://claude.com/science) landing page, and [STAT News](https://www.statnews.com/2026/06/30/anthropic-release-claude-science-ceo-dario-amodei/) (2026-06-30), all fetched this run.
+
+### Updated
+- **[advanced/reproducibility] Cross-link to Claude Science.** Added a sentence noting Claude Science bakes in per-figure code + environment + history, which is exactly the discipline this page advocates. Grounded in the Claude Science landing page fetched this run.
+
+### Verified (no changes)
+- claude-surfaces.md, surfaces/claude-code.md — install command (`curl -fsSL https://claude.ai/install.sh | bash`) re-verified via WebFetch of `claude.com/product/claude-code`: native installer canonical, no deprecation banner; Terminal / VS Code / JetBrains / web / Desktop / iOS / Android / Slack surfaces unchanged. Claude Code changelog re-fetched: latest release is **v2.1.207 (2026-07-11)**; v2.1.202–v2.1.207 are below the beginner threshold (Dynamic-workflow-size setting, `/cd` path suggestions, `/commit-push-pr` push auto-allow, `/doctor` CLAUDE.md trim hint, background-agent status/login-warning fixes, SessionStart hook-streaming fix, auto-mode on Bedrock/Vertex/Foundry by default). Sonnet 5 default, Claude in Chrome GA, Dynamic Workflows, Channels, Claude Security, MCP tunnels, routines all current.
+- surfaces/claude-api.md — Sonnet 5, Opus 4.8, Fable 5 (redeployed), model-deprecation past tense, Agent SDK pause, Managed Agents all current.
+- surfaces/claude-ai.md, surfaces/claude-desktop.md, surfaces/claude-cowork.md — unchanged.
+- skills.md, mcp-servers.md, plugins.md, marketplaces.md, connectors.md — unchanged.
+- advanced/hooks.md, advanced/slash-commands.md, advanced/routines.md, advanced/authentication.md — unchanged.
+
+### Flagged for review
+- **Claude Science topic set** — added as a surface sub-page under the fixed topic list; if it grows its own component model (Science-specific plugins/skills distribution), consider a dedicated deeper page. Watch for Windows client and GA.
+- **Agent SDK billing split** — carried over; paused, not cancelled. Re-verify the help-center pause notice each run.
+- **Mythos 5 general availability** — restricted to approved U.S. orgs (Project Glasswing); watch for broader availability.
+- **Claude Tag** — Team/Enterprise beta; if it reaches Pro or becomes a primary surface, consider a `guide/surfaces/claude-tag.md` sub-page. Watch the old Claude-in-Slack app retirement (~early Aug 2026 per secondary coverage).
+- **Claude in Chrome** — if it becomes a distinct beginner-facing component rather than a Claude Code companion, consider promoting the cross-cutting bullet to a sub-page.
+- **Agent teams (experimental)** — `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS`; still env-gated and below beginner threshold — watch for GA.
+- **Promote `security-guidance` to its own page** — carried over; stays inside `plugins.md` unless a human expands the topic list.
+
 ## 2026-07-04
 
 ### Added
