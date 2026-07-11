@@ -1,0 +1,2213 @@
+arXiv:2606.22375v1 [cs.AI] 21 Jun 2026
+
+ARIA: A Causal-Aware Framework for Rescuing LLM Reasoning
+in Trustworthy Materials Discovery
+Yi Cao∗
+
+Liaoyaqi Wang∗
+
+Jieneng Chen
+
+Chemical and Biomolecular
+Engineering
+Johns Hopkins University
+Baltimore, MD, USA
+ycao73@jh.edu
+
+Computer Science
+Johns Hopkins University
+Baltimore, MD, USA
+lwang240@jh.edu
+
+Computer Science
+Johns Hopkins University
+Baltimore, MD, USA
+jchen293@jhu.edu
+
+Benjamin Van Durme†
+
+Alan Yuille†
+
+Paulette Clancy†
+
+Computer Science
+Johns Hopkins University
+Baltimore, MD, USA
+vandurme@jhu.edu
+
+Computer Science
+Johns Hopkins University
+Baltimore, MD, USA
+ayuille1@jhu.edu
+
+Chemical and Biomolecular
+Engineering
+Johns Hopkins University
+Baltimore, MD, USA
+pclancy3@jhu.edu
+
+Source Code: https://github.com/yicao-elina/ARIA
+Protocol for synthesis of a high-Tc
+superconductor with La2O2​Bi3AgS6​
+
+Naive
+KG+LLM
+
+Protocol for synthesis of a high-Tc
+superconductor with La2O2​Bi3AgS6​
+
+Tier 1: Direct Match
+Contextual
+Tunneling
+
+Rigid Retrieval
+
+Structure?
+Processing?
+Property?
+
+Tier 2: Analogical
+
+Fragmented knowledge
+Fixed reasoning
+Unstable paths
+
+Failure Output
+“KG info lacked ...
+I propose using XX”
+
+Hallucinated
+synthesis,
+not executable!
+
+Causal-aware
+Hierarchical Reasoning
+
+Tier 3: Fallback
+Causally integrated knowledge
+Adaptive hierarchical reasoning
+Robust paths
+
+Successful Output
+Process
+(P)
+
+Structure
+(S)
+
+Property
+(P’)
+
+“725 °C solid-state;
+high vacuum; 24–44 h;
+In₂S₃ dopant.”
+
+PSP-consistent,
+experimentally
+feasible.
+
+Figure 1: Naive Knowledge Graph-augmented LLMs can suffer from contextual tunneling (left); ARIA routes the same query
+through a three-tier adaptive cascade, mitigating this via hierarchical, physically constrained reasoning (right).
+
+Abstract
+Generative models have revolutionized the process of materials
+discovery, yet they often fail to satisfy underlying physical causality. Through an analysis of Large Language Models (LLMs) augmented with knowledge graphs derived from current literature, we
+uncover a phenomenon termed contextual tunneling, where models “over-anchor” on narrow, retrieved evidence while suppressing
+∗ These authors contributed equally to this work.
+† Corresponding author.
+
+This work is licensed under a Creative Commons Attribution 4.0 International License.
+KDD ’26, Jeju Island, Republic of Korea
+© 2026 Copyright held by the owner/author(s).
+ACM ISBN 979-8-4007-2259-2/2026/08
+https://doi.org/10.1145/3770855.3818954
+
+global physical reasoning. To address this problem, we introduce
+ARIA, a causal-aware framework that conditions knowledge use
+on mechanistic completeness. ARIA routes each query through a
+three-tier cascade: (i) direct causal reasoning when complete evidence chains of Process-Structure-Property (PSP) are available, (ii)
+physics-informed analogical transfer for sparse or novel material
+systems, and (iii) explicit parametric fallback when external evidence is incomplete. As a proof of concept, we construct a Knowledge Graph (KG) containing 2,839 extracted PSP relations from
+peer-reviewed articles in the materials literature and evaluate ARIA
+on forward prediction and inverse design tasks for two-dimensional
+(2D) materials. ARIA mitigates contextual tunneling, improves over
+unaugmented and naive KG-augmented baselines, and provides
+further gains when an online literature search is used for evidence
+
+KDD ’26, August 09–13, 2026, Jeju Island, Republic of Korea
+
+enrichment. Crucially, ARIA produces auditable causal traces, enabling physically grounded and trustworthy AI-assisted materials
+discovery.
+
+CCS Concepts
+• Computing methodologies → Knowledge representation
+and reasoning; • Applied computing → Physical sciences and
+engineering; • Information systems → Information retrieval; •
+General and reference → General conference proceedings.
+
+Keywords
+Scientific Discovery, Large Language Models, Knowledge Graphs,
+Causal Reasoning, Materials Science
+ACM Reference Format:
+Yi Cao, Liaoyaqi Wang, Jieneng Chen, Benjamin Van Durme, Alan Yuille,
+and Paulette Clancy. 2026. ARIA: A Causal-Aware Framework for Rescuing
+LLM Reasoning in Trustworthy Materials Discovery. In Proceedings of the
+32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining
+V.2 (KDD ’26), August 09–13, 2026, Jeju Island, Republic of Korea. ACM, New
+York, NY, USA, 12 pages. https://doi.org/10.1145/3770855.3818954
+
+1
+
+Introduction
+
+The pursuit of autonomous materials discovery, characterized by a
+closed feedback loop between generative design and experimental
+validation, is a central goal of computational materials science. [32,
+13, 25, 16] In this paradigm, artificial intelligence (AI) helps navigate
+large chemical and processing spaces to propose synthesis protocols that are actionable in the laboratory. However, a fundamental
+gap remains: While AI systems can identify promising candidate
+materials, they often struggle to specify physically viable pathways
+for realizing them. This gap between in silico design and wet-lab
+feasibility arises from the difficulty of reconciling broad linguistic
+knowledge with the causal constraints imposed by thermodynamics,
+chemical kinetics, phase stability, and synthesis-process windows.
+Computational materials science has evolved from traditional
+machine learning models, which are often restricted to narrow
+structure–property correlations, [18, 31] toward Large Language
+Models (LLMs) capable of contextual reasoning and cross-domain
+synthesis. [17, 30] Although LLMs can capture useful chemical
+patterns from the literature, they remain prone to mechanistic hallucinations: They may generate synthesis pathways that appear
+plausible from a text or linguistic point of view but violate chemical
+valency constraints, phase stability, or physically feasible transformation routes. [38] For experimentalists, this creates a trust barrier
+in practice. Without a mechanism for auditing whether a model’s
+reasoning follows established physical principles, AI-generated
+synthesis plans risk being persuasive but experimentally unusable.
+Bridging this divide requires representing literature evidence
+in a form that exposes physical causal structure rather than relying solely on unstructured text. We argue that the Processing–
+Structure–Property (PSP) paradigm [27, 7, 31] provides a natural
+architecture for this purpose. Instead of injecting raw literature
+passages into a model, the PSP framework distills synthesis knowledge into causal chains linking processing conditions to structural
+outcomes and functional properties. Such structured evidence can
+provide LLMs with recent experimental findings while emphasizing
+
+Yi Cao et al.
+
+the mechanisms by which processing parameters influence material
+performance.
+However, integrating structured Knowledge Graphs (KGs) [34,
+3] with LLMs introduces a non-trivial challenge. In naive retrievalaugmented generation (RAG), retrieved KG evidence is typically
+provided to the LLM based on semantic or graph proximity, without
+assessing whether the evidence completes the causal chain required
+by the task. This can paradoxically degrade reasoning: the model
+may over-anchor on a locally relevant but causally incomplete
+fragment, such as a single Processing→Structure relation, while
+neglecting the broader PSP pathway needed for synthesis prediction
+or design. We term this failure mode as contextual tunneling.
+This pattern appears in our benchmarks. On in-domain forward
+prediction, Naive KG+LLM fails to improve over the unaugmented
+Baseline LLM, achieving an overall score of 0.337±0.027 compared
+with 0.340±0.033 for the Baseline LLM. Although the difference
+is small, it illustrates a broader failure mode. Providing retrieved
+evidence without signaling whether it covers the full causal pathway can constrain reasoning rather than enhance it. For example,
+evidence that “high temperature improves crystallinity” may be
+locally correct, but it is insufficient for synthesis design unless connected to precursor chemistry, phase formation, defect evolution,
+and the target property. In this sense, the problem is not lack of
+knowledge access, but lack of evidence sufficiency control.
+To address contextual tunneling failure modes, we introduce
+ARIA (Autonomous Reasoning Intelligence for Accelerated material discovery), a framework that regulates knowledge use by
+requiring retrieved evidence to satisfy a causal completeness criterion. Specifically, evidence should support a meaningful path
+in the Processing–Structure–Property hierarchy before being activated for model reasoning. ARIA implements a three-tier adaptive
+cascade:
+(1) Tier 1 — Direct Causal Reasoning: When a complete PSP
+path exists in the knowledge graph, such as
+Processing→Structure→Property, ARIA retrieves and uses
+this evidence directly. This restricts the LLM to evidence that
+provides a complete mechanistic picture rather than isolated
+fragments.
+(2) Tier 2 — Physics-Informed Analogical Transfer: When
+no complete PSP path exists for the queried material, ARIA
+identifies structurally or chemically similar materials in the
+KG and transfers their mechanistic PSP pathways, subject
+to physical feasibility constraints such as composition compatibility and thermal stability windows.
+(3) Tier 3 — Parametric Fallback: When neither direct evidence nor valid analogies are available, ARIA explicitly signals that external evidence is incomplete and allows the LLM
+to rely on its parametric physical knowledge while flagging
+reduced confidence.
+The key insight is that selective evidence activation, gated by
+causal completeness, allows knowledge to enhance rather than
+constrain reasoning. By using retrieved evidence only when it provides a sufficiently complete mechanistic pathway, ARIA preserves
+the LLM’s capacity for global physical reasoning while leveraging
+domain-specific evidence when it is causally informative.
+
+ARIA: A Causal-Aware Framework for Rescuing LLM Reasoning in Trustworthy Materials Discovery
+Forward Prediction
+
+Inverse Design
+
+Inputs
+
+Outputs
+
+ARIA Framework
+Synthesis
+Parameters
+Temperature T
+Electric Field E
+Cooling rate dT/dt
+
+Guide
+Large Language
+Model (LLM)
+
+Causal Knowledge
+Graph
+
+Material Properties &
+Predictions
+Gap Selectivity
+Dopant distribution
+
+Causal Explanation
+
+Temperature
+
++
+
++
+
++
+
++
+
++
+
++
+
++
+
++
+
++
+
++
+
++
+
++
+
++
+
++
+
++
+
++
+
++
+
++
+
++
+
++
+
++
+
++
+
++
+
++
+
+Mobility
+
+Tunable
+Doping
+
+Figure 2: Schematic of the ARIA framework for bidirectional
+reasoning in materials discovery. The framework predicts
+material properties from synthesis parameters in forward
+tasks, while enabling inverse design by generating synthesis
+protocols from target properties.
+
+Evaluated on expert-validated materials synthesis tasks spanning forward prediction and inverse design, ARIA delivers three
+main contributions: (1) Performance gains: improving over unaugmented LLM and naive KG-augmented baselines in both forward
+prediction and inverse design; (2) Mechanistic accountability:
+producing auditable causal traces that allow scientists to inspect the
+physical plausibility of model reasoning and (3) Robust generalization: maintaining performance on out-of-domain materials through
+physics-informed analogical transfer. Together, these establish a
+physically grounded framework for trustworthy, knowledge-guided
+materials discovery.
+
+2
+
+Related Work
+
+Computational Materials Discovery and the PSP Paradigm. Materials informatics has evolved from high-throughput Density Functional Theory (DFT) calculations [18, 9] to second-generation inverse design using differentiable surrogate models. [21, 26] While
+these methods enable rapid screening, they often operate on isolated segments of the Processing–Structure–Property (PSP) hierarchy. [27, 7, 29] Recent “third-generation” approaches utilize
+autonomous experimentation and Bayesian optimization, [32, 6,
+28] yet they remain constrained by high-dimensional search spaces
+and the lack of a unified reasoning framework that captures the
+full causal chain from synthesis to electronic behavior. [23, 31]
+LLMs in Scientific Inquiry. Large Language Models (LLMs) [5]
+have emerged as promising engines for scientific synthesis. [35] In
+materials science, domain-specific models such as MatSciBERT [14]
+and MatBERT [33] improve entity recognition but struggle with
+the "mechanistic propagation" of physical laws. [19] While promptbased systems like ChemCrow [4] and MatChat [8] demonstrate
+zero-shot utility, they frequently generate synthesis protocols that
+violate fundamental thermodynamic constraints or exhibit poor
+numerical precision in property prediction. [10, 11] The core limitation remains that unstructured text lacks explicit encoding of the
+
+KDD ’26, August 09–13, 2026, Jeju Island, Republic of Korea
+
+causal directionality required for rigorous scientific discovery. [20,
+41]
+Knowledge Graphs and the Paradox of Augmentation. Knowledge Graphs (KGs) provide the structured, directional evidence
+required for causal inference [39, 40]. In chemistry and biology, KGLLM integration has improved factual grounding through retrievalaugmented generation (RAG) [22, 34]. However, recent studies
+identify a "Knowledge Paradox" in which external augmentation
+does not invariably improve reasoning. Several studies [24, 36] observe that LLMs often over-anchor on retrieved context even when
+it contradicts their internal parametric prior. While frameworks
+like GIVE [15] and GNN-RAG [12] attempt to mitigate noise in
+general-purpose KGs, they do not address the specific challenge of
+mechanistic incompleteness in scientific domains, the case where
+retrieved evidence is correct but causally narrow.
+Contextual Tunneling as a Distinct Failure Mode. This paper identifies and empirically demonstrates contextual tunneling, a failure mode wherein naive KG-augmented LLMs over-anchor on narrow, correct evidence while suppressing broader physical reasoning.
+Unlike the "Knowledge Paradox," which describes contradiction between retrieved and parametric knowledge, contextual tunneling
+occurs even when retrieved evidence is factually accurate. We document this empirically using materials science tasks: naive KG+LLM
+integration achieves lower scores than unaugmented LLM in forward prediction (Naive KG+LLM: 0.337±0.027 vs. Baseline LLM:
+0.340±0.033), demonstrating that undiscriminating knowledge integration can degrade rather than enhance reasoning.
+To address this gap, we introduce ARIA, which employs inferencetime adaptive gating based on evidence completeness: selectively
+activating structured KG reasoning only when the retrieved evidence spans a complete causal path in the Processing-StructureProperty hierarchy. By conditioning knowledge use on mechanistic
+completeness rather than retrieval confidence alone, ARIA ensures
+that knowledge enhances—rather than constrains—scientific discovery. [1, 37] This approach is distinct from existing noise-mitigation
+and ranking-based augmentation strategies, which operate primarily at the retrieval stage whereas ARIA gates knowledge activation
+at the reasoning stage based on mechanistic criteria.
+
+3
+
+Method
+
+The method consists of three components. We first formalize forward prediction and inverse design as PSP causal reasoning tasks
+(subsection 3.1). We then define the PSP-completeness criterion
+used for tier selection (subsection 3.2) and describe the Causal
+Knowledge Graph that stores literature-derived PSP relations (subsection 3.3). Finally, we present the three-tier inference cascade
+that combines direct causal reasoning, constraint-aware analogical
+transfer, and parametric fallback (subsection 3.4).
+
+3.1
+
+Materials Discovery as PSP Causal
+Reasoning
+
+Materials discovery requires reasoning over the causal chain processing → structure → property (PSP) [27]. We study two tasks: (i)
+forward prediction (synthesis conditions S → properties P) and
+(ii) inverse design (target properties P ∗ → synthesis conditions
+
+KDD ’26, August 09–13, 2026, Jeju Island, Republic of Korea
+
+Yi Cao et al.
+
+User Query
+e.g. What are the synthesis conditions
+for In-doped La2O2​Bi3AgS6​ to achieve
+superconductivity?
+
+High-Fidelity Direct
+Causal Path Reasoning
+Uses explicit causal
+relationships in KG for
+maximum reliability.
+
+Analogy-Based
+Knowledge Transfer
+Retrieves analogous
+concepts using enhanced
+similarity metrics.
+
+If lack a direct
+causal path
+
+Tier 1
+
+Parametric Fallback
+If no sufficient
+analogies
+
+Tier 2
+
+Falls back to LLM knowledge
+only when no reliable causal or
+analogous evidence exists.
+
+Tier 3
+
+Final Decision/Recommendation
+1. Direct Evidence
+High-confident recipe
+
+2. Analogical Approximation
+Transfer-learned plausible recipe
+
+3. Robust Fallback
+Generic recipe
+
+Figure 3: Schematic of the ARIA Model Architecture
+S ∗ ), both under feasibility constraints (e.g., stability windows, precursor compatibility). The full formalization (objective functions,
+constraint sets, and examples) is provided in the Supplementary
+Information (SI).
+
+3.2
+
+Contextual Tunneling in PSP Reasoning
+
+To make contextual tunneling operational, we define when retrieved evidence is PSP-complete. For example, suppose the KG
+contains evidence that “high temperature improves crystallinity”
+(a processing–structure link). Naive RAG passes this to the LLM
+without indicating that the structure–property link is missing. The
+LLM then over-anchors on this narrow mechanism and loses sight
+of broader thermodynamic constraints. This degradation is not due
+to false information, but to mechanistic incompleteness.
+Formal criterion. To operationalize completeness, let G = (V, E)
+be the knowledge graph with vertex partition V = V𝑃 ∪ V𝑆 ∪ VProp
+(synthesis procedures, host systems, and properties), and edge confidence weights 𝑤 (𝑒) ∈ [0, 1]. For a query 𝑞 = (method, host, dopant)
+with induced subgraph G𝑞 ⊆ G, we say 𝑞 is PSP-complete if there exists a three-hop path 𝑝 = (𝑣 𝑃 , 𝑣 𝑆 , 𝑣 Prop ) in G𝑞 satisfying: (i) 𝑣 𝑃 ∈ V𝑃
+matches the synthesis method; (ii) 𝑣 𝑆 ∈ V𝑆 matches the host/dopant;
+(iii) (𝑣 𝑃 , 𝑣 𝑆 ), (𝑣 𝑆 , 𝑣 Prop ) ∈ E; and (iv) min𝑒 ∈𝑝 𝑤 (𝑒) ≥ 𝜃 1 .
+Tier activation. PSP-completeness directly governs ARIA’s reasoning tier:
+
+
+
+1
+
+
+
+
+Tier = 2
+
+
+
+3
+
+
+if PSP-complete(𝑞) = True
+if ¬ PSP-complete(𝑞) ∧ max𝑞 ′ sim(𝑞, 𝑞 ′ ) ≥ 𝜃 2
+
+(1)
+
+otherwise (parametric fallback)
+
+ARIA prevents contextual tunneling through this inference-time
+adaptive gating: structured retrieval activates only when evidence
+satisfies PSP-completeness; otherwise, the LLM reasons from parametric knowledge without the risk of anchoring on a causally incomplete fragment.
+
+3.3
+
+Causal Knowledge Graph for PSP
+Relationships
+
+To ground ARIA’s reasoning in verifiable PSP mechanisms, we construct a Causal Knowledge Graph G = (V, E) encoding literatureverified relationships between processing conditions, structural
+features, and material properties.
+Construction Pipeline. We extract PSP entities and causal relations from a materials corpus and assemble a directed graph
+G = (V, E) whose edges encode literature-supported, directionally
+consistent PSP links. To reduce spurious edges, we apply constraintaware filtering (e.g., basic thermodynamic and stoichiometric checks)
+and retain provenance for every relation. Full extraction prompts,
+ontologies, and filtering criteria are provided in the SI.
+The resulting graph (Figure 4) enables traversal from processing
+conditions to structural mechanisms and target properties.
+
+3.4
+
+ARIA Architecture: Three-Tier Adaptive
+Reasoning
+
+ARIA prevents contextual tunneling through a three-tier cascade
+(Figure 3) that uses structured evidence only when it is sufficiently
+complete. Algorithmic pseudocode for the full cascade and its tierspecific procedures is provided in Appendix A, including Algorithm
+1 (overall flow), Algorithm 2 (Tier 1), and Algorithm 3 (Tier 2).
+Tier 1: Direct causal reasoning. If a complete PSP path exists
+in G for the query entities (i.e., the knowledge graph contains
+verified links spanning processing → structure → property), ARIA
+traverses the KG, aggregates all consistent paths, and prompts the
+LLM to generate an answer grounded in those mechanistically
+complete mechanisms. Why this prevents fixation: By restricting
+evidence to complete PSP chains, Tier 1 ensures the LLM receives
+a full causal narrative rather than a narrow processing-structure
+fragment, preventing over-anchoring on incomplete mechanisms.
+Tier 2: Physics-informed analogy. If no direct complete path exists (e.g., for a novel material composition), ARIA retrieves the most
+
+ARIA: A Causal-Aware Framework for Rescuing LLM Reasoning in Trustworthy Materials Discovery
+
+structurally and compositionally similar materials in G and transfers their PSP mechanistic pathways, subject to lightweight physical feasibility checks (e.g., structural class compatibility, elemental
+substitution rules, thermal stability windows). Why this preserves
+validity: Physical constraints gate the transfer, ensuring analogical
+evidence only activates when mechanistically justified, preventing
+phantom analogies that violate physical laws.
+Tier 3: Parametric fallback. If neither direct evidence nor credible
+analogies exist, ARIA disables retrieval and relies on the LLM’s parametric knowledge, explicitly flagging to the user that the output is
+speculative and not grounded in domain evidence. Why this prevents hallucination: By honestly signaling evidence absence rather
+than providing weak or incomplete evidence, Tier 3 prevents the
+LLM from implicitly anchoring to false evidence. Users can then
+verify the output against known physical laws without being misled
+by apparent grounding.
+Algorithmic details (tier selection, scoring, and prompts) and
+hyperparameters are provided in the Appendix A; The representative case studies for each tier are included in the tutorial in ARIA
+GitHub repository.
+Why Adaptive Tiering Prevents Contextual Tunneling. The threetier cascade implements evidence completeness assessment at the
+algorithmic level. In naive RAG, the LLM receives all retrieved KG
+subgraphs without a mechanism to determine whether they form
+complete causal paths. This can lead to over-anchoring: the LLM
+conditions heavily on narrow evidence (e.g., a processing-structure
+link) while inadvertently suppressing its knowledge of other causal
+links (e.g., structure-property constraints).
+ARIA prevents this by refusing to provide evidence unless it satisfies a completeness criterion: Tier 1 enforces that evidence spans
+the full processing → structure → property chain, Tier 2 gates
+analogical transfer by physical constraints, and Tier 3 explicitly
+signals when no evidence meets these criteria, permitting the LLM
+to rely on its parametric knowledge without false anchoring. The
+key insight is that selective evidence activation, gated by causal completeness rather than retrieval confidence alone, allows knowledge
+to enhance rather than constrain reasoning.
+
+4
+
+Experiments
+
+We evaluate the central hypothesis of ARIA: knowledge-augmented
+LLM reasoning in materials science improves when retrieved evidence is activated only after satisfying a causal completeness criterion, defined by coverage of the Processing–Structure–Property
+(PSP) chain. Our experiments address two primary research questions:
+(Q1) Does naive KG integration (without adaptive gating) systematically underperform compared to unaugmented LLM
+reasoning?
+(Q2) Does ARIA’s tier-based evidence filtering recover performance lost to naive integration and further improve it?
+
+4.1
+
+Experimental Setup
+
+Knowledge Graph Construction. We constructed a Causal Knowledge Graph from peer-reviewed materials science literature published between 2005 and 2023 (Figure 4). The graph focuses on
+
+KDD ’26, August 09–13, 2026, Jeju Island, Republic of Korea
+
+two-dimensional (2D) materials synthesis, structural evolution, and
+functional characterization. Our data collection pipeline comprised:
+(1) Literature Corpus: We collected and processed 1,531 fulltext PDF papers from high-impact materials science journals, together with 10,000 abstracts from a broader literature
+search on 2D materials synthesis and characterization.
+(2) Text Extraction and Preprocessing: We extracted abstracts, experimental sections, synthesis descriptions, and
+characterization passages using automated text-mining pipelines,
+followed by domain-specific cleaning and normalization.
+(3) PSP Relation Extraction: We applied Qwen2.5:7B to extract Processing–Structure–Property relationships from the
+processed paper content, yielding approximately 2,839 PSP
+relations, where training/graph-construction split into approximately 2,271 relations with a held-out relation split of
+approximately 568 relations.
+(4) Graph Assembly: We constructed a directed multigraph encoding Processing→Structure (P→S) and Structure→Property
+(S→P) relationships. Edges were assigned confidence weights
+based on extraction consistency, source metadata, and agreement across related evidence statements.
+The resulting Causal Knowledge Graph spans 2D materials synthesis across diverse processing methods (CVD, sol-gel, hydrothermal, mechanical exfoliation, etc.), structural descriptors (phase, crystal symmetry, thickness, defect density) and properties (electrical,
+thermal, optical, mechanical).
+Test Set and Ground Truth. We curated a materials science evaluation set from peer-reviewed literature (2005-2026) focusing on
+2D materials. Test cases were extracted and validated by materials
+scientists with expertise in crystal chemistry and functional property prediction. The final dataset comprises 149 expert-validated
+materials synthesis and design tasks:
+• In-Domain (117 cases): Materials with established literature
+precedent in the KG, split into:
+– Forward prediction (58 cases): Given synthesis parameters
+(temperature, precursors, atmosphere), predict resulting
+structure and properties
+– Inverse design (59 cases): Given target properties (e.g.,
+band gap, conductivity), generate viable synthesis protocols
+• Out-of-Domain (32 cases): Novel material compositions
+and synthesis settings sourced from 2024–2026 publications
+that post-date the KG construction corpus.
+Evaluation ground truth was sourced from: (1) experimental
+synthesis procedures and measured properties reported in source
+papers, (2) computational databases (Materials Project, AFLOW),
+and (3) standardized characterization protocols from materials science literature. Inter-annotator disagreement on task relevance was
+resolved by a consensus discussion.
+System Variants. We implemented and evaluated six system configurations using DeepSeek-R1:8B as the base LLM for material
+prediction and inverse design tasks. Retrieval-based variants used
+the same embedding model, all-MiniLM-L6-v2, unless otherwise
+specified.
+
+KDD ’26, August 09–13, 2026, Jeju Island, Republic of Korea
+
+Knowledge Ingestion
+
+Known Physics
+
+Raw Scientific
+Papers
+
+Information
+Extraction
+Model
+
+Causal Structure Extraction
+(PSP Mapping)
+
+In-house D ata
+
+Yi Cao et al.
+
+Core Causal Reasoning Engine
+Dynamic
+Causal
+Search
+
+’)
+(S, P
+
+Path Generation & Verification
+
+Step 1
+Precursor mixing
+
+User
+
+“Given (S, P),
+I want to know P”
+
+Lit e r a t u r e
+
+Step 2
+180 °C, 2 h
+
+D atabases
+
+LL M -Po w ered
+C a u s a l E x tr a c ti o n
+
+LL M -Po w ered
+C a u s a l E x tr a c ti o n
+
+Process (P)
+Structure (S)
+Property (P’)
+
+(P, S, P’ )
+
+Final Output
+
+Knowledge
+Injection
+
+Knowledge
+Injection
+
+Structured
+Causal KG
+
+LLM Reasoner
+
+(P, S, P’ )
+Enrichment
+
+Candidate
+Synthesis Paths
+
+LLM Judger
++
+Physics Check
+
+i.e. What P lead to (S, P’)?
+
+P
+
+Figure 4: Knowledge graph construction pipeline and workflow for materials processing pathway prediction.
+(1) Baseline LLM: DeepSeek-R1:8B without external knowledge sources.
+(2) KG-Only: A non-generative retrieval baseline that returns
+the most relevant KG relations or paths without LLM-based
+synthesis of the final answer.
+(3) Naive KG+LLM: DeepSeek-R1:8B with direct KG retrieval.
+Relevant KG subgraphs, including entities and edges matching the query, are retrieved and concatenated into the LLM
+prompt without causal completeness filtering or evidence
+sufficiency assessment. This baseline tests whether unfiltered
+knowledge integration helps or harms reasoning.
+(4) ARIA-CORE: The three-tier ARIA cascade using only the
+static KG. No online search or external enrichment is used.
+(5) ARIA-SEARCH: A search-augmented variant that uses realtime literature search without the full tier-based KG reasoning cascade.
+(6) ARIA-FULL: The full framework, combining tier-based causal
+KG reasoning with real-time literature search augmentation.
+Search results are used to enrich the evidence base when
+static KG evidence is incomplete or absent.
+Evaluation Metrics and Protocol. We assess all outputs using automated constraint validation and structured LLM-as-judge scoring:
+• Scientific Accuracy (0-1): Adherence to physical principles
+and consistency with literature consensus
+• Functional Equivalence (0-1): Whether proposed synthesis
+parameters achieve specified target properties
+• Completeness (0-1): Specification of all required synthesis
+steps, parameter ranges, and auxiliary details (e.g., atmosphere control)
+• Interpretability (0-1): Clarity of mechanistic reasoning and
+traceability of causal claims to specific synthesis steps
+• Overall Score (0-1): Composite harmonic aggregate across
+the four dimensions to emphasize scientific validity
+Automated checks include thermodynamic feasibility, stoichiometric consistency, and mass conservation. Thermodynamic feasibility is evaluated by comparing proposed synthesis temperatures with material stability constraints obtained from the Materials
+Project API when available. Textual quality and rubric-based scores
+are evaluated using DeepSeek-R1:14B, which is prompted with the
+same structured evaluation rubric across all systems.
+
+Implementation Details. Prediction and Design Model:
+DeepSeek-R1:8B serves as the base LLM for all forward prediction and inverse design tasks. The Causal Knowledge Graph was
+constructed using Qwen2.5:7B for automated extraction of PSP
+relationships from scientific papers.
+Evaluation Model: DeepSeek-R1:14B evaluates output quality
+across the metrics described above using fixed prompts and deterministic decoding. We report dimension-specific scores together
+with a separate holistic overall score, which is assigned by the
+evaluator as an independent judgment.
+ARIA Hyperparameters: Tier 1 activation requires evidence
+covering all three PSP dimensions relevant to the query. For Tier
+2 analogical reasoning, we use an analogy similarity threshold
+of 𝜏 = 0.75 and retrieve the top 𝐾 = 5 candidate analogies. The
+analogy score is computed as a weighted combination of semantic,
+categorical, and numerical similarity, with weights 𝑤 1 = 0.5, 𝑤 2 =
+0.3, and 𝑤 3 = 0.2, respectively.
+Retrieval: For KG retrieval, we retrieve the top 𝑘 = 3 neighboring entities or relations per query using cosine similarity over allMiniLM-L6-v2 embeddings, with a retrieval threshold of 𝜃 = 0.65.
+For Tier 2 analogical reasoning, structural similarity is computed
+from materials descriptors, including composition, crystal class,
+lattice type, and available processing constraints.
+Reproducibility: Complete prompts, evaluation rubrics, hyperparameters, and implementation details are provided in the
+Supplementary Information.
+
+4.2
+
+Main Results: In-Domain and
+Out-of-Domain Performance
+
+Finding 1: Naive KG integration does not improve over the unaugmented LLM.
+On in-domain forward prediction tasks, Naive KG+LLM achieves an
+overall score of 0.337±0.027, compared to 0.340±0.033 for the Baseline LLM. Although the difference is small, Naive KG retrieval fails
+to improve over purely parametric reasoning and slightly underperforms on average. This result is consistent with the contextual
+tunneling hypothesis: When retrieved evidence is injected without
+assessing causal completeness, the LLM can over-anchor on narrow
+evidence fragments, such as a single Processing→Structure relation,
+rather than integrating evidence into a complete mechanistic PSP
+narrative. This motivates ARIA’s central design choice: Retrieval
+should be governed by evidence sufficiency rather than semantic
+
+ARIA: A Causal-Aware Framework for Rescuing LLM Reasoning in Trustworthy Materials Discovery
+
+KDD ’26, August 09–13, 2026, Jeju Island, Republic of Korea
+
+Table 1: In-domain vs. out-of-domain performance analysis. We evaluate six systems on in-domain data (materials/protocols
+exist in KG) and out-of-domain data (novel materials/protocols not in KG). ARIA demonstrates improved overall performance
+across both forward prediction and inverse design tasks using physics-guided metrics.
+System
+
+Domain
+
+Sci. Accuracy
+
+Baseline LLM
+Baseline LLM
+Domain Gap
+
+In-Domain
+Out-of-Domain
+
+0.252±0.151
+0.237±0.181
+-6.0%
+
+NAIVE-KG
+NAIVE-KG
+Domain Gap
+
+In-Domain
+Out-of-Domain
+
+ARIA-CORE
+ARIA-CORE
+Domain Gap
+
+Funct. Equiv.
+
+Completeness
+
+Interpretability
+
+Overall Score ↑
+
+0.385±0.124
+0.344±0.149
+-10.6%
+
+0.659±0.076
+0.649±0.067
+-1.5%
+
+0.877±0.046
+0.883±0.031
++0.7%
+
+0.340±0.033
+0.326±0.034
+-4.1%
+
+0.280±0.158
+0.226±0.165
+-19.3%
+
+0.394±0.128
+0.341±0.140
+-13.5%
+
+0.732±0.044
+0.735±0.041
++0.4%
+
+0.350±0.000
+0.350±0.000
+0.0%
+
+0.337±0.027
+0.322±0.035
+-4.5%
+
+In-Domain
+Out-of-Domain
+
+0.235±0.129
+0.212±0.158
+-9.8%
+
+0.400±0.100
+0.348±0.120
+-13.0%
+
+0.749±0.011
+0.748±0.010
+-0.1%
+
+0.791±0.034
+0.799±0.035
++1.0%
+
+0.410±0.024
+0.447±0.033
+-1.5%
+
+ARIA-FULL
+ARIA-FULL
+Domain Gap
+
+In-Domain
+Out-of-Domain
+
+0.254±0.152
+0.205±0.167
+-19.3%
+
+0.339±0.092
+0.278±0.111
+-18.0%
+
+0.930±0.026
+0.918±0.032
+-1.3%
+
+0.925±0.000
+0.925±0.000
+0.0%
+
+0.512±0.039
+0.513±0.031
++9.0%
+
+ARIA-SEARCH
+ARIA-SEARCH
+Domain Gap
+
+In-Domain
+Out-of-Domain
+
+0.275±0.157
+0.228±0.173
+-17.1%
+
+0.382±0.118
+0.347±0.159
+-9.2%
+
+0.799±0.004
+0.799±0.006
+0.0%
+
+0.816±0.050
+0.805±0.038
+-1.3%
+
+0.511±0.042
+0.493±0.039
+-3.5%
+
+In-Domain
+
+0.068±0.049
+
+0.143±0.054
+
+0.600±0.000
+
+0.350±0.000
+
+0.231±0.009
+
++13.3%
++15.3%
++41.4%
++23.1%
+-7.6%
+
+-60.4%
+-9.5%
++4.8%
+-8.8%
+-60.4%
+
+-0.9%
++20.6%
++50.6%
++50.3%
+-32.1%
+
+Forward Prediction
+
+KG-ONLY
+
+Performance Comparison
+-4.6%
+-10.5%
+-13.5%
+-3.8%
+-75.5%
+
+NAIVE-KG vs Baseline
+ARIA-CORE vs Baseline
+ARIA-FULL vs Baseline
+ARIA-SEARCH vs Baseline
+KG-ONLY vs Baseline
+
+-0.9%
++1.2%
+-19.2%
++0.9%
+-64.5%
+Inverse Design
+
+System
+
+Domain
+
+Sci. Accuracy
+
+Funct. Equiv.
+
+Completeness
+
+Interpretability
+
+Overall Score
+
+Baseline LLM
+Baseline LLM
+Domain Gap
+
+In-Domain
+Out-of-Domain
+
+0.265±0.147
+0.303±0.197
++14.3%
+
+0.507±0.085
+0.448±0.163
+-11.6%
+
+0.746±0.012
+0.707±0.072
+-5.2%
+
+0.831±0.017
+0.587±0.361
+-29.3%
+
+0.345±0.018
+0.313±0.047
+-9.3%
+
+NAIVE-KG
+NAIVE-KG
+Domain Gap
+
+In-Domain
+Out-of-Domain
+
+0.186±0.068
+0.277±0.191
++48.9%
+
+0.465±0.169
+0.478±0.166
++2.8%
+
+0.724±0.078
+0.745±0.068
++2.9%
+
+0.350±0.000
+0.350±0.000
+0.0%
+
+0.301±0.047
+0.312±0.046
++3.7%
+
+ARIA-CORE
+ARIA-CORE
+Domain Gap
+
+In-Domain
+Out-of-Domain
+
+0.205±0.032
+0.278±0.173
++35.6%
+
+0.513±0.080
+0.505±0.122
+-1.6%
+
+0.800±0.000
+0.792±0.021
+-1.0%
+
+0.803±0.024
+0.813±0.026
++1.2%
+
+0.454±0.015
+0.459±0.028
++1.1%
+
+ARIA-FULL
+ARIA-FULL
+Domain Gap
+
+In-Domain
+Out-of-Domain
+
+0.250±0.156
+0.398±0.205
++59.2%
+
+0.395±0.073
+0.424±0.071
++7.3%
+
+0.803±0.020
+0.805±0.020
++0.2%
+
+0.925±0.000
+0.925±0.000
+0.0%
+
+0.498±0.034
+0.513±0.040
++3.0%
+
+ARIA-SEARCH
+ARIA-SEARCH
+Domain Gap
+
+In-Domain
+Out-of-Domain
+
+0.246±0.135
+0.221±0.102
+-10.2%
+
+0.471±0.103
+0.469±0.107
+-0.4%
+
+0.785±0.016
+0.774±0.028
+-1.4%
+
+0.825±0.050
+0.777±0.157
+-5.8%
+
+0.520±0.042
+0.467±0.072
+-10.2%
+
+In-Domain
+
+0.080±0.023
+
+0.201±0.056
+
+0.600±0.000
+
+0.350±0.000
+
+0.238±0.008
+
+-2.9%
++7.2%
++7.6%
++5.2%
+-19.6%
+
+-57.9%
+-3.4%
++11.3%
+-0.7%
+-57.9%
+
+-12.7%
++31.6%
++44.3%
++50.7%
+-30.9%
+
+KG-ONLY
+
+Performance Comparison
+NAIVE-KG vs Baseline
+ARIA-CORE vs Baseline
+ARIA-FULL vs Baseline
+ARIA-SEARCH vs Baseline
+KG-ONLY vs Baseline
+
+-29.8%
+-22.6%
+-5.7%
+-7.2%
+-69.8%
+
+-8.3%
++1.2%
+-22.1%
+-7.1%
+-60.4%
+
+1.0
+1.0
+
+Scientific
+Accuracy
+
+Overall Score
+
+d
+
+e
+0.60
+0.50
+0.40
+0.30
+0.20
+
+A
+R
+IA
+-F
+ul
+l
+
+A
+R
+IA
+-C
+or
+e
+A
+R
+IA
+-S
+ea
+rc
+h
+
+B
+as
+el
+in
+e
+
+K
+G
+-O
+nl
+y
+
+0.0
+
+N
+ai
+ve
+
+LL
+M
+
+Forward
+Inverse
+
+K
+G
+-L
+LM
+
+Average Score
+
+Task Type
+
+Model
+
+0.6
+
+0.6
+
+0.5
+
+0.5
+
+0.4
+
+0.4
+0.3
+
+0.3
+0.2
+
+ARIA-Full Naive
+KG-LLM Equal
+Performance
+
+0.2
+
+0.2
+
+Naive KG-LLM Score
+
+0.6
+0.6
+
+0.2
+
+0.5
+0.4
+0.3
+0.2
+0.1
+0.0
+
+ARIA-Full Score
+
+0.2
+0.2
+
+Overall Score
+
+Completeness
+
+Baseline LLM
+KG-Only
+Naive KG-LLM
+ARIA-Core
+ARIA-Search
+ARIA-Full
+
+0.4
+
+B
+as
+el
+in
+e
+LL
+N
+M
+ai
+ve
+K
+G
+-L
+LM
+A
+R
+IA
+-C
+or
+A
+e
+R
+IA
+-S
+ea
+rc
+h
+A
+R
+IA
+-F
+ul
+l
+
+Functional
+Equivalence
+
+c
+
+0.6
+
+A
+R
+IA
+A
+-F
+R
+u
+IA
+-S ll
+ea
+rc
+h
+A
+R
+IA
+-C
+B
+as
+or
+el
+e
+in
+e
+N
+LL
+ai
+M
+ve
+K
+G
+-L
+LM
+
+b
+
+a
+
+Interpretability
+
+Yi Cao et al.
+
+Overall Score
+
+KDD ’26, August 09–13, 2026, Jeju Island, Republic of Korea
+
+0.3 0.4 0.5 0.6
+BaselineLLM Score
+
+Figure 5: Comprehensive evaluation of LLM-based scientific reasoning and design. (a) Radar plot summarizing performance
+across five evaluation metrics for all models (Baseline, KG-Only, Naive KG+LLM, ARIA-Core, ARIA-Search, ARIA-Full). (b) Mean
+overall scores with standard deviation error bars. (c) Violin plots showing overall score distributions. (d) Performance by task
+type (Forward Prediction vs. Inverse Design). (e) Scatter comparison of ARIA-Full (circles) and Naive KG+LLM (squares) against
+the Baseline, with green/red outlines indicating outperforming/underperforming cases (𝑦 > 𝑥 / 𝑦 < 𝑥); marker size scales with
+deviation from the equality line.
+relevance alone.
+Finding 2: ARIA-CORE recovers performance through evidence gating.
+ARIA-CORE, which implements tier-based reasoning using the
+static KG without an online search, achieves an overall score of
+0.410±0.024 on in-domain forward prediction. This corresponds to
+a +21.6% improvement over Naive KG+LLM and a +20.6% improvement over the Baseline LLM. The recovery from naive retrieval
+indicates that causal completeness assessment is a key mechanism:
+Tier 1 restricts direct evidence use to complete PSP chains, while
+Tier 2 permits analogical transfer only when the analogy satisfies
+physical consistency constraints. Together, these gates reduce the
+risk that incomplete retrieved evidence narrows the model’s reasoning.
+Finding 3: ARIA-FULL high performance via literature integration.
+ARIA-FULL, which augments tier-based KG reasoning with realtime literature search, achieves an overall score of 0.512±0.039 on
+in-domain forward prediction. This corresponds to:
+• +50.6% relative to the Baseline LLM,
+• +51.9% relative to Naive KG+LLM, and
+• +24.9% relative to ARIA-CORE.
+The additional gain beyond ARIA-CORE suggests that dynamic literature enrichment provides useful evidence not captured by the
+static KG, while ARIA’s gating mechanism prevents this additional
+evidence from being used indiscriminately.
+Finding 4: The inverse-design gap is explained by CKG topology.
+In inverse design, improvements are positive but smaller than in
+forward prediction:
+• Baseline LLM in-domain: 0.345±0.018
+• ARIA-CORE in-domain: 0.454±0.015 (+31.6%)
+
+• ARIA-FULL in-domain: 0.498±0.034 (+44.3%)
+
+This gap is explained by the topology of the Causal Knowledge
+Graph (CKG). Under the strict Tier 1 criterion, inverse design requires an actionable reverse path from target Property to required
+Structure and then to feasible Processing conditions. However,
+the CKG is primarily organized in the forward causal direction,
+Processing→Structure→Property. As a result, Tier 1 direct causal
+reasoning activates for 62.5% of forward queries but for 0% of inverse queries. Forward queries begin from dense Processing nodes,
+whereas inverse queries must traverse backward from sparse Property nodes, whose average out-degree is much lower than that
+of Processing nodes (0.10 vs. 0.87). Reverse reachability analysis
+confirms this asymmetry: Forward reachability from Processing
+to Property is 35.3%, while reverse reachability from Property to
+Processing is only 10.5%, a 3.4× difference. Tier 2 analogical transfer
+partially compensates for this sparsity, activating in 20.0% of inverse
+queries compared with 12.5% of forward queries. Full tier-activation
+statistics and the Tier 2 ablation are provided in Appendix B.
+Finding 5: Out-of-domain generalization supported by Tier 2 analogy.
+Out-of-domain materials, which are absent from the static KG construction corpus, provide the strongest test of generalization. The
+Baseline LLM decreases on out-of-domain inverse design, from
+0.345±0.018 in-domain to 0.313±0.047 out-of-domain, indicating
+that purely parametric reasoning is affected by material novelty. In
+contrast, ARIA-FULL maintains strong out-of-domain performance,
+achieving 0.513±0.040 on out-of-domain inverse design, comparable to its in-domain score of 0.498±0.034. This suggests that Tier 2
+analogical transfer can identify structurally or chemically related
+materials and adapt their mechanisms when direct KG evidence is
+unavailable.
+
+ARIA: A Causal-Aware Framework for Rescuing LLM Reasoning in Trustworthy Materials Discovery
+
+Additional results, judge-family robustness analyses, and modelfree hard-constraint metrics are provided in Appendix B and Appendix C.
+
+4.3
+
+Adaptive Retrieval Comparisons
+
+To contextualize ARIA relative to stronger retrieval-augmented baselines, we compare against Self-RAG, [2] a representative adaptive
+retrieval method that trains the language model to retrieve passages
+on demand and critique its own generations using learned reflection tokens. We evaluate Self-RAG on the identical 149-case dataset
+described in section 4, reporting the composite Overall Score under
+both in-domain (ID) and out-of-domain (OOD) splits.
+Table 2: Self-RAG vs. ARIA-FULL (Overall Score). Self-RAG’s
+identical Inverse ID/OOD scores (𝜎=0.000) confirm it cannot
+exploit domain-specific causal structure.
+System
+
+Fwd ID
+
+Fwd OOD
+
+Inv ID
+
+Inv OOD
+
+ARIA-FULL
+Self-RAG
+
+0.512
+0.453
+
+0.513
+0.450
+
+0.498
+0.390
+
+0.513
+0.390
+
+Δ
+
++13.0%
+
++14.0na%
+
++27.7%
+
++31.5%
+
+4.5
+
+KDD ’26, August 09–13, 2026, Jeju Island, Republic of Korea
+
+Limitations and Ethical Considerations
+
+KG coverage dependency. ARIA’s Tier 1 reasoning is limited by
+KG completeness. For extremely novel material classes (e.g., 2D
+magnetic topological insulators with its sparse literature), frequent
+Tier 3 fallbacks occur (11% in our tests). Dynamic enrichment (subsection 3.3) partially mitigates this situation, but experimental validation remains essential for Tier 3 outputs.
+Evaluation limitations. Our current evaluation relies partially
+on LLM-as-judge for textual quality, which may not capture all
+scientific nuances.
+Ethical considerations. Materials synthesis recommendations could
+be misused for hazardous or environmentally harmful applications.
+We recommend ARIA be deployed with human oversight, particularly for energetic materials, toxic precursors, or environmentally
+persistent compounds. Future work should incorporate safety constraint checking alongside thermodynamic validation.
+
+5
+
+Conclusion
+
+ARIA-FULL outperforms Self-RAG by +13.0% on in-domain forward prediction and by +27.7% on in-domain inverse design. The
+gains are larger for inverse design, where semantically relevant
+passages are often insufficient unless they can be organized into an
+actionable PSP pathway. Self-RAG obtains identical rounded scores
+on ID and OOD inverse design (0.390 in both cases), suggesting limited sensitivity to the domain split and to material-specific causal
+structure. In contrast, ARIA reasons over typed and directed PSP
+evidence, and its improvements concentrate on Scientific Accuracy
+and Completeness.
+
+We identified contextual tunneling, a failure mode in LLM-based
+materials discovery where naive RAG can over-constrain reasoning around locally relevant but causally incomplete evidence. This
+finding shows that scientific RAG systems require more than semantic relevance: retrieved evidence must be mechanistically sufficient for the task. To address this, we introduced ARIA, a three-tier
+causal-aware framework that gates knowledge use through the
+Processing–Structure–Property (PSP) hierarchy via PSP-complete
+causal retrieval, constraint-aware analogical transfer, and explicit
+parametric fallback. On 149 expert-validated synthesis tasks, ARIA
+outperforms naive RAG baselines, including a +64.4% gain in outof-distribution inverse design. By producing auditable causal traces,
+ARIA enables scientists to inspect and validate AI-generated synthesis pathways against physical principles.
+
+4.4
+
+GenAI Disclosure
+
+Interpretation: Evidence Completeness as a
+Mechanistic Principle
+
+The results support our central hypothesis: the PSP hierarchy provides a natural completeness criterion for knowledge grounding,
+and evidence gating based on this criterion reduces contextual
+tunneling. The empirical progression is:
+(1) Naive KG+LLM, which performs indiscriminate retrieval,
+fails to improve over the Baseline LLM and slightly degrades
+forward prediction performance on average.
+(2) ARIA-CORE, which uses Tier 1 and Tier 2 reasoning over
+the static KG, recovers performance by filtering evidence
+according to causal completeness and physical consistency.
+(3) ARIA-FULL further improves performance by incorporating recent literature evidence while preserving the same
+evidence-gating principle.
+This pattern suggests that external knowledge is beneficial for
+materials reasoning only when it satisfies a mechanistic completeness criterion. By requiring evidence to support a
+Processing→Structure→Property pathway, or a physically justified
+analogy when direct evidence is absent, ARIA prevents the model
+from fixating on isolated evidence fragments and instead promotes
+holistic physical reasoning.
+
+LLMs assisted only with language polishing and code debugging.
+All research ideas, methods, experiments, analyses, figures, and
+tables are the authors’ own, and the authors take full responsibility
+for the manuscript.
+
+Acknowledgments
+This work was supported by the U.S. Department of Defense-funded
+Center of Excellence for Advanced Electro-photonics with 2D Materials (CAEP), Morgan State University (Grant No. W911NF2120213),
+and DARPA (Contract No. HR001125C0304). We thank Frank Gardea,
+Owen Vail, and Dr. Ramesh Budhani for their support and guidance, and Prof. David Yarowsky, whose instruction in information
+retrieval inspired the RAG methodologies developed herein. We
+acknowledge the organizers of the LLM Hackathon, where this
+framework’s initial concept was incubated, and thank Tung Yan
+Liu, Yanqi Huang, and Alec Koppel for their contributions and technical discussions. Yi thanks Johns Hopkins University for support
+in AY 25-26. Computational resources were provided by Advanced
+Research Computing at Hopkins (ARCH; rockfish.jhu.edu), supported by NSF award OAC 1920103 and originally by the State of
+Maryland.
+
+KDD ’26, August 09–13, 2026, Jeju Island, Republic of Korea
+
+References
+[1]
+
+[2]
+
+[3]
+
+[4]
+
+[5]
+[6]
+[7]
+
+[8]
+
+[9]
+
+[10]
+
+[11]
+
+[12]
+
+[13]
+[14]
+
+[15]
+
+[16]
+[17]
+
+[18]
+[19]
+
+[20]
+
+[21]
+
+[22]
+
+[23]
+
+Alfonso Amayuelas, Joy Sain, Simerjot Kaur, and Charese Smiley. 2025. Grounding llm reasoning with knowledge graphs. (2025). https://arxiv.org/abs/2502.13
+247 arXiv: 2502.13247 [cs.CL].
+Akari Asai, Zeqiu Wu, Yizhong Wang, Avi Sil, and Hannaneh Hajishirzi. 2024.
+Self-rag: learning to retrieve, generate, and critique through self-reflection. In
+International conference on learning representations. Vol. 2024, 9112–9141.
+Adib Bazgir, Yuwen Zhang, et al. 2025. Proteinhypothesis: a physics-aware
+chain of multi-agent rag llm for hypothesis generation in protein science. In
+Towards Agentic AI for Science: Hypothesis Generation, Comprehension, Quantification, and Validation.
+Andres M. Bran, Sam Cox, Oliver Schilter, Carlo Baldassari, Andrew D. White,
+and Philippe Schwaller. 2023. ChemCrow: Augmenting large-language models
+with chemistry tools. arXiv:2304.05376 [physics]. (Oct. 2023). doi:10.48550/ar
+Xiv.2304.05376.
+Tom Brown et al. 2020. Language models are few-shot learners. Advances in
+neural information processing systems, 33, 1877–1901.
+Benjamin Burger et al. 2020. A mobile robotic chemist. Nature, 583, 7815, 237–
+241.
+Keith T. Butler, Daniel W. Davies, Hugh Cartwright, Olexandr Isayev, and
+Aron Walsh. 2018. Machine learning for molecular and materials science. en.
+Nature, 559, 7715, (July 2018), 547–555. Publisher: Nature Publishing Group.
+doi:10.1038/s41586-018-0337-2.
+Zi-Yi Chen, Fan-Kai Xie, Meng Wan, Yang Yuan, Miao Liu, Zong-Guo Wang,
+Sheng Meng, and Yan-Gang Wang. 2023. MatChat: A large language model and
+application service platform for materials science. en. Chinese Physics B, 32, 11,
+(Nov. 2023), 118104. Publisher: Chinese Physical Society and IOP Publishing
+Ltd. doi:10.1088/1674-1056/ad04cb.
+Stefano Curtarolo, Gus LW Hart, Marco Buongiorno Nardelli, Natalio Mingo,
+Stefano Sanvito, and Ohad Levy. 2013. The high-throughput highway to computational materials design. Nature materials, 12, 3, 191–201.
+Andrew D. White et al. 2023. Assessment of chemistry knowledge in large
+language models that generate code. en, (Apr. 2023). Publisher: Royal Society
+of Chemistry. doi:10.1039/D2DD00087C.
+John Dagdelen, Alexander Dunn, Sanghoon Lee, Nicholas Walker, Andrew S.
+Rosen, Gerbrand Ceder, Kristin A. Persson, and Anubhav Jain. 2024. Structured
+information extraction from scientific text with large language models. en.
+Nature Communications, 15, 1, (Feb. 2024), 1418. Publisher: Nature Publishing
+Group. doi:10.1038/s41467-024-45563-x.
+Darren Edge et al. 2025. From local to global: a graph rag approach to queryfocused summarization. (2025). https : / / arxiv . org / abs / 2404 . 16130 arXiv:
+2404.16130 [cs.CL].
+Ali Essam Ghareeb et al. 2026. A multi-agent system for automating scientific
+discovery. Nature, 1–3.
+Tanishq Gupta, Mohd Zaki, N. M. Anoop Krishnan, and Mausam. 2022. MatSciBERT: A materials domain language model for text mining and information
+extraction. en. npj Computational Materials, 8, 1, (May 2022), 102. doi:10.1038/s
+41524-022-00784-w.
+Jiashu He, Mingyu Derek Ma, Jinxuan Fan, Dan Roth, Wei Wang, and Alejandro
+Ribeiro. 2024. Give: structured reasoning of large language models with knowledge graph inspired veracity extrapolation. arXiv preprint arXiv:2410.08475.
+Ziyang Huang et al. 2026. Can coding agents reproduce findings in computational materials science? arXiv preprint arXiv:2605.00803.
+Kevin Maik Jablonka, Philippe Schwaller, Andres Ortega-Guerrero, and Berend
+Smit. 2024. Leveraging large language models for predictive chemistry. Nature
+Machine Intelligence, 6, 2, 161–169.
+Anubhav Jain et al. 2013. Commentary: the materials project: a materials
+genome approach to accelerating materials innovation. APL materials, 1, 1.
+Xue Jiang, Weiren Wang, Shaohan Tian, Hao Wang, Turab Lookman, and Yanjing Su. 2025. Applications of natural language processing and large language
+models in materials discovery. en. npj Computational Materials, 11, 1, (Mar.
+2025), 79. Publisher: Nature Publishing Group. doi:10.1038/s41524-025-01554-0.
+Emre Kiciman, Robert Ness, Amit Sharma, and Chenhao Tan. 2023. Causal
+reasoning and large language models: opening a new frontier for causality.
+Transactions on Machine Learning Research.
+Edward Kim et al. 2020. Inorganic Materials Synthesis Planning with LiteratureTrained Neural Networks. Journal of Chemical Information and Modeling, 60, 3,
+(Mar. 2020), 1194–1201. Publisher: American Chemical Society. doi:10.1021/acs
+.jcim.9b00995.
+Patrick Lewis et al. 2020. Retrieval-augmented generation for knowledgeintensive nlp tasks. In Proceedings of the 34th International Conference on Neural
+Information Processing Systems (NIPS ’20) Article 793. Curran Associates Inc.,
+Vancouver, BC, Canada, 16 pages. isbn: 9781713829546.
+Songsong Li, Edward R Jira, Nicholas H Angello, Jialing Li, Hao Yu, Jeffrey S
+Moore, Ying Diao, Martin D Burke, and Charles M Schroeder. 2022. Using
+automated synthesis to understand the role of side chains on molecular charge
+transport. Nature communications, 13, 1, 2102.
+
+Yi Cao et al.
+
+[24]
+
+[25]
+
+[26]
+
+[27]
+[28]
+
+[29]
+
+[30]
+
+[31]
+
+[32]
+[33]
+
+[34]
+
+[35]
+
+[36]
+
+[37]
+
+[38]
+
+[39]
+
+[40]
+
+[41]
+
+A
+
+Shayne Longpre, Kartik Perisetla, Anthony Chen, Nikhil Ramesh, Chris DuBois,
+and Sameer Singh. 2021. Entity-based knowledge conflicts in question answering. In Proceedings of the 2021 Conference on Empirical Methods in Natural
+Language Processing. Marie-Francine Moens, Xuanjing Huang, Lucia Specia,
+and Scott Wen-tau Yih, (Eds.) Association for Computational Linguistics, Online and Punta Cana, Dominican Republic, (Nov. 2021), 7052–7063. doi:10.1865
+3/v1/2021.emnlp-main.565.
+Chris Lu, Cong Lu, Robert Tjarko Lange, Yutaro Yamada, Shengran Hu, Jakob
+Foerster, David Ha, and Jeff Clune. 2026. Towards end-to-end automation of ai
+research. Nature, 651, 8107, 914–919.
+Juhwan Noh, Jaehoon Kim, Helge S Stein, Benjamin Sanchez-Lengeling, John
+M Gregoire, Alan Aspuru-Guzik, and Yousung Jung. 2019. Inverse design of
+solid-state materials via a continuous representation. Matter, 1, 5, 1370–1384.
+Gregory B Olson. 1997. Computational design of hierarchically structured
+materials. Science, 277, 5330, 1237–1242.
+Maitreyee Sharma Priyadarshini, Oluwaseun Romiluyi, Yiran Wang, Kumar
+Miskin, Connor Ganley, and Paulette Clancy. 2024. Pal 2.0: a physics-driven
+bayesian optimization framework for material discovery. Materials Horizons,
+11, 3, 781–791.
+Sreenivas Raguraman, Adam Griebel, Maitreyee Sharma Priyadharshini, Paulette
+Clancy, and Timothy P Weihs. 2025. A call to elevate the role of processing in
+ai-driven materials design. Nature Reviews Materials, 1–2.
+Aritra Roy et al. 2026. From knowledge to action: outcomes of the 2025 large
+language model (llm) hackathon for applications in materials science and
+chemistry. arXiv preprint arXiv:2605.03205.
+Jonathan Schmidt, Mário RG Marques, Silvana Botti, and Miguel AL Marques.
+2019. Recent advances and applications of machine learning in solid-state
+materials science. npj computational materials, 5, 1, 83.
+Nathan J Szymanski et al. 2023. An autonomous laboratory for the accelerated
+synthesis of inorganic materials. Nature, 624, 7990, 86.
+Amalie Trewartha et al. 2022. Quantifying the advantage of domain-specific
+pre-training on named entity recognition tasks in materials science. Patterns,
+3, 4.
+Chengrui Wang, Qingqing Long, Meng Xiao, Xunxin Cai, Chengjun Wu, Zhen
+Meng, Xuezhi Wang, and Yuanchun Zhou. 2024. Biorag: a rag-llm framework
+for biological question reasoning. arXiv preprint arXiv:2408.01107.
+Fengli Xu et al. 2025. Towards large reasoning models: a survey of reinforced
+reasoning with large language models. (2025). https://arxiv.org/abs/2501.09686
+arXiv: 2501.09686 [cs.AI].
+Rongwu Xu, Zehan Qi, Zhijiang Guo, Cunxiang Wang, Hongru Wang, Yue
+Zhang, and Wei Xu. 2024. Knowledge conflicts for LLMs: a survey. In Proceedings of the 2024 Conference on Empirical Methods in Natural Language
+Processing. Yaser Al-Onaizan, Mohit Bansal, and Yun-Nung Chen, (Eds.) Association for Computational Linguistics, Miami, Florida, USA, (Nov. 2024), 8541–
+8565. doi:10.18653/v1/2024.emnlp-main.486.
+Ori Yoran, Tomer Wolfson, Ori Ram, and Jonathan Berant. 2024. Making
+retrieval-augmented language models robust to irrelevant context. In The
+Twelfth International Conference on Learning Representations. https://openrevie
+w.net/forum?id=ZS4m74kZpH.
+Jinglan Zhang, Xinyi Chen, Xu Ye, Yulin Yang, and Bin Ai. 2025. Large language
+model in materials science: roles, challenges, and strategic outlook. Advanced
+Intelligent Discovery, 202500085.
+Yuzhe Zhang, Yipeng Zhang, Yidong Gan, Lina Yao, and Chen Wang. 2024.
+Causal graph discovery with retrieval-augmented generation based large language models. (2024). https://arxiv.org/abs/2402.15301 arXiv: 2402.15301
+[cs.CL].
+Yizhen Zheng, Huan Yee Koh, Jiaxin Ju, Madeleine Yang, Lauren T May, Geoffrey I Webb, Li Li, Shirui Pan, and George Church. 2025. Large language models
+for drug discovery and development. Patterns, 6, 10.
+Zhiling Zheng, Oufan Zhang, Christian Borgs, Jennifer T. Chayes, and Omar M.
+Yaghi. 2023. ChatGPT Chemistry Assistant for Text Mining and the Prediction
+of MOF Synthesis. Journal of the American Chemical Society, 145, 32, (Aug. 2023),
+18048–18062. Publisher: American Chemical Society. doi:10.1021/jacs.3c05819.
+
+Algorithmic Details of ARIA
+
+This appendix provides the full algorithmic specification of ARIA’s
+three-tier adaptive reasoning cascade, complementing the architectural overview in subsection 3.4 and the formal PSP-completeness
+criterion in Equation 1.
+Algorithm 1 describes the top-level control flow: given a query,
+ARIA first grounds entities in the KG, evaluates PSP-completeness,
+and dispatches to the appropriate tier. Algorithm 2 details Tier 1
+direct causal reasoning, which traverses complete PSP paths in G.
+
+ARIA: A Causal-Aware Framework for Rescuing LLM Reasoning in Trustworthy Materials Discovery
+
+Algorithm 3 details Tier 2 physics-informed analogical transfer,
+which activates when no complete path exists but a structurally
+similar material exceeds the similarity threshold 𝜏. When neither
+condition is met, the cascade falls through to Tier 3 parametric
+fallback without retrieval.
+Algorithm 1 ARIA: Three-Tier Adaptive Reasoning
+Require: Query q, Causal KG G = (V, E), Similarity threshold 𝜏
+Ensure: Answer y with confidence score and provenance
+1: // Step 1: Entity grounding
+2: E𝑞 ← ExtractEntities(q)
+3: N𝑞 ← {𝑣 ∈ V | 𝑣 matches some 𝑒 ∈ E𝑞 }
+4: // Step 2: PSP-completeness check (cf. Equation 1)
+5: if |N𝑞 | ≥ 2 then
+6:
+/* Tier 1: Direct causal reasoning */
+7:
+Pdirect ← FindPaths(G, N𝑞 )
+8:
+if |Pdirect | > 0 then
+9:
+return TierOneDirect(q, Pdirect )
+10:
+end if
+11: end if
+12: /* Tier 2: Analogical retrieval */
+13: Vcand ← {𝑣 ∈ V | Simenhanced (q, 𝑣) ≥ 𝜏 }
+14: if |Vcand | > 0 then
+15:
+Vana ← TopK(Vcand, 𝐾 = 5)
+Ð
+16:
+Pana ← 𝑣 ∈ Vana GetMechanisms(𝑣)
+17:
+return TierTwoAnalogy(q, Pana )
+18: end if
+19: /* Tier 3: Parametric fallback */
+20: return TierThreeParametric(q)
+
+Algorithm 3 Tier 2: Analogical Mechanism Transfer
+Require: Query q, Analogous mechanisms Pana
+Ensure: Answer y2 with analogy justification
+1: M valid ← ∅
+2: for all 𝑣 ∈ Vana do
+3:
+𝑚 𝑣 ← GetMechanism(𝑣)
+4:
+𝑚 ′ ← AdaptMechanism(𝑚 𝑣 , q)
+5:
+if ValidateConstraints(𝑚 ′ ) then
+6:
+Mvalid ← Mvalid ∪ {𝑚 ′ }
+7:
+end if
+8: end for
+9: Cana ← FormatAnalogies(M valid )
+10: y2 ← 𝑓LLM (q, Cana )
+11:
+Prompt: “Adapt mechanisms from analogous systems.”
+12: Prepend disclaimer: “By analogy to prior systems, we hypothesize. . . ”
+13: return y2 (confidence: MEDIUM)
+
+B.1
+
+B
+
+Tier Activation Analysis
+
+This section examines whether ARIA’s three tiers are functionally distinct and when each engages. We find that activation is
+highly task-dependent and structurally determined rather than arbitrary: forward prediction and inverse design exercise the cascade
+in markedly different ways, and this difference is dictated by the
+topology of the CKG rather than by any tuned heuristic.
+
+Activation Rates by Task Type
+
+Table 3 reports how often each tier fires across the two task families.
+
+Table 3: Tier activation rates for forward prediction vs. inverse design. Inverse Tier-1 = 0/5 (95% CI: [0%, 45%]) because
+the CKG’s directed orientation leaves Property nodes as
+sparse leaf nodes.
+
+Algorithm 2 Tier 1: Direct Causal Path Reasoning
+Require: Query q, Direct causal paths Pdirect
+Ensure: Answer y1 with citations
+1: Pvalid ← FilterConsistent(Pdirect )
+2: for all 𝑝 ∈ Pvalid do
+Extract PSP chain: Processing𝑝 → Structure𝑝 →
+3:
+Property𝑝
+4:
+C𝑝 ← FormatContext(𝑝)
+5: end for
+Ð
+6: Cdirect ← 𝑝 C𝑝
+7: y1 ← 𝑓LLM (q, Cdirect )
+8:
+Prompt: “Use ONLY the verified causal mechanisms below.”
+9: y1 ← y1 + ExtractSources(Pdirect )
+10: return y1 (confidence: HIGH)
+
+KDD ’26, August 09–13, 2026, Jeju Island, Republic of Korea
+
+B.2
+
+Task
+
+N
+
+Tier-1
+
+Tier-2
+
+Tier-3
+
+Forward Prediction
+Inverse Design
+
+8
+5
+
+62.5%
+0.0%
+
+12.5%
+20.0%
+
+25.0%
+80.0%
+
+Graph Reachability Asymmetry
+
+The forward/inverse gap is structurally rooted in CKG topology.
+Forward reachability (Processing→Property) holds for 35.3% of relevant node pairs, whereas reverse reachability (Property→Processing)
+holds for only 10.5%. This is reflected in node degree: Processing
+nodes average 0.87 out-degree, while Property nodes average just
+0.10. Because Property nodes sit as sparse leaves at the end of the
+causal flow, inverse queries frequently have no complete Tier-1
+path to traverse, which is precisely why ARIA routes them to analogical (Tier-2) or parametric (Tier-3) reasoning rather than forcing
+an incomplete path.
+
+B.3
+
+Tier-2 Ablation
+
+When Tier-1 is unavailable, the quality of Tier-2 hinges on its
+physical hard filters rather than on semantic similarity alone. Table 4
+isolates this effect: removing the hard filters inflates the average
+candidate pool and collapses effective selectivity. Semantic filtering
+alone leaves selectivity largely intact, confirming that constraintaware filtering is what makes analogical transfer usable in practice.
+
+KDD ’26, August 09–13, 2026, Jeju Island, Republic of Korea
+
+Yi Cao et al.
+
+Table 4: Effect of removing physical hard filters from Tier-2.
+Without filters, the candidate pool explodes 13× and effective
+selectivity collapses from 39.2% to 2.9%.
+Condition
+
+Filter
+
+Full (default)
+Semantic only
+No Hard Filter
+
+C
+
+Avg Cand.
+
+✓
+✓
+×
+
+Activation
+
+4.2
+4.2
+56.6
+
+Selectivity
+
+39.2%
+33.3%
+3.2%
+
+39.2%
+33.3%
+2.9%
+
+Evaluation Reliability: Multi-Paradigm
+Verification
+
+To address concerns about relying on a single LLM judge, we validated using three independent evaluation paradigms.
+
+C.1
+
+Pairwise Judge Comparison
+
+Thirty representative cases were independently evaluated by four
+judges from distinct model families, each asked “Which answer is
+better: ARIA or Baseline?” without assigning numeric scores.
+Table 5: Pairwise ARIA-vs-Baseline preference. 29/30 cases
+unanimous; 1 case (inv_004) has dissent. Binomial test: 𝑝 <
+10−30 .
+Judge
+
+Model
+
+ARIA Pref.
+
+N
+
+1
+2
+3
+4
+
+GLM-5 (cloud)
+Qwen-3.5 (cloud)
+DeepSeek-R1-8B
+DeepSeek-R1-14B
+
+100.0% (30/30)
+100.0% (30/30)
+96.7% (29/30)
+100.0% (30/30)
+
+30
+30
+30
+30
+
+Avg
+
+—
+
+99.2%
+
+120
+
+Fleiss’ 𝜅 is undefined for near-unanimous binary choices; we
+report per-case agreement and binomial significance instead.
+
+C.2
+
+Model-Free Hard-Constraint (HC) Metrics
+
+Three deterministic, rule-based checks require zero LLM involvement: HC1 (thermodynamic plausibility: temperatures ∈ [50, 2000]°C,
+CVD gas validity); HC2 (stoichiometric validity: dopant ≤50 at%,
+chemistry present); HC3 (step completeness: 4-category checklist—
+substrate, precursor, deposition, post-processing).
+Table 6: Model-free hard-constraint scores. HC3 is the discriminative metric: ARIA-FULL 0.777 vs. Naive-KG 0.388
+(+100.6%).
+System
+
+HC1
+
+HC2
+
+HC3
+
+Baseline LLM
+Naive-KG
+ARIA-CORE
+ARIA-SEARCH
+ARIA-FULL
+
+0.980
+0.980
+0.990
+0.980
+0.970
+
+0.390
+0.430
+0.360
+0.459
+0.420
+
+0.485
+0.388
+0.263
+0.446
+0.777
+
+ARIA-CORE’s lower HC2 reflects Tier-1 retrieving causal paths
+without explicit stoichiometric parameters; ARIA-SEARCH and
+ARIA-FULL recover via literature-searched data.
+
+D
+
+KG Robustness Analysis
+
+This section tests whether ARIA’s performance depends on a clean,
+fully curated knowledge graph. We perturb the CKG by removing
+edges and corrupting them, and find that the tiered cascade degrades
+gracefully: as higher-confidence structure is lost, lower tiers take
+over rather than the system collapsing.
+
+D.1
+
+Edge Deletion
+
+Table 7 reports performance as a growing fraction of edges is randomly removed. The cascade absorbs this loss by shifting reliance
+downward: up to 80% deletion, Tier-2 progressively takes over from
+Tier-1 (T1 85→40%, T2 15→60%) while the overall score drops only
+modestly (0.753→0.662). Even at 90% deletion ARIA stays above the
+No-KG floor, at which point the graph is too sparse for analogical
+transfer and reasoning falls back to Tier-3.
+Table 7: ARIA performance under progressive edge deletion.
+Tier-2 absorbs Tier-1 loss up to 80% deletion; at 90%, ARIA
+converges toward the No-KG floor.
+
+D.2
+
+Drop
+
+Score
+
+T1%
+
+T2%
+
+T3%
+
+vs No-KG
+
+0%
+10%
+30%
+50%
+80%
+90%
+No KG
+
+0.753
+0.748
+0.710
+0.701
+0.662
+0.522
+0.467
+
+85
+85
+60
+60
+40
+0
+–
+
+15
+15
+40
+40
+60
+40
+–
+
+0
+0
+0
+0
+0
+60
+–
+
++61.1%
++60.2%
++52.0%
++50.1%
++41.8%
++11.8%
+—
+
+Noise Injection
+
+Beyond missing edges, we test four types of corrupted edges, each
+injected independently. The key distinction is between noise that
+removes information and noise that actively misleads: relation inversion is the most damaging because it produces confidently wrong
+answers rather than missing ones.
+Four noise types tested independently:
+• Entity swap (dopant↔dopant, category-aware): 90.0% Tier1 accuracy preserved
+• Relation inversion (enables→inhibits): 89.6% effective accuracy—
+most damaging type (produces wrong answers, not missing
+ones)
+• Spurious edge injection: 9.5% false-positive rate
+• Combined (30% deletion + 15% corruption): 60.5% source
+preservation
+
+

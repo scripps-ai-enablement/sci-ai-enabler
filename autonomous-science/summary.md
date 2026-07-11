@@ -2,7 +2,7 @@
 title: Landscape
 parent: AI scientists
 nav_order: 1
-synthesis_reviewed: 2026-06-27
+synthesis_reviewed: 2026-07-11
 ---
 
 # The autonomous AI scientist landscape
@@ -126,3 +126,4 @@ Other systems being tracked for inclusion: **Virtual Lab** (Stanford / CZ Biohub
 - [Lucente, Pascoli, Sala, Zandi, "DarkAgents: towards an agentic system for theoretical astroparticle physics," arXiv:2606.11157](https://arxiv.org/abs/2606.11157)
 - [Éltető, Daw, Stachenfeld, Miller, "ATLAS: Active Theory Learning for Automated Science," arXiv:2606.12386](https://arxiv.org/abs/2606.12386)
 - [Vriza, Prince, Zhou, Chan, Cherukara, "Operating advanced scientific instruments with AI agents that learn on the job" (CALMS), arXiv:2509.00098 / *npj Comput. Mater.* 12, 160 (2026)](https://arxiv.org/abs/2509.00098)
+- [Cao, Wang, Chen, Van Durme, Yuille, Clancy, "ARIA: A Causal-Aware Framework for Rescuing LLM Reasoning in Trustworthy Materials Discovery," KDD '26 / arXiv:2606.22375](https://doi.org/10.1145/3770855.3818954)

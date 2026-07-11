@@ -576,6 +576,15 @@
       "downloaded": "2026-06-27",
       "txt_sidecar": "2606.27231.txt",
       "note": "Duke Quantum Center + UMD (Wang, Qi, Xie, Linke, Brown). LLM agent (Claude Opus 4.8) that autonomously writes native ARTIQ control code and runs it on real trapped-ion quantum hardware, gated by a per-call hardware safety filter (token authorization via dax.sim simulation + per-device bounds). Agent autonomously built a full calibration stack on a co-trapped 40Ca+/40CaOH+ crystal and closed a cross-instrument magnetic-field-stabilization loop; portability confirmed on an independent 171Yb+ system. 1932 adversarial red-team scripts mapped the safety filter boundary. Open source: gitlab.oit.duke.edu/dw346/artiq_mcp."
+    },
+    {
+      "doi": "10.48550/arXiv.2606.22375",
+      "filename": "2606.22375.pdf",
+      "title": "ARIA: A Causal-Aware Framework for Rescuing LLM Reasoning in Trustworthy Materials Discovery",
+      "source_url": "https://arxiv.org/abs/2606.22375",
+      "downloaded": "2026-07-11",
+      "txt_sidecar": "2606.22375.txt",
+      "note": "Johns Hopkins (Cao, Wang, Chen, Van Durme, Yuille, Clancy). Published at CIKM 2026 (doi:10.1145/3770855.3818954). Causal-aware framework for LLM-driven materials discovery that conditions knowledge use on Process-Structure-Property (PSP) mechanistic completeness via a three-tier cascade (direct causal reasoning when full PSP evidence chains exist; physics-informed analogical transfer for sparse/novel systems; explicit parametric fallback). Diagnoses 'contextual tunneling' where KG-augmented LLMs over-anchor on narrow retrieved evidence and suppress global physical reasoning. Built a 2,839-relation PSP knowledge graph from peer-reviewed literature; evaluated on forward-prediction and inverse-design tasks for 2D materials, with gains from online literature-search enrichment and auditable causal traces. Open source: github.com/yicao-elina/ARIA."
     }
   ]
 }

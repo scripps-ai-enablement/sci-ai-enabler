@@ -9,6 +9,21 @@ permalink: /updates/ai-scientists.html
 
 Reverse-chronological log of changes to the [AI scientists tracker]({{ '/autonomous-science/' | relative_url }}). Newest at the top.
 
+## 2026-07-11
+
+### Added
+- **ARIA** (Lifecycle: Hypothesis, Analysis) — Johns Hopkins University (Clancy, Van Durme, Yuille groups; KDD '26). A causal-aware LLM framework for trustworthy materials discovery that diagnoses "contextual tunneling" in knowledge-graph-augmented LLMs and gates knowledge use on Process-Structure-Property (PSP) mechanistic completeness, routing each query through a three-tier cascade (direct causal reasoning over complete PSP chains → physics-filtered analogical transfer → parametric fallback). Grounded in a 2,839-relation PSP Causal Knowledge Graph with optional real-time literature enrichment; covers forward property prediction and inverse synthesis-protocol design. Benchmark-only validation on 149 expert-curated 2D-materials tasks: ARIA-FULL +50.6% over baseline on in-domain forward prediction, sustained out-of-domain inverse-design performance, and beats a Self-RAG baseline. Open source ([source](https://doi.org/10.1145/3770855.3818954)).
+
+### Updated
+- **`autonomous-science/summary.md`** — added ARIA's primary paper to the Sources list; re-verified the synthesis against the current grouping (ARIA fits the existing Chemistry & materials cluster as a benchmark-validated system and tips no superlative) and bumped `synthesis_reviewed` to 2026-07-11.
+- **`autonomous-science/curator-state.md`** — added ARIA to `Recently surfaced` (trimmed to last 5).
+
+### Flagged
+_None._
+
+### Verified (no changes)
+- Synthesis re-reviewed against the freshly grouped table after adding ARIA; all superlatives ("most loop-closed," "strongest evidence," "newest frontier") still hold. The link/repo re-verification backlog (55+ entries past the 30-day window) remains deferred to Phase A — Phase B has no web/MCP tools to confirm link liveness, so `last_verified` dates were not bumped.
+
 ## 2026-07-04
 
 No new systems surfaced — Phase A's seed queries (arXiv, bioRxiv, medRxiv via `papers` MCP, plus WebSearch fallback) returned only out-of-scope work and already-catalogued systems, so the handoff was `_None._`.
