@@ -11,6 +11,17 @@ Reverse-chronological log of changes to the [catalog]({{ '/catalog/' | relative_
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-07-11 (Molecular and Cellular Biology slot)
+
+Molecular and Cellular Biology directed pass plus a manifest sweep. The `anthropics/life-sciences` (`.claude-plugin/marketplace.json`) and `claude-plugins-official` marketplaces were re-fetched and diffed — no new in-scope plugins (all 19 entries already catalogued). The directed pass ran the Ensembl / Geneformer / Bioconductor / CRISPR / single-cell seed queries: a single-install multi-database aggregator MCP (GWAS-MCP) surfaced as genuinely new; no dedicated Geneformer/scGPT single-cell-foundation-model wrapper exists yet (gap noted for future runs).
+
+### Added
+- **GWAS-MCP** (Categories: Drug Repurposing and Discovery, Molecular and Cellular Biology, Translational Medicine) — single-install MCP server bundling 30+ tools across 14 biological databases (UniProt, Ensembl, ClinVar, GWAS Catalog, GTEx, STRING, InterPro, AlphaFold, PDB, KEGG, Open Targets, PharmGKB, OMIM) for a variant-to-target research workflow. GA, MIT, PyPI `gwas-mcp` v1.0.2. ([`zaeyasa/gwas-mcp`](https://github.com/zaeyasa/gwas-mcp))
+
+### Verified (no changes)
+- Manifest sweep of `anthropics/life-sciences` (19 plugins) + MCP Registry — no new in-scope entries.
+- `ensembl.md` — Augmented-Nature Ensembl variant already noted as alternative implementation; no change.
+
 ## 2026-07-11 (Integrative Structural and Computational Biology slot)
 
 Integrative Structural and Computational Biology directed pass plus a manifest sweep. The `anthropics/life-sciences` (`.claude-plugin/marketplace.json`) and `claude-plugins-official` marketplaces were re-fetched and diffed — no new in-scope plugins (all entries, including `boltz`, already catalogued). The directed pass ran the GROMACS/MD and RCSB PDB seed queries: the RCSB PDB MCP surface (incl. `cyanheads/protein-mcp-server`) is already covered by `pdb.md`, but a Docker-packaged GROMACS MD-runner MCP surfaced that closes the long-tracked standalone-GROMACS gap.
