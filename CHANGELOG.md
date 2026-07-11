@@ -11,6 +11,20 @@ Reverse-chronological log of changes to the [catalog]({{ '/catalog/' | relative_
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-07-11 (Integrative Structural and Computational Biology slot)
+
+Integrative Structural and Computational Biology directed pass plus a manifest sweep. The `anthropics/life-sciences` (`.claude-plugin/marketplace.json`) and `claude-plugins-official` marketplaces were re-fetched and diffed — no new in-scope plugins (all entries, including `boltz`, already catalogued). The directed pass ran the GROMACS/MD and RCSB PDB seed queries: the RCSB PDB MCP surface (incl. `cyanheads/protein-mcp-server`) is already covered by `pdb.md`, but a Docker-packaged GROMACS MD-runner MCP surfaced that closes the long-tracked standalone-GROMACS gap.
+
+### Added
+- **GROMACS MCP Server** (Categories: Integrative Structural and Computational Biology) — Docker-based MCP server bundling GROMACS 2025.4, exposing six tools to run/monitor MD simulations and batch trajectory analysis from Claude with async job tracking. First followable GROMACS MD-runner MCP catalogued. Alpha; license marked `Unverified —` (no upstream LICENSE) and flagged. ([`MacromNex/gromacs_mcp`](https://github.com/MacromNex/gromacs_mcp))
+
+### Flagged
+- **GROMACS MCP Server** — no upstream LICENSE file (GitHub license field null); README's "LGPL (GROMACS)" is GROMACS's license, not the wrapper's. Catalogued with pricing `Unverified —` inline; revisit once a wrapper license is declared.
+
+### Verified (no changes)
+- Manifest sweep of `anthropics/life-sciences` + `claude-plugins-official` — no new in-scope entries.
+- `pdb.md` — RCSB PDB MCP surface (official `rcsb-mcp` + cyanheads/Augmented-Nature/QuentinCody community servers) confirmed still current for the directed pass.
+
 ## 2026-07-11 (Immunology and Microbiology slot)
 
 Immunology and Microbiology directed pass plus a manifest sweep. The `anthropics/life-sciences` (`.claude-plugin/marketplace.json`) and `claude-plugins-official` marketplaces were re-fetched and diffed — no new in-scope plugins (all entries already catalogued). The directed pass ran the IEDB epitope / antibody-design / metagenomics / BCR-TCR AIRR-seq seed queries: no standalone IEDB or antibody-design MCP wrapper exists yet, but the `GPTomics/bioSkills` collection (MIT; 561 skills across 63 root-level category directories) surfaced as a rich, cleanly-licensed source of immunology/microbiology skills. Five genuinely-new skills were catalogued under the per-run soft cap; the full collection is deferred for a one-time batch ingest.
