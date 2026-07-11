@@ -9,7 +9,7 @@ evidence_level: Proposed
 complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Laptop
-last_verified: 2026-06-13
+last_verified: 2026-07-11
 summary: Use the Glycoengineering skill to scan an antibody sequence for N-glycosylation sequons and O-glycosylation hotspots before committing to a cell-line or developability campaign.
 ---
 

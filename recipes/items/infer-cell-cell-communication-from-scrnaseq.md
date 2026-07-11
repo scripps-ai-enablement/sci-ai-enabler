@@ -9,7 +9,7 @@ evidence_level: Proposed
 complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Laptop
-last_verified: 2026-06-13
+last_verified: 2026-07-11
 summary: Use the LIANA-MCP server to run multiple ligand-receptor methods on an annotated AnnData object, aggregate their ranks, and plot the consensus communication network.
 ---
 

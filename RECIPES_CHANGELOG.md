@@ -11,6 +11,26 @@ Reverse-chronological log of changes to the [recipes cookbook]({{ '/recipes/' | 
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-07-11 (Immunology and Microbiology directed pass)
+
+### Added
+
+- **Scan a protein for candidate CD8 T-cell epitopes** (Problem class: Experimental design; Evidence: Validated) — rung-2 [MHC Binding Prediction skill](catalog/tools/mhc-binding-prediction.html) recipe: antigen FASTA + HLA class I alleles → tile to 8–11-mers → MHCflurry (+optional NetMHCpan-4.1/MixMHCpred) presentation + `%Rank` scoring → committed `scan_epitopes.py` + pinned env + `epitopes.csv` + `provenance.json` (predictor versions/model release, allele list, input sha256, run date, model id). Cookbook's first MHC-I epitope recipe. `Validated` — NetMHCpan/MHCflurry captured >half of major epitopes in the top 277 of 767,788 candidates in a proteome-wide benchmark ([Paul et al., *PLoS Comput. Biol.* 2020](https://pubmed.ncbi.nlm.nih.gov/32453790/)); SOTA reconfirmed 2026 ([Mecklenbräuker et al., *Mol. Cell. Proteomics*](https://pubmed.ncbi.nlm.nih.gov/41903651/)). `Fully open`; `Laptop`.
+- **Reconstruct B-cell clonal lineages from AIRR-seq** (Problem class: Data analysis; Evidence: Reported) — rung-2 [Immcantation BCR Analysis skill](catalog/tools/immcantation-analysis.html) recipe: AIRR rearrangement table → shazam data-derived clonal threshold → scoper clonal families → SHM/BASELINe selection → dowser germline-rooted lineage trees → committed `bcr_lineages.R` + pinned Immcantation env + `clones.tsv`/trees + `provenance.json` (package versions, IMGT germline release, derived threshold, input sha256, run date, model id). Cookbook's first BCR clonal-analysis recipe. `Reported` — Immcantation is the documented AIRR-seq clonal-analysis standard with an active supporting methods literature ([Abdollahi et al., *BMC Bioinformatics* 2023](https://pubmed.ncbi.nlm.nih.gov/36849917/); [Zhang et al., *Front. Immunol.* 2022](https://pubmed.ncbi.nlm.nih.gov/36618367/)); the agent-orchestrated assembly is not separately benchmarked. `Fully open`; `Laptop`.
+
+### Updated
+
+- **Scan a therapeutic antibody for glycosylation sites** — `last_verified` bumped to 2026-07-11; Glycoengineering/gget/Adaptyv catalog pages resolve and are unflagged, sources still current.
+- **Infer cell-cell communication from single-cell RNA-seq** — `last_verified` bumped to 2026-07-11; LIANA-MCP catalog page resolves and is unflagged, sources still current.
+
+### Flagged
+
+- None.
+
+### Verified (no changes)
+
+- 2 recipes spot-checked (antibody-glycosylation, cell-cell communication), all current.
+
 ## 2026-07-11 (Chemistry directed pass)
 
 ### Added
