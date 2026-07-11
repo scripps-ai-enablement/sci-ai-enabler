@@ -9,7 +9,7 @@ evidence_level: Proposed
 complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Laptop
-last_verified: 2026-06-11
+last_verified: 2026-07-11
 summary: Use the COBRApy Claude Skill to load a genome-scale metabolic model and screen single/double gene deletions for growth phenotypes and essential genes.
 ---
 

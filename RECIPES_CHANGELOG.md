@@ -11,6 +11,21 @@ Reverse-chronological log of changes to the [recipes cookbook]({{ '/recipes/' | 
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-07-11 (Integrative Structural and Computational Biology directed pass)
+
+### Added
+
+- **Predict a protein–protein complex to map the binding interface** (Problem class: Hypothesis generation; Evidence: Reported) — rung-2 [Boltz plugin](catalog/tools/boltz.html) recipe: two partner FASTA sequences → `boltz-structure-and-binding` multi-chain co-folding (wide sampling) → local 5 Å inter-chain contact recomputation → committed `.claude/commands/predict-ppi-interface.md` + `interface_from_boltz.py` + pinned env + `interface.csv` (consensus interface residues) + `provenance.json` (plugin version, boltz-api job ids/date, model id, input sha256). General non-antibody PPI counterpart to the [antibody–antigen complex recipe](recipes/items/predict-antibody-antigen-complex.html); closes the long-deferred "AlphaFold-Multimer complex interface" candidate now that Boltz is catalogued. `Reported` — Boltz-2 matches AF3 on PDB 2024–2025 complexes ([Passaro et al., *bioRxiv* 2025](https://www.biorxiv.org/content/10.1101/2025.06.14.659707v1)); AF-Multimer/AF3 are field-standard multimer baselines ([Hou et al., *Nat. Commun.* 2025](https://pubmed.ncbi.nlm.nih.gov/41261173/)); the Claude-plugin assembly is not separately benchmarked. `Subscription required` (hosted Boltz API); `Laptop`.
+
+### Updated
+
+- **Score point mutations for functional impact with a protein language model** — `last_verified` bumped to 2026-07-11; ESM/gget catalog pages resolve and are unflagged, sources still current.
+- **Predict gene-knockout phenotypes with flux balance analysis** — `last_verified` bumped to 2026-07-11; COBRApy catalog page and Biomni system page resolve and are unflagged, sources still current.
+
+### Verified (no changes)
+
+- 2 additional recipes (ESM variant scoring, FBA knockout) spot-checked with the two above; linked catalog/system pages resolve.
+
 ## 2026-07-11 (Immunology and Microbiology directed pass)
 
 ### Added

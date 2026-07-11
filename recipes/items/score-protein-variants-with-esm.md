@@ -9,7 +9,7 @@ evidence_level: Proposed
 complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Workstation with GPU
-last_verified: 2026-06-10
+last_verified: 2026-07-11
 summary: Use the ESM skill to compute zero-shot masked-marginal log-likelihood-ratio scores for a list of point mutations, ranking them by predicted functional effect without any labelled data.
 ---
 
