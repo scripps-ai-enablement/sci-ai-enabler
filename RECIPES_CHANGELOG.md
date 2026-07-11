@@ -11,6 +11,20 @@ Reverse-chronological log of changes to the [recipes cookbook]({{ '/recipes/' | 
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-07-11 (Molecular and Cellular Biology directed pass)
+
+### Added
+
+- **Quantify bulk RNA-seq FASTQ into a gene-level counts matrix** (Problem class: Data analysis; Evidence: Proposed) — rung-3 toolbelt: [fastp](catalog/tools/fastp-fastq-preprocessing.html) trim → [Salmon](catalog/tools/salmon-rna-quantification.html) decoy-aware quasi-mapping (`--gcBias --seqBias --validateMappings`) → tximport gene-level aggregation via `tx2gene` → committed `quantify_rnaseq.py` + pinned `requirements.txt` + fastp JSON QC + `counts.csv`/`coldata.csv` + `provenance.json` (transcriptome release, index flags, FASTQ sha256, tool versions, run date, model id). Fills the FASTQ→counts gap the [bulk RNA-seq DE recipe](recipes/items/run-bulk-rnaseq-differential-expression.html) assumed away, now cross-linked as its downstream companion; alignment-based alternative noted via [STAR](catalog/tools/star-rna-seq-aligner.html)+[featureCounts](catalog/tools/featurecounts-rna-counting.html). `Proposed` — grounded on Salmon bias/decoy-aware benchmarks ([Patro et al., *Nat. Methods* 2017](https://doi.org/10.1038/nmeth.4197); [Srivastava et al., *Genome Biol.* 2020](https://doi.org/10.1186/s13059-020-02151-8)) and tximport aggregation ([Soneson et al., *F1000Res* 2015](https://doi.org/10.12688/f1000research.7563.2)); the agent-orchestrated chain is not separately benchmarked. `Fully open`; `Laptop`.
+
+### Updated
+
+- **Run bulk RNA-seq differential expression from a counts matrix** — added upstream cross-link to the new FASTQ→counts recipe in **See also**.
+
+### Verified (no changes)
+
+- 2 recipes spot-checked (profile-chipseq-atacseq-signal-around-features, call-peaks-and-motifs-from-chipseq-atacseq), all current — linked deepTools/MACS3/HOMER catalog pages resolve and are unflagged, source repos and DOIs load; `last_verified` bumped to 2026-07-11.
+
 ## 2026-07-11 (Integrative Structural and Computational Biology directed pass)
 
 ### Added

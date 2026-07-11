@@ -9,7 +9,7 @@ evidence_level: Proposed
 complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Laptop
-last_verified: 2026-06-11
+last_verified: 2026-07-11
 summary: Use the deepTools Claude Skill to turn aligned ChIP-seq/ATAC-seq BAMs into normalized bigWig tracks and TSS/peak-centered profile and heatmap figures.
 ---
 
@@ -98,7 +98,7 @@ Proposed. No documented attempt at an LLM-driven (Claude + deepTools skill) ChIP
 ## Sources
 
 - [deepTools skill catalog entry](../../catalog/tools/deeptools.html) — last verified 2026-06-04 (catalog).
-- [`K-Dense-AI/scientific-agent-skills` repository](https://github.com/K-Dense-AI/scientific-agent-skills) — verified 2026-06-11 (this run).
+- [`K-Dense-AI/scientific-agent-skills` repository](https://github.com/K-Dense-AI/scientific-agent-skills) — verified 2026-07-11 (this run).
 - [Ramírez et al., "deepTools2," *Nucleic Acids Research* 44:W160 (2016)](https://doi.org/10.1093/nar/gkw257) — published 2016; canonical method reference.
 
 ---

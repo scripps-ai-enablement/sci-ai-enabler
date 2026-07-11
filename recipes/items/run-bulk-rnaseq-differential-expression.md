@@ -90,6 +90,7 @@ No peer-reviewed benchmark of "Claude + this skill" against hand-written PyDESeq
 - [PyDESeq2 (Claude Skill)](../../catalog/tools/pydeseq2.html)
 - [AnnData (Claude Skill)](../../catalog/tools/anndata.html)
 - [Scanpy-MCP](../../catalog/tools/scanpy.html) — for pseudobulk aggregation upstream of PyDESeq2.
+- [Quantify bulk RNA-seq FASTQ into a gene-level counts matrix](quantify-bulk-rnaseq-fastq-to-counts.html) — the upstream companion; produces the `counts.csv` this recipe consumes.
 - [Run first-pass QC on a single-cell RNA-seq dataset](qc-single-cell-rna-seq.html) — upstream sister recipe for the single-cell case.
 
 ## Sources

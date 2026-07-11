@@ -9,7 +9,7 @@ evidence_level: Proposed
 complexity: Multi-tool harness
 availability: Fully open
 compute_requirements: Laptop
-last_verified: 2026-06-13
+last_verified: 2026-07-11
 summary: Chain the MACS3 peak-calling skill into the HOMER motif skill to turn aligned ChIP-seq/ATAC-seq BAMs into a called-peak set with nearest-gene annotation and enriched TF motifs.
 ---
 
@@ -98,7 +98,7 @@ Proposed. No documented attempt at an LLM-driven (Claude + MACS3 + HOMER) peak-c
 
 - [MACS3 skill catalog entry](../../catalog/tools/macs3-peak-calling.html) — last verified 2026-06-11 (catalog).
 - [HOMER skill catalog entry](../../catalog/tools/homer-motif-analysis.html) — last verified 2026-06-11 (catalog).
-- [`jaechang-hits/SciAgent-Skills` repository](https://github.com/jaechang-hits/SciAgent-Skills) — verified 2026-06-13 (this run).
+- [`jaechang-hits/SciAgent-Skills` repository](https://github.com/jaechang-hits/SciAgent-Skills) — verified 2026-07-11 (this run).
 - [Zhang et al., "Model-based Analysis of ChIP-Seq (MACS)," *Genome Biology* 9:R137 (2008)](https://doi.org/10.1186/gb-2008-9-9-r137) — canonical peak-caller reference.
 - [Heinz et al., "Simple Combinations of Lineage-Determining Transcription Factors...," *Molecular Cell* 38:576 (2010)](https://doi.org/10.1016/j.molcel.2010.05.004) — canonical HOMER reference.
 
