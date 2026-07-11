@@ -1,10 +1,10 @@
 {
   "version": 1,
-  "generated": "2026-07-10",
+  "generated": "2026-07-11",
   "counts": {
-    "tools": 378,
-    "recipes": 70,
-    "systems": 67
+    "tools": 384,
+    "recipes": 73,
+    "systems": 68
   },
   "tools_file": "composer-tools.json",
   "recipes": [
@@ -20,7 +20,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Workstation with GPU",
-      "last_verified": "2026-06-13",
+      "last_verified": "2026-07-11",
       "summary": "Drive the MDAnalysis skill (MDTraj as backup) to take a finished GROMACS/AMBER/NAMD trajectory through RMSD/RMSF/Rg, contact maps, H-bonds, and PCA without writing the analysis script by hand.",
       "keywords": [
         "AMBER",
@@ -691,7 +691,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-06-13",
+      "last_verified": "2026-07-11",
       "summary": "Use the LIANA-MCP server to run multiple ligand-receptor methods on an annotated AnnData object, aggregate their ranks, and plot the consensus communication network.",
       "keywords": [
         "CellPhoneDB",
@@ -1041,6 +1041,26 @@
       "path": "recipes/items/predict-rna-secondary-structure-and-accessibility.md"
     },
     {
+      "slug": "prepare-protonation-states-for-docking",
+      "title": "Prepare the correct protonation state of a ligand before docking",
+      "problem_class": "Experimental design",
+      "subject_areas": [
+        "Chemistry",
+        "Drug Repurposing and Discovery",
+        "Integrative Structural and Computational Biology"
+      ],
+      "evidence_level": "Proposed",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-07-11",
+      "summary": "Use the Rowan skill in Claude Code to predict macro-pKa and the dominant protonation state of ligands at physiological pH before docking or MD, as a reproducible prepared-ligand table.",
+      "keywords": [
+        "SMILES"
+      ],
+      "path": "recipes/items/prepare-protonation-states-for-docking.md"
+    },
+    {
       "slug": "prioritize-targets-within-a-disease",
       "title": "Prioritize targets within a disease via Open Targets",
       "problem_class": "Knowledge synthesis",
@@ -1182,6 +1202,29 @@
       "path": "recipes/items/rank-compound-library-by-predicted-affinity.md"
     },
     {
+      "slug": "reconstruct-bcr-clonal-lineages",
+      "title": "Reconstruct B-cell clonal lineages from AIRR-seq",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Immunology and Microbiology"
+      ],
+      "evidence_level": "Reported",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-07-11",
+      "summary": "Use the Immcantation BCR Analysis skill to cluster AIRR-seq reads into clonal families, quantify somatic hypermutation and selection, and infer germline-rooted lineage trees.",
+      "keywords": [
+        "AIRR-format",
+        "AIRR-seq",
+        "BCR",
+        "BCR-seq",
+        "IgBLAST",
+        "VDJ"
+      ],
+      "path": "recipes/items/reconstruct-bcr-clonal-lineages.md"
+    },
+    {
       "slug": "register-longitudinal-medical-scans",
       "title": "Register longitudinal medical scans to a common frame",
       "problem_class": "Data analysis",
@@ -1314,7 +1357,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-06-13",
+      "last_verified": "2026-07-11",
       "summary": "Use the Glycoengineering skill to scan an antibody sequence for N-glycosylation sequons and O-glycosylation hotspots before committing to a cell-line or developability campaign.",
       "keywords": [
         "ADCC",
@@ -1343,6 +1386,28 @@
         "MONDO"
       ],
       "path": "recipes/items/scan-drug-repurposing-candidates.md"
+    },
+    {
+      "slug": "scan-protein-for-cd8-t-cell-epitopes",
+      "title": "Scan a protein for candidate CD8 T-cell epitopes",
+      "problem_class": "Experimental design",
+      "subject_areas": [
+        "Immunology and Microbiology"
+      ],
+      "evidence_level": "Validated",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-07-11",
+      "summary": "Use the MHC Binding Prediction skill to rank a protein's peptides for MHC class I binding and presentation, nominating CD8 T-cell epitope and neoantigen candidates.",
+      "keywords": [
+        "ELISpot",
+        "HLA",
+        "HLA-A",
+        "MHC",
+        "MHC-I"
+      ],
+      "path": "recipes/items/scan-protein-for-cd8-t-cell-epitopes.md"
     },
     {
       "slug": "score-drug-combination-synergy",
@@ -1789,6 +1854,28 @@
         "XRD"
       ],
       "path": "autonomous-science/systems/amase.md"
+    },
+    {
+      "slug": "aria",
+      "title": "ARIA",
+      "domain": "Materials science (2D materials synthesis, Process-Structure-Property reasoning)",
+      "lifecycle_stages": [
+        "Hypothesis",
+        "Analysis"
+      ],
+      "validation_type": "Benchmark",
+      "autonomy": "Semi-autonomous",
+      "availability": "Open source — code at github.com/yicao-elina/ARIA (CC-BY-4.0 paper)",
+      "access": "Open source",
+      "last_verified": "2026-07-11",
+      "summary": "Causal-aware LLM framework gating knowledge on Process-Structure-Property completeness for trustworthy materials discovery.",
+      "keywords": [
+        "ARIA",
+        "Causal-aware",
+        "Process-Structure-Property",
+        "PSP"
+      ],
+      "path": "autonomous-science/systems/aria.md"
     },
     {
       "slug": "aris",

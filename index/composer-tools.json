@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "generated": "2026-07-10",
-  "count": 378,
+  "generated": "2026-07-11",
+  "count": 384,
   "tools": [
     {
       "slug": "10x-genomics-cloud",
@@ -247,6 +247,27 @@
         "Single-Variant"
       ],
       "path": "catalog/tools/alphagenome.md"
+    },
+    {
+      "slug": "amr-detection",
+      "title": "AMR / Resistome Detection (bioSkills)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Immunology and Microbiology"
+      ],
+      "last_verified": "2026-07-11",
+      "summary": "\"Profile the antimicrobial-resistance gene content (resistome) of shotgun metagenomes with RGI, AMR++/MEGARes, deepARG, and AMRFinderPlus/ABRicate\"",
+      "keywords": [
+        "ABRicate",
+        "AMR",
+        "AMRFinderPlus",
+        "deepARG",
+        "MAGs",
+        "MEGARes",
+        "RGI"
+      ],
+      "path": "catalog/tools/amr-detection.md"
     },
     {
       "slug": "anndata",
@@ -1972,6 +1993,25 @@
       "path": "catalog/tools/ensembl.md"
     },
     {
+      "slug": "epitope-prediction",
+      "title": "Epitope Prediction (bioSkills)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Immunology and Microbiology"
+      ],
+      "last_verified": "2026-07-11",
+      "summary": "\"Predict B-cell and T-cell epitopes for vaccine and epitope-mapping work with BepiPred-3.0, DiscoTope-3.0, the IEDB tools, and MHC presentation predictors\"",
+      "keywords": [
+        "BepiPred-3",
+        "DiscoTope-3",
+        "IEDB",
+        "MHC",
+        "MHC-presented"
+      ],
+      "path": "catalog/tools/epitope-prediction.md"
+    },
+    {
       "slug": "esm",
       "title": "ESM (Claude Skill)",
       "tool_type": "Claude Skill",
@@ -3019,6 +3059,23 @@
       "path": "catalog/tools/imaging-data-commons.md"
     },
     {
+      "slug": "immcantation-analysis",
+      "title": "Immcantation BCR Analysis (bioSkills)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Immunology and Microbiology"
+      ],
+      "last_verified": "2026-07-11",
+      "summary": "\"Reconstruct B-cell clonal families, quantify somatic hypermutation and selection, and build antibody lineage trees from AIRR-seq data with the Immcantation R suite\"",
+      "keywords": [
+        "AIRR-format",
+        "AIRR-seq",
+        "BCR"
+      ],
+      "path": "catalog/tools/immcantation-analysis.md"
+    },
+    {
       "slug": "inductive-bio",
       "title": "Inductive Bio ADMET Connector",
       "tool_type": "Claude.ai Connector",
@@ -3201,6 +3258,21 @@
       "summary": "\"Perform brain parcellation using K-means.\"",
       "keywords": [],
       "path": "catalog/tools/kmeans.md"
+    },
+    {
+      "slug": "kraken-classification",
+      "title": "Kraken2 Metagenomic Classification (bioSkills)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Immunology and Microbiology"
+      ],
+      "last_verified": "2026-07-11",
+      "summary": "\"Classify shotgun metagenomic reads to taxa with Kraken2 minimizer/LCA matching, then re-estimate abundance with Bracken\"",
+      "keywords": [
+        "LCA"
+      ],
+      "path": "catalog/tools/kraken-classification.md"
     },
     {
       "slug": "labarchive-integration",
@@ -3613,6 +3685,24 @@
         "XML"
       ],
       "path": "catalog/tools/metabolomics-workbench-database.md"
+    },
+    {
+      "slug": "mhc-binding-prediction",
+      "title": "MHC Binding Prediction (bioSkills)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Immunology and Microbiology"
+      ],
+      "last_verified": "2026-07-11",
+      "summary": "\"Predict peptide-MHC class I binding and natural presentation with MHCflurry, NetMHCpan-4.1, and MixMHCpred to nominate candidate CD8 T-cell epitopes\"",
+      "keywords": [
+        "MHC",
+        "MHCflurry",
+        "MixMHCpred",
+        "NetMHCpan-4"
+      ],
+      "path": "catalog/tools/mhc-binding-prediction.md"
     },
     {
       "slug": "mnd-skill",
@@ -5242,6 +5332,26 @@
         "QED"
       ],
       "path": "catalog/tools/qutip.md"
+    },
+    {
+      "slug": "rdkit-agent",
+      "title": "RDKit Agent",
+      "tool_type": "MCP server",
+      "availability": "Alpha",
+      "tool_categories": [
+        "Chemistry",
+        "Drug Repurposing and Discovery"
+      ],
+      "last_verified": "2026-07-11",
+      "summary": "WASM-based cheminformatics CLI, Node library, and MCP server that validates, converts, and analyzes SMILES/SMIRKS/InChI with no Python runtime.",
+      "keywords": [
+        "Agent-first",
+        "RDKit",
+        "SMILES",
+        "SMIRKS",
+        "WASM-based"
+      ],
+      "path": "catalog/tools/rdkit-agent.md"
     },
     {
       "slug": "rdkit-mcp",
