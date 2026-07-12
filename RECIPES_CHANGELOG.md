@@ -11,6 +11,20 @@ Reverse-chronological log of changes to the [recipes cookbook]({{ '/recipes/' | 
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-07-12 (Translational Medicine directed pass)
+
+### Added
+
+- **Triage GWAS lead SNPs to candidate drug targets** (Problem class: Knowledge synthesis; Evidence: Reported) — rung-2 [GWAS-MCP](catalog/tools/gwas-mcp.html) recipe: a version-controlled `leads.csv` of rsIDs → per-variant `get_variant_info`/`annotate_snps` consequence + nearest gene → `get_eqtl_data` eQTL-implicated gene(s) → `query_gwas_catalog` co-reported traits → `get_drug_targets`/`search_open_targets` tractability + clinical precedent, captured as a committed `triage_gwas_leads.py` + pinned `requirements.txt` + `targets_triage.csv` + `provenance.json` (gwas-mcp version, per-database snapshot dates, input sha256, run date, model id). Variant-first complement to the disease-first [prioritize-targets recipe](recipes/items/prioritize-targets-within-a-disease.html) and upstream of [build-target-dossier](recipes/items/build-target-dossier.html); scoped to the lookup-and-annotate layer (colocalization/MR flagged out of scope). `Reported` — reproduces the lookup layer of a quantitatively validated GWAS→target workflow ([Lessard et al., *BMC Genomics* 2024](https://pubmed.ncbi.nlm.nih.gov/39563277/): approved-target enrichment RR 2.58 vs 1.75 nearest-gene, >85% MR-directionality match), resting on the genetic-support premise ([Nelson et al., *Nat. Genet.* 2015](https://pubmed.ncbi.nlm.nih.gov/26121088/); [King et al., *PLoS Genet.* 2019](https://pubmed.ncbi.nlm.nih.gov/31830040/)); the Claude+GWAS-MCP assembly is not separately benchmarked. `Fully open`; `Laptop`.
+
+### Updated
+
+- **Build a target dossier** — added a 2026-06 known-issue note to the Open Targets install step (hosted MCP endpoint fails the `initialize` handshake with JSON-RPC `-32602`, [#43](https://github.com/scripps-ai-enablement/sci-ai-enabler/issues/43)) with the direct-GraphQL / ToolUniverse workaround; `last_verified` → 2026-07-12.
+
+### Verified (no changes)
+
+- 5 aging recipes spot-checked, all current (`last_verified` → 2026-07-12): draft-phase23-clinical-trial-protocol, screen-polypharmacy-for-drug-interactions, profile-cancer-cohort-genomics-with-cbioportal, run-gwas-on-case-control-genotypes, compute-bacterial-pangenome-from-assemblies. Every linked catalog page resolves; source URLs load.
+
 ## 2026-07-12 (Neuroscience directed pass)
 
 ### Added

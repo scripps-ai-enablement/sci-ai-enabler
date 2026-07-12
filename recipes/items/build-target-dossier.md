@@ -9,7 +9,7 @@ evidence_level: Proposed
 complexity: Multi-tool harness
 availability: Fully open
 compute_requirements: Laptop
-last_verified: 2026-06-14
+last_verified: 2026-07-12
 summary: Combine the Open Targets plugin, UniProt MCP, AlphaFold MCP, and the DepMap skill to produce a one-page dossier on a candidate gene — disease evidence, protein annotation, predicted structure, and cancer-cell-line essentiality.
 ---
 
@@ -43,6 +43,8 @@ Target dossiers are the bread-and-butter of early discovery and translational re
    ```
 
    Add the UniProt and AlphaFold MCP servers per their catalog pages — both are stdio Node servers, no auth needed.
+
+   > **Known issue (2026-06):** the hosted Open Targets MCP endpoint (`https://mcp.platform.opentargets.org/mcp`) currently rejects the MCP `initialize` handshake with JSON-RPC error `-32602` under protocol revisions 2025-06-18 and 2024-11-05, so the plugin never connects ([#43](https://github.com/scripps-ai-enablement/sci-ai-enabler/issues/43); flagged on the [Open Targets catalog page](../../catalog/tools/open-targets.html)). Until it's fixed, drive the Open-Targets portion against the **direct GraphQL API** (`https://api.platform.opentargets.org/api/v4/graphql`) from plain Claude Code, or use the [ToolUniverse](../../catalog/tools/tooluniverse.html) `OpenTargets_*` tools; both hit the identical backend. UniProt, AlphaFold, and DepMap are unaffected.
 
 2. **Drive the dossier with a single multi-step prompt.** A minimal version:
 

@@ -9,7 +9,7 @@ evidence_level: Reported
 complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Laptop
-last_verified: 2026-06-14
+last_verified: 2026-07-12
 summary: Ground Claude in the DDInter skill to screen a multi-drug medication list for pairwise interactions with severity and mechanism, instead of asking the model from memory.
 ---
 

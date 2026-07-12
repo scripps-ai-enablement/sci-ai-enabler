@@ -9,7 +9,7 @@ evidence_level: Proposed
 complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Workstation with GPU
-last_verified: 2026-06-14
+last_verified: 2026-07-12
 summary: Drive PLINK2 from QC through PCA-adjusted logistic-regression association on a case-control cohort, returning Manhattan-ready summary stats.
 ---
 

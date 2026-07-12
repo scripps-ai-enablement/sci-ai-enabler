@@ -9,7 +9,7 @@ evidence_level: Reported
 complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Laptop
-last_verified: 2026-06-14
+last_verified: 2026-07-12
 summary: Use the cBioPortal Claude Skill to query TCGA-scale studies for mutation frequency, oncoprints, TMB, and survival by genomic subgroup in plain language.
 ---
 

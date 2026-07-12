@@ -9,7 +9,7 @@ evidence_level: Reported
 complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Laptop
-last_verified: 2026-06-14
+last_verified: 2026-07-12
 summary: Use the Anthropic clinical-trial-protocol plugin to expand a short indication / endpoint brief into an FDA/NIH-compliant Phase 2/3 protocol draft, with regulatory pathway, competitive landscape, and sample-size calculation already wired in.
 ---
 

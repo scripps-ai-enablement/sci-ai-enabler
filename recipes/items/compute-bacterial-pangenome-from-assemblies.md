@@ -9,7 +9,7 @@ evidence_level: Proposed
 complexity: Multi-tool harness
 availability: Fully open
 compute_requirements: Workstation with GPU
-last_verified: 2026-06-13
+last_verified: 2026-07-12
 summary: Annotate a panel of bacterial assemblies with Bakta, then cluster genes into core/accessory partitions with Roary to get a pan-genome and presence/absence matrix.
 ---
 
