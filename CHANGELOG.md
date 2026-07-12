@@ -11,6 +11,18 @@ Reverse-chronological log of changes to the [catalog]({{ '/catalog/' | relative_
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-07-12 (Neuroscience slot)
+
+Neuroscience directed pass plus a manifest sweep. The `anthropics/life-sciences` (`.claude-plugin/marketplace.json`, 19 entries) and `claude-plugins-official` marketplaces were re-fetched and diffed — no new in-scope plugins (all already catalogued; `boltz` unchanged). The directed pass ran the NWB/DANDI and EEG/fMRI seed queries: DANDI/Allen/NWB MCP surfaces are already covered (`neurosift`, `allenbrain`, `bci-mcp`), but the `InternScience/Awesome-Scientific-Skills` meta-list surfaced `HughYau/neuroforge-skills` (MIT, 5 skills over Brian2 / MNE-Python / Nilearn / SpikeInterface / pyNIBS). Two of the five are genuinely new to the catalog.
+
+### Added
+- **Brian2** (Categories: Neuroscience) — Claude Skill for building spiking neural network simulations with Brian2: equation-based `NeuronGroup` neuron models, `Synapses` with STDP-style plasticity, Poisson/`TimedArray` inputs, spike/state/rate monitors, Python vs. `cpp_standalone` execution, and multicompartment `SpatialNeuron` morphology. GA, MIT. ([`HughYau/neuroforge-skills`](https://github.com/HughYau/neuroforge-skills), [`skills/brian2/SKILL.md`](https://github.com/HughYau/neuroforge-skills/blob/main/skills/brian2/SKILL.md))
+- **pyNIBS** (Categories: Neuroscience) — Claude Skill for TMS / non-invasive brain stimulation analysis with pyNIBS: subject/session and mesh/ROI HDF5 I/O, coil-placement and multichannel-current optimization, nonlinear MEP-to-E-field regression mapping, and experiment-import/QC utilities (SimNIBS integration). GA, MIT. ([`HughYau/neuroforge-skills`](https://github.com/HughYau/neuroforge-skills), [`skills/pynibs/SKILL.md`](https://github.com/HughYau/neuroforge-skills/blob/main/skills/pynibs/SKILL.md))
+
+### Verified (no changes)
+- Manifest sweep of `anthropics/life-sciences` (19 plugins) + `claude-plugins-official` + MCP Registry — no new in-scope entries.
+- NeuroForge's other three skills (MNE-Python, Nilearn, SpikeInterface) already covered by `mne-eeg-tool.md` / `nilearn-tool.md` / `spikeinterface-electrophysiology.md` — no duplicate created.
+
 ## 2026-07-11 (Molecular and Cellular Biology slot)
 
 Molecular and Cellular Biology directed pass plus a manifest sweep. The `anthropics/life-sciences` (`.claude-plugin/marketplace.json`) and `claude-plugins-official` marketplaces were re-fetched and diffed — no new in-scope plugins (all 19 entries already catalogued). The directed pass ran the Ensembl / Geneformer / Bioconductor / CRISPR / single-cell seed queries: a single-install multi-database aggregator MCP (GWAS-MCP) surfaced as genuinely new; no dedicated Geneformer/scGPT single-cell-foundation-model wrapper exists yet (gap noted for future runs).
