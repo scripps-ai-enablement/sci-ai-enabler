@@ -9,7 +9,7 @@ evidence_level: Proposed
 complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Laptop
-last_verified: 2026-06-20
+last_verified: 2026-07-12
 summary: Use the NeuroKit2 Claude Skill to clean an ECG trace, detect R-peaks, and return time-domain, frequency-domain, and non-linear HRV indices from a single conversation.
 ---
 

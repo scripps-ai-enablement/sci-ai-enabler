@@ -11,6 +11,16 @@ Reverse-chronological log of changes to the [recipes cookbook]({{ '/recipes/' | 
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-07-12 (Neuroscience directed pass)
+
+### Added
+
+- **Extract event-related potentials from EEG epochs** (Problem class: Data analysis; Evidence: Reported) — rung-2 [MNE-Python (EEG) skill](catalog/tools/mne-eeg-tool.html) recipe: raw continuous EEG + event markers → montage/reference → band-pass + notch → ICA artifact removal → epoching → per-condition evoked averaging, captured as a committed `preprocess_erp.py` + pinned env + `*_ave.fif`/`erp_counts.csv` + `provenance.json` (MNE version, filter cutoffs, ICA method + dropped-component indices + seed, rejection threshold, per-condition kept/rejected counts, input sha256, run date, model id). Cookbook's first EEG-analysis recipe; sibling to the single-signal [HRV recipe](recipes/items/compute-hrv-from-ecg-recording.html), and can run on public EEG discovered via the [DANDI recipe](recipes/items/discover-nwb-recordings-on-dandi.html). `Reported` — MNE-Python is the field-standard M/EEG toolbox ([Gramfort et al., *Front. Neurosci.* 2013](https://doi.org/10.3389/fnins.2013.00267)) and the filter→ICA→epoch→average workflow is reused across recent reproducible-pipeline packages built on it ([EEG-Pype, *PLoS Comput. Biol.* 2026](https://doi.org/10.1371/journal.pcbi.1014043); [osl-ephys, *Front. Neurosci.* 2025](https://doi.org/10.3389/fnins.2025.1522675)); the agent-driven assembly is not separately benchmarked. `Fully open`; `Laptop`.
+
+### Verified (no changes)
+
+- 2 neuroscience recipes spot-checked, `last_verified` bumped to 2026-07-12: [Discover NWB recordings on DANDI](recipes/items/discover-nwb-recordings-on-dandi.html) (linked catalog tools + source DOIs resolve) and [Compute HRV from an ECG recording](recipes/items/compute-hrv-from-ecg-recording.html) (NeuroKit2 skill link current).
+
 ## 2026-07-11 (Molecular and Cellular Biology directed pass)
 
 ### Added
