@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "generated": "2026-07-11",
+  "generated": "2026-07-12",
   "counts": {
-    "tools": 384,
-    "recipes": 73,
+    "tools": 391,
+    "recipes": 77,
     "systems": 68
   },
   "tools_file": "composer-tools.json",
@@ -239,7 +239,7 @@
       "complexity": "Multi-tool harness",
       "availability": "Fully open",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-06-14",
+      "last_verified": "2026-07-12",
       "summary": "Combine the Open Targets plugin, UniProt MCP, AlphaFold MCP, and the DepMap skill to produce a one-page dossier on a candidate gene — disease evidence, protein annotation, predicted structure, and cancer-cell-line essentiality.",
       "keywords": [
         "CRISPR",
@@ -259,7 +259,7 @@
       "complexity": "Multi-tool harness",
       "availability": "Fully open",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-06-13",
+      "last_verified": "2026-07-11",
       "summary": "Chain the MACS3 peak-calling skill into the HOMER motif skill to turn aligned ChIP-seq/ATAC-seq BAMs into a called-peak set with nearest-gene annotation and enriched TF motifs.",
       "keywords": [
         "ATAC-seq",
@@ -307,7 +307,7 @@
       "complexity": "Multi-tool harness",
       "availability": "Fully open",
       "compute_requirements": "Workstation with GPU",
-      "last_verified": "2026-06-13",
+      "last_verified": "2026-07-12",
       "summary": "Annotate a panel of bacterial assemblies with Bakta, then cluster genes into core/accessory partitions with Roary to get a pan-genome and presence/absence matrix.",
       "keywords": [
         "FASTA",
@@ -328,7 +328,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-06-20",
+      "last_verified": "2026-07-12",
       "summary": "Use the NeuroKit2 Claude Skill to clean an ECG trace, detect R-peaks, and return time-domain, frequency-domain, and non-linear HRV indices from a single conversation.",
       "keywords": [
         "ECG",
@@ -431,7 +431,7 @@
       "complexity": "Multi-tool harness",
       "availability": "Fully open",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-06-20",
+      "last_verified": "2026-07-12",
       "summary": "Use the Neurosift Tools MCP to find Neuropixels (or other extracellular) NWB sessions on DANDI matching your hypothesis, inspect them in-place, and stage a download list for downstream spike sorting.",
       "keywords": [
         "DANDI",
@@ -477,7 +477,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-06-14",
+      "last_verified": "2026-07-12",
       "summary": "Use the Anthropic clinical-trial-protocol plugin to expand a short indication / endpoint brief into an FDA/NIH-compliant Phase 2/3 protocol draft, with regulatory pathway, competitive landscape, and sample-size calculation already wired in.",
       "keywords": [
         "FDA",
@@ -532,6 +532,29 @@
         "SMILES"
       ],
       "path": "recipes/items/estimate-pk-properties.md"
+    },
+    {
+      "slug": "extract-event-related-potentials-from-eeg",
+      "title": "Extract event-related potentials from EEG epochs",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Neuroscience"
+      ],
+      "evidence_level": "Reported",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-07-12",
+      "summary": "Use the MNE-Python EEG skill in Claude Code to filter, ICA-clean, epoch around event markers, and average a raw continuous EEG file into per-condition evoked responses.",
+      "keywords": [
+        "EEG",
+        "ERP",
+        "ERPs",
+        "ICA",
+        "ICA-clean",
+        "MNE-Python"
+      ],
+      "path": "recipes/items/extract-event-related-potentials-from-eeg.md"
     },
     {
       "slug": "extract-structured-data-from-clinical-notes",
@@ -953,7 +976,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-06-11",
+      "last_verified": "2026-07-11",
       "summary": "Use the COBRApy Claude Skill to load a genome-scale metabolic model and screen single/double gene deletions for growth phenotypes and essential genes.",
       "keywords": [
         "COBRApy",
@@ -1011,6 +1034,23 @@
         "Wet-lab"
       ],
       "path": "recipes/items/predict-noncoding-variant-regulatory-effects.md"
+    },
+    {
+      "slug": "predict-protein-protein-complex-interface",
+      "title": "Predict a protein–protein complex to map the binding interface",
+      "problem_class": "Hypothesis generation",
+      "subject_areas": [
+        "Integrative Structural and Computational Biology",
+        "Molecular and Cellular Biology"
+      ],
+      "evidence_level": "Reported",
+      "complexity": "One skill or MCP",
+      "availability": "Subscription required",
+      "compute_requirements": "Laptop",
+      "last_verified": "",
+      "summary": "Use the Boltz plugin to co-fold two proteins into a complex and read off the candidate binding interface — sampling widely and ranking by consensus rather than trusting the top-1 confidence.",
+      "keywords": [],
+      "path": "recipes/items/predict-protein-protein-complex-interface.md"
     },
     {
       "slug": "predict-rna-secondary-structure-and-accessibility",
@@ -1095,7 +1135,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-06-14",
+      "last_verified": "2026-07-12",
       "summary": "Use the cBioPortal Claude Skill to query TCGA-scale studies for mutation frequency, oncoprints, TMB, and survival by genomic subgroup in plain language.",
       "keywords": [
         "Kaplan-Meier",
@@ -1118,7 +1158,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-06-11",
+      "last_verified": "2026-07-11",
       "summary": "Use the deepTools Claude Skill to turn aligned ChIP-seq/ATAC-seq BAMs into normalized bigWig tracks and TSS/peak-centered profile and heatmap figures.",
       "keywords": [
         "ATAC-seq",
@@ -1178,6 +1218,26 @@
         "RNA-seq"
       ],
       "path": "recipes/items/qc-single-cell-rna-seq.md"
+    },
+    {
+      "slug": "quantify-bulk-rnaseq-fastq-to-counts",
+      "title": "Quantify bulk RNA-seq FASTQ into a gene-level counts matrix",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Molecular and Cellular Biology"
+      ],
+      "evidence_level": "Proposed",
+      "complexity": "Multi-tool harness",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-07-11",
+      "summary": "Chain the fastp and Salmon skills, then aggregate with tximport, to turn raw bulk RNA-seq FASTQ into the gene-level counts matrix a DE analysis needs.",
+      "keywords": [
+        "FASTQ",
+        "log2FC",
+        "RNA-seq"
+      ],
+      "path": "recipes/items/quantify-bulk-rnaseq-fastq-to-counts.md"
     },
     {
       "slug": "rank-compound-library-by-predicted-affinity",
@@ -1307,7 +1367,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Workstation with GPU",
-      "last_verified": "2026-06-14",
+      "last_verified": "2026-07-12",
       "summary": "Drive PLINK2 from QC through PCA-adjusted logistic-regression association on a case-control cohort, returning Manhattan-ready summary stats.",
       "keywords": [
         "GWAS",
@@ -1442,7 +1502,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Workstation with GPU",
-      "last_verified": "2026-06-10",
+      "last_verified": "2026-07-11",
       "summary": "Use the ESM skill to compute zero-shot masked-marginal log-likelihood-ratio scores for a list of point mutations, ranking them by predicted functional effect without any labelled data.",
       "keywords": [
         "DMS",
@@ -1488,7 +1548,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-06-14",
+      "last_verified": "2026-07-12",
       "summary": "Ground Claude in the DDInter skill to screen a multi-drug medication list for pairwise interactions with severity and mechanism, instead of asking the model from memory.",
       "keywords": [
         "DDInter"
@@ -1636,6 +1696,31 @@
         "RCSB"
       ],
       "path": "recipes/items/triage-alphafold-model-for-docking.md"
+    },
+    {
+      "slug": "triage-gwas-hits-to-drug-targets",
+      "title": "Triage GWAS lead SNPs to candidate drug targets",
+      "problem_class": "Knowledge synthesis",
+      "subject_areas": [
+        "Translational Medicine",
+        "Drug Repurposing and Discovery"
+      ],
+      "evidence_level": "Reported",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-07-12",
+      "summary": "Drive GWAS-MCP to annotate a list of GWAS lead SNPs — variant consequence, eQTL-implicated genes, GWAS Catalog trait context, and drug-target/tractability support — into a cited variant-to-target triage table.",
+      "keywords": [
+        "eQTL-implicated",
+        "Genetically-supported",
+        "GWAS",
+        "GWAS-MCP",
+        "rsID-to-gene",
+        "SNP",
+        "SNPs"
+      ],
+      "path": "recipes/items/triage-gwas-hits-to-drug-targets.md"
     },
     {
       "slug": "triage-new-preprints",

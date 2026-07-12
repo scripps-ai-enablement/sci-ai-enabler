@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "generated": "2026-07-11",
-  "count": 384,
+  "generated": "2026-07-12",
+  "count": 391,
   "tools": [
     {
       "slug": "10x-genomics-cloud",
@@ -810,6 +810,19 @@
       "path": "catalog/tools/brenda-database.md"
     },
     {
+      "slug": "brian2",
+      "title": "Brian2 (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-07-12",
+      "summary": "\"Build spiking neural network simulations in Brian2 — equation-based neuron models, synaptic plasticity, monitors, and multicompartment morphology.\"",
+      "keywords": [],
+      "path": "catalog/tools/brian2.md"
+    },
+    {
       "slug": "bulk-rnaseq",
       "title": "Bulk RNA-seq (Claude Skill)",
       "tool_type": "Claude Skill",
@@ -1133,6 +1146,21 @@
         "GRADE"
       ],
       "path": "catalog/tools/clinical-decision-support.md"
+    },
+    {
+      "slug": "clinical-note-extract",
+      "title": "Clinical Note Extract (Anthropic Healthcare Plugin)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-07-12",
+      "summary": "Anthropic Claude skill that extracts structured, validated records from unstructured clinical notes with span-level provenance and explicit null handling.",
+      "keywords": [
+        "Anthropic-published"
+      ],
+      "path": "catalog/tools/clinical-note-extract.md"
     },
     {
       "slug": "clinical-reports",
@@ -2318,6 +2346,22 @@
       "path": "catalog/tools/foldseek-structural-search.md"
     },
     {
+      "slug": "fraud-detection",
+      "title": "Fraud Detection (Anthropic Healthcare Plugin)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-07-12",
+      "summary": "Anthropic Claude skill that screens Medicare/Medicaid claims for fraud, waste, and abuse, producing ranked, fully-cited investigation referrals for SIU teams.",
+      "keywords": [
+        "Anthropic-published",
+        "SIU"
+      ],
+      "path": "catalog/tools/fraud-detection.md"
+    },
+    {
       "slug": "freesurfer-tool",
       "title": "FreeSurfer (Claude Skill)",
       "tool_type": "Claude Skill",
@@ -2608,6 +2652,21 @@
       "path": "catalog/tools/gnomad-database.md"
     },
     {
+      "slug": "gromacs-mcp",
+      "title": "GROMACS MCP Server",
+      "tool_type": "MCP server",
+      "availability": "Alpha",
+      "tool_categories": [
+        "Integrative Structural and Computational Biology"
+      ],
+      "last_verified": "2026-07-11",
+      "summary": "\"Run GROMACS molecular-dynamics simulations and trajectory analysis from Claude via a Docker container with GROMACS 2025.4 pre-installed.\"",
+      "keywords": [
+        "GROMACS"
+      ],
+      "path": "catalog/tools/gromacs-mcp.md"
+    },
+    {
       "slug": "gseapy-gene-enrichment",
       "title": "GSEApy (Claude Skill)",
       "tool_type": "Claude Skill",
@@ -2702,6 +2761,28 @@
         "SNP-trait"
       ],
       "path": "catalog/tools/gwas-database.md"
+    },
+    {
+      "slug": "gwas-mcp",
+      "title": "GWAS-MCP",
+      "tool_type": "MCP server",
+      "availability": "GA",
+      "tool_categories": [
+        "Drug Repurposing and Discovery",
+        "Molecular and Cellular Biology",
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-07-11",
+      "summary": "Single-install MCP server exposing 30+ tools across 14 biological databases (UniProt, Ensembl, ClinVar, GWAS Catalog, STRING, AlphaFold, KEGG, Open Targets, OMIM) for variant-to-target research.",
+      "keywords": [
+        "GWAS",
+        "GWAS-MCP",
+        "KEGG",
+        "OMIM",
+        "Single-install",
+        "STRING"
+      ],
+      "path": "catalog/tools/gwas-mcp.md"
     },
     {
       "slug": "harmonization-tool",
@@ -3030,7 +3111,7 @@
       "tool_categories": [
         "Translational Medicine"
       ],
-      "last_verified": "2026-05-23",
+      "last_verified": "2026-07-12",
       "summary": "Anthropic-published MCP server for ICD-10 diagnosis and procedure code lookup, sourced from CMS and CDC, for medical coding and claims workflows.",
       "keywords": [
         "Anthropic-published",
@@ -4909,14 +4990,31 @@
       "tool_categories": [
         "Translational Medicine"
       ],
-      "last_verified": "2026-05-20",
-      "summary": "Anthropic Claude Code plugin that reviews prior-authorization request documents and surfaces gaps against payer rules.",
+      "last_verified": "2026-07-12",
+      "summary": "Anthropic Claude Code skill (in the consolidated healthcare plugin) that reviews prior-authorization request documents and surfaces gaps against payer rules.",
       "keywords": [
         "Anthropic-published",
         "CPT",
         "ICD-10"
       ],
       "path": "catalog/tools/prior-auth-review.md"
+    },
+    {
+      "slug": "procedure-coding",
+      "title": "Procedure Coding (Anthropic Healthcare Plugin)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-07-12",
+      "summary": "Anthropic Claude skill that converts a clinical encounter's documentation into claim-ready CPT and HCPCS Level II procedure codes the way a professional coder would.",
+      "keywords": [
+        "Anthropic-published",
+        "CPT",
+        "HCPCS"
+      ],
+      "path": "catalog/tools/procedure-coding.md"
     },
     {
       "slug": "prokka-genome-annotation",
@@ -5178,6 +5276,25 @@
         "ZDT"
       ],
       "path": "catalog/tools/pymoo.md"
+    },
+    {
+      "slug": "pynibs",
+      "title": "pyNIBS (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-07-12",
+      "summary": "\"Analyze non-invasive brain stimulation (TMS/NIBS) experiments in pyNIBS — mesh/ROI I/O, coil-placement optimization, and MEP-to-E-field regression mapping.\"",
+      "keywords": [
+        "MEP-to-E-field",
+        "NIBS",
+        "pyNIBS",
+        "ROI",
+        "TMS"
+      ],
+      "path": "catalog/tools/pynibs.md"
     },
     {
       "slug": "pyopenms",
