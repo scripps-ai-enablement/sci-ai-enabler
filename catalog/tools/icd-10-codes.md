@@ -6,7 +6,7 @@ tool_type: MCP server
 supplier: Anthropic
 availability: GA
 tool_categories: [Translational Medicine]
-last_verified: 2026-05-23
+last_verified: 2026-07-12
 summary: Anthropic-published MCP server for ICD-10 diagnosis and procedure code lookup, sourced from CMS and CDC, for medical coding and claims workflows.
 ---
 
@@ -28,12 +28,29 @@ Anthropic-published MCP server distributed via the `anthropics/healthcare` plugi
 
   ```
   /plugin marketplace add anthropics/healthcare
-  claude mcp add-from-marketplace anthropics/healthcare/icd-10-codes
+  /plugin install healthcare@healthcare
   ```
 
-- **Claude Desktop** — proxy the marketplace MCP via `mcp-remote` if the upstream endpoint is HTTP; otherwise consult the marketplace `mcp.json` for the literal stdio command.
+  The ICD-10 MCP now ships as one of the connected MCP servers inside the consolidated `healthcare` plugin (the older standalone `icd10-codes@healthcare` plugin is deprecated upstream). The server is a hosted HTTP endpoint at `https://hcls.mcp.claude.com/icd10_codes/mcp`.
 
-  **Registration form not exhaustively documented upstream — adapt the snippet to whatever the marketplace's `mcp.json` ships for this server.**
+- **Claude Code** — direct MCP add (without the plugin):
+
+  ```
+  claude mcp add --transport http icd10-codes https://hcls.mcp.claude.com/icd10_codes/mcp
+  ```
+
+- **Claude Desktop** — Desktop has no native HTTP transport; proxy the hosted endpoint via `mcp-remote`:
+
+  ```json
+  {
+    "mcpServers": {
+      "icd10-codes": {
+        "command": "npx",
+        "args": ["-y", "mcp-remote", "https://hcls.mcp.claude.com/icd10_codes/mcp"]
+      }
+    }
+  }
+  ```
 
 ## What it does
 

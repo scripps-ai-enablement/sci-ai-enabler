@@ -6,8 +6,8 @@ tool_type: Claude Code Plugin
 supplier: Anthropic
 availability: GA
 tool_categories: [Translational Medicine]
-last_verified: 2026-05-20
-summary: Anthropic Claude Code plugin that reviews prior-authorization request documents and surfaces gaps against payer rules.
+last_verified: 2026-07-12
+summary: Anthropic Claude Code skill (in the consolidated healthcare plugin) that reviews prior-authorization request documents and surfaces gaps against payer rules.
 ---
 
 # prior-auth-review
@@ -26,8 +26,10 @@ Anthropic-published Claude Code plugin from the `anthropics/healthcare` marketpl
 
 ```
 /plugin marketplace add anthropics/healthcare
-/plugin install prior-auth-review@healthcare
+/plugin install healthcare@healthcare
 ```
+
+The standalone `prior-auth-review@healthcare` plugin is now **deprecated upstream** — the `anthropics/healthcare` marketplace has consolidated its skills into a single `healthcare` plugin. Install that and invoke this workflow as `/healthcare:prior-auth` (the skill directory is `prior-auth`, namespaced by the plugin — not a bare `/prior-auth`).
 
 ## What it does
 

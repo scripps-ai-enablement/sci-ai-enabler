@@ -11,6 +11,26 @@ Reverse-chronological log of changes to the [catalog]({{ '/catalog/' | relative_
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-07-12 (Translational Medicine slot)
+
+Translational Medicine directed pass plus a manifest sweep. The `anthropics/life-sciences` (`.claude-plugin/marketplace.json`, 19 entries) and `claude-plugins-official` marketplaces were re-fetched and diffed — no new life-science plugins. The directed pass ran the FHIR / OpenFDA / ClinicalTrials.gov / regulatory-submission seed queries: the FHIR MCP surface (wso2, Momentum, LangCare) is already covered (`fhir-wso2.md`, `fhir-momentum.md`), but the Anthropic-official `anthropics/healthcare` repo has **consolidated** — the former standalone plugins are now deprecated in favor of a single `healthcare@healthcare` plugin that bundles 10 skills + 7 connected MCPs, three of whose skills are genuinely new to the catalog.
+
+### Added
+- **Fraud Detection (Anthropic Healthcare Plugin)** (Categories: Translational Medicine) — Claude skill screening Medicare/Medicaid claims for fraud, waste, and abuse via a three-tier deterministic-detection → model-adjudication → synthesis pipeline over a DuckDB claims corpus (NCCI MUE / OIG LEIE / CMS enrollment / PFS rulesets), with a "citation-or-zero" audit gate producing ranked SIU referrals. GA, Free / OSS. ([`anthropics/healthcare`](https://github.com/anthropics/healthcare), [`skills/fraud-detection/SKILL.md`](https://github.com/anthropics/healthcare/blob/main/plugins/healthcare/skills/fraud-detection/SKILL.md))
+- **Procedure Coding (Anthropic Healthcare Plugin)** (Categories: Translational Medicine) — Claude skill converting a clinical encounter's documentation into claim-ready CPT and HCPCS Level II procedure codes (E/M, procedures, labs, imaging, drugs/devices), excluding planned-but-unperformed, bundled, and Category II codes. GA, Free / OSS. ([`anthropics/healthcare`](https://github.com/anthropics/healthcare), [`skills/procedure-coding/SKILL.md`](https://github.com/anthropics/healthcare/blob/main/plugins/healthcare/skills/procedure-coding/SKILL.md))
+- **Clinical Note Extract (Anthropic Healthcare Plugin)** (Categories: Translational Medicine) — Claude skill extracting structured, validated records from unstructured clinical notes with span-level provenance, explicit `null_reason` handling, and deterministic validation — for auditable chart abstraction and registry building. GA, Free / OSS. ([`anthropics/healthcare`](https://github.com/anthropics/healthcare), [`skills/clinical-note-extract/SKILL.md`](https://github.com/anthropics/healthcare/blob/main/plugins/healthcare/skills/clinical-note-extract/SKILL.md))
+
+### Updated
+- **prior-auth-review** — install snippet now points at the consolidated `healthcare@healthcare` plugin (standalone `prior-auth-review@healthcare` deprecated upstream); skill invoked as `/healthcare:prior-auth`. `last_verified` bumped to 2026-07-12.
+- **ICD-10 Codes MCP** — install now shows `healthcare@healthcare` plus the literal hosted HTTP endpoint (`https://hcls.mcp.claude.com/icd10_codes/mcp`), a direct `claude mcp add --transport http` form, and a Claude Desktop `mcp-remote` proxy snippet. `last_verified` bumped to 2026-07-12.
+
+### Flagged
+- **`anthropics/healthcare` standalone plugins** — `clinical-trial-protocol`, `prior-auth-review`, `fhir-developer`, `cms-coverage`, `npi-registry`, `pubmed`, `icd10-codes` are all marked "Deprecated — install healthcare@healthcare instead" upstream. `prior-auth-review.md` and `icd-10-codes.md` updated this run; `clinical-trial-protocol.md` / `fhir-developer.md` / `cms-coverage.md` / `npi-registry.md` / the `pubmed.md` Anthropic path queued for a future pass.
+
+### Verified (no changes)
+- Manifest sweep of `anthropics/life-sciences` (19 plugins) + `claude-plugins-official` + MCP Registry — no new in-scope entries.
+- FHIR MCP surface (`fhir-wso2.md`, `fhir-momentum.md`) and OpenFDA / ClinicalTrials.gov coverage confirmed current for the directed pass.
+
 ## 2026-07-12 (Neuroscience slot)
 
 Neuroscience directed pass plus a manifest sweep. The `anthropics/life-sciences` (`.claude-plugin/marketplace.json`, 19 entries) and `claude-plugins-official` marketplaces were re-fetched and diffed — no new in-scope plugins (all already catalogued; `boltz` unchanged). The directed pass ran the NWB/DANDI and EEG/fMRI seed queries: DANDI/Allen/NWB MCP surfaces are already covered (`neurosift`, `allenbrain`, `bci-mcp`), but the `InternScience/Awesome-Scientific-Skills` meta-list surfaced `HughYau/neuroforge-skills` (MIT, 5 skills over Brian2 / MNE-Python / Nilearn / SpikeInterface / pyNIBS). Two of the five are genuinely new to the catalog.
