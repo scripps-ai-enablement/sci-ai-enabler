@@ -9,7 +9,7 @@ evidence_level: Proposed
 complexity: Multi-tool harness
 availability: Subscription required
 compute_requirements: Laptop
-last_verified: 2026-06-28
+last_verified: 2026-07-12
 summary: Given a disease, use Open Targets to rank associated targets, ChEMBL and PubChem for approved-drug bioactivity, and DrugBank for mechanism / indication / interaction context to produce a ranked shortlist of repurposing candidates.
 ---
 
@@ -103,6 +103,7 @@ Proposed. No published end-to-end benchmark of this exact three-MCP composition 
 - [DrugBank MCP Server](../../catalog/tools/drugbank.html)
 - [PubChem MCP Server](../../catalog/tools/pubchem.html) — open substitute when DrugBank is not licensed.
 - [Build a target dossier from gene name to structure to cancer dependency](build-target-dossier.html) — drill-down on a single target after the scan narrows it.
+- [Find drug-repurposing candidates by walking a biomedical knowledge graph](find-repurposing-candidates-in-a-knowledge-graph.html) — offline, no-license, graph-connectivity first pass; use it to widen the candidate net before this quantitative scan.
 - [Biomni](../../autonomous-science/systems/biomni.html) — autonomous-system option one rung up.
 - [Robin](../../autonomous-science/systems/robin.html) — autonomous-system with documented repurposing validation (dAMD).
 

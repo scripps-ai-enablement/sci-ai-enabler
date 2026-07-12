@@ -11,6 +11,17 @@ Reverse-chronological log of changes to the [recipes cookbook]({{ '/recipes/' | 
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-07-12 (Drug Repurposing and Discovery directed pass)
+
+### Added
+
+- **Find drug-repurposing candidates by walking a biomedical knowledge graph** (Problem class: Knowledge synthesis; Evidence: Proposed) — rung-2 offline [PrimeKG skill](catalog/tools/primekg.html) recipe: resolve a disease node → `get_neighbors` for disease genes → one-hop `protein_protein` expansion → `drug_protein` candidate drugs → drop drugs already indicated for the disease → score by number of connecting genes (hop-weighted), captured as a committed `kg_repurpose.py` + pinned `requirements.txt` + `candidates.csv` + `provenance.json` (skill commit, PrimeKG data version, resolved node id, input sha256, run date, model id). Offline, no-license, graph-connectivity complement to the quantitative target-first [scan-drug-repurposing-candidates recipe](recipes/items/scan-drug-repurposing-candidates.html) (now cross-linked). `Proposed` — no documented attempt at the skill-driven graph-walk assembly; grounded on the same PrimeKG substrate that COMIC used to recover 21/30 recent FDA repurposing pairs (9.55% over SOTA; [Aamer et al., *BMC Bioinformatics* 2026](https://doi.org/10.1186/s12859-025-06337-4)) and CellAwareGNN reports AUPRC 0.826 on ([Zhang et al. 2026](https://pubmed.ncbi.nlm.nih.gov/42124589/)), with the honest caveat that the skill exposes neighbor lookups (interpretable heuristic), not a trained TxGNN-class predictor. `Fully open`; `Laptop`.
+
+### Updated
+
+- **Prioritize targets within a disease via Open Targets** — verified; `last_verified` 2026-06-20 → 2026-07-12 (linked catalog pages resolve and are unflagged; known-issue note on Open Targets MCP handshake still current).
+- **Scan approved drugs for repurposing candidates against a disease** — verified; `last_verified` 2026-06-28 → 2026-07-12; added **See also** cross-link to the new knowledge-graph repurposing recipe.
+
 ## 2026-07-12 (Translational Medicine directed pass)
 
 ### Added

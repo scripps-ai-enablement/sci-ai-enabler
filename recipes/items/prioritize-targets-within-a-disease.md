@@ -9,7 +9,7 @@ evidence_level: Reported
 complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Laptop
-last_verified: 2026-06-20
+last_verified: 2026-07-12
 summary: Drive the Open Targets MCP plugin to rank candidate targets within a disease across the four prioritisation pillars (precedence, tractability, doability, safety) and emit a cited target shortlist.
 ---
 
