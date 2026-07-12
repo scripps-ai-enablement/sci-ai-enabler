@@ -11,6 +11,19 @@ Reverse-chronological log of changes to the [catalog]({{ '/catalog/' | relative_
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-07-12 (Drug Repurposing and Discovery slot)
+
+Drug Repurposing and Discovery directed pass plus a manifest sweep. The `anthropics/life-sciences` (`.claude-plugin/marketplace.json`) and `claude-plugins-official` marketplaces were re-fetched and diffed — no new life-science plugins. The directed pass drew from the deferred **ToolUniverse sibling agent skills** queue (`mims-harvard/ToolUniverse/skills/`, Apache-2.0, 150+ skills sharing the `npx skills add mims-harvard/ToolUniverse` install path): four genuinely new drug-discovery / oncology / safety workflows were verified against their `SKILL.md` files and catalogued.
+
+### Added
+- **Cancer Variant Interpretation (ToolUniverse Claude Skill)** (Categories: Drug Repurposing and Discovery, Molecular and Cellular Biology, Translational Medicine) — eight-phase somatic-mutation interpretation (CIViC/OncoKB tiers, cBioPortal prevalence, OpenTargets/ChEMBL/DrugBank therapies, resistance mechanisms, ClinicalTrials.gov matching) producing an evidence-graded precision-oncology report. GA, Free / OSS. ([`skills/tooluniverse-cancer-variant-interpretation/SKILL.md`](https://github.com/mims-harvard/ToolUniverse/blob/main/skills/tooluniverse-cancer-variant-interpretation/SKILL.md))
+- **Adverse Event Detection (ToolUniverse Claude Skill)** (Categories: Drug Repurposing and Discovery, Translational Medicine) — nine-phase pharmacovigilance signal detection over openFDA FAERS with disproportionality statistics (PRR/ROR/IC, 95% CIs) and a 0–100 Safety Signal Score. GA, Free / OSS. ([`skills/tooluniverse-adverse-event-detection/SKILL.md`](https://github.com/mims-harvard/ToolUniverse/blob/main/skills/tooluniverse-adverse-event-detection/SKILL.md))
+- **Immunotherapy Response Prediction (ToolUniverse Claude Skill)** (Categories: Drug Repurposing and Discovery, Immunology and Microbiology, Translational Medicine) — eleven-phase ICI response scoring integrating TMB, MSI, PD-L1, HLA, and immune gene expression into a 0–100 evidence-graded score. GA, Free / OSS. ([`skills/tooluniverse-immunotherapy-response-prediction/SKILL.md`](https://github.com/mims-harvard/ToolUniverse/blob/main/skills/tooluniverse-immunotherapy-response-prediction/SKILL.md))
+- **Adverse Outcome Pathway (ToolUniverse Claude Skill)** (Categories: Chemistry, Drug Repurposing and Discovery) — four-phase chemical hazard assessment mapping compounds to AOPs via AOPWiki, GHS/IARC classification, LD50 data, and CTD toxicogenomics. GA, Free / OSS. ([`skills/tooluniverse-adverse-outcome-pathway/SKILL.md`](https://github.com/mims-harvard/ToolUniverse/blob/main/skills/tooluniverse-adverse-outcome-pathway/SKILL.md))
+
+### Verified (no changes)
+- `anthropics/life-sciences` + `claude-plugins-official` marketplaces re-diffed against the catalog; all entries already covered.
+
 ## 2026-07-12 (Translational Medicine slot)
 
 Translational Medicine directed pass plus a manifest sweep. The `anthropics/life-sciences` (`.claude-plugin/marketplace.json`, 19 entries) and `claude-plugins-official` marketplaces were re-fetched and diffed — no new life-science plugins. The directed pass ran the FHIR / OpenFDA / ClinicalTrials.gov / regulatory-submission seed queries: the FHIR MCP surface (wso2, Momentum, LangCare) is already covered (`fhir-wso2.md`, `fhir-momentum.md`), but the Anthropic-official `anthropics/healthcare` repo has **consolidated** — the former standalone plugins are now deprecated in favor of a single `healthcare@healthcare` plugin that bundles 10 skills + 7 connected MCPs, three of whose skills are genuinely new to the catalog.
