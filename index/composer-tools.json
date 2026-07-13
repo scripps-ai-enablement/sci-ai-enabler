@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "generated": "2026-07-12",
-  "count": 391,
+  "generated": "2026-07-13",
+  "count": 395,
   "tools": [
     {
       "slug": "10x-genomics-cloud",
@@ -6538,6 +6538,43 @@
       "path": "catalog/tools/timesfm-forecasting.md"
     },
     {
+      "slug": "tooluniverse-adverse-event-detection",
+      "title": "Adverse Event Detection (ToolUniverse Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Drug Repurposing and Discovery",
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-07-12",
+      "summary": "ToolUniverse agent skill that detects adverse-drug-event signals from FDA FAERS with disproportionality statistics (PRR, ROR, IC) and a 0–100 safety signal score.",
+      "keywords": [
+        "FAERS",
+        "FDA",
+        "PRR",
+        "ROR"
+      ],
+      "path": "catalog/tools/tooluniverse-adverse-event-detection.md"
+    },
+    {
+      "slug": "tooluniverse-adverse-outcome-pathway",
+      "title": "Adverse Outcome Pathway (ToolUniverse Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Chemistry",
+        "Drug Repurposing and Discovery"
+      ],
+      "last_verified": "2026-07-12",
+      "summary": "ToolUniverse agent skill that maps chemicals to adverse outcome pathways using AOPWiki, GHS/IARC classification, LD50 data, and toxicogenomics.",
+      "keywords": [
+        "AOPWiki",
+        "GHS",
+        "IARC"
+      ],
+      "path": "catalog/tools/tooluniverse-adverse-outcome-pathway.md"
+    },
+    {
       "slug": "tooluniverse-binder-discovery",
       "title": "Binder Discovery (ToolUniverse Claude Skill)",
       "tool_type": "Claude Skill",
@@ -6553,6 +6590,21 @@
         "ADMET"
       ],
       "path": "catalog/tools/tooluniverse-binder-discovery.md"
+    },
+    {
+      "slug": "tooluniverse-cancer-variant-interpretation",
+      "title": "Cancer Variant Interpretation (ToolUniverse Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Drug Repurposing and Discovery",
+        "Molecular and Cellular Biology",
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-07-12",
+      "summary": "ToolUniverse agent skill that turns a gene + somatic variant + cancer type into an evidence-graded precision-oncology report with therapies, resistance, and matching trials.",
+      "keywords": [],
+      "path": "catalog/tools/tooluniverse-cancer-variant-interpretation.md"
     },
     {
       "slug": "tooluniverse-drug-drug-interaction",
@@ -6639,6 +6691,27 @@
         "GWAS-significant"
       ],
       "path": "catalog/tools/tooluniverse-gwas-drug-discovery.md"
+    },
+    {
+      "slug": "tooluniverse-immunotherapy-response-prediction",
+      "title": "Immunotherapy Response Prediction (ToolUniverse Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Drug Repurposing and Discovery",
+        "Immunology and Microbiology",
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-07-12",
+      "summary": "ToolUniverse agent skill that predicts immune-checkpoint-inhibitor response by integrating TMB, MSI, PD-L1, HLA, and immune gene expression into a 0–100 score.",
+      "keywords": [
+        "HLA",
+        "ICI",
+        "MSI",
+        "PD-L1",
+        "TMB"
+      ],
+      "path": "catalog/tools/tooluniverse-immunotherapy-response-prediction.md"
     },
     {
       "slug": "tooluniverse-pharmacovigilance",

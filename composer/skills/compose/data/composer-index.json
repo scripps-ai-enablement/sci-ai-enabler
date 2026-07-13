@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "generated": "2026-07-12",
+  "generated": "2026-07-13",
   "counts": {
-    "tools": 391,
-    "recipes": 77,
+    "tools": 395,
+    "recipes": 78,
     "systems": 68
   },
   "tools_file": "composer-tools.json",
@@ -597,6 +597,25 @@
       "path": "recipes/items/filter-virtual-screening-hits.md"
     },
     {
+      "slug": "find-repurposing-candidates-in-a-knowledge-graph",
+      "title": "Find drug-repurposing candidates by walking a biomedical knowledge graph",
+      "problem_class": "Knowledge synthesis",
+      "subject_areas": [
+        "Drug Repurposing and Discovery",
+        "Translational Medicine"
+      ],
+      "evidence_level": "Proposed",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-07-12",
+      "summary": "Walk PrimeKG offline from a disease through its genes to the drugs that target them, then flag drugs whose current indications are elsewhere as repurposing leads.",
+      "keywords": [
+        "PrimeKG"
+      ],
+      "path": "recipes/items/find-repurposing-candidates-in-a-knowledge-graph.md"
+    },
+    {
       "slug": "find-selective-cancer-dependencies-with-depmap",
       "title": "Find selective genetic dependencies for a cancer context with DepMap",
       "problem_class": "Hypothesis generation",
@@ -1113,7 +1132,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-06-20",
+      "last_verified": "2026-07-12",
       "summary": "Drive the Open Targets MCP plugin to rank candidate targets within a disease across the four prioritisation pillars (precedence, tractability, doability, safety) and emit a cited target shortlist.",
       "keywords": [
         "Drug-discovery",
@@ -1437,7 +1456,7 @@
       "complexity": "Multi-tool harness",
       "availability": "Subscription required",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-06-28",
+      "last_verified": "2026-07-12",
       "summary": "Given a disease, use Open Targets to rank associated targets, ChEMBL and PubChem for approved-drug bioactivity, and DrugBank for mechanism / indication / interaction context to produce a ranked shortlist of repurposing candidates.",
       "keywords": [
         "ChEMBL",
