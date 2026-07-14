@@ -33,7 +33,7 @@ jobs:
         env:
           LABELS: ${{ toJson(github.event.issue.labels) }}
         run: |
-          MATCH=$(echo "$LABELS" | jq -r '.[].name' | grep -E '^claude:(recipe-question|recipe-feedback|tool-feedback|composition-report)$' | head -1)
+          MATCH=$(echo "$LABELS" | jq -r '.[].name' | grep -E '^claude:(recipe-question|recipe-feedback|tool-feedback|composition-report|tool-request)$' | head -1)
           if [ -z "$MATCH" ]; then
             echo "No claude:* form label on this issue; exiting silently."
             echo "skip=true" >> "$GITHUB_OUTPUT"
@@ -159,7 +159,7 @@ jobs:
             # injection-safe; only free-text is sanitized. The curator additionally gets the
             # full issue body via the pre-fetched .request-bodies/<NN>.md file.
             case "$LABEL" in
-              claude:tool-feedback) TARGET="catalog/curator-state.md" ;;
+              claude:tool-feedback|claude:tool-request) TARGET="catalog/curator-state.md" ;;
               *)                    TARGET="recipes/curator-state.md" ;;
             esac
             INNER=$(python3 - <<'PY'
@@ -175,6 +175,11 @@ jobs:
           PROBLEM_CLASSES = {"Literature triage", "Hypothesis generation",
                              "Experimental design", "Data analysis", "Knowledge synthesis",
                              "Manuscript prep", "Workflow automation"}
+          SUBJECT_AREAS = {"Chemistry", "Immunology and Microbiology",
+                           "Integrative Structural and Computational Biology",
+                           "Molecular and Cellular Biology", "Neuroscience",
+                           "Translational Medicine", "Drug Repurposing and Discovery",
+                           "General-Purpose Utilities"}
 
           def parse_form(md):
               # GitHub issue forms render each answer as "### <label>\n\n<value>".
@@ -233,6 +238,20 @@ jobs:
                   parts = ["queue: recipes", "report=composition", f"outcome={outcome}"]
                   if pclass:
                       parts.append(f"problem_class={pclass}")
+                  parts += [f"author=@{author}", f"issue={num}"]
+                  inner = " | ".join(parts)
+          elif label == "claude:tool-request":
+              name = sanitize(val(s, "Tool name"), 120)
+              url  = sanitize(val(s, "Homepage, repo, or docs URL"), 200)
+              area = val(s, "Subject area")
+              if area not in SUBJECT_AREAS:
+                  area = ""
+              if name:
+                  parts = ["queue: catalog", "request=new-tool", f'name="{name}"']
+                  if url:
+                      parts.append(f'url="{url}"')
+                  if area:
+                      parts.append(f'subject_area="{area}"')
                   parts += [f"author=@{author}", f"issue={num}"]
                   inner = " | ".join(parts)
 

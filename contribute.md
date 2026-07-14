@@ -6,9 +6,9 @@ permalink: /contribute.html
 
 # Help shape this resource
 
-The catalog, guide, recipes, and AI-scientist tracker are kept up to date by automated curators that run daily. But *what* they cover is driven by the working scientists, engineers, and clinicians who use the site. Three lightweight Issue Forms let you tell the curators what to write next.
+The catalog, guide, recipes, and AI-scientist tracker are kept up to date by automated curators that run daily. But *what* they cover is driven by the working scientists, engineers, and clinicians who use the site. Four lightweight Issue Forms let you tell the curators what to write next.
 
-## Three things you can file
+## Four things you can file
 
 ### Ask a recipe question — *"How should I do X?"*
 
@@ -31,6 +31,12 @@ Concrete details are what make these reports useful: the commands you ran, datas
 [Open the form →](https://github.com/scripps-ai-enablement/sci-ai-enabler/issues/new?template=tool-feedback.yml)
 
 Same idea, scoped to one tool from the catalog. This is how `last_verified` stays honest and how install-path notes accumulate across operating systems and Python versions. Mention OS, install path, errors, and any workarounds.
+
+### Request a new catalog tool — *"You're missing Z"*
+
+[Open the form →](https://github.com/scripps-ai-enablement/sci-ai-enabler/issues/new?template=tool-request.yml)
+
+Use this when a tool you rely on isn't in the catalog yet. A bot replies in-thread — pointing you to the existing page if it's already covered, otherwise confirming it's queued. The next daily Catalog curator run evaluates it and, if it's in scope and installable, adds a tool page and closes your issue with a link. Include a repo/docs/PyPI URL and the install path if you know it — that's what lets the curator verify it fast.
 
 ## What happens after you file
 
