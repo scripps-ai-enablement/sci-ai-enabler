@@ -477,10 +477,16 @@ The catalog is read by working scientists, engineers, and clinicians who do not 
 
 ## User requests (consumed each run)
 
-`catalog/curator-state.md` has a `## User requests (open)` section that the inbound responder workflow appends to whenever a user files `claude:tool-feedback`. Each entry looks like:
+`catalog/curator-state.md` has a `## User requests (open)` section that the inbound responder workflow appends to whenever a user files `claude:tool-feedback` (feedback on a catalogued tool) or `claude:tool-request` (a suggestion for a tool the catalog is missing). Feedback entries look like:
 
 ```
 - [#NN @author 2026-MM-DD] queue: catalog | feedback-on=<tool-slug> | sentiment=<choice> | author=@x | issue=NN
+```
+
+New-tool requests look like:
+
+```
+- [#NN @author 2026-MM-DD] queue: catalog | request=new-tool | name="<tool>" | url="<url>" | subject_area="<area, optional>" | author=@x | issue=NN
 ```
 
 Or, if the responder fell back without a trailer:
@@ -493,18 +499,22 @@ The workflow pre-fetches the body of every open user-request issue into `.reques
 
 **Each run, process every entry in `## User requests (open)`:**
 
-1. Read the linked tool page (`catalog/tools/<tool-slug>.md`).
-2. Apply the appropriate update based on `sentiment`:
+1. For `feedback-on=<tool-slug>` entries, read the linked tool page (`catalog/tools/<tool-slug>.md`) and apply the appropriate update based on `sentiment`:
    - `worked great` — consider bumping `availability` evidence in **Notes** and refresh `last_verified`. Add a one-line field-report note in **Notes** if it adds signal.
    - `worked but slow` — add a perf note in **Notes**; do not change availability.
    - `got stuck` — investigate. If credible, add to **Notes** with the workaround if the user supplied one. If the install path appears broken, flag the tool in `## Flagged for review`.
    - `found a better way` — record in **Notes**; if the better path is a different cataloged tool, link it.
    - `something else` — read the issue body from `.request-bodies/<NN>.md` and exercise judgment.
+2. For `request=new-tool` entries, read the issue body from `.request-bodies/<NN>.md` for the tool name, URL, subject area, and any install hint. Then apply the **same bar as a surfacing pass** (verify it's real and installable via WebFetch/WebSearch; confirm it's in scope and license-clear):
+   - **Already catalogued** — if a `catalog/tools/<slug>.md` already covers it, don't duplicate; note "already covered" and link the slug. If the request names an install path the existing page lacks, add it to that page instead (one entry per tool).
+   - **In scope, installable, not yet catalogued** — **create `catalog/tools/<slug>.md`** following the page schema above, set `tool_categories` (map the requested subject area to the canonical category; use judgment when the user picked "I'm not sure"), and add a line under `## Recently surfaced`.
+   - **Out of scope, unverifiable, or license-blocked** — do not create a page; record the reason in the result note (and under `## Deferred — next-run priority` if it's worth revisiting).
 3. For `(no trailer emitted; needs curator triage)` entries, read the issue body from `.request-bodies/<NN>.md` and decide what to do — the bare entry's `title=`/`label=` rarely carry the request; the body is where the actual feedback lives. (Often: act on it if clear; otherwise flag the request as unactionable. Do not leave a body-bearing entry to "reconsider next run" — it will loop forever.)
-4. **Move each processed entry** from `## User requests (open)` to `## User requests (closed this run)` and append `→ <result note>` describing what shipped or why nothing did. Example:
+4. **Move each processed entry** from `## User requests (open)` to `## User requests (closed this run)` and append `→ <result note>` describing what shipped or why nothing did. Name the `catalog/tools/<slug>.md` page in the note when one shipped, so the loop-closer can link it. Examples:
 
 ```
 - [#43 @bob 2026-05-21] queue: catalog | feedback-on=pydeseq2 | sentiment=got-stuck | author=@bob | issue=43 → added Mac M1 conda-forge workaround to pydeseq2 Notes; last_verified bumped.
+- [#57 @dr-lee 2026-07-14] queue: catalog | request=new-tool | name="scVI" | url="https://github.com/scverse/scvi-tools" | issue=57 → in scope; created catalog/tools/scvi-tools.md (Molecular and Cellular Biology).
 ```
 
 Entries not actioned this run stay in `## User requests (open)` and are retried next run. If `## User requests (open)` is empty after processing, leave the section as `_None._`.

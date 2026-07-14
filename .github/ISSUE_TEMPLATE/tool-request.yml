@@ -1,0 +1,62 @@
+# .github/ISSUE_TEMPLATE/tool-request.yml
+name: Request a new catalog tool
+description: "The catalog is missing a tool you want — tell us about it and we'll evaluate it for the next scheduled run."
+title: "[Tool request] "
+labels: ["claude:tool-request"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Suggesting a tool the catalog doesn't cover yet? A bot will reply in this thread shortly. The next scheduled curator run (within ~24h) will evaluate it and, if it's in scope and installable, add a catalog page for it. Scope and license are decided at curation time, so this is a request — not a guarantee.
+  - type: input
+    id: tool_name
+    attributes:
+      label: Tool name
+      description: The name people know it by.
+      placeholder: "e.g., scVI, AlphaFold, RDKit"
+    validations:
+      required: true
+  - type: input
+    id: url
+    attributes:
+      label: Homepage, repo, or docs URL
+      description: Where can we verify what it is and how it installs? A GitHub repo, PyPI/Bioconda page, docs site, or MCP server link.
+      placeholder: "https://github.com/..."
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What does it do?
+      description: 1–3 sentences on what the tool is for and the scientific problem it helps with.
+      placeholder: "e.g., Deep-generative modeling of single-cell RNA-seq — batch correction, integration, and label transfer over an scRNA-seq counts matrix."
+    validations:
+      required: true
+  - type: dropdown
+    id: subject_area
+    attributes:
+      label: Subject area
+      description: Which shelf does it belong on? Pick the closest. If it's a domain-agnostic utility, pick General-Purpose Utilities.
+      options:
+        - Chemistry
+        - Immunology and Microbiology
+        - Integrative Structural and Computational Biology
+        - Molecular and Cellular Biology
+        - Neuroscience
+        - Translational Medicine
+        - Drug Repurposing and Discovery
+        - General-Purpose Utilities
+        - I'm not sure
+    validations:
+      required: true
+  - type: input
+    id: install
+    attributes:
+      label: How is it installed or accessed? (optional)
+      description: If you know — a pip/conda package, npm package, MCP server command, a skill, or a hosted API.
+      placeholder: "e.g., pip install scvi-tools"
+  - type: textarea
+    id: notes
+    attributes:
+      label: Anything else? (optional)
+      description: Why it belongs in the catalog, similar tools already listed, license notes, or anything that helps the curator evaluate it.

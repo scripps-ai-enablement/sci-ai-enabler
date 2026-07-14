@@ -303,6 +303,29 @@ class TestCaptureWiring(unittest.TestCase):
         for required in ("problem", "outcome"):
             self.assertIn(required, ids, f"composition-report form missing field id={required}")
 
+    def test_responder_form_check_includes_tool_request(self):
+        wf = (REPO / ".github" / "workflows" / "responder.yml").read_text()
+        self.assertIn("tool-request", wf,
+                      "responder.yml form-check no longer recognizes tool-request")
+        self.assertIn("request=new-tool", wf,
+                      "responder.yml fallback no longer builds the new-tool trailer")
+
+    def test_responder_agent_documents_tool_request(self):
+        ra = (REPO / "RESPONDER_AGENT.md").read_text()
+        self.assertIn("claude:tool-request", ra)
+        self.assertIn("request=new-tool", ra)
+
+    def test_catalog_agent_handles_tool_request(self):
+        self.assertIn("request=new-tool", (REPO / "AGENT.md").read_text())
+
+    @unittest.skipUnless(HAVE_YAML, "PyYAML not installed")
+    def test_tool_request_form_valid(self):
+        form = yaml.safe_load((REPO / ".github" / "ISSUE_TEMPLATE" / "tool-request.yml").read_text())
+        self.assertIn("claude:tool-request", form["labels"])
+        ids = {f.get("id") for f in form["body"]}
+        for required in ("tool_name", "url", "what", "subject_area"):
+            self.assertIn(required, ids, f"tool-request form missing field id={required}")
+
 
 # ---------------------------------------------------------------------------
 # 6. All issue forms + workflows are well-formed YAML
