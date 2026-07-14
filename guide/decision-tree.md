@@ -18,6 +18,7 @@ Use this table to find the right component type for a goal you have in mind.
 | Give Claude Code a focused capability (e.g., "design a clinical trial protocol") | **Skill** | Skills load context and conventions for one task. The same `SKILL.md` works in Cowork and other Skill-compatible agents. |
 | Automate desktop/office work (files, spreadsheets, slides) without writing code | **Claude Cowork** | Cowork is the non-developer counterpart to Claude Code; runs in a sandboxed desktop VM. |
 | Run a reproducible scientific analysis over curated databases (genomics, proteomics, cheminformatics) | **[Claude Science](surfaces/claude-science.md)** | A research workbench app that orchestrates 60+ skills and database connectors and keeps code + environment + provenance per figure. |
+| Delegate tasks to Claude where your team already works, in Slack | **[Claude Tag](surfaces/claude-tag.md)** | Tag `@Claude` in a channel; one shared Claude works the task asynchronously with per-channel tools and memory (Enterprise/Team beta). |
 | Bundle several skills + MCP servers + hooks into one installable unit | **Plugin** | Plugins are the distribution format that combines multiple component types. |
 | Share components with your team via a single install command | **Marketplace** | Marketplaces let `/plugin install …` and `/plugin marketplace add …` pull from a curated `marketplace.json`. |
 | Run a script automatically before/after Claude calls a tool | **Hook** ([advanced](advanced/hooks.md)) | Hooks fire on Claude Code events. Not user-facing capabilities. |
