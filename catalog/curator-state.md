@@ -71,7 +71,7 @@ nav_exclude: true
 
 ## User requests (open)
 
-_None._
+- [#48 @goodb 2026-07-15] queue: catalog | request=new-tool | name="Glygen MCP" | url="http://mcp.glygen.org/mcp" | subject_area="General-Purpose Utilities" | author=@goodb | issue=48
 
 ## User requests (closed this run)
 
