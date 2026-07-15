@@ -77,4 +77,4 @@ _None._
 
 ## User requests (closed this run)
 
-- [#48 @goodb 2026-07-15] queue: catalog | request=new-tool | name="Glygen MCP" | url="http://mcp.glygen.org/mcp" | subject_area="General-Purpose Utilities" | author=@goodb | issue=48 → in scope; created catalog/tools/glygen.md (tagged All — GlyGen is a life-science data resource, not a generic utility). First-party remote MCP (`https://mcp.glygen.org/mcp`, `glygener/glygen-mcp-server`); 5 read-only summary tools. License Unverified (no upstream LICENSE) → flagged.
+_None._
