@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "generated": "2026-07-14",
-  "count": 395,
+  "generated": "2026-07-15",
+  "count": 396,
   "tools": [
     {
       "slug": "10x-genomics-cloud",
@@ -1037,7 +1037,7 @@
         "Chemistry",
         "Drug Repurposing and Discovery"
       ],
-      "last_verified": "2026-05-30",
+      "last_verified": "2026-07-15",
       "summary": "Anthropic-packaged plugin and Claude.ai connector over EMBL-EBI's ChEMBL bioactive-compound database — compound, target, bioactivity, and mechanism-of-action lookup.",
       "keywords": [
         "Anthropic-packaged",
@@ -2623,6 +2623,21 @@
         "Thr-rich"
       ],
       "path": "catalog/tools/glycoengineering.md"
+    },
+    {
+      "slug": "glygen",
+      "title": "GlyGen MCP Server",
+      "tool_type": "MCP server",
+      "availability": "Beta",
+      "tool_categories": [
+        "All"
+      ],
+      "last_verified": "2026-07-15",
+      "summary": "First-party remote MCP server over GlyGen's integrated glycan, glycoprotein, biomarker, and disease data — protein, site, glycan, biomarker, and disease summaries.",
+      "keywords": [
+        "First-party"
+      ],
+      "path": "catalog/tools/glygen.md"
     },
     {
       "slug": "gnomad-database",
