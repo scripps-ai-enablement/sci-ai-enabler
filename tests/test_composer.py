@@ -326,6 +326,35 @@ class TestCaptureWiring(unittest.TestCase):
         for required in ("tool_name", "url", "what", "subject_area"):
             self.assertIn(required, ids, f"tool-request form missing field id={required}")
 
+    @unittest.skipUnless(HAVE_YAML, "PyYAML not installed")
+    def test_every_claude_form_label_is_wired_into_responder(self):
+        # Guards the failure behind issue #47: a form that declares a claude:*
+        # label the responder's form-check doesn't recognize would open issues
+        # the responder silently ignores. Every claude:* label across the Issue
+        # Forms must appear in the responder.yml form-check alternation.
+        responder = (REPO / ".github" / "workflows" / "responder.yml").read_text()
+        m = re.search(r"\^claude:\(([^)]+)\)\$", responder)
+        self.assertIsNotNone(m, "responder.yml claude:* form-check alternation not found")
+        recognized = {"claude:" + s for s in m.group(1).split("|")}
+        for path in sorted((REPO / ".github" / "ISSUE_TEMPLATE").glob("*.yml")):
+            data = yaml.safe_load(path.read_text()) or {}
+            for lbl in (data.get("labels") or []):
+                if isinstance(lbl, str) and lbl.startswith("claude:"):
+                    self.assertIn(
+                        lbl, recognized,
+                        f"{path.name}: label {lbl} is not recognized by the responder "
+                        f"form-check in responder.yml — add it there or the responder "
+                        f"will silently ignore issues filed with this form.")
+
+    def test_label_sync_workflow_present(self):
+        # The label-sync workflow guarantees form-declared labels exist in the
+        # repo (GitHub drops unknown labels silently). Guard it stays wired.
+        wf = REPO / ".github" / "workflows" / "sync-form-labels.yml"
+        self.assertTrue(wf.exists(), "sync-form-labels.yml workflow is missing")
+        text = wf.read_text()
+        self.assertIn("ISSUE_TEMPLATE", text)
+        self.assertIn("gh label create", text)
+
 
 # ---------------------------------------------------------------------------
 # 6. All issue forms + workflows are well-formed YAML

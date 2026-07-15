@@ -1,0 +1,67 @@
+name: Sync Issue Form labels
+
+# Why this exists: GitHub Issue Forms only auto-apply a label declared in a
+# template's `labels:` list if that label ALREADY EXISTS in the repo. If the
+# label is missing, GitHub silently drops it — the issue opens unlabeled and the
+# Responder's form-check finds no `claude:*` label and exits without replying.
+# This job creates any form-declared label that doesn't yet exist, so adding a
+# new Issue Form can't silently no-op the responder (see issue #47).
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/ISSUE_TEMPLATE/**'
+  workflow_dispatch:
+
+permissions:
+  issues: write
+  contents: read
+
+concurrency:
+  group: sync-form-labels
+  cancel-in-progress: true
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Create any form-declared labels that don't exist yet
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        run: |
+          # Labels declared across all Issue Form templates. Every template uses
+          # a single-line `labels: ["claude:xxx"]` array, so pull the quoted
+          # values off each `labels:` line. Sorted + de-duped.
+          DECLARED=$(grep -hE '^\s*labels:\s*\[' .github/ISSUE_TEMPLATE/*.yml 2>/dev/null \
+            | grep -oE '"[^"]+"' | tr -d '"' | sort -u)
+
+          if [ -z "$DECLARED" ]; then
+            echo "No form labels declared; nothing to sync."
+            exit 0
+          fi
+
+          # Labels that already exist in the repo.
+          gh label list -L 500 --json name --jq '.[].name' | sort -u > .repo-labels.txt
+
+          MISSING=0
+          while IFS= read -r LABEL; do
+            [ -z "$LABEL" ] && continue
+            if grep -qxF "$LABEL" .repo-labels.txt; then
+              echo "ok: $LABEL"
+            else
+              echo "creating missing label: $LABEL"
+              # Green + a generic description, matching the existing claude:* family.
+              # A maintainer can recolor/redescribe afterward; the point is that it exists.
+              gh label create "$LABEL" \
+                --color "0e8a16" \
+                --description "Auto-created from an Issue Form template" \
+                && MISSING=$((MISSING + 1))
+            fi
+          done <<< "$DECLARED"
+
+          rm -f .repo-labels.txt
+          echo "Created ${MISSING} missing label(s)."
