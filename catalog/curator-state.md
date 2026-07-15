@@ -75,6 +75,8 @@ nav_exclude: true
 
 _None._
 
+- [#50 @goodb 2026-07-15] queue: catalog | request=new-tool | name="ProtoOKN MCP" | url="https://apps.okn.us/okn-mcp/mcp" | subject_area="General-Purpose Utilities" | author=@goodb | issue=50
+
 ## User requests (closed this run)
 
 _None._
