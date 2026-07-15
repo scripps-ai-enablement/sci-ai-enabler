@@ -6,7 +6,7 @@ tool_type: Claude Code Plugin
 supplier: EMBL-EBI (Anthropic-packaged)
 availability: GA
 tool_categories: [Chemistry, Drug Repurposing and Discovery]
-last_verified: 2026-05-30
+last_verified: 2026-07-15
 summary: Anthropic-packaged plugin and Claude.ai connector over EMBL-EBI's ChEMBL bioactive-compound database — compound, target, bioactivity, and mechanism-of-action lookup.
 ---
 

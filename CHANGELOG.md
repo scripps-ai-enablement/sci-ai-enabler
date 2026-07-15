@@ -11,6 +11,22 @@ Reverse-chronological log of changes to the [catalog]({{ '/catalog/' | relative_
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-07-15 (Chemistry slot)
+
+Chemistry directed pass plus a manifest sweep, and processed one open user request. The `anthropics/life-sciences` marketplace was re-fetched (21 plugin directories) and diffed against the catalog — all entries already covered. The Chemistry seed queries (RDKit / retrosynthesis / ChEMBL / PubChem MCP) surfaced only tools already catalogued (`rdkit-mcp` = `tandemai-inc/rdkit-mcp-server`; `rdkit-agent`, `chemcp`, `pubchem`, `chembl` all present; the Augmented-Nature ChEMBL variant stays deferred; no OSS retrosynthesis MCP wrapper has shipped) — no new Chemistry entry warranted.
+
+### Added
+- **GlyGen MCP Server** (Categories: All) — first-party remote MCP server over GlyGen's integrated glycan / glycoprotein / biomarker / disease knowledgebase; five read-only summary tools (`get_protein_summary`, `get_site_summary`, `get_glycan_summary`, `get_biomarker_summary`, `get_disease_summary`). Install via Claude.ai custom connector, `claude mcp add --transport http`, or Claude Desktop `mcp-remote` proxy at `https://mcp.glygen.org/mcp`. Beta; pricing Unverified (no upstream LICENSE). Surfaced from user request [#48](https://github.com/scripps-ai-enablement/sci-ai-enabler/issues/48). ([`glygener/glygen-mcp-server`](https://github.com/glygener/glygen-mcp-server), [GlyGen](https://www.glygen.org/))
+
+### Flagged
+- **GlyGen MCP Server** — `glygener/glygen-mcp-server` declares no LICENSE (GitHub license field null); pricing marked `Unverified —` inline rather than asserting Free / OSS.
+
+### Updated
+- **ChEMBL Connector** — re-verified against the `anthropics/life-sciences` marketplace (still listed); `last_verified` bumped 2026-05-30 → 2026-07-15.
+
+### Verified (no changes)
+- `anthropics/life-sciences` marketplace re-diffed against the catalog; all 21 plugin directories already covered.
+
 ## 2026-07-12 (Drug Repurposing and Discovery slot)
 
 Drug Repurposing and Discovery directed pass plus a manifest sweep. The `anthropics/life-sciences` (`.claude-plugin/marketplace.json`) and `claude-plugins-official` marketplaces were re-fetched and diffed — no new life-science plugins. The directed pass drew from the deferred **ToolUniverse sibling agent skills** queue (`mims-harvard/ToolUniverse/skills/`, Apache-2.0, 150+ skills sharing the `npx skills add mims-harvard/ToolUniverse` install path): four genuinely new drug-discovery / oncology / safety workflows were verified against their `SKILL.md` files and catalogued.
