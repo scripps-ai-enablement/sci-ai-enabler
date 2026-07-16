@@ -1,0 +1,40 @@
+{
+  "analysis": "interpret-glycosylation-altering-variants",
+  "biocompute_object": {
+    "emit_bco": "optional \u2014 serialize this run as a schema-validated IEEE-2791 BCO if a downstream consumer requires it",
+    "input_dataset_bcos": [
+      "https://data.glygen.org/GLY_001534",
+      "https://data.glygen.org/GLY_001537"
+    ],
+    "note": "GlyGen publishes its source datasets as IEEE-2791 BioCompute Objects; cite them as input provenance."
+  },
+  "input_sha256": "dba4b53a2291b7a900708b3b735d8dcb5687d71c7229cef88d0dc925eb39bf38",
+  "mode": "offline-replay",
+  "outputs": {
+    "glyco_candidates.csv": "4ce638fc20c54721735ee041d168352becb53bd42506161f0fd18474739e9205"
+  },
+  "run_date": "2026-05-04",
+  "script": "glyco_variants.py",
+  "script_version": "1.0.0",
+  "sources": {
+    "biomcp": {
+      "cli": "biomcp",
+      "note": "AlphaMissense is not surfaced by BioMCP's default variant payload",
+      "provides": [
+        "ClinVar significance",
+        "CADD",
+        "PolyPhen-2",
+        "SIFT"
+      ]
+    },
+    "glygen_mcp": {
+      "data_release_date": "2026-05-04 23:11:19 EDT-0400",
+      "data_version": "2.11.1",
+      "endpoint": "https://mcp.glygen.org/mcp"
+    },
+    "uniprot": {
+      "api": "https://rest.uniprot.org",
+      "note": "canonical sequence, per-accession"
+    }
+  }
+}

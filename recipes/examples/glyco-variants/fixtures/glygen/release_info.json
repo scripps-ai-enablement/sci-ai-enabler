@@ -1,0 +1,12 @@
+[
+  {
+    "component": "data",
+    "release_date": "2026-05-04 23:11:19 EDT-0400",
+    "version": "2.11.1"
+  },
+  {
+    "component": "api",
+    "release_date": "2026-05-04 23:11:06 EDT-0400",
+    "version": "2.11"
+  }
+]

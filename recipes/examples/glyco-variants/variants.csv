@@ -1,0 +1,8 @@
+uniprot,gene,protein_change,expected_class,note
+P01008,SERPINC1,N167S,LOG,antithrombin; literature Asn135 (mature numbering) = canonical Asn167 — the recipe's harmonization case
+P38484,IFNGR2,T168N,GOG,IFNGR2 MSMD variant; ClinVar Pathogenic but CADD/PolyPhen/SIFT all call it benign
+P01008,SERPINC1,S114N,GOG,antithrombin; introduces an Asn that completes a new N-X-S/T sequon
+P38484,IFNGR2,T70N,GOG,IFNGR2; second gain case (predictors do flag this one)
+P01008,SERPINC1,N219D,none,antithrombin; Pathogenic but glycosylation is not the mechanism
+P01008,SERPINC1,R79C,none,antithrombin; Pathogenic non-glyco control
+P01008,SERPINC1,R220C,unmapped,numbering discordance — canonical residue 220 is Lys not Arg; guard refuses to classify

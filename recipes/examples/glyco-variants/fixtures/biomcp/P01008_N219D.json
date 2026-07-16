@@ -1,0 +1,81 @@
+{
+  "_meta": {
+    "evidence_urls": [
+      {
+        "label": "dbSNP",
+        "url": "https://www.ncbi.nlm.nih.gov/snp/rs121909571"
+      },
+      {
+        "label": "gnomAD",
+        "url": "https://gnomad.broadinstitute.org/variant/rs121909571"
+      }
+    ],
+    "ladder": [
+      {
+        "command": "biomcp get variant \"BRAF V600E\" clinvar predictions population",
+        "step": 1,
+        "what_it_gives": "Clinical significance, computational predictions, and allele-frequency context."
+      },
+      {
+        "command": "biomcp get variant \"BRAF V600E\" civic cgi",
+        "step": 2,
+        "what_it_gives": "Curated cancer evidence and biomarker interpretation."
+      },
+      {
+        "command": "biomcp variant trials \"BRAF V600E\" --limit 5",
+        "step": 3,
+        "what_it_gives": "Variant-matched clinical trials."
+      },
+      {
+        "command": "biomcp variant articles \"BRAF V600E\" --limit 5",
+        "step": 4,
+        "what_it_gives": "Literature follow-up anchored on the variant."
+      }
+    ],
+    "next_commands": [
+      "biomcp get gene SERPINC1",
+      "biomcp search drug --target SERPINC1",
+      "biomcp variant trials \"chr1:g.173879999T>C\"",
+      "biomcp variant articles \"chr1:g.173879999T>C\""
+    ],
+    "section_sources": [
+      {
+        "key": "identity",
+        "label": "Identity",
+        "sources": [
+          "MyVariant.info",
+          "ClinVar"
+        ]
+      },
+      {
+        "key": "population",
+        "label": "Population",
+        "sources": [
+          "gnomAD via MyVariant.info"
+        ]
+      },
+      {
+        "key": "expanded_predictions",
+        "label": "Expanded Predictions",
+        "sources": [
+          "MyVariant.info"
+        ]
+      }
+    ],
+    "workflow": "variant-pathogenicity"
+  },
+  "allele_frequency_percent": "< 0.01%",
+  "allele_frequency_raw": 3.97668e-6,
+  "cadd_score": 27.3,
+  "consequence": "missense_variant",
+  "gene": "SERPINC1",
+  "gnomad_af": 3.97668e-6,
+  "hgvs_c": "c.655A>G",
+  "hgvs_p": "p.N219D",
+  "id": "chr1:g.173879999T>C",
+  "legacy_name": "SERPINC1 N219D",
+  "polyphen_pred": "Probably damaging",
+  "rsid": "rs121909571",
+  "sift_pred": "Deleterious",
+  "significance": "Pathogenic"
+}

@@ -1,0 +1,15 @@
+# Pinned environment for the LIVE run of glyco_variants.py (--live).
+#
+# The offline replay (the default) needs NONE of these — it is standard-library
+# only and reads the recorded fixtures/ — but the live run drives the GlyGen MCP
+# server over streamable HTTP with the official `mcp` client SDK and fetches
+# canonical sequences from UniProt.
+#
+# Pin exact versions so a re-run uses the same code. Regenerate with:
+#   pip freeze > requirements.lock.txt
+#
+# BioMCP is NOT a pip dependency here: the live run shells out to the `biomcp`
+# CLI, installed out-of-band exactly as the recipe prescribes:
+#   uv tool install biomcp-cli        # provides `biomcp` (this run used 0.8.25)
+mcp==1.12.0
+requests==2.33.0
