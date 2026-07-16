@@ -48,7 +48,7 @@ _None._
 
 ## User requests (closed this run)
 
-- [#52 @andrewsu 2026-07-16] question (GOG/LOG glycosylation-variant interpretation, Translational Medicine) → shipped new recipe [interpret-glycosylation-altering-variants](items/interpret-glycosylation-altering-variants.html): rung-3 GlyGen MCP + BioMCP toolbelt (glycosite lookup → Swiss-Prot numbering harmonization → LOG/GOG classification → ClinVar/AlphaMissense join → expression check → committed script + provenance + optional IEEE-2791 BCO). `Reported`, grounded on the GlyGen team's own documented use case + `variants.ipynb` notebook. Cross-linked to interpret-clinical-variant and scan-antibody-glycosylation-sites.
+_None._
 
 ## Composition reports
 
