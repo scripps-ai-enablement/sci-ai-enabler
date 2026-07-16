@@ -44,7 +44,7 @@ _None._
 
 ## User requests (open)
 
-_None._
+- [#52 @andrewsu 2026-07-16] queue: recipes | question="Interpret functional consequences of coding variants via gain/loss of glycosylation sites (GOG/LOG) using GlyGen MCP; join to ClinVar/AlphaMissense/BiomarkerKB; expression sanity-check; ranked report for experimental validation candidates. Translational Medicine." | author=@andrewsu | issue=52
 
 ## User requests (closed this run)
 
