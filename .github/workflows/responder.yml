@@ -2,7 +2,7 @@ name: Responder
 
 on:
   issues:
-    types: [opened]
+    types: [opened, reopened]
 
 permissions:
   contents: write
@@ -52,8 +52,31 @@ jobs:
             echo "skip=true" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Body-length cap
+      - name: Already-answered check (idempotency for reopen)
         if: steps.killswitch.outputs.skip != 'true' && steps.formcheck.outputs.skip != 'true' && steps.spamcheck.outputs.skip != 'true'
+        id: answered
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          NUM: ${{ github.event.issue.number }}
+        run: |
+          # This workflow now also fires on `reopened` so users can retry a bounced
+          # (over-length) issue by shortening it and reopening. But a reopen must NOT
+          # re-answer an issue the bot already handled, or it would double-post the
+          # reply and double-queue the request in curator-state.md. An "answer" is any
+          # github-actions[bot] comment carrying a `<!-- queue: ... -->` trailer; the
+          # over-length bounce comment has no trailer, so a bounced issue is correctly
+          # treated as not-yet-answered and is allowed to proceed.
+          PRIOR=$(gh api "repos/${REPO}/issues/${NUM}/comments?per_page=100" \
+            --jq '[.[] | select(.user.login == "github-actions[bot]") | select(.body | test("<!--\\s*queue:"))] | length')
+          echo "prior answered comments: ${PRIOR:-0}"
+          if [ "${PRIOR:-0}" -gt 0 ]; then
+            echo "Issue already answered; exiting silently."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Body-length cap
+        if: steps.killswitch.outputs.skip != 'true' && steps.formcheck.outputs.skip != 'true' && steps.spamcheck.outputs.skip != 'true' && steps.answered.outputs.skip != 'true'
         id: lencheck
         env:
           BODY: ${{ github.event.issue.body }}
@@ -64,16 +87,17 @@ jobs:
           LEN=${#BODY}
           echo "Body length: $LEN"
           if [ "$LEN" -gt 4000 ]; then
-            gh issue comment "$NUM" --repo "$REPO" --body "Please shorten the description to under 4000 characters and reopen — the responder bounds its input size."
+            gh issue comment "$NUM" --repo "$REPO" --body "This issue's description is ${LEN} characters; the responder caps input at 4000. Please edit it under 4000 characters, then **reopen** this issue — reopening re-runs the responder."
+            gh issue close "$NUM" --repo "$REPO"
             echo "skip=true" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Checkout (only if we'll actually respond)
-        if: steps.killswitch.outputs.skip != 'true' && steps.formcheck.outputs.skip != 'true' && steps.spamcheck.outputs.skip != 'true' && steps.lencheck.outputs.skip != 'true'
+        if: steps.killswitch.outputs.skip != 'true' && steps.formcheck.outputs.skip != 'true' && steps.spamcheck.outputs.skip != 'true' && steps.answered.outputs.skip != 'true' && steps.lencheck.outputs.skip != 'true'
         uses: actions/checkout@v4
 
       - name: Compose prompt
-        if: steps.killswitch.outputs.skip != 'true' && steps.formcheck.outputs.skip != 'true' && steps.spamcheck.outputs.skip != 'true' && steps.lencheck.outputs.skip != 'true'
+        if: steps.killswitch.outputs.skip != 'true' && steps.formcheck.outputs.skip != 'true' && steps.spamcheck.outputs.skip != 'true' && steps.answered.outputs.skip != 'true' && steps.lencheck.outputs.skip != 'true'
         env:
           ISSUE_BODY: ${{ github.event.issue.body }}
           ISSUE_TITLE: ${{ github.event.issue.title }}
@@ -111,7 +135,7 @@ jobs:
           } > .responder-prompt.md
 
       - uses: anthropics/claude-code-base-action@e8132bc5e637a42c27763fc757faa37e1ee43b34
-        if: steps.killswitch.outputs.skip != 'true' && steps.formcheck.outputs.skip != 'true' && steps.spamcheck.outputs.skip != 'true' && steps.lencheck.outputs.skip != 'true'
+        if: steps.killswitch.outputs.skip != 'true' && steps.formcheck.outputs.skip != 'true' && steps.spamcheck.outputs.skip != 'true' && steps.answered.outputs.skip != 'true' && steps.lencheck.outputs.skip != 'true'
         with:
           prompt_file: .responder-prompt.md
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
@@ -124,7 +148,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
 
       - name: Parse trailer and append to queue
-        if: steps.killswitch.outputs.skip != 'true' && steps.formcheck.outputs.skip != 'true' && steps.spamcheck.outputs.skip != 'true' && steps.lencheck.outputs.skip != 'true'
+        if: steps.killswitch.outputs.skip != 'true' && steps.formcheck.outputs.skip != 'true' && steps.spamcheck.outputs.skip != 'true' && steps.answered.outputs.skip != 'true' && steps.lencheck.outputs.skip != 'true'
         env:
           GH_TOKEN: ${{ github.token }}
           REPO: ${{ github.repository }}
