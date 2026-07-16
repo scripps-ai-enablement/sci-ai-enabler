@@ -3,7 +3,7 @@
   "generated": "2026-07-16",
   "counts": {
     "tools": 396,
-    "recipes": 78,
+    "recipes": 79,
     "systems": 68
   },
   "tools_file": "composer-tools.json",
@@ -869,6 +869,30 @@
         "SIFT"
       ],
       "path": "recipes/items/interpret-clinical-variant.md"
+    },
+    {
+      "slug": "interpret-glycosylation-altering-variants",
+      "title": "Interpret variants that gain or lose glycosylation sites",
+      "problem_class": "Knowledge synthesis",
+      "subject_areas": [
+        "Translational Medicine",
+        "Molecular and Cellular Biology"
+      ],
+      "evidence_level": "Reported",
+      "complexity": "Multi-tool harness",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-07-16",
+      "summary": "Flag coding variants that destroy or create N-/O-glycosylation sites with the GlyGen MCP, join to ClinVar/AlphaMissense via BioMCP, and emit a ranked, provenance-tracked candidate table.",
+      "keywords": [
+        "BioMCP",
+        "GOG",
+        "IFNGR2",
+        "LOG",
+        "SERPINC1",
+        "Swiss-Prot"
+      ],
+      "path": "recipes/items/interpret-glycosylation-altering-variants.md"
     },
     {
       "slug": "map-disease-to-genes-and-pathways",
