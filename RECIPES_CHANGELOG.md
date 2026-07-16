@@ -11,6 +11,12 @@ Reverse-chronological log of changes to the [recipes cookbook]({{ '/recipes/' | 
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-07-16 (Translational Medicine scope; user request #52)
+
+### Added
+
+- **Interpret variants that gain or lose glycosylation sites** (Problem class: Knowledge synthesis; Evidence: Reported) — answers user request [#52](https://github.com/scripps-ai-enablement/sci-ai-enabler/issues/52) from the GlyGen team. Rung-3 two-MCP toolbelt: [GlyGen MCP](catalog/tools/glygen.html) `get_protein_summary`/`get_site_summary` for glycosite ground truth → Swiss-Prot numbering harmonization (the Asn135↔Asn167 antithrombin trap) → LOG/GOG classification (N-X-S/T sequon destroy/create) → [BioMCP](catalog/tools/biomcp.html) `variant_searcher`/`variant_getter` for ClinVar + AlphaMissense joins (GlyGen's own variants come from EBI/BioMuta, so these add coverage) → expression sanity-check → committed `glyco_variants.py` + pinned `requirements.txt` + `glyco_candidates.csv` + `provenance.json` (GlyGen release + endpoint, BioMCP version, ClinVar/AlphaMissense snapshot dates, input sha256, run date, model id) + optional IEEE-2791 BioCompute Object. Cross-linked to [interpret-clinical-variant](recipes/items/interpret-clinical-variant.html) and [scan-antibody-glycosylation-sites](recipes/items/scan-antibody-glycosylation-sites.html). `Reported` — the GlyGen team documents this exact use case and ships a `variants.ipynb` reference notebook (SERPINC1 LOG / IFNGR2 GOG worked examples; [Mazumder et al., *Research Square* 2026-07-01](https://www.researchsquare.com/article/rs-9982242/v1); [glygener/colab-notebooks](https://github.com/glygener/colab-notebooks)); the Claude-driven GlyGen-MCP+BioMCP assembly is not separately benchmarked. `Fully open` (GlyGen MCP Beta, wrapper repo no-LICENSE caveat); `Laptop`.
+
 ## 2026-07-12 (Drug Repurposing and Discovery directed pass)
 
 ### Added
