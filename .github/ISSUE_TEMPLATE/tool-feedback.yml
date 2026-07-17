@@ -26,12 +26,16 @@ body:
         - aind-data
         - allenbrain
         - alphafold
+        - alphafold2
         - alphagenome
         - amr-detection
         - anndata
+        - antibody-registry
         - aomic-skill
         - arboreto
         - archs4-database
+        - arrayexpress
+        - arxiv
         - asl-skill
         - astropy
         - autodock-vina-docking
@@ -43,8 +47,11 @@ body:
         - benchling-integration
         - bgpt-paper-search
         - bids
+        - bindingdb
         - bio-research
+        - biobank-japan
         - biocontextai
+        - biomart
         - biomcp
         - biomni
         - biopython
@@ -55,6 +62,7 @@ body:
         - bnt
         - bold5000-skill
         - boltz
+        - borzoi
         - brain-visualization
         - brain_gnn
         - brenda-database
@@ -62,20 +70,26 @@ body:
         - bulk-rnaseq
         - bwa-mem2-dna-aligner
         - camcan-skill
+        - cbioportal
         - cbioportal-database
         - cellchat-cell-communication
+        - cellguide
         - cellpose-cell-segmentation
         - cellrank-mcp
         - celltypist-cell-annotation
         - cellxgene-census
         - certus
+        - chai-1
         - chatspatial
+        - chebi
         - chembl
         - chemcp
         - chemlint
         - cirq
         - citation-management
+        - civic
         - clair-variant-caller
+        - clingen
         - clinical-decision-support
         - clinical-note-extract
         - clinical-reports
@@ -88,6 +102,7 @@ body:
         - cobrapy
         - cobre-skill
         - combraintf
+        - complex-portal
         - composer
         - conn-tool
         - consciousness-council
@@ -124,8 +139,11 @@ body:
         - encode-database
         - ensembl
         - epitope-prediction
+        - eqtl-catalogue
         - esm
+        - esmfold
         - etetoolkit
+        - evo2
         - exa-search
         - exploratory-data-analysis
         - fastp-fastq-preprocessing
@@ -135,6 +153,7 @@ body:
         - fhir-momentum
         - fhir-wso2
         - filtering
+        - finngen
         - flowio
         - fluidsim
         - fm_app
@@ -146,6 +165,7 @@ body:
         - fsl-tool
         - gatk-variant-calling
         - gene-database
+        - gene-ontology
         - generate-image
         - geniml
         - geo-database
@@ -186,15 +206,18 @@ body:
         - icd-10-codes
         - imaging-data-commons
         - immcantation-analysis
+        - indication-dossier
         - inductive-bio
         - infographics
         - instrument-data-to-allotrope
+        - intact
         - interpro-database
         - iso-13485-certification
         - ixi-skill
         - jaspar-database
         - kegg-database
         - kegg-pathway-analysis
+        - ketcher
         - kmeans
         - kraken-classification
         - labarchive-integration
@@ -204,6 +227,7 @@ body:
         - lggnn
         - liana-mcp
         - libsbml-network-modeling
+        - ligandmpnn
         - liteparse
         - literature-review
         - macs3-peak-calling
@@ -219,7 +243,9 @@ body:
         - medical-terminologies-mcp
         - medidata
         - meg-skill
+        - metabolights
         - metabolomics-workbench-database
+        - mgnify
         - mhc-binding-prediction
         - mnd-skill
         - mne-eeg-tool
@@ -229,10 +255,12 @@ body:
         - molecule-mcp
         - molfeat
         - monarch-database
+        - morning
         - mouse-phenome-database
         - mschallenge-skill
         - multiqc-qc-reports
         - muon-multiomics-singlecell
+        - mygene
         - napari-image-viewer
         - networkx
         - neurokit2
@@ -250,11 +278,13 @@ body:
         - oasis-skill
         - omero-integration
         - omics-analysis-guide
+        - ontology-lookup-service
         - open-notebook
         - open-targets
         - openalex-database
         - opencv-bioimage-analysis
         - openfda
+        - openfold3
         - openmm-mcp
         - openneuro
         - opentargets-database
@@ -288,6 +318,7 @@ body:
         - prior-auth-review
         - procedure-coding
         - prokka-genome-annotation
+        - proteinmpnn
         - protocolsio-integration
         - pubchem
         - pubmed
@@ -321,6 +352,8 @@ body:
         - research-lookup
         - rest-mneta-mdd-skill
         - revvity-signals
+        - rfam
+        - rhea
         - roary-pangenome
         - rowan
         - run_models
@@ -328,6 +361,7 @@ body:
         - samtools-bam-processing
         - sar-analysis
         - scanpy
+        - scgpt
         - scholar-evaluation
         - scholar-gateway
         - scientific-brainstorming
@@ -358,6 +392,7 @@ body:
         - smri-skill
         - snakemake-workflow-engine
         - snpeff-variant-annotation
+        - solublempnn
         - spacenet
         - spikeinterface-electrophysiology
         - spikelab
