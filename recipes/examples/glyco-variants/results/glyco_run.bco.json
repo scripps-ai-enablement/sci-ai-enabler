@@ -10,7 +10,8 @@
       "loss of glycosylation",
       "GlyGen",
       "BioMCP",
-      "ClinVar"
+      "ClinVar",
+      "AlphaMissense"
     ],
     "pipeline_steps": [
       {
@@ -29,7 +30,7 @@
         "step_number": 1
       },
       {
-        "description": "Fetch the canonical UniProt sequence for each accession (for the sequon check and numbering reconciliation).",
+        "description": "Fetch the canonical UniProt sequence for the sequon check and numbering reconciliation.",
         "input_list": [
           {
             "uri": "https://rest.uniprot.org"
@@ -61,7 +62,7 @@
         "step_number": 3
       },
       {
-        "description": "Join ClinVar significance, CADD/PolyPhen/SIFT, and AlphaMissense via the BioMCP variant getter's `predictions` section (MyVariant.info / dbNSFP).",
+        "description": "Join ClinVar significance and AlphaMissense via the BioMCP variant getter's `predictions` section (MyVariant.info / dbNSFP).",
         "input_list": [
           {
             "uri": "https://myvariant.info"
@@ -76,7 +77,7 @@
         "step_number": 4
       },
       {
-        "description": "Rank glycosylation-altering hits first (predictor-discordant, then ClinVar-pathogenic, then CADD) and emit the candidate table.",
+        "description": "Rank GOG/LOG above none (unmapped last); within by AlphaMissense pathogenicity then ClinVar significance. Emit the candidate table.",
         "input_list": [
           {
             "filename": "glyco_candidates.csv",
@@ -106,13 +107,14 @@
   },
   "error_domain": {
     "algorithmic_error": {
+      "expression_check": "recipe step 3 (demote candidates not expressed in the tissue of interest) is inert here \u2014 no tissue/disease context supplied",
       "numbering": "variants whose stated wild-type residue does not match the canonical UniProt residue are reported as 'unmapped' rather than classified",
-      "ranking": "a triage heuristic that surfaces glycosylation-altering variants which sequence predictors (CADD/PolyPhen/SIFT/AlphaMissense) call benign; not a validated pathogenicity score",
+      "ranking": "a triage heuristic (AlphaMissense pathogenicity + ClinVar), not a validated pathogenicity score",
       "scope": "single-residue missense only; indels, frameshift, splice and nonsense variants are not classified"
     },
     "empirical_error": {}
   },
-  "etag": "e4f2aa759dc4e5bc3a53e4d00394784f74f07ab91183189787e497722fecec3c",
+  "etag": "fbd53bd9dae1360b08824b84780339b9a087e613e9b1d2dcb74d02121ae18c9d",
   "execution_domain": {
     "environment_variables": {},
     "external_data_endpoints": [
@@ -222,7 +224,12 @@
     {
       "param": "ranking",
       "step": "5",
-      "value": "glyco-altering first; predictor-discordant; ClinVar pathogenic; CADD desc"
+      "value": "GOG/LOG above none (unmapped last); within by AlphaMissense pathogenicity then ClinVar significance"
+    },
+    {
+      "param": "expression_check",
+      "step": "5",
+      "value": "not applied \u2014 no tissue/disease context in the input"
     }
   ],
   "provenance_domain": {
@@ -239,11 +246,11 @@
     "license": "https://github.com/scripps-ai-enablement/sci-ai-enabler (repository license unspecified as of run)",
     "modified": "2026-05-04T00:00:00Z",
     "name": "Interpret variants that gain or lose glycosylation sites \u2014 reference run",
-    "version": "2.0.0"
+    "version": "3.0.0"
   },
   "spec_version": "https://w3id.org/ieee/ieee-2791-schema/2791object.json",
   "usability_domain": [
-    "Flags protein-coding missense variants that create (gain of glycosylation, GOG) or destroy (loss of glycosylation, LOG) N-/O-linked glycosylation sites, joins ClinVar + CADD/PolyPhen/SIFT/AlphaMissense, and ranks candidates where altered glycosylation is a plausible disease mechanism \u2014 surfacing pathogenic variants that sequence-based predictors miss.",
+    "Flags protein-coding missense variants that create (GOG) or destroy (LOG) N-/O-linked glycosylation sites, joins ClinVar + AlphaMissense, and ranks candidates where altered glycosylation is a plausible disease mechanism.",
     "Reference run over a 7-variant SERPINC1/IFNGR2 panel; 4 glycosylation-altering hits."
   ]
 }

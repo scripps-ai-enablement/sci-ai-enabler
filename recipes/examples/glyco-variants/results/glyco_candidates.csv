@@ -1,8 +1,8 @@
-rank,uniprot,gene,protein_change,rsid,class,mechanism,clinvar_significance,cadd,polyphen,sift,alphamissense,alphamissense_score,predictors_miss_it
-1,P38484,IFNGR2,T168N,rs74315444,GOG,creates N-X-S/T sequon NST at residue 168,Pathogenic,0.005,Benign,Tolerated,Benign,0.0855,True
-2,P01008,SERPINC1,S114N,rs1657909645,GOG,creates N-X-S/T sequon NIS at residue 114,Pathogenic,28.0,Probably damaging,Deleterious,Pathogenic,0.9209,False
-3,P38484,IFNGR2,T70N,,GOG,creates N-X-S/T sequon NDS at residue 70,not_provided,24.5,Probably damaging,Deleterious,Benign,0.1203,False
-4,P01008,SERPINC1,N167S,rs121909570,LOG,destroys N-X-S/T sequon at residue 167 [GlyGen-annotated glycosite],not_provided,13.89,Benign,Deleterious,Benign,0.1171,False
-5,P01008,SERPINC1,R79C,rs121909547,none,no change to an N- or O-glycosylation site,Pathogenic,33.0,Probably damaging,Deleterious,Pathogenic,0.9098,False
-6,P01008,SERPINC1,N219D,rs121909571,none,no change to an N- or O-glycosylation site,Pathogenic,27.3,Probably damaging,Deleterious,Pathogenic,0.6557,False
-7,P01008,SERPINC1,R220C,rs121909554,unmapped,"canonical UniProt residue 220 is K, not R; numbering could not be reconciled — flagged for manual review",Pathogenic,35.0,Probably damaging,Tolerated,A,0.4734,False
+uniprot,site,class,glygen_evidence,clinvar_significance,alphamissense,rank
+P01008,S114N,GOG,"creates N-X-S/T sequon N114-I115-S116 (de-novo, not a known GlyGen site)",Pathogenic,Pathogenic (0.921),1
+P38484,T70N,GOG,"creates N-X-S/T sequon N70-D71-S72 (de-novo, not a known GlyGen site)",not_provided,Benign (0.120),2
+P01008,N167S,LOG,destroys known GlyGen N-glycosite at Asn167 (sequon N167-K168-S169),not_provided,Benign (0.117),3
+P38484,T168N,GOG,"creates N-X-S/T sequon N168-S169-T170 (de-novo, not a known GlyGen site)",Pathogenic,Benign (0.086),4
+P01008,R79C,none,no known glycosite removed and no new N-X-S/T sequon created,Pathogenic,Pathogenic (0.910),5
+P01008,N219D,none,no known glycosite removed and no new N-X-S/T sequon created,Pathogenic,Pathogenic (0.656),6
+P01008,R220C,unmapped,"UNMAPPED — canonical UniProt residue 220 is K, not R; no frame reconciles it (flagged for manual review)",Pathogenic,Ambiguous (0.473),7

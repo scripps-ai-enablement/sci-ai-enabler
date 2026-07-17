@@ -2,36 +2,36 @@
 """Interpret variants that gain or lose glycosylation sites — reproducible artifact.
 
 Reference *artifact* for the recipe "Interpret variants that gain or lose
-glycosylation sites". The durable record of an AI-assisted analysis is committed
-code + a pinned environment + a provenance record — not a chat transcript. An
-assistant (Claude) may author or edit this script; what you commit, cite, and
-re-run is this directory.
+glycosylation sites", regenerated to follow the recipe faithfully. The durable
+record of an AI-assisted analysis is committed code + a pinned environment + a
+provenance record — not a chat transcript.
 
 Per variant (`UniProt, protein_change` — e.g. `P01008, N167S`):
 
   1. Pull the protein's GlyGen glycosylation sites (glycosite ground truth).
-  2. Reconcile the variant against the *canonical* UniProt sequence; if the
-     stated wild-type residue does not match, refuse to classify (`unmapped`).
+  2. Reconcile against the *canonical* UniProt sequence; if the stated wild-type
+     residue does not match, refuse to classify (`unmapped`).
   3. Classify by an N-X-S/T sequon delta (X != P) + GlyGen O-glycosite loss:
-     LOG (destroys a site) / GOG (creates one) / none.
-  4. Join ClinVar significance + CADD/PolyPhen/SIFT from BioMCP.
-  5. Rank glyco-altering hits first; emit `glyco_candidates.csv`,
-     `provenance.json`, and an **IEEE-2791 BioCompute Object**
-     (`glyco_run.bco.json`), validated against the bundled 2791 JSON schema.
+     LOG / GOG / none.
+  4. Join ClinVar significance + AlphaMissense pathogenicity from BioMCP's
+     `predictions` section (MyVariant.info / dbNSFP).
+  5. Rank GOG/LOG hits above `none` (unmapped last), and within that group by
+     AlphaMissense pathogenicity then ClinVar significance — per the recipe.
+     Emit `glyco_candidates.csv` (columns: uniprot, site, class, glygen_evidence,
+     clinvar_significance, alphamissense, rank), `provenance.json`, and a
+     schema-validated IEEE-2791 BioCompute Object (`glyco_run.bco.json`).
 
 Modes:
+  (default, offline)  Replay recorded fixtures/. Standard library only;
+                      deterministic. The BCO is emitted with no deps; schema
+                      validation runs only if `jsonschema` is importable.
+  --live              Drive GlyGen MCP (streamable HTTP) + UniProt + the `biomcp`
+                      CLI (`biomcp mcp` for the MCP transport; here the CLI).
 
-  (default, offline)  Replay recorded fixtures/. Standard library only; no
-                      network; deterministic. The BCO is still emitted (built
-                      from the run); schema validation runs only if `jsonschema`
-                      is importable, otherwise it is reported as skipped.
-  --live              Drive the real tools: GlyGen MCP (streamable HTTP via the
-                      `mcp` SDK), UniProt FASTA, and the `biomcp` CLI.
-
-Determinism (offline): same variants.csv + fixtures => byte-identical
-glyco_candidates.csv, provenance.json, and glyco_run.bco.json. The analysis date
-is fixed via --run-date (default: the GlyGen release date from the fixture); no
-wall-clock leaks into any output.
+Note on the expression sanity-check (recipe step 3): it demotes candidates not
+expressed in the tissue/disease context of interest. The demo input carries no
+tissue context, so no expression-based demotion is applied; this is recorded in
+provenance and the BCO rather than silently skipped.
 
 Usage:
     python glyco_variants.py --variants variants.csv --outdir results
@@ -48,7 +48,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-SCRIPT_VERSION = "2.0.0"       # 2.x: emits + validates an IEEE-2791 BCO
+SCRIPT_VERSION = "3.0.0"       # 3.x: recipe-faithful 7-column output + recipe ranking
 GLYGEN_MCP_URL = "https://mcp.glygen.org/mcp"
 SPEC_VERSION = "https://w3id.org/ieee/ieee-2791-schema/2791object.json"
 ARTIFACT_BASE = ("https://github.com/scripps-ai-enablement/sci-ai-enabler/blob/main/"
@@ -56,6 +56,13 @@ ARTIFACT_BASE = ("https://github.com/scripps-ai-enablement/sci-ai-enabler/blob/m
 
 CLASS_PRIORITY = {"GOG": 0, "LOG": 0, "none": 1, "unmapped": 2}
 HGVSP_RE = re.compile(r"^p?\.?([A-Z])(\d+)([A-Z])$")
+AM_LABEL = {"B": "Benign", "P": "Pathogenic", "A": "Ambiguous"}
+# ClinVar significance -> severity (higher = more pathogenic), for the secondary sort.
+CLINVAR_SEVERITY = {
+    "pathogenic": 5, "likely pathogenic": 4, "pathogenic/likely pathogenic": 4,
+    "uncertain significance": 3, "conflicting": 3,
+    "likely benign": 2, "benign": 1, "benign/likely benign": 1,
+}
 
 
 # --------------------------------------------------------------------------- #
@@ -70,47 +77,49 @@ def n_sequon_starts(seq: str) -> set[int]:
 def classify(seq: str, sites: dict[int, str], wt: str, pos: int, mt: str) -> tuple[str, str]:
     if pos < 1 or pos > len(seq) or seq[pos - 1] != wt:
         found = seq[pos - 1] if 1 <= pos <= len(seq) else "N/A"
-        return "unmapped", (f"canonical UniProt residue {pos} is {found}, not {wt}; "
-                            "numbering could not be reconciled — flagged for manual review")
+        return "unmapped", (f"UNMAPPED — canonical UniProt residue {pos} is {found}, not {wt}; "
+                            "no frame reconciles it (flagged for manual review)")
     mutant = seq[: pos - 1] + mt + seq[pos:]
     wt_seq, mut_seq = n_sequon_starts(seq), n_sequon_starts(mutant)
     gained = sorted(p for p in (mut_seq - wt_seq) if pos - 2 <= p <= pos)
     lost = sorted(p for p in (wt_seq - mut_seq) if pos - 2 <= p <= pos)
     if gained:
         p = gained[0]
-        return "GOG", f"creates N-X-S/T sequon {mutant[p - 1:p + 2]} at residue {p}"
+        tri = mutant[p - 1:p + 2]
+        return "GOG", f"creates N-X-S/T sequon {tri[0]}{p}-{tri[1]}{p+1}-{tri[2]}{p+2} (de-novo, not a known GlyGen site)"
     if lost:
         p = lost[0]
-        tag = "GlyGen-annotated glycosite" if p in sites else "predicted sequon, not GlyGen-annotated"
-        return "LOG", f"destroys N-X-S/T sequon at residue {p} [{tag}]"
+        tag = "known GlyGen N-glycosite" if p in sites else "predicted sequon (not GlyGen-annotated)"
+        return "LOG", f"destroys {tag} at Asn{p} (sequon {seq[p-1]}{p}-{seq[p]}{p+1}-{seq[p+1]}{p+2})"
     if pos in sites and sites[pos] in ("THR", "SER") and mt not in "ST":
         return "LOG", f"removes GlyGen O-glycosite ({sites[pos].title()}) at residue {pos}"
-    return "none", "no change to an N- or O-glycosylation site"
+    return "none", "no known glycosite removed and no new N-X-S/T sequon created"
 
 
 def alphamissense(bio: dict):
-    """(prediction, score) for AlphaMissense from BioMCP's `predictions` section.
-
-    BioMCP's default variant view omits AlphaMissense; it lives in the expanded
-    `predictions` section (dbNSFP via MyVariant.info). Returns ("", None) if absent.
-    """
+    """(prediction, score) for AlphaMissense from BioMCP's `predictions` section."""
     for p in bio.get("expanded_predictions") or []:
         if p.get("tool") == "AlphaMissense":
             return p.get("prediction") or "", p.get("score")
     return "", None
 
 
-def predictors_miss(cls: str, clinvar: str, cadd, polyphen: str, am_pred: str) -> bool:
-    """A pathogenic glyco-altering variant that every sequence-based predictor
-    (CADD, PolyPhen, and AlphaMissense) calls benign — the highest-value case."""
-    if cls not in ("GOG", "LOG"):
-        return False
-    if not (clinvar or "").lower().startswith("pathogenic"):
-        return False
-    benign_cadd = cadd is not None and cadd < 20
-    benign_pph = (polyphen or "").lower().startswith("benign")
-    benign_am = (am_pred or "").lower().startswith("b")
-    return benign_cadd and benign_pph and benign_am
+def am_display(pred: str, score) -> str:
+    pred = AM_LABEL.get(pred, pred)
+    if not pred:
+        return ""
+    return f"{pred} ({score:.3f})" if isinstance(score, (int, float)) else pred
+
+
+def am_pathogenicity(pred: str, score) -> float:
+    """Sort weight: higher = more pathogenic. AlphaMissense score if present."""
+    if isinstance(score, (int, float)):
+        return float(score)
+    return {"Pathogenic": 1.0, "Ambiguous": 0.5, "Benign": 0.0}.get(AM_LABEL.get(pred, pred), -1.0)
+
+
+def clinvar_severity(sig: str) -> int:
+    return CLINVAR_SEVERITY.get((sig or "").strip().lower(), 0)
 
 
 # --------------------------------------------------------------------------- #
@@ -170,9 +179,6 @@ def _biomcp_variant(gene: str, change: str) -> dict:
     match = next((r for r in results if r.get("hgvs_p") in (f"p.{change}", change)), None)
     if not match:
         return {}
-    # The `predictions` section is a superset of the default view: the summary
-    # fields (ClinVar/CADD/PolyPhen/SIFT) PLUS expanded_predictions incl.
-    # AlphaMissense. Options must precede the ID; the section is a trailing arg.
     got = _biomcp_json(["get", "variant", "--json", "--no-cache", match["id"], "predictions"])
     return got[0] if isinstance(got, list) and got else got
 
@@ -193,22 +199,16 @@ def _uri(u, filename=None):
     return d
 
 
-def build_bco(rows: list[dict], release: dict, run_date: str, mode: str) -> dict:
-    """Assemble an IEEE-2791 BioCompute Object describing this pipeline + run.
-
-    `etag` is added last as a sha256 over the object with `etag` removed, so it
-    is deterministic given the same inputs.
-    """
+def build_bco(rows: list[dict], release: dict, run_date: str) -> dict:
     when = f"{run_date}T00:00:00Z"
-    n_hit = sum(1 for r in rows if r.get("class") in ("GOG", "LOG"))
+    n_hit = sum(1 for r in rows if r["class"] in ("GOG", "LOG"))
     bco = {
         "object_id": f"{ARTIFACT_BASE}/results/glyco_run.bco.json",
         "spec_version": SPEC_VERSION,
         "provenance_domain": {
             "name": "Interpret variants that gain or lose glycosylation sites — reference run",
             "version": SCRIPT_VERSION,
-            "created": when,
-            "modified": when,
+            "created": when, "modified": when,
             "contributors": [{
                 "contribution": ["authoredBy", "createdWith"],
                 "name": "Claude (Anthropic), driven by the sci-ai-enabler recipe "
@@ -218,41 +218,36 @@ def build_bco(rows: list[dict], release: dict, run_date: str, mode: str) -> dict
                        "(repository license unspecified as of run)",
         },
         "usability_domain": [
-            "Flags protein-coding missense variants that create (gain of glycosylation, GOG) or "
-            "destroy (loss of glycosylation, LOG) N-/O-linked glycosylation sites, joins ClinVar + "
-            "CADD/PolyPhen/SIFT/AlphaMissense, and ranks candidates where altered glycosylation is a plausible "
-            "disease mechanism — surfacing pathogenic variants that sequence-based predictors miss.",
-            f"Reference run over a {len(rows)}-variant SERPINC1/IFNGR2 panel; "
-            f"{n_hit} glycosylation-altering hits.",
+            "Flags protein-coding missense variants that create (GOG) or destroy (LOG) N-/O-linked "
+            "glycosylation sites, joins ClinVar + AlphaMissense, and ranks candidates where altered "
+            "glycosylation is a plausible disease mechanism.",
+            f"Reference run over a {len(rows)}-variant SERPINC1/IFNGR2 panel; {n_hit} glycosylation-altering hits.",
         ],
         "description_domain": {
             "keywords": ["glycosylation", "N-linked", "O-linked", "sequon", "variant interpretation",
-                         "gain of glycosylation", "loss of glycosylation", "GlyGen", "BioMCP", "ClinVar"],
+                         "gain of glycosylation", "loss of glycosylation", "GlyGen", "BioMCP", "ClinVar", "AlphaMissense"],
             "pipeline_steps": [
                 {"step_number": 1, "name": "GlyGen glycosite lookup",
                  "description": "Retrieve annotated N-/O-glycosylation sites per protein from the GlyGen MCP server.",
-                 "input_list": [_uri(GLYGEN_MCP_URL)],
-                 "output_list": [_uri(f"{ARTIFACT_BASE}/fixtures/glygen")]},
+                 "input_list": [_uri(GLYGEN_MCP_URL)], "output_list": [_uri(f"{ARTIFACT_BASE}/fixtures/glygen")]},
                 {"step_number": 2, "name": "Canonical sequence fetch",
-                 "description": "Fetch the canonical UniProt sequence for each accession (for the sequon check and numbering reconciliation).",
-                 "input_list": [_uri("https://rest.uniprot.org")],
-                 "output_list": [_uri(f"{ARTIFACT_BASE}/fixtures/uniprot")]},
+                 "description": "Fetch the canonical UniProt sequence for the sequon check and numbering reconciliation.",
+                 "input_list": [_uri("https://rest.uniprot.org")], "output_list": [_uri(f"{ARTIFACT_BASE}/fixtures/uniprot")]},
                 {"step_number": 3, "name": "Harmonize numbering + classify LOG/GOG",
                  "description": "Reconcile each variant against the canonical residue (else 'unmapped'), then classify by an N-X-S/T sequon delta and GlyGen O-glycosite loss.",
                  "input_list": [_uri(f"{ARTIFACT_BASE}/variants.csv", "variants.csv")],
                  "output_list": [_uri(f"{ARTIFACT_BASE}/results/glyco_candidates.csv", "glyco_candidates.csv")]},
                 {"step_number": 4, "name": "Annotation join (BioMCP)",
-                 "description": "Join ClinVar significance, CADD/PolyPhen/SIFT, and AlphaMissense via the BioMCP variant getter's `predictions` section (MyVariant.info / dbNSFP).",
-                 "input_list": [_uri("https://myvariant.info")],
-                 "output_list": [_uri(f"{ARTIFACT_BASE}/fixtures/biomcp")]},
+                 "description": "Join ClinVar significance and AlphaMissense via the BioMCP variant getter's `predictions` section (MyVariant.info / dbNSFP).",
+                 "input_list": [_uri("https://myvariant.info")], "output_list": [_uri(f"{ARTIFACT_BASE}/fixtures/biomcp")]},
                 {"step_number": 5, "name": "Rank + report",
-                 "description": "Rank glycosylation-altering hits first (predictor-discordant, then ClinVar-pathogenic, then CADD) and emit the candidate table.",
+                 "description": "Rank GOG/LOG above none (unmapped last); within by AlphaMissense pathogenicity then ClinVar significance. Emit the candidate table.",
                  "input_list": [_uri(f"{ARTIFACT_BASE}/results/glyco_candidates.csv", "glyco_candidates.csv")],
                  "output_list": [_uri(f"{ARTIFACT_BASE}/results/glyco_candidates.csv", "glyco_candidates.csv")]},
             ],
         },
         "execution_domain": {
-            "script": [_uri_wrap(f"{ARTIFACT_BASE}/glyco_variants.py", "glyco_variants.py")],
+            "script": [{"uri": _uri(f"{ARTIFACT_BASE}/glyco_variants.py", "glyco_variants.py")}],
             "script_driver": "python",
             "software_prerequisites": [
                 {"name": "python", "version": "3.12", "uri": _uri("https://www.python.org/")},
@@ -270,7 +265,8 @@ def build_bco(rows: list[dict], release: dict, run_date: str, mode: str) -> dict
         "parametric_domain": [
             {"param": "n_glycosylation_sequon", "value": "N-X-[S/T], X != Pro", "step": "3"},
             {"param": "sequon_search_window", "value": "mutated residue +/- 2", "step": "3"},
-            {"param": "ranking", "value": "glyco-altering first; predictor-discordant; ClinVar pathogenic; CADD desc", "step": "5"},
+            {"param": "ranking", "value": "GOG/LOG above none (unmapped last); within by AlphaMissense pathogenicity then ClinVar significance", "step": "5"},
+            {"param": "expression_check", "value": "not applied — no tissue/disease context in the input", "step": "5"},
         ],
         "io_domain": {
             "input_subdomain": [
@@ -279,17 +275,16 @@ def build_bco(rows: list[dict], release: dict, run_date: str, mode: str) -> dict
                 {"uri": _uri("https://data.glygen.org/GLY_001537", "GlyGen human cancer mutation dataset (BCO)")},
             ],
             "output_subdomain": [
-                {"mediatype": "text/csv",
-                 "uri": _uri(f"{ARTIFACT_BASE}/results/glyco_candidates.csv", "glyco_candidates.csv")},
-                {"mediatype": "application/json",
-                 "uri": _uri(f"{ARTIFACT_BASE}/results/provenance.json", "provenance.json")},
+                {"mediatype": "text/csv", "uri": _uri(f"{ARTIFACT_BASE}/results/glyco_candidates.csv", "glyco_candidates.csv")},
+                {"mediatype": "application/json", "uri": _uri(f"{ARTIFACT_BASE}/results/provenance.json", "provenance.json")},
             ],
         },
         "error_domain": {
             "empirical_error": {},
             "algorithmic_error": {
                 "scope": "single-residue missense only; indels, frameshift, splice and nonsense variants are not classified",
-                "ranking": "a triage heuristic that surfaces glycosylation-altering variants which sequence predictors (CADD/PolyPhen/SIFT/AlphaMissense) call benign; not a validated pathogenicity score",
+                "expression_check": "recipe step 3 (demote candidates not expressed in the tissue of interest) is inert here — no tissue/disease context supplied",
+                "ranking": "a triage heuristic (AlphaMissense pathogenicity + ClinVar), not a validated pathogenicity score",
                 "numbering": "variants whose stated wild-type residue does not match the canonical UniProt residue are reported as 'unmapped' rather than classified",
             },
         },
@@ -303,27 +298,16 @@ def build_bco(rows: list[dict], release: dict, run_date: str, mode: str) -> dict
     return bco
 
 
-def _uri_wrap(u, filename):
-    # execution_domain.script items are {"uri": <uri-object>}
-    return {"uri": _uri(u, filename)}
-
-
 def _etag(bco_without_etag: dict) -> str:
     payload = {k: v for k, v in bco_without_etag.items() if k != "etag"}
     return hashlib.sha256(json.dumps(payload, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
 
 
 def validate_bco(bco: dict, schema_dir: Path):
-    """Validate against the bundled IEEE-2791 schema. Returns (ok, errors).
-
-    ok is None (with a note) if jsonschema/referencing are not installed — so the
-    stdlib-only offline replay still runs; full validation happens when the
-    pinned deps are present (live mode, or `pip install -r requirements.txt`).
-    """
     try:
         import jsonschema
         from referencing import Registry, Resource
-    except Exception as exc:  # pragma: no cover - exercised only without deps
+    except Exception as exc:  # pragma: no cover
         return None, [f"skipped ({exc}); install jsonschema + referencing to validate"]
     docs = [json.loads(p.read_text()) for p in sorted(schema_dir.glob("*.json"))]
     registry = Registry().with_resources([(d["$id"], Resource.from_contents(d)) for d in docs])
@@ -350,42 +334,29 @@ def run(variants_path: Path, fixtures: Path, outdir: Path, live: bool = False, r
         uniprot, gene, change = v["uniprot"].strip(), v["gene"].strip(), v["protein_change"].strip()
         m = HGVSP_RE.match(change)
         if not m:
-            rows.append({"uniprot": uniprot, "gene": gene, "protein_change": change,
-                         "class": "unmapped", "mechanism": "unparseable protein change"})
+            rows.append({"uniprot": uniprot, "site": change, "class": "unmapped",
+                         "glygen_evidence": "unparseable protein change", "clinvar_significance": "not_evaluated",
+                         "alphamissense": "", "_am": -1.0, "_cv": 0})
             continue
         wt, pos, mt = m.group(1), int(m.group(2)), m.group(3)
-        seq, sites, bio = (load_live(uniprot, gene, change) if live
-                           else load_offline(uniprot, change, fixtures))
-        cls, mechanism = classify(seq, sites, wt, pos, mt)
-        cadd = bio.get("cadd_score")
+        seq, sites, bio = (load_live(uniprot, gene, change) if live else load_offline(uniprot, change, fixtures))
+        cls, evidence = classify(seq, sites, wt, pos, mt)
         am_pred, am_score = alphamissense(bio)
+        clinvar = bio.get("significance") or "not_provided"
         rows.append({
-            "uniprot": uniprot, "gene": gene, "protein_change": change,
-            "rsid": bio.get("rsid") or "", "class": cls, "mechanism": mechanism,
-            "clinvar_significance": bio.get("significance") or "not_provided",
-            "cadd": cadd if cadd is not None else "",
-            "polyphen": bio.get("polyphen_pred") or "", "sift": bio.get("sift_pred") or "",
-            "alphamissense": am_pred, "alphamissense_score": am_score if am_score is not None else "",
-            "predictors_miss_it": predictors_miss(cls, bio.get("significance") or "", cadd,
-                                                  bio.get("polyphen_pred") or "", am_pred),
+            "uniprot": uniprot, "site": change, "class": cls, "glygen_evidence": evidence,
+            "clinvar_significance": clinvar, "alphamissense": am_display(am_pred, am_score),
+            "_am": am_pathogenicity(am_pred, am_score), "_cv": clinvar_severity(clinvar),
         })
 
-    def sort_key(r):
-        cadd = r.get("cadd")
-        cadd = float(cadd) if cadd not in (None, "") else -1.0
-        return (CLASS_PRIORITY.get(r["class"], 3),
-                0 if r.get("predictors_miss_it") else 1,
-                0 if str(r.get("clinvar_significance", "")).lower().startswith("pathogenic") else 1,
-                -cadd, f'{r["uniprot"]}:{r["protein_change"]}')
-
-    rows.sort(key=sort_key)
+    # Recipe ranking: GOG/LOG above none (unmapped last); within group by
+    # AlphaMissense pathogenicity, then ClinVar significance.
+    rows.sort(key=lambda r: (CLASS_PRIORITY.get(r["class"], 3), -r["_am"], -r["_cv"], f'{r["uniprot"]}:{r["site"]}'))
     for i, r in enumerate(rows, 1):
         r["rank"] = i
 
     outdir.mkdir(parents=True, exist_ok=True)
-    cols = ["rank", "uniprot", "gene", "protein_change", "rsid", "class", "mechanism",
-            "clinvar_significance", "cadd", "polyphen", "sift", "alphamissense",
-            "alphamissense_score", "predictors_miss_it"]
+    cols = ["uniprot", "site", "class", "glygen_evidence", "clinvar_significance", "alphamissense", "rank"]
     out_csv = outdir / "glyco_candidates.csv"
     with out_csv.open("w", newline="") as fh:
         w = csv.DictWriter(fh, fieldnames=cols, lineterminator="\n")
@@ -393,8 +364,7 @@ def run(variants_path: Path, fixtures: Path, outdir: Path, live: bool = False, r
         for r in rows:
             w.writerow({c: r.get(c, "") for c in cols})
 
-    # IEEE-2791 BioCompute Object (required output).
-    bco = build_bco(rows, release, run_date, "live" if live else "offline-replay")
+    bco = build_bco(rows, release, run_date)
     bco_path = outdir / "glyco_run.bco.json"
     bco_path.write_text(json.dumps(bco, indent=2, sort_keys=True) + "\n")
     ok, errors = validate_bco(bco, fixtures / "ieee2791")
@@ -403,34 +373,31 @@ def run(variants_path: Path, fixtures: Path, outdir: Path, live: bool = False, r
         "analysis": "interpret-glycosylation-altering-variants",
         "script": "glyco_variants.py", "script_version": SCRIPT_VERSION,
         "run_date": run_date, "mode": "live" if live else "offline-replay",
+        "ranking": "GOG/LOG above none (unmapped last); within by AlphaMissense pathogenicity then ClinVar significance",
+        "expression_check": "not applied — no tissue/disease context supplied in the input",
         "sources": {
             "glygen_mcp": {"endpoint": GLYGEN_MCP_URL, **release},
             "uniprot": {"api": "https://rest.uniprot.org", "note": "canonical sequence, per-accession"},
-            "biomcp": {"cli": "biomcp", "provides": ["ClinVar significance", "CADD", "PolyPhen-2", "SIFT", "AlphaMissense"],
-                       "note": "AlphaMissense comes from the `predictions` section (biomcp get variant <id> predictions)"},
+            "biomcp": {"cli": "biomcp", "provides": ["ClinVar significance", "AlphaMissense"],
+                       "note": "AlphaMissense from the `predictions` section (biomcp get variant <id> predictions)"},
         },
         "input_sha256": sha256(variants_path),
         "outputs": {out_csv.name: sha256(out_csv), bco_path.name: sha256(bco_path)},
-        "biocompute_object": {
-            "file": bco_path.name, "spec_version": SPEC_VERSION,
-            "object_id": bco["object_id"], "etag": bco["etag"],
-            "input_dataset_bcos": ["https://data.glygen.org/GLY_001534", "https://data.glygen.org/GLY_001537"],
-        },
+        "biocompute_object": {"file": bco_path.name, "spec_version": SPEC_VERSION,
+                              "object_id": bco["object_id"], "etag": bco["etag"],
+                              "input_dataset_bcos": ["https://data.glygen.org/GLY_001534", "https://data.glygen.org/GLY_001537"]},
     }
     prov_path = outdir / "provenance.json"
     prov_path.write_text(json.dumps(provenance, indent=2, sort_keys=True) + "\n")
 
     hits = [r for r in rows if r["class"] in ("GOG", "LOG")]
-    print(f"Wrote {out_csv} ({len(rows)} variants; {len(hits)} glycosylation-altering), "
-          f"{prov_path}, and {bco_path}")
-    verdict = ("BCO valid against IEEE-2791 schema" if ok
-               else "BCO INVALID:\n  " + "\n  ".join(errors) if ok is False
-               else f"BCO schema validation {errors[0]}")
-    print(f"  {verdict}")
+    print(f"Wrote {out_csv} ({len(rows)} variants; {len(hits)} glycosylation-altering), {prov_path}, and {bco_path}")
+    print("  " + ("BCO valid against IEEE-2791 schema" if ok
+                  else "BCO INVALID:\n  " + "\n  ".join(errors) if ok is False
+                  else f"BCO schema validation {errors[0]}"))
     for r in rows:
-        flag = "  <- predictors miss it" if r.get("predictors_miss_it") else ""
-        print(f"  #{r['rank']} {r['gene']} {r['protein_change']}: {r['class']} — {r['mechanism']}{flag}")
-    return {"provenance": provenance, "bco": bco, "bco_valid": ok, "bco_errors": errors}
+        print(f"  #{r['rank']} {r['uniprot']} {r['site']}: {r['class']} | ClinVar={r['clinvar_significance']} | AM={r['alphamissense']}")
+    return {"provenance": provenance, "bco": bco, "bco_valid": ok, "bco_errors": errors, "rows": rows}
 
 
 def main() -> int:
