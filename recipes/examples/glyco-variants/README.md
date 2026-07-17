@@ -92,8 +92,9 @@ domains, populated from this run:
   the ranking.
 - `io_domain` — `variants.csv` in, `glyco_candidates.csv` out, and **GlyGen's own
   dataset BCOs (`GLY_001534`, `GLY_001537`) cited as input provenance**.
-- `error_domain` — the missense-only scope, the AlphaMissense gap, and the
-  `unmapped` guard, recorded as `algorithmic_error`.
+- `error_domain` — the missense-only scope, the ranking heuristic (a triage
+  signal, not a validated pathogenicity score), and the `unmapped` guard,
+  recorded as `algorithmic_error`.
 
 The `etag` is a sha256 over the object (deterministic), and the object validates
 against the bundled schema (`fixtures/ieee2791/`). This is what makes the run
