@@ -61,7 +61,7 @@
         "step_number": 3
       },
       {
-        "description": "Join ClinVar significance and CADD/PolyPhen/SIFT via the BioMCP variant searcher/getter (MyVariant.info).",
+        "description": "Join ClinVar significance, CADD/PolyPhen/SIFT, and AlphaMissense via the BioMCP variant getter's `predictions` section (MyVariant.info / dbNSFP).",
         "input_list": [
           {
             "uri": "https://myvariant.info"
@@ -106,13 +106,13 @@
   },
   "error_domain": {
     "algorithmic_error": {
-      "alphamissense": "AlphaMissense is not surfaced by BioMCP's default variant payload; ranking uses ClinVar + CADD + predictor discordance",
       "numbering": "variants whose stated wild-type residue does not match the canonical UniProt residue are reported as 'unmapped' rather than classified",
+      "ranking": "a triage heuristic that surfaces glycosylation-altering variants which sequence predictors (CADD/PolyPhen/SIFT/AlphaMissense) call benign; not a validated pathogenicity score",
       "scope": "single-residue missense only; indels, frameshift, splice and nonsense variants are not classified"
     },
     "empirical_error": {}
   },
-  "etag": "1cee578a11fd09a252c9779a9e10fbfc5dd6a187ba10a4ab49fa80c8421c0e57",
+  "etag": "e4f2aa759dc4e5bc3a53e4d00394784f74f07ab91183189787e497722fecec3c",
   "execution_domain": {
     "environment_variables": {},
     "external_data_endpoints": [
@@ -243,7 +243,7 @@
   },
   "spec_version": "https://w3id.org/ieee/ieee-2791-schema/2791object.json",
   "usability_domain": [
-    "Flags protein-coding missense variants that create (gain of glycosylation, GOG) or destroy (loss of glycosylation, LOG) N-/O-linked glycosylation sites, joins ClinVar + CADD/PolyPhen/SIFT, and ranks candidates where altered glycosylation is a plausible disease mechanism \u2014 surfacing pathogenic variants that sequence-based predictors miss.",
+    "Flags protein-coding missense variants that create (gain of glycosylation, GOG) or destroy (loss of glycosylation, LOG) N-/O-linked glycosylation sites, joins ClinVar + CADD/PolyPhen/SIFT/AlphaMissense, and ranks candidates where altered glycosylation is a plausible disease mechanism \u2014 surfacing pathogenic variants that sequence-based predictors miss.",
     "Reference run over a 7-variant SERPINC1/IFNGR2 panel; 4 glycosylation-altering hits."
   ]
 }

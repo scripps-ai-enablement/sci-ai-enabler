@@ -1,7 +1,7 @@
 {
   "analysis": "interpret-glycosylation-altering-variants",
   "biocompute_object": {
-    "etag": "1cee578a11fd09a252c9779a9e10fbfc5dd6a187ba10a4ab49fa80c8421c0e57",
+    "etag": "e4f2aa759dc4e5bc3a53e4d00394784f74f07ab91183189787e497722fecec3c",
     "file": "glyco_run.bco.json",
     "input_dataset_bcos": [
       "https://data.glygen.org/GLY_001534",
@@ -13,8 +13,8 @@
   "input_sha256": "dba4b53a2291b7a900708b3b735d8dcb5687d71c7229cef88d0dc925eb39bf38",
   "mode": "offline-replay",
   "outputs": {
-    "glyco_candidates.csv": "4ce638fc20c54721735ee041d168352becb53bd42506161f0fd18474739e9205",
-    "glyco_run.bco.json": "12a8f1fcd54827859c9d50bb0a3375d82c99ca0ec73088d8944b1e776e976351"
+    "glyco_candidates.csv": "4848b567812e9936af3649e84324b29d979ba1fa60c1e09c395438bd52f4e3b0",
+    "glyco_run.bco.json": "b52832fe6e4b2e8b715e69a60d9a4551eafa03ffe570d697b8da78c1eb674008"
   },
   "run_date": "2026-05-04",
   "script": "glyco_variants.py",
@@ -22,12 +22,13 @@
   "sources": {
     "biomcp": {
       "cli": "biomcp",
-      "note": "AlphaMissense is not surfaced by BioMCP's default variant payload",
+      "note": "AlphaMissense comes from the `predictions` section (biomcp get variant <id> predictions)",
       "provides": [
         "ClinVar significance",
         "CADD",
         "PolyPhen-2",
-        "SIFT"
+        "SIFT",
+        "AlphaMissense"
       ]
     },
     "glygen_mcp": {

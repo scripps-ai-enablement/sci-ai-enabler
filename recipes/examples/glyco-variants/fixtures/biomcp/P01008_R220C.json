@@ -68,6 +68,32 @@
   "allele_frequency_raw": 3.97861e-6,
   "cadd_score": 35.0,
   "consequence": "missense_variant",
+  "expanded_predictions": [
+    {
+      "score": 0.856,
+      "tool": "REVEL"
+    },
+    {
+      "prediction": "A",
+      "score": 0.4734,
+      "tool": "AlphaMissense"
+    },
+    {
+      "prediction": "D",
+      "score": 0.980104863643646,
+      "tool": "ClinPred"
+    },
+    {
+      "prediction": "Tolerated",
+      "score": 0.268,
+      "tool": "SIFT"
+    },
+    {
+      "prediction": "D",
+      "score": 0.8916281,
+      "tool": "MetaRNN"
+    }
+  ],
   "gene": "SERPINC1",
   "gnomad_af": 3.97861e-6,
   "hgvs_c": "c.658C>T",

@@ -61,20 +61,21 @@ provenance and the BCO carry the GlyGen release version and endpoint.
 
 Ranked output for the 7-variant demo panel (`results/glyco_candidates.csv`):
 
-| rank | variant | class | mechanism | ClinVar | CADD | PolyPhen | predictors miss it |
-|---|---|---|---|---|---|---|---|
-| 1 | IFNGR2 T168N | **GOG** | creates N-X-S/T sequon `NST` @168 | Pathogenic | 0.005 | Benign | **yes** |
-| 2 | SERPINC1 S114N | **GOG** | creates sequon `NIS` @114 | Pathogenic | 28.0 | Prob. damaging | no |
-| 3 | IFNGR2 T70N | **GOG** | creates sequon `NDS` @70 | not provided | 24.5 | Prob. damaging | no |
-| 4 | SERPINC1 N167S | **LOG** | destroys sequon @167 (GlyGen-annotated site) | not provided | 13.89 | Benign | no |
-| 5 | SERPINC1 R79C | none | no glycosite change | Pathogenic | 33.0 | Prob. damaging | — |
-| 6 | SERPINC1 N219D | none | no glycosite change | Pathogenic | 27.3 | Prob. damaging | — |
-| 7 | SERPINC1 R220C | *unmapped* | canonical residue 220 is Lys, not Arg | Pathogenic | 35.0 | Tolerated | — |
+| rank | variant | class | mechanism | ClinVar | CADD | PolyPhen | AlphaMissense | predictors miss it |
+|---|---|---|---|---|---|---|---|---|
+| 1 | IFNGR2 T168N | **GOG** | creates N-X-S/T sequon `NST` @168 | Pathogenic | 0.005 | Benign | Benign (0.09) | **yes** |
+| 2 | SERPINC1 S114N | **GOG** | creates sequon `NIS` @114 | Pathogenic | 28.0 | Prob. damaging | Pathogenic (0.92) | no |
+| 3 | IFNGR2 T70N | **GOG** | creates sequon `NDS` @70 | not provided | 24.5 | Prob. damaging | Benign (0.12) | no |
+| 4 | SERPINC1 N167S | **LOG** | destroys sequon @167 (GlyGen-annotated site) | not provided | 13.89 | Benign | Benign (0.12) | no |
+| 5 | SERPINC1 R79C | none | no glycosite change | Pathogenic | 33.0 | Prob. damaging | Pathogenic (0.91) | — |
+| 6 | SERPINC1 N219D | none | no glycosite change | Pathogenic | 27.3 | Prob. damaging | Pathogenic (0.66) | — |
+| 7 | SERPINC1 R220C | *unmapped* | canonical residue 220 is Lys, not Arg | Pathogenic | 35.0 | Tolerated | Ambiguous (0.47) | — |
 
 **The headline finding (rank 1).** `IFNGR2` T168N is ClinVar **Pathogenic** and
 causes Mendelian susceptibility to mycobacterial disease — yet CADD, PolyPhen,
-and SIFT all call it harmless. The glycosylation-*gain* mechanism is the signal
-the sequence-based predictors miss. The two `none` rows are *also* pathogenic but
+SIFT, **and AlphaMissense** all call it harmless. The glycosylation-*gain*
+mechanism is the signal the sequence-based predictors miss. The two `none` rows
+are *also* pathogenic but
 not glycosylation-driven, and the pipeline correctly does not flag them; the
 `unmapped` row is the numbering-harmonization guard firing on a real record.
 
@@ -119,9 +120,14 @@ promotes the BCO step to required.
 - **Tool-surface drift.** The catalog names the GlyGen glycosite tool
   `get_site_summary`; the live server (release 2.11.1) exposes
   `get_protein_glycosylation_sites`. GlyGen MCP is Beta — pin the release.
-- **AlphaMissense.** BioMCP's default variant payload returns ClinVar / CADD /
-  PolyPhen / SIFT but not AlphaMissense; ranking uses a predictor-discordance
-  flag instead. This is recorded in the BCO's `error_domain`.
+- **AlphaMissense needs the `predictions` section.** BioMCP's *default* variant
+  view omits AlphaMissense, but it is available via `biomcp get variant <id>
+  predictions` (dbNSFP through MyVariant.info) — which is a superset of the
+  default view. This example joins it from there. Notably, AlphaMissense *also*
+  calls the T168N gain variant benign, so it too misses the mechanism.
+- **BioMCP stdio command.** Registering BioMCP as an MCP server is `biomcp mcp`,
+  not `biomcp run` (which is not a subcommand). The recipe's install step was
+  corrected accordingly.
 - **Numbering is the real work.** `SERPINC1` literature "N135" (mature) is
   canonical `N167`; a real ClinVar record (`R220C`) uses a numbering under which
   canonical residue 220 is not Arg. Harmonizing — and refusing to guess when it

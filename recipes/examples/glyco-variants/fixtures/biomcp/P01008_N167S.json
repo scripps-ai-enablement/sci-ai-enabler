@@ -32,6 +32,32 @@
   },
   "cadd_score": 13.89,
   "consequence": "missense_variant",
+  "expanded_predictions": [
+    {
+      "score": 0.314,
+      "tool": "REVEL"
+    },
+    {
+      "prediction": "Benign",
+      "score": 0.1171,
+      "tool": "AlphaMissense"
+    },
+    {
+      "prediction": "D",
+      "score": 0.657523632049561,
+      "tool": "ClinPred"
+    },
+    {
+      "prediction": "Deleterious",
+      "score": 0.046,
+      "tool": "SIFT"
+    },
+    {
+      "prediction": "T",
+      "score": 0.2958014,
+      "tool": "MetaRNN"
+    }
+  ],
   "gene": "SERPINC1",
   "hgvs_c": "c.500A>G",
   "hgvs_p": "p.N167S",

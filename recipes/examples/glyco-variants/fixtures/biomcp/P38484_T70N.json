@@ -27,6 +27,32 @@
   },
   "cadd_score": 24.5,
   "consequence": "missense_variant",
+  "expanded_predictions": [
+    {
+      "score": 0.068,
+      "tool": "REVEL"
+    },
+    {
+      "prediction": "Benign",
+      "score": 0.1203,
+      "tool": "AlphaMissense"
+    },
+    {
+      "prediction": "D",
+      "score": 0.882585763931274,
+      "tool": "ClinPred"
+    },
+    {
+      "prediction": "Deleterious",
+      "score": 0.044,
+      "tool": "SIFT"
+    },
+    {
+      "prediction": "T",
+      "score": 0.27535468,
+      "tool": "MetaRNN"
+    }
+  ],
   "gene": "IFNGR2",
   "hgvs_c": "c.446C>A",
   "hgvs_p": "p.T70N",

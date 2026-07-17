@@ -88,12 +88,29 @@ def classify(seq: str, sites: dict[int, str], wt: str, pos: int, mt: str) -> tup
     return "none", "no change to an N- or O-glycosylation site"
 
 
-def predictors_miss(cls: str, clinvar: str, cadd, polyphen: str) -> bool:
+def alphamissense(bio: dict):
+    """(prediction, score) for AlphaMissense from BioMCP's `predictions` section.
+
+    BioMCP's default variant view omits AlphaMissense; it lives in the expanded
+    `predictions` section (dbNSFP via MyVariant.info). Returns ("", None) if absent.
+    """
+    for p in bio.get("expanded_predictions") or []:
+        if p.get("tool") == "AlphaMissense":
+            return p.get("prediction") or "", p.get("score")
+    return "", None
+
+
+def predictors_miss(cls: str, clinvar: str, cadd, polyphen: str, am_pred: str) -> bool:
+    """A pathogenic glyco-altering variant that every sequence-based predictor
+    (CADD, PolyPhen, and AlphaMissense) calls benign — the highest-value case."""
     if cls not in ("GOG", "LOG"):
+        return False
+    if not (clinvar or "").lower().startswith("pathogenic"):
         return False
     benign_cadd = cadd is not None and cadd < 20
     benign_pph = (polyphen or "").lower().startswith("benign")
-    return (clinvar or "").lower().startswith("pathogenic") and benign_cadd and benign_pph
+    benign_am = (am_pred or "").lower().startswith("b")
+    return benign_cadd and benign_pph and benign_am
 
 
 # --------------------------------------------------------------------------- #
@@ -148,17 +165,20 @@ def _glygen_call(tool: str, args: dict):
 
 
 def _biomcp_variant(gene: str, change: str) -> dict:
-    hit = _biomcp_json(["search", "variant", "-g", gene, "--hgvsp", f"p.{change}", "--limit", "5"])
+    hit = _biomcp_json(["search", "variant", "--json", "--no-cache", "-g", gene, "--hgvsp", f"p.{change}", "--limit", "5"])
     results = hit.get("results", hit) if isinstance(hit, dict) else hit
     match = next((r for r in results if r.get("hgvs_p") in (f"p.{change}", change)), None)
     if not match:
         return {}
-    got = _biomcp_json(["get", "variant", match["id"]])
+    # The `predictions` section is a superset of the default view: the summary
+    # fields (ClinVar/CADD/PolyPhen/SIFT) PLUS expanded_predictions incl.
+    # AlphaMissense. Options must precede the ID; the section is a trailing arg.
+    got = _biomcp_json(["get", "variant", "--json", "--no-cache", match["id"], "predictions"])
     return got[0] if isinstance(got, list) and got else got
 
 
 def _biomcp_json(args):
-    out = subprocess.run(["biomcp", *args, "--json", "--no-cache"], capture_output=True, text=True, timeout=90)
+    out = subprocess.run(["biomcp", *args], capture_output=True, text=True, timeout=90)
     out.check_returncode()
     return json.loads(out.stdout or "{}")
 
@@ -200,7 +220,7 @@ def build_bco(rows: list[dict], release: dict, run_date: str, mode: str) -> dict
         "usability_domain": [
             "Flags protein-coding missense variants that create (gain of glycosylation, GOG) or "
             "destroy (loss of glycosylation, LOG) N-/O-linked glycosylation sites, joins ClinVar + "
-            "CADD/PolyPhen/SIFT, and ranks candidates where altered glycosylation is a plausible "
+            "CADD/PolyPhen/SIFT/AlphaMissense, and ranks candidates where altered glycosylation is a plausible "
             "disease mechanism — surfacing pathogenic variants that sequence-based predictors miss.",
             f"Reference run over a {len(rows)}-variant SERPINC1/IFNGR2 panel; "
             f"{n_hit} glycosylation-altering hits.",
@@ -222,7 +242,7 @@ def build_bco(rows: list[dict], release: dict, run_date: str, mode: str) -> dict
                  "input_list": [_uri(f"{ARTIFACT_BASE}/variants.csv", "variants.csv")],
                  "output_list": [_uri(f"{ARTIFACT_BASE}/results/glyco_candidates.csv", "glyco_candidates.csv")]},
                 {"step_number": 4, "name": "Annotation join (BioMCP)",
-                 "description": "Join ClinVar significance and CADD/PolyPhen/SIFT via the BioMCP variant searcher/getter (MyVariant.info).",
+                 "description": "Join ClinVar significance, CADD/PolyPhen/SIFT, and AlphaMissense via the BioMCP variant getter's `predictions` section (MyVariant.info / dbNSFP).",
                  "input_list": [_uri("https://myvariant.info")],
                  "output_list": [_uri(f"{ARTIFACT_BASE}/fixtures/biomcp")]},
                 {"step_number": 5, "name": "Rank + report",
@@ -269,7 +289,7 @@ def build_bco(rows: list[dict], release: dict, run_date: str, mode: str) -> dict
             "empirical_error": {},
             "algorithmic_error": {
                 "scope": "single-residue missense only; indels, frameshift, splice and nonsense variants are not classified",
-                "alphamissense": "AlphaMissense is not surfaced by BioMCP's default variant payload; ranking uses ClinVar + CADD + predictor discordance",
+                "ranking": "a triage heuristic that surfaces glycosylation-altering variants which sequence predictors (CADD/PolyPhen/SIFT/AlphaMissense) call benign; not a validated pathogenicity score",
                 "numbering": "variants whose stated wild-type residue does not match the canonical UniProt residue are reported as 'unmapped' rather than classified",
             },
         },
@@ -338,13 +358,16 @@ def run(variants_path: Path, fixtures: Path, outdir: Path, live: bool = False, r
                            else load_offline(uniprot, change, fixtures))
         cls, mechanism = classify(seq, sites, wt, pos, mt)
         cadd = bio.get("cadd_score")
+        am_pred, am_score = alphamissense(bio)
         rows.append({
             "uniprot": uniprot, "gene": gene, "protein_change": change,
             "rsid": bio.get("rsid") or "", "class": cls, "mechanism": mechanism,
             "clinvar_significance": bio.get("significance") or "not_provided",
             "cadd": cadd if cadd is not None else "",
             "polyphen": bio.get("polyphen_pred") or "", "sift": bio.get("sift_pred") or "",
-            "predictors_miss_it": predictors_miss(cls, bio.get("significance") or "", cadd, bio.get("polyphen_pred") or ""),
+            "alphamissense": am_pred, "alphamissense_score": am_score if am_score is not None else "",
+            "predictors_miss_it": predictors_miss(cls, bio.get("significance") or "", cadd,
+                                                  bio.get("polyphen_pred") or "", am_pred),
         })
 
     def sort_key(r):
@@ -361,7 +384,8 @@ def run(variants_path: Path, fixtures: Path, outdir: Path, live: bool = False, r
 
     outdir.mkdir(parents=True, exist_ok=True)
     cols = ["rank", "uniprot", "gene", "protein_change", "rsid", "class", "mechanism",
-            "clinvar_significance", "cadd", "polyphen", "sift", "predictors_miss_it"]
+            "clinvar_significance", "cadd", "polyphen", "sift", "alphamissense",
+            "alphamissense_score", "predictors_miss_it"]
     out_csv = outdir / "glyco_candidates.csv"
     with out_csv.open("w", newline="") as fh:
         w = csv.DictWriter(fh, fieldnames=cols, lineterminator="\n")
@@ -382,8 +406,8 @@ def run(variants_path: Path, fixtures: Path, outdir: Path, live: bool = False, r
         "sources": {
             "glygen_mcp": {"endpoint": GLYGEN_MCP_URL, **release},
             "uniprot": {"api": "https://rest.uniprot.org", "note": "canonical sequence, per-accession"},
-            "biomcp": {"cli": "biomcp", "provides": ["ClinVar significance", "CADD", "PolyPhen-2", "SIFT"],
-                       "note": "AlphaMissense is not surfaced by BioMCP's default variant payload"},
+            "biomcp": {"cli": "biomcp", "provides": ["ClinVar significance", "CADD", "PolyPhen-2", "SIFT", "AlphaMissense"],
+                       "note": "AlphaMissense comes from the `predictions` section (biomcp get variant <id> predictions)"},
         },
         "input_sha256": sha256(variants_path),
         "outputs": {out_csv.name: sha256(out_csv), bco_path.name: sha256(bco_path)},

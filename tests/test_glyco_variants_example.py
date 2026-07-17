@@ -123,7 +123,21 @@ class TestScientificGroundTruth(unittest.TestCase):
             self.assertEqual(row["clinvar_significance"], "Pathogenic")
             self.assertEqual(row["predictors_miss_it"], "True")
             self.assertLess(float(row["cadd"]), 20.0)
+            # AlphaMissense (joined via BioMCP's predictions section) also calls it benign.
+            self.assertTrue(row["alphamissense"].lower().startswith("b"),
+                            f"expected AlphaMissense benign, got {row['alphamissense']!r}")
             self.assertEqual(row["rank"], "1")
+
+    def test_alphamissense_is_joined(self):
+        with tempfile.TemporaryDirectory() as d:
+            out = Path(d)
+            run_offline(out)
+            # A discriminating case: S114N (also GOG + pathogenic) is called
+            # pathogenic by AlphaMissense, so it is NOT a "predictors miss it".
+            s114n = next(r for r in read_rows(out) if r["protein_change"] == "S114N")
+            self.assertTrue(s114n["alphamissense"], "AlphaMissense column is empty — not joined")
+            self.assertEqual(s114n["alphamissense"].lower().startswith("b"), False)
+            self.assertEqual(s114n["predictors_miss_it"], "False")
 
     def test_unmapped_guard_fires(self):
         with tempfile.TemporaryDirectory() as d:
