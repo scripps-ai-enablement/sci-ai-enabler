@@ -1,0 +1,107 @@
+{
+  "_meta": {
+    "evidence_urls": [
+      {
+        "label": "dbSNP",
+        "url": "https://www.ncbi.nlm.nih.gov/snp/rs121909554"
+      },
+      {
+        "label": "gnomAD",
+        "url": "https://gnomad.broadinstitute.org/variant/rs121909554"
+      }
+    ],
+    "ladder": [
+      {
+        "command": "biomcp get variant \"BRAF V600E\" clinvar predictions population",
+        "step": 1,
+        "what_it_gives": "Clinical significance, computational predictions, and allele-frequency context."
+      },
+      {
+        "command": "biomcp get variant \"BRAF V600E\" civic cgi",
+        "step": 2,
+        "what_it_gives": "Curated cancer evidence and biomarker interpretation."
+      },
+      {
+        "command": "biomcp variant trials \"BRAF V600E\" --limit 5",
+        "step": 3,
+        "what_it_gives": "Variant-matched clinical trials."
+      },
+      {
+        "command": "biomcp variant articles \"BRAF V600E\" --limit 5",
+        "step": 4,
+        "what_it_gives": "Literature follow-up anchored on the variant."
+      }
+    ],
+    "next_commands": [
+      "biomcp get gene SERPINC1",
+      "biomcp search drug --target SERPINC1",
+      "biomcp variant trials \"chr1:g.173873149G>A\"",
+      "biomcp variant articles \"chr1:g.173873149G>A\""
+    ],
+    "section_sources": [
+      {
+        "key": "identity",
+        "label": "Identity",
+        "sources": [
+          "MyVariant.info",
+          "ClinVar"
+        ]
+      },
+      {
+        "key": "population",
+        "label": "Population",
+        "sources": [
+          "gnomAD via MyVariant.info"
+        ]
+      },
+      {
+        "key": "expanded_predictions",
+        "label": "Expanded Predictions",
+        "sources": [
+          "MyVariant.info"
+        ]
+      }
+    ],
+    "workflow": "variant-pathogenicity"
+  },
+  "allele_frequency_percent": "< 0.01%",
+  "allele_frequency_raw": 3.97861e-6,
+  "cadd_score": 35.0,
+  "consequence": "missense_variant",
+  "expanded_predictions": [
+    {
+      "score": 0.856,
+      "tool": "REVEL"
+    },
+    {
+      "prediction": "A",
+      "score": 0.4734,
+      "tool": "AlphaMissense"
+    },
+    {
+      "prediction": "D",
+      "score": 0.980104863643646,
+      "tool": "ClinPred"
+    },
+    {
+      "prediction": "Tolerated",
+      "score": 0.268,
+      "tool": "SIFT"
+    },
+    {
+      "prediction": "D",
+      "score": 0.8916281,
+      "tool": "MetaRNN"
+    }
+  ],
+  "gene": "SERPINC1",
+  "gnomad_af": 3.97861e-6,
+  "hgvs_c": "c.658C>T",
+  "hgvs_p": "p.R220C",
+  "id": "chr1:g.173873149G>A",
+  "legacy_name": "SERPINC1 R425C",
+  "polyphen_pred": "Probably damaging",
+  "rsid": "rs121909554",
+  "sift_pred": "Tolerated",
+  "significance": "Pathogenic"
+}

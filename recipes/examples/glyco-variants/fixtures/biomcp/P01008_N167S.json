@@ -1,0 +1,68 @@
+{
+  "_meta": {
+    "evidence_urls": [
+      {
+        "label": "dbSNP",
+        "url": "https://www.ncbi.nlm.nih.gov/snp/rs121909570"
+      }
+    ],
+    "next_commands": [
+      "biomcp get gene SERPINC1",
+      "biomcp search drug --target SERPINC1",
+      "biomcp variant trials \"chr1:g.173881061T>C\"",
+      "biomcp variant articles \"chr1:g.173881061T>C\""
+    ],
+    "section_sources": [
+      {
+        "key": "identity",
+        "label": "Identity",
+        "sources": [
+          "MyVariant.info",
+          "ClinVar"
+        ]
+      },
+      {
+        "key": "expanded_predictions",
+        "label": "Expanded Predictions",
+        "sources": [
+          "MyVariant.info"
+        ]
+      }
+    ]
+  },
+  "cadd_score": 13.89,
+  "consequence": "missense_variant",
+  "expanded_predictions": [
+    {
+      "score": 0.314,
+      "tool": "REVEL"
+    },
+    {
+      "prediction": "Benign",
+      "score": 0.1171,
+      "tool": "AlphaMissense"
+    },
+    {
+      "prediction": "D",
+      "score": 0.657523632049561,
+      "tool": "ClinPred"
+    },
+    {
+      "prediction": "Deleterious",
+      "score": 0.046,
+      "tool": "SIFT"
+    },
+    {
+      "prediction": "T",
+      "score": 0.2958014,
+      "tool": "MetaRNN"
+    }
+  ],
+  "gene": "SERPINC1",
+  "hgvs_c": "c.500A>G",
+  "hgvs_p": "p.N167S",
+  "id": "chr1:g.173881061T>C",
+  "polyphen_pred": "Benign",
+  "rsid": "rs121909570",
+  "sift_pred": "Deleterious"
+}

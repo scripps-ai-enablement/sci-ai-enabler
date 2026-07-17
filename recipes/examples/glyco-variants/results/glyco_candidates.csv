@@ -1,0 +1,8 @@
+uniprot,site,class,glygen_evidence,clinvar_significance,alphamissense,rank
+P01008,S114N,GOG,"creates N-X-S/T sequon N114-I115-S116 (de-novo, not a known GlyGen site)",Pathogenic,Pathogenic (0.921),1
+P38484,T70N,GOG,"creates N-X-S/T sequon N70-D71-S72 (de-novo, not a known GlyGen site)",not_provided,Benign (0.120),2
+P01008,N167S,LOG,destroys known GlyGen N-glycosite at Asn167 (sequon N167-K168-S169),not_provided,Benign (0.117),3
+P38484,T168N,GOG,"creates N-X-S/T sequon N168-S169-T170 (de-novo, not a known GlyGen site)",Pathogenic,Benign (0.086),4
+P01008,R79C,none,no known glycosite removed and no new N-X-S/T sequon created,Pathogenic,Pathogenic (0.910),5
+P01008,N219D,none,no known glycosite removed and no new N-X-S/T sequon created,Pathogenic,Pathogenic (0.656),6
+P01008,R220C,unmapped,"UNMAPPED — canonical UniProt residue 220 is K, not R; no frame reconciles it (flagged for manual review)",Pathogenic,Ambiguous (0.473),7

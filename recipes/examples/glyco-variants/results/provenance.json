@@ -1,0 +1,43 @@
+{
+  "analysis": "interpret-glycosylation-altering-variants",
+  "biocompute_object": {
+    "etag": "fbd53bd9dae1360b08824b84780339b9a087e613e9b1d2dcb74d02121ae18c9d",
+    "file": "glyco_run.bco.json",
+    "input_dataset_bcos": [
+      "https://data.glygen.org/GLY_001534",
+      "https://data.glygen.org/GLY_001537"
+    ],
+    "object_id": "https://github.com/scripps-ai-enablement/sci-ai-enabler/blob/main/recipes/examples/glyco-variants/results/glyco_run.bco.json",
+    "spec_version": "https://w3id.org/ieee/ieee-2791-schema/2791object.json"
+  },
+  "expression_check": "not applied \u2014 no tissue/disease context supplied in the input",
+  "input_sha256": "dba4b53a2291b7a900708b3b735d8dcb5687d71c7229cef88d0dc925eb39bf38",
+  "mode": "offline-replay",
+  "outputs": {
+    "glyco_candidates.csv": "4f7d48d830c87f54282bf57639bb07da90cbd8ea551d13c6d69118a87a04b2c1",
+    "glyco_run.bco.json": "c2f4661d570e68018eea1f5d93d304ce48edc5a7d5ed806c6eaf45c916e9808a"
+  },
+  "ranking": "GOG/LOG above none (unmapped last); within by AlphaMissense pathogenicity then ClinVar significance",
+  "run_date": "2026-05-04",
+  "script": "glyco_variants.py",
+  "script_version": "3.0.0",
+  "sources": {
+    "biomcp": {
+      "cli": "biomcp",
+      "note": "AlphaMissense from the `predictions` section (biomcp get variant <id> predictions)",
+      "provides": [
+        "ClinVar significance",
+        "AlphaMissense"
+      ]
+    },
+    "glygen_mcp": {
+      "data_release_date": "2026-05-04 23:11:19 EDT-0400",
+      "data_version": "2.11.1",
+      "endpoint": "https://mcp.glygen.org/mcp"
+    },
+    "uniprot": {
+      "api": "https://rest.uniprot.org",
+      "note": "canonical sequence, per-accession"
+    }
+  }
+}

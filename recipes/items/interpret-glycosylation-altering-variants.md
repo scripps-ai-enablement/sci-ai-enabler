@@ -39,7 +39,7 @@ This is a two-MCP toolbelt: **[GlyGen MCP](../../catalog/tools/glygen.html)** su
    ```
    claude mcp add --transport http glygen https://mcp.glygen.org/mcp
    uv tool install biomcp-cli
-   claude mcp add --transport stdio biomcp -- biomcp run
+   claude mcp add --transport stdio biomcp -- biomcp mcp
    ```
 
    Run `/mcp` to confirm both are connected.
@@ -48,7 +48,7 @@ This is a two-MCP toolbelt: **[GlyGen MCP](../../catalog/tools/glygen.html)** su
    - resolves the canonical GlyGen protein with `get_protein_summary` and pulls known glycosites with `get_site_summary`;
    - **harmonizes numbering** — reconcile the input site frame against the GlyGen canonical frame before comparing (the Asn135↔Asn167 antithrombin case is the canonical trap); refuse to classify a variant whose frame cannot be reconciled and log it as `unmapped`;
    - classifies each variant as `LOG` (mutation removes a residue in a known N-X-S/T sequon or an annotated O-glycosite), `GOG` (mutation creates a new N-X-S/T sequon — check the ±2 residue window), or `none`;
-   - joins ClinVar significance and AlphaMissense pathogenicity via BioMCP `variant_searcher`/`variant_getter` (MyVariant.info federates both);
+   - joins ClinVar significance and AlphaMissense pathogenicity via BioMCP `variant_searcher`/`variant_getter` (MyVariant.info federates both) — note AlphaMissense is not in the getter's default view; request its `predictions` section (`biomcp get variant <id> predictions`), a superset that adds it;
    - emits `glyco_candidates.csv` with columns `uniprot, site, class, glygen_evidence, clinvar_significance, alphamissense, rank`.
 
    Rank GOG/LOG hits above `none`, then within class by AlphaMissense pathogenicity and ClinVar significance.
@@ -57,7 +57,7 @@ This is a two-MCP toolbelt: **[GlyGen MCP](../../catalog/tools/glygen.html)** su
 
 4. **Pin the environment and record provenance.** Commit `glyco_variants.py`, a pinned `requirements.txt` (the `mcp`/`biomcp-python` client versions), the input variant list, `glyco_candidates.csv`, and a `provenance.json` capturing: GlyGen release version + MCP endpoint, BioMCP version, ClinVar/AlphaMissense snapshot dates, input file sha256, run date, and model id. Follow the [reproducibility guide](../../guide/advanced/reproducibility.md) and model the artifact on [`recipes/examples/functional-enrichment/`](../examples/functional-enrichment/).
 
-5. **(Optional) Emit an IEEE-2791 BioCompute Object.** GlyGen publishes its source datasets as BCOs ([germline `GLY_001534`](https://data.glygen.org/GLY_001534), [somatic `GLY_001537`](https://data.glygen.org/GLY_001537)); cite those as input provenance and, if your downstream consumers require it, serialize the run as a schema-validated BCO JSON alongside `provenance.json`.
+5. **Emit an IEEE-2791 BioCompute Object.** Serialize the run as an IEEE-2791 (BioCompute Object) JSON alongside `provenance.json`, populating the standard domains — `description_domain.pipeline_steps` (the GlyGen lookup → numbering harmonization → LOG/GOG classification → BioMCP join → rank), `execution_domain` (script, pinned software, the GlyGen MCP / UniProt / BioMCP endpoints), `parametric_domain` (the sequon rule and ranking), `io_domain`, and `error_domain` (the missense-only scope, the ranking heuristic, the `unmapped` guard). GlyGen publishes its own source datasets as BCOs ([germline `GLY_001534`](https://data.glygen.org/GLY_001534), [somatic `GLY_001537`](https://data.glygen.org/GLY_001537)) — cite those in the `io_domain` input as dataset provenance. **Validate the object against the [published IEEE-2791 JSON schema](https://w3id.org/ieee/ieee-2791-schema/2791object.json) before relying on it.** See [`recipes/examples/glyco-variants/`](../examples/glyco-variants/) for a reference implementation that emits and validates the BCO.
 
 The natural-language ranked report must cite only what appears in `glyco_candidates.csv` — the saved table is the audit trail.
 
