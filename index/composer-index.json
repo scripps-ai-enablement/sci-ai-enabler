@@ -2,8 +2,8 @@
   "version": 1,
   "generated": "2026-07-17",
   "counts": {
-    "tools": 431,
-    "recipes": 79,
+    "tools": 432,
+    "recipes": 80,
     "systems": 68
   },
   "tools_file": "composer-tools.json",
@@ -657,6 +657,30 @@
         "Time-to-event"
       ],
       "path": "recipes/items/fit-survival-model-to-clinical-outcomes.md"
+    },
+    {
+      "slug": "generate-cross-corpus-drug-repurposing-hypotheses",
+      "title": "Generate falsification-tested drug-repurposing hypotheses across corpora",
+      "problem_class": "Hypothesis generation",
+      "subject_areas": [
+        "Drug Repurposing and Discovery",
+        "Neuroscience",
+        "Molecular and Cellular Biology"
+      ],
+      "evidence_level": "Proposed",
+      "complexity": "Autonomous system",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-07-17",
+      "summary": "Use the Hypothesis Crucible plugin to mine typed knowledge fragments from literature, Open Targets/ChEMBL/ClinicalTrials, and raw experimental data (GEO), bridge them Swanson-style into candidate drug-disease connections, then aggressively reject the non-novel, ungrounded, contradicted, and implausible — surfacing only survivors with a fragment-cited mechanism and a falsifiable experiment.",
+      "keywords": [
+        "ChEMBL",
+        "GEO",
+        "III",
+        "PMID",
+        "Swanson-style"
+      ],
+      "path": "recipes/items/generate-cross-corpus-drug-repurposing-hypotheses.md"
     },
     {
       "slug": "harmonize-clinical-terms-to-standard-codes",

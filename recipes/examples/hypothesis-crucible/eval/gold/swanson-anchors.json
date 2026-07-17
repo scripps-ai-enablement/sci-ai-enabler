@@ -1,0 +1,7 @@
+{
+  "description": "Classic literature-based-discovery anchors (Swanson). Sanity checks for a general-purpose run, not scored in the Alzheimer reference bundle. A time-sliced run restricted to sources predating each discovery should be able to re-propose the A-C link via the listed B-term.",
+  "entries": [
+    {"a": "dietary fish oil", "b": "blood viscosity / platelet aggregation", "c": "Raynaud's disease", "discovered": "Swanson 1986"},
+    {"a": "magnesium", "b": "cerebral vasospasm / platelet function", "c": "migraine", "discovered": "Swanson 1988"}
+  ]
+}

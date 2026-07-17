@@ -1,0 +1,64 @@
+{
+  "analysis": "crucible-hypothesis-forge",
+  "disease_anchor": {
+    "name": "Alzheimer disease",
+    "ontology_id": "EFO_0000249"
+  },
+  "goal": "repurposable approved drugs for Alzheimer's disease",
+  "model_id": "illustrative-reference-run",
+  "note": "Synthetic reference bundle demonstrating the run-bundle schema and the eval scorer. Fragments/accessions are representative, not a live literature-mined result.",
+  "outputs": {
+    "fragments.jsonl": {
+      "sha256": "b4d1172fc64e6e72ed4e2c6613cfbdc66e6984913d59d18594884d0744bfc5b3"
+    },
+    "hypotheses.json": {
+      "sha256": "880bce7c1cbc59d67cb32da7452d24f3e8723efbb387c145953c38ab0ad9912e"
+    },
+    "kill-log.jsonl": {
+      "sha256": "b143ee8273dd9e485c335c27f29983383395093d1c09af1eff5366ddac71d27e"
+    }
+  },
+  "parameters": {
+    "gate_order": "G1;G2;G3;G4",
+    "min_corpus_diversity": 2,
+    "min_independent_paths_k": 2
+  },
+  "result_summary": {
+    "candidates_considered": 7,
+    "fragments": 12,
+    "killed": 5,
+    "per_gate_kills": {
+      "G1": 1,
+      "G2": 1,
+      "G3": 2,
+      "G4": 1
+    },
+    "surfaced": 2
+  },
+  "run_date": "2026-07-17",
+  "skill": "crucible/skills/forge/SKILL.md",
+  "sources": [
+    {
+      "corpus": "literature/pubmed",
+      "snapshot_date": "2018-06-01"
+    },
+    {
+      "corpus": "structured/opentargets",
+      "snapshot_date": "2019-03-01"
+    },
+    {
+      "corpus": "structured/chembl",
+      "snapshot_date": "2019-01-15"
+    },
+    {
+      "corpus": "structured/ctrials",
+      "snapshot_date": "2013-04-01"
+    },
+    {
+      "corpus": "raw/geo",
+      "snapshot_date": "2019-02-01"
+    }
+  ],
+  "synthetic_illustrative": true,
+  "time_slice_cutoff": "2019-12-31"
+}

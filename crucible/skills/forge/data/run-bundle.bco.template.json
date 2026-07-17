@@ -1,0 +1,73 @@
+{
+  "spec_version": "https://w3id.org/ieee/ieee-2791-schema/2791object.json",
+  "object_id": "<repo-or-local URL to this run.bco.json>",
+  "etag": "<sha256 of this object with the etag field blanked>",
+  "provenance_domain": {
+    "name": "Crucible hypothesis-forge run — <goal>",
+    "version": "1.0.0",
+    "created": "<run date, ISO8601>",
+    "modified": "<run date, ISO8601>",
+    "contributors": [
+      {"contribution": ["authoredBy", "createdWith"],
+       "name": "Claude (Anthropic), driven by the sci-ai-enabler crucible plugin skill 'forge'"}
+    ],
+    "license": "https://github.com/scripps-ai-enablement/sci-ai-enabler (repository license unspecified as of run)"
+  },
+  "usability_domain": [
+    "<one line: what the run did and the surviving-hypothesis count>",
+    "<one line: the goal, anchors, and time-slice cutoff>"
+  ],
+  "description_domain": {
+    "keywords": ["hypothesis generation", "literature-based discovery", "Swanson ABC", "falsification gauntlet", "drug repurposing"],
+    "pipeline_steps": [
+      {"step_number": 0, "name": "Frame", "description": "Resolve goal to ontology anchors; record known-connections baseline.", "input_list": [{"uri": "<goal>"}], "output_list": [{"uri": "<anchors>"}]},
+      {"step_number": 1, "name": "Fragment mining (cross-corpus)", "description": "Extract typed fragments from literature / structured DBs / raw sources via the source adapters.", "input_list": [{"uri": "<adapters invoked>"}], "output_list": [{"filename": "fragments.jsonl"}]},
+      {"step_number": 2, "name": "Bridge discovery", "description": "Find A-C pairs with no direct edge but >=k independent B-paths across >=2 corpora (Swanson ABC).", "input_list": [{"filename": "fragments.jsonl"}], "output_list": [{"uri": "<candidate bridges>"}]},
+      {"step_number": 3, "name": "Falsification gauntlet", "description": "Independent veto gates G1-G4 (novelty, groundedness, contradiction, plausibility); every kill logged.", "input_list": [{"uri": "<candidate bridges>"}], "output_list": [{"filename": "kill-log.jsonl"}]},
+      {"step_number": 4, "name": "Tournament + evolution", "description": "Elo pairwise-debate ranking and refinement of survivors.", "input_list": [{"uri": "<survivors>"}], "output_list": [{"filename": "hypotheses.json"}]},
+      {"step_number": 5, "name": "Emit run bundle", "description": "Write hypotheses, kill-log, fragments, provenance, and this BCO.", "input_list": [{"filename": "hypotheses.json"}], "output_list": [{"filename": "provenance.json"}]}
+    ],
+    "xref": [{"name": "<external data release>", "namespace": "<e.g. opentargets.release>", "ids": ["<release id>"], "access_time": "<ISO8601>"}]
+  },
+  "execution_domain": {
+    "script": [{"uri": {"filename": "SKILL.md", "uri": "<repo URL to crucible/skills/forge/SKILL.md>"}}],
+    "script_driver": "claude-code (agentic; model-driven procedure, not a deterministic script)",
+    "software_prerequisites": [
+      {"name": "claude-code", "version": "<version>", "uri": {"uri": "https://claude.com/claude-code"}}
+    ],
+    "external_data_endpoints": [
+      {"name": "PubMed MCP", "url": "<mcp server>"},
+      {"name": "Open Targets MCP", "url": "<mcp server>"},
+      {"name": "ChEMBL MCP", "url": "<mcp server>"},
+      {"name": "ClinicalTrials.gov MCP", "url": "<mcp server>"},
+      {"name": "GEO (raw adapter)", "url": "<endpoint>"}
+    ],
+    "environment_variables": {}
+  },
+  "io_domain": {
+    "input_subdomain": [
+      {"uri": {"filename": "goal", "uri": "<goal text>"}}
+    ],
+    "output_subdomain": [
+      {"mediatype": "application/json", "uri": {"filename": "hypotheses.json"}},
+      {"mediatype": "application/x-ndjson", "uri": {"filename": "kill-log.jsonl"}},
+      {"mediatype": "application/x-ndjson", "uri": {"filename": "fragments.jsonl"}},
+      {"mediatype": "application/json", "uri": {"filename": "provenance.json"}}
+    ]
+  },
+  "parametric_domain": [
+    {"param": "min_independent_paths_k", "step": "2", "value": "<k>"},
+    {"param": "min_corpus_diversity", "step": "2", "value": "2"},
+    {"param": "time_slice_cutoff", "step": "1", "value": "<YYYY-MM-DD or none>"},
+    {"param": "gate_order", "step": "3", "value": "G1;G2;G3;G4 (any gate vetoes)"},
+    {"param": "model_id", "step": "all", "value": "<model id>"}
+  ],
+  "error_domain": {
+    "empirical_error": {},
+    "algorithmic_error": {
+      "generation_nondeterminism": "The forge run is agentic; re-running may surface different hypotheses. This BCO makes the run auditable and re-attemptable, not byte-reproducible. Deterministic scoring of a captured bundle lives in eval/score.py.",
+      "novelty_scope": "Novelty is judged against the sources searched at the cutoff; a connection absent from those sources but present elsewhere may be mislabeled novel.",
+      "surfacing_bias": "The gauntlet optimizes precision; true hypotheses can be killed (false negatives) by design."
+    }
+  }
+}
