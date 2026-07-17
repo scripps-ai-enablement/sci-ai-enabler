@@ -42,6 +42,7 @@ body:
         - find-repurposing-candidates-in-a-knowledge-graph
         - find-selective-cancer-dependencies-with-depmap
         - fit-survival-model-to-clinical-outcomes
+        - generate-cross-corpus-drug-repurposing-hypotheses
         - harmonize-clinical-terms-to-standard-codes
         - identify-bacterial-isolate-from-16s-sequence
         - identify-unknown-compound-from-msms-spectrum
