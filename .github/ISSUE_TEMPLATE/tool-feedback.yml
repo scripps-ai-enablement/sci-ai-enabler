@@ -27,6 +27,7 @@ body:
         - allenbrain
         - alphafold
         - alphagenome
+        - amr-detection
         - anndata
         - aomic-skill
         - arboreto
@@ -37,6 +38,7 @@ body:
         - autoskill
         - bakta-genome-annotation
         - bcftools-variant-manipulation
+        - bci-mcp
         - bedtools-genomic-intervals
         - benchling-integration
         - bgpt-paper-search
@@ -52,9 +54,11 @@ body:
         - blast
         - bnt
         - bold5000-skill
+        - boltz
         - brain-visualization
         - brain_gnn
         - brenda-database
+        - brian2
         - bulk-rnaseq
         - bwa-mem2-dna-aligner
         - camcan-skill
@@ -64,12 +68,16 @@ body:
         - cellrank-mcp
         - celltypist-cell-annotation
         - cellxgene-census
+        - certus
+        - chatspatial
         - chembl
         - chemcp
         - chemlint
         - cirq
         - citation-management
+        - clair-variant-caller
         - clinical-decision-support
+        - clinical-note-extract
         - clinical-reports
         - clinical-trial-protocol
         - clinicaltrials-gov-mcp
@@ -110,10 +118,12 @@ body:
         - drugbank
         - dwi-skill
         - eeg-skill
+        - embl-ebi-ols
         - emdb-database
         - ena-database
         - encode-database
         - ensembl
+        - epitope-prediction
         - esm
         - etetoolkit
         - exa-search
@@ -130,6 +140,8 @@ body:
         - fm_app
         - fmri-skill
         - fmriprep-tool
+        - foldseek-structural-search
+        - fraud-detection
         - freesurfer-tool
         - fsl-tool
         - gatk-variant-calling
@@ -144,12 +156,15 @@ body:
         - ginkgo-cloud-lab
         - glm
         - glycoengineering
+        - glygen
         - gnomad-database
+        - gromacs-mcp
         - gseapy-gene-enrichment
         - gtars
         - gtex-database
         - gtopdb-database
         - gwas-database
+        - gwas-mcp
         - harmonization-tool
         - harmony-batch-correction
         - hbn-skill
@@ -170,6 +185,8 @@ body:
         - ica
         - icd-10-codes
         - imaging-data-commons
+        - immcantation-analysis
+        - inductive-bio
         - infographics
         - instrument-data-to-allotrope
         - interpro-database
@@ -179,6 +196,7 @@ body:
         - kegg-database
         - kegg-pathway-analysis
         - kmeans
+        - kraken-classification
         - labarchive-integration
         - lamindb
         - latchbio-integration
@@ -202,6 +220,7 @@ body:
         - medidata
         - meg-skill
         - metabolomics-workbench-database
+        - mhc-binding-prediction
         - mnd-skill
         - mne-eeg-tool
         - modal
@@ -248,6 +267,7 @@ body:
         - pathml
         - pathway-enrichment
         - pdb
+        - pdbe
         - pdf
         - peer-review
         - pennylane
@@ -266,6 +286,7 @@ body:
         - pride-database
         - primekg
         - prior-auth-review
+        - procedure-coding
         - prokka-genome-annotation
         - protocolsio-integration
         - pubchem
@@ -278,7 +299,9 @@ body:
         - pylabrobot
         - pymatgen
         - pymc
+        - pymol
         - pymoo
+        - pynibs
         - pyopenms
         - pysam
         - pytdc
@@ -288,6 +311,7 @@ body:
         - qsiprep-tool
         - quickgo-database
         - qutip
+        - rdkit-agent
         - rdkit-mcp
         - rdkit-skill
         - reactome-database
@@ -296,6 +320,7 @@ body:
         - research-grants
         - research-lookup
         - rest-mneta-mdd-skill
+        - revvity-signals
         - roary-pangenome
         - rowan
         - run_models
@@ -316,11 +341,13 @@ body:
         - scikit-image-processing
         - scikit-learn
         - scikit-survival
+        - scitex
         - scvelo
         - scvi-tools
         - seaborn
         - seed-iv-skill
         - seed-vig-skill
+        - seqera
         - sgrna-design-guide
         - shap
         - simpleitk-image-registration
@@ -346,9 +373,20 @@ body:
         - tiledbvcf
         - timesfm-forecasting
         - tooluniverse
+        - tooluniverse-adverse-event-detection
+        - tooluniverse-adverse-outcome-pathway
+        - tooluniverse-binder-discovery
+        - tooluniverse-cancer-variant-interpretation
+        - tooluniverse-drug-drug-interaction
         - tooluniverse-drug-research
         - tooluniverse-drug-synergy
         - tooluniverse-drug-target-validation
+        - tooluniverse-gwas-drug-discovery
+        - tooluniverse-immunotherapy-response-prediction
+        - tooluniverse-pharmacovigilance
+        - tooluniverse-precision-oncology
+        - tooluniverse-rare-disease-diagnosis
+        - tooluniverse-target-research
         - torch-geometric
         - torchdrug
         - trackpy-particle-tracking

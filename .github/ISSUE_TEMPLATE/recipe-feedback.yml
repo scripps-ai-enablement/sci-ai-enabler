@@ -16,7 +16,9 @@ body:
       options:
         - analyze-md-trajectory-with-mdanalysis
         - annotate-a-bacterial-genome
+        - annotate-and-verify-a-plasmid-construct
         - annotate-cell-types-in-single-cell-data
+        - assemble-cancer-imaging-cohort-from-idc
         - assemble-reference-atlas-from-cellxgene-census
         - benchmark-admet-property-with-pytdc
         - build-pharmacogenomic-dosing-report
@@ -27,47 +29,70 @@ body:
         - compute-bacterial-pangenome-from-assemblies
         - compute-hrv-from-ecg-recording
         - convert-instrument-data-to-allotrope-asm
+        - design-crispr-sgrnas-for-a-gene-knockout
         - detect-somatic-cnvs-from-tumor-sequencing
         - discover-nwb-recordings-on-dandi
         - dock-ligand-library-with-diffdock
         - draft-phase23-clinical-trial-protocol
         - enumerate-analogs-around-a-lead
         - estimate-pk-properties
+        - extract-event-related-potentials-from-eeg
+        - extract-structured-data-from-clinical-notes
         - filter-virtual-screening-hits
+        - find-repurposing-candidates-in-a-knowledge-graph
+        - find-selective-cancer-dependencies-with-depmap
         - fit-survival-model-to-clinical-outcomes
+        - harmonize-clinical-terms-to-standard-codes
+        - identify-bacterial-isolate-from-16s-sequence
         - identify-unknown-compound-from-msms-spectrum
         - infer-cell-cell-communication-from-scrnaseq
         - infer-gene-regulatory-network-from-scrnaseq
+        - infer-protein-function-from-structure
         - infer-tf-and-pathway-activities-from-expression
         - integrate-single-cell-datasets
         - interpret-clinical-variant
+        - interpret-glycosylation-altering-variants
         - map-disease-to-genes-and-pathways
         - match-patient-to-clinical-trials
         - organize-raw-dicom-to-bids-layout
         - parse-fcs-flow-cytometry-files
+        - predict-antibody-antigen-complex
         - predict-gene-knockout-phenotypes-with-fba
         - predict-hospital-readmission-from-ehr
         - predict-noncoding-variant-regulatory-effects
+        - predict-protein-protein-complex-interface
         - predict-rna-secondary-structure-and-accessibility
+        - prepare-protonation-states-for-docking
         - prioritize-targets-within-a-disease
         - profile-cancer-cohort-genomics-with-cbioportal
         - profile-chipseq-atacseq-signal-around-features
         - profile-compound-polypharmacology
         - qc-single-cell-rna-seq
+        - quantify-bulk-rnaseq-fastq-to-counts
+        - rank-compound-library-by-predicted-affinity
+        - reconstruct-bcr-clonal-lineages
+        - register-longitudinal-medical-scans
         - run-bulk-rnaseq-differential-expression
         - run-functional-enrichment-on-a-gene-list
         - run-gwas-on-case-control-genotypes
         - scan-adverse-events-for-drug-safety-signal
         - scan-antibody-glycosylation-sites
         - scan-drug-repurposing-candidates
+        - scan-protein-for-cd8-t-cell-epitopes
         - score-drug-combination-synergy
         - score-protein-variants-with-esm
+        - screen-genome-for-resistance-and-virulence-genes
         - screen-polypharmacy-for-drug-interactions
+        - segment-and-quantify-cells-in-microscopy
         - segment-organ-or-tumor-in-medical-image
         - set-up-protein-md-simulation-in-gromacs
         - sort-spikes-from-neuropixels-recording
+        - superpose-two-protein-structures
+        - tile-and-normalize-whole-slide-image
         - triage-alphafold-model-for-docking
+        - triage-gwas-hits-to-drug-targets
         - triage-new-preprints
+        - validate-a-drug-target-with-a-go-no-go-score
         - Not listed
     validations:
       required: true
