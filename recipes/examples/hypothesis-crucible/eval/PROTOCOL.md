@@ -1,3 +1,11 @@
+---
+title: 'Crucible evaluation protocol (T1–T6)'
+parent: All recipes
+grand_parent: Recipes
+nav_exclude: true
+permalink: /recipes/examples/hypothesis-crucible/eval/protocol/
+---
+
 # Crucible evaluation protocol (T1–T6)
 
 The evaluation exists to answer one question: **does the falsification gauntlet actually raise

@@ -40,6 +40,7 @@ exclude:
   - docs/
   - index/
   - composer/
+  - crucible/
   - .claude-plugin/
   - tests/
   - scripts/

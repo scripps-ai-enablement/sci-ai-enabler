@@ -1,3 +1,11 @@
+---
+title: 'Reproducible example: Hypothesis Crucible'
+parent: All recipes
+grand_parent: Recipes
+nav_exclude: true
+permalink: /recipes/examples/hypothesis-crucible/
+---
+
 # Hypothesis Crucible — worked example + evaluation harness
 
 This is the reference bundle for the recipe
