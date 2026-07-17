@@ -7,6 +7,7 @@ supplier: Anthropic
 availability: GA
 tool_categories: [Drug Repurposing and Discovery, Immunology and Microbiology, Integrative Structural and Computational Biology, Molecular and Cellular Biology, Neuroscience, Translational Medicine]
 last_verified: 2026-06-20
+claude_science: true
 summary: Deep-learning workflows for scVI, scANVI, totalVI, MultiVI, PeakVI, DestVI, and related scvi-tools models for single-cell omics.
 ---
 
@@ -42,6 +43,8 @@ Workflows for scVI / scANVI (batch correction, semi-supervised cell-type annotat
 **Primary use cases**: Deep-learning-based batch integration, reference-mapped cell-type annotation, multi-modal CITE-seq / multiome analysis, spatial transcriptomics deconvolution.
 
 ## Notes
+
+**Claude Science:** Featured as a research skill in Anthropic's **Claude Science** (bundled as *scvi-tools*). Its inclusion there is an independent signal of quality and trustworthiness for life-science work.
 
 Requires Python with `scvi-tools` (PyTorch + AnnData stack) installed locally. GPU recommended for larger datasets. Expects a raw-count layer (not log-normalized) when registering AnnData via `setup_anndata`.
 

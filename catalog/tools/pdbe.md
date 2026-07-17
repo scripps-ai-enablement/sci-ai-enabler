@@ -7,6 +7,7 @@ supplier: PDBe (EMBL-EBI)
 availability: GA
 tool_categories: [Integrative Structural and Computational Biology, Drug Repurposing and Discovery]
 last_verified: 2026-07-04
+claude_science: true
 summary: First-party PDBe Europe MCP servers giving Claude access to protein structure data via REST API, Solr search, and an optional Neo4j graph.
 ---
 
@@ -67,6 +68,8 @@ Three complementary servers over PDBe resources:
 **Primary use cases**: Retrieve PDBe structure metadata and validation into Claude workflows, run faceted Solr queries over the archive, explore structural relationships via the PDBe graph.
 
 ## Notes
+
+**Claude Science:** This resource is offered inside Anthropic's **Claude Science** via the *Structures & Interactions* featured connector. Its inclusion there is an independent signal of quality and trustworthiness for life-science research.
 
 Apache-2.0. The API and Search servers are keyless and run out of the box; the Graph server needs a self-hosted Neo4j (PDBe does not expose a public graph endpoint), so most users should start with the API and Search servers. All servers are read-only. This is a **PDBe Europe** resource (EMBL-EBI), distinct from the RCSB-focused servers on the [PDB MCP Server](pdb.html) page — PDBe and RCSB are separate wwPDB partner sites with different APIs, search backends, and graph infrastructure; catalogued separately as one entry per data source.
 

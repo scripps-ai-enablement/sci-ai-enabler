@@ -7,6 +7,7 @@ supplier: SciAgent
 availability: GA
 tool_categories: [Molecular and Cellular Biology, Integrative Structural and Computational Biology]
 last_verified: 2026-06-11
+claude_science: true
 summary: "Query STRING REST API for PPIs (59M proteins, 20B interactions, 5000+ species)."
 ---
 
@@ -44,6 +45,8 @@ Query STRING REST API for PPIs (59M proteins, 20B interactions, 5000+ species). 
 **Primary use cases**: Query STRING REST API for PPIs (59M proteins, 20B interactions, 5000+ species).
 
 ## Notes
+
+**Claude Science:** This resource is offered inside Anthropic's **Claude Science** via the *Protein Annotation* featured connector. Its inclusion there is an independent signal of quality and trustworthiness for life-science research.
 
 Distributed as a `SKILL.md` (plus code examples) in the SciAgent-Skills collection — Claude executes it locally via Bash/Python rather than as an MCP server. Upstream license: CC-BY-4.0. The skill directory upstream is `skills/systems-biology-multiomics/string-database-ppi`.
 

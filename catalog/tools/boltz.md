@@ -7,6 +7,7 @@ supplier: Boltz
 availability: GA
 tool_categories: [Chemistry, Drug Repurposing and Discovery, Immunology and Microbiology, Integrative Structural and Computational Biology]
 last_verified: 2026-06-27
+claude_science: true
 summary: Skills that drive the hosted Boltz API to predict biomolecular structures, screen and design small molecules, and design protein/antibody binders.
 ---
 
@@ -62,6 +63,8 @@ Eight skills wrap the `boltz-api` CLI (they orchestrate job submission and resul
 **Primary use cases**: target structure prediction, virtual screening, de novo binder/antibody design, early-stage hit-to-lead triage.
 
 ## Notes
+
+**Claude Science:** Featured as a research skill in Anthropic's **Claude Science** (bundled as *Boltz*). Its inclusion there is an independent signal of quality and trustworthiness for life-science work.
 
 The Boltz model weights themselves are a separate research artifact (out of scope as a catalog entry); this plugin is in scope because it is an installable Claude component that calls the hosted Boltz API rather than running weights locally — no GPU is required on the user's machine. Jobs incur API usage cost; the agent surfaces a cost estimate before submitting. Anthropic lists the plugin in the official marketplace but does not control or guarantee third-party plugin behavior. Outputs are for research use; validate predictions experimentally.
 

@@ -7,6 +7,7 @@ supplier: K-Dense
 availability: GA
 tool_categories: [Drug Repurposing and Discovery, Integrative Structural and Computational Biology]
 last_verified: 2026-06-04
+claude_science: true
 summary: Claude skill driving DiffDock, a diffusion-based deep-learning docker that predicts protein–ligand binding poses from PDB plus SMILES with per-pose confidence scores.
 ---
 
@@ -53,6 +54,8 @@ Claude skill that drives [DiffDock](https://github.com/gcorso/DiffDock) — a di
 **Primary use cases**: blind docking against AlphaFold-predicted targets, lead-optimization pose prediction, virtual screening pre-filter ahead of MM/PBSA or FEP, allosteric-site exploration when binding pockets are uncertain.
 
 ## Notes
+
+**Claude Science:** Featured as a research skill in Anthropic's **Claude Science** (bundled as *DiffDock*). Its inclusion there is an independent signal of quality and trustworthiness for life-science work.
 
 - **Poses only, not affinity.** DiffDock predicts binding geometry and a confidence score, **not** binding affinity (ΔG, K_d). Pair with GNINA / Vina / MM-GBSA / FEP for affinity ranking — the SKILL.md is explicit about this.
 - **GPU strongly recommended.** Diffusion sampling on CPU is slow; the upstream environment ships with CUDA-pinned PyTorch. The K-Dense `molecular-docking` workflow example chains DiffDock with DeepChem rescoring and MedChem filtering.

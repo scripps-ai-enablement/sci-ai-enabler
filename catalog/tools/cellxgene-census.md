@@ -7,6 +7,7 @@ supplier: K-Dense
 availability: GA
 tool_categories: [Molecular and Cellular Biology, Immunology and Microbiology, Translational Medicine]
 last_verified: 2026-06-04
+claude_science: true
 summary: Claude skill for querying the CZ CELLxGENE Discover census — 50M+ standardized single-cell observations across 1,000+ datasets via TileDB-SOMA, with AnnData / Scanpy integration.
 ---
 
@@ -55,6 +56,8 @@ Project-scoped alternative: copy into `.claude/skills/` instead of `~/.claude/sk
 **Primary use cases**: Reference-atlas construction for scVI / scANVI integration, cell-type-of-interest meta-analyses across public datasets, disease-vs-healthy expression comparisons, harmonised cohort assembly for downstream DE.
 
 ## Notes
+
+**Claude Science:** This resource is offered inside Anthropic's **Claude Science** via the *CellGuide* featured connector. Its inclusion there is an independent signal of quality and trustworthiness for life-science research.
 
 Pairs naturally with the catalog's `scanpy`, `anndata`, `scvi-tools`, and `scvelo` entries for end-to-end single-cell workflows. Census versions are immutable snapshots; record the version you opened to keep analyses reproducible. Skill is documentation plus Python recipes — Claude calls `cellxgene-census` locally via Bash/Python, not as an MCP tool.
 

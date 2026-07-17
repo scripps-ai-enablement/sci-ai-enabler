@@ -7,6 +7,7 @@ supplier: JackKuo666
 availability: GA
 tool_categories: [Chemistry, Drug Repurposing and Discovery]
 last_verified: 2026-06-08
+claude_science: true
 summary: MCP server that lets Claude query PubChem for compounds by name, SMILES, CID, or formula and pull structure files.
 ---
 
@@ -74,6 +75,8 @@ Read-only MCP wrapper over PubChem's public chemical-compound database. Compleme
 **Primary use cases**: Look up compounds by name / SMILES / CID / formula, retrieve PubChem property records, generate structure files for downstream cheminformatics.
 
 ## Notes
+
+**Claude Science:** This resource is offered inside Anthropic's **Claude Science** via the *Chemistry* featured connector. Its inclusion there is an independent signal of quality and trustworthiness for life-science research.
 
 stdio transport. Backed by FastMCP. No authentication required. PubChem's broad compound coverage makes this a natural pair with the ChEMBL bioactivity connector bundled in `bio-research`.
 

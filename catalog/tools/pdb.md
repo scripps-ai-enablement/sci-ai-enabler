@@ -7,6 +7,7 @@ supplier: RCSB PDB
 availability: GA
 tool_categories: [Integrative Structural and Computational Biology, Drug Repurposing and Discovery]
 last_verified: 2026-06-27
+claude_science: true
 summary: MCP servers that let Claude search, fetch, and validate RCSB Protein Data Bank structures — including the official first-party RCSB server.
 ---
 
@@ -147,6 +148,8 @@ For Claude Desktop (no native SSE transport), use an `mcp-remote` proxy entry in
 **Primary use cases**: Pull experimental 3D structures into Claude workflows; map UniProt to PDB; assess structure validation quality before downstream modeling; flexible GraphQL queries over PDB metadata and computed models.
 
 ## Notes
+
+**Claude Science:** This resource is offered inside Anthropic's **Claude Science** via the *Structures & Interactions* featured connector. Its inclusion there is an independent signal of quality and trustworthiness for life-science research.
 
 The official `rcsb-mcp` server is maintained directly by RCSB PDB (MIT License, default branch `master`), needs no API key (the RCSB Search / Data / Sequence Coordinates APIs are public), and speaks stdio via `uvx rcsb-mcp` or `python -m rcsb_mcp.server` — prefer it over the community options for authoritative coverage. The Augmented Nature server is Node/stdio, no auth, calls the public RCSB REST API; its LICENSE file is present but type unspecified in the README — verify before redistributing. The QuentinCody server is a hosted Cloudflare Worker (MIT License with an academic-citation requirement) and exposes a single GraphQL query surface rather than discrete typed tools. The cyanheads server is Apache-2.0, requires Bun ≥ 1.2.0, needs no API key by default (supports optional JWT/OAuth modes), and supports both HTTP (default, port 3010) and stdio transports. All four servers are read-only.
 

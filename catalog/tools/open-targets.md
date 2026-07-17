@@ -8,6 +8,7 @@ availability: GA
 flagged: MCP endpoint fails `initialize` handshake with JSON-RPC -32602 ("Invalid request parameters") under protocolVersion 2025-06-18 and 2024-11-05 — no tools register; reported 2026-06-15
 tool_categories: [Drug Repurposing and Discovery, Molecular and Cellular Biology, Translational Medicine]
 last_verified: 2026-06-20
+claude_science: true
 summary: Official Open Targets MCP plugin giving Claude GraphQL access to target-disease associations, drug evidence, and target-prioritisation scores.
 ---
 
@@ -46,6 +47,8 @@ Anthropic-packaged Claude Code plugin that wraps the **official Open Targets MCP
 **Primary use cases**: Target prioritisation, drug repurposing via target-disease evidence, mechanism and genetics lookup, building cross-evidence panels for a target shortlist.
 
 ## Notes
+
+**Claude Science:** This resource is offered inside Anthropic's **Claude Science** via the *Clinical Genomics* featured connector. Its inclusion there is an independent signal of quality and trustworthiness for life-science research.
 
 Streamable HTTP transport, no auth. The `bio-research` umbrella plugin references Open Targets indirectly; this is the discrete first-party entry. Tagged experimental — schema may evolve.
 

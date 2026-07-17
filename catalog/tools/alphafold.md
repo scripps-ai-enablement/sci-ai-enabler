@@ -7,6 +7,7 @@ supplier: Augmented Nature
 availability: GA
 tool_categories: [Immunology and Microbiology, Integrative Structural and Computational Biology, Molecular and Cellular Biology, Drug Repurposing and Discovery]
 last_verified: 2026-06-20
+claude_science: true
 summary: MCP server exposing the EBI AlphaFold Protein Structure Database for structure retrieval, pLDDT analysis, comparison, and PyMOL/ChimeraX export.
 ---
 
@@ -65,6 +66,8 @@ About 25 tools across:
 **Primary use cases**: Pull AlphaFold predictions by UniProt for a target list, flag low-pLDDT regions before docking or modelling, prepare PyMOL / ChimeraX sessions for analysis.
 
 ## Notes
+
+**Claude Science:** This resource is offered inside Anthropic's **Claude Science** via the *Structures & Interactions* featured connector. Its inclusion there is an independent signal of quality and trustworthiness for life-science research.
 
 Node/stdio transport. No auth — hits `https://alphafold.ebi.ac.uk/api/`. Complements the PDB MCP server (experimental structures) by covering predictions.
 

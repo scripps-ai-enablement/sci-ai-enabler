@@ -200,6 +200,10 @@ def check_vocab(values, allowed: set, field: str, path: Path, errors: list):
             errors.append(f"{path}: `{field}` value {v!r} not in closed vocabulary")
 
 
+def _is_truthy(val) -> bool:
+    return str(val).strip().lower() in {"true", "yes", "1"}
+
+
 def build_tool(path: Path, errors: list) -> dict | None:
     fm, body = parse_frontmatter(path.read_text(encoding="utf-8"), path)
     title = require(fm, "title", path)
@@ -211,6 +215,14 @@ def build_tool(path: Path, errors: list) -> dict | None:
     # The matchable representation is summary + keywords + facets; keywords are
     # mined from the lead/section text so salient methods/entities survive even
     # though the long prose isn't stored. Finalists get a full-page read on demand.
+    keywords = extract_keywords(title, summary, lead, what)
+    # `claude_science: true` marks a component that is offered inside Anthropic's
+    # Claude Science. The keyword miner can't recover the phrase from prose (no
+    # 2+-uppercase run), so inject it as a first-class keyword — this is how the
+    # marker becomes discoverable via the composer's summary+keyword match.
+    claude_science = _is_truthy(fm.get("claude_science", ""))
+    if claude_science and "Claude Science" not in keywords:
+        keywords = (["Claude Science"] + keywords)[:12]
     return {
         "slug": path.stem,
         "title": title,
@@ -218,8 +230,9 @@ def build_tool(path: Path, errors: list) -> dict | None:
         "availability": fm.get("availability", ""),
         "tool_categories": categories,
         "last_verified": fm.get("last_verified", ""),
+        "claude_science": claude_science,
         "summary": summary,
-        "keywords": extract_keywords(title, summary, lead, what),
+        "keywords": keywords,
         "path": f"catalog/tools/{path.name}",
     }
 

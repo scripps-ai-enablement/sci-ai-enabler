@@ -7,6 +7,7 @@ supplier: K-Dense
 availability: GA
 tool_categories: [Integrative Structural and Computational Biology]
 last_verified: 2026-06-04
+claude_science: true
 summary: Comprehensive toolkit for EvolutionaryScale protein language models including ESM3 (generative multimodal design across sequence, structure, and function) and ESM C (efficient embeddings).
 ---
 
@@ -46,6 +47,8 @@ Comprehensive toolkit for EvolutionaryScale protein language models including ES
 **Primary use cases**: protein sequence/structure/function tasks, inverse folding, embeddings, variant design, and ESMFold2 structure prediction via Biohub.
 
 ## Notes
+
+**Claude Science:** Featured as a research skill in Anthropic's **Claude Science** (bundled as *ESM-2*). Its inclusion there is an independent signal of quality and trustworthiness for life-science work.
 
 Distributed as a `SKILL.md` (plus code examples) in the K-Dense collection — Claude executes it locally via Bash/Python rather than as an MCP server. Upstream license: MIT. The skill name to enable after install is `esm`.
 

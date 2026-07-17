@@ -7,6 +7,7 @@ supplier: K-Dense
 availability: GA
 tool_categories: [All]
 last_verified: 2026-06-04
+claude_science: true
 summary: Conduct comprehensive, systematic literature reviews using multiple academic databases (PubMed, arXiv, bioRxiv, Semantic Scholar, etc.).
 ---
 
@@ -46,6 +47,8 @@ Conduct comprehensive, systematic literature reviews using multiple academic dat
 **Primary use cases**: Conduct comprehensive, systematic literature reviews using multiple academic databases (PubMed, arXiv, bioRxiv, Semantic Scholar, etc.).
 
 ## Notes
+
+**Claude Science:** Featured as a research skill in Anthropic's **Claude Science** (bundled as *Literature Review*). Its inclusion there is an independent signal of quality and trustworthiness for life-science work.
 
 Distributed as a `SKILL.md` (plus code examples) in the K-Dense collection — Claude executes it locally via Bash/Python rather than as an MCP server. Upstream license: MIT. The skill name to enable after install is `literature-review`.
 
