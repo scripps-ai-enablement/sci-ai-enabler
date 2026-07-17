@@ -5168,7 +5168,7 @@
         "Molecular and Cellular Biology",
         "Translational Medicine"
       ],
-      "last_verified": "2026-06-20",
+      "last_verified": "2026-07-17",
       "claude_science": true,
       "summary": "Official Open Targets MCP plugin giving Claude GraphQL access to target-disease associations, drug evidence, and target-prioritisation scores.",
       "keywords": [
