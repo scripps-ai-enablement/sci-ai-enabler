@@ -8,6 +8,7 @@ supplier: Google DeepMind
 availability: GA
 tool_categories: [Molecular and Cellular Biology]
 last_verified: 2026-06-20
+claude_science: true
 summary: "Query UniBind for experimentally validated transcription-factor binding sites; download BED/FASTA coordinates by species, cell line, or TF."
 ---
 
@@ -50,6 +51,8 @@ It is for dataset discovery and bulk coordinate download, not for querying speci
 **Primary use cases**: retrieving validated TF binding-site sets, downstream peak/enrichment analysis, building TF-regulation datasets.
 
 ## Notes
+
+**Claude Science:** This resource is offered inside Anthropic's **Claude Science** via the *Regulation* featured connector. Its inclusion there is an independent signal of quality and trustworthiness for life-science research.
 
 No API key required, but users must review the UniBind terms at [unibind.uio.no](https://unibind.uio.no/) before use. Complements the catalogued JASPAR skill (`jaspar-database.md`), which provides the motif models UniBind integrates. The `npx skills add google-deepmind/science-skills/` command documented upstream is oriented at Gemini/Antigravity (it writes to `~/.gemini/config/skills/`); for Claude, the manual copy into `~/.claude/skills/` shown above is the equivalent path.
 

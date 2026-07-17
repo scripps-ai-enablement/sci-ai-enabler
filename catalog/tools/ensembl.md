@@ -7,6 +7,7 @@ supplier: effieklimi
 availability: GA
 tool_categories: [Drug Repurposing and Discovery, Immunology and Microbiology, Integrative Structural and Computational Biology, Molecular and Cellular Biology, Neuroscience, Translational Medicine]
 last_verified: 2026-06-11
+claude_science: true
 summary: MCP server over the Ensembl REST API for gene/transcript lookup, sequence retrieval, variant consequences, comparative genomics, and assembly lift-over.
 ---
 
@@ -66,6 +67,8 @@ Ten tools spanning the Ensembl REST API:
 **Primary use cases**: Gene/transcript annotation lookup, sequence retrieval, variant consequence prediction, cross-species homology, genome-coordinate lift-over.
 
 ## Notes
+
+**Claude Science:** This resource is offered inside Anthropic's **Claude Science** via the *Genomes* featured connector. Its inclusion there is an independent signal of quality and trustworthiness for life-science research.
 
 Read-only wrapper over the public Ensembl REST API; no write operations. A separate hosted HTTP variant exists via the Pipeworx gateway (`claude mcp add --transport http ensembl https://gateway.pipeworx.io/ensembl/mcp`), and `Augmented-Nature/Ensembl-MCP-Server` is an alternative implementation — the npm `ensembl-mcp-server` package documented above is the most direct install for Claude.
 

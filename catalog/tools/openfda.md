@@ -7,6 +7,7 @@ supplier: Ythalo Saldanha
 availability: GA
 tool_categories: [Drug Repurposing and Discovery, Translational Medicine]
 last_verified: 2026-06-06
+claude_science: true
 summary: MIT-licensed npm MCP server over the openFDA drug API — adverse events, safety/labeling, manufacturer lookups, and NDC resolution.
 ---
 
@@ -66,6 +67,8 @@ Exposes seven tools over the openFDA drug endpoints:
 **Primary use cases**: Drug-safety and adverse-event review, label/warning lookup, manufacturer and NDC resolution for pharmacovigilance and repurposing workflows.
 
 ## Notes
+
+**Claude Science:** This resource is offered inside Anthropic's **Claude Science** via the *Drug Regulatory* featured connector. Its inclusion there is an independent signal of quality and trustworthiness for life-science research.
 
 stdio transport. Drug-endpoint coverage only (no device or food endpoints). The openFDA API key is required at startup via the `OPENFDA_API_KEY` env var; store it in your client config rather than committing it to a file. For a broader, multi-source biomedical server that also wraps openFDA adverse events alongside PubMed / ClinicalTrials.gov / MyVariant, see [BioMCP](biomcp.html).
 

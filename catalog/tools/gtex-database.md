@@ -8,6 +8,7 @@ supplier: Google DeepMind
 availability: GA
 tool_categories: [Molecular and Cellular Biology]
 last_verified: 2026-06-20
+claude_science: true
 summary: "Query the GTEx Portal for median RNA expression (TPM) across 54 human tissues and eQTLs linking variants to gene expression."
 ---
 
@@ -49,6 +50,8 @@ Queries the GTEx Portal API V2 for transcriptomics across 54 tissue sites:
 **Primary use cases**: tissue-specific expression lookup, eQTL annotation of variants, prioritizing candidate regulatory variants by tissue.
 
 ## Notes
+
+**Claude Science:** This resource is offered inside Anthropic's **Claude Science** via the *Expression* featured connector. Its inclusion there is an independent signal of quality and trustworthiness for life-science research.
 
 No API key required, but users must acknowledge the GTEx Portal license terms before first use; built-in rate limiting is enforced by the wrapper scripts. Covers non-diseased adult tissues and mRNA abundance only — not protein expression. The `npx skills add google-deepmind/science-skills/` command documented upstream is oriented at Gemini/Antigravity (it writes to `~/.gemini/config/skills/`); for Claude, the manual copy into `~/.claude/skills/` shown above is the equivalent path.
 

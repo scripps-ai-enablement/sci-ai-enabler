@@ -7,6 +7,7 @@ supplier: SciAgent
 availability: GA
 tool_categories: [Molecular and Cellular Biology]
 last_verified: 2026-06-11
+claude_science: true
 summary: "Search the PRIDE Archive v3 REST API for proteomics datasets: discover projects by keyword + faceted filters (organism, instrument, disease, software), fetch project metadata …"
 ---
 
@@ -44,6 +45,8 @@ Search the PRIDE Archive v3 REST API for proteomics datasets: discover projects 
 **Primary use cases**: Search the PRIDE Archive v3 REST API for proteomics datasets: discover projects by keyword + faceted filters (organism, instrument, disease, software), fetch project metadata, list and download RAW/PEAK/RESULT/FASTA files (with FTP/Aspera URLs), look up which projects mention a UniProt accession, and find similar projects.
 
 ## Notes
+
+**Claude Science:** This resource is offered inside Anthropic's **Claude Science** via the *Omics Archives* featured connector. Its inclusion there is an independent signal of quality and trustworthiness for life-science research.
 
 Distributed as a `SKILL.md` (plus code examples) in the SciAgent-Skills collection — Claude executes it locally via Bash/Python rather than as an MCP server. Upstream license: Apache-2.0. The skill directory upstream is `skills/proteomics-protein-engineering/pride-database`.
 

@@ -7,6 +7,7 @@ supplier: SciAgent
 availability: GA
 tool_categories: [Molecular and Cellular Biology]
 last_verified: 2026-06-11
+claude_science: true
 summary: "Query Reactome pathways via REST: pathway queries, entity lookup, keyword search, gene list enrichment, hierarchy, cross-refs."
 ---
 
@@ -44,6 +45,8 @@ Query Reactome pathways via REST: pathway queries, entity lookup, keyword search
 **Primary use cases**: Query Reactome pathways via REST: pathway queries, entity lookup, keyword search, gene list enrichment, hierarchy, cross-refs.
 
 ## Notes
+
+**Claude Science:** This resource is offered inside Anthropic's **Claude Science** via the *Genes & Ontologies* featured connector. Its inclusion there is an independent signal of quality and trustworthiness for life-science research.
 
 Distributed as a `SKILL.md` (plus code examples) in the SciAgent-Skills collection — Claude executes it locally via Bash/Python rather than as an MCP server. Upstream license: CC-BY-4.0. The skill directory upstream is `skills/systems-biology-multiomics/reactome-database`.
 

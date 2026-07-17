@@ -7,6 +7,7 @@ supplier: SciAgent
 availability: GA
 tool_categories: [Integrative Structural and Computational Biology]
 last_verified: 2026-06-11
+claude_science: true
 summary: "Query InterPro REST API for protein domain architecture, family classification, and member-DB integration."
 ---
 
@@ -44,6 +45,8 @@ Query InterPro REST API for protein domain architecture, family classification, 
 **Primary use cases**: Query InterPro REST API for protein domain architecture, family classification, and member-DB integration.
 
 ## Notes
+
+**Claude Science:** This resource is offered inside Anthropic's **Claude Science** via the *Protein Annotation* featured connector. Its inclusion there is an independent signal of quality and trustworthiness for life-science research.
 
 Distributed as a `SKILL.md` (plus code examples) in the SciAgent-Skills collection — Claude executes it locally via Bash/Python rather than as an MCP server. Upstream license: CC-BY-4.0. The skill directory upstream is `skills/proteomics-protein-engineering/interpro-database`.
 

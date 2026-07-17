@@ -7,7 +7,8 @@ supplier: Open Targets
 availability: GA
 flagged: MCP endpoint fails `initialize` handshake with JSON-RPC -32602 ("Invalid request parameters") under protocolVersion 2025-06-18 and 2024-11-05 — no tools register; reported 2026-06-15
 tool_categories: [Drug Repurposing and Discovery, Molecular and Cellular Biology, Translational Medicine]
-last_verified: 2026-06-20
+last_verified: 2026-07-17
+claude_science: true
 summary: Official Open Targets MCP plugin giving Claude GraphQL access to target-disease associations, drug evidence, and target-prioritisation scores.
 ---
 
@@ -34,6 +35,13 @@ Anthropic-packaged Claude Code plugin that wraps the **official Open Targets MCP
   ```
   claude mcp add --transport http open-targets https://mcp.platform.opentargets.org/mcp
   ```
+- **Claude Code / Desktop** — working community alternative (Augmented Nature, OSS) while the official endpoint is down (see Notes):
+  ```
+  git clone https://github.com/Augmented-Nature/OpenTargets-MCP-Server
+  cd OpenTargets-MCP-Server
+  npm install && npm run build
+  claude mcp add --transport stdio opentargets-server -- node /path/to/OpenTargets-MCP-Server/build/index.js
+  ```
 
 ## What it does
 
@@ -47,15 +55,20 @@ Anthropic-packaged Claude Code plugin that wraps the **official Open Targets MCP
 
 ## Notes
 
+**Claude Science:** This resource is offered inside Anthropic's **Claude Science** via the *Clinical Genomics* featured connector. Its inclusion there is an independent signal of quality and trustworthiness for life-science research.
+
 Streamable HTTP transport, no auth. The `bio-research` umbrella plugin references Open Targets indirectly; this is the discrete first-party entry. Tagged experimental — schema may evolve.
 
-**Field report (2026-06-15):** The remote endpoint `https://mcp.platform.opentargets.org/mcp` currently fails the MCP `initialize` handshake, returning JSON-RPC `-32602 "Invalid request parameters"` under both protocolVersion `2025-06-18` and `2024-11-05`. The endpoint is reachable (HTTP 200, `content-type: text/event-stream`) but non-compliant on initialize, so `claude mcp list` shows "Failed to connect", no tools register, and a Claude Code restart does not help (server-side issue). Workarounds that work today: (1) query the Open Targets public GraphQL API directly at `https://api.platform.opentargets.org/api/v4/graphql`, or (2) use [ToolUniverse](tooluniverse.html)'s `OpenTargets_*` / `disease_target_score` tools.
+**Field report (2026-06-15):** The remote endpoint `https://mcp.platform.opentargets.org/mcp` currently fails the MCP `initialize` handshake, returning JSON-RPC `-32602 "Invalid request parameters"` under both protocolVersion `2025-06-18` and `2024-11-05`. The endpoint is reachable (HTTP 200, `content-type: text/event-stream`) but non-compliant on initialize, so `claude mcp list` shows "Failed to connect", no tools register, and a Claude Code restart does not help (server-side issue). Workarounds that work today: (1) query the Open Targets public GraphQL API directly at `https://api.platform.opentargets.org/api/v4/graphql`, (2) use [ToolUniverse](tooluniverse.html)'s `OpenTargets_*` / `disease_target_score` tools, or (3) run the community **Augmented Nature Open Targets MCP** (install path above).
+
+**Verified 2026-07-17:** the [Augmented Nature Open Targets MCP](https://github.com/Augmented-Nature/OpenTargets-MCP-Server) builds cleanly (`npm install && npm run build`) and **passes the `initialize` handshake** (protocolVersion `2024-11-05`) over stdio locally — the exact step the official endpoint fails. It registers 6 tools (`search_targets`, `search_diseases`, `get_target_disease_associations`, `get_disease_targets_summary`, `get_target_details`, `get_disease_details`) and returns live data from the public GraphQL API (e.g., `search_targets{query:"BRAF"}` → `ENSG00000157764`; `get_target_disease_associations{targetId:"ENSG00000157764"}` → cardiofaciocutaneous syndrome (0.88), Noonan syndrome, …). Its tool set is smaller and its schema differs from the official server (e.g., associations take `targetId`/`diseaseId`, and require at least one).
 
 ## Sources
 
 - [`anthropics/life-sciences` marketplace](https://github.com/anthropics/life-sciences)
 - [`opentargets/open-targets-platform-mcp`](https://github.com/opentargets/open-targets-platform-mcp)
 - [Open Targets blog: official MCP](https://blog.opentargets.org/official-open-targets-mcp/)
+- [`Augmented-Nature/OpenTargets-MCP-Server`](https://github.com/Augmented-Nature/OpenTargets-MCP-Server) (working community alternative, verified 2026-07-17)
 
 ---
 

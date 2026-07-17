@@ -7,6 +7,7 @@ supplier: SciAgent / MCPmed
 availability: GA
 tool_categories: [Molecular and Cellular Biology]
 last_verified: 2026-06-27
+claude_science: true
 summary: "NCBI GEO access — keyword/series search, GSE matrices, GPL/GSM metadata — as a SciAgent skill or the MCPmed GEO MCP server."
 ---
 
@@ -75,6 +76,8 @@ NCBI GEO access via GEOparse and E-utilities. Search by keyword/organism/platfor
 **Primary use cases**: NCBI GEO access via GEOparse and E-utilities.
 
 ## Notes
+
+**Claude Science:** This resource is offered inside Anthropic's **Claude Science** via the *Omics Archives* featured connector. Its inclusion there is an independent signal of quality and trustworthiness for life-science research.
 
 Distributed as a `SKILL.md` (plus code examples) in the SciAgent-Skills collection — Claude executes it locally via Bash/Python rather than as an MCP server. Upstream license: MIT. The skill directory upstream is `skills/genomics-bioinformatics/databases/geo-database`.
 

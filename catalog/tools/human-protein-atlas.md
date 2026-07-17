@@ -7,6 +7,7 @@ supplier: Augmented Nature
 availability: GA
 tool_categories: [Immunology and Microbiology, Molecular and Cellular Biology, Translational Medicine]
 last_verified: 2026-06-13
+claude_science: true
 summary: "Query the Human Protein Atlas — tissue/blood/brain expression, subcellular localization, cancer markers, and antibody validation/staining data."
 ---
 
@@ -74,6 +75,8 @@ Antibody validation and immunostaining data are returned through the protein-inf
 **Primary use cases**: Antibody validation lookup, tissue/single-cell expression profiling, cancer prognostic-marker discovery.
 
 ## Notes
+
+**Claude Science:** This resource is offered inside Anthropic's **Claude Science** via the *Protein Annotation* featured connector. Its inclusion there is an independent signal of quality and trustworthiness for life-science research.
 
 License is MIT. No API key or account required. The server queries the public Human Protein Atlas; respect HPA's data-usage terms for downstream redistribution. Tool list and install steps verified against the upstream README 2026-06-13.
 

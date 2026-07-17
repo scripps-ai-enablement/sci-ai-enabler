@@ -7,6 +7,7 @@ supplier: Augmented Nature
 availability: GA
 tool_categories: [Immunology and Microbiology, Integrative Structural and Computational Biology, Molecular and Cellular Biology, Drug Repurposing and Discovery]
 last_verified: 2026-05-20
+claude_science: true
 summary: MCP server giving Claude 26 tools over the UniProt REST API for protein search, domains, orthologs, PTMs, pathways, and multi-format export.
 ---
 
@@ -66,6 +67,8 @@ Docker alternative: `docker build -t uniprot-mcp-server . && docker run -i unipr
 **Primary use cases**: Resolve gene-to-protein-to-domain context for a hit list; pull orthologs and PTMs; build cross-reference tables for a target panel.
 
 ## Notes
+
+**Claude Science:** This resource is offered inside Anthropic's **Claude Science** via the *Genes & Ontologies* featured connector. Its inclusion there is an independent signal of quality and trustworthiness for life-science research.
 
 stdio transport. No auth required — calls the public UniProt REST API. Complements ChEMBL (small molecules) and AlphaFold (3D) by covering the annotation layer.
 

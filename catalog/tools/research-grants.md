@@ -7,6 +7,7 @@ supplier: K-Dense
 availability: GA
 tool_categories: [General-Purpose Utilities]
 last_verified: 2026-06-04
+claude_science: true
 summary: Write competitive research proposals for NSF, NIH, DOE, DARPA, and Taiwan NSTC.
 ---
 
@@ -43,6 +44,8 @@ Write competitive research proposals for NSF, NIH, DOE, DARPA, and Taiwan NSTC. 
 **Primary use cases**: Write competitive research proposals for NSF, NIH, DOE, DARPA, and Taiwan NSTC.
 
 ## Notes
+
+**Claude Science:** This resource is offered inside Anthropic's **Claude Science** via the *Research Resources* featured connector. Its inclusion there is an independent signal of quality and trustworthiness for life-science research.
 
 Distributed as a `SKILL.md` (plus code examples) in the K-Dense collection — Claude executes it locally via Bash/Python rather than as an MCP server. Upstream license: MIT. The skill name to enable after install is `research-grants`.
 
