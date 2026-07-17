@@ -1,0 +1,11 @@
+{
+  "name": "crucible",
+  "version": "0.1.0",
+  "description": "Agentic cross-corpus hypothesis generation: mine typed knowledge fragments from literature, structured databases, and raw experimental data; assemble Swanson-style bridges into novel connections; run each candidate through a falsification gauntlet that aggressively rejects non-novel, ungrounded, contradicted, or implausible ideas; and emit only survivors with cited support and a discriminating experimental test.",
+  "author": {
+    "name": "Scripps AI Enablement",
+    "url": "https://github.com/scripps-ai-enablement/sci-ai-enabler"
+  },
+  "homepage": "https://scripps-ai-enablement.github.io/sci-ai-enabler/",
+  "keywords": ["life-science", "research", "hypothesis-generation", "literature-based-discovery", "drug-repurposing", "falsification", "provenance"]
+}

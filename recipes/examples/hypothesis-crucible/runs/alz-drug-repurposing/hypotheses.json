@@ -1,0 +1,77 @@
+{
+  "goal": "repurposable approved drugs for Alzheimer's disease",
+  "disease_anchor": {"name": "Alzheimer disease", "ontology_id": "EFO_0000249"},
+  "time_slice_cutoff": "2019-12-31",
+  "model_id": "illustrative-reference-run",
+  "note": "SYNTHETIC ILLUSTRATIVE BUNDLE — representative fragments and accessions demonstrating the run-bundle schema and the scorer, not a live literature-mined result. See README.",
+  "hypotheses": [
+    {
+      "id": "H1",
+      "statement": "The JAK1/2 inhibitor baricitinib may slow Alzheimer disease progression by dampening JAK-STAT-driven microglial neuroinflammation.",
+      "subject": {"name": "baricitinib", "ontology_id": "CHEMBL2105759"},
+      "object": {"name": "Alzheimer disease", "ontology_id": "EFO_0000249"},
+      "bridge_chain": [
+        {"step": 1, "claim": "baricitinib inhibits JAK1/JAK2", "fragment_id": "f1"},
+        {"step": 2, "claim": "JAK-STAT signaling drives microglial neuroinflammation", "fragment_id": "f2"},
+        {"step": 3, "claim": "neuroinflammation is associated with Alzheimer disease", "fragment_id": "f3"},
+        {"step": 4, "claim": "JAK-STAT pathway genes are upregulated in Alzheimer disease microglia", "fragment_id": "f4"}
+      ],
+      "corpus_diversity": ["structured/chembl", "literature/pubmed", "structured/opentargets", "raw/geo"],
+      "novelty_evidence": {
+        "queries": [
+          "pubmed: baricitinib AND (Alzheimer OR dementia) [tiab]",
+          "consensus: does baricitinib treat Alzheimer disease?",
+          "opentargets: known drugs for EFO_0000249 containing baricitinib"
+        ],
+        "direct_claim_found": false
+      },
+      "falsification_record": {
+        "disconfirming_searched": [
+          "clinicaltrials.gov: baricitinib AND Alzheimer (no terminated-for-futility trials found)",
+          "opposing GEO signature: JAK-STAT downregulated in AD microglia (none found)",
+          "counter-mechanism: JAK inhibition impairing protective microglial function (weak, not decisive)"
+        ],
+        "survived": true,
+        "notes": "CNS exposure of baricitinib is limited; flagged as a translational risk, not a falsifier of the mechanism."
+      },
+      "experimental_test": "In iPSC-derived human microglia challenged with oligomeric Abeta, baricitinib is predicted to reduce STAT1 phosphorylation and pro-inflammatory cytokine release (IL-6, TNF) dose-dependently and restore phagocytosis. Falsified if baricitinib produces no change in STAT1-P or cytokine output versus vehicle.",
+      "gates_passed": ["G1", "G2", "G3", "G4"],
+      "elo": 1268,
+      "scores": {"independent_paths": 2, "corpus_diversity": 4, "semantic_distance": 0.71, "confidence_product": 0.32}
+    },
+    {
+      "id": "H2",
+      "statement": "The CysLT1 antagonist montelukast may reduce Alzheimer disease neuroinflammation via 5-lipoxygenase / leukotriene pathway suppression.",
+      "subject": {"name": "montelukast", "ontology_id": "CHEMBL787"},
+      "object": {"name": "Alzheimer disease", "ontology_id": "EFO_0000249"},
+      "bridge_chain": [
+        {"step": 1, "claim": "montelukast antagonizes CYSLTR1", "fragment_id": "f5"},
+        {"step": 2, "claim": "cysteinyl leukotriene signaling promotes neuroinflammation and BBB dysfunction", "fragment_id": "f6"},
+        {"step": 3, "claim": "ALOX5 (5-LOX) is upregulated in Alzheimer disease hippocampus", "fragment_id": "f7"},
+        {"step": 4, "claim": "ALOX5 is associated with Alzheimer disease", "fragment_id": "f8"}
+      ],
+      "corpus_diversity": ["structured/chembl", "literature/pubmed", "raw/geo", "structured/opentargets"],
+      "novelty_evidence": {
+        "queries": [
+          "pubmed: montelukast AND (Alzheimer OR dementia) [tiab] before 2020",
+          "consensus: does montelukast treat Alzheimer disease?",
+          "opentargets: known drugs for EFO_0000249 containing montelukast"
+        ],
+        "direct_claim_found": false
+      },
+      "falsification_record": {
+        "disconfirming_searched": [
+          "clinicaltrials.gov: montelukast AND Alzheimer (no failed cognitive-endpoint trial before cutoff)",
+          "opposing GEO signature: ALOX5 downregulated in AD (none found)",
+          "counter-mechanism: peripheral-only action with no central engagement (montelukast has measurable CNS penetration)"
+        ],
+        "survived": true,
+        "notes": "Central exposure is modest but nonzero; the leukotriene axis is independently supported by the GEO ALOX5 signal."
+      },
+      "experimental_test": "In aged 5xFAD mice, chronic montelukast is predicted to lower hippocampal cysteinyl-leukotriene levels and microglial activation markers and improve Morris water-maze performance versus vehicle. Falsified if neuroinflammatory markers and behavior are unchanged despite confirmed central drug exposure.",
+      "gates_passed": ["G1", "G2", "G3", "G4"],
+      "elo": 1241,
+      "scores": {"independent_paths": 2, "corpus_diversity": 4, "semantic_distance": 0.68, "confidence_product": 0.20}
+    }
+  ]
+}

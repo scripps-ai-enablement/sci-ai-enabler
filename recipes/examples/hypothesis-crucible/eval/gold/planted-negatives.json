@@ -1,0 +1,9 @@
+{
+  "description": "Planted-negative set (eval T2): drug->Alzheimer connections that are false or failing. A precise run must NOT surface these; the falsification gauntlet should kill them, and score.py credits the run only when the negative is rejected (present in kill-log), not merely absent.",
+  "disease": {"name": "Alzheimer disease", "ontology_id": "EFO_0000249"},
+  "entries": [
+    {"drug": "rosiglitazone", "disease": "Alzheimer disease", "reason": "Phase III showed no cognitive benefit (failed)", "expected_gate": "G3"},
+    {"drug": "semagacestat", "disease": "Alzheimer disease", "reason": "Phase III worsened cognition; discontinued", "expected_gate": "G3"},
+    {"drug": "loperamide", "disease": "Alzheimer disease", "reason": "negligible CNS exposure (P-gp substrate) — pharmacologically implausible", "expected_gate": "G4"}
+  ]
+}

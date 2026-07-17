@@ -15,6 +15,13 @@
       "description": "Turn a plain-language scientific problem into a grounded, runnable Claude solution — composed from the cataloged Skills/MCP servers/Plugins, reusing a curated recipe when one fits, and recommending a pre-built autonomous system when that's the right call.",
       "category": "life-sciences",
       "keywords": ["life-science", "research", "compose", "recipe", "mcp", "skill", "autonomous-science"]
+    },
+    {
+      "name": "crucible",
+      "source": "./crucible",
+      "description": "Hypothesis Crucible — agentic cross-corpus hypothesis generation. Mines typed knowledge fragments from literature, structured databases, and raw experimental data; bridges them Swanson-style into novel connections; then runs a falsification gauntlet of independent veto gates that aggressively rejects non-novel, ungrounded, contradicted, or implausible ideas, surfacing only survivors with cited support and a discriminating experimental test.",
+      "category": "life-sciences",
+      "keywords": ["life-science", "research", "hypothesis-generation", "literature-based-discovery", "drug-repurposing", "falsification", "provenance"]
     }
   ]
 }

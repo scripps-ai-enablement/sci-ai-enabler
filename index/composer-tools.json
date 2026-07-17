@@ -1,7 +1,7 @@
 {
   "version": 1,
   "generated": "2026-07-17",
-  "count": 431,
+  "count": 432,
   "tools": [
     {
       "slug": "10x-genomics-cloud",
@@ -3622,6 +3622,26 @@
         "LLM-driven"
       ],
       "path": "catalog/tools/hypogenic.md"
+    },
+    {
+      "slug": "hypothesis-crucible",
+      "title": "Hypothesis Crucible (Claude Plugin)",
+      "tool_type": "Claude Plugin",
+      "availability": "GA",
+      "tool_categories": [
+        "Drug Repurposing and Discovery",
+        "Neuroscience",
+        "All"
+      ],
+      "last_verified": "2026-07-17",
+      "claude_science": false,
+      "summary": "Agentic cross-corpus hypothesis generation — mines typed knowledge fragments from literature, structured databases, and raw experimental data, bridges them Swanson-style into novel connections, then runs a falsification gauntlet that aggressively rejects non-novel, ungrounded, contradicted, or implausible ideas, emitting only survivors with cited support and a discriminating experimental test.",
+      "keywords": [
+        "ChEMBL",
+        "GEO",
+        "Swanson-style"
+      ],
+      "path": "catalog/tools/hypothesis-crucible.md"
     },
     {
       "slug": "hypothesis-generation",

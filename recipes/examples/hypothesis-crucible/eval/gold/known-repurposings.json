@@ -1,0 +1,8 @@
+{
+  "description": "Gold set of Alzheimer-disease repurposing connections that gained published support AFTER the run's time-slice cutoff (2019-12-31). Used for retrospective rediscovery recall (eval T1): a run restricted to pre-cutoff sources should surface these without having seen the direct claim. Illustrative set for the reference bundle.",
+  "disease": {"name": "Alzheimer disease", "ontology_id": "EFO_0000249"},
+  "entries": [
+    {"drug": "montelukast", "disease": "Alzheimer disease", "established_after": "2020-01-01", "status": "clinical interest / early-phase", "source": "montelukast repurposing hypotheses and pilot studies reported 2020+"},
+    {"drug": "sildenafil", "disease": "Alzheimer disease", "established_after": "2021-01-01", "status": "epidemiologic + network association", "source": "Fang et al., Nature Aging 2021 (PDE5 inhibitor association)"}
+  ]
+}

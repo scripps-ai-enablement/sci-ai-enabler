@@ -1,0 +1,5 @@
+{"candidate": "donepezil -> Alzheimer disease", "gate": "G1", "reason": "not-novel", "evidence": {"fragment_id": "f9", "note": "donepezil is an approved Alzheimer indication; the direct claim already exists"}}
+{"candidate": "fingolimod -> Alzheimer disease", "gate": "G2", "reason": "ungrounded-link", "evidence": {"missing_link": "S1P receptor modulation -> microglial tau clearance", "note": "no retrieved fragment supports this mechanistic step; chain cannot be grounded"}}
+{"candidate": "rosiglitazone -> Alzheimer disease", "gate": "G3", "reason": "contradicted", "evidence": {"fragment_id": "f10", "note": "Phase III (NCT00550420) showed no cognitive benefit"}}
+{"candidate": "semagacestat -> Alzheimer disease", "gate": "G3", "reason": "contradicted", "evidence": {"fragment_id": "f11", "note": "Phase III (NCT00594568) worsened cognition; discontinued"}}
+{"candidate": "loperamide -> Alzheimer disease", "gate": "G4", "reason": "implausible", "evidence": {"fragment_id": "f12", "note": "P-glycoprotein substrate with negligible CNS exposure; cannot engage a central target"}}

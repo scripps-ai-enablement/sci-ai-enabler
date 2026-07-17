@@ -1,0 +1,6 @@
+# The scorer (score.py) is stdlib-only and needs nothing installed.
+# These pins are for the OPTIONAL schema-validation and analysis extras used when
+# running the full T1-T6 protocol (validating run.bco.json against IEEE-2791 and
+# tabulating ablation results), matching the repo's other reproducible examples.
+jsonschema==4.23.0
+referencing==0.35.1

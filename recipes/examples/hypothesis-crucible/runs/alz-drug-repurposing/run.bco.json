@@ -1,0 +1,263 @@
+{
+  "description_domain": {
+    "keywords": [
+      "hypothesis generation",
+      "literature-based discovery",
+      "Swanson ABC",
+      "falsification gauntlet",
+      "drug repurposing",
+      "Alzheimer disease",
+      "provenance"
+    ],
+    "pipeline_steps": [
+      {
+        "description": "Resolve goal to EFO_0000249; set cutoff 2019-12-31; record known-connections baseline.",
+        "input_list": [
+          {
+            "uri": "goal: repurposable approved drugs for Alzheimer's disease"
+          }
+        ],
+        "name": "Frame",
+        "output_list": [
+          {
+            "uri": "anchor: EFO_0000249"
+          }
+        ],
+        "step_number": 0
+      },
+      {
+        "description": "Extract typed fragments from literature, Open Targets, ChEMBL, ClinicalTrials, and GEO via source adapters.",
+        "input_list": [
+          {
+            "uri": "pubmed; opentargets; chembl; ctrials; geo"
+          }
+        ],
+        "name": "Fragment mining (cross-corpus)",
+        "output_list": [
+          {
+            "filename": "fragments.jsonl",
+            "uri": "https://github.com/scripps-ai-enablement/sci-ai-enabler/blob/main/recipes/examples/hypothesis-crucible/runs/alz-drug-repurposing/fragments.jsonl"
+          }
+        ],
+        "step_number": 1
+      },
+      {
+        "description": "Swanson ABC multi-hop: A-C pairs with no direct edge but >=2 independent B-paths across >=2 corpora.",
+        "input_list": [
+          {
+            "filename": "fragments.jsonl",
+            "uri": "https://github.com/scripps-ai-enablement/sci-ai-enabler/blob/main/recipes/examples/hypothesis-crucible/runs/alz-drug-repurposing/fragments.jsonl"
+          }
+        ],
+        "name": "Bridge discovery",
+        "output_list": [
+          {
+            "uri": "candidate bridges"
+          }
+        ],
+        "step_number": 2
+      },
+      {
+        "description": "Independent veto gates G1 novelty, G2 groundedness, G3 contradiction, G4 plausibility; every kill logged.",
+        "input_list": [
+          {
+            "uri": "candidate bridges"
+          }
+        ],
+        "name": "Falsification gauntlet",
+        "output_list": [
+          {
+            "filename": "kill-log.jsonl",
+            "uri": "https://github.com/scripps-ai-enablement/sci-ai-enabler/blob/main/recipes/examples/hypothesis-crucible/runs/alz-drug-repurposing/kill-log.jsonl"
+          }
+        ],
+        "step_number": 3
+      },
+      {
+        "description": "Elo pairwise-debate ranking and refinement of survivors.",
+        "input_list": [
+          {
+            "uri": "survivors"
+          }
+        ],
+        "name": "Tournament + evolution",
+        "output_list": [
+          {
+            "filename": "hypotheses.json",
+            "uri": "https://github.com/scripps-ai-enablement/sci-ai-enabler/blob/main/recipes/examples/hypothesis-crucible/runs/alz-drug-repurposing/hypotheses.json"
+          }
+        ],
+        "step_number": 4
+      },
+      {
+        "description": "Write hypotheses, kill-log, fragments, provenance, and this BCO.",
+        "input_list": [
+          {
+            "filename": "hypotheses.json",
+            "uri": "https://github.com/scripps-ai-enablement/sci-ai-enabler/blob/main/recipes/examples/hypothesis-crucible/runs/alz-drug-repurposing/hypotheses.json"
+          }
+        ],
+        "name": "Emit run bundle",
+        "output_list": [
+          {
+            "filename": "provenance.json",
+            "uri": "https://github.com/scripps-ai-enablement/sci-ai-enabler/blob/main/recipes/examples/hypothesis-crucible/runs/alz-drug-repurposing/provenance.json"
+          }
+        ],
+        "step_number": 5
+      }
+    ],
+    "xref": [
+      {
+        "access_time": "2019-03-01T00:00:00Z",
+        "ids": [
+          "2019.03"
+        ],
+        "name": "Open Targets association snapshot",
+        "namespace": "opentargets.release"
+      }
+    ]
+  },
+  "error_domain": {
+    "algorithmic_error": {
+      "generation_nondeterminism": "Agentic run; re-running may surface different hypotheses. This BCO makes the run auditable and re-attemptable, not byte-reproducible. Deterministic scoring lives in eval/score.py.",
+      "novelty_scope": "Novelty is judged against sources searched at the 2019-12-31 cutoff; a connection absent there but present elsewhere may be mislabeled novel.",
+      "surfacing_bias": "The gauntlet optimizes precision; true hypotheses can be killed (false negatives) by design.",
+      "synthetic_bundle": "This reference bundle is illustrative; fragments and accessions are representative, not verified literature claims."
+    },
+    "empirical_error": {}
+  },
+  "etag": "f65c597837b33902ea4752952af8f342083ba3a94e09fe9847bdfb6133f3c13b",
+  "execution_domain": {
+    "environment_variables": {},
+    "external_data_endpoints": [
+      {
+        "name": "PubMed (MCP)",
+        "url": "https://pubmed.ncbi.nlm.nih.gov"
+      },
+      {
+        "name": "Open Targets (MCP)",
+        "url": "https://platform.opentargets.org"
+      },
+      {
+        "name": "ChEMBL (MCP)",
+        "url": "https://www.ebi.ac.uk/chembl"
+      },
+      {
+        "name": "ClinicalTrials.gov (MCP)",
+        "url": "https://clinicaltrials.gov"
+      },
+      {
+        "name": "GEO (raw adapter)",
+        "url": "https://www.ncbi.nlm.nih.gov/geo"
+      }
+    ],
+    "script": [
+      {
+        "uri": {
+          "filename": "SKILL.md",
+          "uri": "https://github.com/scripps-ai-enablement/sci-ai-enabler/blob/main/crucible/skills/forge/SKILL.md"
+        }
+      }
+    ],
+    "script_driver": "claude-code (agentic; model-driven procedure, not a deterministic script)",
+    "software_prerequisites": [
+      {
+        "name": "claude-code",
+        "uri": {
+          "uri": "https://claude.com/claude-code"
+        },
+        "version": "ga"
+      }
+    ]
+  },
+  "io_domain": {
+    "input_subdomain": [
+      {
+        "uri": {
+          "filename": "goal",
+          "uri": "repurposable approved drugs for Alzheimer's disease"
+        }
+      }
+    ],
+    "output_subdomain": [
+      {
+        "mediatype": "application/json",
+        "uri": {
+          "filename": "hypotheses.json",
+          "uri": "https://github.com/scripps-ai-enablement/sci-ai-enabler/blob/main/recipes/examples/hypothesis-crucible/runs/alz-drug-repurposing/hypotheses.json"
+        }
+      },
+      {
+        "mediatype": "application/x-ndjson",
+        "uri": {
+          "filename": "kill-log.jsonl",
+          "uri": "https://github.com/scripps-ai-enablement/sci-ai-enabler/blob/main/recipes/examples/hypothesis-crucible/runs/alz-drug-repurposing/kill-log.jsonl"
+        }
+      },
+      {
+        "mediatype": "application/x-ndjson",
+        "uri": {
+          "filename": "fragments.jsonl",
+          "uri": "https://github.com/scripps-ai-enablement/sci-ai-enabler/blob/main/recipes/examples/hypothesis-crucible/runs/alz-drug-repurposing/fragments.jsonl"
+        }
+      },
+      {
+        "mediatype": "application/json",
+        "uri": {
+          "filename": "provenance.json",
+          "uri": "https://github.com/scripps-ai-enablement/sci-ai-enabler/blob/main/recipes/examples/hypothesis-crucible/runs/alz-drug-repurposing/provenance.json"
+        }
+      }
+    ]
+  },
+  "object_id": "https://github.com/scripps-ai-enablement/sci-ai-enabler/blob/main/recipes/examples/hypothesis-crucible/runs/alz-drug-repurposing/run.bco.json",
+  "parametric_domain": [
+    {
+      "param": "min_independent_paths_k",
+      "step": "2",
+      "value": "2"
+    },
+    {
+      "param": "min_corpus_diversity",
+      "step": "2",
+      "value": "2"
+    },
+    {
+      "param": "time_slice_cutoff",
+      "step": "1",
+      "value": "2019-12-31"
+    },
+    {
+      "param": "gate_order",
+      "step": "3",
+      "value": "G1;G2;G3;G4 (any gate vetoes)"
+    },
+    {
+      "param": "model_id",
+      "step": "all",
+      "value": "illustrative-reference-run"
+    }
+  ],
+  "provenance_domain": {
+    "contributors": [
+      {
+        "contribution": [
+          "authoredBy",
+          "createdWith"
+        ],
+        "name": "Claude (Anthropic), driven by the sci-ai-enabler crucible plugin skill 'forge'"
+      }
+    ],
+    "created": "2026-07-17T00:00:00Z",
+    "license": "https://github.com/scripps-ai-enablement/sci-ai-enabler (repository license unspecified as of run)",
+    "modified": "2026-07-17T00:00:00Z",
+    "name": "Crucible hypothesis-forge run \u2014 repurposable approved drugs for Alzheimer's disease (reference)",
+    "version": "1.0.0"
+  },
+  "spec_version": "https://w3id.org/ieee/ieee-2791-schema/2791object.json",
+  "usability_domain": [
+    "Cross-corpus, falsification-screened drug-repurposing hypotheses for Alzheimer disease: 7 candidates considered, 5 killed across gates G1-G4, 2 surfaced with fragment-cited mechanisms and discriminating experiments.",
+    "SYNTHETIC ILLUSTRATIVE reference run (time-slice cutoff 2019-12-31); demonstrates the run-bundle schema and the deterministic scorer, not a validated result."
+  ]
+}
