@@ -131,6 +131,7 @@ summary: <≤ 25-word plain-language description; used by the category card list
 - `nav_order` controls the sidebar position under "All tools". Keep it consistent with alphabetical order across pages so the sidebar reads cleanly.
 - `last_verified` is the date the curator last confirmed every link, install path, and pricing claim.
 - `summary` is the card text shown on the category index pages; keep it ≤ 25 words.
+- `claude_science: true` is the **Claude Science marker** — set it on any entry that is offered inside Anthropic's Claude Science (see the Claude Science source row above). `scripts/build_index.py` injects a searchable `"Claude Science"` keyword into the composer index when this flag is set (the keyword miner can't recover the phrase from prose), and each marked page must also carry a bolded **Claude Science:** callout as the first paragraph under `## Notes` (state which connector/skill and that inclusion is an independent trust signal). Adding the marker to an already-catalogued entry is a provenance annotation — do **not** bump its `last_verified`.
 
 **Install-path examples** to copy:
 
@@ -236,6 +237,7 @@ Consult all of the following on every run, in addition to open web search.
 | [`anthropics/claude-plugins-official`](https://github.com/anthropics/claude-plugins-official) (`marketplace.json`) | Cross-domain Anthropic-managed plugins. Scan for bio/clinical/chem additions. |
 | [`anthropics/skills`](https://github.com/anthropics/skills) (`./skills/`) | Canonical Claude Skills. No dedicated life-sci section; scan descriptions for biomedical relevance. |
 | [`claude.com/connectors`](https://www.claude.com/connectors) filtered to **Healthcare** | Anthropic-vetted vendor connectors for Claude.ai. |
+| [Claude Science — Connectors and skills](https://claude.com/docs/claude-science/connectors-and-skills) | Anthropic's Claude Science **Featured connectors + Research skills** — a living list that gains entries over time. Re-fetch each run and diff against catalogued entries tagged `claude_science: true`. A featured connector bundles several data sources: catalogue at **source-level granularity** (one entry per underlying source, decomposed) — new sources get their own page, existing ones are annotated. Research skills get their own page (most are Claude-Science-only; document the upstream OSS repo for local runs). Mark **every** match — new or existing — with the Claude Science marker (see front-matter rules). |
 
 **Community scientific skill collections** (Agent Skills spec, installable in Claude Code by cloning into `~/.claude/skills/` or via the collection's own install path):
 
