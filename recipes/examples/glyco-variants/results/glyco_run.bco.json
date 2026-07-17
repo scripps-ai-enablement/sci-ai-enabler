@@ -1,0 +1,249 @@
+{
+  "description_domain": {
+    "keywords": [
+      "glycosylation",
+      "N-linked",
+      "O-linked",
+      "sequon",
+      "variant interpretation",
+      "gain of glycosylation",
+      "loss of glycosylation",
+      "GlyGen",
+      "BioMCP",
+      "ClinVar"
+    ],
+    "pipeline_steps": [
+      {
+        "description": "Retrieve annotated N-/O-glycosylation sites per protein from the GlyGen MCP server.",
+        "input_list": [
+          {
+            "uri": "https://mcp.glygen.org/mcp"
+          }
+        ],
+        "name": "GlyGen glycosite lookup",
+        "output_list": [
+          {
+            "uri": "https://github.com/scripps-ai-enablement/sci-ai-enabler/blob/main/recipes/examples/glyco-variants/fixtures/glygen"
+          }
+        ],
+        "step_number": 1
+      },
+      {
+        "description": "Fetch the canonical UniProt sequence for each accession (for the sequon check and numbering reconciliation).",
+        "input_list": [
+          {
+            "uri": "https://rest.uniprot.org"
+          }
+        ],
+        "name": "Canonical sequence fetch",
+        "output_list": [
+          {
+            "uri": "https://github.com/scripps-ai-enablement/sci-ai-enabler/blob/main/recipes/examples/glyco-variants/fixtures/uniprot"
+          }
+        ],
+        "step_number": 2
+      },
+      {
+        "description": "Reconcile each variant against the canonical residue (else 'unmapped'), then classify by an N-X-S/T sequon delta and GlyGen O-glycosite loss.",
+        "input_list": [
+          {
+            "filename": "variants.csv",
+            "uri": "https://github.com/scripps-ai-enablement/sci-ai-enabler/blob/main/recipes/examples/glyco-variants/variants.csv"
+          }
+        ],
+        "name": "Harmonize numbering + classify LOG/GOG",
+        "output_list": [
+          {
+            "filename": "glyco_candidates.csv",
+            "uri": "https://github.com/scripps-ai-enablement/sci-ai-enabler/blob/main/recipes/examples/glyco-variants/results/glyco_candidates.csv"
+          }
+        ],
+        "step_number": 3
+      },
+      {
+        "description": "Join ClinVar significance and CADD/PolyPhen/SIFT via the BioMCP variant searcher/getter (MyVariant.info).",
+        "input_list": [
+          {
+            "uri": "https://myvariant.info"
+          }
+        ],
+        "name": "Annotation join (BioMCP)",
+        "output_list": [
+          {
+            "uri": "https://github.com/scripps-ai-enablement/sci-ai-enabler/blob/main/recipes/examples/glyco-variants/fixtures/biomcp"
+          }
+        ],
+        "step_number": 4
+      },
+      {
+        "description": "Rank glycosylation-altering hits first (predictor-discordant, then ClinVar-pathogenic, then CADD) and emit the candidate table.",
+        "input_list": [
+          {
+            "filename": "glyco_candidates.csv",
+            "uri": "https://github.com/scripps-ai-enablement/sci-ai-enabler/blob/main/recipes/examples/glyco-variants/results/glyco_candidates.csv"
+          }
+        ],
+        "name": "Rank + report",
+        "output_list": [
+          {
+            "filename": "glyco_candidates.csv",
+            "uri": "https://github.com/scripps-ai-enablement/sci-ai-enabler/blob/main/recipes/examples/glyco-variants/results/glyco_candidates.csv"
+          }
+        ],
+        "step_number": 5
+      }
+    ],
+    "xref": [
+      {
+        "access_time": "2026-05-04T00:00:00Z",
+        "ids": [
+          "2.11.1"
+        ],
+        "name": "GlyGen data release",
+        "namespace": "glygen.data.release"
+      }
+    ]
+  },
+  "error_domain": {
+    "algorithmic_error": {
+      "alphamissense": "AlphaMissense is not surfaced by BioMCP's default variant payload; ranking uses ClinVar + CADD + predictor discordance",
+      "numbering": "variants whose stated wild-type residue does not match the canonical UniProt residue are reported as 'unmapped' rather than classified",
+      "scope": "single-residue missense only; indels, frameshift, splice and nonsense variants are not classified"
+    },
+    "empirical_error": {}
+  },
+  "etag": "1cee578a11fd09a252c9779a9e10fbfc5dd6a187ba10a4ab49fa80c8421c0e57",
+  "execution_domain": {
+    "environment_variables": {},
+    "external_data_endpoints": [
+      {
+        "name": "GlyGen MCP server",
+        "url": "https://mcp.glygen.org/mcp"
+      },
+      {
+        "name": "UniProt REST",
+        "url": "https://rest.uniprot.org"
+      },
+      {
+        "name": "MyVariant.info (via BioMCP)",
+        "url": "https://myvariant.info"
+      }
+    ],
+    "script": [
+      {
+        "uri": {
+          "filename": "glyco_variants.py",
+          "uri": "https://github.com/scripps-ai-enablement/sci-ai-enabler/blob/main/recipes/examples/glyco-variants/glyco_variants.py"
+        }
+      }
+    ],
+    "script_driver": "python",
+    "software_prerequisites": [
+      {
+        "name": "python",
+        "uri": {
+          "uri": "https://www.python.org/"
+        },
+        "version": "3.12"
+      },
+      {
+        "name": "mcp",
+        "uri": {
+          "uri": "https://pypi.org/project/mcp/"
+        },
+        "version": "1.12.0"
+      },
+      {
+        "name": "requests",
+        "uri": {
+          "uri": "https://pypi.org/project/requests/"
+        },
+        "version": "2.33.0"
+      },
+      {
+        "name": "biomcp-cli",
+        "uri": {
+          "uri": "https://pypi.org/project/biomcp-cli/"
+        },
+        "version": "0.8.25"
+      }
+    ]
+  },
+  "io_domain": {
+    "input_subdomain": [
+      {
+        "uri": {
+          "filename": "variants.csv",
+          "uri": "https://github.com/scripps-ai-enablement/sci-ai-enabler/blob/main/recipes/examples/glyco-variants/variants.csv"
+        }
+      },
+      {
+        "uri": {
+          "filename": "GlyGen human germline mutation dataset (BCO)",
+          "uri": "https://data.glygen.org/GLY_001534"
+        }
+      },
+      {
+        "uri": {
+          "filename": "GlyGen human cancer mutation dataset (BCO)",
+          "uri": "https://data.glygen.org/GLY_001537"
+        }
+      }
+    ],
+    "output_subdomain": [
+      {
+        "mediatype": "text/csv",
+        "uri": {
+          "filename": "glyco_candidates.csv",
+          "uri": "https://github.com/scripps-ai-enablement/sci-ai-enabler/blob/main/recipes/examples/glyco-variants/results/glyco_candidates.csv"
+        }
+      },
+      {
+        "mediatype": "application/json",
+        "uri": {
+          "filename": "provenance.json",
+          "uri": "https://github.com/scripps-ai-enablement/sci-ai-enabler/blob/main/recipes/examples/glyco-variants/results/provenance.json"
+        }
+      }
+    ]
+  },
+  "object_id": "https://github.com/scripps-ai-enablement/sci-ai-enabler/blob/main/recipes/examples/glyco-variants/results/glyco_run.bco.json",
+  "parametric_domain": [
+    {
+      "param": "n_glycosylation_sequon",
+      "step": "3",
+      "value": "N-X-[S/T], X != Pro"
+    },
+    {
+      "param": "sequon_search_window",
+      "step": "3",
+      "value": "mutated residue +/- 2"
+    },
+    {
+      "param": "ranking",
+      "step": "5",
+      "value": "glyco-altering first; predictor-discordant; ClinVar pathogenic; CADD desc"
+    }
+  ],
+  "provenance_domain": {
+    "contributors": [
+      {
+        "contribution": [
+          "authoredBy",
+          "createdWith"
+        ],
+        "name": "Claude (Anthropic), driven by the sci-ai-enabler recipe 'interpret-glycosylation-altering-variants'"
+      }
+    ],
+    "created": "2026-05-04T00:00:00Z",
+    "license": "https://github.com/scripps-ai-enablement/sci-ai-enabler (repository license unspecified as of run)",
+    "modified": "2026-05-04T00:00:00Z",
+    "name": "Interpret variants that gain or lose glycosylation sites \u2014 reference run",
+    "version": "2.0.0"
+  },
+  "spec_version": "https://w3id.org/ieee/ieee-2791-schema/2791object.json",
+  "usability_domain": [
+    "Flags protein-coding missense variants that create (gain of glycosylation, GOG) or destroy (loss of glycosylation, LOG) N-/O-linked glycosylation sites, joins ClinVar + CADD/PolyPhen/SIFT, and ranks candidates where altered glycosylation is a plausible disease mechanism \u2014 surfacing pathogenic variants that sequence-based predictors miss.",
+    "Reference run over a 7-variant SERPINC1/IFNGR2 panel; 4 glycosylation-altering hits."
+  ]
+}

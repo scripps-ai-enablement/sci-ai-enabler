@@ -1,21 +1,24 @@
 {
   "analysis": "interpret-glycosylation-altering-variants",
   "biocompute_object": {
-    "emit_bco": "optional \u2014 serialize this run as a schema-validated IEEE-2791 BCO if a downstream consumer requires it",
+    "etag": "1cee578a11fd09a252c9779a9e10fbfc5dd6a187ba10a4ab49fa80c8421c0e57",
+    "file": "glyco_run.bco.json",
     "input_dataset_bcos": [
       "https://data.glygen.org/GLY_001534",
       "https://data.glygen.org/GLY_001537"
     ],
-    "note": "GlyGen publishes its source datasets as IEEE-2791 BioCompute Objects; cite them as input provenance."
+    "object_id": "https://github.com/scripps-ai-enablement/sci-ai-enabler/blob/main/recipes/examples/glyco-variants/results/glyco_run.bco.json",
+    "spec_version": "https://w3id.org/ieee/ieee-2791-schema/2791object.json"
   },
   "input_sha256": "dba4b53a2291b7a900708b3b735d8dcb5687d71c7229cef88d0dc925eb39bf38",
   "mode": "offline-replay",
   "outputs": {
-    "glyco_candidates.csv": "4ce638fc20c54721735ee041d168352becb53bd42506161f0fd18474739e9205"
+    "glyco_candidates.csv": "4ce638fc20c54721735ee041d168352becb53bd42506161f0fd18474739e9205",
+    "glyco_run.bco.json": "12a8f1fcd54827859c9d50bb0a3375d82c99ca0ec73088d8944b1e776e976351"
   },
   "run_date": "2026-05-04",
   "script": "glyco_variants.py",
-  "script_version": "1.0.0",
+  "script_version": "2.0.0",
   "sources": {
     "biomcp": {
       "cli": "biomcp",
