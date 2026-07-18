@@ -85,6 +85,11 @@ COMPUTE = {
     "Multi-GPU server",
     "HPC or cloud cluster",
 }
+# Verifier-agent stamps (catalog/tools/*.md). Validated here if present so a typo
+# fails CI, but intentionally NOT emitted into composer-tools.json — the stamps
+# are informational catalog metadata, not part of the composer's grounding set.
+VERIFICATION_STATUS = {"works", "degraded", "broken"}
+SECURITY_STATUS = {"cleared", "caution", "flagged", "unknown"}
 
 # Acronym / technical-term shape for keyword extraction: a token containing a run
 # of >=2 uppercase letters (RNA, ADMET, EEG, PDB, CRISPR, scRNA-seq, AlphaFold…).
@@ -214,6 +219,11 @@ def build_tool(path: Path, errors: list) -> dict | None:
     summary = fm.get("summary", "")
     categories = fm.get("tool_categories", [])
     check_vocab(categories, TOOL_CATEGORIES, "tool_categories", path, errors)
+    # Validate the verifier stamps if present (they are not emitted into the index).
+    if fm.get("verification"):
+        check_vocab(fm["verification"], VERIFICATION_STATUS, "verification", path, errors)
+    if fm.get("security"):
+        check_vocab(fm["security"], SECURITY_STATUS, "security", path, errors)
     lead = lead_description(body, path)
     what = section_body(body, "What it does")
     # The matchable representation is summary + keywords + facets; keywords are
