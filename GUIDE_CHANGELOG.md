@@ -11,6 +11,27 @@ Reverse-chronological log of changes to the [guide]({{ '/guide/' | relative_url 
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-07-18
+
+### Updated
+- **[advanced/slash-commands, surfaces/claude-code] `/fork` and `/subtask` split (v2.1.212, 2026-07-17).** `/fork` now copies your whole conversation into its own background-session row (a new row in `claude agents`) so you keep working in the original; the in-session subagent launcher it used to be is now the separate `/subtask` command. Added `/subtask` to the subagents paragraph on the slash-commands page (plus the new per-session subagent spawn cap of 200, `CLAUDE_CODE_MAX_SUBAGENTS_PER_SESSION`, reset by `/clear`), and noted the new `/fork` behavior in the Claude Code web/background-sessions bullet. Grounded in the [Claude Code changelog](https://code.claude.com/docs/en/changelog) fetched this run (v2.1.212, 2026-07-17).
+
+### Verified (no changes)
+- claude-surfaces.md, surfaces/claude-code.md — install command (`curl -fsSL https://claude.ai/install.sh | bash`) re-verified via WebFetch of `claude.com/product/claude-code`: native installer canonical, no deprecation banner; Terminal / VS Code / JetBrains / web / Desktop / iOS / Android / Slack / GitHub surfaces unchanged. Changelog re-fetched: latest release is **v2.1.214 (2026-07-18)**; v2.1.208–v2.1.214 are otherwise below the beginner threshold (screen-reader mode `--ax-screen-reader`, vim insert-mode remaps, live elapsed-time counter, permission-preview hardening, session-wide WebSearch cap, MCP auto-background after 2 min, EndConversation tool for abusive/jailbreak sessions). Sonnet 5 default, Claude in Chrome GA, Dynamic Workflows, Channels, Claude Security, MCP tunnels, routines all current.
+- surfaces/claude-api.md — Sonnet 5, Opus 4.8, Fable 5 (redeployed), model-deprecation past tense, Agent SDK pause, Managed Agents all current.
+- anthropic.com/news scanned — July items (Claude for Teachers, Reflection usage-insight feature, Long-Term Benefit Trust appointment, Canadian AI research funding) do not meet the beginner cross-cutting / component bar; no new page warranted.
+- surfaces/claude-ai.md, surfaces/claude-desktop.md, surfaces/claude-cowork.md, surfaces/claude-science.md, surfaces/claude-tag.md — unchanged.
+- skills.md, mcp-servers.md, plugins.md, marketplaces.md, connectors.md, decision-tree.md — unchanged.
+- advanced/hooks.md, advanced/routines.md, advanced/authentication.md, advanced/reproducibility.md, advanced/verification.md — unchanged.
+
+### Flagged for review
+- **Claude for Teachers / Claude Reflection (July 2026)** — new consumer-facing surfaces/features; watch for beginner relevance or cross-surface reach before adding a page.
+- **Agent SDK billing split** — carried over; paused, not cancelled. Re-verify the help-center pause notice each run.
+- **Mythos 5 general availability** — restricted to approved U.S. orgs (Project Glasswing); watch for broader availability.
+- **Claude Tag** — Team/Enterprise beta; watch the old Claude-in-Slack app retirement (~early Aug 2026 per secondary coverage).
+- **Claude in Chrome** — if it becomes a distinct beginner-facing component rather than a Claude Code companion, consider promoting the cross-cutting bullet to a sub-page.
+- **Promote `security-guidance` to its own page** — carried over; stays inside `plugins.md` unless a human expands the topic list.
+
 ## 2026-07-11
 
 ### Added
