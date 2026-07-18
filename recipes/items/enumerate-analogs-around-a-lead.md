@@ -118,6 +118,7 @@ Proposed. No published benchmark of an LLM-driven Datamol analog-enumeration wor
 - [RDKit Cheminformatics Skill](../../catalog/tools/rdkit-skill.html)
 - [Filter a virtual screening hit list with drug-likeness rules and structural alerts](filter-virtual-screening-hits.html) — the downstream developability gate for the enumerated set.
 - [Profile a compound's polypharmacology from ChEMBL bioactivity data](profile-compound-polypharmacology.html) — check whether an analog already has measured activity before making it.
+- [Plan a synthetic route for a target molecule](plan-a-synthetic-route-for-a-target-molecule.html) — make-check the enumerated analogs before committing to synthesis.
 - [ChemCrow](../../autonomous-science/systems/chemcrow.html) — the autonomous-system option one rung up, for de-novo design and synthesis planning.
 
 ## Sources

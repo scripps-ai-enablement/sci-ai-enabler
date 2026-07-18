@@ -11,6 +11,16 @@ Reverse-chronological log of changes to the [recipes cookbook]({{ '/recipes/' | 
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-07-18 (Chemistry directed pass; composition report #55)
+
+### Added
+
+- **Plan a synthetic route for a target molecule** (Problem class: Experimental design; Evidence: Reported) — rung-2 [CovaSyn MCP](catalog/tools/covasyn.html) recipe: target SMILES → optional [RDKit](catalog/tools/rdkit-skill.html)/[Datamol](catalog/tools/datamol.html) canonicalization → `covaplatform` retrosynthesis call (N routes, max depth) → per-step precursor + transform-class capture with buyable-leaf flags → route scoring (shorter, fully-buyable first) → committed `plan_route.py` + pinned `requirements.txt` + `routes.csv`/`route_summary.csv` + `provenance.json` (CovaSyn version, model/suite id, building-block catalog snapshot, request params, input sha256, run date, model id). Downstream make-check for [enumerate-analogs-around-a-lead](recipes/items/enumerate-analogs-around-a-lead.html) (cross-linked) and [filter-virtual-screening-hits](recipes/items/filter-virtual-screening-hits.html), with [ChemCrow](autonomous-science/systems/chemcrow.html) as the rung-4 execute-and-iterate alternative. `Reported` — agentic tool-grounded retrosynthesis is benchmarked near expert level ([LARC, Baker et al., *arXiv* 2508.11860, 2025](https://arxiv.org/abs/2508.11860): 72.9% on 48 constrained tasks; [ChemCrow, *Nat. Mach. Intell.* 2024](https://doi.org/10.1038/s42256-024-00832-8)); the exact Claude+CovaSyn pairing is not separately benchmarked. `Subscription required` (CovaSyn freemium, credit-metered, cloud SMILES submission); `Laptop`.
+
+### Updated
+
+- **Prioritize targets within a disease via Open Targets** — processed composition report [#55](https://github.com/scripps-ai-enablement/sci-ai-enabler/issues/55) (@goodb, `outcome=worked`); added an Alzheimer's-*prevention* field report (SORL1 lead via a prevention-tuned re-weighting of the pillar fields against MONDO_0004975) that reinforces the direct-GraphQL fallback when the hosted MCP is rate-limited; `last_verified` 2026-07-12 → 2026-07-18.
+
 ## 2026-07-16 (Translational Medicine scope; user request #52)
 
 ### Added

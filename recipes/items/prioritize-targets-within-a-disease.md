@@ -9,7 +9,7 @@ evidence_level: Reported
 complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Laptop
-last_verified: 2026-07-12
+last_verified: 2026-07-18
 summary: Drive the Open Targets MCP plugin to rank candidate targets within a disease across the four prioritisation pillars (precedence, tractability, doability, safety) and emit a cited target shortlist.
 ---
 
@@ -84,6 +84,7 @@ Reported. The Open Targets target-prioritisation framework is the canonical, pee
 ### Field reports
 
 - **2026-06-20 (@goodb, #43):** Ran as step 1 of a knee-OA (EFO_0004616) disease → genes → pathways chain. The hosted Open Targets MCP endpoint failed the `initialize` handshake (see the known-issue note in step 1), so the report drove the **direct GraphQL API** instead; it returned a sensible overall-score ranking (top genes NGF, GDF5, ACAN, COL27A1, PTGS2, SMAD3, FGF18, ALDH1A2) and ran end-to-end on a laptop in under a minute. A ToolUniverse cross-check confirmed identical disease resolution and backend gene data, differing only in that ToolUniverse exposes per-datasource scores (no single overall-association tool). The MCP-connectivity breakage is also flagged on the [Open Targets catalog page](../../catalog/tools/open-targets.html).
+- **2026-07-16 (@goodb, #55):** Reused for an Alzheimer's-disease *prevention* hypothesis. With the hosted `ot` MCP globally rate-limited, drove the identical query against the **direct GraphQL API** on a laptop in seconds. Pulled the top 30 targets for MONDO_0004975 (Alzheimer disease), then re-scored with a prevention-tuned rubric: 3× weight on `genetic_association`, tractability/safety pillars, a penalty on `maxClinicalStage` to down-rank already-drugged targets, and an essentiality penalty. Top novelty-biased de-novo hits: APOE, ADAM10, GRN, HFE, ABCA7, SORL1. SORL1 was selected as a clinically-unprecedented, genetics-causal prevention lead and carried into a downstream mechanistic-hypothesis draft. Confirms the direct-GraphQL fallback is the reliable path when the MCP endpoint is rate-limited, and that the pillar fields support custom re-weighting rubrics beyond the default 0–4 sum.
 
 ## Alternatives considered
 
