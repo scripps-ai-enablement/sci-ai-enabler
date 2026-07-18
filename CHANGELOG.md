@@ -11,6 +11,16 @@ Reverse-chronological log of changes to the [catalog]({{ '/catalog/' | relative_
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-07-18 (Molecular and Cellular Biology slot)
+
+Molecular and Cellular Biology directed pass plus a manifest sweep. The `anthropics/life-sciences` marketplace (`.claude-plugin/marketplace.json`, 19 entries) was re-fetched and diffed against the catalog — all entries already covered. Seed queries reconfirmed the Scanpy MCP family (`scanpy-mcp`/`scmcp`, already catalogued and cross-linked) and the Ensembl MCP surface. The RNA-seq/regulatory-genomics query surfaced one genuinely-new installable plugin.
+
+### Added
+- **ENCODE Toolkit** (Categories: Molecular and Cellular Biology) — AGPL-3.0 Claude Code plugin + MCP server (`ammawla/encode-toolkit`, PyPI v0.3.0) with 20 ENCODE Portal tools (search, batch download with MD5 verification, local experiment tracking) plus seven Nextflow reference pipelines (ChIP-seq, ATAC-seq, RNA-seq, WGBS, Hi-C, DNase-seq, CUT&RUN); distinct from the read-only ENCODE Claude Skill ([README](https://github.com/ammawla/encode-toolkit/blob/main/README.md), [PyPI](https://pypi.org/project/encode-toolkit/)).
+
+### Verified (no changes)
+- Manifest sweep confirmed no new `anthropics/life-sciences` plugins; Scanpy MCP family and stMCP (spatial-transcriptomics preprint — deferred, unverified repo/license) reconfirmed against existing coverage.
+
 ## 2026-07-18 (Integrative Structural and Computational Biology slot)
 
 Integrative Structural and Computational Biology directed pass plus a manifest sweep. The `anthropics/life-sciences` and `anthropics/claude-plugins-official` marketplaces were re-fetched and diffed against the catalog — all entries already covered. Structural seed queries confirmed the RCSB PDB, AlphaFold/ESMFold, and PyMOL surfaces are already comprehensively catalogued (`pdb`, `alphafold`, `esmfold`, `pymol`, `molecule-mcp`), and that no cryo-EM (RELION/cryoSPARC) MCP or Skill exists yet (still deferred). The MD seed query surfaced one genuinely-new hosted computational-chemistry engine.
