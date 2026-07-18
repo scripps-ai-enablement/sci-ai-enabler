@@ -39,17 +39,23 @@ Invoke it explicitly with the slash command, or just describe your problem in ch
 ## Try it — paste any of these
 {: #try-it }
 
-Each prompt exercises a different path through the Composer. Run them as-is to see how it behaves. Some will offer to install additional components and run the workflow on your data — the Composer always asks before installing or changing anything.
+These span very different corners of science — structural biology, cheminformatics, clinical genomics, microbiology, drug discovery, functional genomics — and each exercises the Composer differently (reuse a curated recipe, assemble a multi-tool pipeline, escalate to an autonomous system, or say honestly that nothing fits). Run them as-is. Several will offer to install the pieces and run the workflow on your own data — the Composer always asks before installing or changing anything.
 
-- `/composer:compose I have a stack of new single-cell preprints and need to triage them`
-  — *reuses a curated recipe* and offers to run it against your field right away.
-- `/composer:compose rank microglial scRNA-seq preprints by relevance to neuroinflammation`
-  — *matches on meaning across research areas*, even though the wording spans Neuroscience and Molecular & Cellular Biology.
-- `/composer:compose convert a folder of vendor instrument CSVs into a tidy long-format table`
-  — *walks the simplicity ladder*, recommending the cheapest assembly that solves it.
-- `/composer:compose I want an agent to go from a disease hypothesis through experiment design to analysis end to end`
-  — *recommends a pre-built autonomous system* (e.g. Robin, OpenScientist, or Biomni) with the evidence behind it.
-- `/composer:compose predict crystal packing for a small molecule from its SMILES`
+- `/composer:compose predict a protein's 3D structure from its sequence, then dock a candidate ligand against the pocket`
+  — *chains curated recipes into a short structural pipeline* (structure prediction → model triage → docking) drawn from the catalog's structure and docking tools.
+- `/composer:compose here's a SMILES string — profile its likely targets, on/off-target activity, and ADMET liabilities`
+  — *matches on meaning* and assembles the cheminformatics stack (chemical databases + property predictors) without you naming any of them.
+- `/composer:compose interpret the clinical significance of a coding variant, with the supporting evidence`
+  — *drops straight onto a curated recipe* grounded in clinical-genomics knowledge bases, with the evidence / availability / compute caveats shown up front.
+- `/composer:compose annotate a bacterial genome assembly and screen it for antimicrobial-resistance and virulence genes`
+  — *walks the simplicity ladder* to the annotation and resistance-screening skills that close the gap — no heavier pipeline than needed.
+- `/composer:compose build a dossier for a drug target: disease associations, tractability, known chemistry, and the clinical-trial landscape`
+  — *assembles across research areas in one go*, naming each real source across human genetics, chemistry, and trials databases.
+- `/composer:compose I have a differential-expression gene list from an RNA-seq run — tell me what pathways and diseases it points to`
+  — *reuses a recipe and offers to run it on your list*, citing only terms that actually appear in the results.
+- `/composer:compose I want an agent to take a disease hypothesis all the way through experiment design and data analysis`
+  — *escalates to a pre-built autonomous system* (e.g. Robin, OpenScientist, or Biomni) with the validation record behind it.
+- `/composer:compose predict the solid-state crystal packing / polymorphs of a small molecule from its SMILES`
   — *tells you honestly when nothing in the catalog fits* rather than inventing a tool, and offers to file the gap so a recipe gets written.
 
 ## If something doesn't work
