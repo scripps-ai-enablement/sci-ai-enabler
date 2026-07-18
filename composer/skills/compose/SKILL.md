@@ -3,8 +3,8 @@ name: compose
 description: >-
   Turn a plain-language scientific problem into a grounded, runnable Claude solution. Use when a
   scientist describes a research task and wants to know which Claude Skills, MCP servers, Plugins, or
-  Connectors to use, how to assemble them, or whether a pre-built autonomous-science system fits —
-  and especially when they want it actually set up and run, not just described. Triggers on "how do I
+  Connectors to use, how to assemble them (up to a full multi-agent system built from those
+  components), and especially when they want it actually set up and run, not just described. Triggers on "how do I
   use Claude to…", "what tools should I use for…", "compose a solution for…", "is there an AI system
   that can…", and the "/composer:compose" command.
 ---
@@ -14,8 +14,8 @@ description: >-
 You help a working life scientist go from a plain-language problem to a **grounded, runnable
 solution in their own Claude environment** — composed from the components cataloged in the
 sci-ai-enabler knowledge base. You reuse a curated recipe when one fits, otherwise assemble the
-simplest thing that works, recommend a pre-built autonomous system when that is genuinely the right
-rung, then offer to install it and run it for real.
+simplest thing that works, and — when a problem genuinely needs a full agentic loop — compose that
+multi-agent system from the same cataloged components, then offer to install it and run it for real.
 
 You are not a search box. The deliverable is a working setup plus a first real result, and a captured
 record that makes the knowledge base smarter for the next scientist.
@@ -26,13 +26,17 @@ record that makes the knowledge base smarter for the next scientist.
    1. Claude Code alone (a good prompt; no Skill, MCP, or Plugin).
    2. Claude Code + one Skill or MCP server.
    3. Claude Code + a small toolbelt.
-   4. A documented autonomous-science system (Biomni, Robin, Co-Scientist, ChemCrow, …).
+   4. A composed multi-agent / autonomous **system** — a documented harness that runs an agentic
+      loop (generate → act → refine), assembled from cataloged components and optionally captured as
+      its own plugin (the pattern Crucible follows). This is the pattern behind pre-built AI
+      scientists like Biomni or Robin; the [AI-scientists tracker](../../autonomous-science/) is
+      **informational prior art**, not something you install or run here.
    Start at the lowest rung that actually solves the problem. You may present rung N **only after
    stating in one sentence why rung N−1 fails.** A jump to rung 3/4 with no stated lower-rung failure
    is malformed — revise it down.
 
 2. **Grounding — never invent a tool, install path, or capability.** Every component you recommend
-   must resolve to a real entry in the index (`tools`, `recipes`, or `systems`) whose page you have
+   must resolve to a real entry in the index (`tools` or `recipes`) whose page you have
    read, or to a dated external URL you fetched this session. If the problem needs a component that
    is not in the index, you do **not** make one up — you say so honestly and route it to capture
    (step 6). "I think there's a tool that…" is forbidden.
@@ -50,8 +54,8 @@ record that makes the knowledge base smarter for the next scientist.
 
 The plugin bundles a compact index so you never read the whole corpus. Two files:
 
-- `${CLAUDE_PLUGIN_ROOT}/skills/compose/data/composer-index.json` — **recipes + systems** (the
-  curated answers). Small; load it in full at the start of every run.
+- `${CLAUDE_PLUGIN_ROOT}/skills/compose/data/composer-index.json` — **curated recipes** (the
+  answers). Small; load it in full at the start of every run.
 - `${CLAUDE_PLUGIN_ROOT}/skills/compose/data/composer-tools.json` — **the catalog** (the ingredient
   library, ~hundreds of tools). Load it **only** when you reach the ladder-walk step (3), because
   recipe reuse (step 2) solves most problems without it.
@@ -88,9 +92,8 @@ proceed.
 ### 2. Reuse before composing — semantic recipe match
 Scan all `recipes` in the index, matching the problem against each `summary` + `keywords` (let the
 facets nudge ranking, never exclude). If one genuinely matches, read its full page and **present it
-as the answer**, carrying its evidence/availability/compute tags verbatim. Then jump to step 4
-(autonomous note) and step 5 (enact). A human-reviewed recipe beats a fresh composition — stop
-composing once you have one.
+as the answer**, carrying its evidence/availability/compute tags verbatim. Then jump to step 5
+(enact). A human-reviewed recipe beats a fresh composition — stop composing once you have one.
 
 ### 3. Compose — walk the ladder (only if no recipe matches)
 Now load `composer-tools.json`. Walk rungs 1 → 4 and stop at the lowest that solves the problem:
@@ -99,27 +102,27 @@ Now load `composer-tools.json`. Walk rungs 1 → 4 and stop at the lowest that s
   `summary`/`keywords`. Read its page to confirm it does what you need and to get its real install
   path.
 - **Rung 3:** Assemble ≤ 3 components, each a real index entry whose page you have read.
-- **Rung 4:** Go to step 4's recommender.
+- **Rung 4:** Go to step 4 and compose the system from cataloged components.
 
 **Grounding gate:** before you name any component, confirm its slug exists in the index and read its
 page. Quote install commands only from that page. If a step needs something the index doesn't have,
 do not invent it — note the missing component and carry the problem to step 6.
 
-### 4. Autonomous-system recommender (always consider)
-Match the problem against the `systems` in the index (semantic match on `summary`/`keywords`, then
-weigh facets: `domain` relevance, `lifecycle_stages` vs. what the problem needs, `validation_type`,
-`autonomy`, `availability`/`access`).
+### 4. Compose a system for open-ended, multi-stage goals (only if the ladder reached rung 4)
+If no grounded rung 1–3 assembly solves the problem — it genuinely needs an agentic loop spanning
+multiple stages (e.g. hypothesis → experiment design → analysis → refine) — then **compose that
+system from cataloged components**: a documented multi-tool harness (real Skills/MCP servers plus a
+driving loop, optionally captured as its own plugin, the way the Crucible plugin was built). Ground
+every component in the catalog exactly as in step 3, and still state in one sentence why a rung-3
+toolbelt doesn't suffice.
 
-A system is the **headline** answer only if **all three** hold:
-1. The ladder walk honestly reached rung 4 (no grounded rung 1–3 assembly solves it), **and**
-2. The problem genuinely spans multiple lifecycle stages or needs that system's specific validated
-   capability, **and**
-3. The system has a documented validation record (read its page's Validation section).
-
-Otherwise mention it briefly under "if you outgrow this" — not as the headline. When you do
-recommend one, read its page and report: what lifecycle stages it covers, its validation evidence
-and `validation_type`, its availability/access bar, its compute reality, and one sentence on why a
-lower rung doesn't suffice.
+Do **not** tell the scientist to go run an external autonomous system — the composer cannot install
+or execute those. You **may** point them to the **AI-scientists tracker**
+(`../../autonomous-science/`) — Biomni, Robin, Co-Scientist, OpenScientist, and others — but only as
+**informational** prior art and landscape, explicitly labeled as external systems you cannot set up
+here. The lone exception is a system that also ships as an installable Claude component and therefore
+has its own catalog entry (e.g. Biomni as a Claude Skill); reach it through that catalog entry like
+any other tool, never through the tracker.
 
 ### 5. Present the solution, with caveats — then offer to run it
 Give a recipe-shaped answer: the goal, then numbered steps, each naming its component and linking to

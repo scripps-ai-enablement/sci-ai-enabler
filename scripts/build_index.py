@@ -30,9 +30,13 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
 # Two artifacts, mirroring the repo's "answers vs ingredients" split:
-#   composer-index.json  — recipes + systems (the curated answers; always loaded)
+#   composer-index.json  — curated recipes (the answers; always loaded)
 #   composer-tools.json  — the catalog (the ingredient library; loaded only when
 #                          the composer reaches the ladder-walk step)
+# Autonomous-science systems are still parsed and validated (page-quality CI) but
+# are NOT written to the composer index: they are external systems the composer
+# cannot install or run, so they are informational site content only. A system
+# that is genuinely hookable earns a catalog entry (e.g. Biomni as a Claude Skill).
 OUT_INDEX = REPO / "index" / "composer-index.json"
 OUT_TOOLS = REPO / "index" / "composer-tools.json"
 # The plugin bundles a mirror of the index so it works on a fresh marketplace
@@ -333,10 +337,9 @@ def main() -> int:
     index = {
         "version": 1,
         "generated": generated,
-        "counts": {"tools": len(tools), "recipes": len(recipes), "systems": len(systems)},
+        "counts": {"tools": len(tools), "recipes": len(recipes)},
         "tools_file": "composer-tools.json",
         "recipes": recipes,
-        "systems": systems,
     }
     tools_doc = {
         "version": 1,
@@ -352,7 +355,8 @@ def main() -> int:
         (base / "composer-tools.json").write_text(tools_json, encoding="utf-8")
     print(
         f"build_index: wrote index/ and {PLUGIN_DATA.relative_to(REPO)}/ — "
-        f"{len(recipes)} recipes, {len(systems)} systems, {len(tools)} tools"
+        f"{len(recipes)} recipes, {len(tools)} tools "
+        f"({len(systems)} autonomous-science pages validated, not indexed)"
     )
     return 0
 

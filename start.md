@@ -7,7 +7,7 @@ description: "Install the Composer plugin in Claude Code or Cowork and try it on
 
 # Start here: the Composer
 
-Don't know which of the cataloged components you need? Install the **[Composer](catalog/tools/composer.md)** plugin, describe your problem in plain language, and it composes a grounded, runnable solution from everything in this resource — reusing a curated [recipe]({{ '/recipes/' | relative_url }}) when one fits, assembling the simplest set of tools when it doesn't, and recommending a pre-built [autonomous system]({{ '/autonomous-science/' | relative_url }}) when that's the right call. It never invents a tool, always shows the evidence / availability / compute trade-offs, and offers to install the pieces and run them for you.
+Don't know which of the cataloged components you need? Install the **[Composer](catalog/tools/composer.md)** plugin, describe your problem in plain language, and it composes a grounded, runnable solution from everything in this resource — reusing a curated [recipe]({{ '/recipes/' | relative_url }}) when one fits, assembling the simplest set of tools when it doesn't, and — for open-ended goals — composing a full multi-agent system from those same components. It never invents a tool, always shows the evidence / availability / compute trade-offs, and offers to install the pieces and run them for you. (For a map of pre-built [autonomous systems]({{ '/autonomous-science/' | relative_url }}) like Robin or OpenScientist, see the AI-scientists tracker — those are informational; the Composer builds equivalents from cataloged parts rather than installing them.)
 
 ## 1. Install it (once)
 
@@ -39,7 +39,7 @@ Invoke it explicitly with the slash command, or just describe your problem in ch
 ## Try it — paste any of these
 {: #try-it }
 
-These span very different corners of science — structural biology, cheminformatics, clinical genomics, microbiology, drug discovery, functional genomics — and each exercises the Composer differently (reuse a curated recipe, assemble a multi-tool pipeline, escalate to an autonomous system, or say honestly that nothing fits). Run them as-is. Several will offer to install the pieces and run the workflow on your own data — the Composer always asks before installing or changing anything.
+These span very different corners of science — structural biology, cheminformatics, clinical genomics, microbiology, drug discovery, functional genomics — and each exercises the Composer differently (reuse a curated recipe, assemble a multi-tool pipeline, compose a full multi-agent system, or say honestly that nothing fits). Run them as-is. Several will offer to install the pieces and run the workflow on your own data — the Composer always asks before installing or changing anything.
 
 - `/composer:compose predict a protein's 3D structure from its sequence, then dock a candidate ligand against the pocket`
   — *chains curated recipes into a short structural pipeline* (structure prediction → model triage → docking) drawn from the catalog's structure and docking tools.
@@ -54,7 +54,7 @@ These span very different corners of science — structural biology, cheminforma
 - `/composer:compose I have a differential-expression gene list from an RNA-seq run — tell me what pathways and diseases it points to`
   — *reuses a recipe and offers to run it on your list*, citing only terms that actually appear in the results.
 - `/composer:compose I want an agent to take a disease hypothesis all the way through experiment design and data analysis`
-  — *escalates to a pre-built autonomous system* (e.g. Robin, OpenScientist, or Biomni) with the validation record behind it.
+  — *composes a multi-agent system from cataloged components* (the way this project's Crucible plugin was built), and points you to the [AI-scientists tracker](autonomous-science/) for prior art like Robin or OpenScientist — informational, not something it installs for you.
 - `/composer:compose predict the solid-state crystal packing / polymorphs of a small molecule from its SMILES`
   — *tells you honestly when nothing in the catalog fits* rather than inventing a tool, and offers to file the gap so a recipe gets written.
 

@@ -190,13 +190,20 @@ class TestIndexArtifacts(unittest.TestCase):
 
     def test_index_structure(self):
         self.assertEqual(self.index["tools_file"], "composer-tools.json")
-        for key in ("version", "generated", "counts", "recipes", "systems"):
+        for key in ("version", "generated", "counts", "recipes"):
             self.assertIn(key, self.index)
+
+    def test_autonomous_systems_not_in_composer_index(self):
+        # Autonomous-science systems are external systems the composer cannot
+        # install or run, so they are informational site content only and must
+        # NOT be part of the composer's grounding set. (A genuinely hookable
+        # system earns a catalog entry instead, e.g. Biomni as a Claude Skill.)
+        self.assertNotIn("systems", self.index)
+        self.assertNotIn("systems", self.index["counts"])
 
     def test_counts_field_matches_arrays(self):
         c = self.index["counts"]
         self.assertEqual(c["recipes"], len(self.index["recipes"]))
-        self.assertEqual(c["systems"], len(self.index["systems"]))
         self.assertEqual(c["tools"], len(self.tools_doc["tools"]))
 
     def test_committed_index_is_fresh(self):
@@ -218,7 +225,6 @@ class TestIndexArtifacts(unittest.TestCase):
         problems = []
         for label, fresh, committed in (
             ("recipes", recipes, self.index["recipes"]),
-            ("systems", systems, self.index["systems"]),
             ("tools", tools, self.tools_doc["tools"]),
         ):
             added, removed, changed = drifted(fresh, committed)
