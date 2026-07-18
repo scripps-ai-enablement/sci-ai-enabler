@@ -2,8 +2,8 @@
   "version": 1,
   "generated": "2026-07-18",
   "counts": {
-    "tools": 432,
-    "recipes": 80
+    "tools": 439,
+    "recipes": 82
   },
   "tools_file": "composer-tools.json",
   "recipes": [
@@ -35,6 +35,28 @@
       "path": "recipes/items/analyze-md-trajectory-with-mdanalysis.md"
     },
     {
+      "slug": "analyze-single-cell-tcr-repertoire",
+      "title": "Analyze a single-cell TCR repertoire alongside gene expression",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Immunology and Microbiology"
+      ],
+      "evidence_level": "Reported",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-07-18",
+      "summary": "Use the scirpy Analysis skill to QC paired single-cell TCR chains, define clonotypes, quantify clonal expansion, and overlay clonality on the transcriptomic UMAP.",
+      "keywords": [
+        "AIRR",
+        "CDR3",
+        "TCR",
+        "UMAP",
+        "VDJ"
+      ],
+      "path": "recipes/items/analyze-single-cell-tcr-repertoire.md"
+    },
+    {
       "slug": "annotate-a-bacterial-genome",
       "title": "Annotate a single bacterial genome assembly",
       "problem_class": "Data analysis",
@@ -46,7 +68,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Workstation with GPU",
-      "last_verified": "2026-06-20",
+      "last_verified": "2026-07-18",
       "summary": "Use the Bakta Claude skill to annotate one bacterial or archaeal assembly — CDS, rRNA/tRNA, CRISPR arrays — into NCBI-compatible GFF3/GenBank with a feature summary.",
       "keywords": [
         "BMC",
@@ -139,7 +161,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Workstation with GPU",
-      "last_verified": "2026-06-14",
+      "last_verified": "2026-07-18",
       "summary": "Use the cellxgene-census Claude skill to slice a tissue- or disease-specific AnnData from the CZ CELLxGENE Census, optionally fetching the precomputed scVI embedding for reference mapping or downstream integration.",
       "keywords": [
         "CELLxGENE",
@@ -1010,6 +1032,25 @@
       "path": "recipes/items/parse-fcs-flow-cytometry-files.md"
     },
     {
+      "slug": "plan-a-synthetic-route-for-a-target-molecule",
+      "title": "Plan a synthetic route for a target molecule",
+      "problem_class": "Experimental design",
+      "subject_areas": [
+        "Chemistry",
+        "Drug Repurposing and Discovery"
+      ],
+      "evidence_level": "Reported",
+      "complexity": "One skill or MCP",
+      "availability": "Subscription required",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-07-18",
+      "summary": "Drive the CovaSyn MCP retrosynthesis suite from Claude Code to propose buyable-starting-material routes to a target SMILES and capture them as a reproducible route table.",
+      "keywords": [
+        "SMILES"
+      ],
+      "path": "recipes/items/plan-a-synthetic-route-for-a-target-molecule.md"
+    },
+    {
       "slug": "predict-antibody-antigen-complex",
       "title": "Predict an antibody–antigen complex to map an epitope",
       "problem_class": "Experimental design",
@@ -1179,7 +1220,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-07-12",
+      "last_verified": "2026-07-18",
       "summary": "Drive the Open Targets MCP plugin to rank candidate targets within a disease across the four prioritisation pillars (precedence, tractability, doability, safety) and emit a cited target shortlist.",
       "keywords": [
         "Drug-discovery",

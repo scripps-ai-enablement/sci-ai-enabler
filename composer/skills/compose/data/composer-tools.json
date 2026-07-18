@@ -1,7 +1,7 @@
 {
   "version": 1,
   "generated": "2026-07-18",
-  "count": 432,
+  "count": 439,
   "tools": [
     {
       "slug": "10x-genomics-cloud",
@@ -4038,6 +4038,25 @@
       "path": "catalog/tools/labarchive-integration.md"
     },
     {
+      "slug": "labmate-mcp",
+      "title": "LabMate MCP",
+      "tool_type": "MCP server",
+      "availability": "GA",
+      "tool_categories": [
+        "Chemistry",
+        "Drug Repurposing and Discovery"
+      ],
+      "last_verified": "2026-07-18",
+      "claude_science": false,
+      "summary": "One-install cheminformatics MCP with 81 tools — retrosynthesis, forward/ADMET/pKa/NMR prediction, 202 named reactions, reagent calculators, compound and literature lookup.",
+      "keywords": [
+        "ADMET",
+        "NMR",
+        "One-install"
+      ],
+      "path": "catalog/tools/labmate-mcp.md"
+    },
+    {
       "slug": "lamindb",
       "title": "LaminDB (Claude Skill)",
       "tool_type": "Claude Skill",
@@ -4532,6 +4551,45 @@
       "path": "catalog/tools/mhc-binding-prediction.md"
     },
     {
+      "slug": "mhc-class-ii-prediction",
+      "title": "MHC Class II Prediction (bioSkills)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Immunology and Microbiology"
+      ],
+      "last_verified": "2026-07-18",
+      "claude_science": false,
+      "summary": "\"Predict peptide-MHC class II (HLA-DR/DQ/DP) binding for CD4 T-cell epitopes with NetMHCIIpan-4.3 and MixMHC2pred-2.0, with the reliability caveats class II demands\"",
+      "keywords": [
+        "HLA-DR",
+        "MHC",
+        "MixMHC2pred-2",
+        "NetMHCIIpan-4"
+      ],
+      "path": "catalog/tools/mhc-class-ii-prediction.md"
+    },
+    {
+      "slug": "mixcr-analysis",
+      "title": "MiXCR Analysis (bioSkills)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Immunology and Microbiology"
+      ],
+      "last_verified": "2026-07-18",
+      "claude_science": false,
+      "summary": "\"Align V(D)J reads and assemble TCR/BCR clonotypes with MiXCR, driven by a chemistry-matched preset, exporting native or AIRR TSV for downstream repertoire analysis\"",
+      "keywords": [
+        "AIRR",
+        "BCR",
+        "CDR3",
+        "MiXCR",
+        "TCR"
+      ],
+      "path": "catalog/tools/mixcr-analysis.md"
+    },
+    {
       "slug": "mnd-skill",
       "title": "Motor Neuron Disease (MND) Pipeline (Claude Skill)",
       "tool_type": "Claude Skill",
@@ -4814,6 +4872,26 @@
         "Python-native"
       ],
       "path": "catalog/tools/napari-image-viewer.md"
+    },
+    {
+      "slug": "neoantigen-prediction",
+      "title": "Neoantigen Prediction (bioSkills)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Drug Repurposing and Discovery",
+        "Immunology and Microbiology",
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-07-18",
+      "claude_science": false,
+      "summary": "\"Identify tumor neoantigens from somatic variants with pVACtools for personalized cancer vaccines and checkpoint biomarkers, centering clonality, HLA LOH, expression, and validation tiers\"",
+      "keywords": [
+        "HLA",
+        "LOH",
+        "pVACtools"
+      ],
+      "path": "catalog/tools/neoantigen-prediction.md"
     },
     {
       "slug": "networkx",
@@ -5956,6 +6034,30 @@
       "path": "catalog/tools/proteinmpnn.md"
     },
     {
+      "slug": "proto-okn",
+      "title": "Proto-OKN MCP Server",
+      "tool_type": "MCP server",
+      "availability": "Beta",
+      "tool_categories": [
+        "All"
+      ],
+      "last_verified": "2026-07-18",
+      "claude_science": false,
+      "summary": "Natural-language access to 30+ NSF Proto-OKN scientific knowledge graphs (SPOKE biomedicine, BioBricks chemical safety, more) via SPARQL, schema inspection, and cross-graph bridging.",
+      "keywords": [
+        "FRINK",
+        "ICE",
+        "Natural-language",
+        "NSF",
+        "NSF-funded",
+        "OKN",
+        "Proto-OKN",
+        "SPARQL",
+        "SPOKE"
+      ],
+      "path": "catalog/tools/proto-okn.md"
+    },
+    {
       "slug": "protocolsio-integration",
       "title": "Protocols.io (Claude Skill)",
       "tool_type": "Claude Skill",
@@ -6988,6 +7090,24 @@
       "path": "catalog/tools/scikit-survival.md"
     },
     {
+      "slug": "scirpy-analysis",
+      "title": "scirpy Analysis (bioSkills)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Immunology and Microbiology"
+      ],
+      "last_verified": "2026-07-18",
+      "claude_science": false,
+      "summary": "\"Integrate single-cell paired TCR/BCR repertoires with gene expression using scirpy — chain-pairing QC, clonotype definition, clonal expansion, diversity, and VDJdb specificity\"",
+      "keywords": [
+        "BCR",
+        "TCR",
+        "VDJdb"
+      ],
+      "path": "catalog/tools/scirpy-analysis.md"
+    },
+    {
       "slug": "scitex",
       "title": "SciTeX Dataset MCP",
       "tool_type": "MCP server",
@@ -7578,6 +7698,29 @@
         "TCP"
       ],
       "path": "catalog/tools/tcp-skill.md"
+    },
+    {
+      "slug": "tcr-epitope-binding",
+      "title": "TCR-Epitope Binding (bioSkills)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Immunology and Microbiology"
+      ],
+      "last_verified": "2026-07-18",
+      "claude_science": false,
+      "summary": "\"Infer or annotate TCR antigen specificity via unsupervised clustering (tcrdist3, GLIPH2, clusTCR, GIANA) and database lookup (VDJdb, IEDB, McPAS-TCR), with honest caveats on supervised prediction\"",
+      "keywords": [
+        "clusTCR",
+        "GIANA",
+        "GLIPH2",
+        "IEDB",
+        "McPAS-TCR",
+        "TCR",
+        "TCR-Epitope",
+        "VDJdb"
+      ],
+      "path": "catalog/tools/tcr-epitope-binding.md"
     },
     {
       "slug": "tiledbvcf",
