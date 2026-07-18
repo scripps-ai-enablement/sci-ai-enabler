@@ -11,6 +11,20 @@ Reverse-chronological log of changes to the [catalog]({{ '/catalog/' | relative_
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-07-18 (Immunology and Microbiology slot)
+
+Immunology and Microbiology directed pass plus a manifest sweep. The `anthropics/life-sciences` and `anthropics/claude-plugins-official` marketplaces were re-fetched and diffed against the catalog — all entries already covered (the only life-science plugin in the official cross-domain marketplace is `boltz`, catalogued). Seed queries for a dedicated IEDB MCP and a metagenomics/microbiome MCP confirmed neither exists yet (still deferred). Five genuinely-new immunology / TCR-BCR skills were drawn from the deferred `GPTomics/bioSkills` queue (MIT license re-confirmed from the repo LICENSE this run).
+
+### Added
+- **Neoantigen Prediction (bioSkills)** (Categories: Drug Repurposing and Discovery, Immunology and Microbiology, Translational Medicine) — pVACtools tumor-to-candidate neoantigen pipeline centering clonality/CCF, HLA LOH, expression, and predicted→presented→immunogenic validation tiers ([`immunoinformatics/neoantigen-prediction`](https://github.com/GPTomics/bioSkills/blob/main/immunoinformatics/neoantigen-prediction/SKILL.md)).
+- **MHC Class II Prediction (bioSkills)** (Categories: Immunology and Microbiology) — CD4 T-cell epitope binding via NetMHCIIpan-4.3 + MixMHC2pred-2.0, with the class II reliability caveats ([`immunoinformatics/mhc-class-ii-prediction`](https://github.com/GPTomics/bioSkills/blob/main/immunoinformatics/mhc-class-ii-prediction/SKILL.md)).
+- **scirpy Analysis (bioSkills)** (Categories: Immunology and Microbiology) — single-cell paired TCR/BCR + gene-expression repertoire analysis on the scirpy AIRR awkward-array model ([`tcr-bcr-analysis/scirpy-analysis`](https://github.com/GPTomics/bioSkills/blob/main/tcr-bcr-analysis/scirpy-analysis/SKILL.md)).
+- **MiXCR Analysis (bioSkills)** (Categories: Immunology and Microbiology) — MiXCR 4.7+ V(D)J alignment + clonotype assembly with chemistry-matched presets and AIRR export (MiXCR needs its own free academic license) ([`tcr-bcr-analysis/mixcr-analysis`](https://github.com/GPTomics/bioSkills/blob/main/tcr-bcr-analysis/mixcr-analysis/SKILL.md)).
+- **TCR-Epitope Binding (bioSkills)** (Categories: Immunology and Microbiology) — TCR specificity via clustering (tcrdist3/GLIPH2/clusTCR/GIANA) + VDJdb/IEDB/McPAS-TCR lookup, with honest supervised-prediction caveats ([`immunoinformatics/tcr-epitope-binding`](https://github.com/GPTomics/bioSkills/blob/main/immunoinformatics/tcr-epitope-binding/SKILL.md)).
+
+### Verified (no changes)
+- Manifest sweep confirmed no new life-sciences marketplace plugins; dedicated IEDB / metagenomics MCP servers reconfirmed absent.
+
 ## 2026-07-18 (Chemistry slot)
 
 Chemistry directed pass plus a manifest sweep, and processed one open user request (#50). The `anthropics/life-sciences` marketplace was re-fetched (21 plugin directories) and diffed against the catalog — all entries already covered (biorxiv / clinical-trials plugins remain flagged DOA). The Chemistry seed queries surfaced a strong single-install cheminformatics MCP; ChEMBL/PubChem candidates were already catalogued.
