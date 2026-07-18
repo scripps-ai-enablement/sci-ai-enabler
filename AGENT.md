@@ -132,6 +132,7 @@ summary: <≤ 25-word plain-language description; used by the category card list
 - `last_verified` is the date the curator last confirmed every link, install path, and pricing claim.
 - `summary` is the card text shown on the category index pages; keep it ≤ 25 words.
 - `claude_science: true` is the **Claude Science marker** — set it on any entry that is offered inside Anthropic's Claude Science (see the Claude Science source row above). `scripts/build_index.py` injects a searchable `"Claude Science"` keyword into the composer index when this flag is set (the keyword miner can't recover the phrase from prose), and each marked page must also carry a bolded **Claude Science:** callout as the first paragraph under `## Notes` (state which connector/skill and that inclusion is an independent trust signal). Adding the marker to an already-catalogued entry is a provenance annotation — do **not** bump its `last_verified`.
+- `verification` / `verified_on` / `verification_note` and `security` / `security_on` / `security_note` are **owned by the Verifier agent** (`VERIFIER_AGENT.md`), which stamps liveness/security grades and their two rows in the metadata table (`| **Verified** | … |`, `| **Security** | … |`). **Do not set, edit, or remove these fields or rows** — they complement, and do not replace, your `last_verified` link/pricing check. If you find an entry broken while curating, note it in `catalog/curator-state.md` and let the verifier grade it.
 
 **Install-path examples** to copy:
 

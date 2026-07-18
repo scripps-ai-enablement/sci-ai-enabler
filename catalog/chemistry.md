@@ -13,7 +13,7 @@ Installable Claude components for cheminformatics, computational chemistry, chem
 {% for tool in tools %}
 {% if tool.tool_categories contains "Chemistry" or tool.tool_categories contains "All" %}
 ### [{{ tool.title }}]({{ tool.url | relative_url }})
-*{{ tool.tool_type }} · {{ tool.supplier }} · {{ tool.availability }}*
+*{{ tool.tool_type }} · {{ tool.supplier }} · {{ tool.availability }}{% if tool.verification %} · verified: {{ tool.verification }}{% endif %}{% if tool.security %} · security: {{ tool.security }}{% endif %}*
 
 {{ tool.summary }}
 

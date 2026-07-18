@@ -13,7 +13,7 @@ Installable Claude components for neural-data analysis, brain imaging, connectom
 {% for tool in tools %}
 {% if tool.tool_categories contains "Neuroscience" or tool.tool_categories contains "All" %}
 ### [{{ tool.title }}]({{ tool.url | relative_url }})
-*{{ tool.tool_type }} · {{ tool.supplier }} · {{ tool.availability }}*
+*{{ tool.tool_type }} · {{ tool.supplier }} · {{ tool.availability }}{% if tool.verification %} · verified: {{ tool.verification }}{% endif %}{% if tool.security %} · security: {{ tool.security }}{% endif %}*
 
 {{ tool.summary }}
 

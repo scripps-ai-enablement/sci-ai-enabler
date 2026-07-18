@@ -9,6 +9,8 @@ permalink: /catalog/
 
 Installable Claude components for life-science work — Claude Skills, MCP servers, Claude Code Plugins, and Claude.ai Connectors. Each entry is something you can install or enable in Claude today.
 
+Entries carry automated **verified** and **security** badges from the Verifier agent — see [how catalog entries are verified](../guide/advanced/verification.html) for what the grades mean and the safety model behind them.
+
 ## Browse by research area
 
 | Area | Focus |

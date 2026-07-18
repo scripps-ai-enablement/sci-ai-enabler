@@ -121,6 +121,28 @@ class TestRealCorpus(unittest.TestCase):
         slugs = {t["slug"] for t in self.tools}
         self.assertIn("composer", slugs)
 
+    def test_verifier_stamps_in_closed_vocab(self):
+        # The Verifier agent stamps catalog entries with `verification`/`security`.
+        # Any present value must be in the graded rubric (build_index validates this,
+        # so a typo surfaces as a page error; this asserts it explicitly too).
+        import re as _re
+        fm_re = _re.compile(r"^(verification|security):\s*(.+?)\s*$", _re.MULTILINE)
+        for path in (REPO / "catalog" / "tools").glob("*.md"):
+            text = path.read_text(encoding="utf-8")
+            head = text[:text.find("\n---", 3)] if text.startswith("---") else ""
+            for field, value in fm_re.findall(head):
+                allowed = (build_index.VERIFICATION_STATUS if field == "verification"
+                           else build_index.SECURITY_STATUS)
+                self.assertIn(value, allowed, f"{path.name}: bad {field} value {value!r}")
+
+    def test_verifier_stamps_not_in_composer_index(self):
+        # Decision: verification/security stamps are informational and must NOT leak
+        # into the composer's grounding set. Lock it so a future build_tool change
+        # can't silently start emitting them.
+        for t in self.tools:
+            self.assertNotIn("verification", t)
+            self.assertNotIn("security", t)
+
 
 # ---------------------------------------------------------------------------
 # 2. Validation fails loudly on bad input (synthetic corpora)
