@@ -9,7 +9,7 @@ evidence_level: Proposed
 complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Laptop
-last_verified: 2026-06-20
+last_verified: 2026-07-18
 summary: Drive the decoupler-MCP server to score per-cell or per-sample transcription-factor (CollecTRI) and pathway (PROGENy) activities from an expression matrix, then read off the regulators that move between conditions.
 ---
 

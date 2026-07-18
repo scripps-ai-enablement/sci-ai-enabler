@@ -9,7 +9,7 @@ evidence_level: Reported
 complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Laptop
-last_verified: 2026-06-20
+last_verified: 2026-07-18
 summary: Use the SciAgent CellTypist skill to put reference-backed cell-type labels on a QC'd AnnData, escalating to the popV consensus skill when you need ensemble uncertainty.
 ---
 

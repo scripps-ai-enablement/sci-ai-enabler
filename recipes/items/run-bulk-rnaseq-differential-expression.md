@@ -9,7 +9,7 @@ evidence_level: Reported
 complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Laptop
-last_verified: 2026-06-20
+last_verified: 2026-07-18
 summary: Use the PyDESeq2 Claude Skill to fit a negative-binomial GLM from a counts matrix and sample-condition table, returning ranked log2 fold-change and BH-adjusted p-values.
 ---
 

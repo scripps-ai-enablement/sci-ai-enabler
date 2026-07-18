@@ -11,6 +11,21 @@ Reverse-chronological log of changes to the [recipes cookbook]({{ '/recipes/' | 
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-07-18 (Molecular and Cellular Biology directed pass)
+
+### Added
+
+- **Integrate multi-omics layers into interpretable factors with MOFA+** (Problem class: Data analysis; Evidence: Proposed) — rung-2 [MOFA+ skill](catalog/tools/mofaplus-multi-omics.html) recipe: 2+ omics views on the same samples/cells ([muon](catalog/tools/muon-multiomics-singlecell.html)/MuData for single-cell multi-modal, AnnData dict for bulk) → per-view feature selection → build MOFA+ model → train (`mofapy2`, fixed factor count + seed) → per-factor per-view variance decomposition → factor–metadata association → top loadings per factor → committed `mofa_run.py` + pinned `requirements.txt` + `mofa_model.hdf5` + `variance_explained.csv`/`factor_metadata_assoc.csv`/`top_loadings_<view>.csv` + figure + `provenance.json` (mofapy2/muon versions, factor count + seed, per-view feature counts, input sha256s, run date, model id). Cross-modality factorization complement to the within-modality [scVI batch-integration recipe](recipes/items/integrate-single-cell-datasets.html); feeds the [functional-enrichment](recipes/items/run-functional-enrichment-on-a-gene-list.html) and [TF/pathway-activity](recipes/items/infer-tf-and-pathway-activities-from-expression.html) recipes (all cross-linked). `Proposed` — no documented Claude+MOFA+-skill attempt; grounded on the canonical method ([Argelaguet et al., *Genome Biology* 2020](https://doi.org/10.1186/s13059-020-02015-1)) and a current applied exemplar (12-factor MOFA+ decomposition of 667 TCGA gliomas validated across n=1685 without retraining; [Saleh et al., *Cancers* 2026](https://doi.org/10.3390/cancers18101652)). `Fully open`; `Laptop`.
+
+### Updated
+
+- **infer-gene-regulatory-network-from-scrnaseq** — fixed a broken feedback-footer URL (was pointing at the non-canonical `goodb.github.io`/`github.com/goodb` host; now `scripps-ai-enablement`); `last_verified` → 2026-07-18 (Arboreto/AnnData/Scanpy catalog pages resolve, method sources current).
+- **assemble-reference-atlas-from-cellxgene-census**, **compute-hrv-from-ecg-recording** — fixed the same broken feedback-footer host (`goodb` → `scripps-ai-enablement`); no other changes.
+
+### Verified (no changes)
+
+- 4 additional MCB recipes spot-checked (oldest-first), all current; `last_verified` bumped to 2026-07-18: **run-bulk-rnaseq-differential-expression** ([PyDESeq2](catalog/tools/pydeseq2.html)), **run-functional-enrichment-on-a-gene-list** ([gget](catalog/tools/gget.html)), **infer-tf-and-pathway-activities-from-expression** ([decoupler-MCP](catalog/tools/decoupler-mcp.html)), **annotate-cell-types-in-single-cell-data** ([CellTypist](catalog/tools/celltypist-cell-annotation.html)/[popV](catalog/tools/popv-cell-annotation.html)) — all linked catalog pages resolve, sources current.
+
 ## 2026-07-18 (Integrative Structural and Computational Biology directed pass)
 
 ### Added

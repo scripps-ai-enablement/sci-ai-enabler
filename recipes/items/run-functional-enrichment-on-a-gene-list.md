@@ -9,7 +9,7 @@ evidence_level: Reported
 complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Laptop
-last_verified: 2026-06-20
+last_verified: 2026-07-18
 summary: Use the gget Claude skill to run a gene list through Enrichr against GO, KEGG, Reactome, and disease libraries, then ask Claude to summarise the enriched terms back to the biology with explicit citations.
 ---
 

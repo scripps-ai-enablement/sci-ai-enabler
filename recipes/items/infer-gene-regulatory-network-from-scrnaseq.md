@@ -9,7 +9,7 @@ evidence_level: Reported
 complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Workstation with GPU
-last_verified: 2026-06-20
+last_verified: 2026-07-18
 summary: Use the Arboreto Claude skill to run GRNBoost2 on a QC'd single-cell AnnData and recover a ranked TF–target edge list — the first step of a SCENIC regulon pipeline.
 ---
 
@@ -122,4 +122,4 @@ No peer-reviewed benchmark of "Claude + Arboreto skill" against a hand-written p
 
 ## Tried this recipe?
 
-[Share feedback](https://github.com/goodb/sci-ai-enabler/issues/new?template=recipe-feedback.yml&recipe=infer-gene-regulatory-network-from-scrnaseq&details=Filed+from+https%3A%2F%2Fgoodb.github.io%2Fsci-ai-enabler%2Frecipes%2Fitems%2Finfer-gene-regulatory-network-from-scrnaseq.html%0A%0A) — what worked, what didn't, what you'd change. The form opens with this recipe pre-selected and a link back to this page.
+[Share feedback](https://github.com/scripps-ai-enablement/sci-ai-enabler/issues/new?template=recipe-feedback.yml&recipe=infer-gene-regulatory-network-from-scrnaseq&details=Filed+from+https%3A%2F%2Fscripps-ai-enablement.github.io%2Fsci-ai-enabler%2Frecipes%2Fitems%2Finfer-gene-regulatory-network-from-scrnaseq.html%0A%0A) — what worked, what didn't, what you'd change. The form opens with this recipe pre-selected and a link back to this page.
