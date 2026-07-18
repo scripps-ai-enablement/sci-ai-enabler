@@ -9,7 +9,7 @@ evidence_level: Reported
 complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Workstation with GPU
-last_verified: 2026-06-20
+last_verified: 2026-07-18
 summary: Use the Bakta Claude skill to annotate one bacterial or archaeal assembly — CDS, rRNA/tRNA, CRISPR arrays — into NCBI-compatible GFF3/GenBank with a feature summary.
 ---
 

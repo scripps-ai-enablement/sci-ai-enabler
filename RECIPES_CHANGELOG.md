@@ -11,6 +11,16 @@ Reverse-chronological log of changes to the [recipes cookbook]({{ '/recipes/' | 
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-07-18 (Immunology and Microbiology directed pass)
+
+### Added
+
+- **Analyze a single-cell TCR repertoire alongside gene expression** (Problem class: Data analysis; Evidence: Reported) — rung-2 [scirpy Analysis skill](catalog/tools/scirpy-analysis.html) recipe: 10x/AIRR single-cell VDJ + matching clustered `.h5ad` → `pp.index_chains` + barcode-matched modality pairing → `chain_qc` filtering of multichain doublets/orphan cells → exact-CDR3-nt clonotype definition (TCR-appropriate, not BCR distance clustering) → clonal expansion + per-cluster/per-condition diversity + repertoire overlap → clonality overlaid on the transcriptomic UMAP → committed `sc_tcr.py` + pinned `requirements.txt` + `clonotypes.csv` + diversity/overlap tables + figure + `provenance.json` (scirpy/scanpy/mudata versions, clonotype strategy + params, input sha256s, run date, model id). T-cell, transcriptome-integrated counterpart to the B-cell [reconstruct-bcr-clonal-lineages](recipes/items/reconstruct-bcr-clonal-lineages.html) recipe; downstream of [qc-single-cell-rna-seq](recipes/items/qc-single-cell-rna-seq.html) and [annotate-cell-types-in-single-cell-data](recipes/items/annotate-cell-types-in-single-cell-data.html) (all cross-linked). `Reported` — scirpy is the scverse-standard single-cell TCR tool with a published benchmark ([Sturm et al., *Bioinformatics* 2020](https://pubmed.ncbi.nlm.nih.gov/32614448/)) and the exact multi-modal workflow is a 2025 methods protocol ([Plattner, Sturm & Rieder, *Methods Cell Biol.* 2025](https://pubmed.ncbi.nlm.nih.gov/41106935/)); the agent-driven skill assembly is not separately benchmarked. `Fully open`; `Laptop`.
+
+### Verified (no changes)
+
+- 3 recipes spot-checked (oldest-first), all current; `last_verified` bumped to 2026-07-18: **assemble-reference-atlas-from-cellxgene-census** (Census `2025-11-08` LTS still current; all catalog links resolve), **annotate-a-bacterial-genome** (Bakta/Prokka catalog pages resolve; canonical sources stable).
+
 ## 2026-07-18 (Chemistry directed pass; composition report #55)
 
 ### Added
