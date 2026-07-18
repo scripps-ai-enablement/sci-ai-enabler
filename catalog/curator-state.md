@@ -77,4 +77,4 @@ _None._
 
 ## User requests (closed this run)
 
-- [#50 @goodb 2026-07-15] queue: catalog | request=new-tool | name="ProtoOKN MCP" | url="https://apps.okn.us/okn-mcp/mcp" | subject_area="General-Purpose Utilities" | author=@goodb | issue=50 → in scope; created catalog/tools/proto-okn.md (tagged All — cross-domain life-science knowledge-graph MCP over 30+ NSF Proto-OKN graphs; BSD-3, hosted connector at https://apps.okn.us/okn-mcp/mcp). Requested subject_area was General-Purpose Utilities, but it spans SPOKE biomedicine / BioBricks chemical safety / ChEBI-MONDO-GO ontologies, so tagged All rather than the utilities shelf.
+_None._
