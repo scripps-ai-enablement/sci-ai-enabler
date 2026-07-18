@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated": "2026-07-17",
+  "generated": "2026-07-18",
   "count": 432,
   "tools": [
     {
@@ -1734,7 +1734,7 @@
       ],
       "last_verified": "2026-06-11",
       "claude_science": false,
-      "summary": "Turns a plain-language scientific problem into a grounded, runnable Claude solution composed from this catalog, reusing recipes and recommending autonomous systems.",
+      "summary": "Turns a plain-language scientific problem into a grounded, runnable Claude solution composed from this catalog, reusing recipes and, for open-ended goals, assembling a multi-agent system from those same components.",
       "keywords": [],
       "path": "catalog/tools/composer.md"
     },

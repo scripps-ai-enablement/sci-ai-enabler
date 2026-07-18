@@ -9,7 +9,7 @@ permalink: /recipes/
 
 Concrete pairings of a life-science problem with a recommended assembly of the Claude components catalogued in this repo. Each recipe names the tools, links the install pages, states the evidence, and flags the availability and compute requirements so you can decide in 30 seconds whether it fits your situation.
 
-The recipes deliberately favor the simplest viable approach. Most well-scoped problems are solved at rung 1 or 2 of the ladder below — full autonomous-science systems are only recommended when a documented workflow actually used one.
+The recipes deliberately favor the simplest viable approach. Most well-scoped problems are solved at rung 1 or 2 of the ladder below — a full agentic system is composed from cataloged components only when a problem genuinely needs one.
 
 ## Where to start
 

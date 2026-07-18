@@ -7,12 +7,12 @@ supplier: Scripps AI Enablement
 availability: Beta
 tool_categories: [All]
 last_verified: 2026-06-11
-summary: Turns a plain-language scientific problem into a grounded, runnable Claude solution composed from this catalog, reusing recipes and recommending autonomous systems.
+summary: Turns a plain-language scientific problem into a grounded, runnable Claude solution composed from this catalog, reusing recipes and, for open-ended goals, assembling a multi-agent system from those same components.
 ---
 
 # Composer
 
-A Claude Code / Cowork plugin that takes a plain-language scientific problem and composes a grounded, runnable solution from the components in this knowledge base — reusing a curated recipe when one fits, walking the simplicity ladder when it doesn't, and recommending a pre-built autonomous-science system when that is genuinely the right rung.
+A Claude Code / Cowork plugin that takes a plain-language scientific problem and composes a grounded, runnable solution from the components in this knowledge base — reusing a curated recipe when one fits, walking the simplicity ladder when it doesn't, and, when a problem needs a full agentic loop, assembling that multi-agent system from cataloged components rather than pointing you at an external system it cannot run.
 
 | | |
 |---|---|
@@ -37,11 +37,11 @@ If prompted for install scope, choose **user** to make the command available eve
 
 Given a problem like *"I have a stack of new single-cell preprints and need to triage them"*, the Composer classifies it, searches the cookbook for a matching recipe, and either presents that recipe or composes the simplest grounded assembly of cataloged components — always carrying evidence, availability, and compute caveats. It then offers to actually install the components, leave a reusable project command behind, and run the workflow once against your data. When no grounded solution exists, it says so honestly and offers to file a request that feeds the daily curator loop.
 
-**Primary use cases**: Choosing tools for a new task, assembling a multi-component workflow, deciding whether an autonomous system fits, and turning a one-off solution into a reusable command.
+**Primary use cases**: Choosing tools for a new task, assembling a multi-component workflow, composing a multi-agent system for an open-ended goal, and turning a one-off solution into a reusable command.
 
 ## Notes
 
-Matches on *meaning* (each catalog entry's summary and keywords), not on the subject-area categories, which are non-mutually-exclusive Scripps departments. The bundled index is regenerated daily from the catalog, recipes, and autonomous-science tracker; run `/plugin marketplace update sci-ai-enabler` to refresh it. Composition reports are filed only with your confirmation, and an abstracted-text option is offered because this repository is public.
+Matches on *meaning* (each catalog entry's summary and keywords), not on the subject-area categories, which are non-mutually-exclusive Scripps departments. The bundled index is regenerated daily from the catalog and recipes; run `/plugin marketplace update sci-ai-enabler` to refresh it. The [AI-scientists tracker](../../autonomous-science/) is *not* part of the composer's grounding set — those are external systems it can't install; it composes equivalent systems from cataloged components instead. Composition reports are filed only with your confirmation, and an abstracted-text option is offered because this repository is public.
 
 ## Troubleshooting
 
