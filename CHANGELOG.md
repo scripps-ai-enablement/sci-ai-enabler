@@ -11,6 +11,16 @@ Reverse-chronological log of changes to the [catalog]({{ '/catalog/' | relative_
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-07-18 (Integrative Structural and Computational Biology slot)
+
+Integrative Structural and Computational Biology directed pass plus a manifest sweep. The `anthropics/life-sciences` and `anthropics/claude-plugins-official` marketplaces were re-fetched and diffed against the catalog — all entries already covered. Structural seed queries confirmed the RCSB PDB, AlphaFold/ESMFold, and PyMOL surfaces are already comprehensively catalogued (`pdb`, `alphafold`, `esmfold`, `pymol`, `molecule-mcp`), and that no cryo-EM (RELION/cryoSPARC) MCP or Skill exists yet (still deferred). The MD seed query surfaced one genuinely-new hosted computational-chemistry engine.
+
+### Added
+- **NovoMCP** (Categories: Chemistry, Drug Repurposing and Discovery, Integrative Structural and Computational Biology) — hosted computational-chemistry MCP from Quant NexusAI: free ADMET / molecular-profiling tier over a ~122M-compound layer plus a paid Novo Compute tier (GFN2-xTB QM, GPU GROMACS MD, AutoDock-GPU docking); research-preview access, proprietary SaaS ([NovoMCP docs](https://www.novomcp.com/docs/novo)).
+
+### Verified (no changes)
+- Manifest sweep confirmed no new life-sciences marketplace plugins; cryo-EM MCP/Skill and dedicated PDB/AlphaFold MCPs reconfirmed against existing coverage.
+
 ## 2026-07-18 (Immunology and Microbiology slot)
 
 Immunology and Microbiology directed pass plus a manifest sweep. The `anthropics/life-sciences` and `anthropics/claude-plugins-official` marketplaces were re-fetched and diffed against the catalog — all entries already covered (the only life-science plugin in the official cross-domain marketplace is `boltz`, catalogued). Seed queries for a dedicated IEDB MCP and a metagenomics/microbiome MCP confirmed neither exists yet (still deferred). Five genuinely-new immunology / TCR-BCR skills were drawn from the deferred `GPTomics/bioSkills` queue (MIT license re-confirmed from the repo LICENSE this run).
