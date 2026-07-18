@@ -9,6 +9,22 @@ permalink: /updates/ai-scientists.html
 
 Reverse-chronological log of changes to the [AI scientists tracker]({{ '/autonomous-science/' | relative_url }}). Newest at the top.
 
+## 2026-07-18
+
+### Added
+- **CoDHy** (Lifecycle: Hypothesis) — Hannover Medical School (PLRI/CAIMed) with Sanford Burnham Prebys (Younis, Basak, Chavez, Ahmadi; arXiv:2603.00612). An interactive, human-in-the-loop AI co-scientist for biomarker-guided cancer drug-combination hypothesis generation. From a user-specified biomarker, cancer type, and PubMed scope it builds a task-specific Neo4j knowledge graph (structured databases — Reactome, CIViC, TCGA-GDC, ChEMBL, STRING, SynlethDB, DepMap, DrugBank, etc. — plus spaCy-extracted PubMed triples normalized via sentence-transformers), computes Node2Vec embeddings, and runs a hybrid Graph-RAG generation agent, a Llama-3.1-8B validation agent (novelty/plausibility/safety with targeted PubMed grounding → proceed/caution/reject), and a ranking agent (composite graph-evidence + safety score, optional DrugCombDB synergy). Benchmark-only across 7 frozen (biomarker, cancer type) scenarios: Full CoDHy highest exact novelty (35.71%) vs No-Node2Vec (28.57%) and LLM-only (10.71%), diversity 0.89, with a deliberately lower MRR (0.74) reflecting a discovery-over-retrieval bias. Assistive decision support; open source ([source](https://arxiv.org/abs/2603.00612)).
+
+### Updated
+- **`autonomous-science/summary.md`** — re-verified the synthesis against the current grouping (CoDHy joins the Biology & medicine hypothesis-generation cluster as a benchmark-validated system and tips no superlative — the "strongest evidence" claim still rests on wet-lab/clinical exemplars) and bumped `synthesis_reviewed` to 2026-07-18.
+- **`sources/manifest.json`** — added the CoDHy preprint (arXiv:2603.00612) with its `.txt` sidecar.
+- **`autonomous-science/curator-state.md`** — added CoDHy to `Recently surfaced` (trimmed to last 5).
+
+### Flagged
+_None._
+
+### Verified (no changes)
+- Synthesis re-reviewed against the freshly grouped table after adding CoDHy; all superlatives ("most loop-closed," "strongest evidence," "newest frontier") still hold. The link/repo re-verification backlog (55+ entries past the 30-day window) remains deferred to Phase A — Phase B has no web/MCP tools to confirm link liveness, so `last_verified` dates were not bumped.
+
 ## 2026-07-11
 
 ### Added

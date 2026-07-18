@@ -585,6 +585,15 @@
       "downloaded": "2026-07-11",
       "txt_sidecar": "2606.22375.txt",
       "note": "Johns Hopkins (Cao, Wang, Chen, Van Durme, Yuille, Clancy). Published at CIKM 2026 (doi:10.1145/3770855.3818954). Causal-aware framework for LLM-driven materials discovery that conditions knowledge use on Process-Structure-Property (PSP) mechanistic completeness via a three-tier cascade (direct causal reasoning when full PSP evidence chains exist; physics-informed analogical transfer for sparse/novel systems; explicit parametric fallback). Diagnoses 'contextual tunneling' where KG-augmented LLMs over-anchor on narrow retrieved evidence and suppress global physical reasoning. Built a 2,839-relation PSP knowledge graph from peer-reviewed literature; evaluated on forward-prediction and inverse-design tasks for 2D materials, with gains from online literature-search enrichment and auditable causal traces. Open source: github.com/yicao-elina/ARIA."
+    },
+    {
+      "doi": "10.48550/arXiv.2603.00612",
+      "filename": "2603.00612.pdf",
+      "title": "From Literature to Hypotheses: An AI Co-Scientist System for Biomarker-Guided Drug Combination Hypothesis Generation",
+      "source_url": "https://arxiv.org/abs/2603.00612",
+      "downloaded": "2026-07-18",
+      "txt_sidecar": "2603.00612.txt",
+      "note": "CoDHy. Hannover Medical School (PLRI/CAIMed) + Sanford Burnham Prebys (Younis, Basak, Chavez, Ahmadi). Human-in-the-loop AI co-scientist for biomarker-guided cancer drug-combination hypothesis generation; Graph-RAG over a task-specific KG (Neo4j) with Node2Vec embeddings + Llama-3.1-8B validation/ranking agents. Benchmark-only (7 oncology scenarios). Code: github.com/baksho/CoDHy."
     }
   ]
 }

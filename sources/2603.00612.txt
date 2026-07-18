@@ -1,0 +1,939 @@
+From Literature to Hypotheses: An AI Co-Scientist System for
+Biomarker-Guided Drug Combination Hypothesis Generation
+Raneen Younis1,2 * , Suvinava Basak1 * , Lukas Chavez3 , Zahra Ahmadi1,2
+1
+
+2
+
+Peter L. Reichertz Institute for Medical Informatics (PLRI), Hannover Medical School
+Lower Saxony Center for Artificial Intelligence and Causal Methods in Medicine (CAIMed)
+3
+Sanford Burnham Prebys (SBP) Medical Discovery Institute, San Diego
+{Younis.Raneen, Basak.Suvinava, Ahmadi.Zahra}@mh-hannover.de, lchavez@sbpdiscovery.org
+
+arXiv:2603.00612v1 [cs.CL] 28 Feb 2026
+
+Abstract
+The rapid growth of biomedical literature and
+curated databases has made it increasingly difficult for researchers to systematically connect biomarker mechanisms to actionable drug
+combination hypotheses. We present AI CoScientist (CoDHy), an interactive, human-inthe-loop system for biomarker-guided drug
+combination hypothesis generation in cancer
+research. CoDHy integrates structured biomedical databases and unstructured literature evidence into a task-specific knowledge graph,
+which serves as the basis for graph-based reasoning and hypothesis construction. The system combines knowledge graph embeddings
+with agent-based reasoning to generate, validate, and rank candidate drug combinations,
+while explicitly grounding each hypothesis in
+retrievable evidence. Through a web-based interface, users can configure the scientific context, inspect intermediate results, and iteratively refine hypotheses, enabling transparent
+and researcher-steerable exploration rather than
+automated decision-making. We demonstrate
+CoDHy as a system for exploratory hypothesis
+generation and decision support in translational
+oncology, highlighting its design, interaction
+workflow, and practical use cases.1
+
+1
+
+Introduction
+
+The biomedical sciences are experiencing rapid
+growth in data generation, yet translating this information into actionable therapeutic strategies remains challenging due to the scale, fragmentation,
+and heterogeneity of available evidence. In cancer research, scientists are often confronted with
+a practical question: given a specific biomarker
+(or biomarker signature), which drug combination should be tested next? Although relevant evidence exists across scientific literature and curated
+* Equal contribution.
+1
+
+The demonstration Video: https://www.youtube.com/
+watch?v=Bjdp-7JJjPY
+
+databases, it is dispersed across modalities and abstraction levels, making it difficult to systematically connect biomarker mechanisms to testable
+drug combination hypotheses in a transparent and
+reproducible manner.
+Early work on literature-based discovery (LBD)
+demonstrated that undiscovered biomedical knowledge can be revealed by linking concepts through
+intermediate evidence (Swanson, 1986, 1988). Subsequent approaches leveraged co-occurrence statistics, semantic similarity, and graph-based representations to identify potential associations (Smalheiser et al., 2009; Fleuren and Alkema, 2015; Jha
+et al., 2018; Wilson et al., 2018; Sybrandt et al.,
+2020; Hristovski et al., 2006). However, they often rely on limited data modalities or shallow reasoning, restricting their ability to capture complex
+multi-hop scientific relationships and contextual
+dependencies that are central to drug combination
+reasoning.
+Recent advances in large language models
+(LLMs) and agentic frameworks have shown
+promise for scientific retrieval and reasoning (Tong
+et al., 2023; Wang et al., 2024; Ye et al., 2024).
+Yet, directly prompting LLMs over unstructured
+text reduces controllability and makes it difficult
+to trace or verify the rationale behind generated
+hypotheses. Tool-augmented and multi-agent systems have therefore been introduced to integrate
+external structured knowledge sources with explicit
+reasoning steps (Du et al., 2023; Lewis et al., 2020;
+Shu et al., 2025). In biomedical domains, such
+systems combine curated databases, literature evidence, and reasoning traces to support drug discovery and hypothesis generation (Inoue et al.,
+2025; Gao et al., 2025). Nevertheless, many existing systems emphasize single-shot generation
+or static knowledge bases, limiting user steering
+and contextual specificity. Building on these directions, we present CoDHy (Figure 1), an AI
+co-scientific system for biomarker-guided drug
+
+Figure 1: Overview of the CoDHy system architecture. The user interacts through a web-based interface to
+specify the cancer context, biomarker, and literature scope. The backend constructs a task-specific knowledge
+graph from structured databases and PubMed literature, learns graph embeddings, generates biomarker-guided
+drug combination hypotheses, validates and ranks them using multi-agent reasoning, and returns ranked, evidencegrounded hypotheses to the user.
+
+combination hypothesis generation. CoDHy integrates (i) task-specific knowledge graph construction, (ii) graph-based representation learning, (iii)
+multi-agent hypothesis generation and validation,
+and (iv) human-in-the-loop interaction within a
+unified framework. Users specify the cancer context, biomarker focus, and literature scope, after
+which the system retrieves and integrates evidence
+from curated biomedical databases and PubMed
+to construct a context-specific knowledge graph.
+Based on this representation, CoDHy proposes candidate drug combinations, validates them via multiagent reasoning modules, and returns a ranked list
+of hypotheses, each accompanied by an explicit,
+evidence-grounded rationale. We evaluate CoDHy
+through controlled case studies and comparative
+experiments, demonstrating its ability to generate
+evidence-grounded and context-aware hypotheses
+in realistic oncology scenarios.
+
+2
+
+Related Work
+
+Literature-based and KG-grounded discovery.
+Literature-based discovery (LBD) aims to uncover
+implicit biomedical hypotheses by linking entities through intermediate evidence (e.g., the ABC
+paradigm). Subsequent work extended this idea
+using semantic and graph-based representations.
+Recent surveys and benchmarks highlight the importance of structured knowledge, multi-hop reasoning, and explicit validation for reliable hypothesis discovery (Yang et al., 2025; Kulkarni et al.,
+2025). Systems such as MOLIERE demonstrate
+how biomedical knowledge representations can be
+used to propose and evaluate candidate hypotheses
+
+(Sybrandt et al., 2017).
+LLM-based scientific assistants and biomedical agents. Large language models (LLMs) have
+enabled automated literature synthesis, reasoning,
+and proposal generation, including end-to-end scientific discovery platforms (Lu et al., 2024; Chen
+et al., 2025; Kulkarni et al., 2025). In biomedical domains, recent multi-agent systems combine
+LLM reasoning with structured tools (e.g., drug
+databases and ontologies) to improve interpretability and reduce unsupported claims (Inoue et al.,
+2025; Gao et al., 2025).
+Drug combination modeling. Another line
+of work formulates drug combinations as predictive synergy tasks, including LLM-assisted approaches such as CancerGPT (Li et al., 2024).
+In contrast, CoDHy focuses on biomarker-guided
+drug combination hypothesis generation, integrating knowledge-graph grounding, explicit ranking,
+and user-controlled literature scope within an interactive framework.
+
+3
+
+System Design
+
+CoDHy is implemented as an interactive, AI coscientific system that combines a web-based user
+interface with a modular backend pipeline for
+biomarker-guided drug combination hypothesis
+generation. The system is designed to support exploratory scientific reasoning by allowing users to
+configure discovery parameters, inspect intermediate results, and iteratively refine hypotheses, while
+the backend performs automated data integration,
+graph-based reasoning, and validation.
+
+3.1
+
+User Interface and Interaction Workflow
+
+The system interface (Figure 2) serves as the primary interaction layer between the researcher and
+the backend reasoning components. The interface
+allows users to configure the scientific context and
+control the scope of evidence used during hypothesis generation. Specifically, the user provides (i) a
+focus biomarker (e.g., a gene of interest), (ii) a cancer type or disease context, and (iii) the number of
+PubMed abstracts to retrieve. Optional parameters
+include the number of candidate hypotheses to generate and the language model used for reasoning.
+After configuration, the user initiates the hypothesis generation process and receives a ranked list
+of candidate drug combinations along with supporting evidence, scores, and validation verdicts.
+For each hypothesis, the interface displays associated literature references, graph-based evidence
+signals, and safety assessments. Importantly, the
+interface supports iterative refinement: users can
+adjust inputs, modify literature retrieval scope, or
+explore alternative hypotheses based on intermediate results, triggering a new backend execution
+cycle. This interactive design positions CoDHy
+as an assistive decision-support tool rather than an
+automated decision-maker.
+3.2
+
+Knowledge Graph Construction
+
+The backend pipeline begins with constructing a
+unified biomedical knowledge graph that integrates
+both structured and unstructured evidence sources.
+Curated biomedical resources (Appendix A) are
+accessed via APIs and ingested directly into the
+structured knowledge graph as typed entities and
+relations. In parallel, unstructured biomedical evidence is collected from PubMed2 through an APIbased query conditioned on the input biomarker
+and cancer type. The number of retrieved abstracts
+is user-controlled on the interface, allowing flexible evidence coverage. Biomedical entities (e.g.,
+biomarkers, drugs, pathways, cancer types, outcomes) and relations (e.g., targeting, activation, mutation, sensitivity) are extracted from the retrieved
+abstracts using spaCy-based NLP pipelines3 . Extracted triples are integrated into the knowledge
+graph. To prevent uncontrolled graph growth from
+noisy relation extraction, we encode extracted relational statements using sentence-transformers4
+2
+
+https://pubmed.ncbi.nlm.nih.gov/
+https://spacy.io/
+4
+https://huggingface.co/sentence-transformers/
+all-MiniLM-L6-v2
+3
+
+and map them to the most semantically similar existing relation type using cosine similarity. This
+normalization step ensures graph consistency while
+preserving task-specific evidence from recent literature. The graph is stored in Neo4j AuraDB5 for
+efficient querying and structured reasoning.
+To support low-latency iterative exploration, a
+graph cache is maintained for a previously constructed set of known biomarkers and cancer
+types and reused across subsequent hypothesisgeneration cycles. Unless explicitly invalidated
+by user configuration changes, the cached graph
+is reused across runs, avoiding repeated retrieval,
+extraction, and graph assembly steps.
+3.3
+
+Graph Embedding Generation
+
+To enable similarity-based reasoning over the constructed knowledge graph, node embeddings are
+computed using Node2Vec (Grover and Leskovec,
+2016). Node2Vec captures structural proximity
+through biased random walks, modeling both local neighborhood structure and global connectivity
+patterns. While it does not explicitly encode typed
+relations or edge semantics, it provides efficient
+structural representations suitable for dynamically
+constructed graphs. The resulting embeddings allow the system to compute quantitative similarity
+between biomedical entities, supporting inference
+beyond explicitly encoded edges. Node2Vec is
+adopted in the demo due to computational efficiency and compatibility with task-specific graph
+construction. However, the framework is modular and can incorporate relation-aware knowledge
+graph embedding models such as RotatE (Sun et al.,
+2019), ComplEx (Trouillon et al., 2016), which
+may better capture multi-relational semantics.
+3.4
+
+Hypothesis Generation Agent
+
+Hypothesis generation is performed by a dedicated
+agent operating over both the symbolic knowledge graph and its learned embeddings. The userspecified focus biomarker serves as the anchor for
+hypothesis construction. For each run, the system
+generates a user-defined number of candidate drug
+combination hypotheses using a hybrid Graph
+Retrieval-Augmented Generation (Graph-RAG)
+approach.
+First, the agent retrieves a localized discovery
+subgraph of explicit biomedical interactions connected to the focus biomarker, representing hy5
+
+https://neo4j.com/product/auradb/
+
+(a)
+
+(b)
+
+Figure 2: Web-based user interface of the CoDHy system. (a) The interface allows researchers to select the focus
+biomarker, cancer type, language model, and the scope of literature retrieval from PubMed, and to control the
+number of hypotheses generated. (b) Once the analysis is done, the generated hypotheses are shown based on their
+rank.
+
+potheses supported by explicit graph evidence. Second, the agent augments this context with implicit
+signals by identifying the most similar nodes to the
+input biomarker in the embedding space (via cosine similarity), enabling the agent to generate drug
+combinations based on these latent relationships.
+This hybrid approach balances evidence-backed
+reasoning with exploratory inference. All hypotheses are produced in a standardized output format to
+facilitate downstream validation and ranking.
+3.5
+
+Hypothesis Validation Agent
+
+Each generated hypothesis is evaluated by a validation agent that assesses novelty, plausibility, and
+feasibility using an LLM-based reasoning process.
+The agent explicitly distinguishes between hypotheses supported by direct graph evidence and those
+inferred via embedding similarity. For all candidate
+hypotheses, additional safety and toxicity considerations are evaluated.
+To ground the evaluation in external evidence,
+the validation agent performs targeted PubMed
+searches for exact drug combinations to identify existing studies or prior reports. Retrieved literature
+is used to support or challenge the hypothesis and
+to contextualize its novelty. Based on this analysis, the agent assigns a qualitative verdict (proceed,
+caution, or reject) and a safety assessment score.
+3.6
+
+Hypothesis Ranking and Presentation
+
+In the final backend stage, a ranking agent aggregates validated hypotheses and computes a graph
+evidence score. A graph evidence score is computed as the weighted aggregation of (i) direct edge
+support count, (ii) embedding similarity strength,
+and (iii) evidence coverage indicators. The graph
+evidence score is normalized and combined with
+
+the LLM-derived safety score to produce a final
+composite score for ranking. In the demo implementation, equal weight (after normalization) is
+used. If available, synergy information is retrieved
+from DrugCombDB (Liu et al., 2020). Since no
+cell-line information is currently provided, the system displays the highest and lowest reported synergy scores for the given combination. The final ranked hypotheses list, including composite
+scores, safety assessment, verdicts, and supporting evidence, is returned to the user interface for
+inspection. This backend–frontend integration enables transparent evaluation, comparison, and exploration of results.
+3.7
+
+System Deployment and Implementation
+(Demo)
+
+The CoDHy web demo is deployed on Hugging
+Face Spaces6 and implemented using Gradio, providing controls for task configuration. Users can
+inspect results directly in the interface or download time-stamped JSON reports. The managed
+SDK setup ensures a lightweight deployment while
+retaining scalable compute access.
+Backend service. The backend is a modular
+Python service handling retrieval, knowledge graph
+construction, and multi-agent execution. Core processing runs within the Space container via Gradio
+calls, while the Hypothesis Generation and Validation Agents use asynchronous calls to the Hugging
+Face Inference API with Llama-3.1-8B-Instruct,
+reducing local memory overhead compared to hosting the LLM locally.
+6
+
+Web interface: https://huggingface.co/spaces/
+suvinavabasak/CoDHy
+
+Reproducibility and availability. The full system code is publicly available on GitHub7 . The
+demo models are licensed under a CC BY-NC-SA
+4.0 license for non-commercial research use.
+
+4
+
+Evaluation Results and Analysis
+
+We evaluate CoDHy through a small set of controlled case studies and comparative experiments
+designed to assess (i) interpretability, (ii) evidence
+grounding, and (iii) the contribution of key architectural components. All experiments follow a
+fixed experimental protocol to ensure comparability across system variants.
+4.1
+
+Experimental Setup
+
+Scenarios. We define a fixed set of seven evaluation scenarios, each specified by a (biomarker,
+cancer type) pair (e.g., (EGFR, Lung Squamous
+Cell Carcinoma)). This scenario list is frozen prior
+to experimentation and reused across all methods.
+The full list is provided in Table 4 (Appendix).
+Global settings. Unless stated otherwise, all experiments retrieve N = 50 PubMed abstracts and
+generate H = 4 hypotheses per scenario. We use
+the same language model, Llama 3.18 via the Hugging Face inference provider, with identical model
+parameters across all methods.
+Methods compared. We evaluate three variants:
+Full CoDHy: complete system with knowledge
+graph construction, Node2Vec-based inference,
+and validation agents; LLM-only: direct prompting baseline without knowledge graph or graph
+embeddings; and No-Node2Vec: ablated variant
+using direct knowledge graph evidence only, without embedding-based inference.
+For each generated hypothesis, we log structured outputs including rank, composite scores,
+validation verdicts, novelty status, and supporting
+PubMed identifiers.
+4.2
+
+End-to-End Case Study
+
+We demonstrate CoDHy on the scenario (Breast Invasive Carcinoma, EGFR). The system retrieves
+50 PubMed abstracts, constructs a task-specific
+knowledge graph, and generates four ranked hypotheses:
+
+Method
+
+Novel-exact
+
+Novel-context
+
+Evidence
+
+P@1
+
+P@3
+
+Diversity
+
+Full CoDHy
+
+35.71%
+
+71.43%
+
+0.64
+
+0.57
+
+0.52
+
+0.89
+
+No-Node2Vec
+
+28.57%
+
+66.71%
+
+0.72
+
+0.57
+
+0.57
+
+0.87
+
+LLM-Only
+
+10.71%
+
+64.29%
+
+0.93
+
+0.71
+
+0.57
+
+0.84
+
+Table 1: Comparison of Full CoDHy, No-Node2Vec,
+and LLM-only variants across novelty, evidence coverage, ranking, and diversity metrics, averaged over 7
+evaluation scenarios. Evidence coverage is reported as
+the percentage of hypotheses supported by PubMed references, while novelty metrics are reported as rates.
+
+H1 (Score=9.0, Verdict: Proceed) Afatinib +
+Palbociclib Mechanism: Resistance reversal via
+EGFR inhibition and CDK4/6 blockade. Rationale: Direct graph evidence. Evidence: PMIDs
+41723568, 41723552, 41723543.
+H2 (Score=9.0, Verdict: Caution) Lapatinib +
+AZD9291 Mechanism: Synthetic lethality through
+dual EGFR pathway targeting. Rationale: Inferred embedding similarity. Evidence: PMIDs
+32547705, 29103264.
+H3 (Score=9.0, Verdict: Proceed) Osimertinib
++ Fulvestrant Mechanism: Estrogen-dependent
+synthetic lethality. Rationale: Inferred similarity.
+Evidence: PMIDs 41723568, 41723543.
+H4 (Score=9.0, Verdict: Proceed) Ceritinib
++ Everolimus Mechanism: Resistance reversal via
+mTOR pathway inhibition. Rationale: Direct graph
+evidence. Evidence: PMIDs 41706704, 41622283.
+This example illustrates three CoDHy properties: (1) generation of multiple mechanistically
+diverse hypotheses, (2) distinction between graphsupported and embedding-inferred candidates, and
+(3) explicit attachment of literature evidence and
+validation verdicts. Full structured outputs are provided in Appendix E.
+4.3
+
+Comparative Evaluation
+
+We next assess the contribution of structured evidence integration and embedding-based inference.
+Metrics. Across all scenarios and system variants, we compute the following metrics: (i) Novelty rate (exact and context-aware), (ii) Evidence
+coverage, (iii) Proceed@1 / Proceed@3, and (iv)
+Diversity. Formal metric definitions are provided
+in Appendix D.
+
+7
+
+Code: https://github.com/baksho/CoDHy
+https://huggingface.co/meta-llama/Llama-3.
+1-8B-Instruct
+8
+
+Results. Table 1 compares the full CoDHy system, LLM-only baseline, and No-Node2Vec vari-
+
+ant across multiple criteria. The LLM-only
+baseline achieves the highest evidence coverage
+(0.93) and Proceed@1 rate (0.71), reflecting its
+tendency to generate well-documented literaturesupported combinations. However, it exhibits substantially lower exact novelty (10.71%), suggesting
+a retrieval-oriented bias. Removing embeddingbased inference (No-Node2Vec) increases exact
+novelty (28.57%) while maintaining strong evidence grounding (0.72), indicating that direct
+knowledge graph connections can partially mitigate
+retrieval bias. The full CoDHy system achieves the
+highest exact novelty (35.71%), while maintaining
+high combination diversity (0.89) and competitive
+evidence coverage. Overall, these results suggest
+that integrating structured knowledge graphs with
+embedding-based inference enables a better balance between novelty, evidence support, and hypothesis diversity than either component alone.
+4.4
+
+Ranking Quality
+
+We evaluate whether CoDHy’s composite scoring function ranks higher-quality hypotheses using
+standard information retrieval metrics.
+Metrics. We report nDCG@3 and Mean Reciprocal Rank (MRR). Formal definitions of both metrics and their implementation in our setting are
+provided in Appendix D.
+Results. To report MRR and nDCG@3 for our
+experiment, we use relevance label (Literature Supported = 1, Novel/Unsupported = 0) for the combinations. Table 2 shows that the LLM-Only baseline achieves near-perfect retrieval metrics (MRR:
+0.93), reflecting its tendency to memorize existing
+standard-of-care combinations. In contrast, Full
+CoDHy achieves a lower MRR (0.74), a direct consequence of its deliberate design objective: rather
+than already-published combinations, CoDHy promotes biologically plausible but previously unpublished (novel) combinations through embeddingbased inference. The reduction in the retrievaloriented ranking metric (MRR), therefore, indicates a successful transition from a search-retrieval
+paradigm toward a discovery-oriented paradigm.
+
+5
+
+Conclusions
+
+We presented CoDHy, an interactive AI co-scientist
+system for biomarker-guided drug combination hypothesis generation in cancer research. By integrating structured biomedical knowledge, literature
+
+Method
+
+MRR
+
+nDCG@3
+
+Full CoDHy
+
+0.74
+
+0.80
+
+No-Node2Vec
+
+0.79
+
+0.76
+
+LLM-Only
+
+0.93
+
+0.93
+
+Table 2: Assessing the system’s ability to place promising hypotheses at the top of the list (k = 3). Metrics are
+averaged over 7 scenarios.
+
+evidence, and embedding-based reasoning within
+a human-in-the-loop framework, CoDHy supports
+transparent and researcher-steerable hypothesis exploration. Through case studies and comparative
+evaluation, we demonstrate the system’s ability
+to balance novelty, evidence grounding, and ranking quality, highlighting its potential as a decisionsupport tool for exploratory translational research.
+As future work, we aim to explore the integration
+of clinical and patient-level information to support
+more personalized hypothesis generation.
+
+Limitations
+Although CoDHy offers an end-to-end pipeline for
+automated hypothesis generation and validation,
+several limitations remain. The evaluation relies
+mainly on the validation agent’s verdict as a proxy,
+which supports scalability but cannot fully replace
+expert judgment; incorporating human-in-the-loop
+evaluation is important future work. The use of
+large language models also introduces potential hallucinations despite validation mechanisms. Finally,
+hypothesis quality depends on the completeness
+and accuracy of the constructed knowledge graph,
+so incomplete or noisy data may propagate and
+affect downstream reasoning.
+
+Acknowledgments
+This work was supported by the Federal Ministry
+of Research, Technology and Space of Germany
+[project name: EMuLE - Enhancing Data and
+Model Efficiency in Multimodal Learning; grant
+number 16IS24059]. The last author was partially
+funded by the Lower Saxony Ministry of Science
+and Culture (MWK) with funds from the Volkswagen Foundation’s Zukunft Niedersachsen program
+[project name: CAIMed - Lower Saxony Center
+for Artificial Intelligence and Causal Methods in
+Medicine; grant number: ZN4257].
+
+References
+Qiguang Chen, Mingda Yang, Libo Qin, Jinhao Liu,
+Zheng Yan, Jiannan Guan, Dengyun Peng, Yiyan
+Ji, Hanjing Li, Mengkang Hu, and 1 others. 2025.
+Ai4research: A survey of artificial intelligence for
+scientific research. arXiv preprint arXiv:2507.01903.
+Yilun Du, Shuang Li, Antonio Torralba, Joshua B Tenenbaum, and Igor Mordatch. 2023. Improving factuality and reasoning in language models through multiagent debate. In Forty-first International Conference
+on Machine Learning.
+Wilco WM Fleuren and Wynand Alkema. 2015. Application of text mining in the biomedical domain.
+Methods, 74:97–106.
+Shanghua Gao, Richard Zhu, Zhenglun Kong, Ayush
+Noori, Xiaorui Su, Curtis Ginder, Theodoros
+Tsiligkaridis, and Marinka Zitnik. 2025. Txagent:
+An ai agent for therapeutic reasoning across a universe of tools. arXiv preprint arXiv:2503.10970.
+Anna Gaulton, Louisa J. Bellis, A. Patricia Bento,
+Jon Chambers, Mark Davies, Anne Hersey, Yvonne
+Light, Shaun McGlinchey, David Michalovich, Bissan Al-Lazikani, and John P. Overington. 2012.
+Chembl: a large-scale bioactivity database for drug
+discovery. Nucleic Acids Research, 40(D1):D1100–
+D1107.
+Marc Gillespie, Bijay Jassal, Ralf Stephan, Marija
+Milacic, Karen Rothfels, Andrea Senff-Ribeiro, Johannes Griss, Cristoffer Sevilla, Lisa Matthews,
+Chuqiao Gong, Chuan Deng, Thawfeek Varusai,
+Eliot Ragueneau, Yusra Haider, Bruce May, Veronica
+Shamovsky, Joel Weiser, Timothy Brunson, Nasim
+Sanati, and 16 others. 2022. The reactome pathway knowledgebase 2022. Nucleic Acids Research,
+50(D1):D687–D695.
+Malachi Griffith, Nicholas C Spies, Kilannin Krysiak,
+Joshua F McMichael, Adam C Coffman, Arpad M
+Danos, Benjamin J Ainscough, Cody A Ramirez,
+Damian T Rieke, Lynzey Kujan, Erica K Barnell,
+Alex H Wagner, Zachary L Skidmore, Amber Wollam, Connor J Liu, Martin R Jones, Rachel L Bilski, Robert Lesurf, Yan-Yang Feng, and 26 others.
+2017. Civic is a community knowledgebase for expert crowdsourcing the clinical interpretation of variants in cancer. Nature Genetics, 49(2):170–174.
+Robert L Grossman, Allison P Heath, Vincent Ferretti,
+Harold E Varmus, Douglas R Lowy, Warren A Kibbe,
+and Louis M Staudt. 2016. Toward a shared vision
+of cancer genomic data. The New England Journal
+of Medicine, 375(12):1109–1112.
+Aditya Grover and Jure Leskovec. 2016. node2vec:
+Scalable feature learning for networks. In Proceedings of the 22nd ACM SIGKDD international conference on Knowledge discovery and data mining,
+pages 855–864.
+
+Jing Guo, Hui Liu, and Jie Zheng. 2016. Synlethdb:
+synthetic lethality database toward discovery of selective and sensitive anticancer drug targets. Nucleic
+Acids Research, 44(D1):D1011–D1017.
+Dimitar Hristovski, Carol Friedman, Thomas C Rindflesch, and Borut Peterlin. 2006. Exploiting semantic
+relations for literature-based discovery. In AMIA
+annual symposium proceedings, volume 2006, page
+349.
+Yoshitaka Inoue, Tianci Song, Xinling Wang, Augustin
+Luna, and Tianfan Fu. 2025. Drugagent: Multi-agent
+large language model-based reasoning for drug-target
+interaction prediction. ArXiv, pages arXiv–2408.
+Kishlay Jha, Guangxu Xun, Yaqing Wang, Vishrawas
+Gopalakrishnan, and Aidong Zhang. 2018. Conceptsbridges: Uncovering conceptual bridges based on
+biomedical concept evolution. In Proceedings of
+the 24th ACM SIGKDD International Conference on
+Knowledge Discovery & Data Mining, pages 1599–
+1607.
+Michael Kuhn, Ivica Letunic, Lars Juhl Jensen, and
+Peer Bork. 2016. The sider database of drugs and
+side effects. Nucleic Acids Research, 44(D1):D1075–
+D1079.
+Adithya Kulkarni, Fatimah Alotaibi, Xinyue Zeng,
+Longfeng Wu, Tong Zeng, Barry Menglong Yao,
+Minqian Liu, Shuaicheng Zhang, Lifu Huang, and
+Dawei Zhou. 2025. Scientific hypothesis generation
+and validation: Methods, datasets, and future directions. arXiv preprint arXiv:2505.04651.
+Patrick Lewis, Ethan Perez, Aleksandra Piktus, Fabio
+Petroni, Vladimir Karpukhin, Naman Goyal, Heinrich Küttler, Mike Lewis, Wen-tau Yih, Tim Rocktäschel, and 1 others. 2020. Retrieval-augmented generation for knowledge-intensive nlp tasks. Advances
+in neural information processing systems, 33:9459–
+9474.
+Tianhao Li, Sandesh Shetty, Advaith Kamath, Ajay
+Jaiswal, Xiaoqian Jiang, Ying Ding, and Yejin Kim.
+2024. Cancergpt for few shot drug pair synergy prediction using large pretrained language models. NPJ
+Digital Medicine, 7(1):40.
+Hui Liu, Wenhao Zhang, Bo Zou, Jinxiang Wang,
+Yuanyuan Deng, and Lei Deng. 2020. Drugcombdb:
+a comprehensive database of drug combinations toward the discovery of combinatorial therapy. Nucleic
+Acids Research, 48(D1):D871–D881.
+Chris Lu, Cong Lu, Robert Tjarko Lange, Jakob Foerster, Jeff Clune, and David Ha. 2024. The ai scientist:
+Towards fully automated open-ended scientific discovery. arXiv preprint arXiv:2408.06292.
+Dong Shu, Tianle Chen, Mingyu Jin, Chong Zhang,
+Mengnan Du, and Yongfeng Zhang. 2025. Knowledge graph large language model (kg-llm) for link
+
+prediction. In Proceedings of the 16th Asian Conference on Machine Learning, volume 260 of Proceedings of Machine Learning Research, pages 143–158.
+PMLR.
+Neil R Smalheiser, Vetle I Torvik, and Wei Zhou. 2009.
+Arrowsmith two-node search interface: a tutorial on
+finding meaningful links between two disparate sets
+of articles in medline. Computer methods and programs in biomedicine, 94(2):190–197.
+Zhiqing Sun, Zhi-Hong Deng, Jian-Yun Nie, and Jian
+Tang. 2019. Rotate: Knowledge graph embedding by
+relational rotation in complex space. arXiv preprint
+arXiv:1902.10197.
+Don R Swanson. 1986. Undiscovered public knowledge.
+The Library Quarterly, 56(2):103–118.
+Don R Swanson. 1988. Migraine and magnesium:
+eleven neglected connections. Perspectives in biology and medicine, 31(4):526–557.
+Justin Sybrandt, Michael Shtutman, and Ilya Safro.
+2017. Moliere: Automatic biomedical hypothesis
+generation system. In Proceedings of the 23rd ACM
+SIGKDD international conference on knowledge discovery and data mining, pages 1633–1642.
+Justin Sybrandt, Ilya Tyagin, Michael Shtutman, and
+Ilya Safro. 2020. Agatha: automatic graph mining and transformer based hypothesis generation approach. In Proceedings of the 29th ACM international conference on information & knowledge management, pages 2757–2764.
+Damian Szklarczyk, Rebecca Kirsch, Mikaela
+Koutrouli, Katerina Nastou, Farrokh Mehryary,
+Radja Hachilif, Annika L Gable, Tao Fang,
+Nadezhda T Doncheva, Sampo Pyysalo, Peer Bork,
+Lars J Jensen, and Christian von Mering. 2023. The
+string database in 2023: protein-protein association
+networks and functional enrichment analysis for
+any sequenced genome of interest. Nucleic Acids
+Research, 51(D1):D638–D646.
+Song Tong, Kai Mao, Zhen Huang, Yukun Zhao, and
+Kaiping Peng. 2023. Automating psychological hypothesis generation with ai: Large language models
+meet causal graph.
+Théo Trouillon, Johannes Welbl, Sebastian Riedel, Éric
+Gaussier, and Guillaume Bouchard. 2016. Complex
+embeddings for simple link prediction. In International conference on machine learning, pages 2071–
+2080. PMLR.
+Aviad Tsherniak, Francisca Vazquez, Phil G Montgomery, Barbara A Weir, Gregory Kryukov, Glenn S
+Cowley, Stanley Gill, William F Harrington, Sasha
+Pantel, John M Krill-Burger, Robin M Meyers, Levi
+Ali, Amy Goodale, Yenarae Lee, Guozhi Jiang, Jessica Hsiao, William F J Gerath, Sara Howell, Erin
+Merkel, and 6 others. 2017. Defining a cancer dependency map. Cell, 170(3):564–576.
+
+Oleg Ursu, Jayme Holmes, Jeffrey Knockel, Cristian G.
+Bologa, Jeremy J. Yang, Stephen L. Mathias, Stuart J. Nelson, and Tudor I. Oprea. 2017. Drugcentral:
+online drug compendium. Nucleic Acids Research,
+45(D1):D932–D939.
+Qingyun Wang, Doug Downey, Heng Ji, and Tom Hope.
+2024. Scimon: Scientific inspiration machines optimized for novelty. In Proceedings of the 62nd Annual
+Meeting of the Association for Computational Linguistics (Volume 1: Long Papers), pages 279–299.
+Stephen Joseph Wilson, Angela Dawn Wilkins,
+Matthew V Holt, Byung Kwon Choi, Daniel Konecki,
+Chih-Hsu Lin, Amanda Koire, Yue Chen, SeonYoung Kim, Yi Wang, and 1 others. 2018. Automated
+literature mining and hypothesis generation through
+a network of medical subject headings. bioRxiv, page
+403667.
+David S. Wishart, Craig Knox, An Chi Guo, Savita
+Shrivastava, Murtaza Hassanali, Paul Stothard, Zhan
+Chang, and Jennifer Woolsey. 2006. Drugbank:
+a comprehensive resource for in silico drug discovery and exploration. Nucleic Acids Research,
+34(suppl_1):D668–D672.
+Chunlei Wu, Ian MacLeod, and Andrew I Su. 2013.
+Biogps and mygene. info: organizing online,
+gene-centric information. Nucleic acids research,
+41(D1):D561–D565.
+Fuyi Yang, Chenchen Ye, Mingyu Derek Ma, Yijia Xiao,
+Matthew Yang, and Wei Wang. 2025. Bioverge:
+A comprehensive benchmark and study of selfevaluating agents for biomedical hypothesis generation. arXiv preprint arXiv:2511.08866.
+Chenchen Ye, Ziniu Hu, Yihe Deng, Zijie Huang,
+Mingyu Derek Ma, Yanqiao Zhu, and Wei Wang.
+2024. Mirai: Evaluating llm agents for event forecasting. arXiv preprint arXiv:2407.01231.
+Deborah A. Zarin, Tony Tse, and Nicholas C. Ide. 2005.
+Trial registration at clinicaltrials.gov between may
+and october 2005. The New England Journal of
+Medicine, 353(26):2779–2787.
+Deborah A. Zarin, Tony Tse, Rebecca J. Williams,
+Robert M. Califf, and Nicholas C. Ide. 2011. The
+clinicaltrials.gov results database — update and key
+issues. The New England Journal of Medicine,
+364(9):852–860.
+
+A
+
+Databases
+
+The list of Bioinformatics and Pharmacology- ical
+Databases used to construct the Knowledge Graph
+is in Table 3.
+Database
+
+Primary Purpose
+
+Reactome
+(Gillespie et al.,
+2022)
+
+Curated human biological pathways and molecular reactions.
+
+CIViC (Griffith
+et al., 2017)
+
+Community-sourced clinical interpretation of cancer variants.
+
+TCGA-GDC
+(Grossman et al.,
+2016)
+
+Centralized repository for largescale cancer genomic and clinical
+data.
+
+ClinicalTrials.gov
+(Zarin et al., 2005,
+2011)
+
+Global registry of human clinical
+studies and therapeutic outcomes.
+
+mygene.info (Wu
+et al., 2013)
+
+High-performance API for gene
+metadata and annotation aggregation.
+
+ChEMBL (Gaulton
+et al., 2012)
+
+Manually curated bioactivity data
+for drug-like small molecules.
+
+STRING
+(Szklarczyk et al.,
+2023)
+
+Functional and physical proteinprotein interaction networks.
+
+SynlethDB (Guo
+et al., 2016)
+
+Database of synthetic lethal gene
+pairs for targeted cancer therapy.
+
+DepMap (Tsherniak
+et al., 2017)
+
+Identification of cancer cell genetic
+dependencies.
+
+SIDER (Kuhn et al.,
+2016)
+
+Resource for recorded adverse drug
+reactions (side effects) and indications.
+
+DrugBank (Wishart
+et al., 2006)
+
+Comprehensive pharmaceutical
+knowledge base for drugs and their
+targets.
+
+DrugCentral (Ursu
+et al., 2017)
+
+Integrated online compendium of
+approved drugs and clinical indications.
+
+C
+
+Table 3: Overview of Bioinformatics and Pharmacological Databases used to construct the Knowledge Graph
+
+B
+
+Figure 3: Example task-specific knowledge graph.
+Node colors denote entity types (e.g., gene, drug, disease, variant etc.), and edges correspond to integrated
+biomedical relations used by CoDHy.
+
+Example Task-Specific Knowledge
+Graph
+
+Figure 3 shows an example task-specific knowledge graph constructed by CoDHy for a single
+scenario. Node colors indicate entity types, and
+edges represent typed relations integrated from
+curated databases and PubMed-derived evidence.
+This graph is used for embedding generation and
+evidence-grounded hypothesis construction.
+
+Evaluation Scenarios
+
+Table 4 lists the fixed set of evaluation scenarios
+used in all experiments. Each scenario is defined
+by a cancer type and a focus biomarker and is held
+constant across all compared methods to ensure fair
+and consistent evaluation.
+Biomarker
+
+Cancer Type
+
+EGFR
+
+Glioblastoma Multiforme
+
+CDK6
+
+Skin Cutaneous Melanoma
+
+TP53
+
+Liver Hepatocellular Carcinoma
+
+EGFR
+
+Lung Squamous Cell Carcinoma
+
+ATM
+
+Prostate Adenocarcinoma
+
+TP53
+
+Breast Invasive Carcinoma
+
+KRAS
+
+Pancreatic Adenocarcinoma
+
+Table 4: (Biomarker, Cancer Type) combinations used
+in evaluation of the proposed CoDHy system
+
+D
+
+Evaluation Metric Definitions
+
+Novelty. Novel-exact: no PubMed hits for
+“DrugA AND DrugB”. Novel-in-context: no hits for
+“DrugA AND DrugB AND CancerType”. Reported
+as proportions averaged across scenarios.
+Evidence Coverage. Proportion of hypotheses
+with ≥ 1 supporting PubMed reference.
+Proceed@k. Proportion of scenarios where at
+least one Proceed hypothesis appears in the top-k
+(k=1,3).
+Diversity. Average number of unique drug pairs
+generated per scenario.
+
+MRR. Mean reciprocal rank of the highestranked non-zero relevance hypothesis.
+nDCG@3. Normalized DCG over the top 3 hypotheses using relevance labels (Literature Supported = 1, Novel/Unsupported = 0).
+
+E
+
+Full Demo Outputs
+
+This appendix provides full structured outputs for
+two representative use cases generated by the Full
+CoDHy system. Each scenario includes the four
+ranked hypotheses as returned by the demo interface, including mechanism description, rationale
+type, validation verdict, and supporting evidence
+links. In addition to the representative use cases
+presented here, all experimental logs, extended scenario outputs, and additional reports are provided
+in structured JSON format in our public GitHub
+repository.
+E.1
+
+Use Case A: (Breast Invasive Carcinoma,
+EGFR)
+
+H1 — Afatinib + Palbociclib Score: 9.0 Verdict: Proceed Rationale Type: Direct Graph Evidence Mechanism: Resistance reversal via EGFR
+inhibition and CDK4/6 blockade. Supporting Evidence: PMIDs 41723568, 41723552, 41723543,
+41723513, 41723496 Evidence Status: Validated
+(Literature Exists) Safety Score: 8 Toxicity Risk:
+Moderate (overlapping dermatologic and gastrointestinal toxicities).
+H2 — Lapatinib + AZD9291 Score: 9.0 Verdict: Caution Rationale Type: Inferred Similarity
+Mechanism: Synthetic lethality through EGFR
+amplification and dual pathway inhibition. Supporting Evidence: PMIDs 32547705, 29103264
+Evidence Status: Validated (Literature Exists)
+Safety Score: 8 Toxicity Risk: Moderate (predicted overlapping toxicities).
+H3 — Osimertinib + Fulvestrant Score: 9.0
+Verdict: Proceed Rationale Type: Inferred Similarity Mechanism: Estrogen-dependent synthetic
+lethality combined with EGFR inhibition. Supporting Evidence: PMIDs 41723568, 41723543
+Evidence Status: Validated (Literature Exists)
+Safety Score: 8 Toxicity Risk: Moderate.
+H4 — Ceritinib + Everolimus Score: 9.0
+Verdict: Proceed Rationale Type: Direct Graph
+Evidence Mechanism: Resistance reversal via
+
+mTOR pathway inhibition. Supporting Evidence:
+PMIDs 41706704, 41622283 Evidence Status:
+Validated (Literature Exists) Safety Score: 8 Toxicity Risk: Moderate.
+E.2
+
+Use Case B: (Breast Invasive Carcinoma,
+PIK3CA)
+
+H1 — Palbociclib + Everolimus Score: 5.0
+Verdict: Reject Rationale Type: Direct Graph
+Evidence Mechanism: Synthetic lethality via
+CDK4/6–PIK3CA interaction and mTOR inhibition. Supporting Evidence: PMIDs 41647714,
+41617434, 41594421 Evidence Status: Validated
+(Literature Exists) Safety Score: 8 Toxicity Risk:
+Moderate (hepatotoxicity and gastrointestinal effects).
+H2 — Alpelisib + Temozolomide Score: 4.91
+Verdict: Proceed (with Caution) Rationale Type:
+Inferred Similarity Mechanism: Synthetic lethality via PI3K inhibition and DNA damage induction. Supporting Evidence: PMIDs 41518601,
+41372143, 35324454 Evidence Status: Validated
+(Literature Exists) Safety Score: 8 Toxicity Risk:
+Moderate (combined metabolic and neurological
+risks).
+H3 — AZD8186 + Everolimus Score: 4.8
+Verdict: Proceed (with Caution) Rationale Type:
+Direct Graph Evidence Mechanism: Resistance
+reversal via PI3K–mTOR axis inhibition. Supporting Evidence: No direct clinical study found
+(novel combination) Evidence Status: Inferred
+(Novel Combination) Safety Score: 8 Toxicity
+Risk: Predicted moderate.
+H4 — BKM120 + Trametinib Score: 4.8
+Verdict: Reject Rationale Type: Inferred Similarity Mechanism: Synthetic lethality via PI3K
+and MEK inhibition. Supporting Evidence: Preclinical literature references Evidence Status: Partially supported Safety Score: 8 Toxicity Risk:
+Moderate.
+
+
