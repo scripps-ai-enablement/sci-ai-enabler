@@ -49,7 +49,7 @@ _None._
 
 ## User requests (closed this run)
 
-- [#55 @goodb 2026-07-17] report=composition outcome=worked problem_class=Hypothesis generation → maps to existing [prioritize-targets-within-a-disease](items/prioritize-targets-within-a-disease.html); added an AD-prevention field report (SORL1 lead via prevention-tuned re-weighting of the pillar fields against MONDO_0004975) reinforcing the direct-GraphQL fallback when the hosted MCP is rate-limited, and bumped `last_verified` to 2026-07-18. `ad-rag` (used by the reporter for hypothesis grounding) is not a catalogued component, so it's referenced only in the field-report narrative, not as a recipe ingredient.
+_None._
 
 ## Composition reports
 
