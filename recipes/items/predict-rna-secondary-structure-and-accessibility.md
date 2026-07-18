@@ -9,7 +9,7 @@ evidence_level: Proposed
 complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Laptop
-last_verified: 2026-06-20
+last_verified: 2026-07-18
 summary: Use the ViennaRNA skill to fold an RNA, get its MFE structure, base-pair probabilities, and the accessibility of a candidate target site — for siRNA/sgRNA/ASO design or riboswitch analysis.
 ---
 
@@ -112,7 +112,7 @@ Laptop. Folding a single sequence up to a few thousand nucleotides with `RNAfold
 
 ## Evidence
 
-`Proposed`. No documented end-to-end LLM-orchestrated RNA-folding-and-accessibility workflow using the ViennaRNA skill in peer-reviewed literature is known as of 2026-06-20. The component pieces are long-established:
+`Proposed`. No documented end-to-end LLM-orchestrated RNA-folding-and-accessibility workflow using the ViennaRNA skill in peer-reviewed literature is known as of 2026-07-18. The component pieces are long-established:
 
 - **ViennaRNA Package** — the canonical thermodynamic RNA-folding toolkit (Lorenz et al., [*Algorithms for Molecular Biology* 2011, 6:26](https://doi.org/10.1186/1748-7188-6-26); web-services overview Gruber et al., [*Methods Mol. Biol.* 2015](https://pubmed.ncbi.nlm.nih.gov/25577387/)). `RNAfold`, the partition function, and `RNAplfold` are its standard, widely cited algorithms (Hofacker & Lorenz, [*Methods Mol. Biol.* 2014](https://pubmed.ncbi.nlm.nih.gov/24136595/)).
 - **Accessibility predicts hybridization efficacy** — target-site accessibility (local unpaired probability from `RNAplfold`) is an established determinant of siRNA and antisense-oligo potency, used in tools such as `RNAplfold`/`RNAup`-based accessibility scoring and sirna design pipelines built on the ViennaRNA partition function.
@@ -134,7 +134,7 @@ The missing link is a benchmark of "Claude + ViennaRNA skill" against a hand-bui
 
 ## Sources
 
-- [`jaechang-hits/SciAgent-Skills`](https://github.com/jaechang-hits/SciAgent-Skills) — verified 2026-06-20 (this run).
+- [`jaechang-hits/SciAgent-Skills`](https://github.com/jaechang-hits/SciAgent-Skills) — verified 2026-07-18 (this run).
 - [Lorenz R. et al., "ViennaRNA Package 2.0," *Algorithms for Molecular Biology* 2011, 6:26](https://doi.org/10.1186/1748-7188-6-26) — published 2011-11.
 - [Gruber A.R. et al., "The ViennaRNA web services," *Methods Mol. Biol.* 2015](https://pubmed.ncbi.nlm.nih.gov/25577387/) — published 2015.
 - [Hofacker I.L., Lorenz R., "Predicting RNA structure: advances and limitations," *Methods Mol. Biol.* 2014](https://pubmed.ncbi.nlm.nih.gov/24136595/) — published 2014.

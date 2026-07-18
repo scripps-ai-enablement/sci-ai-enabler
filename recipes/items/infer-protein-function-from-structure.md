@@ -10,7 +10,7 @@ complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Laptop
 summary: Submit a protein structure to Foldseek, pull structurally similar annotated hits across AFDB/PDB/SwissProt, and infer likely function where sequence search finds nothing.
-last_verified: 2026-06-27
+last_verified: 2026-07-18
 ---
 
 # Infer the function of an uncharacterized protein from its 3D structure
@@ -120,10 +120,10 @@ What is *not* independently benchmarked is the convenience layer — Claude driv
 
 ## Sources
 
-- [van Kempen M. et al., "Fast and accurate protein structure search with Foldseek," *Nature Biotechnology* 2023](https://doi.org/10.1038/s41587-023-01773-0) — published 2023-05; verified 2026-06-27 (this run).
+- [van Kempen M. et al., "Fast and accurate protein structure search with Foldseek," *Nature Biotechnology* 2023](https://doi.org/10.1038/s41587-023-01773-0) — published 2023-05; verified 2026-07-18 (this run).
 - [Varadi M. et al., "AlphaFold Protein Structure Database in 2024," *Nucleic Acids Res.* 2024](https://doi.org/10.1093/nar/gkad1011) — published 2023-11.
-- [`google-deepmind/science-skills` — `foldseek_structural_search/SKILL.md`](https://github.com/google-deepmind/science-skills/blob/main/skills/foldseek_structural_search/SKILL.md) — inputs, `scripts/search.py` invocation, database allowlist, JSON+MD outputs; verified 2026-06-27 (this run).
-- [Foldseek Search web service](https://search.foldseek.com/) — verified 2026-06-27 (this run).
+- [`google-deepmind/science-skills` — `foldseek_structural_search/SKILL.md`](https://github.com/google-deepmind/science-skills/blob/main/skills/foldseek_structural_search/SKILL.md) — inputs, `scripts/search.py` invocation, database allowlist, JSON+MD outputs; verified 2026-07-18 (this run).
+- [Foldseek Search web service](https://search.foldseek.com/) — verified 2026-07-18 (this run).
 
 ---
 

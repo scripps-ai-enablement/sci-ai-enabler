@@ -11,6 +11,16 @@ Reverse-chronological log of changes to the [recipes cookbook]({{ '/recipes/' | 
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-07-18 (Integrative Structural and Computational Biology directed pass)
+
+### Added
+
+- **Design amino-acid sequences for a fixed protein backbone** (Problem class: Experimental design; Evidence: Reported) — rung-3 two-model toolbelt: [ProteinMPNN skill](catalog/tools/proteinmpnn.html) samples sequences for a target backbone `.pdb` (fixed catalytic/interface positions, temperature sweep) → [ESMFold skill](catalog/tools/esmfold.html) refolds every design → self-consistency gate (Cα-scRMSD < 2.0 Å AND mean pLDDT > 80) keeps only foldable candidates → ranked survivors → committed `.claude/commands/mpnn-design.md` + pinned skill envs + `designs/<name>_mpnn.fasta` + `results/<name>_selfconsistency.csv` + `provenance.json` (model/versions, sampling settings, cutoffs, backbone sha256, run date, model id). First recipe to compose the ProteinMPNN family; cross-links [LigandMPNN](catalog/tools/ligandmpnn.html)/[SolubleMPNN](catalog/tools/solublempnn.html) variants, [AlphaFold2](catalog/tools/alphafold2.html) as a stricter second gate, and the [score-protein-variants-with-esm](recipes/items/score-protein-variants-with-esm.html) sibling. `Reported` — ProteinMPNN is the validated field-standard inverse-folding model ([Dauparas et al., *Science* 2022](https://doi.org/10.1126/science.add2187)), the design→refold→filter self-consistency routine is standard practice ([Lin et al., *Science* 2023](https://doi.org/10.1126/science.ade2574)), and a ProteinMPNN redesign of a flavin-binding fluorescent protein was wet-lab confirmed ([Nikolaev et al., *Protein Sci.* 2024](https://pubmed.ncbi.nlm.nih.gov/38501498/)); the Claude-skill assembly is not separately benchmarked. `Fully open`; `Workstation with GPU`.
+
+### Verified (no changes)
+
+- 2 recipes spot-checked (oldest-first, ISCB-focused), all current; `last_verified` bumped to 2026-07-18: **predict-rna-secondary-structure-and-accessibility** ([ViennaRNA skill](catalog/tools/viennarna-structure-prediction.html) catalog page resolves; SciAgent-Skills repo live), **infer-protein-function-from-structure** ([Foldseek skill](catalog/tools/foldseek-structural-search.html) catalog page resolves; Foldseek Search web service still up).
+
 ## 2026-07-18 (Immunology and Microbiology directed pass)
 
 ### Added
