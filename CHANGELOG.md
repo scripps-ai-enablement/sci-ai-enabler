@@ -11,6 +11,17 @@ Reverse-chronological log of changes to the [catalog]({{ '/catalog/' | relative_
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-07-18 (Chemistry slot)
+
+Chemistry directed pass plus a manifest sweep, and processed one open user request (#50). The `anthropics/life-sciences` marketplace was re-fetched (21 plugin directories) and diffed against the catalog — all entries already covered (biorxiv / clinical-trials plugins remain flagged DOA). The Chemistry seed queries surfaced a strong single-install cheminformatics MCP; ChEMBL/PubChem candidates were already catalogued.
+
+### Added
+- **LabMate MCP** (Categories: Chemistry, Drug Repurposing and Discovery) — one-install stdio MCP with 81 tools (retrosynthesis, forward/ADMET/pKa/NMR prediction, 202 named reactions, reagent calculators, compound + literature lookup); MIT, PyPI `labmate-mcp` v7.3.1 ([`JonasRackl/labmate-mcp`](https://github.com/JonasRackl/labmate-mcp)).
+- **Proto-OKN MCP Server** (Categories: All) — natural-language access to 30+ NSF Proto-OKN scientific knowledge graphs (SPOKE biomedicine, BioBricks chemical safety, DREAM-KG, SAWGraph) via SPARQL, schema inspection, cross-graph bridging, and ChEBI/MONDO/GO ontology expansion; BSD-3, hosted connector; from user request [#50](https://github.com/scripps-ai-enablement/sci-ai-enabler/issues/50) ([`sbl-sdsc/mcp-proto-okn`](https://github.com/sbl-sdsc/mcp-proto-okn)).
+
+### Verified (no changes)
+- Chemistry-page entries spot-checked (`last_verified` all within 30 days); manifest sweep confirmed no new life-sciences marketplace plugins.
+
 ## 2026-07-17 (manual bulk addition)
 
 Out-of-cycle manual import from a user request (@goodb): Anthropic's [Claude Science](https://claude.com/docs/claude-science/connectors-and-skills) **20 Featured connectors + 17 Research skills**, catalogued at source-level granularity (each connector decomposed into its underlying data sources). Introduced a searchable **Claude Science marker** — a `claude_science: true` front-matter flag that `scripts/build_index.py` turns into a `"Claude Science"` composer keyword, plus a bolded **Claude Science:** trust callout under each entry's Notes. **69 entries now carry the marker** (35 new + 34 annotated). Merged as [#56](https://github.com/scripps-ai-enablement/sci-ai-enabler/pull/56). Claude Science has since been added to the standing discovery sources in `AGENT.md` so future runs sweep it automatically.
