@@ -9,7 +9,7 @@ evidence_level: Proposed
 complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Laptop
-last_verified: 2026-06-21
+last_verified: 2026-07-19
 summary: Drive the ToolUniverse Drug Synergy skill to pick the right reference model (Bliss / HSA / Loewe / ZIP / Chou-Talalay) for your combination data and classify a two-drug pairing as synergistic, additive, or antagonistic.
 ---
 

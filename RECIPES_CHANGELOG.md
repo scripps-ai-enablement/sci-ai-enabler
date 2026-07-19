@@ -11,6 +11,16 @@ Reverse-chronological log of changes to the [recipes cookbook]({{ '/recipes/' | 
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-07-19 (Drug Repurposing and Discovery directed pass)
+
+### Added
+
+- **Analyze the SAR of a measured compound series** (Problem class: Data analysis; Evidence: Reported) — rung-2 [SAR Analysis skill](catalog/tools/sar-analysis.html) recipe: a CSV of assayed analogs (`smiles` + IC50/Ki) → optional [datamol](catalog/tools/datamol.html) standardization → maximum-common-substructure scaffold detection + R-group decomposition (RDKit `rdFMCS`/`rdRGroupDecomposition`) → substituent-vs-pIC50 table per R-position → single-change activity-cliff flagging (|ΔpIC50| ≥ 1) → committed `sar_analysis.py` + pinned `requirements.txt` + `sar_table.csv`/`activity_cliffs.csv` + aligned-structure HTML report + `provenance.json` (RDKit/pandas versions, skill commit, MCS threshold, cliff cutoff, input sha256, run date, model id). Retrospective *analyze-what-you-measured* sibling of the forward [enumerate-analogs](recipes/items/enumerate-analogs-around-a-lead.html) recipe (cross-linked both ways). `Reported` — R-group decomposition and matched-pair single-substituent comparison are field-standard for lead optimization ([Raut & Dixit, *RSC Med. Chem.* 2025](https://pubmed.ncbi.nlm.nih.gov/40438290/); [Ding et al., *Curr. Med. Chem.* 2020](https://pubmed.ncbi.nlm.nih.gov/32338210/); [Kombo & LaMarche, *J. Med. Chem.* 2025](https://pubmed.ncbi.nlm.nih.gov/40418162/)) and the BixBench-evaluated skill calls validated RDKit routines; the Claude-driven path is not separately benchmarked. `Fully open`; `Laptop`.
+
+### Verified (no changes)
+
+- 3 recipes spot-checked, `last_verified` bumped to 2026-07-19: [benchmark-admet-property-with-pytdc](recipes/items/benchmark-admet-property-with-pytdc.html) (TDC ADMET_Group leaderboard resolves; PyTDC/molfeat/datamol catalog pages present), [score-drug-combination-synergy](recipes/items/score-drug-combination-synergy.html) (ToolUniverse + drug-synergy catalog pages present), [scan-adverse-events-for-drug-safety-signal](recipes/items/scan-adverse-events-for-drug-safety-signal.html) (ythalorossy OpenFDA MCP repo + openFDA auth page still load; OpenFDA/BioMCP catalog pages present).
+
 ## 2026-07-19 (Translational Medicine directed pass)
 
 ### Added
