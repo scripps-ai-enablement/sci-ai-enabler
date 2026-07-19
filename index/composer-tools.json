@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "generated": "2026-07-18",
-  "count": 439,
+  "generated": "2026-07-19",
+  "count": 443,
   "tools": [
     {
       "slug": "10x-genomics-cloud",
@@ -1518,7 +1518,7 @@
         "Translational Medicine",
         "Drug Repurposing and Discovery"
       ],
-      "last_verified": "2026-05-23",
+      "last_verified": "2026-07-19",
       "claude_science": false,
       "summary": "Anthropic Claude Code plugin that drafts FDA/NIH-compliant Phase 2/3 clinical-trial protocols for drugs or devices via a waypoint-based workflow.",
       "keywords": [
@@ -1603,7 +1603,7 @@
       "tool_categories": [
         "Translational Medicine"
       ],
-      "last_verified": "2026-05-23",
+      "last_verified": "2026-07-19",
       "claude_science": false,
       "summary": "Anthropic-published MCP server over the CMS Coverage Database — Local and National Coverage Determinations for Medicare prior-auth, appeals, and policy lookup.",
       "keywords": [
@@ -2391,6 +2391,30 @@
       "path": "catalog/tools/encode-database.md"
     },
     {
+      "slug": "encode-toolkit",
+      "title": "ENCODE Toolkit",
+      "tool_type": "Claude Code Plugin",
+      "availability": "Beta",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-07-18",
+      "claude_science": false,
+      "summary": "\"MCP server + Claude Code plugin for the ENCODE Project: search/download functional-genomics data and run ChIP/ATAC/RNA-seq/Hi-C/WGBS/CUT&RUN pipelines.\"",
+      "keywords": [
+        "ATAC",
+        "ChIP",
+        "CUT",
+        "ENCODE",
+        "Hi-C",
+        "REST",
+        "RNA-seq",
+        "RUN",
+        "WGBS"
+      ],
+      "path": "catalog/tools/encode-toolkit.md"
+    },
+    {
       "slug": "ensembl",
       "title": "Ensembl MCP Server",
       "tool_type": "MCP server",
@@ -2635,7 +2659,7 @@
       "tool_categories": [
         "Translational Medicine"
       ],
-      "last_verified": "2026-05-20",
+      "last_verified": "2026-07-19",
       "claude_science": false,
       "summary": "Anthropic Claude Code plugin for authoring FHIR R4 resources with LOINC, SNOMED, and RxNorm validation.",
       "keywords": [
@@ -3504,6 +3528,26 @@
         "Young-Adult"
       ],
       "path": "catalog/tools/hcpya-skill.md"
+    },
+    {
+      "slug": "healthlake-mcp",
+      "title": "AWS HealthLake MCP Server",
+      "tool_type": "MCP server",
+      "availability": "GA",
+      "tool_categories": [
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-07-19",
+      "claude_science": false,
+      "summary": "Apache-2.0 MCP server for AWS HealthLake FHIR datastores — CRUD, advanced search, patient-everything, and import/export jobs, with a read-only safety mode.",
+      "keywords": [
+        "Apache-2",
+        "AWS",
+        "CRUD",
+        "FHIR",
+        "Open-source"
+      ],
+      "path": "catalog/tools/healthlake-mcp.md"
     },
     {
       "slug": "hierarchical",
@@ -4908,6 +4952,22 @@
       "path": "catalog/tools/networkx.md"
     },
     {
+      "slug": "neuroflow",
+      "title": "NeuroFlow",
+      "tool_type": "Claude Code Plugin",
+      "availability": "Beta",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-07-19",
+      "claude_science": false,
+      "summary": "End-to-end Claude Code plugin for neuroscience research — ideation, grant writing, experiment design, data analysis, computational brain modeling, and paper drafting.",
+      "keywords": [
+        "End-to-end"
+      ],
+      "path": "catalog/tools/neuroflow.md"
+    },
+    {
       "slug": "neurokit2",
       "title": "NeuroKit2 (Claude Skill)",
       "tool_type": "Claude Skill",
@@ -5120,6 +5180,29 @@
       "path": "catalog/tools/nnunet-segmentation.md"
     },
     {
+      "slug": "novomcp",
+      "title": "NovoMCP",
+      "tool_type": "MCP server",
+      "availability": "Preview",
+      "tool_categories": [
+        "Chemistry",
+        "Drug Repurposing and Discovery",
+        "Integrative Structural and Computational Biology"
+      ],
+      "last_verified": "2026-07-18",
+      "claude_science": false,
+      "summary": "Hosted computational-chemistry engine MCP — ADMET, GFN2-xTB QM, GPU GROMACS MD, and AutoDock-GPU docking over a precomputed compound layer.",
+      "keywords": [
+        "ADMET",
+        "AutoDock-GPU",
+        "GFN2-xTB",
+        "GPU-backed",
+        "GROMACS",
+        "NovoMCP"
+      ],
+      "path": "catalog/tools/novomcp.md"
+    },
+    {
       "slug": "npi-registry",
       "title": "NPI Registry MCP (Anthropic Healthcare)",
       "tool_type": "MCP server",
@@ -5127,7 +5210,7 @@
       "tool_categories": [
         "Translational Medicine"
       ],
-      "last_verified": "2026-05-30",
+      "last_verified": "2026-07-19",
       "claude_science": false,
       "summary": "Anthropic-published MCP server over the CMS NPPES NPI Registry — validate, look up, and search US healthcare providers by National Provider Identifier.",
       "keywords": [

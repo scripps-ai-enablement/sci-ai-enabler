@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "generated": "2026-07-18",
+  "generated": "2026-07-19",
   "counts": {
-    "tools": 439,
-    "recipes": 82
+    "tools": 443,
+    "recipes": 86
   },
   "tools_file": "composer-tools.json",
   "recipes": [
@@ -116,7 +116,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-06-20",
+      "last_verified": "2026-07-18",
       "summary": "Use the SciAgent CellTypist skill to put reference-backed cell-type labels on a QC'd AnnData, escalating to the popV consensus skill when you need ensemble uncertainty.",
       "keywords": [
         "PanglaoDB"
@@ -197,6 +197,29 @@
         "TDC"
       ],
       "path": "recipes/items/benchmark-admet-property-with-pytdc.md"
+    },
+    {
+      "slug": "build-functional-connectivity-matrix-from-fmri",
+      "title": "Build a resting-state functional-connectivity matrix from preprocessed fMRI",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Neuroscience"
+      ],
+      "evidence_level": "Reported",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-07-19",
+      "summary": "Use the Nilearn skill in Claude Code to turn fMRIPrep-preprocessed BOLD into an atlas ROI-to-ROI functional-connectivity matrix with confound regression, as a re-runnable script.",
+      "keywords": [
+        "BOLD",
+        "fMRI",
+        "fMRIPrep",
+        "fMRIPrep-preprocessed",
+        "ROI",
+        "ROI-to-ROI"
+      ],
+      "path": "recipes/items/build-functional-connectivity-matrix-from-fmri.md"
     },
     {
       "slug": "build-pharmacogenomic-dosing-report",
@@ -417,6 +440,31 @@
       "path": "recipes/items/design-crispr-sgrnas-for-a-gene-knockout.md"
     },
     {
+      "slug": "design-sequences-for-a-protein-backbone",
+      "title": "Design amino-acid sequences for a fixed protein backbone",
+      "problem_class": "Experimental design",
+      "subject_areas": [
+        "Integrative Structural and Computational Biology"
+      ],
+      "evidence_level": "Reported",
+      "complexity": "Multi-tool harness",
+      "availability": "Fully open",
+      "compute_requirements": "Workstation with GPU",
+      "last_verified": "2026-07-18",
+      "summary": "Design sequences for a target backbone with ProteinMPNN, then refold each candidate with ESMFold and keep only those whose self-consistency RMSD recovers the backbone.",
+      "keywords": [
+        "DNA-synthesis",
+        "ESMFold",
+        "FASTA",
+        "pLDDT",
+        "ProteinMPNN",
+        "ProteinMPNN-designed",
+        "RFdiffusion-generated",
+        "RMSD"
+      ],
+      "path": "recipes/items/design-sequences-for-a-protein-backbone.md"
+    },
+    {
       "slug": "detect-somatic-cnvs-from-tumor-sequencing",
       "title": "Detect somatic copy-number variants from tumor sequencing",
       "problem_class": "Data analysis",
@@ -440,6 +488,33 @@
         "WGS"
       ],
       "path": "recipes/items/detect-somatic-cnvs-from-tumor-sequencing.md"
+    },
+    {
+      "slug": "diagnose-rare-disease-from-patient-phenotypes",
+      "title": "Diagnose a rare disease from patient phenotypes",
+      "problem_class": "Knowledge synthesis",
+      "subject_areas": [
+        "Translational Medicine",
+        "Molecular and Cellular Biology"
+      ],
+      "evidence_level": "Reported",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-07-19",
+      "summary": "Use the ToolUniverse Rare Disease Diagnosis skill to turn a patient's HPO phenotypes and candidate variants into a tiered, ACMG-aligned differential with prioritized genes.",
+      "keywords": [
+        "ACMG",
+        "ACMG-aligned",
+        "gnomAD",
+        "GPT-4",
+        "GTEx",
+        "HPO",
+        "HPO-matched",
+        "OMIM",
+        "Undiagnosed-disease"
+      ],
+      "path": "recipes/items/diagnose-rare-disease-from-patient-phenotypes.md"
     },
     {
       "slug": "discover-nwb-recordings-on-dandi",
@@ -800,7 +875,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Workstation with GPU",
-      "last_verified": "2026-06-20",
+      "last_verified": "2026-07-18",
       "summary": "Use the Arboreto Claude skill to run GRNBoost2 on a QC'd single-cell AnnData and recover a ranked TF–target edge list — the first step of a SCENIC regulon pipeline.",
       "keywords": [
         "AUCell",
@@ -822,7 +897,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-06-27",
+      "last_verified": "2026-07-18",
       "summary": "Submit a protein structure to Foldseek, pull structurally similar annotated hits across AFDB/PDB/SwissProt, and infer likely function where sequence search finds nothing.",
       "keywords": [
         "AFDB",
@@ -848,7 +923,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-06-20",
+      "last_verified": "2026-07-18",
       "summary": "Drive the decoupler-MCP server to score per-cell or per-sample transcription-factor (CollecTRI) and pathway (PROGENy) activities from an expression matrix, then read off the regulators that move between conditions.",
       "keywords": [
         "CollecTRI",
@@ -863,6 +938,32 @@
         "ULM"
       ],
       "path": "recipes/items/infer-tf-and-pathway-activities-from-expression.md"
+    },
+    {
+      "slug": "integrate-multiomics-with-mofa",
+      "title": "Integrate multi-omics layers into interpretable factors with MOFA+",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Molecular and Cellular Biology",
+        "Immunology and Microbiology",
+        "Translational Medicine"
+      ],
+      "evidence_level": "Proposed",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-07-18",
+      "summary": "Use the MOFA+ Claude skill to jointly decompose several omics layers on the same samples into a handful of latent factors, then read off which factors capture biology and which layers drive them.",
+      "keywords": [
+        "ATAC",
+        "ATAC-only",
+        "CNV",
+        "MOFA",
+        "Multi-omics",
+        "PCA",
+        "RNA"
+      ],
+      "path": "recipes/items/integrate-multiomics-with-mofa.md"
     },
     {
       "slug": "integrate-single-cell-datasets",
@@ -900,7 +1001,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-06-21",
+      "last_verified": "2026-07-19",
       "summary": "Use BioMCP to convert a free-text variant query (\"BRAF V600E\", \"rs113993960\", \"NM_004985.5:c.35G>A\") into a one-page clinical report with ClinVar significance, population frequency, in-silico predictions, and linked literature.",
       "keywords": [
         "BioMCP",
@@ -952,7 +1053,7 @@
       "complexity": "Multi-tool harness",
       "availability": "Fully open",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-06-20",
+      "last_verified": "2026-07-19",
       "summary": "Chain Open Targets target ranking into gget/Enrichr functional enrichment to turn a disease name or EFO/MONDO ID into a cited genes-and-pathways readout.",
       "keywords": [
         "CSVs",
@@ -1171,7 +1272,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-06-20",
+      "last_verified": "2026-07-18",
       "summary": "Use the ViennaRNA skill to fold an RNA, get its MFE structure, base-pair probabilities, and the accessibility of a candidate target site — for siRNA/sgRNA/ASO design or riboswitch analysis.",
       "keywords": [
         "ASO",
@@ -1317,7 +1418,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-06-20",
+      "last_verified": "2026-07-19",
       "summary": "Use Anthropic's single-cell-rna-qc skill to MAD-filter a 10x .h5 or AnnData .h5ad file and emit standard QC figures before downstream Scanpy or scvi-tools work.",
       "keywords": [
         "MAD-filter",
@@ -1426,7 +1527,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-06-20",
+      "last_verified": "2026-07-18",
       "summary": "Use the PyDESeq2 Claude Skill to fit a negative-binomial GLM from a counts matrix and sample-condition table, returning ranked log2 fold-change and BH-adjusted p-values.",
       "keywords": [
         "BH-adjusted",
@@ -1451,7 +1552,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-06-20",
+      "last_verified": "2026-07-18",
       "summary": "Use the gget Claude skill to run a gene list through Enrichr against GO, KEGG, Reactome, and disease libraries, then ask Claude to summarise the enriched terms back to the biology with explicit citations.",
       "keywords": [
         "CRISPR",
@@ -1840,7 +1941,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-06-20",
+      "last_verified": "2026-07-19",
       "summary": "Use the bio-research plugin in Claude Code to pull last-week bioRxiv and PubMed hits, rank by relevance, and produce a one-paragraph readout per paper.",
       "keywords": [],
       "path": "recipes/items/triage-new-preprints.md"
