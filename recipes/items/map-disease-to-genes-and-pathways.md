@@ -9,7 +9,7 @@ evidence_level: Reported
 complexity: Multi-tool harness
 availability: Fully open
 compute_requirements: Laptop
-last_verified: 2026-06-20
+last_verified: 2026-07-19
 summary: Chain Open Targets target ranking into gget/Enrichr functional enrichment to turn a disease name or EFO/MONDO ID into a cited genes-and-pathways readout.
 ---
 

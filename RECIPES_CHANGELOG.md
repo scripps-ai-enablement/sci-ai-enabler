@@ -11,6 +11,16 @@ Reverse-chronological log of changes to the [recipes cookbook]({{ '/recipes/' | 
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-07-19 (Neuroscience directed pass)
+
+### Added
+
+- **Build a resting-state functional-connectivity matrix from preprocessed fMRI** (Problem class: Data analysis; Evidence: Reported) — rung-2 [Nilearn skill](catalog/tools/nilearn-tool.html) recipe: fMRIPrep-preprocessed BOLD + confounds TSV → named atlas (Schaefer 2018) `NiftiLabelsMasker` (standardize/detrend/band-pass) → explicit fMRIPrep confound strategy (motion + cosines + aCompCor + non-steady-state) → ROI time-series with confounds regressed → Pearson + partial-correlation ROI-to-ROI matrices → network-ordered heatmap + FD/scrubbing QC → committed `build_connectome.py` + pinned `requirements.txt` + `connectivity_pearson.csv`/`connectivity_partial.csv` + figure + `provenance.json` (Nilearn version, atlas name/release, confound columns, band-pass/TR, connectivity kind, input sha256s, run date, model id). fMRI counterpart to the EEG [ERP-extraction recipe](recipes/items/extract-event-related-potentials-from-eeg.html) (cross-linked). `Reported` — Nilearn is the field-standard connectivity library ([Abraham et al., *Front. Neuroinform.* 2014](https://doi.org/10.3389/fninf.2014.00014)) and the atlas→confound-regression→correlation workflow is canonical ([Kumar et al., *PLoS Comput. Biol.* 2020](https://doi.org/10.1371/journal.pcbi.1007549)) and reused in current rs-FC studies ([Messina et al., *Neurology* 2026](https://doi.org/10.1212/WNL.0000000000214656); [Dai et al., *J. Affect. Disord.* 2026](https://doi.org/10.1016/j.jad.2025.120969)); the Claude+Nilearn-skill assembly is not separately benchmarked. `Fully open`; `Laptop`.
+
+### Verified (no changes)
+
+- 3 recipes spot-checked, all current, `last_verified` bumped to 2026-07-19: [triage-new-preprints](recipes/items/triage-new-preprints.html), [qc-single-cell-rna-seq](recipes/items/qc-single-cell-rna-seq.html), [map-disease-to-genes-and-pathways](recipes/items/map-disease-to-genes-and-pathways.html) — all linked catalog pages resolve and all source URLs still load.
+
 ## 2026-07-18 (Molecular and Cellular Biology directed pass)
 
 ### Added

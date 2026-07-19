@@ -9,7 +9,7 @@ evidence_level: Reported
 complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Laptop
-last_verified: 2026-06-20
+last_verified: 2026-07-19
 summary: Use Anthropic's single-cell-rna-qc skill to MAD-filter a 10x .h5 or AnnData .h5ad file and emit standard QC figures before downstream Scanpy or scvi-tools work.
 ---
 
