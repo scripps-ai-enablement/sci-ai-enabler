@@ -11,6 +11,16 @@ Reverse-chronological log of changes to the [catalog]({{ '/catalog/' | relative_
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-07-19 (Neuroscience slot)
+
+Neuroscience directed pass plus a manifest sweep. The `anthropics/life-sciences` (`.claude-plugin/marketplace.json`, ~19 entries) and `anthropics/claude-plugins-official` marketplaces were re-fetched and diffed against the catalog — all entries already covered (Boltz, PubMed, ChEMBL, Open Targets, etc.). Neuroscience seed queries reconfirmed existing coverage: allenbrain-mcp (`allenbrain`, flagged for license), the EEG/BCI MCP (`bci-mcp`), SpikeLab spike-sorting (`spikelab`), and DANDI (covered via `neurosift`; the `bendichter/dandi-query-mcp` remains boilerplate and deferred). The abc_atlas_access package is a bare PyPI install (out of scope). One genuinely-new installable plugin surfaced.
+
+### Added
+- **NeuroFlow** (Categories: Neuroscience) — MIT Claude Code plugin (`stanislavjiricek/neuroflow`, v0.2.20) providing 20+ phase-aware slash commands for an end-to-end neuroscience research project: ideation, funder-adaptive grant writing, experiment/tool building, data preprocessing/analysis (BIDS), computational brain modeling, and manuscript/poster drafting; bundles a literature-search MCP ([README](https://github.com/stanislavjiricek/neuroflow), [LICENSE](https://github.com/stanislavjiricek/neuroflow/blob/main/LICENSE)).
+
+### Verified (no changes)
+- Manifest sweep confirmed no new `anthropics/life-sciences` or `anthropics/claude-plugins-official` plugins; Allen Brain Atlas, EEG/BCI, SpikeLab, and DANDI neuroscience surfaces reconfirmed against existing coverage.
+
 ## 2026-07-18 (Molecular and Cellular Biology slot)
 
 Molecular and Cellular Biology directed pass plus a manifest sweep. The `anthropics/life-sciences` marketplace (`.claude-plugin/marketplace.json`, 19 entries) was re-fetched and diffed against the catalog — all entries already covered. Seed queries reconfirmed the Scanpy MCP family (`scanpy-mcp`/`scmcp`, already catalogued and cross-linked) and the Ensembl MCP surface. The RNA-seq/regulatory-genomics query surfaced one genuinely-new installable plugin.
