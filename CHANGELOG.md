@@ -11,6 +11,19 @@ Reverse-chronological log of changes to the [catalog]({{ '/catalog/' | relative_
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-07-19 (Drug Repurposing and Discovery slot)
+
+Drug Repurposing and Discovery directed pass plus a manifest sweep. The `anthropics/life-sciences` (`.claude-plugin/marketplace.json`) and `anthropics/claude-plugins-official` marketplaces were re-fetched and diffed against the catalog — all life-science entries already covered. The Claude Science featured-connectors/skills list was re-checked (no new source-level additions). Seed queries (`DrugBank MCP server`, `drug repurposing agent MCP`) reconfirmed existing coverage (`drugbank.md` already carries the `openpharma-org` MCP + official hosted MCP + SciAgent paths). Four genuinely-new drug-discovery skills were drawn from the deferred `mims-harvard/ToolUniverse/skills/` queue and catalogued.
+
+### Added
+- **Small Molecule Discovery (ToolUniverse Claude Skill)** (Categories: Chemistry, Drug Repurposing and Discovery) — 6-phase compound workflow (identity → analog search → ChEMBL/BindingDB bioactivity → SwissADME/ADMET-AI drug-likeness → SwissTargetPrediction → eMolecules/Enamine sourcing) ([SKILL.md](https://github.com/mims-harvard/ToolUniverse/blob/main/skills/tooluniverse-small-molecule-discovery/SKILL.md)).
+- **Chemical Safety (ToolUniverse Claude Skill)** (Categories: Chemistry, Drug Repurposing and Discovery, Translational Medicine) — 8-phase toxicology pipeline (ADMET-AI + CTD + PubChemTox + AOPWiki + STITCH + ChEMBL structural alerts + FDA/DrugBank) with Critical/High/Medium/Low risk grading ([SKILL.md](https://github.com/mims-harvard/ToolUniverse/blob/main/skills/tooluniverse-chemical-safety/SKILL.md)).
+- **Cancer Genomics TCGA (ToolUniverse Claude Skill)** (Categories: Drug Repurposing and Discovery, Molecular and Cellular Biology, Translational Medicine) — 6-phase TCGA/GDC cohort analysis (clinical → somatic mutations → Progenetix CNV → GDC survival → OncoKB variant interpretation) ([SKILL.md](https://github.com/mims-harvard/ToolUniverse/blob/main/skills/tooluniverse-cancer-genomics-tcga/SKILL.md)).
+- **Rare Disease Genomics (ToolUniverse Claude Skill)** (Categories: Drug Repurposing and Discovery, Molecular and Cellular Biology, Translational Medicine) — 9-phase Orphanet → HPO → causative genes → GenCC validity → ClinVar → epidemiology → trials → Europe PMC → report workflow with repurposing leads ([SKILL.md](https://github.com/mims-harvard/ToolUniverse/blob/main/skills/tooluniverse-rare-disease-genomics/SKILL.md)).
+
+### Verified (no changes)
+- **ToolUniverse** base page re-verified (skills directory + `uvx tooluniverse` install path confirmed against upstream; `last_verified` bumped to 2026-07-19). Manifest sweep confirmed no new `anthropics/life-sciences`, `anthropics/claude-plugins-official`, or Claude Science entries; DrugBank / drug-repurposing seed queries reconfirmed existing coverage.
+
 ## 2026-07-19 (Translational Medicine slot)
 
 Translational Medicine directed pass plus a manifest sweep. The `anthropics/life-sciences` (`.claude-plugin/marketplace.json`, ~19 entries) and `anthropics/claude-plugins-official` marketplaces were re-fetched and diffed against the catalog — all entries already covered. The Claude Science featured-connectors/skills list was re-checked (no new source-level additions). FHIR and ClinicalTrials.gov seed queries reconfirmed existing coverage (`fhir-wso2`, `fhir-momentum`, `clinicaltrials-gov-mcp`); the `AWS HealthLake MCP server` query surfaced one genuinely-new installable server. Also resolved the standing `anthropics/healthcare` deprecation flag by finishing the consolidated-plugin migration for the remaining pages.

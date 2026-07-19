@@ -6,7 +6,7 @@ tool_type: MCP server
 supplier: Zitnik Lab (Harvard Medical School) · MIT Lincoln Laboratory
 availability: GA
 tool_categories: [All]
-last_verified: 2026-05-24
+last_verified: 2026-07-19
 summary: Harvard / MIT MCP server bundling 600+ vetted scientific tools — literature, chemistry, omics, clinical trials — for AI-scientist-style hypothesis exploration.
 ---
 
