@@ -6,7 +6,7 @@ tool_type: MCP server
 supplier: Anthropic
 availability: GA
 tool_categories: [Translational Medicine]
-last_verified: 2026-05-30
+last_verified: 2026-07-19
 summary: Anthropic-published MCP server over the CMS NPPES NPI Registry — validate, look up, and search US healthcare providers by National Provider Identifier.
 ---
 
@@ -28,22 +28,31 @@ Anthropic-published MCP server distributed via the `anthropics/healthcare` plugi
 
   ```
   /plugin marketplace add anthropics/healthcare
-  /plugin install npi-registry@healthcare
+  /plugin install healthcare@healthcare
   ```
 
-  Restart Claude Code, then `/mcp` to confirm the server is connected.
+  The NPI Registry MCP now ships as one of the connected MCP servers inside the consolidated `healthcare` plugin (the older standalone `npi-registry@healthcare` plugin is deprecated upstream). The server is a hosted HTTP endpoint at `https://hcls.mcp.claude.com/npi_registry/mcp`. Restart Claude Code, then `/mcp` to confirm the server is connected.
 
-  Equivalent direct add (skips the marketplace install step):
+- **Claude Code** — direct MCP add (without the plugin):
 
   ```
-  claude mcp add-from-marketplace anthropics/healthcare/npi-registry
+  claude mcp add --transport http npi-registry https://hcls.mcp.claude.com/npi_registry/mcp
   ```
 
 - **Claude.ai** — Settings → Connectors → **NPI Registry** → **Connect**.
 
-- **Claude Desktop** — proxy the marketplace MCP via `mcp-remote` if the upstream endpoint is HTTP; otherwise install the marketplace per the Anthropic Healthcare README and consult the per-server `mcp.json` for the literal stdio command.
+- **Claude Desktop** — Desktop has no native HTTP transport; proxy the hosted endpoint via `mcp-remote`:
 
-  **Registration form not exhaustively documented upstream — adapt the snippet to whatever the marketplace's `mcp.json` ships for this server.**
+  ```json
+  {
+    "mcpServers": {
+      "npi-registry": {
+        "command": "npx",
+        "args": ["-y", "mcp-remote", "https://hcls.mcp.claude.com/npi_registry/mcp"]
+      }
+    }
+  }
+  ```
 
 ## What it does
 

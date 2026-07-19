@@ -6,7 +6,7 @@ tool_type: Claude Code Plugin
 supplier: Anthropic
 availability: GA
 tool_categories: [Translational Medicine]
-last_verified: 2026-05-20
+last_verified: 2026-07-19
 summary: Anthropic Claude Code plugin for authoring FHIR R4 resources with LOINC, SNOMED, and RxNorm validation.
 ---
 
@@ -26,8 +26,10 @@ Anthropic-published Claude Code plugin from the `anthropics/healthcare` marketpl
 
 ```
 /plugin marketplace add anthropics/healthcare
-/plugin install fhir-developer@healthcare
+/plugin install healthcare@healthcare
 ```
+
+This skill now ships inside the consolidated `healthcare` plugin (the standalone `fhir-developer@healthcare` plugin is deprecated upstream — install the consolidated plugin, though the standalone name may still resolve for now).
 
 ## What it does
 

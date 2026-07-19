@@ -11,6 +11,23 @@ Reverse-chronological log of changes to the [catalog]({{ '/catalog/' | relative_
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-07-19 (Translational Medicine slot)
+
+Translational Medicine directed pass plus a manifest sweep. The `anthropics/life-sciences` (`.claude-plugin/marketplace.json`, ~19 entries) and `anthropics/claude-plugins-official` marketplaces were re-fetched and diffed against the catalog — all entries already covered. The Claude Science featured-connectors/skills list was re-checked (no new source-level additions). FHIR and ClinicalTrials.gov seed queries reconfirmed existing coverage (`fhir-wso2`, `fhir-momentum`, `clinicaltrials-gov-mcp`); the `AWS HealthLake MCP server` query surfaced one genuinely-new installable server. Also resolved the standing `anthropics/healthcare` deprecation flag by finishing the consolidated-plugin migration for the remaining pages.
+
+### Added
+- **AWS HealthLake MCP Server** (Categories: Translational Medicine) — Apache-2.0 MCP server (`awslabs/mcp`, PyPI `awslabs.healthlake-mcp-server`) exposing 11 tools over AWS HealthLake FHIR datastores: CRUD, advanced search, `patient_everything`, and bulk import/export jobs, with automatic datastore discovery and a `--readonly` safety flag; HIPAA-eligible on AWS ([GitHub](https://github.com/awslabs/mcp/tree/main/src/healthlake-mcp-server), [docs](https://awslabs.github.io/mcp/servers/healthlake-mcp-server), [AWS blog](https://aws.amazon.com/blogs/industries/building-healthcare-ai-agents-with-open-source-aws-healthlake-mcp-server/)).
+
+### Updated
+- **clinical-trial-protocol**, **fhir-developer** — install snippets now point at the consolidated `healthcare@healthcare` plugin (the standalone `@healthcare` plugin names are deprecated upstream per the re-fetched `anthropics/healthcare` marketplace.json).
+- **CMS Coverage MCP**, **NPI Registry MCP** — install snippets migrated to `healthcare@healthcare` and given literal hosted HTTP endpoints (`https://hcls.mcp.claude.com/cms_coverage/mcp`, `.../npi_registry/mcp`) plus `claude mcp add --transport http` and Claude Desktop `mcp-remote` snippets, replacing the prior "adapt the snippet" placeholders ([`anthropics/healthcare` `.mcp.json`](https://github.com/anthropics/healthcare/blob/main/plugins/healthcare/.mcp.json)).
+
+### Flagged
+- **`anthropics/healthcare` deprecation** — un-flagged (resolved). All affected pages now reference the consolidated `healthcare@healthcare` plugin; `pubmed.md` needs no change (it installs via the separate, non-deprecated `pubmed@life-sciences` marketplace path).
+
+### Verified (no changes)
+- 4 healthcare-plugin entries re-verified against upstream marketplace/`.mcp.json` (`last_verified` bumped to 2026-07-19); manifest sweep confirmed no new `anthropics/life-sciences`, `anthropics/claude-plugins-official`, or Claude Science entries; FHIR + ClinicalTrials.gov coverage reconfirmed.
+
 ## 2026-07-19 (Neuroscience slot)
 
 Neuroscience directed pass plus a manifest sweep. The `anthropics/life-sciences` (`.claude-plugin/marketplace.json`, ~19 entries) and `anthropics/claude-plugins-official` marketplaces were re-fetched and diffed against the catalog — all entries already covered (Boltz, PubMed, ChEMBL, Open Targets, etc.). Neuroscience seed queries reconfirmed existing coverage: allenbrain-mcp (`allenbrain`, flagged for license), the EEG/BCI MCP (`bci-mcp`), SpikeLab spike-sorting (`spikelab`), and DANDI (covered via `neurosift`; the `bendichter/dandi-query-mcp` remains boilerplate and deferred). The abc_atlas_access package is a bare PyPI install (out of scope). One genuinely-new installable plugin surfaced.

@@ -6,7 +6,7 @@ tool_type: MCP server
 supplier: Anthropic
 availability: GA
 tool_categories: [Translational Medicine]
-last_verified: 2026-05-23
+last_verified: 2026-07-19
 summary: Anthropic-published MCP server over the CMS Coverage Database — Local and National Coverage Determinations for Medicare prior-auth, appeals, and policy lookup.
 ---
 
@@ -28,12 +28,29 @@ Anthropic-published MCP server distributed via the `anthropics/healthcare` plugi
 
   ```
   /plugin marketplace add anthropics/healthcare
-  claude mcp add-from-marketplace anthropics/healthcare/cms-coverage
+  /plugin install healthcare@healthcare
   ```
 
-- **Claude Desktop** — proxy the marketplace MCP via `mcp-remote` if the upstream endpoint is HTTP; otherwise install the marketplace per the Anthropic Healthcare README and consult the per-server `mcp.json` for the literal stdio command.
+  The CMS Coverage MCP now ships as one of the connected MCP servers inside the consolidated `healthcare` plugin (the older standalone `cms-coverage@healthcare` plugin is deprecated upstream). The server is a hosted HTTP endpoint at `https://hcls.mcp.claude.com/cms_coverage/mcp`.
 
-  **Registration form not exhaustively documented upstream — adapt the snippet to whatever the marketplace's `mcp.json` ships for this server.**
+- **Claude Code** — direct MCP add (without the plugin):
+
+  ```
+  claude mcp add --transport http cms-coverage https://hcls.mcp.claude.com/cms_coverage/mcp
+  ```
+
+- **Claude Desktop** — Desktop has no native HTTP transport; proxy the hosted endpoint via `mcp-remote`:
+
+  ```json
+  {
+    "mcpServers": {
+      "cms-coverage": {
+        "command": "npx",
+        "args": ["-y", "mcp-remote", "https://hcls.mcp.claude.com/cms_coverage/mcp"]
+      }
+    }
+  }
+  ```
 
 ## What it does
 

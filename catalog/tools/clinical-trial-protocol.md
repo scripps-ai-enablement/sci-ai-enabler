@@ -6,7 +6,7 @@ tool_type: Claude Code Plugin
 supplier: Anthropic
 availability: GA
 tool_categories: [Translational Medicine, Drug Repurposing and Discovery]
-last_verified: 2026-05-23
+last_verified: 2026-07-19
 summary: Anthropic Claude Code plugin that drafts FDA/NIH-compliant Phase 2/3 clinical-trial protocols for drugs or devices via a waypoint-based workflow.
 ---
 
@@ -24,12 +24,14 @@ Anthropic-published Claude Code plugin from the `anthropics/healthcare` marketpl
 
 ## How to install
 
-- **Claude Code** — plugin marketplace:
+- **Claude Code** — plugin marketplace (recommended):
 
   ```
   /plugin marketplace add anthropics/healthcare
-  /plugin install clinical-trial-protocol@healthcare
+  /plugin install healthcare@healthcare
   ```
+
+  This skill now ships inside the consolidated `healthcare` plugin (the standalone `clinical-trial-protocol@healthcare` plugin is deprecated upstream — upstream guidance is to install the consolidated plugin, though the standalone name may still resolve for now).
 
 - **Claude.ai** — download the skill ZIP from the `anthropics/healthcare` repo and upload via **Settings → Capabilities → Skills** (Team / Enterprise admin).
 
