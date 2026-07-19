@@ -9,7 +9,7 @@ evidence_level: Proposed
 complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Laptop
-last_verified: 2026-06-21
+last_verified: 2026-07-19
 summary: Use BioMCP to convert a free-text variant query ("BRAF V600E", "rs113993960", "NM_004985.5:c.35G>A") into a one-page clinical report with ClinVar significance, population frequency, in-silico predictions, and linked literature.
 ---
 
@@ -94,6 +94,7 @@ Proposed. No published benchmark of the exact BioMCP-driven variant-report assem
 - [BioMCP](../../catalog/tools/biomcp.html)
 - [Match a patient summary to recruiting clinical trials](match-patient-to-clinical-trials.html) — chains naturally when the variant is the eligibility driver.
 - [Build a target dossier from gene name to structure to cancer dependency](build-target-dossier.html) — the gene-level analogue; switch when the question is "what is this gene" not "what is this variant".
+- [Diagnose a rare disease from patient phenotypes](diagnose-rare-disease-from-patient-phenotypes.html) — the phenotype-first sibling; switch when the input is a clinical presentation, not a known variant.
 - [Score point mutations for functional impact with a protein language model](score-protein-variants-with-esm.html) — the zero-shot, database-free sibling for novel or uncharacterized substitutions.
 - [Profile a cancer cohort's genomics with cBioPortal](profile-cancer-cohort-genomics-with-cbioportal.html) — the cohort-level sibling when the question is frequency/survival across patients, not a single variant.
 - [Biomni](../../autonomous-science/systems/biomni.html) — autonomous-system option.

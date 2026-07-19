@@ -11,6 +11,16 @@ Reverse-chronological log of changes to the [recipes cookbook]({{ '/recipes/' | 
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-07-19 (Translational Medicine directed pass)
+
+### Added
+
+- **Diagnose a rare disease from patient phenotypes** (Problem class: Knowledge synthesis; Evidence: Reported) — rung-2 [ToolUniverse Rare Disease Diagnosis skill](catalog/tools/tooluniverse-rare-disease-diagnosis.html) recipe: patient HPO terms (+ optional candidate variants) captured in a committed `case.yaml` → skill federates HPO/Orphanet/OMIM/DisGeNET disease+gene lookup → gene prioritization (MARRVEL, ClinGen validity, GTEx tissue expression) → per-variant ACMG interpretation (ClinVar, gnomAD, EVE/SpliceAI) → tiered (T1–T4) `reports/*.md` + raw `results/*.json` audit trail + `provenance.json` (tooluniverse version, skill commit, per-database query dates, ClinVar/gnomAD release accessions, input sha256, model id). Phenotype-first sibling of [interpret-clinical-variant](recipes/items/interpret-clinical-variant.html) (cross-linked both ways). `Reported` — knowledge-grounded LLM layers over the same MARRVEL/ClinVar/gnomAD tool stack give +12–15 pp Recall@1 for phenotype-driven gene prioritization ([LA-MARRVEL, Lee et al., *arXiv* 2511.02263, 2025-11 / rev 2026-03](https://arxiv.org/abs/2511.02263)), and tool grounding is what carries the workflow (MARRVEL-MCP 95% vs 33% without tools, [bioRxiv 2025-11-28](https://www.biorxiv.org/content/10.1101/2025.11.26.690887v1)); rung-1 baseline fails (database-free GPT-4 ~16%, [Kim et al., 2024](https://arxiv.org/abs/2403.14801)). The exact ToolUniverse-skill composition is not separately benchmarked. `Fully open`; `Laptop`.
+
+### Verified (no changes)
+
+- 1 recipe spot-checked, `last_verified` bumped to 2026-07-19: [interpret-clinical-variant](recipes/items/interpret-clinical-variant.html) — BioMCP catalog page resolves and not flagged, MARRVEL-MCP source URL still loads; added cross-link to the new rare-disease recipe.
+
 ## 2026-07-19 (Neuroscience directed pass)
 
 ### Added
