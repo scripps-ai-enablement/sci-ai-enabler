@@ -4,6 +4,35 @@ Rolling, reverse-chronological log of catalog verification + security passes. Ea
 on-demand run that produces changes prepends a dated block; the top block is mirrored to the pinned
 "Verification updates" issue.
 
+## 2026-07-20 (bootstrap pass 21)
+
+Twenty-first bootstrap pass — the **SciAgent non-`-database` skills, batch 2**: 10 more unstamped
+`supplier: SciAgent` Claude Skill pages, all sharing the anchor `jaechang-hits/SciAgent-Skills`.
+Each skill's parent directory was confirmed present via the GitHub contents API; one representative
+`SKILL.md` (Prokka) was read to confirm read-only local analysis with no credential/API-key
+requests and no runtime network calls. All judgments grounded in sources fetched this run (GitHub
+repo + contents + security-advisories APIs, one SKILL.md).
+
+### Verified
+- Anchor `jaechang-hits/SciAgent-Skills` re-confirmed via GitHub API (root LICENSE verbatim CC BY
+  4.0, not archived, not disabled, pushed 2026-06-15, 275 stars, 7 open issues, default branch main).
+- 10 SciAgent Claude Skills — all works. Each parent dir confirmed present via the contents API:
+  snakemake-workflow-engine, spikeinterface-electrophysiology (scientific-computing);
+  prokka-genome-annotation, bakta-genome-annotation, roary-pangenome (annotation);
+  trackpy-particle-tracking, pyimagej-fiji-bridge (cell-biology); popv-cell-annotation,
+  single-cell-annotation-guide (single-cell); muon-multiomics-singlecell (systems-biology-multiomics).
+  Clone/copy install paths resolve.
+
+### Fixed
+- None this run.
+
+### Flagged
+- None broken this run.
+
+### Security
+- All 10 cleared — provenance matches jaechang-hits, CC BY 4.0 root LICENSE, no GitHub
+  security-advisories, read-only local skills with no credential requests.
+
 ## 2026-07-20 (bootstrap pass 20)
 
 Twentieth bootstrap pass — the **SciAgent genomics-bioinformatics skills** (non-`-database` batch 1):
