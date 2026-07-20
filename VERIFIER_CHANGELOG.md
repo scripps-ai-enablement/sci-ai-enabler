@@ -4,6 +4,36 @@ Rolling, reverse-chronological log of catalog verification + security passes. Ea
 on-demand run that produces changes prepends a dated block; the top block is mirrored to the pinned
 "Verification updates" issue.
 
+## 2026-07-20 (bootstrap pass 7)
+
+Seventh bootstrap pass — 13 more unstamped entries: 12 K-Dense skill wrappers plus the
+Anthropic-supplied `scientific-problem-selection` skill. All judgments grounded in sources fetched
+this run: the anchor repo `K-Dense-AI/scientific-agent-skills` (GitHub API — MIT, not archived,
+pushed 2026-07-15, updated 2026-07-20) with per-slug `skills/<slug>` contents-API resolution;
+`anthropics/life-sciences` (GitHub API — not archived, pushed 2026-05-08) and its documented plugin
+listing for `scientific-problem-selection`; and the raw `skills/xlsx/LICENSE.txt` for the xlsx
+license check. `.verify/smoke-results.json` for this run held only slugs already stamped in prior
+passes (`bci-mcp`, `flowio`, `instrument-data-to-allotrope`, `nextflow-development`, `rdkit-skill`,
+`scikit-bio`, plus already-fixed `pymol`/`foldseek-structural-search`), so no new smoke verdicts were
+consumed; skill verification rests on the resolving subdir. Caps respected (13 static, 0
+smoke-consuming).
+
+### Verified
+- `stable-baselines3`, `torchdrug`, `tiledbvcf`, `timesfm-forecasting` → works — anchor repo + each `skills/<slug>/SKILL.md` resolves via contents API.
+- `scientific-writing`, `scientific-brainstorming`, `scientific-critical-thinking`, `scientific-schematics`, `scientific-slides`, `scientific-visualization` → works — anchor repo + each `skills/<slug>/SKILL.md` resolves.
+- `xlsx` → works — `skills/xlsx/` resolves (install path current); license concern noted under Security.
+- `scientific-problem-selection` → works — `anthropics/life-sciences` resolves and plugin `scientific-problem-selection@life-sciences` is documented with the page's exact install command.
+
+### Fixed
+- None this run.
+
+### Flagged
+- None broken. Provenance/license concerns captured under Security.
+
+### Security
+- cleared (9): `stable-baselines3`, `torchdrug`, `tiledbvcf`, `timesfm-forecasting`, `scientific-writing`, `scientific-brainstorming`, `scientific-critical-thinking`, `scientific-slides`, `scientific-visualization` — K-Dense provenance matches supplier, MIT collection wrapping OSI-licensed upstream (MIT/Apache-2.0 per entry) or prompt-only, maintained (pushed 2026-07-15), no OSV advisories via reachable sources.
+- caution (4): `xlsx` — `skills/xlsx/LICENSE.txt` is Anthropic PBC proprietary ("© 2025 Anthropic, PBC. All rights reserved", no redistribution/derivatives) redistributed inside the MIT collection while the page claims Free/OSS (curator to fix Pricing). `scientific-schematics` — sends prompts plus a user API key to external Google Gemini ("Nano Banana 2" / Gemini 3.1 Pro) image services. `scientific-problem-selection` — official Anthropic provenance but repo carries no top-level LICENSE.
+
 ## 2026-07-20 (bootstrap pass 6)
 
 Sixth bootstrap pass — 20 more unstamped entries: 15 K-Dense skill wrappers, the dual

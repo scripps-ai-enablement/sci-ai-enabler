@@ -7,6 +7,11 @@ supplier: Anthropic
 availability: GA
 tool_categories: [All]
 last_verified: 2026-05-20
+verification: works
+verified_on: 2026-07-20
+security: caution
+security_on: 2026-07-20
+security_note: "provenance matches supplier Anthropic (anthropics/life-sciences resolves, plugin scientific-problem-selection@life-sciences documented), prompt-only skill no runtime deps, but repo carries no top-level LICENSE"
 summary: Structured framework for research project ideation, risk assessment, and troubleshooting, based on Fischbach & Walsh (Cell 2024).
 ---
 
@@ -21,6 +26,8 @@ Guides Claude through a structured framework for evaluating research questions, 
 | **Availability** | GA — distributed via `anthropics/life-sciences` (Oct 2025) |
 | **Pricing** | Free / OSS |
 | **Capabilities** | Read-only — does not write files unless you ask Claude to summarise outputs to disk |
+| **Verified** | works · 2026-07-20 |
+| **Security** | caution · 2026-07-20 — Anthropic provenance matches, prompt-only skill, but repo has no top-level LICENSE |
 
 ## How to install
 

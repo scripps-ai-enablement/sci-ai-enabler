@@ -7,6 +7,11 @@ supplier: K-Dense
 availability: GA
 tool_categories: [Chemistry, Drug Repurposing and Discovery, Integrative Structural and Computational Biology]
 last_verified: 2026-06-04
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches supplier K-Dense-AI (skills/torchdrug/SKILL.md resolves), MIT collection wrapping Apache-2.0 torchdrug, maintained (pushed 2026-07-15), no OSV advisories"
 summary: PyTorch-native graph neural networks for molecules and proteins.
 ---
 
@@ -21,6 +26,8 @@ PyTorch-native graph neural networks for molecules and proteins.
 | **Availability** | GA — part of the actively maintained K-Dense `scientific-agent-skills` collection |
 | **Pricing** | Free / OSS (Apache-2.0) |
 | **Capabilities** | Read/Write — Claude runs the skill's Python locally (Bash), not as an MCP tool |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches K-Dense-AI, MIT collection wrapping Apache-2.0 torchdrug, maintained, no OSV advisories |
 
 ## How to install
 

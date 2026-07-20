@@ -7,6 +7,11 @@ supplier: K-Dense
 availability: GA
 tool_categories: [General-Purpose Utilities]
 last_verified: 2026-06-04
+verification: works
+verified_on: 2026-07-20
+security: caution
+security_on: 2026-07-20
+security_note: "skills/xlsx/SKILL.md resolves in K-Dense-AI collection but LICENSE.txt is Anthropic PBC proprietary (all rights reserved, no redistribution) — the MIT collection redistributes it, and the page's Free/OSS claim is inaccurate"
 summary: Create, edit, analyze, or convert Excel spreadsheets (.xlsx, .xlsm) where the workbook file is the primary deliverable.
 ---
 
@@ -21,6 +26,8 @@ Create, edit, analyze, or convert Excel spreadsheets (.xlsx, .xlsm) where the wo
 | **Availability** | GA — part of the actively maintained K-Dense `scientific-agent-skills` collection |
 | **Pricing** | Free / OSS (Proprietary..txt has complete terms) |
 | **Capabilities** | Read/Write — Claude runs the skill's Python locally (Bash), not as an MCP tool |
+| **Verified** | works · 2026-07-20 |
+| **Security** | caution · 2026-07-20 — dir resolves but LICENSE.txt is Anthropic proprietary (all rights reserved), not the Free/OSS the page claims |
 
 ## How to install
 

@@ -7,6 +7,11 @@ supplier: K-Dense
 availability: GA
 tool_categories: [General-Purpose Utilities]
 last_verified: 2026-06-04
+verification: works
+verified_on: 2026-07-20
+security: caution
+security_on: 2026-07-20
+security_note: "provenance matches supplier K-Dense-AI (skills/scientific-schematics/SKILL.md resolves), MIT collection maintained (pushed 2026-07-15), no OSV advisories; caution because it sends prompts plus a user API key to external Google Gemini image services"
 summary: Create publication-quality scientific diagrams using Nano Banana 2 AI with smart iterative refinement.
 ---
 
@@ -21,6 +26,8 @@ Create publication-quality scientific diagrams using Nano Banana 2 AI with smart
 | **Availability** | GA — part of the actively maintained K-Dense `scientific-agent-skills` collection |
 | **Pricing** | Free / OSS (MIT) |
 | **Capabilities** | Read/Write — Claude runs the skill's Python locally (Bash), not as an MCP tool |
+| **Verified** | works · 2026-07-20 |
+| **Security** | caution · 2026-07-20 — K-Dense provenance and MIT clear, but sends prompts plus a user API key to external Google Gemini image services |
 
 ## How to install
 
