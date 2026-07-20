@@ -9,9 +9,9 @@ tool_categories: [Chemistry, Drug Repurposing and Discovery, Integrative Structu
 last_verified: 2026-06-11
 verification: works
 verified_on: 2026-07-20
-security: caution
+security: cleared
 security_on: 2026-07-20
-security_note: "provenance matches jaechang-hits SciAgent-Skills, repo resolves and active 2026-06, but GitHub reports license as NOASSERTION (non-standard), no OSV advisories"
+security_note: "provenance matches jaechang-hits SciAgent-Skills, committed root LICENSE is CC BY 4.0 (GitHub classifier NOASSERTION), maintained (pushed 2026-06-15), public read-only docking skill, no OSV advisories"
 summary: "Molecular docking with AutoDock Vina (Python API)."
 ---
 
@@ -27,7 +27,7 @@ Molecular docking with AutoDock Vina (Python API).
 | **Pricing** | Free / OSS (CC-BY-4.0) |
 | **Capabilities** | Read/Write — Claude runs the skill's Python locally (Bash), not as an MCP tool |
 | **Verified** | works · 2026-07-20 |
-| **Security** | caution · 2026-07-20 — SciAgent-Skills repo active but GitHub license is NOASSERTION, no OSV advisories |
+| **Security** | cleared · 2026-07-20 — SciAgent-Skills root LICENSE is CC BY 4.0, maintained, public read-only docking skill, no OSV advisories |
 
 ## How to install
 
