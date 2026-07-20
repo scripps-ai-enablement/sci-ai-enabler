@@ -8,6 +8,11 @@ availability: GA
 tool_categories: [Translational Medicine, Molecular and Cellular Biology]
 last_verified: 2026-06-11
 summary: "Query COSMIC for cancer somatic mutations, gene census, mutational signatures, drug resistance variants."
+verification: works
+verified_on: 2026-07-20
+security: caution
+security_on: 2026-07-20
+security_note: "skill provenance/CC BY 4.0 clear but COSMIC data is CC-BY-NC-SA-4.0 (non-commercial) and requires registration; note the data-use restriction"
 ---
 
 # COSMIC (Claude Skill)
@@ -21,6 +26,8 @@ Query COSMIC for cancer somatic mutations, gene census, mutational signatures, d
 | **Availability** | GA — part of the BixBench-evaluated SciAgent-Skills collection |
 | **Pricing** | Free / OSS (CC-BY-NC-SA-4.0) |
 | **Capabilities** | Read/Write — Claude runs the skill's Python locally (Bash), not as an MCP tool |
+| **Verified** | works · 2026-07-20 |
+| **Security** | caution · 2026-07-20 — skill CC BY 4.0 and provenance clear, but COSMIC data is CC-BY-NC-SA-4.0 (non-commercial, registration required) |
 
 ## How to install
 

@@ -8,6 +8,11 @@ availability: GA
 tool_categories: [Molecular and Cellular Biology]
 last_verified: 2026-06-11
 summary: "Query EBI QuickGO REST API for GO terms and protein annotations."
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches jaechang-hits SciAgent-Skills (CC BY 4.0 repo LICENSE); public EBI QuickGO REST queries, no risky patterns"
 ---
 
 # QuickGO (Claude Skill)
@@ -21,6 +26,8 @@ Query EBI QuickGO REST API for GO terms and protein annotations.
 | **Availability** | GA — part of the BixBench-evaluated SciAgent-Skills collection |
 | **Pricing** | Free / OSS (Apache-2.0) |
 | **Capabilities** | Read/Write — Claude runs the skill's Python locally (Bash), not as an MCP tool |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches supplier, CC BY 4.0 repo LICENSE, public EBI QuickGO queries, no OSV advisories |
 
 ## How to install
 

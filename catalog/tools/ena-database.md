@@ -8,6 +8,11 @@ availability: GA
 tool_categories: [Molecular and Cellular Biology]
 last_verified: 2026-06-11
 summary: "ENA REST API for sequences, reads, assemblies, and annotations."
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches jaechang-hits SciAgent-Skills (CC BY 4.0 repo LICENSE); public no-auth EBI ENA REST queries, no risky patterns"
 ---
 
 # ENA (Claude Skill)
@@ -21,6 +26,8 @@ ENA REST API for sequences, reads, assemblies, and annotations.
 | **Availability** | GA — part of the BixBench-evaluated SciAgent-Skills collection |
 | **Pricing** | Free / OSS — license not stated upstream |
 | **Capabilities** | Read/Write — Claude runs the skill's Python locally (Bash), not as an MCP tool |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches supplier, CC BY 4.0 repo LICENSE, public EBI ENA queries, no OSV advisories |
 
 ## How to install
 

@@ -4,6 +4,35 @@ Rolling, reverse-chronological log of catalog verification + security passes. Ea
 on-demand run that produces changes prepends a dated block; the top block is mirrored to the pinned
 "Verification updates" issue.
 
+## 2026-07-20 (bootstrap pass 12)
+
+Twelfth bootstrap pass — first non-K-Dense batch: 19 unstamped `supplier: SciAgent` database skill
+entries stamped. All judgments grounded in sources fetched this run: anchor repo
+`jaechang-hits/SciAgent-Skills` (GitHub API — not archived, `disabled:false`, pushed 2026-06-15,
+275 stars; GitHub's classifier reports NOASSERTION but the committed root `LICENSE` is verbatim
+CC BY 4.0, permitting commercial use + redistribution), the `skills/genomics-bioinformatics/databases/`
+contents listing (24 subdirs), each stamped `skills/genomics-bioinformatics/databases/<slug>` dir
+confirmed via a direct contents-API fetch, and `.claude-plugin/marketplace.json` (plugin name
+`sciagent-skills` matches the pages' `/plugin install sciagent-skills`). The `geo` page's second
+install path (`geo-mcp`) was confirmed on PyPI (0.1.2, BSD-3-Clause, homepage `MCPmed/geomcp`).
+Caps respected (19 static verifications ≤25, 0 smoke verdicts consumed — all smoke slugs already
+stamped). `ensembl-database.md` has no catalog page (repo listing only) and was dropped.
+
+### Verified
+- works/cleared (17): `clinvar-database`, `dbsnp-database`, `archs4-database`, `gene-database`, `gnomad-database`, `gwas-database`, `jaspar-database`, `monarch-database`, `mouse-phenome-database`, `quickgo-database`, `regulomedb-database`, `remap-database`, `cbioportal-database`, `clinpgx-database`, `encode-database`, `ena-database`, `geo-database` — anchor repo live, each `skills/…/<slug>` resolves via a direct contents fetch, skill code CC BY 4.0, public no-auth REST queries, no OSV advisories. `geo-database` is dual-path (SciAgent skill + `geo-mcp` MCP, BSD-3-Clause).
+- works/caution (2): `cosmic-database`, `kegg-database` — resolve and install paths current; underlying data-source license concern noted under Security.
+
+### Fixed
+- None this run.
+
+### Flagged
+- `cosmic-database` — security `caution`: skill code is CC BY 4.0 but COSMIC data is CC-BY-NC-SA-4.0 (non-commercial, registration required).
+- `kegg-database` — security `caution`: skill code is CC BY 4.0 but KEGG data requires a paid commercial license for non-academic use.
+
+### Security
+- 17 cleared: SciAgent provenance matches supplier, real stated license (CC BY 4.0 root LICENSE), collection maintained (pushed 2026-06-15), public EBI/NCBI/portal REST queries with no install-time arbitrary-code or credential-exfiltration signals, no OSV advisories.
+- Correction logged in verifier-state: the prior "SciAgent-Skills = NOASSERTION → caution" note is superseded — the committed root LICENSE is CC BY 4.0, so SciAgent skills clear on provenance/license by default; flag only where a page's underlying data source carries its own restriction. The two cautions above are data-use restrictions, not skill-code problems. Note also: the pages' `Pricing` lines describe the underlying *data-source* license, not the skill code.
+
 ## 2026-07-20 (bootstrap pass 11)
 
 Eleventh bootstrap pass — 7 more unstamped K-Dense skill entries stamped. All judgments grounded in

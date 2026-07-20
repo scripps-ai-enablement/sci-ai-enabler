@@ -8,6 +8,11 @@ availability: GA
 tool_categories: [Molecular and Cellular Biology]
 last_verified: 2026-06-11
 summary: "Query ARCHS4 REST API for uniformly processed RNA-seq expression, tissue patterns, co-expression across 1M+ human/mouse samples."
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches jaechang-hits SciAgent-Skills (CC BY 4.0 repo LICENSE); public ARCHS4 REST queries, no risky patterns"
 ---
 
 # ARCHS4 (Claude Skill)
@@ -21,6 +26,8 @@ Query ARCHS4 REST API for uniformly processed RNA-seq expression, tissue pattern
 | **Availability** | GA — part of the BixBench-evaluated SciAgent-Skills collection |
 | **Pricing** | Free / OSS (CC-BY-4.0) |
 | **Capabilities** | Read/Write — Claude runs the skill's Python locally (Bash), not as an MCP tool |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches supplier, CC BY 4.0 repo LICENSE, public ARCHS4 queries, no OSV advisories |
 
 ## How to install
 

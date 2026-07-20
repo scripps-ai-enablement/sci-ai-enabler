@@ -9,6 +9,11 @@ tool_categories: [Molecular and Cellular Biology]
 last_verified: 2026-06-11
 claude_science: true
 summary: "ENCODE Portal REST API for regulatory genomics: TF ChIP-seq, ATAC-seq/DNase-seq peaks, histone marks, and RNA-seq across 1000+ cell types."
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches jaechang-hits SciAgent-Skills (CC BY 4.0 repo LICENSE); public ENCODE Portal REST queries, no risky patterns"
 ---
 
 # ENCODE (Claude Skill)
@@ -22,6 +27,8 @@ ENCODE Portal REST API for regulatory genomics: TF ChIP-seq, ATAC-seq/DNase-seq 
 | **Availability** | GA — part of the BixBench-evaluated SciAgent-Skills collection |
 | **Pricing** | Free / OSS (CC-BY-4.0) |
 | **Capabilities** | Read/Write — Claude runs the skill's Python locally (Bash), not as an MCP tool |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches supplier, CC BY 4.0 repo LICENSE, public ENCODE queries, no OSV advisories |
 
 ## How to install
 

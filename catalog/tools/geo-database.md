@@ -9,6 +9,11 @@ tool_categories: [Molecular and Cellular Biology]
 last_verified: 2026-06-27
 claude_science: true
 summary: "NCBI GEO access — keyword/series search, GSE matrices, GPL/GSM metadata — as a SciAgent skill or the MCPmed GEO MCP server."
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "SciAgent skill (CC BY 4.0) and MCPmed geo-mcp (PyPI 0.1.2, BSD-3-Clause, MCPmed org) both resolve; public NCBI GEO queries"
 ---
 
 # NCBI GEO
@@ -22,6 +27,8 @@ NCBI Gene Expression Omnibus access — search series/samples/platforms, downloa
 | **Availability** | GA |
 | **Pricing** | Free / OSS — skill MIT; `geo-mcp` BSD-3-Clause |
 | **Capabilities** | Read/Write — skill runs Python locally (Bash); MCP exposes GEO search/download tools over stdio or HTTP |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — SciAgent skill CC BY 4.0, geo-mcp PyPI 0.1.2 BSD-3-Clause under MCPmed, public NCBI queries, no OSV advisories |
 
 ## How to install
 

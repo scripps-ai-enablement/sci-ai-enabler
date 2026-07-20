@@ -8,6 +8,11 @@ availability: GA
 tool_categories: [Molecular and Cellular Biology]
 last_verified: 2026-06-11
 summary: "KEGG REST API (academic only)."
+verification: works
+verified_on: 2026-07-20
+security: caution
+security_on: 2026-07-20
+security_note: "skill provenance/CC BY 4.0 clear but KEGG data requires a paid commercial license for non-academic use; note the data-use restriction"
 ---
 
 # KEGG Database (REST API) (Claude Skill)
@@ -21,6 +26,8 @@ KEGG REST API (academic only).
 | **Availability** | GA — part of the BixBench-evaluated SciAgent-Skills collection |
 | **Pricing** | Free / OSS (Non-academic use of KEGG requires a commercial) |
 | **Capabilities** | Read/Write — Claude runs the skill's Python locally (Bash), not as an MCP tool |
+| **Verified** | works · 2026-07-20 |
+| **Security** | caution · 2026-07-20 — skill CC BY 4.0 and provenance clear, but KEGG data requires a paid commercial license for non-academic use |
 
 ## How to install
 

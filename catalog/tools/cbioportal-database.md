@@ -8,6 +8,11 @@ availability: GA
 tool_categories: [Translational Medicine, Molecular and Cellular Biology]
 last_verified: 2026-06-11
 summary: "Cancer genomics (TCGA et al.) via cBioPortal REST API."
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches jaechang-hits SciAgent-Skills (CC BY 4.0 repo LICENSE); public cBioPortal REST queries, no risky patterns"
 ---
 
 # cBioPortal (Claude Skill)
@@ -21,6 +26,8 @@ Cancer genomics (TCGA et al.) via cBioPortal REST API.
 | **Availability** | GA — part of the BixBench-evaluated SciAgent-Skills collection |
 | **Pricing** | Free / OSS (AGPL-3.0) |
 | **Capabilities** | Read/Write — Claude runs the skill's Python locally (Bash), not as an MCP tool |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches supplier, CC BY 4.0 repo LICENSE, public cBioPortal queries, no OSV advisories |
 
 ## How to install
 
