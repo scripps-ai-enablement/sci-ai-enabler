@@ -4,6 +4,35 @@ Rolling, reverse-chronological log of catalog verification + security passes. Ea
 on-demand run that produces changes prepends a dated block; the top block is mirrored to the pinned
 "Verification updates" issue.
 
+## 2026-07-20 (bootstrap pass 6)
+
+Sixth bootstrap pass — 20 more unstamped entries: 15 K-Dense skill wrappers, the dual
+Skill+MCP `rowan` entry, the Anthropic-supplied `scvi-tools` skill (with K-Dense alt), and three
+K-Dense skills whose upstream license is unstated. All judgments grounded in sources fetched this
+run: the anchor repo `K-Dense-AI/scientific-agent-skills` (GitHub API — MIT, not archived, pushed
+2026-07-15) with per-slug `skills/<slug>` dir resolution; `anthropics/life-sciences` (GitHub API —
+not archived, pushed 2026-05-08) for `scvi-tools`; and PyPI `rowan-mcp` (v2.3.2, MIT) plus the
+`k-yenko/rowan-mcp` repo (no committed LICENSE) for `rowan`. Smoke clones still depend on `git`,
+absent from the sandbox image, so skill verification rests on the resolving subdir rather than a
+boot; noted per entry.
+
+### Verified
+- `pymoo`, `pydeseq2`, `pydicom`, `pyzotero`, `etetoolkit`, `histolab` → works — anchor repo + each `skills/<slug>` dir resolve.
+- `pathml`, `geniml`, `matchms`, `molfeat`, `pytorch-lightning`, `pytdc`, `pylabrobot`, `lamindb`, `medchem` → works — anchor repo + each `skills/<slug>` dir resolve.
+- `phylogenetics`, `gtars`, `pyhealth` → works — anchor repo + each `skills/<slug>` dir resolve (upstream license unstated; see Security).
+- `scvi-tools` → works — `anthropics/life-sciences` repo resolves (not archived, pushed 2026-05-08) and the K-Dense alt `skills/scvi-tools` dir resolves.
+- `rowan` → works — K-Dense `skills/rowan` dir resolves and `rowan-mcp` is on PyPI; both submit to the paid Rowan cloud platform and require `ROWAN_API_KEY` (free tier).
+
+### Fixed
+- None this run.
+
+### Security
+- cleared (16): `pymoo`, `pydeseq2`, `pydicom`, `pyzotero`, `etetoolkit`, `histolab`, `pathml`, `geniml`, `matchms`, `molfeat`, `pytorch-lightning`, `pytdc`, `pylabrobot`, `lamindb`, `medchem`, `scvi-tools` — provenance matches supplier, MIT/Anthropic collection wrapping OSI-licensed upstream (noted per entry), maintained, no OSV advisories via reachable sources.
+- caution (4): `phylogenetics`, `gtars`, `pyhealth` — K-Dense provenance clears but each skill's own upstream library license is unstated; `rowan` — K-Dense skill clears but the `k-yenko/rowan-mcp` repo publishes no LICENSE and the tool ships a user API key to an external cloud service.
+
+### Flagged
+- None broken.
+
 ## 2026-07-20 (bootstrap pass 5)
 
 Fifth bootstrap pass — 8 more unstamped K-Dense skill entries plus the `uniprot` MCP server. All

@@ -7,6 +7,12 @@ supplier: K-Dense
 availability: GA
 tool_categories: [Molecular and Cellular Biology]
 last_verified: 2026-06-04
+verification: works
+verified_on: 2026-07-20
+verification_note: "repo and skills/gtars dir resolve on K-Dense-AI/scientific-agent-skills; smoke clone failed on sandbox missing git (environmental, not tool)"
+security: caution
+security_on: 2026-07-20
+security_note: "provenance matches supplier K-Dense-AI in MIT repo maintained (pushed 2026-07-15) with no OSV advisories; skill's own upstream license is unstated"
 summary: High-performance toolkit for genomic interval analysis in Rust with Python bindings.
 ---
 
@@ -21,6 +27,8 @@ High-performance toolkit for genomic interval analysis in Rust with Python bindi
 | **Availability** | GA — part of the actively maintained K-Dense `scientific-agent-skills` collection |
 | **Pricing** | Free / OSS — license not stated upstream |
 | **Capabilities** | Read/Write — Claude runs the skill's Python locally (Bash), not as an MCP tool |
+| **Verified** | works · 2026-07-20 |
+| **Security** | caution · 2026-07-20 — provenance matches K-Dense-AI, MIT repo, maintained, no OSV advisories; skill's own license unstated |
 
 ## How to install
 

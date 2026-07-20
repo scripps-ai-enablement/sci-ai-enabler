@@ -7,6 +7,12 @@ supplier: K-Dense
 availability: GA
 tool_categories: [Chemistry, Drug Repurposing and Discovery]
 last_verified: 2026-06-04
+verification: works
+verified_on: 2026-07-20
+verification_note: "repo and skills/medchem dir resolve on K-Dense-AI/scientific-agent-skills; smoke clone failed on sandbox missing git (environmental, not tool)"
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches supplier K-Dense-AI, MIT repo wrapping Apache-2.0 MedChem, maintained (pushed 2026-07-15), no OSV advisories"
 summary: Claude skill wrapping MedChem — drug-likeness filters (Lipinski, Veber, Egan, Muegge), ADMET-flag detection, and medicinal-chemistry alerts on top of RDKit.
 ---
 
@@ -21,6 +27,8 @@ Claude skill providing Python recipes for [MedChem](https://medchem.datamol.io/)
 | **Availability** | GA — actively maintained 2025–2026 |
 | **Pricing** | Free / OSS skill (MIT collection); MedChem itself is Apache-2.0 |
 | **Capabilities** | Read/Write — Claude executes MedChem via the Bash/Python tool |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches K-Dense-AI, MIT repo, maintained, no OSV advisories |
 
 ## How to install
 

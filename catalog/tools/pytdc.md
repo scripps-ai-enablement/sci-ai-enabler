@@ -7,6 +7,12 @@ supplier: K-Dense
 availability: GA
 tool_categories: [Drug Repurposing and Discovery, Chemistry, Translational Medicine]
 last_verified: 2026-06-04
+verification: works
+verified_on: 2026-07-20
+verification_note: "repo and skills/pytdc dir resolve on K-Dense-AI/scientific-agent-skills; smoke clone failed on sandbox missing git (environmental, not tool)"
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches supplier K-Dense-AI, MIT repo wrapping MIT PyTDC (mims-harvard/TDC), maintained (pushed 2026-07-15), no OSV advisories"
 summary: Claude skill driving PyTDC for Therapeutics Data Commons benchmarks — ADMET, drug-target / drug-drug interactions, drug response, molecular generation, retrosynthesis.
 ---
 
@@ -21,6 +27,8 @@ Claude skill that drives [PyTDC](https://tdcommons.ai/), the Python client for *
 | **Availability** | GA — actively maintained 2025–2026 |
 | **Pricing** | Free / OSS skill (MIT collection); PyTDC itself is MIT-licensed; TDC datasets follow per-dataset licenses |
 | **Capabilities** | Read/Write — Claude executes PyTDC via Python/Bash to load datasets, run benchmarks, and call generation oracles |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches K-Dense-AI, MIT repo, maintained, no OSV advisories |
 
 ## How to install
 

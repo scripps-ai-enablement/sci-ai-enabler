@@ -7,6 +7,12 @@ supplier: K-Dense / Rowan
 availability: GA
 tool_categories: [Chemistry, Drug Repurposing and Discovery, Integrative Structural and Computational Biology]
 last_verified: 2026-06-10
+verification: works
+verified_on: 2026-07-20
+verification_note: "K-Dense skills/rowan dir resolves and rowan-mcp is on PyPI; both submit to the paid Rowan cloud platform and require ROWAN_API_KEY (free tier)"
+security: caution
+security_on: 2026-07-20
+security_note: "K-Dense skill provenance clears (MIT repo, maintained) but the k-yenko/rowan-mcp repo publishes no LICENSE and the tool ships a user API key to an external cloud service"
 summary: Cloud-native molecular modeling and medicinal-chemistry workflow platform, installable as a Claude Skill or an MCP server.
 ---
 
@@ -21,6 +27,8 @@ Rowan is a cloud-native molecular modeling and medicinal-chemistry workflow plat
 | **Availability** | GA — Skill is part of the actively maintained K-Dense collection; MCP published on PyPI as `rowan-mcp` |
 | **Pricing** | Free / OSS wrappers; Rowan API key required (free tier at labs.rowansci.com) |
 | **Capabilities** | Read/Write — submits cloud compute workflows to the Rowan platform |
+| **Verified** | works · 2026-07-20 |
+| **Security** | caution · 2026-07-20 — K-Dense skill clears but rowan-mcp repo has no LICENSE and the tool sends a user API key to an external cloud service |
 
 ## How to install
 

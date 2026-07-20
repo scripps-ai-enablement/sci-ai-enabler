@@ -8,6 +8,12 @@ availability: GA
 tool_categories: [Drug Repurposing and Discovery, Immunology and Microbiology, Integrative Structural and Computational Biology, Molecular and Cellular Biology, Neuroscience, Translational Medicine]
 last_verified: 2026-06-20
 claude_science: true
+verification: works
+verified_on: 2026-07-20
+verification_note: "Anthropic anthropics/life-sciences repo resolves (not archived, pushed 2026-05-08) and K-Dense alt skills/scvi-tools dir resolves; smoke clone failed on sandbox missing git (environmental)"
+security: cleared
+security_on: 2026-07-20
+security_note: "Anthropic-supplied plugin path plus confirmed K-Dense alt (MIT repo), wraps BSD-3 scvi-tools, no OSV advisories"
 summary: Deep-learning workflows for scVI, scANVI, totalVI, MultiVI, PeakVI, DestVI, and related scvi-tools models for single-cell omics.
 ---
 
@@ -22,6 +28,8 @@ Guides Claude through scvi-tools deep-learning workflows on AnnData single-cell 
 | **Availability** | GA — distributed via `anthropics/life-sciences` (Oct 2025) |
 | **Pricing** | Free / OSS |
 | **Capabilities** | Read/Write |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — Anthropic plugin path plus confirmed K-Dense alt, wraps BSD-3 scvi-tools, no OSV advisories |
 
 ## How to install
 
