@@ -4,6 +4,29 @@ Rolling, reverse-chronological log of catalog verification + security passes. Ea
 on-demand run that produces changes prepends a dated block; the top block is mirrored to the pinned
 "Verification updates" issue.
 
+## 2026-07-20 (maintenance recheck pass 3 — bootstrap complete)
+
+Third post-enumeration cadence recheck of the open degraded/broken/flagged tail, plus two
+staleness-cadence caution items. Re-fetched every priority item live this run; none changed grade.
+Only edit is an evidence refresh on `openneuro` (now a fourth consecutive 404 run). All 440 pages
+carry `^verification:`.
+
+### Verified
+- openneuro — broken/caution/flagged (unchanged grade; note refreshed). `api.github.com/repos/QuentinCody/open-neuro-mcp-server`
+  and the hosted `open-neuro-mcp-server.quentincody.workers.dev/sse` endpoint both 404 again — fourth
+  consecutive 404 run. Bumped verification_note + flagged field + Verified table row from "third" to
+  "fourth consecutive run". Curator: strong signal to remove or replace the entry.
+- glygen — degraded/caution (unchanged). Hosted `mcp.glygen.org/mcp` still 503 this run.
+- open-targets — degraded/caution (unchanged). Official source repo `opentargets/platform-mcp` still
+  Apache-2.0, not archived, pushed 2026-07-01; official endpoint still untestable via GET WebFetch.
+- covasyn — degraded/caution (unchanged). npm `@covasyn/mcp-client` still 0 results on the registry search.
+- morning — degraded/unknown (unchanged). Still no `morning` dir in `anthropics/skills/skills/` (17 dirs listed, none named morning).
+- scanpy — works/caution (unchanged). `scmcphub/scanpy-mcp` BSD-3, pushed 2025-06-27 (~13mo stale); note already accurate.
+- blast — works/caution (unchanged). `bio-mcp/bio-mcp-blast` license null, pushed 2025-06-29; note already accurate.
+
+### Flagged
+- openneuro — flagged field refreshed to cite four consecutive 404 runs (repo + hosted endpoint); strong hand-off signal to curator for removal/replacement.
+
 ## 2026-07-20 (maintenance recheck pass 2 — bootstrap complete)
 
 Second post-enumeration cadence recheck of the open degraded/broken/flagged tail. Re-fetched the
