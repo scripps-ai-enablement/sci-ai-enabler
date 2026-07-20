@@ -7,6 +7,12 @@ supplier: Seqera Labs
 availability: GA
 tool_categories: [Molecular and Cellular Biology, Immunology and Microbiology, Integrative Structural and Computational Biology]
 last_verified: 2026-07-04
+verification: works
+verified_on: 2026-07-20
+verification_note: "official Seqera docs confirm the hosted endpoint mcp.seqera.io/mcp as current; functional connect is OAuth/account-gated so verified via primary-source docs not a live tool call"
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches supplier Seqera Labs (official docs.seqera.io documents the endpoint), hosted vendor service; write-capable (launches compute) so treat runs as cost-incurring"
 summary: Hosted MCP server for launching and managing Nextflow/nf-core pipelines on the Seqera Platform and retrieving public SRA/ENA/GEO sequencing data.
 ---
 
@@ -21,6 +27,8 @@ Official hosted MCP server from Seqera Labs (the team behind Nextflow) that lets
 | **Availability** | GA — endpoint live at `https://mcp.seqera.io/mcp` |
 | **Pricing** | Free / OSS client access; a Seqera Platform account is required (Seqera has a free Cloud/Community tier; paid Pro/Enterprise tiers for larger compute) |
 | **Capabilities** | Read/Write — launches and manages compute workflows on your Seqera account |
+| **Verified** | works · 2026-07-20 — official docs confirm mcp.seqera.io/mcp endpoint (OAuth-gated) |
+| **Security** | cleared · 2026-07-20 — provenance matches Seqera Labs official docs, hosted vendor service, write-capable |
 
 ## How to install
 

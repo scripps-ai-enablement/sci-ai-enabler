@@ -8,6 +8,11 @@ supplier: Jonas Rackl
 availability: GA
 tool_categories: [Chemistry, Drug Repurposing and Discovery]
 last_verified: 2026-07-18
+verification: works
+verified_on: 2026-07-20
+security: caution
+security_on: 2026-07-20
+security_note: "PyPI labmate-mcp 7.3.1 MIT + GitHub JonasRackl/labmate-mcp MIT resolve (author matches supplier), no OSV advisories, but single-maintainer (2 stars) and a few tools call free third-party APIs via labmate-mcp --setup"
 summary: One-install cheminformatics MCP with 81 tools — retrosynthesis, forward/ADMET/pKa/NMR prediction, 202 named reactions, reagent calculators, compound and literature lookup.
 ---
 
@@ -22,6 +27,8 @@ A single MCP server that gives Claude a chemistry-focused research workbench —
 | **Availability** | GA — PyPI `labmate-mcp` v7.3.1 (released 2026-02-02) |
 | **Pricing** | Free / OSS (MIT) |
 | **Capabilities** | Read-only — computation, prediction, and database lookup; no lab-instrument writes |
+| **Verified** | works · 2026-07-20 |
+| **Security** | caution · 2026-07-20 — PyPI labmate-mcp 7.3.1 MIT + GitHub MIT resolve, no OSV advisories, single-maintainer (2 stars) + optional free third-party API keys |
 
 ## How to install
 

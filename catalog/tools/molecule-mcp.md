@@ -7,6 +7,11 @@ supplier: chatmol
 availability: GA
 tool_categories: [Chemistry, Integrative Structural and Computational Biology, Drug Repurposing and Discovery]
 last_verified: 2026-06-27
+verification: works
+verified_on: 2026-07-20
+security: caution
+security_on: 2026-07-20
+security_note: "provenance matches supplier chatmol (ChatMol/molecule-mcp MIT, not archived), no OSV advisories, but single-maintainer and stale (last push 2025-04-20)"
 summary: MCP bundle letting Claude drive PyMOL and ChimeraX visualization and run GROMACS molecular dynamics simulations via natural language.
 ---
 
@@ -21,6 +26,8 @@ Bundle of three MCP servers that turn Claude into a natural-language driver for 
 | **Availability** | GA |
 | **Pricing** | Free / OSS (MIT) |
 | **Capabilities** | Read/Write |
+| **Verified** | works · 2026-07-20 |
+| **Security** | caution · 2026-07-20 — ChatMol/molecule-mcp MIT, provenance matches, no OSV advisories, single-maintainer + stale (2025-04-20) |
 
 ## How to install
 

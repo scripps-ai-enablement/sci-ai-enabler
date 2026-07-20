@@ -7,6 +7,11 @@ supplier: SciTeX
 availability: Beta
 tool_categories: [Neuroscience]
 last_verified: 2026-06-28
+verification: works
+verified_on: 2026-07-20
+security: caution
+security_on: 2026-07-20
+security_note: "PyPI scitex 2.30.8 AGPL-3.0-only resolves (author scitex.ai matches supplier SciTeX), no OSV advisories, but single-maintainer and strong AGPL copyleft to weigh for reuse"
 summary: MCP server giving Claude a unified search across OpenNeuro, DANDI, PhysioNet, and Zenodo for BIDS/NWB neuroscience datasets.
 ---
 
@@ -21,6 +26,8 @@ MCP server that lets Claude discover and search neuroscience datasets across Ope
 | **Availability** | Beta (v2.30.2, released 2026-06-20) |
 | **Pricing** | Free / OSS — AGPL-3.0-only |
 | **Capabilities** | Read-only — queries public dataset-repository APIs |
+| **Verified** | works · 2026-07-20 |
+| **Security** | caution · 2026-07-20 — PyPI scitex 2.30.8 AGPL-3.0-only resolves, provenance matches, no OSV advisories, single-maintainer + AGPL copyleft |
 
 ## How to install
 

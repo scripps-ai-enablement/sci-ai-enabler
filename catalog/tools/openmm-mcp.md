@@ -7,6 +7,11 @@ supplier: PhelanShao (community OSS)
 availability: GA
 tool_categories: [Integrative Structural and Computational Biology, Drug Repurposing and Discovery]
 last_verified: 2026-06-20
+verification: works
+verified_on: 2026-07-20
+security: caution
+security_on: 2026-07-20
+security_note: "provenance matches supplier PhelanShao, no OSV advisories, but GitHub license classifier reports NOASSERTION while page claims GPLv3, single-maintainer + stale (last push 2025-05-31)"
 summary: MCP server that sets up and runs OpenMM molecular dynamics simulations (protein, membrane, advanced sampling) and Abacus DFT jobs from natural language.
 ---
 
@@ -21,6 +26,8 @@ MCP server that lets Claude configure, launch, monitor, and analyze OpenMM molec
 | **Availability** | GA — published on GitHub; stdio MCP server |
 | **Pricing** | Free / OSS (GPLv3); OpenMM is MIT |
 | **Capabilities** | Read/Write — writes simulation inputs and runs MD/DFT jobs on the host |
+| **Verified** | works · 2026-07-20 |
+| **Security** | caution · 2026-07-20 — PhelanShao/openmm-mcp-server resolves, no OSV advisories, NOASSERTION license vs GPLv3 claim, single-maintainer + stale (2025-05-31) |
 
 ## How to install
 

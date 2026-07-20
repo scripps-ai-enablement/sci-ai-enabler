@@ -7,6 +7,12 @@ supplier: Sage Bionetworks
 availability: GA
 tool_categories: [All]
 last_verified: 2026-05-20
+verification: works
+verified_on: 2026-07-20
+verification_note: "synapse plugin dir confirmed in the anthropics/life-sciences marketplace repo and endpoint is on Sage's mcp.synapse.org; functional connect is OAuth/account-gated so verified via primary source not a live call"
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches supplier Sage Bionetworks (endpoint on synapse.org, plugin in official marketplace); hosted connector, per-project governance controls apply and Synapse ToS restrict redistribution"
 summary: Discovery and metadata retrieval across Synapse-hosted biomedical datasets and consortium projects.
 ---
 
@@ -21,6 +27,8 @@ Discover Synapse projects, browse data-asset structure, and retrieve metadata fo
 | **Availability** | GA — released with the Claude for Life Sciences launch (Oct 2025) |
 | **Pricing** | Free / OSS — requires a free Synapse account; some datasets require governance approval |
 | **Capabilities** | Read-only |
+| **Verified** | works · 2026-07-20 — synapse plugin confirmed in anthropics/life-sciences marketplace, endpoint on mcp.synapse.org (OAuth-gated) |
+| **Security** | cleared · 2026-07-20 — provenance matches Sage Bionetworks; hosted connector, per-project governance + ToS restrictions |
 
 ## How to install
 

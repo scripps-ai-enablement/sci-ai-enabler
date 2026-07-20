@@ -7,6 +7,12 @@ supplier: Wiley
 availability: Beta
 tool_categories: [All]
 last_verified: 2026-05-20
+verification: works
+verified_on: 2026-07-20
+verification_note: "wiley-scholar-gateway plugin dir confirmed in the anthropics/life-sciences marketplace repo; functional connect is OAuth/account-gated so verified via primary-source marketplace not a live call"
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches supplier Wiley via the official anthropics/life-sciences marketplace; hosted closed-source vendor connector (connector.scholargateway.ai) with no client source to assess but clear ownership"
 summary: Wiley remote connector for peer-reviewed scholarly content — 3M+ articles, 300+ Life Sciences journals.
 ---
 
@@ -21,6 +27,8 @@ Search Wiley's Scholar Gateway corpus and retrieve scholarly article metadata, a
 | **Availability** | Beta — released alongside Claude for Life Sciences (Oct 2025) |
 | **Pricing** | Free / OSS — requires a free Scholar Gateway account |
 | **Capabilities** | Read-only |
+| **Verified** | works · 2026-07-20 — wiley-scholar-gateway plugin confirmed in anthropics/life-sciences marketplace (OAuth-gated) |
+| **Security** | cleared · 2026-07-20 — provenance matches Wiley via official marketplace; hosted closed-source vendor connector |
 
 ## How to install
 

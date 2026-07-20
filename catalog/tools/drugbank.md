@@ -7,6 +7,11 @@ supplier: openpharma-org (community)
 availability: GA
 tool_categories: [Drug Repurposing and Discovery, Chemistry, Translational Medicine]
 last_verified: 2026-06-21
+verification: works
+verified_on: 2026-07-20
+security: caution
+security_on: 2026-07-20
+security_note: "openpharma-org/drugbank-mcp-server repo resolves (not archived, pushed 2026-05-07), no OSV advisories, but it is an unofficial community wrapper (not affiliated with DrugBank), GitHub license classifier is null, and it requires user-supplied license-gated DrugBank data"
 summary: Community MCP server exposing a local DrugBank SQLite (17k+ drugs) with 16 query methods for repurposing, target lookup, interactions, and structural similarity.
 ---
 
@@ -21,6 +26,8 @@ Community MCP server that loads the DrugBank database into a local SQLite store 
 | **Availability** | GA — stable single-commit release |
 | **Pricing** | MIT-licensed server; **DrugBank data requires a separate user-supplied license** (academic or commercial) |
 | **Capabilities** | Read-only — local SQLite over 17,430 drugs (small molecules plus biologics) |
+| **Verified** | works · 2026-07-20 |
+| **Security** | caution · 2026-07-20 — repo resolves, no OSV advisories, but unofficial community wrapper, license classifier null, license-gated DrugBank data |
 
 ## How to install
 

@@ -7,6 +7,11 @@ supplier: AWS Labs
 availability: GA
 tool_categories: [Translational Medicine]
 last_verified: 2026-07-19
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "PyPI awslabs.healthlake-mcp-server 0.0.16 Apache-2.0 resolves (author AWS Labs matches supplier), maintained (2026-05-09), no OSV advisories; write-capable and touches PHI so use --readonly and a BAA"
 summary: Apache-2.0 MCP server for AWS HealthLake FHIR datastores — CRUD, advanced search, patient-everything, and import/export jobs, with a read-only safety mode.
 ---
 
@@ -21,6 +26,8 @@ Open-source MCP server that connects Claude to AWS HealthLake FHIR datastores fo
 | **Availability** | GA — distributed on PyPI as `awslabs.healthlake-mcp-server` (Apache-2.0) |
 | **Pricing** | Free / OSS (Apache-2.0). Requires an AWS account; AWS HealthLake usage is billed by AWS, and FHIR data is HIPAA-eligible on AWS. |
 | **Capabilities** | Read/Write — full FHIR R4 CRUD, search, and bulk import/export; `--readonly` flag blocks all mutating operations |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — PyPI awslabs.healthlake-mcp-server 0.0.16 Apache-2.0, provenance matches AWS Labs, maintained, no OSV advisories; PHI/write-capable |
 
 ## How to install
 

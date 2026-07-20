@@ -7,6 +7,11 @@ supplier: Stanislav Jiříček
 availability: Beta
 tool_categories: [Neuroscience]
 last_verified: 2026-07-19
+verification: works
+verified_on: 2026-07-20
+security: caution
+security_on: 2026-07-20
+security_note: "provenance matches supplier (stanislavjiricek/neuroflow MIT, not archived, pushed 2026-06-04), no OSV advisories, but early Beta v0.2.x single-maintainer (6 stars) community plugin that bundles its own MCP"
 summary: End-to-end Claude Code plugin for neuroscience research — ideation, grant writing, experiment design, data analysis, computational brain modeling, and paper drafting.
 ---
 
@@ -21,6 +26,8 @@ A Claude Code plugin that orchestrates a full neuroscience research project — 
 | **Availability** | Beta — v0.2.20 |
 | **Pricing** | Free / OSS (MIT) |
 | **Capabilities** | Read/Write — runs slash-command workflows locally; bundles a literature-search MCP server |
+| **Verified** | works · 2026-07-20 |
+| **Security** | caution · 2026-07-20 — stanislavjiricek/neuroflow MIT, provenance matches, no OSV advisories, early Beta single-maintainer (6 stars) |
 
 ## How to install
 

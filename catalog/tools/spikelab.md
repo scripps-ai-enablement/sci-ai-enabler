@@ -7,6 +7,11 @@ supplier: Braingeneers
 availability: Beta
 tool_categories: [Neuroscience]
 last_verified: 2026-06-14
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "PyPI spikelab 0.1.2 MIT + GitHub braingeneers/SpikeLab MIT resolve (provenance matches), maintained (pushed 2026-07-02), no OSV advisories; note sorters can offload to remote Kubernetes"
 summary: Agent-skill suite for multi-electrode-array spike-train analysis and spike sorting (Kilosort2/4, RT-Sort), with an optional built-in MCP server.
 ---
 
@@ -21,6 +26,8 @@ A suite of computational-neuroscience agent skills for loading, sorting, analyzi
 | **Availability** | Beta — bioRxiv preprint posted 2026-04-25 |
 | **Pricing** | Free / OSS (MIT) |
 | **Capabilities** | Read/Write — Claude runs the skills' Python locally (Bash); the sorter writes results, the educator skill is read-only |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — PyPI spikelab 0.1.2 MIT + GitHub braingeneers MIT, provenance matches, maintained (2026-07-02), no OSV advisories |
 
 ## How to install
 

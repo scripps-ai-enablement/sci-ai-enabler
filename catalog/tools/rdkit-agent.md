@@ -7,6 +7,11 @@ supplier: scottmreed
 availability: Alpha
 tool_categories: [Chemistry, Drug Repurposing and Discovery]
 last_verified: 2026-07-11
+verification: works
+verified_on: 2026-07-20
+security: caution
+security_on: 2026-07-20
+security_note: "npm rdkit-agent 0.1.1 MIT (maintainer scottreed matches supplier) and GitHub repo resolves, no OSV advisories, but Alpha v0.1.x single-maintainer (9 stars) and GitHub license classifier null"
 summary: WASM-based cheminformatics CLI, Node library, and MCP server that validates, converts, and analyzes SMILES/SMIRKS/InChI with no Python runtime.
 ---
 
@@ -21,6 +26,8 @@ Agent-first cheminformatics toolkit powered by RDKit compiled to WebAssembly —
 | **Availability** | Alpha — npm `rdkit-agent` v0.1.1, published 2026-03-16 |
 | **Pricing** | Free / OSS (MIT) |
 | **Capabilities** | Read/Write — read-only chemistry analysis; writes SVG/PNG images and edited structures |
+| **Verified** | works · 2026-07-20 |
+| **Security** | caution · 2026-07-20 — npm rdkit-agent 0.1.1 MIT + GitHub resolve, no OSV advisories, Alpha single-maintainer (9 stars) |
 
 ## How to install
 

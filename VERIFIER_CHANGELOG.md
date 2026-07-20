@@ -4,6 +4,58 @@ Rolling, reverse-chronological log of catalog verification + security passes. Ea
 on-demand run that produces changes prepends a dated block; the top block is mirrored to the pinned
 "Verification updates" issue.
 
+## 2026-07-20 (bootstrap pass 26)
+
+Twenty-sixth bootstrap pass — **15 pages stamped**, a mixed standalone MCP / plugin / connector
+batch of unstamped non-K-Dense / non-SciAgent pages. Each judgment grounded in a source fetched this
+run (GitHub repo API, npm registry, PyPI JSON, official docs, or the `anthropics/life-sciences`
+marketplace); advisory checks via GitHub `security-advisories` (GET, all empty) since OSV is
+POST-only. 6 works/cleared, 7 works/caution, 2 degraded. No smoke run for these. Stamped strictly
+sequentially (read-then-two-single-Edits per file).
+
+### Verified
+- rdkit-mcp — works. `tandemai-inc/rdkit-mcp-server` MIT, pushed 2026-05-04, advisories empty.
+- spikelab — works. PyPI `spikelab` 0.1.2 MIT + `braingeneers/SpikeLab` MIT pushed 2026-07-02.
+- seqera — works. Official docs.seqera.io confirm hosted endpoint `mcp.seqera.io/mcp` (OAuth-gated).
+- healthlake-mcp — works. PyPI `awslabs.healthlake-mcp-server` 0.0.16 Apache-2.0 (AWS Labs), 2026-05-09.
+- scholar-gateway — works. `wiley-scholar-gateway` dir confirmed in `anthropics/life-sciences`
+  marketplace (OAuth-gated).
+- synapse — works. `synapse` dir confirmed in same marketplace; endpoint on Sage's mcp.synapse.org.
+- molecule-mcp — works. `ChatMol/molecule-mcp` MIT (stale, last push 2025-04-20).
+- openmm-mcp — works. `PhelanShao/openmm-mcp-server` resolves (stale 2025-05-31).
+- rdkit-agent — works. npm `rdkit-agent` 0.1.1 MIT + GitHub resolve (Alpha, 9 stars).
+- labmate-mcp — works. PyPI `labmate-mcp` 7.3.1 MIT + `JonasRackl/labmate-mcp` MIT (2 stars).
+- scitex — works. PyPI `scitex` 2.30.8 AGPL-3.0-only.
+- drugbank — works. `openpharma-org/drugbank-mcp-server` resolves (unofficial wrapper).
+- neuroflow — works. `stanislavjiricek/neuroflow` MIT, pushed 2026-06-04 (early Beta, 6 stars).
+- novomcp — degraded. Site loads but MCP endpoints API-key/application-gated (research preview).
+- cortellis — degraded. Plugin dir confirmed in `anthropics/life-sciences` but Clarivate-subscription-gated.
+
+### Fixed
+- None this run.
+
+### Flagged
+- novomcp — verification degraded + security unknown: closed-source hosted SaaS (Quant NexusAI), no
+  published client source or license, endpoints application-gated.
+- cortellis — verification degraded + security caution: closed-source commercial connector,
+  subscription-gated data, and Clarivate exploring a sale of its Life Sciences & Healthcare segment.
+- drugbank — security caution: unofficial community wrapper (not affiliated with DrugBank), GitHub
+  license classifier null, requires user-supplied license-gated DrugBank data.
+- molecule-mcp, openmm-mcp, rdkit-agent, labmate-mcp, scitex, neuroflow — security caution: each a
+  single-maintainer and/or stale and/or license-signal risk (see verifier-state Flagged for detail).
+  All verification works.
+
+### Security
+- 6 cleared: rdkit-mcp, spikelab, seqera, healthlake-mcp, scholar-gateway, synapse — provenance
+  matches supplier, permissive/Apache licenses, maintained, no advisories. seqera/healthlake are
+  write-capable (healthlake handles PHI — use --readonly + a signed BAA); no provenance concern.
+- 7 caution + 2 degraded — see Flagged.
+
+### Deferred
+- ~55 catalog pages remain unstamped after this run. Remaining standalone MCP servers (`blast`,
+  scmcphub `scanpy`/`decoupler-mcp`/`liana-mcp`/`cellrank-mcp`) and any other non-K-Dense/non-SciAgent
+  pages surfaced by an LS sweep of `catalog/tools/` are the next priority.
+
 ## 2026-07-20 (bootstrap pass 25)
 
 Twenty-fifth bootstrap pass — **28 pages stamped**. Two groups. First, the **NeuroClaw remainder +

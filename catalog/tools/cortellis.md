@@ -7,6 +7,12 @@ supplier: Clarivate
 availability: GA
 tool_categories: [Drug Repurposing and Discovery, Translational Medicine]
 last_verified: 2026-06-07
+verification: degraded
+verified_on: 2026-07-20
+verification_note: "cortellis plugin dir confirmed in the anthropics/life-sciences marketplace repo, but the underlying Cortellis MCP data is behind a commercial Clarivate subscription so functional use is not verifiable without an entitled account"
+security: caution
+security_on: 2026-07-20
+security_note: "provenance matches supplier Clarivate via the official marketplace, but closed-source commercial connector and Clarivate announced (Feb 2026) it is exploring a sale of its Life Sciences and Healthcare segment introducing ownership uncertainty"
 summary: Clarivate Cortellis MCP plugin surfacing global drug-pipeline, clinical-trial, regulatory, safety, and deals intelligence to Claude for competitive scouting and regulatory work.
 ---
 
@@ -21,6 +27,8 @@ Anthropic-packaged Claude Code plugin that wraps Clarivate's Cortellis MCP serve
 | **Availability** | GA in the `life-sciences` marketplace; Cortellis Regulatory Intelligence MCP announced March 10, 2026 |
 | **Pricing** | Commercial — requires an active Cortellis subscription; plugin install is free |
 | **Capabilities** | Read-only |
+| **Verified** | degraded · 2026-07-20 — plugin resolves in anthropics/life-sciences but data is Clarivate-subscription-gated |
+| **Security** | caution · 2026-07-20 — provenance matches Clarivate via official marketplace, closed-source, ownership uncertainty (Clarivate exploring LS&H sale) |
 
 ## How to install
 

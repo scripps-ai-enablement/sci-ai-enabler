@@ -7,6 +7,11 @@ supplier: TandemAI
 availability: GA
 tool_categories: [Chemistry, Drug Repurposing and Discovery]
 last_verified: 2026-06-13
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches supplier TandemAI (tandemai-inc/rdkit-mcp-server MIT, not archived), maintained (pushed 2026-05-04), no OSV advisories"
 summary: MCP server exposing the full RDKit API as discrete tool calls so Claude can run cheminformatics without executing Python locally.
 ---
 
@@ -21,6 +26,8 @@ MCP server that exposes the full RDKit 2025.3.1 surface as discrete tool calls �
 | **Availability** | GA — targets RDKit 2025.3.1, actively developed |
 | **Pricing** | Free / OSS (MIT) |
 | **Capabilities** | Read/Write |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — tandemai-inc/rdkit-mcp-server MIT, provenance matches, maintained (2026-05-04), no OSV advisories |
 
 Clone, install dependencies, and verify the server starts:
 
