@@ -12,7 +12,7 @@ verification: works
 verified_on: 2026-07-20
 security: cleared
 security_on: 2026-07-20
-security_note: "provenance matches blazickjp, GitHub Apache-2.0 and PyPI arxiv-mcp-server v0.5.0 present, no OSV advisories"
+security_note: "provenance matches blazickjp, GitHub Apache-2.0 and PyPI arxiv-mcp-server v0.5.1 present, no OSV advisories"
 summary: Search and retrieve arXiv preprints (incl. q-bio) and metadata; part of the Literature Graph connector in Claude Science.
 ---
 
