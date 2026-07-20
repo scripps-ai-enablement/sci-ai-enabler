@@ -4,6 +4,26 @@ Rolling, reverse-chronological log of catalog verification + security passes. Ea
 on-demand run that produces changes prepends a dated block; the top block is mirrored to the pinned
 "Verification updates" issue.
 
+## 2026-07-20 (maintenance recheck pass 2 — bootstrap complete)
+
+Second post-enumeration cadence recheck of the open degraded/broken/flagged tail. Re-fetched the
+five priority items live this run; none changed grade. Only edit is an evidence refresh on
+`openneuro` (now a third consecutive 404 run). All 440 pages carry `^verification:`.
+
+### Verified
+- openneuro — broken/caution/flagged (unchanged grade; note refreshed). `api.github.com/repos/QuentinCody/open-neuro-mcp-server`
+  and the hosted `open-neuro-mcp-server.quentincody.workers.dev/sse` endpoint both 404 again — third
+  consecutive 404 run. Bumped verification_note + flagged field + Verified table row from "second" to
+  "third consecutive run". Curator: remove or replace the entry.
+- glygen — degraded/caution (unchanged). Hosted `mcp.glygen.org/mcp` still 503 this run.
+- open-targets — degraded/caution (unchanged). Official source repo `opentargets/platform-mcp` still
+  Apache-2.0, not archived, pushed 2026-07-01; official endpoint still untestable via GET WebFetch.
+- covasyn — degraded/caution (unchanged). npm `@covasyn/mcp-client` still 0 results on the registry search.
+- morning — degraded/unknown (unchanged). Still no `morning` dir in `anthropics/skills/skills/` (17 dirs listed, none named morning).
+
+### Flagged
+- openneuro — flagged field refreshed to cite three consecutive 404 runs (repo + hosted endpoint); hand off to curator for removal/replacement.
+
 ## 2026-07-20 (maintenance recheck — bootstrap complete)
 
 First post-enumeration maintenance recheck of the degraded/flagged tail (all 440 pages already carry
