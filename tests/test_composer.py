@@ -33,6 +33,33 @@ _spec = importlib.util.spec_from_file_location("build_index", REPO / "scripts" /
 build_index = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(build_index)
 
+# Import the Verifier's deterministic worklist selector the same way.
+_vspec = importlib.util.spec_from_file_location(
+    "select_verify_targets", REPO / "scripts" / "select_verify_targets.py")
+select_verify_targets = importlib.util.module_from_spec(_vspec)
+_vspec.loader.exec_module(select_verify_targets)
+
+
+class TestVerifyWorklist(unittest.TestCase):
+    """Guards the Verifier enumeration blind spot: the deterministic worklist must
+    see EVERY tool page (the agent must not self-enumerate) and order unstamped first."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.rows = select_verify_targets.worklist(REPO / "catalog" / "tools")
+
+    def test_covers_every_tool_page(self):
+        on_disk = [p for p in (REPO / "catalog" / "tools").glob("*.md") if p.name != "index.md"]
+        self.assertEqual(len(self.rows), len(on_disk),
+                         "worklist misses tool pages — the exact bug that stranded 7 entries")
+        self.assertEqual({r["slug"] for r in self.rows}, {p.stem for p in on_disk})
+
+    def test_unstamped_sorted_before_stamped(self):
+        stamped_flags = [r["stamped"] for r in self.rows]
+        # once we hit a stamped entry, no unstamped may follow
+        self.assertEqual(stamped_flags, sorted(stamped_flags),
+                         "unstamped entries must come first so bootstrap always drains them")
+
 
 def write_page(path: Path, frontmatter: dict, body: str) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)

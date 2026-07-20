@@ -110,6 +110,10 @@ jobs:
           COUNT="${COUNT_IN:-25}"
           case "$COUNT" in ''|*[!0-9]*) COUNT=25 ;; esac
           [ -f .verify/smoke-results.json ] || echo '{"results":[]}' > .verify/smoke-results.json
+          # Deterministic worklist: the agent must NOT enumerate the tree itself
+          # (that missed 7 pages for dozens of runs). This script is the single
+          # source of truth for which pages to stamp, unstamped-first.
+          python3 scripts/select_verify_targets.py --count "${COUNT}" --out .verify/worklist.md
           {
             cat VERIFIER_AGENT.md
             echo ""
@@ -120,6 +124,8 @@ jobs:
             echo "- scope: ${SCOPE}"
             echo "- count budget: ${COUNT}"
             echo "- smoke results: .verify/smoke-results.json (read it for boot verdicts)"
+            echo ""
+            cat .verify/worklist.md
           } > .run-prompt.md
 
       - uses: anthropics/claude-code-base-action@e8132bc5e637a42c27763fc757faa37e1ee43b34
