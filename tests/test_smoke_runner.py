@@ -16,7 +16,9 @@ Pure standard library. Run: python3 -m unittest discover -s tests
 from __future__ import annotations
 
 import importlib.util
+import json
 import os
+import subprocess
 import sys
 import tempfile
 import textwrap
@@ -147,6 +149,26 @@ class ToolchainDetection(unittest.TestCase):
                 self.assertFalse(runner._needs_toolchain(log))
 
 
+class RunTimeoutHandling(unittest.TestCase):
+    """A timed-out install must not crash the batch (bytes/str/None output)."""
+
+    def test_text_normalises_all_chunk_types(self):
+        self.assertEqual(runner._text(None), "")
+        self.assertEqual(runner._text("abc"), "abc")
+        self.assertEqual(runner._text(b"ab\xff"), "ab�")  # replace bad byte
+
+    def test_timeout_returns_none_rc_without_crashing(self):
+        # Regression: TimeoutExpired used to hand back bytes partial output that
+        # crashed with "can't concat str to bytes". It must return cleanly.
+        cmd = f'{sys.executable} -c "import time,sys; sys.stdout.write(chr(120)); sys.stdout.flush(); time.sleep(5)"'
+        rc, log = runner._run(cmd, self.dir, dict(os.environ), 1)
+        self.assertIsNone(rc)
+        self.assertIn("[timeout]", log)
+
+    def setUp(self):
+        self.dir = tempfile.mkdtemp(prefix="run_")
+
+
 class MergeResults(unittest.TestCase):
     def test_retried_outcomes_overlay_in_order(self):
         prior = [
@@ -158,6 +180,32 @@ class MergeResults(unittest.TestCase):
         merged = runner._merge_results(prior, retried)
         self.assertEqual([r["slug"] for r in merged], ["a", "b", "c"])
         self.assertEqual([r["status"] for r in merged], ["pass", "pass", "install_error"])
+
+
+class RetryDowngrade(unittest.TestCase):
+    """In retry mode, a target that still won't install becomes skipped."""
+
+    def test_residual_failure_becomes_skipped_others_untouched(self):
+        d = tempfile.mkdtemp(prefix="retry_")
+        prior = {"gate": "safe-subset-v1", "results": [
+            {"slug": "good", "install_cmd": "x", "boot_cmd": None,
+             "status": "pass", "log": ""},
+            {"slug": "heavy",
+             "install_cmd": f'{sys.executable} -c "import sys; sys.exit(1)"',
+             "boot_cmd": None, "status": "needs_toolchain", "log": "gcc missing"},
+        ]}
+        pf = Path(d) / "prior.json"
+        pf.write_text(json.dumps(prior), encoding="utf-8")
+        of = Path(d) / "out.json"
+        subprocess.run(
+            [sys.executable, str(SCRIPT), "--retry-from-results", str(pf),
+             "--out", str(of), "--install-timeout", "10"],
+            check=True, capture_output=True,
+        )
+        res = {r["slug"]: r for r in json.loads(of.read_text())["results"]}
+        self.assertEqual(res["good"]["status"], "pass")      # not retried, untouched
+        self.assertEqual(res["heavy"]["status"], "skipped")  # residual failure downgraded
+        self.assertIn("heavier build environment", res["heavy"]["log"])
 
 
 if __name__ == "__main__":

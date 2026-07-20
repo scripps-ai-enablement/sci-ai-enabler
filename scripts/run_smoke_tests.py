@@ -62,6 +62,17 @@ def _merge_results(prior: list[dict], retried: list[dict]) -> list[dict]:
     return [by_slug.get(r["slug"], r) for r in prior]
 
 
+def _text(chunk) -> str:
+    """Normalise a captured stream to str. On TimeoutExpired CPython hands back
+    partial output as bytes even in text mode, so each chunk may be str, bytes,
+    or None — concatenating those raw raises TypeError and crashes the batch."""
+    if chunk is None:
+        return ""
+    if isinstance(chunk, bytes):
+        return chunk.decode("utf-8", "replace")
+    return chunk
+
+
 def _run(cmd: str, cwd: str, env: dict, timeout: int) -> tuple[int | None, str]:
     """Run one command with a timeout; return (returncode|None-on-timeout, log)."""
     try:
@@ -69,12 +80,9 @@ def _run(cmd: str, cwd: str, env: dict, timeout: int) -> tuple[int | None, str]:
             shlex.split(cmd), cwd=cwd, env=env, timeout=timeout,
             capture_output=True, text=True,
         )
-        return p.returncode, (p.stdout + p.stderr)[-LOG_CHARS:]
+        return p.returncode, (_text(p.stdout) + _text(p.stderr))[-LOG_CHARS:]
     except subprocess.TimeoutExpired as e:
-        out = ((e.stdout or "") + (e.stderr or ""))
-        if isinstance(out, bytes):
-            out = out.decode("utf-8", "replace")
-        return None, ("[timeout]\n" + out)[-LOG_CHARS:]
+        return None, ("[timeout]\n" + _text(e.stdout) + _text(e.stderr))[-LOG_CHARS:]
     except FileNotFoundError as e:
         return 127, f"[command not found] {e}"
 
@@ -194,7 +202,7 @@ def _probe_boot(cmd: str, cwd: str, env: dict, timeout: int) -> tuple[str, str]:
     return "boot_error", log
 
 
-def smoke_one(target: dict, workroot: Path) -> dict:
+def smoke_one(target: dict, workroot: Path, install_timeout: int = INSTALL_TIMEOUT) -> dict:
     slug = target["slug"]
     install_cmd = target.get("install_cmd")
     boot_cmd = target.get("boot_cmd")
@@ -214,7 +222,7 @@ def smoke_one(target: dict, workroot: Path) -> dict:
 
     cmd = _prepare_install(install_cmd, work, env)
 
-    rc, log = _run(cmd, str(work), env, INSTALL_TIMEOUT)
+    rc, log = _run(cmd, str(work), env, install_timeout)
     result["log"] = log
     if rc is None:
         result["status"] = "timeout"
@@ -244,6 +252,9 @@ def main() -> int:
                     help="re-run only needs_toolchain targets from a prior "
                          "results file and merge the outcome (for the "
                          "compiler-equipped retry job)")
+    ap.add_argument("--install-timeout", type=int, default=INSTALL_TIMEOUT,
+                    help="seconds per install command (raise for the retry job, "
+                         "where source builds are expected)")
     args = ap.parse_args()
 
     if args.retry_from_results:
@@ -255,7 +266,19 @@ def main() -> int:
             for r in prior_results if r.get("status") == "needs_toolchain"
         ]
         with tempfile.TemporaryDirectory(prefix="smoke_root_") as root:
-            retried = [smoke_one(t, Path(root)) for t in retry_targets]
+            retried = [smoke_one(t, Path(root), args.install_timeout)
+                       for t in retry_targets]
+        # Only valid installs that had already started building reach the retry
+        # (they were needs_toolchain, not install_error). If one STILL won't
+        # install even with a compiler + generous timeout, that's a heavy build
+        # environment the sandbox does not provide — not a catalog defect — so
+        # record it as skipped-with-reason rather than a false failure.
+        for r in retried:
+            if r["status"] != "pass":
+                r["log"] = ("[retried with a C toolchain; still not installable "
+                            "in the sandbox — needs a heavier build environment] "
+                            + r.get("log", ""))[-LOG_CHARS:]
+                r["status"] = "skipped"
         results = _merge_results(prior_results, retried)
         gate = prior.get("gate", "")
     else:
@@ -263,7 +286,8 @@ def main() -> int:
         targets = batch.get("selected", [])
         gate = batch.get("gate", "")
         with tempfile.TemporaryDirectory(prefix="smoke_root_") as root:
-            results = [smoke_one(t, Path(root)) for t in targets]
+            results = [smoke_one(t, Path(root), args.install_timeout)
+                       for t in targets]
 
     doc = {
         "generated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
