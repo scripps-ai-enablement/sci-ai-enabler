@@ -7,6 +7,11 @@ supplier: K-Dense
 availability: GA
 tool_categories: [All]
 last_verified: 2026-06-04
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches supplier K-Dense-AI (MIT repo, not archived, pushed 2026-07-15), skills/literature-review dir resolves, no OSV advisories"
 claude_science: true
 summary: Conduct comprehensive, systematic literature reviews using multiple academic databases (PubMed, arXiv, bioRxiv, Semantic Scholar, etc.).
 ---
@@ -22,6 +27,8 @@ Conduct comprehensive, systematic literature reviews using multiple academic dat
 | **Availability** | GA — part of the actively maintained K-Dense `scientific-agent-skills` collection |
 | **Pricing** | Free / OSS (MIT) |
 | **Capabilities** | Read/Write — Claude runs the skill's Python locally (Bash), not as an MCP tool |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches K-Dense-AI, MIT repo, maintained, no OSV advisories |
 
 ## How to install
 

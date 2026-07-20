@@ -7,6 +7,11 @@ supplier: K-Dense
 availability: GA
 tool_categories: [General-Purpose Utilities]
 last_verified: 2026-06-04
+verification: works
+verified_on: 2026-07-20
+security: caution
+security_on: 2026-07-20
+security_note: "skills/docx/LICENSE.txt is Anthropic PBC proprietary (all rights reserved, no redistribution/derivatives) yet the page claims Free/OSS; provenance is genuine Anthropic document skill, no risky patterns"
 summary: The user wants to create, read, edit, or manipulate Word documents (.docx files).
 ---
 
@@ -21,6 +26,8 @@ Use this skill whenever the user wants to create, read, edit, or manipulate Word
 | **Availability** | GA — part of the actively maintained K-Dense `scientific-agent-skills` collection |
 | **Pricing** | Free / OSS (Proprietary..txt has complete terms) |
 | **Capabilities** | Read/Write — Claude runs the skill's Python locally (Bash), not as an MCP tool |
+| **Verified** | works · 2026-07-20 |
+| **Security** | caution · 2026-07-20 — LICENSE.txt is Anthropic proprietary (all rights reserved) but page claims Free/OSS; provenance genuine, no risky patterns |
 
 ## How to install
 

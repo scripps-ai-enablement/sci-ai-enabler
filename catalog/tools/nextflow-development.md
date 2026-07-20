@@ -9,7 +9,7 @@ tool_categories: [Drug Repurposing and Discovery, Immunology and Microbiology, I
 last_verified: 2026-06-20
 verification: works
 verified_on: 2026-07-20
-verification_note: "anthropics/life-sciences nextflow-development dir resolves; K-Dense alt clone failed on sandbox missing git (environmental)"
+verification_note: "anthropics/life-sciences nextflow-development plugin path resolves; K-Dense alt install via npx skills add smoke-tested this cycle (pass)"
 security: cleared
 security_on: 2026-07-20
 security_note: "Anthropic-supplied plugin path resolves, orchestrates nf-core pipelines, no OSV advisories; Anthropic flags as prototype not production-ready"

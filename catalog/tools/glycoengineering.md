@@ -7,6 +7,11 @@ supplier: K-Dense
 availability: GA
 tool_categories: [Immunology and Microbiology, Drug Repurposing and Discovery]
 last_verified: 2026-06-04
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches K-Dense-AI (MIT repo, skills/glycoengineering dir resolves), pure-Python orchestration with no keys; external NetNGlyc/NetOGlyc it calls carry their own academic licenses (page discloses)"
 summary: Claude skill for protein-glycosylation analysis — N-glycosylation sequon scanning, O-glycosylation hotspot prediction, and access to NetOGlyc/GlycoShield/GlycoWorkbench for therapeutic antibody and vaccine design.
 ---
 
@@ -21,6 +26,8 @@ Claude skill that analyzes and engineers protein glycosylation — scans sequenc
 | **Availability** | GA — distributed via the K-Dense `scientific-agent-skills` collection |
 | **Pricing** | Free / OSS (skill source); some third-party tools it calls (e.g., NetOGlyc, NetNGlyc) have their own academic-use licences |
 | **Capabilities** | Read/Write — local sequence scanning and orchestration of external glycan-prediction tools |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — K-Dense-AI MIT skill, no keys; external NetNGlyc/NetOGlyc it calls carry their own academic licenses |
 
 ## How to install
 

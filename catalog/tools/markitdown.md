@@ -7,6 +7,11 @@ supplier: K-Dense
 availability: GA
 tool_categories: [General-Purpose Utilities]
 last_verified: 2026-06-04
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches supplier K-Dense-AI (MIT repo, skills/markitdown dir resolves), wraps Microsoft MIT markitdown; skill dir ships no own LICENSE but MIT repo umbrella covers it"
 summary: Convert files and office documents to Markdown.
 ---
 
@@ -21,6 +26,8 @@ Convert files and office documents to Markdown.
 | **Availability** | GA — part of the actively maintained K-Dense `scientific-agent-skills` collection |
 | **Pricing** | Free / OSS (MIT) |
 | **Capabilities** | Read/Write — Claude runs the skill's Python locally (Bash), not as an MCP tool |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — K-Dense-AI MIT repo wrapping Microsoft MIT markitdown, no OSV advisories |
 
 ## How to install
 

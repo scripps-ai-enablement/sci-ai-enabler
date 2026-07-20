@@ -4,6 +4,36 @@ Rolling, reverse-chronological log of catalog verification + security passes. Ea
 on-demand run that produces changes prepends a dated block; the top block is mirrored to the pinned
 "Verification updates" issue.
 
+## 2026-07-20 (bootstrap pass 8)
+
+Eighth bootstrap pass — 12 more unstamped K-Dense skill entries stamped, plus verification-note
+refreshes on two already-stamped entries (`flowio`, `nextflow-development`) whose notes referenced
+the prior run's sandbox `git ENOENT` failure. This cycle the smoke image resolved that: the safe
+smoke batch shows `npx skills add K-Dense-AI/scientific-agent-skills` and
+`npx skills add google-deepmind/science-skills/` both `pass` (8/8 pass in
+`.verify/smoke-results.json`). All judgments grounded in sources fetched this run: anchor repo
+`K-Dense-AI/scientific-agent-skills` (GitHub API — MIT, not archived, pushed 2026-07-15, updated
+2026-07-20); the `skills/` contents API listing confirming each stamped subdir resolves; raw
+`skills/pdf/LICENSE.txt`, `skills/docx/LICENSE.txt`, `skills/pptx/LICENSE.txt` (all "© 2025
+Anthropic, PBC. All rights reserved"); `skills/pdf` / `skills/docx` / `skills/pptx` / `skills/markitdown`
+contents listings; and `gcorso/DiffDock` (GitHub API — MIT, not archived) for the DiffDock model
+provenance. Caps respected (12 static, 0 net-new smoke verdicts consumed beyond note refresh).
+
+### Verified
+- `esm`, `diffdock`, `geomaster`, `glycoengineering`, `hypogenic`, `hypothesis-generation`, `literature-review`, `peer-review`, `markitdown` → works — anchor repo + each `skills/<slug>` resolves via contents API; `diffdock` also resolves its upstream `gcorso/DiffDock` (MIT).
+- `pdf`, `docx`, `pptx` → works — `skills/<slug>` resolves and install path current; license concern noted under Security.
+- Note refresh (already works): `flowio`, `nextflow-development` — replaced the stale "smoke clone failed on sandbox missing git" caveat with this cycle's `npx skills add` smoke pass.
+
+### Fixed
+- None this run. (Note: `diffdock.md` Sources line still points to the old `K-Dense-AI/claude-skills` repo name in prose — left to the curator; the install block uses the current `scientific-agent-skills` path.)
+
+### Flagged
+- None broken. License-claim concerns captured under Security.
+
+### Security
+- cleared (9): `esm`, `diffdock`, `geomaster`, `glycoengineering`, `hypogenic`, `hypothesis-generation`, `literature-review`, `peer-review`, `markitdown` — K-Dense provenance matches supplier, MIT collection wrapping OSI-licensed upstream (or prompt-only), maintained (pushed 2026-07-15), no OSV advisories. `glycoengineering` note records it orchestrates external academic-licensed NetNGlyc/NetOGlyc (not redistributed, no keys). `markitdown` note records the skill dir ships no own LICENSE but the MIT repo umbrella covers it.
+- caution (3): `pdf`, `docx`, `pptx` — each `skills/<slug>/LICENSE.txt` is Anthropic PBC proprietary ("© 2025 Anthropic, PBC. All rights reserved", no redistribution/derivatives) redistributed inside the MIT collection while the page claims Free/OSS (curator to fix the Pricing line, same pattern as `xlsx`). Provenance genuine (Anthropic document skills), no risky patterns.
+
 ## 2026-07-20 (bootstrap pass 7)
 
 Seventh bootstrap pass — 13 more unstamped entries: 12 K-Dense skill wrappers plus the

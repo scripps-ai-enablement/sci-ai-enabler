@@ -7,6 +7,11 @@ supplier: K-Dense
 availability: GA
 tool_categories: [Drug Repurposing and Discovery, Integrative Structural and Computational Biology]
 last_verified: 2026-06-04
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches K-Dense-AI (MIT repo, skills/diffdock dir resolves) and DiffDock model from gcorso/DiffDock (MIT, not archived), no OSV advisories"
 claude_science: true
 summary: Claude skill driving DiffDock, a diffusion-based deep-learning docker that predicts protein–ligand binding poses from PDB plus SMILES with per-pose confidence scores.
 ---
@@ -22,6 +27,8 @@ Claude skill that drives [DiffDock](https://github.com/gcorso/DiffDock) — a di
 | **Availability** | GA — actively maintained in the K-Dense `scientific-agent-skills` collection |
 | **Pricing** | Free / OSS skill (MIT); DiffDock model weights MIT |
 | **Capabilities** | Read/Write — Claude executes DiffDock locally via Python/Bash; writes generated poses (SDF / PDB) and confidence CSVs to disk |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — K-Dense-AI MIT skill plus gcorso/DiffDock MIT model, both resolve, no OSV advisories |
 
 ## How to install
 
