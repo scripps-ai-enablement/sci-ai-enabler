@@ -7,6 +7,12 @@ supplier: NeuroClaw
 availability: GA
 tool_categories: [Neuroscience]
 last_verified: 2026-06-11
+verification: works
+verified_on: 2026-07-20
+verification_note: "repo CUHK-AIM-Group/NeuroClaw and skills/mschallenge-skill dir resolve; non-executable Skill-doc install path confirmed current"
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches supplier CUHK-AIM-Group, committed MIT LICENSE, maintained (pushed 2026-07-14), no OSV advisories"
 summary: "End-to-end workflow for the Longitudinal MS Lesion Segmentation Challenge dataset, including data validation, multimodal processing of T1w, T2w, FLAIR, and PD, lesion segmentation, and …"
 ---
 
@@ -21,6 +27,8 @@ End-to-end workflow for the Longitudinal MS Lesion Segmentation Challenge datase
 | **Availability** | GA — part of the NeuroClaw neuroimaging skill library |
 | **Pricing** | Free / OSS (MIT) |
 | **Capabilities** | Read/Write — Claude runs the skill's Python locally (Bash), not as an MCP tool |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches CUHK-AIM-Group, committed MIT LICENSE, maintained, no OSV advisories |
 
 ## How to install
 

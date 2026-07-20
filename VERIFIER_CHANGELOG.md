@@ -4,6 +4,38 @@ Rolling, reverse-chronological log of catalog verification + security passes. Ea
 on-demand run that produces changes prepends a dated block; the top block is mirrored to the pinned
 "Verification updates" issue.
 
+## 2026-07-20 (bootstrap pass 15)
+
+Fifteenth bootstrap pass — first batch of unstamped `supplier: NeuroClaw` neuroimaging skills.
+All judgments grounded in sources fetched this run.
+
+### Verified
+- 25 NeuroClaw `-skill` pages — works / cleared. Anchor `CUHK-AIM-Group/NeuroClaw` (GitHub API:
+  not archived, `disabled:false`, MIT, default branch `main`, pushed 2026-07-14, updated 2026-07-19,
+  75 stars, 0 open issues). Every skill dir confirmed present via the `contents/skills` listing.
+  These are non-executable Skill-docs (Claude runs the skill's Python locally via Bash, not an MCP
+  server) — graded `works` on the confirmed-current `git clone` + `cp -r NeuroClaw/skills/<slug>`
+  install path. Slugs: `abcd-skill`, `adni-skill`, `abide-skill`, `adhd200-skill`, `aibl-skill`,
+  `aomic-skill`, `asl-skill`, `bold5000-skill`, `camcan-skill`, `cobre-skill`, `dmt-har-med-skill`,
+  `dwi-skill`, `eeg-skill`, `fmri-skill`, `hbn-skill`, `nibabel-skill`, `nifd-skill`, `hcpd-skill`,
+  `hcpep-skill`, `hcpa-skill`, `hcpya-skill`, `ixi-skill`, `meg-skill`, `mnd-skill`,
+  `mschallenge-skill`.
+
+### Fixed
+- None — no broken install targets or metadata in this batch.
+
+### Security
+- All 25 — cleared. Provenance matches the pages' `supplier: NeuroClaw` (all link to
+  `CUHK-AIM-Group/NeuroClaw`); committed root `LICENSE` is verbatim MIT ("Copyright (c) 2026
+  zxcvb6958") matching the pages' MIT claim; repo is actively maintained (pushed 2026-07-14); no OSV
+  advisories for a doc-only skill clone. No external-credential or non-commercial-data restrictions in
+  this batch.
+
+Caps respected (25 static verifications = 25 cap, 0 smoke verdicts consumed). 12 more unstamped
+NeuroClaw `-skill` pages (`nsd`, `oasis`, `pet`, `pnc`, `ppmi`, `rest-mneta-mdd`, `seed-iv`,
+`seed-vig`, `smri`, `tcp`, `ucla-cnp`, `ukb`) deferred to next run — all confirmed present in the
+`contents/skills` listing, same anchor, ready to stamp with the same pattern.
+
 ## 2026-07-20 (bootstrap pass 14)
 
 Fourteenth bootstrap pass — the 5 remaining unstamped `supplier: Google DeepMind` catalog pages.

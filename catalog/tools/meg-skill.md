@@ -7,6 +7,12 @@ supplier: NeuroClaw
 availability: GA
 tool_categories: [Neuroscience]
 last_verified: 2026-06-11
+verification: works
+verified_on: 2026-07-20
+verification_note: "repo CUHK-AIM-Group/NeuroClaw and skills/meg-skill dir resolve; non-executable Skill-doc install path confirmed current"
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches supplier CUHK-AIM-Group, committed MIT LICENSE, maintained (pushed 2026-07-14), no OSV advisories"
 summary: "Process MEG (magnetoencephalography) data including source localization, time-frequency analysis, connectivity analysis, sensor-level preprocessing, or MEG-specific feature extraction"
 ---
 
@@ -21,6 +27,8 @@ Process MEG (magnetoencephalography) data including source localization, time-fr
 | **Availability** | GA — part of the NeuroClaw neuroimaging skill library |
 | **Pricing** | Free / OSS (MIT) |
 | **Capabilities** | Read/Write — Claude runs the skill's Python locally (Bash), not as an MCP tool |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches CUHK-AIM-Group, committed MIT LICENSE, maintained, no OSV advisories |
 
 ## How to install
 

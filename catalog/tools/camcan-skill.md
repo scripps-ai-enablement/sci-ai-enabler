@@ -7,6 +7,12 @@ supplier: NeuroClaw
 availability: GA
 tool_categories: [Neuroscience]
 last_verified: 2026-06-11
+verification: works
+verified_on: 2026-07-20
+verification_note: "repo CUHK-AIM-Group/NeuroClaw and skills/camcan-skill dir resolve; non-executable Skill-doc install path confirmed current"
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches supplier CUHK-AIM-Group, committed MIT LICENSE, maintained (pushed 2026-07-14), no OSV advisories"
 summary: "End-to-end workflow for the Cam-CAN (Cambridge Centre for Ageing and Neuroscience) dataset, including BIDS validation, multimodal processing of sMRI, rs-fMRI, task-fMRI, and MEG, phenotype …"
 ---
 
@@ -21,6 +27,8 @@ End-to-end workflow for the Cam-CAN (Cambridge Centre for Ageing and Neuroscienc
 | **Availability** | GA — part of the NeuroClaw neuroimaging skill library |
 | **Pricing** | Free / OSS (MIT) |
 | **Capabilities** | Read/Write — Claude runs the skill's Python locally (Bash), not as an MCP tool |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches CUHK-AIM-Group, committed MIT LICENSE, maintained, no OSV advisories |
 
 ## How to install
 
