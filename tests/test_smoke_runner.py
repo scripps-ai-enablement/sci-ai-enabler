@@ -120,5 +120,45 @@ class ProbeBoot(unittest.TestCase):
         self.assertEqual(status, "pass")
 
 
+class ToolchainDetection(unittest.TestCase):
+    """`needs_toolchain` fires only when the compiler binary is missing."""
+
+    def test_compiler_absent_is_needs_toolchain(self):
+        for log in [
+            "distutils...CompileError: command 'gcc' failed: No such file or directory",
+            "error: command 'cc' failed: command not found",
+            "gcc: not found",
+            "gcc: No such file or directory",
+            "unable to execute 'cc': No such file or directory",
+        ]:
+            with self.subTest(log=log):
+                self.assertTrue(runner._needs_toolchain(log))
+
+    def test_real_failures_are_not_needs_toolchain(self):
+        # A compile error WITH a compiler present, or an unrelated failure, must
+        # stay a real install_error — not be excused as a missing toolchain.
+        for log in [
+            "CompileError: command 'gcc' failed with exit status 1",
+            "error: metadata-generation-failed",
+            "ERROR: Could not find a version that satisfies the requirement foo",
+            "ModuleNotFoundError: No module named 'setuptools'",
+        ]:
+            with self.subTest(log=log):
+                self.assertFalse(runner._needs_toolchain(log))
+
+
+class MergeResults(unittest.TestCase):
+    def test_retried_outcomes_overlay_in_order(self):
+        prior = [
+            {"slug": "a", "status": "pass"},
+            {"slug": "b", "status": "needs_toolchain"},
+            {"slug": "c", "status": "install_error"},
+        ]
+        retried = [{"slug": "b", "status": "pass"}]
+        merged = runner._merge_results(prior, retried)
+        self.assertEqual([r["slug"] for r in merged], ["a", "b", "c"])
+        self.assertEqual([r["status"] for r in merged], ["pass", "pass", "install_error"])
+
+
 if __name__ == "__main__":
     unittest.main()
