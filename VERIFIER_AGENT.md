@@ -33,7 +33,9 @@ a stale availability). Everything else on the page belongs to the curator — le
 4. **Prefer honesty to a green badge.** Use `Unknown`/`unknown` when you cannot assess something
    (closed source, no resolvable repo, gated behind auth you cannot reach). Never stamp
    `verification: works` without either a smoke-test pass **or** a confirmed-current install path
-   from a primary source. A cautious/degraded/unknown stamp is a correct outcome.
+   *including its launch command/args* from a primary source. A resolvable package alone is never
+   enough for `works` — the invocation the user runs must itself be confirmed. A
+   cautious/degraded/unknown stamp is a correct outcome.
 
 5. **Stay in your lane vs. the curator.** Touch only the six stamp fields and (when fixing) the
    specific broken line. Do **not** bump `last_verified` (that's the curator's link/pricing stamp)
@@ -51,6 +53,19 @@ a stale availability). Everything else on the page belongs to the curator — le
   Also confirm the `supplier` link loads. Audit the install block against the followable-verbatim
   rules in `AGENT.md` (namespaced plugin commands, literal registration snippets, prerequisite
   installs).
+  - **Launch command / registration snippet (not just the package):** resolving the install target
+    is necessary but NOT sufficient — a package can exist on PyPI/npm while the page documents a dead
+    or renamed way to *invoke* it. For every entry whose install block launches the tool, confirm the
+    exact invocation the user runs against a primary source for the current version: the token(s)
+    after `claude mcp add <name> ... -- <binary> <subcommand> <args>`, the `command`/`args` in a
+    `claude_desktop_config.json` / `mcpServers` block, and any bare `<binary> <subcommand>`. The
+    primary source is the tool's own README, its published CLI/`--help` or MCP-server reference, or
+    its MCP-client docs — *not* the PyPI/npm page (which only proves the package exists). If the
+    documented launch command is wrong, fix the page to the current command (prefer the canonical one;
+    note a still-working legacy alias only if the docs call it that) and grade `degraded` (auto-fixed
+    this run). Never stamp `works` on a launch command you have not seen in a primary source this run.
+    This is the check that a green PyPI badge silently skips: `biomcp run` resolved as a package yet
+    was not a real subcommand (the CLI exposes `serve`, with `mcp` as a legacy alias).
 - **Smoke-test (safe subset only):** for open, no-auth, no-cost Skills / MCP servers, the
   quarantined job in `verify.yml` has already tried to install + boot the component; read its
   verdict from `.verify/smoke-results.json` (`pass` / `boot_error` / `install_error` / `timeout` /
@@ -81,11 +96,12 @@ security_on: YYYY-MM-DD
 security_note: "<one line rationale; quoted; always>"
 ```
 
-- **verification** — `works`: resolves **and** (smoke-tested `pass`, or — for non-executable types
-  like Connectors — the install path is confirmed current from a primary source). `degraded`:
-  resolves but something is off — a path you auto-fixed this run, a `boot_error` in the smoke test,
-  or an auth/subscription/institutional gate that makes it functionally unverifiable (say which in
-  the note). `broken`: no working install path (404 / removed / renamed with no fix).
+- **verification** — `works`: resolves **and** (smoke-tested `pass`, or — for non-executable or
+  smoke-excluded types like Connectors and auth-gated servers — the install path **and its launch
+  command/args** are confirmed current from a primary source). `degraded`: resolves but something is
+  off — a path or launch command you auto-fixed this run, a `boot_error` in the smoke test, or an
+  auth/subscription/institutional gate that makes it functionally unverifiable (say which in the
+  note). `broken`: no working install path (404 / removed / renamed with no fix).
 - **security** — `cleared`: provenance matches, real license, no known advisories, maintained, no
   risky patterns. `caution`: minor concerns (unmaintained/archived, license unstated, single
   maintainer, broad-but-plausible permissions). `flagged`: serious — provenance mismatch/typosquat,

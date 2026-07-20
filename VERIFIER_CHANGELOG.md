@@ -4,6 +4,31 @@ Rolling, reverse-chronological log of catalog verification + security passes. Ea
 on-demand run that produces changes prepends a dated block; the top block is mirrored to the pinned
 "Verification updates" issue.
 
+## 2026-07-20 (launch-command sweep — verifier check hardened)
+
+New static check in `VERIFIER_AGENT.md`: resolving the install target is no longer sufficient for
+`works` — the launch invocation the user actually runs (the subcommand/args after
+`claude mcp add <name> ... --`, and the `command`/`args` in a `mcpServers` block) must be confirmed
+against a primary source (README / CLI `--help` / MCP-server reference), not the PyPI/npm page. This
+closes the blind spot that stamped BioMCP `works` with a dead `biomcp run` command: the package
+resolved, and BioMCP was smoke-excluded (its page mentions optional API keys, which the smoke gate
+denylist treats as auth-gated), so nothing ever exercised the invocation.
+
+### Fixed
+- biomcp — `biomcp run` is not a real subcommand. PyPI `biomcp-cli`/`biomcp-python` resolve, but the
+  CLI exposes `serve` (canonical) with `mcp` as a legacy alias (biomcp.org MCP-server reference).
+  Corrected all four occurrences (Claude Code `claude mcp add` line + the uv variant + both
+  `claude_desktop_config.json` `args`) from `run` to `serve`.
+
+### Verified
+- biomcp — works→degraded/cleared. Launch command auto-fixed this run (⇒ degraded per rubric);
+  flips back to works on the next clean recheck. Security unchanged (cleared).
+- Launch-command sweep, confirmed CORRECT (no change): scmcphub `scanpy-mcp`/`liana-mcp`/
+  `decoupler-mcp`/`cellrank-mcp` all genuinely document `run`; `bci-mcp serve`; `rdkit-agent mcp`;
+  `chatspatial ... -m chatspatial server`; `scitex mcp start`. `run` is a legitimate verb for
+  scmcphub — the check validates the actual token against upstream docs, it does not pattern-match
+  the verb, so these produced no false positives.
+
 ## 2026-07-20 (worklist batch — 7 unstamped stamped)
 
 Stamped the 7 UNSTAMPED worklist pages, each grounded on a source fetched this run; rechecked the
