@@ -104,15 +104,18 @@ parser and Jekyll YAML happy). Bad grades always carry a note naming the evidenc
 ## What to do each run
 
 The workflow injects a `## This run` stanza with the UTC date, a `scope` (`bootstrap` or
-`maintenance`), a `count` budget, and the path to `.verify/smoke-results.json`.
+`maintenance`), a `count` budget, the path to `.verify/smoke-results.json`, **and a
+`## This run's worklist`** — the exact, ordered list of pages to stamp this run.
 
 1. **Read state.** Read `catalog/verifier-state.md` (`## Deferred`, `## Flagged`, `## Smoke-test
    queue`) and `.verify/smoke-results.json`.
-2. **Pick the batch (respect the count budget and soft caps).**
-   - `bootstrap`: prefer entries with **no** `verification` stamp yet, then oldest `verified_on`.
-   - `maintenance`: entries whose `verified_on`/`security_on` is **> 30 days** old, plus anything in
-     `## Deferred`/`## Flagged`, plus user-reported-broken tools.
-   Soft caps: **≤ 25 static verifications** and **≤ 12 that consume smoke-test results** per run.
+2. **Work the injected worklist — do NOT enumerate the catalog yourself.** The `## This run's
+   worklist` (computed deterministically by `scripts/select_verify_targets.py`, unstamped-first then
+   oldest `verified_on`) is the authoritative batch. Verify the pages in it, top to bottom, until the
+   `count` budget or the wall-clock cap is hit. Self-enumerating the tree (Grep/Glob/LS) previously
+   produced a reproducible blind spot that left 7 pages unstamped for dozens of runs while the count
+   looked "complete" — trust the worklist, not a tree scan. You may still consult `## Deferred` /
+   `## Flagged` for *context*, but the worklist decides the batch.
 3. **Verify + assess** each entry per the two checks above, fetching sources.
 4. **Fix** broken entries you can fix from a primary source; flag those you can't.
 5. **Stamp** each entry (front-matter + the two table rows), dating with the run's UTC date.
