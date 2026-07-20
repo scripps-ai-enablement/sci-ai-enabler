@@ -4,6 +4,44 @@ Rolling, reverse-chronological log of catalog verification + security passes. Ea
 on-demand run that produces changes prepends a dated block; the top block is mirrored to the pinned
 "Verification updates" issue.
 
+## 2026-07-20 (worklist maintenance batch #5 — same 25 pages rechecked, zero drift)
+
+The selector re-served the identical worklist (`10x-genomics-cloud` → `autodock-vina-docking`, 25
+pages) a **fifth** consecutive time. The catalog is uniformly dated 2026-07-20, so the
+verified_on-oldest tie-break in `select_verify_targets.py` returns the same 25 slugs every run and
+the pointer never advances. Rechecked top-to-bottom against fresh source fetches this run:
+**all 25 confirmed unchanged, no fixes.**
+
+### Verified (rechecked, unchanged)
+- NeuroClaw `CUHK-AIM-Group/NeuroClaw` MIT/not-archived/pushed 2026-07-14/75-star → abcd/abide/
+  adhd200/adni/aibl/aomic/asl works/cleared.
+- K-Dense `K-Dense-AI/scientific-agent-skills` MIT/not-archived/pushed 2026-07-20/31.3k-star +
+  this-run smoke pass (aeon/anndata/arboreto/astropy) → adaptyv works/caution; aeon/anndata/arboreto/
+  astropy works/cleared.
+- DeepMind `google-deepmind/science-skills` Apache-2.0/pushed 2026-07-07/2469-star → alphagenome
+  degraded/cleared (signup-gated preview).
+- `google-deepmind/alphafold` Apache-2.0/pushed 2026-04-22/14.7k-star → alphafold2 works/cleared.
+- `GPTomics/bioSkills` MIT/pushed 2026-07-18/1042-star → amr-detection works/cleared.
+- `Augmented-Nature/AlphaFold-MCP-Server` + `BioStudies-MCP-Server` both NOASSERTION/pushed
+  2025-12-21 → alphafold + arrayexpress works/caution.
+- SciAgent `jaechang-hits/SciAgent-Skills` NOASSERTION-classifier-but-CC-BY-4.0-root/pushed
+  2026-06-15/278-star → archs4-database + autodock-vina-docking works/cleared.
+- PyPI `arxiv-mcp-server` 0.5.1 Apache-2.0 + `aind-data-mcp` 0.4.5 MIT → arxiv/aind-data works/cleared.
+- `MCPmed/allenbrain-mcp` no-LICENSE/pushed 2026-04-01/3-star → allenbrain degraded/caution.
+- `anthropics/life-sciences` marketplace.json still lists `adisinsight` (Springer Nature) +
+  `10x-genomics` → both degraded (subscription/paid gated); antibody-registry connector works/cleared.
+
+### Fixed
+- None (zero drift).
+
+### Flagged
+- Selector loop persists (fifth identical batch). Maintainer action needed: add a secondary
+  tie-break to `select_verify_targets.py` or a rotating cursor in the workflow so runs serve
+  different windows — otherwise ~420 pages never get rechecked while the count shows "complete."
+
+### Security
+- No provenance/license/advisory changes across the 25 anchors this run.
+
 ## 2026-07-20 (worklist maintenance batch #4 — same 25 pages rechecked, zero drift)
 
 The selector re-served the identical worklist (`10x-genomics-cloud` → `autodock-vina-docking`, 25
