@@ -4,6 +4,40 @@ Rolling, reverse-chronological log of catalog verification + security passes. Ea
 on-demand run that produces changes prepends a dated block; the top block is mirrored to the pinned
 "Verification updates" issue.
 
+## 2026-07-20 (maintenance recheck — bootstrap complete)
+
+First post-enumeration maintenance recheck of the degraded/flagged tail (all 440 pages already carry
+`^verification:`). One regrade, several confirmed-unchanged rechecks, and two smoke-note refreshes.
+Every judgment grounded in a live fetch this run (GitHub repos API, npm registry search, and direct
+endpoint fetches) plus the handed-in `.verify/smoke-results.json` (8/8 pass). No new smoke run
+initiated by the verifier.
+
+### Verified
+- rdkit-skill — works/cleared (note refreshed). This run's smoke batch installed the K-Dense
+  collection via `npx skills add K-Dense-AI/scientific-agent-skills` (pass); replaced the stale
+  "smoke clone failed on sandbox missing git" note.
+- scikit-bio — works/cleared (note refreshed). Same K-Dense `npx skills add` smoke pass; replaced the
+  stale git-ENOENT note.
+- glygen — degraded/caution (unchanged). Hosted `mcp.glygen.org/mcp` still returns 503 this run; the
+  self-host repo `glygener/glygen-mcp-server` remains current, so boot stays unverified.
+- open-targets — degraded/caution (unchanged). Official source repo `opentargets/open-targets-platform-mcp`
+  redirects to `opentargets/platform-mcp` (Apache-2.0, pushed 2026-07-01, not archived); the community
+  fallback `Augmented-Nature/OpenTargets-MCP-Server` is unchanged (NOASSERTION, 11 stars, pushed
+  2025-12-21). Official endpoint `initialize` still untestable via GET WebFetch.
+- covasyn — degraded/caution (unchanged). Hosted `mcp.covasyn.com/mcp` reachable (406, API-key gated);
+  npm `@covasyn/mcp-client` still returns 0 results on the registry search — stdio client package name
+  still unconfirmable.
+
+### Flagged
+- openneuro — **regraded degraded → broken**, `flagged:` field set. `api.github.com/repos/QuentinCody/open-neuro-mcp-server`,
+  the repo web page, AND the hosted `open-neuro-mcp-server.quentincody.workers.dev/sse` endpoint all
+  returned 404 again this run — the second consecutive 404 run — so there is no working install path.
+  Unofficial community wrapper (not endorsed by OpenNeuro). Handed to the curator for removal/replacement.
+
+### Security
+- No security-grade changes this run. openneuro stays `caution` (unofficial wrapper, unreachable so
+  license/maintenance unconfirmable against a live source).
+
 ## 2026-07-20 (bootstrap pass 30)
 
 Thirtieth bootstrap pass — **16 pages stamped**, clearing the final unstamped remainder of the catalog

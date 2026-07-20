@@ -9,7 +9,7 @@ tool_categories: [Immunology and Microbiology, Molecular and Cellular Biology]
 last_verified: 2026-06-04
 verification: works
 verified_on: 2026-07-20
-verification_note: "repo and skills/scikit-bio dir resolve on K-Dense-AI/scientific-agent-skills; smoke clone failed on sandbox missing git (environmental, not tool)"
+verification_note: "repo and skills/scikit-bio dir resolve on K-Dense-AI/scientific-agent-skills; smoke run this cycle installed the K-Dense collection via npx skills add (pass)"
 security: cleared
 security_on: 2026-07-20
 security_note: "provenance matches supplier K-Dense-AI, MIT repo wrapping BSD-3 scikit-bio, maintained (pushed 2026-07-15), no OSV advisories"
