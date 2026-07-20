@@ -7,6 +7,11 @@ supplier: Aditya Damerla (zesty-genius128)
 availability: GA
 tool_categories: [Drug Repurposing and Discovery, Translational Medicine]
 last_verified: 2026-06-28
+verification: works
+verified_on: 2026-07-20
+security: caution
+security_on: 2026-07-20
+security_note: "repo resolves MIT (GitHub API now reports canonical owner aditya-damerla128/Certus_server; old zesty-genius128 path redirects) but is stale (last push 2025-09-03) and single-maintainer/0-star; read-only openFDA, no advisories"
 summary: MIT openFDA MCP server focused on drug shortages, recalls, labels, and adverse events — with a zero-install hosted endpoint and batch analysis across up to 25 drugs.
 ---
 
@@ -21,6 +26,8 @@ MCP server giving Claude live access to U.S. FDA drug data via the openFDA APIs,
 | **Availability** | GA — runnable from source (Node.js 18+) or via the public hosted endpoint |
 | **Pricing** | Free / OSS (MIT). No API key required; an optional free openFDA key raises rate limits |
 | **Capabilities** | Read-only — openFDA drug-endpoint queries |
+| **Verified** | works · 2026-07-20 |
+| **Security** | caution · 2026-07-20 — MIT repo resolves (canonical aditya-damerla128/Certus_server; old owner path redirects) but stale 2025-09-03, single-maintainer; read-only openFDA, no advisories |
 
 ## How to install
 

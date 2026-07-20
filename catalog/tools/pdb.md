@@ -7,6 +7,11 @@ supplier: RCSB PDB
 availability: GA
 tool_categories: [Integrative Structural and Computational Biology, Drug Repurposing and Discovery]
 last_verified: 2026-06-27
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "official first-party rcsb/rcsb-mcp MIT (GitHub API) plus PyPI rcsb-mcp 0.9.0 both resolve; provenance matches RCSB PDB, no OSV/GitHub advisories, read-only public APIs"
 claude_science: true
 summary: MCP servers that let Claude search, fetch, and validate RCSB Protein Data Bank structures — including the official first-party RCSB server.
 ---
@@ -22,6 +27,8 @@ MCP server fronting the RCSB Protein Data Bank — experimental structures, vali
 | **Availability** | GA — official `rcsb-mcp` on PyPI and in the official MCP Registry (`io.github.rcsb/rcsb-mcp`); Augmented Nature on mcpservers.org/LobeHub, QuentinCody on Cloudflare Workers, cyanheads in the official MCP Registry |
 | **Pricing** | Free / OSS |
 | **Capabilities** | Read-only |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — official rcsb/rcsb-mcp MIT + PyPI rcsb-mcp 0.9.0 resolve, provenance matches RCSB PDB, no advisories, read-only |
 
 ## How to install
 

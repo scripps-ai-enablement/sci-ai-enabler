@@ -7,6 +7,11 @@ supplier: molML (TU/e)
 availability: GA
 tool_categories: [Chemistry, Drug Repurposing and Discovery]
 last_verified: 2026-06-13
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "molML/ChemLint MIT (GitHub API), maintained (pushed 2026-06-29), provenance matches molML, no GitHub advisories; computes locally on user-supplied molecules"
 summary: MCP server exposing 150+ molecular machine-learning tools — SMILES cleaning, descriptors, similarity, clustering, model training — so Claude runs cheminformatics ML without Python scripting.
 ---
 
@@ -21,6 +26,8 @@ MCP server that hands Claude 150+ molecular machine-learning tools — SMILES st
 | **Availability** | GA — actively maintained |
 | **Pricing** | Free / OSS (MIT) |
 | **Capabilities** | Read/Write — computes locally on molecules you supply |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — molML/ChemLint MIT, maintained (pushed 2026-06-29), provenance matches, no advisories |
 
 ## How to install
 

@@ -7,6 +7,11 @@ supplier: HKU-BAL
 availability: GA
 tool_categories: [Molecular and Cellular Biology]
 last_verified: 2026-06-27
+verification: works
+verified_on: 2026-07-20
+security: caution
+security_on: 2026-07-20
+security_note: "HKU-BAL/Clair-skills resolves (GitHub API, pushed 2026-04-16) and provenance matches, but the skill repo publishes no SPDX LICENSE (page already notes this) and is single-maintainer/6-star; no GitHub advisories"
 summary: "Agent skill for the Clair suite — germline, somatic, mosaic, and long-read RNA variant calling with Clair3/ClairS/Clair-Mosaic."
 ---
 
@@ -21,6 +26,8 @@ An agent skill that teaches Claude how to run the Clair suite of deep-learning v
 | **Availability** | GA |
 | **Pricing** | Free / OSS — Clair tools are BSD-3-Clause; skill wrapper distributed as-is (**Unverified —** no explicit SPDX license file on the skill repo) |
 | **Capabilities** | Read/Write — Claude invokes the Clair CLIs locally (Bash) over BAM/CRAM inputs and writes VCFs |
+| **Verified** | works · 2026-07-20 |
+| **Security** | caution · 2026-07-20 — HKU-BAL/Clair-skills resolves, provenance matches, but no SPDX LICENSE on the skill repo, single-maintainer; no advisories |
 
 ## How to install
 

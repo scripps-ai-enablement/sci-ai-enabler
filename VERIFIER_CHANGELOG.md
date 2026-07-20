@@ -4,6 +4,39 @@ Rolling, reverse-chronological log of catalog verification + security passes. Ea
 on-demand run that produces changes prepends a dated block; the top block is mirrored to the pinned
 "Verification updates" issue.
 
+## 2026-07-20 (bootstrap pass 27)
+
+Twenty-seventh bootstrap pass — **7 pages stamped**, a mixed standalone MCP / plugin / skill batch
+of unstamped pages. Each judgment grounded in a source fetched this run (GitHub repo + contents +
+security-advisories APIs, PyPI JSON, and this repo's own `.claude-plugin/marketplace.json`). 4
+works/cleared, 3 works/caution. No smoke run consumed for these (the smoke batch's `flowio`/`pymol`
+etc. map to already-stamped pages). Stamped strictly sequentially (read-then-two-single-Edits per
+file; state-file Read cache invalidated between edits as usual).
+
+### Verified
+- pdb — works/cleared. Official `rcsb/rcsb-mcp` MIT (GitHub API) + PyPI `rcsb-mcp` 0.9.0; RCSB PDB
+  provenance, read-only public APIs, no GitHub advisories.
+- chemlint — works/cleared. `molML/ChemLint` MIT, maintained (pushed 2026-06-29), advisories empty.
+- composer — works/cleared. First-party Scripps plugin confirmed as `composer` at `./composer` in
+  this repo's `.claude-plugin/marketplace.json`; install path `composer@sci-ai-enabler` current.
+- amr-detection — works/cleared. `GPTomics/bioSkills` MIT (pushed 2026-07-18);
+  `metagenomics/amr-detection/SKILL.md` confirmed via contents API; read-only local workflow.
+- pubchem — works/caution. `JackKuo666/PubChem-MCP-Server` resolves + PyPI `pubchem-mcp-server`
+  0.1.7; works via multiple paths but repo has no LICENSE (page claims MIT) and is stale 2025-04-07.
+- certus — works/caution. `Certus_server` MIT resolves (canonical owner now
+  `aditya-damerla128/Certus_server`; old path redirects); stale 2025-09-03, single-maintainer.
+- clair-variant-caller — works/caution. `HKU-BAL/Clair-skills` resolves but no SPDX LICENSE
+  (page already notes), single-maintainer.
+
+### Security
+- caution: pubchem (no LICENSE vs MIT claim + stale), certus (owner-renamed + stale +
+  single-maintainer), clair-variant-caller (no SPDX LICENSE). All provenance-matched, no advisories.
+- cleared: pdb, chemlint, composer, amr-detection.
+
+### Flagged
+- pubchem / certus / clair-variant-caller — security caution (see verifier-state Flagged); curator
+  handoff to reconcile pubchem `Pricing` MIT claim and certus `supplier`/link to the current owner.
+
 ## 2026-07-20 (bootstrap pass 26)
 
 Twenty-sixth bootstrap pass — **15 pages stamped**, a mixed standalone MCP / plugin / connector

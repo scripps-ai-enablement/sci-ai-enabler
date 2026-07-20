@@ -7,6 +7,11 @@ supplier: JackKuo666
 availability: GA
 tool_categories: [Chemistry, Drug Repurposing and Discovery]
 last_verified: 2026-06-08
+verification: works
+verified_on: 2026-07-20
+security: caution
+security_on: 2026-07-20
+security_note: "JackKuo666 repo has no LICENSE file yet the page claims MIT and it is stale (last push 2025-04-07); provenance matches, no advisories"
 claude_science: true
 summary: MCP server that lets Claude query PubChem for compounds by name, SMILES, CID, or formula and pull structure files.
 ---
@@ -22,6 +27,8 @@ Read-only MCP wrapper over PubChem's public chemical-compound database. Compleme
 | **Availability** | GA |
 | **Pricing** | Free / OSS (MIT); PubChem API is public, no key required |
 | **Capabilities** | Read-only |
+| **Verified** | works · 2026-07-20 |
+| **Security** | caution · 2026-07-20 — JackKuo666 repo has no LICENSE yet page claims MIT, stale 2025-04-07; provenance matches, no advisories |
 
 ## How to install
 

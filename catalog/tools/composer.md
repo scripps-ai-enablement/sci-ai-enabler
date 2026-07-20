@@ -7,6 +7,11 @@ supplier: Scripps AI Enablement
 availability: Beta
 tool_categories: [All]
 last_verified: 2026-06-11
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "first-party Scripps plugin; confirmed present as composer at ./composer in this repo's .claude-plugin/marketplace.json, so /plugin install composer@sci-ai-enabler is current; OSS in-repo"
 summary: Turns a plain-language scientific problem into a grounded, runnable Claude solution composed from this catalog, reusing recipes and, for open-ended goals, assembling a multi-agent system from those same components.
 ---
 
@@ -21,6 +26,8 @@ A Claude Code / Cowork plugin that takes a plain-language scientific problem and
 | **Availability** | Beta (Claude Code and Cowork) |
 | **Pricing** | Free / OSS — included with this repository; normal model-token usage applies |
 | **Capabilities** | Problem classification, semantic recipe/tool/system matching, grounded assembly, install + first-run enactment, capture write-back |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — first-party plugin confirmed at ./composer in this repo's marketplace.json, install path current, OSS in-repo |
 
 ## How to install
 
