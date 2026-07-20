@@ -8,6 +8,12 @@ availability: GA
 tool_categories: [All]
 last_verified: 2026-06-20
 summary: Scientific-figure assembly from the 50,000+ BioRender icon and template library.
+verification: degraded
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "official biorender plugin confirmed in anthropics/life-sciences marketplace; vendor-hosted remote MCP by BioRender, OAuth login required, no known advisories"
+verification_note: "biorender plugin resolves in the anthropics/life-sciences marketplace but the remote MCP requires BioRender OAuth login so boot is unverifiable without an account"
 ---
 
 # BioRender Connector
@@ -21,6 +27,8 @@ Search BioRender's icon and template library and request scientific-figure sugge
 | **Availability** | GA — launched Oct 23, 2025 alongside the Claude for Life Sciences partnership |
 | **Pricing** | Freemium — Free and Individual plans access a limited icon/template set; Premium / Team plans access the full library |
 | **Capabilities** | Read/Write |
+| **Verified** | degraded · 2026-07-20 — plugin resolves in life-sciences marketplace but OAuth-gated, boot unverifiable without an account |
+| **Security** | cleared · 2026-07-20 — official biorender plugin in anthropics/life-sciences, vendor-hosted by BioRender, no advisories |
 
 ## How to install
 

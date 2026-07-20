@@ -8,6 +8,11 @@ availability: GA
 tool_categories: [Neuroscience]
 last_verified: 2026-07-12
 summary: "Build spiking neural network simulations in Brian2 — equation-based neuron models, synaptic plasticity, monitors, and multicompartment morphology."
+verification: works
+verified_on: 2026-07-20
+security: caution
+security_on: 2026-07-20
+security_note: "skills/brian2 dir + SKILL.md confirmed but GitHub license is null vs the page MIT claim, single-maintainer 4-star, stale (pushed 2026-02-24)"
 ---
 
 # Brian2 (Claude Skill)
@@ -21,6 +26,8 @@ Guides Claude through building spiking neural network simulations with Brian2 �
 | **Availability** | GA — part of the NeuroForge neuroscience skill set |
 | **Pricing** | Free / OSS (MIT) |
 | **Capabilities** | Read/Write — Claude writes and runs Brian2 Python locally (Bash), not as an MCP tool |
+| **Verified** | works · 2026-07-20 |
+| **Security** | caution · 2026-07-20 — skills/brian2 dir confirmed but GitHub license null vs MIT claim, single-maintainer, stale (2026-02-24) |
 
 ## How to install
 

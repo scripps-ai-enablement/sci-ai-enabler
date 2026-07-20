@@ -4,6 +4,34 @@ Rolling, reverse-chronological log of catalog verification + security passes. Ea
 on-demand run that produces changes prepends a dated block; the top block is mirrored to the pinned
 "Verification updates" issue.
 
+## 2026-07-20 (worklist batch — 7 unstamped stamped)
+
+Stamped the 7 UNSTAMPED worklist pages, each grounded on a source fetched this run; rechecked the
+8 already-stamped worklist items against fresh source fetches and left them at their existing
+2026-07-20 grades. Two in-page license fixes on the Augmented-Nature MCP-server family.
+
+### Verified
+- mygene — works/cleared. `longevity-genie/biothings-mcp` MIT + PyPI `biothings-mcp` 0.1.6; read-only public MyGene.info API.
+- alphafold — works/caution. `Augmented-Nature/AlphaFold-MCP-Server` resolves (35-star, not archived); EBI AlphaFold API public read-only.
+- gene-ontology — works/caution. `Augmented-Nature/GeneOntology-MCP-Server` resolves (8-star, not archived); GO API public read-only.
+- brian2 — works/caution. `HughYau/neuroforge-skills` + `skills/brian2/SKILL.md` confirmed; GitHub license null vs page MIT claim, single-maintainer/4-star, stale (2026-02-24).
+- clinical-trial-protocol — works/caution. First-party Anthropic; `healthcare` + `clinical-trial-protocol` plugins confirmed in `anthropics/healthcare` marketplace.json; repo has no top-level LICENSE.
+- cms-coverage — works/caution. First-party Anthropic; `healthcare` + `cms-coverage` plugins confirmed in marketplace.json; hosted read-only CMS endpoint; repo has no top-level LICENSE.
+- biorender — degraded/cleared. `biorender` plugin confirmed in `anthropics/life-sciences` marketplace.json; vendor-hosted remote MCP requires BioRender OAuth login so boot unverifiable without an account.
+- Rechecked unchanged: NeuroClaw source `CUHK-AIM-Group/NeuroClaw` MIT/maintained (pushed 2026-07-14, 75-star) backs abcd/abide/adhd200/adni-skill (works/cleared); K-Dense `K-Dense-AI/scientific-agent-skills` MIT/maintained (pushed 2026-07-20, 31k-star, smoke-installable) backs adaptyv (works/caution) + aeon (works/cleared); adisinsight + 10x-genomics-cloud stay degraded (subscription/paid-account gated).
+
+### Fixed
+- alphafold — `Pricing` row corrected: the wrapper repo LICENSE is a restrictive personal non-commercial grant (GitHub NOASSERTION), NOT the MIT the page claimed.
+- gene-ontology — `Pricing` row corrected to distinguish CC-BY GO *data* from the restrictive non-commercial wrapper *code* (page previously implied OSS for the wrapper).
+
+### Security
+- alphafold, gene-ontology — caution. Same restrictive non-commercial LICENSE pattern as `uniprot`/`human-protein-atlas` across the Augmented-Nature MCP-server family; treat any `Augmented-Nature/*-MCP-Server` MIT/OSS claim as suspect and fetch its raw LICENSE.
+- brian2 — caution. GitHub license null vs page MIT claim; single-maintainer, stale.
+- clinical-trial-protocol, cms-coverage — caution. `anthropics/healthcare` repo has no top-level LICENSE despite Free/OSS claim (same pattern as prior-auth-review/icd-10-codes).
+
+### Flagged
+- alphafold, gene-ontology — added to Flagged as Augmented-Nature license-mismatch entries; Pricing fixed in-page, curator owns any further wording.
+
 ## 2026-07-20 (maintenance recheck pass 3 — bootstrap complete)
 
 Third post-enumeration cadence recheck of the open degraded/broken/flagged tail, plus two

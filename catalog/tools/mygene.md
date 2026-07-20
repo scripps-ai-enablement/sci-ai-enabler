@@ -9,6 +9,11 @@ tool_categories: [All]
 last_verified: 2026-07-17
 claude_science: true
 summary: Gene annotation and ID conversion across species via MyGene.info/BioThings; the Genes & Ontologies connector in Claude Science.
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches longevity-genie, MIT, PyPI biothings-mcp 0.1.6 resolves, read-only over public MyGene.info API, no advisories"
 ---
 
 # MyGene.info MCP (BioThings)
@@ -22,6 +27,8 @@ Resolves gene identifiers and annotations across species through MyGene.info via
 | **Availability** | GA — community OSS (PyPI) |
 | **Pricing** | Free / OSS (data CC BY) |
 | **Capabilities** | Read-only |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches longevity-genie, MIT, PyPI biothings-mcp 0.1.6, read-only public API |
 
 ## How to install
 

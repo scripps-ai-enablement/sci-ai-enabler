@@ -8,6 +8,11 @@ availability: GA
 tool_categories: [Translational Medicine, Drug Repurposing and Discovery]
 last_verified: 2026-07-19
 summary: Anthropic Claude Code plugin that drafts FDA/NIH-compliant Phase 2/3 clinical-trial protocols for drugs or devices via a waypoint-based workflow.
+verification: works
+verified_on: 2026-07-20
+security: caution
+security_on: 2026-07-20
+security_note: "first-party Anthropic; healthcare + clinical-trial-protocol plugins confirmed in anthropics/healthcare marketplace.json but the repo has no top-level LICENSE despite the Free/OSS claim"
 ---
 
 # clinical-trial-protocol
@@ -21,6 +26,8 @@ Anthropic-published Claude Code plugin from the `anthropics/healthcare` marketpl
 | **Availability** | GA — shipped 2026-01 alongside the Claude for Healthcare launch |
 | **Pricing** | Free / OSS |
 | **Capabilities** | Read/Write — researches regulatory landscape, generates protocol document |
+| **Verified** | works · 2026-07-20 |
+| **Security** | caution · 2026-07-20 — first-party Anthropic, plugins confirmed in marketplace.json but repo has no top-level LICENSE despite Free/OSS claim |
 
 ## How to install
 

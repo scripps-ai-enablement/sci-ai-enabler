@@ -9,6 +9,11 @@ tool_categories: [Immunology and Microbiology, Integrative Structural and Comput
 last_verified: 2026-06-20
 claude_science: true
 summary: MCP server exposing the EBI AlphaFold Protein Structure Database for structure retrieval, pLDDT analysis, comparison, and PyMOL/ChimeraX export.
+verification: works
+verified_on: 2026-07-20
+security: caution
+security_on: 2026-07-20
+security_note: "repo LICENSE is a restrictive personal non-commercial grant (GitHub NOASSERTION) not the MIT the page claimed — fixed in-page; EBI AlphaFold API is public read-only"
 ---
 
 # AlphaFold MCP Server
@@ -20,8 +25,10 @@ MCP wrapper over the EBI AlphaFold Protein Structure Database — predicted stru
 | **Type** | MCP server |
 | **Supplier** | [Augmented Nature](https://github.com/Augmented-Nature/AlphaFold-MCP-Server) (community OSS) |
 | **Availability** | GA — active, ~25 tools |
-| **Pricing** | Free / OSS (MIT); EBI AlphaFold DB is free for academic use |
+| **Pricing** | Source under a restrictive personal, non-commercial license (no redistribution/modification/commercial use without permission); EBI AlphaFold DB is free for academic use |
 | **Capabilities** | Read-only |
+| **Verified** | works · 2026-07-20 |
+| **Security** | caution · 2026-07-20 — repo LICENSE is a restrictive non-commercial grant (GitHub NOASSERTION) not MIT; EBI AlphaFold API public read-only |
 
 ## How to install
 
