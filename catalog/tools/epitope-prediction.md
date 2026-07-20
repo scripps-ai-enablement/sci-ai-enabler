@@ -7,6 +7,11 @@ supplier: GPTomics bioSkills
 availability: GA
 tool_categories: [Immunology and Microbiology]
 last_verified: 2026-07-11
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches GPTomics/bioSkills, MIT, no OSV/GitHub advisories, read-only local epitope workflow with free academic-download dependencies and no credential requests"
 summary: "Predict B-cell and T-cell epitopes for vaccine and epitope-mapping work with BepiPred-3.0, DiscoTope-3.0, the IEDB tools, and MHC presentation predictors"
 ---
 
@@ -21,6 +26,8 @@ A Claude Code skill that identifies antibody-binding (B-cell) and MHC-presented 
 | **Availability** | GA — part of the bioSkills collection |
 | **Pricing** | Free / OSS (MIT) |
 | **Capabilities** | Read/Write — Claude runs the skill's workflow locally (Bash/Python), not as an MCP tool |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches GPTomics/bioSkills, MIT, no advisories, read-only local epitope workflow |
 
 ## How to install
 

@@ -7,6 +7,11 @@ supplier: GPTomics bioSkills
 availability: GA
 tool_categories: [Immunology and Microbiology]
 last_verified: 2026-07-18
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches GPTomics/bioSkills, MIT, no OSV/GitHub advisories, read-only local class II prediction with free academic-download dependencies and no credential requests"
 summary: "Predict peptide-MHC class II (HLA-DR/DQ/DP) binding for CD4 T-cell epitopes with NetMHCIIpan-4.3 and MixMHC2pred-2.0, with the reliability caveats class II demands"
 ---
 
@@ -21,6 +26,8 @@ A Claude Code skill that predicts CD4 T-cell epitopes by scoring peptide binding
 | **Availability** | GA — part of the bioSkills collection |
 | **Pricing** | Free / OSS (MIT) |
 | **Capabilities** | Read/Write — Claude runs the skill's workflow locally (Bash/Python), not as an MCP tool |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches GPTomics/bioSkills, MIT, no advisories, read-only local class II prediction |
 
 ## How to install
 

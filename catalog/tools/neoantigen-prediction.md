@@ -7,6 +7,11 @@ supplier: GPTomics bioSkills
 availability: GA
 tool_categories: [Drug Repurposing and Discovery, Immunology and Microbiology, Translational Medicine]
 last_verified: 2026-07-18
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches GPTomics/bioSkills, MIT, no OSV/GitHub advisories, read-only local pVACtools workflow with no credential requests"
 summary: "Identify tumor neoantigens from somatic variants with pVACtools for personalized cancer vaccines and checkpoint biomarkers, centering clonality, HLA LOH, expression, and validation tiers"
 ---
 
@@ -21,6 +26,8 @@ A Claude Code skill that builds a tumor-to-candidate neoantigen pipeline with pV
 | **Availability** | GA — part of the bioSkills collection |
 | **Pricing** | Free / OSS (MIT) |
 | **Capabilities** | Read/Write — Claude runs the skill's workflow locally (Bash/Python), not as an MCP tool |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches GPTomics/bioSkills, MIT, no advisories, read-only local pVACtools workflow |
 
 ## How to install
 

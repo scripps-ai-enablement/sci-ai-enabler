@@ -7,6 +7,11 @@ supplier: GPTomics bioSkills
 availability: GA
 tool_categories: [Immunology and Microbiology]
 last_verified: 2026-07-18
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches GPTomics/bioSkills, MIT, no OSV/GitHub advisories, read-only local scirpy/scanpy workflow with no credential requests"
 summary: "Integrate single-cell paired TCR/BCR repertoires with gene expression using scirpy — chain-pairing QC, clonotype definition, clonal expansion, diversity, and VDJdb specificity"
 ---
 
@@ -21,6 +26,8 @@ A Claude Code skill that analyzes single-cell paired TCR/BCR repertoires alongsi
 | **Availability** | GA — part of the bioSkills collection |
 | **Pricing** | Free / OSS (MIT) |
 | **Capabilities** | Read/Write — Claude runs the skill's workflow locally (Bash/Python), not as an MCP tool |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches GPTomics/bioSkills, MIT, no advisories, read-only local scirpy workflow |
 
 ## How to install
 

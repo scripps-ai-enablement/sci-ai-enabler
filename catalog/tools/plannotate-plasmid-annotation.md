@@ -7,6 +7,11 @@ supplier: SciAgent
 availability: GA
 tool_categories: [Molecular and Cellular Biology]
 last_verified: 2026-06-11
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches jaechang-hits/SciAgent-Skills, CC BY 4.0 skill collection, no OSV/GitHub advisories, local plasmid annotation against bundled curated DBs with no credential requests"
 summary: "Auto-annotate plasmids with features (promoters, terminators, resistance, origins, tags, fluorescent proteins) via BLAST against curated DBs (Addgene, fpbase, SnapGene)."
 ---
 
@@ -21,6 +26,8 @@ Auto-annotate plasmids with features (promoters, terminators, resistance, origin
 | **Availability** | GA — part of the BixBench-evaluated SciAgent-Skills collection |
 | **Pricing** | Free / OSS (GPL-3.0) |
 | **Capabilities** | Read/Write — Claude runs the skill's Python locally (Bash), not as an MCP tool |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches jaechang-hits/SciAgent-Skills, CC BY 4.0 collection, no advisories, local plasmid annotation |
 
 ## How to install
 

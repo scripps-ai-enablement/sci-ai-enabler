@@ -7,6 +7,11 @@ supplier: SciAgent
 availability: GA
 tool_categories: [Translational Medicine]
 last_verified: 2026-06-11
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches jaechang-hits/SciAgent-Skills, CC BY 4.0 skill collection, no OSV/GitHub advisories, read-only local medical-image processing with no credential requests"
 summary: "Register, segment, filter, resample 3D medical images (MRI, CT, microscopy) via SimpleITK Python; DICOM, NIfTI, multi-modal."
 ---
 
@@ -21,6 +26,8 @@ Register, segment, filter, resample 3D medical images (MRI, CT, microscopy) via 
 | **Availability** | GA — part of the BixBench-evaluated SciAgent-Skills collection |
 | **Pricing** | Free / OSS (Apache-2.0) |
 | **Capabilities** | Read/Write — Claude runs the skill's Python locally (Bash), not as an MCP tool |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches jaechang-hits/SciAgent-Skills, CC BY 4.0 collection, no advisories, read-only local medical-image processing |
 
 ## How to install
 

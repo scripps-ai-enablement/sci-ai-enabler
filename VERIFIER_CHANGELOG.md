@@ -4,6 +4,50 @@ Rolling, reverse-chronological log of catalog verification + security passes. Ea
 on-demand run that produces changes prepends a dated block; the top block is mirrored to the pinned
 "Verification updates" issue.
 
+## 2026-07-20 (bootstrap pass 23)
+
+Twenty-third bootstrap pass — two supplier batches, 19 pages stamped, all `works`/`cleared`. First,
+the **SciAgent non-`-database` skills, batch 4**: 15 more unstamped `supplier: SciAgent` Claude Skill
+pages against the re-confirmed anchor `jaechang-hits/SciAgent-Skills`. Second, the **GPTomics
+bioSkills** batch: 4 unstamped `supplier: GPTomics bioSkills` pages against the newly-confirmed anchor
+`GPTomics/bioSkills`. Both are Skill-doc type — Claude runs the skill's Python/CLI locally via Bash,
+not an MCP server — so each is graded `works` on the confirmed-current clone/copy install path. Each
+skill's directory was confirmed present with its `SKILL.md` via direct GitHub contents-API fetches
+this run. All judgments grounded in sources fetched this run (2 GitHub repo checks + per-skill
+contents API listings; no smoke run for these).
+
+### Verified
+- Anchor `jaechang-hits/SciAgent-Skills` re-confirmed via GitHub API (root LICENSE verbatim CC BY
+  4.0, GitHub NOASSERTION, not archived, not disabled, pushed 2026-06-15, updated 2026-07-20, 276
+  stars, 7 open issues, default branch main). New parent dir `data-visualization/` confirmed.
+- Anchor `GPTomics/bioSkills` confirmed via GitHub API (MIT spdx_id, not archived, not disabled,
+  pushed 2026-07-18, updated 2026-07-20, 1037 stars, 0 open issues, default branch main).
+- 15 SciAgent Claude Skills — all works. Each skill dir confirmed present with SKILL.md via the
+  contents API: mdanalysis-trajectory, sar-analysis, smina-molecular-docking
+  (structural-biology-drug-discovery); multiqc-qc-reports (genomics-bioinformatics/qc);
+  plannotate-plasmid-annotation, sgrna-design-guide (molecular-biology); libsbml-network-modeling
+  (systems-biology-multiomics); plotly-interactive-plots (data-visualization); napari-image-viewer,
+  opencv-bioimage-analysis, cellpose-cell-segmentation, scikit-image-processing (cell-biology);
+  celltypist-cell-annotation, harmony-batch-correction (genomics-bioinformatics/single-cell);
+  simpleitk-image-registration (medical-imaging). Clone/copy install paths resolve.
+- 4 GPTomics bioSkills — all works. Each skill dir confirmed present with SKILL.md via the contents
+  API: neoantigen-prediction, epitope-prediction, mhc-class-ii-prediction (immunoinformatics);
+  scirpy-analysis (tcr-bcr-analysis). Clone + `./install-claude.sh` / `cp -r` install paths resolve.
+
+### Fixed
+- None this run.
+
+### Flagged
+- None broken this run.
+
+### Security
+- All 19 cleared. SciAgent: provenance matches jaechang-hits, root LICENSE CC BY 4.0, no GitHub
+  security-advisories, read-only local analysis with no credential/API-key requests (the pages'
+  `Pricing` lines cite each wrapped library's own OSS license, not a skill-code provenance issue).
+- GPTomics: provenance matches GPTomics/bioSkills, MIT, no GitHub security-advisories, read-only
+  local pVACtools/scirpy workflow with no credential requests (optional public IEDB API with a
+  preferred local install).
+
 ## 2026-07-20 (bootstrap pass 22)
 
 Twenty-second bootstrap pass — the **SciAgent non-`-database` skills, batch 3**: 10 more unstamped

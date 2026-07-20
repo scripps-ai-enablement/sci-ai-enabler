@@ -7,6 +7,11 @@ supplier: SciAgent
 availability: GA
 tool_categories: [Molecular and Cellular Biology]
 last_verified: 2026-06-11
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches jaechang-hits/SciAgent-Skills, CC BY 4.0 skill collection, no OSV/GitHub advisories, read-only local QC aggregation with no credential requests"
 summary: "Aggregates QC from 150+ bioinformatics tools into one interactive HTML report."
 ---
 
@@ -21,6 +26,8 @@ Aggregates QC from 150+ bioinformatics tools into one interactive HTML report.
 | **Availability** | GA — part of the BixBench-evaluated SciAgent-Skills collection |
 | **Pricing** | Free / OSS (GPL-3.0) |
 | **Capabilities** | Read/Write — Claude runs the skill's Python locally (Bash), not as an MCP tool |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches jaechang-hits/SciAgent-Skills, CC BY 4.0 collection, no advisories, read-only local QC aggregation |
 
 ## How to install
 
