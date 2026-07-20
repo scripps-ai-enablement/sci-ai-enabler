@@ -4,6 +4,60 @@ Rolling, reverse-chronological log of catalog verification + security passes. Ea
 on-demand run that produces changes prepends a dated block; the top block is mirrored to the pinned
 "Verification updates" issue.
 
+## 2026-07-20 (bootstrap pass 25)
+
+Twenty-fifth bootstrap pass — **28 pages stamped**. Two groups. First, the **NeuroClaw remainder +
+bedtools** (7 pages): the final 6 unstamped `supplier: NeuroClaw` non-`-skill` pages
+(`qsiprep-tool`, `run_models`, `spacenet`, `wmh-segmentation`, `nii2dcm`, `nilearn-tool`) plus
+`bedtools-genomic-intervals` — all `works`/`cleared`. Second, the **Anthropic `tool_type: Claude.ai
+Connector` batch** (21 pages): 16 Anthropic-hosted Claude Science featured-connector data sources +
+`ketcher` + `medidata` graded `works`/`cleared`; `owkin` + `revvity-signals` + `inductive-bio`
+graded `degraded`/`cleared` (provenance confirmed but no publicly resolvable MCP endpoint). All
+judgments grounded in sources fetched this run (Anthropic Claude Science connectors-and-skills doc,
+`anthropics/life-sciences` marketplace.json, `epam/ketcher` GitHub API, and cited vendor press for
+revvity/inductive-bio; no smoke run for these).
+
+### Verified
+- NeuroClaw remainder (6) — all works, on the confirmed clone + `cp -r NeuroClaw/skills/<slug>`
+  install path against `CUHK-AIM-Group/NeuroClaw`: qsiprep-tool, run_models, spacenet,
+  wmh-segmentation, nii2dcm, nilearn-tool. No NeuroClaw pages remain unstamped.
+- bedtools-genomic-intervals — works.
+- 16 Anthropic-hosted Claude Science featured connectors — all works/cleared, presence confirmed in
+  the Anthropic connectors-and-skills doc: metabolights, mgnify (Omics Archives); complex-portal,
+  intact (Structures & Interactions); rfam (RNA); rhea, chebi, bindingdb (Chemistry); finngen,
+  eqtl-catalogue, biobank-japan (Human Genetics); biomart; antibody-registry; cellguide; civic,
+  clingen (Clinical Genomics). Anthropic-hosted, read-only, no per-connector MCP URL.
+- ketcher — works. Anthropic connector confirmed in the doc; underlying `epam/ketcher` repo live and
+  Apache-2.0 (GitHub API, pushed 2026-07-20, 841 stars); client-side 2D editor, no credentials.
+- medidata — works. Listed as `medidata` in `anthropics/life-sciences` marketplace.json; install path
+  resolves to the published hosted endpoint `mcp.imedidata.com/mcp` (tool responses need iMedidata login).
+- owkin — degraded. Listed in the marketplace.json; MCP endpoint URL and tool list vendor-gated
+  behind an Owkin account, so not functionally resolvable from public sources.
+- revvity-signals — degraded. Directory listing confirmed via cited press (CLP, 2026-07-01); no
+  public MCP endpoint or self-serve sign-up.
+- inductive-bio — degraded. MCP-connector launch confirmed via cited PR Newswire (2026-06-30); no
+  public MCP endpoint or self-serve sign-up.
+
+### Fixed
+- None this run.
+
+### Flagged
+- None broken this run.
+
+### Security
+- All 28 cleared. NeuroClaw remainder + bedtools: read-only local analysis, provenance matches
+  supplier repo, no advisories (`nii2dcm` note reflects MIT skill code wrapping BSD-3-Clause upstream).
+- 16 featured connectors + ketcher: Anthropic-hosted, read-only public data (EMBL-EBI / CC-licensed /
+  client-side), no credentials. medidata/owkin: official marketplace entries, vendor-hosted remote
+  MCP, read-only, access gated by a vendor account. revvity-signals/inductive-bio: vendor connectors
+  in Anthropic's directory (press-confirmed), read-only, enterprise-gated, no public endpoint
+  (inductive-bio: per vendor, submitted structures not retained or used for training).
+
+### Deferred
+- ~70 catalog pages remain unstamped (448 total, ~378 stamped after this run). NeuroClaw, SciAgent,
+  GPTomics, and the Claude.ai Connector families are now fully stamped; next runs should target the
+  remaining oldest/unstamped pages across other suppliers.
+
 ## 2026-07-20 (bootstrap pass 24)
 
 Twenty-fourth bootstrap pass — one supplier batch, **25 pages stamped, all `works`/`cleared`**. The

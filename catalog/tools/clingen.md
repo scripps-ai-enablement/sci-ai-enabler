@@ -9,6 +9,11 @@ tool_categories: [Molecular and Cellular Biology, Translational Medicine]
 last_verified: 2026-07-17
 claude_science: true
 summary: Expert-curated gene–disease validity and variant clinical significance from ClinGen; a source in the Clinical Genomics connector in Claude Science.
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "Anthropic-hosted Claude Science featured connector (Clinical Genomics) confirmed in Anthropic connectors-and-skills doc; read-only public ClinGen (NHGRI) CC0 data, no credentials"
 ---
 
 # ClinGen (Claude Science Connector)
@@ -22,6 +27,8 @@ Provides ClinGen's expert-curated gene–disease validity and dosage/variant ass
 | **Availability** | GA — Anthropic-hosted connector |
 | **Pricing** | Free — data CC0; access via Claude Science |
 | **Capabilities** | Read-only |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — Anthropic-hosted Claude Science featured connector (Clinical Genomics) confirmed in Anthropic doc; read-only public ClinGen CC0 data, no credentials |
 
 ## How to install
 

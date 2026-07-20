@@ -7,6 +7,11 @@ supplier: NeuroClaw
 availability: GA
 tool_categories: [Neuroscience]
 last_verified: 2026-06-11
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches CUHK-AIM-Group/NeuroClaw, skill code MIT (wraps BSD-3-Clause nii2dcm), no advisories, no credential requests, processes files locally"
 summary: "Convert NIfTI files (.nii or .nii.gz) to DICOM format, create DICOM series from processed neuroimaging results, write segmentation/registration/analysis outputs back to DICOM for PACS …"
 ---
 
@@ -21,6 +26,8 @@ Convert NIfTI files (.nii or .nii.gz) to DICOM format, create DICOM series from 
 | **Availability** | GA — part of the NeuroClaw neuroimaging skill library |
 | **Pricing** | Free / OSS (BSD 3-Clause (original nii2dcm). See https://github.com/tomaroberts/nii2dcm/blob/main/LICENSE for complete terms) |
 | **Capabilities** | Read/Write — Claude runs the skill's Python locally (Bash), not as an MCP tool |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches CUHK-AIM-Group/NeuroClaw, skill code MIT (wraps BSD-3-Clause nii2dcm), no advisories, no credential requests |
 
 ## How to install
 

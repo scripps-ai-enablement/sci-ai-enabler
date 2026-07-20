@@ -9,6 +9,11 @@ tool_categories: [Immunology and Microbiology, Molecular and Cellular Biology]
 last_verified: 2026-07-17
 claude_science: true
 summary: Microbiome/metagenomics analyses, taxonomy, and functional profiles from EMBL-EBI's MGnify; a source in the Omics Archives connector in Claude Science.
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "Anthropic-hosted Claude Science featured connector (Omics Archives) confirmed in Anthropic connectors-and-skills doc; read-only public EMBL-EBI MGnify data, no credentials"
 ---
 
 # MGnify (Claude Science Connector)
@@ -22,6 +27,8 @@ Provides microbiome and metagenomics analysis results from EMBL-EBI's MGnify, of
 | **Availability** | GA — Anthropic-hosted connector |
 | **Pricing** | Free — open; access via Claude Science |
 | **Capabilities** | Read-only |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — Anthropic-hosted Claude Science featured connector (Omics Archives) confirmed in Anthropic doc; read-only public EMBL-EBI data, no credentials |
 
 ## How to install
 

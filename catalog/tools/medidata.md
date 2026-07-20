@@ -8,6 +8,12 @@ availability: GA
 tool_categories: [Translational Medicine]
 last_verified: 2026-06-14
 summary: Medidata's clinical-trial MCP connector — query platform documentation (Rave EDC, Data Connect) and predict high-enrollment trial sites during protocol planning.
+verification: works
+verified_on: 2026-07-20
+verification_note: "listed as medidata in anthropics/life-sciences marketplace.json (confirmed); install path resolves to the published hosted endpoint mcp.imedidata.com/mcp; tool responses require an iMedidata login"
+security: cleared
+security_on: 2026-07-20
+security_note: "official anthropics/life-sciences marketplace entry (provenance confirmed); vendor-hosted remote HTTP MCP, read-only, access gated by iMedidata account"
 ---
 
 # Medidata Connector
@@ -21,6 +27,8 @@ Anthropic-listed connector wrapping Medidata's hosted MCP server, giving Claude 
 | **Availability** | GA in the `anthropics/life-sciences` marketplace |
 | **Pricing** | Connector install is free; Predictive Site Ranking requires a Medidata Intelligent Trials subscription, Platform Help requires an iMedidata account |
 | **Capabilities** | Read-only — documentation Q&A and site-ranking predictions |
+| **Verified** | works · 2026-07-20 — provenance confirmed in anthropics/life-sciences marketplace; install path resolves to published endpoint mcp.imedidata.com/mcp (responses require iMedidata login) |
+| **Security** | cleared · 2026-07-20 — official Anthropic marketplace entry; vendor-hosted remote HTTP MCP, read-only, access gated by iMedidata account |
 
 ## How to install
 

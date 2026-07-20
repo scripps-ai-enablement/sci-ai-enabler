@@ -7,6 +7,11 @@ supplier: NeuroClaw
 availability: GA
 tool_categories: [Neuroscience]
 last_verified: 2026-06-11
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches CUHK-AIM-Group/NeuroClaw, MIT skill code, no OSV/GitHub advisories, read-only local orchestration"
 summary: "Run QSIPrep (BIDS App) for diffusion MRI (DWI) preprocessing with best-practice workflows (topup/eddy, denoising/unringing options, susceptibility/motion correction, coregistration/normalization, QC reports) on BIDS datasets."
 ---
 
@@ -21,6 +26,8 @@ Run QSIPrep (BIDS App) for diffusion MRI (DWI) preprocessing with best-practice 
 | **Availability** | GA — part of the NeuroClaw neuroimaging skill library |
 | **Pricing** | Free / OSS (MIT) |
 | **Capabilities** | Read/Write — Claude runs the skill's Python locally (Bash), not as an MCP tool |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches CUHK-AIM-Group/NeuroClaw, MIT skill code, no advisories, read-only local orchestration |
 
 ## How to install
 

@@ -9,6 +9,11 @@ tool_categories: [Chemistry, Drug Repurposing and Discovery]
 last_verified: 2026-07-17
 claude_science: true
 summary: Measured protein–small-molecule binding affinities from BindingDB; a source in the Chemistry connector in Claude Science.
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "Anthropic-hosted Claude Science featured connector (Chemistry) confirmed in Anthropic connectors-and-skills doc; read-only public BindingDB CC BY-SA data, no credentials"
 ---
 
 # BindingDB (Claude Science Connector)
@@ -22,6 +27,8 @@ Provides measured protein–ligand binding affinities from BindingDB, offered in
 | **Availability** | GA — Anthropic-hosted connector |
 | **Pricing** | Free — data CC BY-SA; access via Claude Science |
 | **Capabilities** | Read-only |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — Anthropic-hosted Claude Science featured connector (Chemistry) confirmed in Anthropic doc; read-only public BindingDB CC BY-SA data, no credentials |
 
 ## How to install
 

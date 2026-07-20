@@ -9,6 +9,11 @@ tool_categories: [Immunology and Microbiology]
 last_verified: 2026-07-17
 claude_science: true
 summary: Persistent antibody identifiers (RRIDs) and vendor/catalog metadata from the Antibody Registry; a source in the Research Resources connector in Claude Science.
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "Anthropic-hosted Claude Science featured connector (Research Resources) confirmed in Anthropic connectors-and-skills doc; read-only public Antibody Registry (RRID/SciCrunch) data, no credentials"
 ---
 
 # Antibody Registry (Claude Science Connector)
@@ -22,6 +27,8 @@ Provides persistent antibody identifiers (RRIDs) and catalog metadata from the A
 | **Availability** | GA — Anthropic-hosted connector |
 | **Pricing** | Free — open; access via Claude Science |
 | **Capabilities** | Read-only |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — Anthropic-hosted Claude Science featured connector (Research Resources) confirmed in Anthropic doc; read-only public Antibody Registry data, no credentials |
 
 ## How to install
 

@@ -9,6 +9,11 @@ tool_categories: [Molecular and Cellular Biology, Translational Medicine]
 last_verified: 2026-07-17
 claude_science: true
 summary: Finnish biobank GWAS summary statistics across thousands of endpoints from FinnGen; a source in the Human Genetics connector in Claude Science.
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "Anthropic-hosted Claude Science featured connector (Human Genetics) confirmed in Anthropic connectors-and-skills doc; read-only public FinnGen GWAS summary statistics, no credentials"
 ---
 
 # FinnGen (Claude Science Connector)
@@ -22,6 +27,8 @@ Provides FinnGen's Finnish-biobank GWAS summary statistics across thousands of d
 | **Availability** | GA — Anthropic-hosted connector |
 | **Pricing** | Free — public summary statistics (individual data controlled); access via Claude Science |
 | **Capabilities** | Read-only |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — Anthropic-hosted Claude Science featured connector (Human Genetics) confirmed in Anthropic doc; read-only public FinnGen summary statistics, no credentials |
 
 ## How to install
 

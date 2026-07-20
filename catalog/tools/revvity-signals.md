@@ -8,6 +8,12 @@ availability: GA
 tool_categories: [All]
 last_verified: 2026-07-04
 summary: Claude.ai connector giving natural-language access to the Revvity Signals electronic lab notebook and connected R&D data.
+verification: degraded
+verified_on: 2026-07-20
+verification_note: "listing in Anthropic's MCP connector directory confirmed via cited press coverage (CLP, 2026-07-01); no public MCP endpoint or self-serve sign-up, so install path and tool list cannot be functionally resolved"
+security: cleared
+security_on: 2026-07-20
+security_note: "vendor connector in Anthropic's MCP directory (provenance confirmed via press); read-only, enterprise-gated behind a Revvity Signals account, no public endpoint"
 ---
 
 # Revvity Signals AI Connector
@@ -21,6 +27,8 @@ A Claude.ai connector that lets researchers search and query the Revvity Signals
 | **Availability** | GA — joined Anthropic's MCP connector directory 2026-07-01 |
 | **Pricing** | Enterprise — requires a Revvity Signals account (contact vendor) |
 | **Capabilities** | Read-only — ELN search, research-data retrieval, R&D knowledge querying |
+| **Verified** | degraded · 2026-07-20 — directory listing confirmed via cited press; no public endpoint, so install path/tool list not functionally resolvable |
+| **Security** | cleared · 2026-07-20 — vendor connector in Anthropic's MCP directory (provenance confirmed); read-only, enterprise-gated, no public endpoint |
 
 ## How to install
 

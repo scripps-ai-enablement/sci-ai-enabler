@@ -9,6 +9,11 @@ tool_categories: [Molecular and Cellular Biology]
 last_verified: 2026-07-17
 claude_science: true
 summary: Bulk biological data-mining and ID mapping via Ensembl BioMart; the BioMart connector in Claude Science.
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "Anthropic-hosted Claude Science featured connector (BioMart) confirmed in Anthropic connectors-and-skills doc; read-only public Ensembl/EMBL-EBI BioMart queries, no credentials"
 ---
 
 # BioMart (Claude Science Connector)
@@ -22,6 +27,8 @@ Provides bulk data-mining and cross-reference retrieval through Ensembl BioMart,
 | **Availability** | GA — Anthropic-hosted connector |
 | **Pricing** | Free — open; access via Claude Science |
 | **Capabilities** | Read-only |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — Anthropic-hosted Claude Science featured connector (BioMart) confirmed in Anthropic doc; read-only public Ensembl/EMBL-EBI BioMart queries, no credentials |
 
 ## How to install
 

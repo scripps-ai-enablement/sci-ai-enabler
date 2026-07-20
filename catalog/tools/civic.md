@@ -9,6 +9,11 @@ tool_categories: [Drug Repurposing and Discovery, Molecular and Cellular Biology
 last_verified: 2026-07-17
 claude_science: true
 summary: Crowd-curated clinical interpretations of cancer variants from CIViC (WashU); a source in the Clinical Genomics connector in Claude Science.
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "Anthropic-hosted Claude Science featured connector (Clinical Genomics) confirmed in Anthropic connectors-and-skills doc; read-only public CIViC (WashU) CC0 data, no credentials"
 ---
 
 # CIViC (Claude Science Connector)
@@ -22,6 +27,8 @@ Provides expert/crowd-curated clinical interpretations of cancer variants from C
 | **Availability** | GA — Anthropic-hosted connector |
 | **Pricing** | Free — data CC0; access via Claude Science |
 | **Capabilities** | Read-only |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — Anthropic-hosted Claude Science featured connector (Clinical Genomics) confirmed in Anthropic doc; read-only public CIViC CC0 data, no credentials |
 
 ## How to install
 

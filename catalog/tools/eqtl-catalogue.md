@@ -9,6 +9,11 @@ tool_categories: [Molecular and Cellular Biology, Translational Medicine]
 last_verified: 2026-07-17
 claude_science: true
 summary: Uniformly processed cis-QTL (eQTL/sQTL) summary statistics from EMBL-EBI's eQTL Catalogue; a source in the Human Genetics connector in Claude Science.
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "Anthropic-hosted Claude Science featured connector (Human Genetics) confirmed in Anthropic connectors-and-skills doc; read-only public EMBL-EBI eQTL Catalogue summary statistics, no credentials"
 ---
 
 # eQTL Catalogue (Claude Science Connector)
@@ -22,6 +27,8 @@ Provides uniformly processed cis-QTL summary statistics from the EMBL-EBI eQTL C
 | **Availability** | GA — Anthropic-hosted connector |
 | **Pricing** | Free — open summary statistics; access via Claude Science |
 | **Capabilities** | Read-only |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — Anthropic-hosted Claude Science featured connector (Human Genetics) confirmed in Anthropic doc; read-only public EMBL-EBI eQTL Catalogue data, no credentials |
 
 ## How to install
 

@@ -9,6 +9,11 @@ tool_categories: [Chemistry]
 last_verified: 2026-07-17
 claude_science: true
 summary: Chemical Entities of Biological Interest — curated small-molecule ontology and annotations; a source in the Chemistry connector in Claude Science.
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "Anthropic-hosted Claude Science featured connector (Chemistry) confirmed in Anthropic connectors-and-skills doc; read-only public EMBL-EBI ChEBI CC BY 4.0 data, no credentials"
 ---
 
 # ChEBI (Claude Science Connector)
@@ -22,6 +27,8 @@ Provides curated small-molecule structures, names, and ontology from EMBL-EBI's 
 | **Availability** | GA — Anthropic-hosted connector |
 | **Pricing** | Free — data CC BY 4.0; access via Claude Science |
 | **Capabilities** | Read-only |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — Anthropic-hosted Claude Science featured connector (Chemistry) confirmed in Anthropic doc; read-only public EMBL-EBI ChEBI CC BY 4.0 data, no credentials |
 
 ## How to install
 

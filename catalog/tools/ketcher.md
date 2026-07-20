@@ -9,6 +9,11 @@ tool_categories: [Chemistry]
 last_verified: 2026-07-17
 claude_science: true
 summary: Interactive 2D molecule sketcher (Ketcher) for drawing/editing chemical structures; the Ketcher Chemistry connector in Claude Science.
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "Anthropic-hosted Claude Science connector confirmed in Anthropic connectors-and-skills doc; underlying epam/ketcher repo live and Apache-2.0 (GitHub API); client-side 2D editor, no credentials"
 ---
 
 # Ketcher Chemistry (Claude Science Connector)
@@ -22,6 +27,8 @@ Provides an interactive 2D chemical-structure sketcher based on EPAM's open-sour
 | **Availability** | GA — Anthropic-hosted connector (EPAM component) |
 | **Pricing** | Free / OSS (Apache-2.0) |
 | **Capabilities** | Read/Write — draw, edit, and export molecular structures (SMILES/MOL) |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — Anthropic-hosted connector; epam/ketcher repo live and Apache-2.0 (GitHub API); client-side editor, no credentials |
 
 ## How to install
 

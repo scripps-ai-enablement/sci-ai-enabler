@@ -9,6 +9,11 @@ tool_categories: [Molecular and Cellular Biology]
 last_verified: 2026-07-17
 claude_science: true
 summary: Non-coding RNA families, covariance models, and alignments from EMBL-EBI's Rfam; the RNA connector in Claude Science.
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "Anthropic-hosted Claude Science featured connector (RNA) confirmed in Anthropic connectors-and-skills doc; read-only public EMBL-EBI Rfam CC0 data, no credentials"
 ---
 
 # Rfam (Claude Science Connector)
@@ -22,6 +27,8 @@ Provides non-coding RNA families and covariance models from EMBL-EBI's Rfam, off
 | **Availability** | GA — Anthropic-hosted connector |
 | **Pricing** | Free — data CC0; access via Claude Science |
 | **Capabilities** | Read-only |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — Anthropic-hosted Claude Science featured connector (RNA) confirmed in Anthropic doc; read-only public EMBL-EBI Rfam CC0 data, no credentials |
 
 ## How to install
 

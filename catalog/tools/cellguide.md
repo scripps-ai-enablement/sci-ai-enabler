@@ -9,6 +9,11 @@ tool_categories: [Immunology and Microbiology, Molecular and Cellular Biology]
 last_verified: 2026-07-17
 claude_science: true
 summary: Cell-type reference cards (markers, ontology, descriptions) from CZ CELLxGENE CellGuide; the CellGuide connector in Claude Science.
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "Anthropic-hosted Claude Science featured connector (CellGuide) confirmed in Anthropic connectors-and-skills doc; read-only public CZ CELLxGENE CellGuide data, no credentials"
 ---
 
 # CELLxGENE CellGuide (Claude Science Connector)
@@ -22,6 +27,8 @@ Provides cell-type reference information — canonical markers, ontology, and de
 | **Availability** | GA — Anthropic-hosted connector |
 | **Pricing** | Free — open; access via Claude Science |
 | **Capabilities** | Read-only |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — Anthropic-hosted Claude Science featured connector (CellGuide) confirmed in Anthropic doc; read-only public CZ CELLxGENE CellGuide data, no credentials |
 
 ## How to install
 

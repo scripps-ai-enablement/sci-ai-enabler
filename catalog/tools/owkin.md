@@ -8,6 +8,12 @@ availability: GA
 tool_categories: [Drug Repurposing and Discovery, Translational Medicine]
 last_verified: 2026-05-24
 summary: Owkin's Pathology Explorer agent — H&E whole-slide image analysis, cell-type detection, and tumour-microenvironment profiling — exposed to Claude as a remote MCP connector.
+verification: degraded
+verified_on: 2026-07-20
+verification_note: "listed as owkin in anthropics/life-sciences marketplace.json (confirmed); MCP endpoint URL and tool list are vendor-gated behind an Owkin account, so cannot be functionally resolved from public sources"
+security: cleared
+security_on: 2026-07-20
+security_note: "official anthropics/life-sciences marketplace entry (provenance confirmed); vendor-hosted remote MCP, read-only, access gated by Owkin account"
 ---
 
 # Owkin Pathology Explorer Connector
@@ -21,6 +27,8 @@ Remote MCP connector for **Pathology Explorer**, Owkin's specialised biological 
 | **Availability** | GA — launched 2026-01-12 with Claude for Healthcare and Life Sciences |
 | **Pricing** | Owkin account / subscription required (contact Owkin); free for evaluation per their docs |
 | **Capabilities** | Read-only — runs Owkin's proprietary models on referenced whole-slide images and returns structured results plus image previews |
+| **Verified** | degraded · 2026-07-20 — provenance confirmed in anthropics/life-sciences marketplace; MCP endpoint/tool list vendor-gated behind an Owkin account |
+| **Security** | cleared · 2026-07-20 — official Anthropic marketplace entry; vendor-hosted remote MCP, read-only, access gated by Owkin account |
 
 ## How to install
 

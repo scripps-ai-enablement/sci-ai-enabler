@@ -9,6 +9,11 @@ tool_categories: [Molecular and Cellular Biology, Translational Medicine]
 last_verified: 2026-07-17
 claude_science: true
 summary: East Asian biobank GWAS summary statistics from BioBank Japan (PheWeb); a source in the Human Genetics connector in Claude Science.
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "Anthropic-hosted Claude Science featured connector (Human Genetics) confirmed in Anthropic connectors-and-skills doc; read-only public BioBank Japan PheWeb summary statistics, no credentials"
 ---
 
 # BioBank Japan (Claude Science Connector)
@@ -22,6 +27,8 @@ Provides BioBank Japan's East-Asian GWAS summary statistics (via PheWeb), offere
 | **Availability** | GA — Anthropic-hosted connector |
 | **Pricing** | Free — public summary statistics; access via Claude Science |
 | **Capabilities** | Read-only |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — Anthropic-hosted Claude Science featured connector (Human Genetics) confirmed in Anthropic doc; read-only public BioBank Japan PheWeb data, no credentials |
 
 ## How to install
 

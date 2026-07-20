@@ -9,6 +9,11 @@ tool_categories: [Molecular and Cellular Biology, Integrative Structural and Com
 last_verified: 2026-07-17
 claude_science: true
 summary: Curated macromolecular complexes from EMBL-EBI's Complex Portal; a source in the Structures & Interactions connector in Claude Science.
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "Anthropic-hosted Claude Science featured connector (Structures & Interactions) confirmed in Anthropic connectors-and-skills doc; read-only public EMBL-EBI Complex Portal CC0 data, no credentials"
 ---
 
 # Complex Portal (Claude Science Connector)
@@ -22,6 +27,8 @@ Provides curated macromolecular complex compositions from EMBL-EBI's Complex Por
 | **Availability** | GA — Anthropic-hosted connector |
 | **Pricing** | Free — data CC0; access via Claude Science |
 | **Capabilities** | Read-only |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — Anthropic-hosted Claude Science featured connector (Structures & Interactions) confirmed in Anthropic doc; read-only public EMBL-EBI CC0 data, no credentials |
 
 ## How to install
 
