@@ -8,6 +8,11 @@ availability: Beta
 tool_categories: [Molecular and Cellular Biology]
 last_verified: 2026-07-18
 summary: "MCP server + Claude Code plugin for the ENCODE Project: search/download functional-genomics data and run ChIP/ATAC/RNA-seq/Hi-C/WGBS/CUT&RUN pipelines."
+verification: works
+verified_on: 2026-07-20
+security: caution
+security_on: 2026-07-20
+security_note: "provenance matches supplier (ammawla/encode-toolkit + PyPI encode-toolkit 0.3.0), maintained (pushed 2026-07-19) but AGPL-3.0-only copyleft triggers network-use source obligations and it is an unaffiliated community project"
 ---
 
 # ENCODE Toolkit
@@ -21,6 +26,8 @@ A Claude Code plugin (and standalone MCP server) that searches, downloads, and a
 | **Availability** | Beta — PyPI v0.3.0 (2026-03-21) |
 | **Pricing** | Free / OSS (AGPL-3.0-only) |
 | **Capabilities** | Read/Write — read-only ENCODE API queries; writes downloaded files and local experiment-tracking records to disk |
+| **Verified** | works · 2026-07-20 |
+| **Security** | caution · 2026-07-20 — provenance matches ammawla, maintained, but AGPL-3.0-only copyleft and unaffiliated community project |
 
 ## How to install
 

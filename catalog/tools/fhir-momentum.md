@@ -8,6 +8,11 @@ availability: GA
 tool_categories: [Translational Medicine]
 last_verified: 2026-06-21
 summary: MIT-licensed FHIR R4 MCP server with full CRUD, document ingestion/chunking, and Pinecone-backed semantic search over clinical records.
+verification: works
+verified_on: 2026-07-20
+security: caution
+security_on: 2026-07-20
+security_note: "provenance matches the-momentum/fhir-mcp-server MIT via GitHub API and maintained, but it is write-capable over PHI (full FHIR R4 CRUD) and its document/search tools ship clinical data to a third-party Pinecone account, so review data-handling before use"
 ---
 
 # Momentum FHIR MCP Server
@@ -21,6 +26,8 @@ Open-source MCP server that connects Claude to any HL7 FHIR R4 server, adding do
 | **Availability** | GA |
 | **Pricing** | Free / OSS (MIT). A Pinecone account is needed for the semantic-search / document tools |
 | **Capabilities** | Read/Write — full FHIR R4 CRUD plus document ingestion and vector search |
+| **Verified** | works · 2026-07-20 |
+| **Security** | caution · 2026-07-20 — provenance matches the-momentum/fhir-mcp-server, MIT, maintained, but write-capable over PHI and document/search tools ship clinical data to a third-party Pinecone account |
 
 ## How to install
 

@@ -9,6 +9,11 @@ tool_categories: [Immunology and Microbiology, Molecular and Cellular Biology, T
 last_verified: 2026-06-13
 claude_science: true
 summary: "Query the Human Protein Atlas — tissue/blood/brain expression, subcellular localization, cancer markers, and antibody validation/staining data."
+verification: works
+verified_on: 2026-07-20
+security: caution
+security_on: 2026-07-20
+security_note: "provenance matches Augmented-Nature/ProteinAtlas-MCP-Server (GitHub license NOASSERTION) but the repo LICENSE is a restrictive personal non-commercial grant, not the MIT the page claimed; single-maintainer/low-star community wrapper, read-only public HPA data"
 ---
 
 # Human Protein Atlas MCP Server
@@ -20,8 +25,10 @@ Community MCP server wrapping the Human Protein Atlas, exposing protein expressi
 | **Type** | MCP server |
 | **Supplier** | [Augmented Nature](https://github.com/Augmented-Nature/ProteinAtlas-MCP-Server) (Moudather Chelbi) |
 | **Availability** | GA |
-| **Pricing** | Free / OSS (MIT). No API key required — queries the public proteinatlas.org. |
+| **Pricing** | Free to use (restrictive licence — the repo LICENSE grants personal, non-commercial use only, not MIT). No API key required — queries the public proteinatlas.org. |
 | **Capabilities** | Read-only — Human Protein Atlas queries |
+| **Verified** | works · 2026-07-20 |
+| **Security** | caution · 2026-07-20 — repo LICENSE is a restrictive personal non-commercial grant (GitHub NOASSERTION), not the MIT the page claimed; single-maintainer community wrapper, read-only public HPA data |
 
 ## How to install
 
@@ -78,7 +85,7 @@ Antibody validation and immunostaining data are returned through the protein-inf
 
 **Claude Science:** This resource is offered inside Anthropic's **Claude Science** via the *Protein Annotation* featured connector. Its inclusion there is an independent signal of quality and trustworthiness for life-science research.
 
-License is MIT. No API key or account required. The server queries the public Human Protein Atlas; respect HPA's data-usage terms for downstream redistribution. Tool list and install steps verified against the upstream README 2026-06-13.
+The repo LICENSE file is a restrictive proprietary grant (personal, non-commercial use only; GitHub reports the license as NOASSERTION), not MIT — review it before any commercial or redistributed use. No API key or account required. The server queries the public Human Protein Atlas; respect HPA's data-usage terms for downstream redistribution. Tool list and install steps verified against the upstream README 2026-06-13.
 
 ## Sources
 

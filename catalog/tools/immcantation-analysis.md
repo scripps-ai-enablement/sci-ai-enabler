@@ -8,6 +8,11 @@ availability: GA
 tool_categories: [Immunology and Microbiology]
 last_verified: 2026-07-11
 summary: "Reconstruct B-cell clonal families, quantify somatic hypermutation and selection, and build antibody lineage trees from AIRR-seq data with the Immcantation R suite"
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches GPTomics/bioSkills MIT via GitHub API, tcr-bcr-analysis/immcantation-analysis SKILL.md confirmed this run, local R/Python workflow wrapping the open-source Immcantation suite no credentials"
 ---
 
 # Immcantation BCR Analysis (bioSkills)
@@ -21,6 +26,8 @@ A Claude Code skill that reconstructs B-cell clonal families, measures somatic h
 | **Availability** | GA — part of the bioSkills collection |
 | **Pricing** | Free / OSS (MIT) |
 | **Capabilities** | Read/Write — Claude runs the skill's R/Python workflow locally (Bash), not as an MCP tool |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches GPTomics/bioSkills, MIT, skill directory confirmed this run, local R/Python workflow wrapping the open-source Immcantation suite no credentials |
 
 ## How to install
 

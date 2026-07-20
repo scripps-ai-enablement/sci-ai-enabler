@@ -9,6 +9,11 @@ tool_categories: [Molecular and Cellular Biology, Integrative Structural and Com
 last_verified: 2026-07-17
 claude_science: true
 summary: ESMFold single-sequence protein structure prediction (no MSA), run locally or via the ESM Atlas API; a Claude Science skill.
+verification: works
+verified_on: 2026-07-20
+security: caution
+security_on: 2026-07-20
+security_note: "featured Claude Science skill and facebookresearch/esm MIT resolves, but the self-host upstream repo is archived (Meta moved ESM to EvolutionaryScale) so unmaintained"
 ---
 
 # ESMFold (Claude Skill)
@@ -22,6 +27,8 @@ Predicts protein structure directly from a single sequence with ESMFold — no M
 | **Availability** | GA — Claude Science research skill |
 | **Pricing** | Free / OSS (MIT code; model weights per Meta AI terms) |
 | **Capabilities** | Read/Write — writes predicted structures (PDB) with pLDDT |
+| **Verified** | works · 2026-07-20 |
+| **Security** | caution · 2026-07-20 — featured Claude Science skill, MIT, but self-host facebookresearch/esm repo is archived/unmaintained |
 
 ## How to install
 

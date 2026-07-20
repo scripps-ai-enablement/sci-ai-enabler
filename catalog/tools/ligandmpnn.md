@@ -9,6 +9,11 @@ tool_categories: [Drug Repurposing and Discovery, Integrative Structural and Com
 last_verified: 2026-07-17
 claude_science: true
 summary: LigandMPNN ligand-aware protein sequence design (fixed-backbone) accounting for small molecules, metals, and nucleotides; a Claude Science skill.
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches Baker Lab dauparas/LigandMPNN MIT via GitHub API, featured Claude Science skill, local inference no credentials"
 ---
 
 # LigandMPNN (Claude Skill)
@@ -22,6 +27,8 @@ Designs protein sequences for a fixed backbone while accounting for bound ligand
 | **Availability** | GA — Claude Science research skill |
 | **Pricing** | Free / OSS (MIT) |
 | **Capabilities** | Read/Write — local inference; writes designed sequences (FASTA) and scores |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches Baker Lab, MIT, featured Claude Science skill, local inference no credentials |
 
 ## How to install
 

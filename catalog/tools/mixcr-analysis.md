@@ -8,6 +8,11 @@ availability: GA
 tool_categories: [Immunology and Microbiology]
 last_verified: 2026-07-18
 summary: "Align V(D)J reads and assemble TCR/BCR clonotypes with MiXCR, driven by a chemistry-matched preset, exporting native or AIRR TSV for downstream repertoire analysis"
+verification: works
+verified_on: 2026-07-20
+security: caution
+security_on: 2026-07-20
+security_note: "skill provenance matches GPTomics/bioSkills MIT and the tcr-bcr-analysis/mixcr-analysis directory is confirmed this run, but the required MiXCR binary is separately licensed (free academic/non-commercial only) so review MiLaboratories terms before commercial use"
 ---
 
 # MiXCR Analysis (bioSkills)
@@ -21,6 +26,8 @@ A Claude Code skill that aligns raw immune-repertoire sequencing reads and assem
 | **Availability** | GA — part of the bioSkills collection |
 | **Pricing** | Free / OSS (MIT) — MiXCR itself requires a separate license (free for academic/non-commercial use) |
 | **Capabilities** | Read/Write — Claude runs the skill's workflow locally (Bash/Python), not as an MCP tool |
+| **Verified** | works · 2026-07-20 |
+| **Security** | caution · 2026-07-20 — skill provenance matches GPTomics/bioSkills, MIT, directory confirmed this run, but the required MiXCR binary is separately licensed (free academic/non-commercial only) |
 
 ## How to install
 

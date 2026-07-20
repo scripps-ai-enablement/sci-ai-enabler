@@ -9,6 +9,11 @@ tool_categories: [Drug Repurposing and Discovery, Immunology and Microbiology, I
 last_verified: 2026-06-11
 claude_science: true
 summary: MCP server over the Ensembl REST API for gene/transcript lookup, sequence retrieval, variant consequences, comparative genomics, and assembly lift-over.
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches effieklimi/ensembl-mcp-server MIT via GitHub API, read-only public Ensembl REST API no credentials, featured Claude Science Genomes connector"
 ---
 
 # Ensembl MCP Server
@@ -22,6 +27,8 @@ An MCP server that exposes the Ensembl REST API so Claude can look up genes and 
 | **Availability** | GA |
 | **Pricing** | Free / OSS (MIT). Ensembl REST API needs no key; the Smithery installer path requires a free Smithery key. |
 | **Capabilities** | Read-only — queries the public Ensembl REST API |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches effieklimi/ensembl-mcp-server, MIT, read-only public Ensembl REST API no credentials, featured Claude Science Genomes connector |
 
 ## How to install
 

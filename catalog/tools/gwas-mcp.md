@@ -8,6 +8,11 @@ availability: GA
 tool_categories: [Drug Repurposing and Discovery, Molecular and Cellular Biology, Translational Medicine]
 last_verified: 2026-07-11
 summary: Single-install MCP server exposing 30+ tools across 14 biological databases (UniProt, Ensembl, ClinVar, GWAS Catalog, STRING, AlphaFold, KEGG, Open Targets, OMIM) for variant-to-target research.
+verification: works
+verified_on: 2026-07-20
+security: caution
+security_on: 2026-07-20
+security_note: "PyPI gwas-mcp 1.0.2 MIT resolves but GitHub reports canonical owner muslus/gwas-mcp (page cites zaeyasa) and it is single-maintainer/1-star, stale pushed 2026-02-09"
 ---
 
 # GWAS-MCP
@@ -21,6 +26,8 @@ A single MCP server that bundles gene, variant, protein-interaction, structure, 
 | **Availability** | GA — PyPI `gwas-mcp` v1.0.2 (2026-02-09) |
 | **Pricing** | Free / OSS (MIT) — wraps public database APIs; no key documented |
 | **Capabilities** | Read-only — queries public REST APIs (UniProt, Ensembl, NCBI, ClinVar, GWAS Catalog, GTEx, STRING, InterPro, AlphaFold, PDB, KEGG, Open Targets, PharmGKB, OMIM) |
+| **Verified** | works · 2026-07-20 |
+| **Security** | caution · 2026-07-20 — PyPI gwas-mcp 1.0.2 MIT resolves but canonical owner is muslus/gwas-mcp, single-maintainer/stale |
 
 ## How to install
 

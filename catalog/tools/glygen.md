@@ -10,6 +10,12 @@ tool_categories: [All]
 last_verified: 2026-07-15
 summary: First-party remote MCP server over GlyGen's integrated glycan, glycoprotein, biomarker, and disease data — protein, site, glycan, biomarker, and disease summaries.
 flagged: upstream repo declares no LICENSE (as of 2026-07-15)
+verification: degraded
+verified_on: 2026-07-20
+verification_note: "self-host repo glygener/glygen-mcp-server resolves and is current (pushed 2026-07-15) but the hosted mcp.glygen.org/mcp endpoint returned 503 this run so boot is unverified"
+security: caution
+security_on: 2026-07-20
+security_note: "provenance matches GlyGen (glygener) but the wrapper repo has no LICENSE (GitHub license null) and is single-maintainer/0-star; underlying GlyGen data is public read-only"
 ---
 
 # GlyGen MCP Server
@@ -23,6 +29,8 @@ Remote MCP server maintained by the GlyGen project that exposes its integrated c
 | **Availability** | Beta — remote endpoint live; source repo [`glygener/glygen-mcp-server`](https://github.com/glygener/glygen-mcp-server) last updated 2026-06-25 |
 | **Pricing** | **Unverified —** GlyGen data is freely accessible, but the MCP wrapper repo declares no LICENSE file, so redistribution terms are unstated |
 | **Capabilities** | Read-only — data lookup/summary queries |
+| **Verified** | degraded · 2026-07-20 — self-host repo current but hosted endpoint returned 503 this run |
+| **Security** | caution · 2026-07-20 — provenance matches GlyGen but wrapper repo has no LICENSE, single-maintainer |
 
 ## How to install
 

@@ -8,6 +8,11 @@ availability: GA
 tool_categories: [Immunology and Microbiology]
 last_verified: 2026-07-11
 summary: "Classify shotgun metagenomic reads to taxa with Kraken2 minimizer/LCA matching, then re-estimate abundance with Bracken"
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches GPTomics/bioSkills MIT via GitHub API, metagenomics/kraken-classification SKILL.md confirmed this run, local Bash workflow wrapping bioconda tools no credentials"
 ---
 
 # Kraken2 Metagenomic Classification (bioSkills)
@@ -21,6 +26,8 @@ A Claude Code skill for taxonomic profiling of shotgun metagenomic reads with Kr
 | **Availability** | GA — part of the bioSkills collection |
 | **Pricing** | Free / OSS (MIT) |
 | **Capabilities** | Read/Write — Claude runs the skill's workflow locally (Bash), not as an MCP tool |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches GPTomics/bioSkills, MIT, skill directory confirmed this run, local Bash workflow wrapping bioconda tools no credentials |
 
 ## How to install
 

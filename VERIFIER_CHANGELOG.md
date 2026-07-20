@@ -4,6 +4,56 @@ Rolling, reverse-chronological log of catalog verification + security passes. Ea
 on-demand run that produces changes prepends a dated block; the top block is mirrored to the pinned
 "Verification updates" issue.
 
+## 2026-07-20 (bootstrap pass 28)
+
+Twenty-eighth bootstrap pass — **12 pages stamped**, a mixed MCP server / Claude Skill / plugin /
+connector batch of unstamped pages. Each judgment grounded in a source fetched this run (GitHub repo
++ contents + security-advisories APIs, PyPI JSON, the Anthropic `anthropics/healthcare` marketplace
+manifest, the Claude Science connectors doc, and the live `mcp.glygen.org/mcp` endpoint). 5
+works/cleared, 6 works/caution, 1 degraded/caution. No smoke run consumed (the smoke batch maps to
+already-stamped pages). Stamped strictly sequentially (read-then-two-single-Edits per file).
+
+### Verified
+- ligandmpnn — works/cleared. Baker Lab `dauparas/LigandMPNN` MIT (GitHub API); featured Claude
+  Science skill; local inference, no credentials.
+- ensembl — works/cleared. `effieklimi/ensembl-mcp-server` MIT; read-only public Ensembl REST API;
+  featured Claude Science Genomes connector.
+- fhir-developer — works/cleared. First-party Anthropic; `anthropics/healthcare` marketplace
+  manifest confirms the consolidated `healthcare` plugin this run; local authoring, no credentials.
+- kraken-classification — works/cleared. `GPTomics/bioSkills` MIT; `metagenomics/kraken-classification`
+  SKILL.md confirmed via contents API; local Bash workflow wrapping bioconda tools.
+- immcantation-analysis — works/cleared. `GPTomics/bioSkills` MIT; `tcr-bcr-analysis/immcantation-analysis`
+  SKILL.md confirmed; local R/Python workflow over the open-source Immcantation suite.
+- esmfold — works/caution. `facebookresearch/esm` MIT but repo ARCHIVED/unmaintained (Meta moved ESM
+  to EvolutionaryScale); featured Claude Science skill.
+- gwas-mcp — works/caution. PyPI `gwas-mcp` 1.0.2 MIT resolves but GitHub canonical owner is
+  `muslus/gwas-mcp` (page cites zaeyasa); single-maintainer/1-star, stale 2026-02-09.
+- encode-toolkit — works/caution. `ammawla/encode-toolkit` + PyPI 0.3.0 AGPL-3.0-only copyleft;
+  maintained (pushed 2026-07-19); unaffiliated community project.
+- human-protein-atlas — works/caution. `Augmented-Nature/ProteinAtlas-MCP-Server` LICENSE is a
+  restrictive personal non-commercial grant (NOASSERTION), NOT the MIT the page claimed.
+- fhir-momentum — works/caution. `the-momentum/fhir-mcp-server` MIT/maintained but write-capable over
+  PHI and document/search tools ship clinical data to a third-party Pinecone account.
+- mixcr-analysis — works/caution. `GPTomics/bioSkills` MIT, dir confirmed, but the required MiXCR
+  binary is separately licensed (free academic/non-commercial only).
+- glygen — degraded/caution. Self-host `glygener/glygen-mcp-server` current (pushed 2026-07-15) but
+  hosted `mcp.glygen.org/mcp` returned 503 this run so boot unverified; wrapper repo has no LICENSE.
+
+### Fixed
+- human-protein-atlas — corrected the false MIT claim in both the `Pricing` table row and the `Notes`
+  paragraph to state the repo's actual restrictive personal, non-commercial LICENSE.
+
+### Security
+- cleared: ligandmpnn, ensembl, fhir-developer, kraken-classification, immcantation-analysis.
+- caution: esmfold (archived), gwas-mcp (owner mismatch + stale), encode-toolkit (AGPL copyleft +
+  unaffiliated), human-protein-atlas (restrictive LICENSE vs MIT claim), fhir-momentum (PHI write +
+  Pinecone), mixcr-analysis (MiXCR separate license), glygen (no LICENSE + hosted 503).
+
+### Flagged
+- human-protein-atlas, esmfold, gwas-mcp, encode-toolkit, fhir-momentum, mixcr-analysis, glygen —
+  see verifier-state Flagged. Curator handoff: reconcile the gwas-mcp `supplier`/link to the
+  canonical `muslus/gwas-mcp` owner.
+
 ## 2026-07-20 (bootstrap pass 27)
 
 Twenty-seventh bootstrap pass — **7 pages stamped**, a mixed standalone MCP / plugin / skill batch
