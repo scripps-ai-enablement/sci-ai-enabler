@@ -28,23 +28,27 @@ An MCP server that exposes the Ensembl REST API so Claude can look up genes and 
 <!-- alt-install:sciagent -->
 - **Also packaged in the SciAgent-Skills collection** ([jaechang-hits](https://github.com/jaechang-hits/SciAgent-Skills) (community OSS, CC BY 4.0)): clone [`jaechang-hits/SciAgent-Skills`](https://github.com/jaechang-hits/SciAgent-Skills) and run `/plugin install sciagent-skills` in Claude Code (or copy `skills/genomics-bioinformatics/databases/ensembl-database` into `~/.claude/skills/`).
 <!-- /alt-install:sciagent -->
-The server is published to npm as `ensembl-mcp-server` and runs over stdio via `npx`.
+The server is a TypeScript project run over stdio; it is **not** published to npm as a standalone package, so install it via Smithery (upstream-recommended) or a local clone/build.
 
-- **Claude Code** — direct MCP add (stdio; Claude Code launches the process itself, so don't run `npx` separately):
+- **Either client — via Smithery** (upstream-recommended; requires a free Smithery key; replace `your-smithery-key` with the key from your Smithery dashboard):
   ```
-  claude mcp add --transport stdio ensembl -- npx -y ensembl-mcp-server
+  npx -y @smithery/cli@latest install @effieklimi/ensembl-mcp-server --client claude --key your-smithery-key
   ```
-- **Claude Desktop** — add to `claude_desktop_config.json`:
+- **Local clone/build** (no npm package — build from source, then register the run script):
+  ```
+  git clone https://github.com/effieklimi/ensembl-mcp-server.git
+  cd ensembl-mcp-server
+  npm install
+  npm run build
+  claude mcp add --transport stdio ensembl -- npm run start --prefix /path/to/ensembl-mcp-server
+  ```
+- **Claude Desktop** — register the same local build in `claude_desktop_config.json`:
   ```json
   {
     "mcpServers": {
-      "ensembl": { "command": "npx", "args": ["-y", "ensembl-mcp-server"] }
+      "ensembl": { "command": "npm", "args": ["run", "start", "--prefix", "/path/to/ensembl-mcp-server"] }
     }
   }
-  ```
-- **Either client — via Smithery** (requires a free Smithery key; replace `your-smithery-key` with the key from your Smithery dashboard):
-  ```
-  npx -y @smithery/cli@latest install @effieklimi/ensembl-mcp-server --client claude --key your-smithery-key
   ```
 
 Requires Node.js. No Ensembl account or API key is needed for the REST API itself.
@@ -70,7 +74,7 @@ Ten tools spanning the Ensembl REST API:
 
 **Claude Science:** This resource is offered inside Anthropic's **Claude Science** via the *Genomes* featured connector. Its inclusion there is an independent signal of quality and trustworthiness for life-science research.
 
-Read-only wrapper over the public Ensembl REST API; no write operations. A separate hosted HTTP variant exists via the Pipeworx gateway (`claude mcp add --transport http ensembl https://gateway.pipeworx.io/ensembl/mcp`), and `Augmented-Nature/Ensembl-MCP-Server` is an alternative implementation — the npm `ensembl-mcp-server` package documented above is the most direct install for Claude.
+Read-only wrapper over the public Ensembl REST API; no write operations. A separate hosted HTTP variant exists via the Pipeworx gateway (`claude mcp add --transport http ensembl https://gateway.pipeworx.io/ensembl/mcp`), and `Augmented-Nature/Ensembl-MCP-Server` is an alternative implementation. The `effieklimi/ensembl-mcp-server` project is not published to npm, so use the Smithery installer or the local clone/build above rather than an `npx` package fetch.
 
 ## Sources
 
