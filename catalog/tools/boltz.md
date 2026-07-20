@@ -7,6 +7,11 @@ supplier: Boltz
 availability: GA
 tool_categories: [Chemistry, Drug Repurposing and Discovery, Immunology and Microbiology, Integrative Structural and Computational Biology]
 last_verified: 2026-06-27
+verification: works
+verified_on: 2026-07-20
+security: caution
+security_on: 2026-07-20
+security_note: "provenance matches (boltz-bio/boltz-api-skills MIT, listed in claude-plugins-official); skills submit jobs plus a BOLTZ_API_KEY to the hosted paid Boltz API — external-service dependency"
 claude_science: true
 summary: Skills that drive the hosted Boltz API to predict biomolecular structures, screen and design small molecules, and design protein/antibody binders.
 ---
@@ -22,6 +27,8 @@ Plugin of agent skills that let Claude run Boltz biomolecular workflows — 3D s
 | **Availability** | GA — listed in `anthropics/claude-plugins-official` |
 | **Pricing** | Usage-based — Boltz API account required; agent shows a cost estimate before submitting each job (per-job pricing not published) |
 | **Capabilities** | Read/Write — submits compute jobs to the Boltz API and retrieves results |
+| **Verified** | works · 2026-07-20 |
+| **Security** | caution · 2026-07-20 — provenance matches boltz-bio (MIT, in official marketplace) but ships a BOLTZ_API_KEY to the hosted paid Boltz API |
 
 ## How to install
 

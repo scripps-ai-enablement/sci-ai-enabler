@@ -7,6 +7,11 @@ supplier: Stanford SNAP Lab
 availability: GA
 tool_categories: [All]
 last_verified: 2026-06-11
+verification: works
+verified_on: 2026-07-20
+security: caution
+security_on: 2026-07-20
+security_note: "provenance matches (snap-stanford/Biomni Apache-2.0 active, PyPI biomni 0.0.8, wrapper davila7/claude-code-templates MIT); the agent executes LLM-generated code with full system privileges — sandbox it"
 summary: General-purpose biomedical AI agent that plans and runs multi-step research workflows across genomics, drug discovery, and clinical analysis.
 ---
 
@@ -21,6 +26,8 @@ A Claude Code skill that wraps the Stanford SNAP Lab Biomni agent so Claude can 
 | **Availability** | GA |
 | **Pricing** | Free / OSS (Apache-2.0; some bundled tools/databases carry more restrictive commercial licenses) |
 | **Capabilities** | Read/Write — generates and executes analysis code, retrieves from an integrated biomedical data lake |
+| **Verified** | works · 2026-07-20 |
+| **Security** | caution · 2026-07-20 — Apache-2.0 and provenance match, but the agent executes LLM-generated code with full system privileges; run sandboxed |
 
 ## How to install
 

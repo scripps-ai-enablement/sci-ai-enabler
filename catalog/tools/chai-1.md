@@ -7,6 +7,11 @@ supplier: Chai Discovery
 availability: GA
 tool_categories: [Drug Repurposing and Discovery, Integrative Structural and Computational Biology]
 last_verified: 2026-07-17
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches Chai Discovery (chaidiscovery/chai-lab Apache-2.0, not archived, 1970 stars); no GitHub security advisories"
 claude_science: true
 summary: Chai-1 biomolecular structure prediction (proteins, nucleic acids, ligands) run locally or via a hosted server; a Claude Science skill.
 ---
@@ -22,6 +27,8 @@ Predicts biomolecular complex structures with Chai-1, driven as a Claude skill o
 | **Availability** | GA — Claude Science research skill |
 | **Pricing** | Free / OSS (Apache-2.0, code + weights) |
 | **Capabilities** | Read/Write — writes predicted complex structures with confidence scores |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches Chai Discovery, chaidiscovery/chai-lab Apache-2.0, no GitHub advisories |
 
 ## How to install
 

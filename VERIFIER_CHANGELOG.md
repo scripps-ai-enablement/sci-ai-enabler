@@ -4,6 +4,51 @@ Rolling, reverse-chronological log of catalog verification + security passes. Ea
 on-demand run that produces changes prepends a dated block; the top block is mirrored to the pinned
 "Verification updates" issue.
 
+## 2026-07-20 (bootstrap pass 17)
+
+Seventeenth bootstrap pass — first batch of **non-K-Dense standalone** entries: two Claude Science
+model skills anchored to their own OSS repos, two API/agent skills, and two subscription-gated
+`anthropics/life-sciences` MCP connectors. All judgments grounded in sources fetched this run.
+
+### Verified
+- `borzoi` — works / cleared. Anchor `calico/borzoi` via GitHub API (Apache-2.0, not archived,
+  `disabled:false`, 254 stars, pushed 2025-08-28 — stable research model, default branch `main`).
+  OSS `git clone` path confirmed current.
+- `chai-1` — works / cleared. Anchor `chaidiscovery/chai-lab` (Apache-2.0, not archived, active,
+  1970 stars). OSS clone path confirmed current.
+- `boltz` — works / caution. Anchor `boltz-bio/boltz-api-skills` (MIT, active); confirmed listed in
+  `anthropics/claude-plugins-official` marketplace.json pointing at that repo `plugins/boltz`.
+  Supplier boltz.bio loads.
+- `biomni` — works / caution. Anchor `snap-stanford/Biomni` (Apache-2.0, active, 3517 stars) + PyPI
+  `biomni` 0.0.8 (Apache-2.0) + wrapper `davila7/claude-code-templates` (MIT, active). All three
+  install targets resolve.
+- `consensus` — degraded / cleared. Plugin present in `anthropics/life-sciences` marketplace.json;
+  MCP server needs a Consensus.app account, so functionally unverifiable without a subscription.
+- `adisinsight` — degraded / cleared. Plugin `adisinsight` v1.0.0 present in `anthropics/life-sciences`;
+  `plugin.json` MCP endpoint `adisinsight-mcp.springer.com/mcp` resolves to the supplier host; needs
+  an AdisInsight subscription, so functionally unverifiable.
+
+### Fixed
+- None — no broken install targets or metadata in this batch.
+
+### Flagged
+- `boltz`, `biomni` — security caution (informational): `boltz` ships a `BOLTZ_API_KEY` to the
+  hosted paid Boltz API; `biomni`'s A1 agent executes LLM-generated code with full system
+  privileges. Provenance/license are clean — no mismatch.
+- `consensus`, `adisinsight` — verification degraded (subscription/account-gated remote MCP servers,
+  not testable without credentials).
+
+### Security
+- `borzoi`, `chai-1` — cleared. Provenance matches the page supplier; Apache-2.0; GitHub
+  `security-advisories` endpoint empty for both.
+- `boltz` — caution. Provenance matches boltz-bio (MIT, official marketplace) but external paid-API
+  key dependency.
+- `biomni` — caution. Apache-2.0 and provenance match, but full-privilege code execution — sandbox.
+- `consensus`, `adisinsight` — cleared. Anthropic-packaged in the official life-sciences marketplace;
+  endpoints/provenance match the stated supplier; read-only.
+- Tooling note: OSV `api.osv.dev/v1/query` is POST-only and WebFetch is GET-only (405); advisory
+  checks used the GitHub `repos/<org>/<repo>/security-advisories` endpoint (all empty this run).
+
 ## 2026-07-20 (bootstrap pass 16)
 
 Sixteenth bootstrap pass — the final 12 unstamped `supplier: NeuroClaw` neuroimaging skills,

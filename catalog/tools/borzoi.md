@@ -7,6 +7,11 @@ supplier: Calico Life Sciences
 availability: GA
 tool_categories: [Molecular and Cellular Biology]
 last_verified: 2026-07-17
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches Calico (calico/borzoi Apache-2.0, not archived, 254 stars); no GitHub security advisories"
 claude_science: true
 summary: Borzoi sequence-to-expression model predicting RNA-seq coverage from DNA sequence; runs locally as a Claude Science skill.
 ---
@@ -22,6 +27,8 @@ Predicts cell-type-resolved RNA-seq coverage directly from DNA sequence using Ca
 | **Availability** | GA — Claude Science research skill |
 | **Pricing** | Free / OSS (Apache-2.0; weights on Hugging Face) |
 | **Capabilities** | Read/Write — local inference; writes per-track predicted coverage and variant-effect scores |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches Calico, calico/borzoi Apache-2.0, no GitHub advisories |
 
 ## How to install
 

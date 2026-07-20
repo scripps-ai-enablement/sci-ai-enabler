@@ -7,6 +7,12 @@ supplier: Consensus
 availability: GA
 tool_categories: [All]
 last_verified: 2026-06-07
+verification: degraded
+verified_on: 2026-07-20
+verification_note: "install path resolves (consensus plugin in anthropics/life-sciences marketplace) but the MCP server needs a Consensus.app account so it is functionally unverifiable without a subscription"
+security: cleared
+security_on: 2026-07-20
+security_note: "Anthropic-packaged plugin in the official anthropics/life-sciences marketplace; provenance matches Consensus.app supplier; read-only"
 summary: Consensus.app MCP plugin bringing AI-powered scientific literature search and evidence synthesis into Claude across all research areas.
 ---
 
@@ -21,6 +27,8 @@ Anthropic-packaged Claude Code plugin that wraps the Consensus MCP server, bring
 | **Availability** | GA in the `life-sciences` marketplace |
 | **Pricing** | Requires a Consensus account (free tier available; paid tiers for higher usage); plugin install is free |
 | **Capabilities** | Read-only |
+| **Verified** | degraded · 2026-07-20 — resolves in anthropics/life-sciences but needs a Consensus.app account |
+| **Security** | cleared · 2026-07-20 — Anthropic-packaged in official life-sciences marketplace, provenance matches Consensus.app |
 
 ## How to install
 
