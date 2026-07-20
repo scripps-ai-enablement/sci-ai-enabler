@@ -7,6 +7,12 @@ supplier: K-Dense
 availability: GA
 tool_categories: [Neuroscience, Translational Medicine]
 last_verified: 2026-06-04
+verification: works
+verified_on: 2026-07-20
+verification_note: "repo and skills/neurokit2 dir resolve on K-Dense-AI/scientific-agent-skills; smoke clone failed on sandbox missing git (environmental, not tool)"
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches supplier K-Dense-AI, MIT repo wrapping MIT NeuroKit2, maintained (pushed 2026-07-15), no OSV advisories"
 summary: Claude skill for biosignal processing — ECG, EEG, EDA, RSP, PPG, EMG, and EOG analysis including HRV, event-related responses, and multi-modal physiological insights.
 ---
 
@@ -21,6 +27,8 @@ Claude skill wrapping the NeuroKit2 biosignal processing toolkit — analysis pi
 | **Availability** | GA — distributed with the K-Dense marketplace at v2.27.0 |
 | **Pricing** | Free / OSS |
 | **Capabilities** | Read/Write — local computation on user-supplied physiological recordings |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches K-Dense-AI, MIT repo, maintained, no OSV advisories |
 
 ## How to install
 

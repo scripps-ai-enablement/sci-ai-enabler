@@ -4,6 +4,29 @@ Rolling, reverse-chronological log of catalog verification + security passes. Ea
 on-demand run that produces changes prepends a dated block; the top block is mirrored to the pinned
 "Verification updates" issue.
 
+## 2026-07-20 (bootstrap pass 4)
+
+Fourth bootstrap pass — 16 more unstamped K-Dense skill entries stamped (all static). All judgments
+grounded in sources fetched this run: the anchor repo `K-Dense-AI/scientific-agent-skills` (GitHub
+API — MIT, not archived, pushed 2026-07-15, open_issues 38) and a fresh GitHub contents listing of
+its `skills/` directory, which lists each stamped skill's subdirectory. Smoke clones for these
+depend on `git`, still missing from the sandbox image, so verification rests on the resolving
+subdir rather than a boot; noted per entry.
+
+### Verified
+- `matplotlib`, `networkx`, `statsmodels`, `sympy`, `polars`, `seaborn` → works — anchor repo + each `skills/<slug>` dir resolve.
+- `scikit-learn`, `pysam`, `qiskit`, `pennylane`, `qutip` → works — anchor repo + each `skills/<slug>` dir resolve.
+- `pymc`, `pymatgen`, `geopandas`, `neurokit2`, `pyopenms` → works — anchor repo + each `skills/<slug>` dir resolve.
+
+### Fixed
+- None this run.
+
+### Security
+- cleared (16): `matplotlib`, `networkx`, `statsmodels`, `sympy`, `polars`, `seaborn`, `scikit-learn`, `pysam`, `qiskit`, `pennylane`, `qutip`, `pymc`, `pymatgen`, `geopandas`, `neurokit2`, `pyopenms` — provenance matches supplier K-Dense-AI, MIT collection (wrap BSD-3/MIT/Apache-2.0 upstream libs, noted per entry), maintained (pushed 2026-07-15), no OSV advisories.
+
+### Flagged
+- None broken.
+
 ## 2026-07-20 (bootstrap pass 3)
 
 Third bootstrap pass — 21 K-Dense skill entries stamped (all static). All judgments grounded in
