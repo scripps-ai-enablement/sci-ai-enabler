@@ -7,6 +7,11 @@ supplier: K-Dense
 availability: GA
 tool_categories: [Molecular and Cellular Biology, Translational Medicine]
 last_verified: 2026-06-04
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches supplier K-Dense-AI, MIT operator toolkit for the open nf-core/pacsomatic pipeline, maintained (pushed 2026-07-15), no OSV advisories"
 summary: Operator toolkit for nf-core/pacsomatic matched tumor-normal workflows from BAM inputs.
 ---
 
@@ -21,6 +26,8 @@ Operator toolkit for nf-core/pacsomatic matched tumor-normal workflows from BAM 
 | **Availability** | GA — part of the actively maintained K-Dense `scientific-agent-skills` collection |
 | **Pricing** | Free / OSS (MIT) |
 | **Capabilities** | Read/Write — Claude runs the skill's Python locally (Bash), not as an MCP tool |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches K-Dense-AI, MIT operator toolkit for open nf-core pipeline, maintained, no OSV advisories |
 
 ## How to install
 

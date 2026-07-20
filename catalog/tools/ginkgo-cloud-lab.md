@@ -7,6 +7,11 @@ supplier: K-Dense
 availability: GA
 tool_categories: [Molecular and Cellular Biology]
 last_verified: 2026-06-04
+verification: works
+verified_on: 2026-07-20
+security: caution
+security_on: 2026-07-20
+security_note: "provenance matches supplier K-Dense-AI, but the page states the skill license as unstated and it uses Ginkgo Cloud Lab credentials against the external cloud.ginkgo.bio service"
 summary: Submit and manage protocols on Ginkgo Bioworks Cloud Lab (cloud.ginkgo.bio), a web-based interface for autonomous lab execution on Reconfigurable Automation Carts (RACs).
 ---
 
@@ -21,6 +26,8 @@ Submit and manage protocols on Ginkgo Bioworks Cloud Lab (cloud.ginkgo.bio), a w
 | **Availability** | GA — part of the actively maintained K-Dense `scientific-agent-skills` collection |
 | **Pricing** | Free / OSS — license not stated upstream |
 | **Capabilities** | Read/Write — Claude runs the skill's Python locally (Bash), not as an MCP tool |
+| **Verified** | works · 2026-07-20 |
+| **Security** | caution · 2026-07-20 — provenance matches K-Dense-AI, but skill license unstated and uses external Ginkgo Cloud Lab credentials |
 
 ## How to install
 

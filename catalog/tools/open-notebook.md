@@ -7,6 +7,11 @@ supplier: K-Dense
 availability: GA
 tool_categories: [General-Purpose Utilities]
 last_verified: 2026-06-04
+verification: works
+verified_on: 2026-07-20
+security: caution
+security_on: 2026-07-20
+security_note: "MIT and provenance clear, but self-hosting wires content to whichever of 16+ external AI providers (OpenAI, Anthropic, Google, Groq, Mistral) the user configures with their keys"
 summary: Self-hosted, open-source alternative to Google NotebookLM for AI-powered research and document analysis.
 ---
 
@@ -21,6 +26,8 @@ Self-hosted, open-source alternative to Google NotebookLM for AI-powered researc
 | **Availability** | GA — part of the actively maintained K-Dense `scientific-agent-skills` collection |
 | **Pricing** | Free / OSS (MIT) |
 | **Capabilities** | Read/Write — Claude runs the skill's Python locally (Bash), not as an MCP tool |
+| **Verified** | works · 2026-07-20 |
+| **Security** | caution · 2026-07-20 — MIT and provenance clear, but sends content to user-configured external AI providers |
 
 ## How to install
 

@@ -7,6 +7,11 @@ supplier: K-Dense
 availability: GA
 tool_categories: [General-Purpose Utilities]
 last_verified: 2026-06-04
+verification: works
+verified_on: 2026-07-20
+security: caution
+security_on: 2026-07-20
+security_note: "Apache-2.0 and provenance clear, but the skill deploys user code and data to the external paid Modal cloud via Modal SDK tokens"
 summary: Modal is a serverless cloud platform for running Python on demand, including on-demand GPUs.
 ---
 
@@ -21,6 +26,8 @@ Modal is a serverless cloud platform for running Python on demand, including on-
 | **Availability** | GA — part of the actively maintained K-Dense `scientific-agent-skills` collection |
 | **Pricing** | Free / OSS (Apache-2.0) |
 | **Capabilities** | Read/Write — Claude runs the skill's Python locally (Bash), not as an MCP tool |
+| **Verified** | works · 2026-07-20 |
+| **Security** | caution · 2026-07-20 — Apache-2.0 and provenance clear, but deploys user code to the external paid Modal cloud |
 
 ## How to install
 

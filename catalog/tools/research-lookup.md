@@ -7,6 +7,11 @@ supplier: K-Dense
 availability: GA
 tool_categories: [General-Purpose Utilities]
 last_verified: 2026-06-04
+verification: works
+verified_on: 2026-07-20
+security: caution
+security_on: 2026-07-20
+security_note: "provenance and MIT clear, but ships user PARALLEL_API_KEY to api.parallel.ai and OPENROUTER_API_KEY to openrouter.ai — query text leaves the machine to external paid services"
 summary: Look up current research information using parallel-cli search (primary, fast web search), the Parallel Chat API (deep research), or Perplexity sonar-pro-search (academic paper searches).
 ---
 
@@ -21,6 +26,8 @@ Look up current research information using parallel-cli search (primary, fast we
 | **Availability** | GA — part of the actively maintained K-Dense `scientific-agent-skills` collection |
 | **Pricing** | Free / OSS (MIT) |
 | **Capabilities** | Read/Write — Claude runs the skill's Python locally (Bash), not as an MCP tool |
+| **Verified** | works · 2026-07-20 |
+| **Security** | caution · 2026-07-20 — MIT and provenance clear, but ships user API keys to external api.parallel.ai and openrouter.ai |
 
 ## How to install
 

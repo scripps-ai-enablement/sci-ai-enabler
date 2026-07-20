@@ -7,6 +7,11 @@ supplier: K-Dense
 availability: GA
 tool_categories: [General-Purpose Utilities]
 last_verified: 2026-06-04
+verification: works
+verified_on: 2026-07-20
+security: caution
+security_on: 2026-07-20
+security_note: "provenance matches supplier K-Dense-AI and no external calls, but the page states the skill license as unstated (collection root is MIT); lift to cleared if a license is confirmed"
 summary: Create professional research posters in LaTeX using beamerposter, tikzposter, or baposter.
 ---
 
@@ -21,6 +26,8 @@ Create professional research posters in LaTeX using beamerposter, tikzposter, or
 | **Availability** | GA — part of the actively maintained K-Dense `scientific-agent-skills` collection |
 | **Pricing** | Free / OSS — license not stated upstream |
 | **Capabilities** | Read/Write — Claude runs the skill's Python locally (Bash), not as an MCP tool |
+| **Verified** | works · 2026-07-20 |
+| **Security** | caution · 2026-07-20 — provenance matches K-Dense-AI, no external calls, but skill license unstated on the page |
 
 ## How to install
 

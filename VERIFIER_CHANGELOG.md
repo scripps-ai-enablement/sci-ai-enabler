@@ -4,6 +4,36 @@ Rolling, reverse-chronological log of catalog verification + security passes. Ea
 on-demand run that produces changes prepends a dated block; the top block is mirrored to the pinned
 "Verification updates" issue.
 
+## 2026-07-20 (bootstrap pass 10)
+
+Tenth bootstrap pass — 16 more unstamped K-Dense skill entries stamped (the integration/utility
+slugs deferred from pass 9). All judgments grounded in sources fetched this run: anchor repo
+`K-Dense-AI/scientific-agent-skills` (GitHub API — MIT, not archived, `disabled:false`, pushed
+2026-07-15, updated 2026-07-20, 31,247 stars) and the `skills/` contents API listing, which
+confirmed each stamped subdir resolves (two fetches covering the alphabetical range). Caps
+respected (16 static verifications, 0 smoke verdicts consumed — the 8/8-pass smoke batch was
+already captured in pass 8). Honesty note: the second `skills/` contents fetch returned a
+garbled/repeated tail past `scholar-evaluation`; those names were discarded and flagged in
+verifier-state for a clean re-fetch. `benchling-integration` was already stamped works/cleared in a
+prior run and was skipped.
+
+### Verified
+- works/cleared: `liteparse` (Apache-2.0), `markdown-mermaid-writing` (Apache-2.0), `polars-bio` (Apache-2.0), `pptx-posters` (MIT), `scholar-evaluation` (MIT), `pacsomatic` (MIT), `research-grants` (MIT) — anchor repo + each `skills/<slug>` resolves via contents API; self-contained local execution, license stated, no OSV advisories.
+- works/caution: `research-lookup`, `open-notebook`, `modal`, `latex-posters`, `paper-lookup`, `parallel-web`, `infographics`, `ginkgo-cloud-lab`, `omero-integration`, `opentrons-integration`, `protocolsio-integration`, `labarchive-integration`, `latchbio-integration` — resolve and install path current; concerns noted under Security.
+
+### Fixed
+- None this run.
+
+### Flagged
+- `research-lookup` — security `caution`: MIT/provenance clear, but ships a user `PARALLEL_API_KEY` to api.parallel.ai and `OPENROUTER_API_KEY` to openrouter.ai (query text leaves the machine to external paid services).
+- `open-notebook`, `modal` — security `caution`: MIT/Apache-2.0 clear, but `open-notebook` wires content to user-configured external AI providers and `modal` deploys user code/data to the external paid Modal cloud.
+- `latex-posters`, `paper-lookup` — security `caution`: provenance clears and no external credentials, but the skill license is unstated on the page (collection root is MIT). Lift to cleared once a per-skill license is confirmed.
+- `parallel-web`, `infographics` — security `caution`: skill license unstated on the page and each ships prompts/queries to an external service (parallel-cli web API; Google Gemini image services respectively).
+- `ginkgo-cloud-lab`, `omero-integration`, `opentrons-integration`, `protocolsio-integration`, `labarchive-integration`, `latchbio-integration` — security `caution`: skill license unstated on the page and each authenticates to an external cloud/ELN service with user credentials. `opentrons-integration` wraps the local open Opentrons Protocol API; lift to cleared if a license is confirmed.
+
+### Security
+- No OSV/GitHub advisories surfaced for the anchor collection this run; all serious concerns are the credential/external-service and unstated-license cautions listed above. No provenance mismatches or typosquat-shaped names in this batch (all under `K-Dense-AI`).
+
 ## 2026-07-20 (bootstrap pass 9)
 
 Ninth bootstrap pass — 16 more unstamped K-Dense skill entries stamped. All judgments grounded in

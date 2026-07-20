@@ -7,6 +7,11 @@ supplier: K-Dense
 availability: GA
 tool_categories: [Molecular and Cellular Biology]
 last_verified: 2026-06-04
+verification: works
+verified_on: 2026-07-20
+security: caution
+security_on: 2026-07-20
+security_note: "provenance matches supplier K-Dense-AI and it wraps the local open-source Opentrons Protocol API, but the page states the skill license as unstated; lift to cleared if a license is confirmed"
 summary: Official Opentrons Protocol API for OT-2 and Flex robots.
 ---
 
@@ -21,6 +26,8 @@ Official Opentrons Protocol API for OT-2 and Flex robots.
 | **Availability** | GA — part of the actively maintained K-Dense `scientific-agent-skills` collection |
 | **Pricing** | Free / OSS — license not stated upstream |
 | **Capabilities** | Read/Write — Claude runs the skill's Python locally (Bash), not as an MCP tool |
+| **Verified** | works · 2026-07-20 |
+| **Security** | caution · 2026-07-20 — provenance matches K-Dense-AI, wraps local open Opentrons Protocol API, but skill license unstated on the page |
 
 ## How to install
 

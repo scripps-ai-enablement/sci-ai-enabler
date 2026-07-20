@@ -7,6 +7,11 @@ supplier: K-Dense
 availability: GA
 tool_categories: [Molecular and Cellular Biology]
 last_verified: 2026-06-04
+verification: works
+verified_on: 2026-07-20
+security: caution
+security_on: 2026-07-20
+security_note: "provenance matches supplier K-Dense-AI, but the page states the skill license as unstated and it uses a protocols.io API token against the external protocols.io service"
 summary: Integration with protocols.io API for managing scientific protocols.
 ---
 
@@ -21,6 +26,8 @@ Integration with protocols.io API for managing scientific protocols.
 | **Availability** | GA — part of the actively maintained K-Dense `scientific-agent-skills` collection |
 | **Pricing** | Free / OSS — license not stated upstream |
 | **Capabilities** | Read/Write — Claude runs the skill's Python locally (Bash), not as an MCP tool |
+| **Verified** | works · 2026-07-20 |
+| **Security** | caution · 2026-07-20 — provenance matches K-Dense-AI, but skill license unstated and uses an external protocols.io API token |
 
 ## How to install
 

@@ -7,6 +7,11 @@ supplier: K-Dense
 availability: GA
 tool_categories: [All]
 last_verified: 2026-06-04
+verification: works
+verified_on: 2026-07-20
+security: caution
+security_on: 2026-07-20
+security_note: "provenance matches supplier K-Dense-AI and queries only public scholarly REST APIs, but the page states the skill license as unstated; lift to cleared if a license is confirmed"
 summary: Search 10 academic paper databases via REST APIs for research papers, preprints, and scholarly articles.
 ---
 
@@ -21,6 +26,8 @@ Search 10 academic paper databases via REST APIs for research papers, preprints,
 | **Availability** | GA — part of the actively maintained K-Dense `scientific-agent-skills` collection |
 | **Pricing** | Free / OSS — license not stated upstream |
 | **Capabilities** | Read/Write — Claude runs the skill's Python locally (Bash), not as an MCP tool |
+| **Verified** | works · 2026-07-20 |
+| **Security** | caution · 2026-07-20 — provenance matches K-Dense-AI, public scholarly APIs only, but skill license unstated on the page |
 
 ## How to install
 
