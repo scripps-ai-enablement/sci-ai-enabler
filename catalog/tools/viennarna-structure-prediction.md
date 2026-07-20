@@ -7,6 +7,11 @@ supplier: SciAgent
 availability: GA
 tool_categories: [Molecular and Cellular Biology, Integrative Structural and Computational Biology]
 last_verified: 2026-06-11
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches jaechang-hits, root LICENSE is CC BY 4.0, no OSV/GitHub advisories, read-only local ViennaRNA analysis"
 summary: "Predict RNA secondary structure, MFE folding, base-pair probabilities, RNA-RNA interactions via ViennaRNA Python bindings."
 ---
 
@@ -21,6 +26,8 @@ Predict RNA secondary structure, MFE folding, base-pair probabilities, RNA-RNA i
 | **Availability** | GA — part of the BixBench-evaluated SciAgent-Skills collection |
 | **Pricing** | Free / OSS (MIT) |
 | **Capabilities** | Read/Write — Claude runs the skill's Python locally (Bash), not as an MCP tool |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches jaechang-hits, CC BY 4.0, no advisories |
 
 ## How to install
 

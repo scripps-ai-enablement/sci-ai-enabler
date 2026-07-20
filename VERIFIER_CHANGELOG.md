@@ -4,6 +4,40 @@ Rolling, reverse-chronological log of catalog verification + security passes. Ea
 on-demand run that produces changes prepends a dated block; the top block is mirrored to the pinned
 "Verification updates" issue.
 
+## 2026-07-20 (bootstrap pass 22)
+
+Twenty-second bootstrap pass — the **SciAgent non-`-database` skills, batch 3**: 10 more unstamped
+`supplier: SciAgent` Claude Skill pages, all sharing the anchor `jaechang-hits/SciAgent-Skills`.
+Each skill's parent directory was confirmed present via a direct GitHub contents-API fetch this run
+(8 distinct parent dirs). Skill-doc type — Claude runs the skill's Python/CLI locally via Bash, not
+an MCP server — so each is graded `works` on the confirmed-current clone/copy install path. All
+judgments grounded in sources fetched this run (GitHub repo + 8 contents API listings).
+
+### Verified
+- Anchor `jaechang-hits/SciAgent-Skills` re-confirmed via GitHub API (root LICENSE verbatim CC BY
+  4.0, GitHub NOASSERTION, not archived, not disabled, pushed 2026-06-15, updated 2026-07-20, 275
+  stars, 7 open issues, default branch main).
+- 10 SciAgent Claude Skills — all works. Each parent dir confirmed present via the contents API:
+  viennarna-structure-prediction (molecular-biology); mdtraj-trajectory-analysis
+  (structural-biology-drug-discovery); fastp-fastq-preprocessing (genomics-bioinformatics/qc);
+  western-blot-quantification (lab-automation); ucsc-genome-browser
+  (genomics-bioinformatics/databases); nnunet-segmentation (medical-imaging); maxquant-proteomics
+  (proteomics-protein-engineering); omics-analysis-guide, mofaplus-multi-omics,
+  cellchat-cell-communication (systems-biology-multiomics). Clone/copy install paths resolve.
+
+### Fixed
+- None this run.
+
+### Flagged
+- None broken this run.
+
+### Security
+- 9 of 10 cleared — provenance matches jaechang-hits, root LICENSE CC BY 4.0, no GitHub
+  security-advisories, read-only local analysis with no credential/API-key requests.
+- `kegg-pathway-analysis` — caution. Skill code is CC BY 4.0 and provenance matches, but the
+  underlying KEGG data needs a paid commercial license for non-academic use (data-use restriction
+  only; verification `works`).
+
 ## 2026-07-20 (bootstrap pass 21)
 
 Twenty-first bootstrap pass — the **SciAgent non-`-database` skills, batch 2**: 10 more unstamped
