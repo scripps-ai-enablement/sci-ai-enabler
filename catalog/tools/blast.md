@@ -7,6 +7,11 @@ supplier: Bio-MCP
 availability: GA
 tool_categories: [All]
 last_verified: 2026-06-20
+verification: works
+verified_on: 2026-07-20
+security: caution
+security_on: 2026-07-20
+security_note: "provenance matches Bio-MCP org, repo resolves but no LICENSE file upstream despite MIT claim and no push since 2025-06, no OSV advisories"
 summary: "MCP server wrapping NCBI BLAST+ for nucleotide/protein similarity search and custom database creation, run locally over stdio."
 ---
 
@@ -21,6 +26,8 @@ MCP server that lets Claude run NCBI BLAST+ sequence-similarity searches against
 | **Availability** | GA — public GitHub repo, MIT-licensed |
 | **Pricing** | Free / OSS (MIT) |
 | **Capabilities** | Read/Write — runs BLAST+ binaries locally; can build databases (`makeblastdb`) |
+| **Verified** | works · 2026-07-20 |
+| **Security** | caution · 2026-07-20 — no LICENSE file upstream despite MIT claim, unmaintained since 2025-06, no OSV advisories |
 
 ## How to install
 

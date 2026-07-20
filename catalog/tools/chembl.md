@@ -7,6 +7,11 @@ supplier: EMBL-EBI (Anthropic-packaged)
 availability: GA
 tool_categories: [Chemistry, Drug Repurposing and Discovery]
 last_verified: 2026-07-15
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches Anthropic, anthropics/life-sciences marketplace repo resolves and is active, ChEMBL data from EMBL-EBI, no OSV advisories"
 summary: Anthropic-packaged plugin and Claude.ai connector over EMBL-EBI's ChEMBL bioactive-compound database — compound, target, bioactivity, and mechanism-of-action lookup.
 ---
 
@@ -21,6 +26,8 @@ Anthropic-packaged plugin and Claude.ai connector over **ChEMBL**, EMBL-EBI's ma
 | **Availability** | GA in the `anthropics/life-sciences` marketplace; announced at J.P. Morgan 2026 (January 2026) |
 | **Pricing** | Free / OSS (ChEMBL data CC-BY-SA-3.0) |
 | **Capabilities** | Read-only |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches Anthropic, life-sciences marketplace active, ChEMBL data EMBL-EBI |
 
 ## How to install
 

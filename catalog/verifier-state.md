@@ -12,13 +12,14 @@ It owns the `verification` / `security` stamps on catalog entries; the catalog c
 
 ## Recently verified
 
+- `arxiv` — works / cleared · 2026-07-20 — blazickjp GitHub Apache-2.0 + PyPI arxiv-mcp-server v0.5.0, no OSV.
+- `chembl` — works / cleared · 2026-07-20 — anthropics/life-sciences marketplace repo resolves and active, ChEMBL data EMBL-EBI.
+- `clinicaltrials-gov-mcp` — works / cleared · 2026-07-20 — cyanheads Apache-2.0, npm clinicaltrialsgov-mcp-server v2.8.2, no OSV.
+- `datamol` — works / cleared · 2026-07-20 — K-Dense-AI repo MIT + Datamol PyPI v0.12.5 Apache-2.0, no OSV.
+- `blast` — works / caution · 2026-07-20 — bio-mcp/bio-mcp-blast resolves but no LICENSE upstream (MIT claimed), unmaintained since 2025-06.
+- `bcftools-variant-manipulation` / `autodock-vina-docking` — works / caution · 2026-07-20 — jaechang-hits/SciAgent-Skills active 2026-06 but GitHub license NOASSERTION.
+- `chemcp` — works / caution · 2026-07-20 — scottmreed GitHub active + npm chemcp v1.1.0, but no LICENSE file in repo (npm says ISC).
 - `bci-mcp` — works / caution · 2026-07-20 — smoke pass; PyPI+npm+GitHub v0.1.3 MIT, single-maintainer alpha.
-- `instrument-data-to-allotrope` — works / cleared · 2026-07-20 — smoke pass; life-sciences plugin path resolves, allotropy Benchling MIT.
-- `flowio` / `rdkit-skill` / `scikit-bio` / `gget` / `biopython` / `anndata` — works / cleared · 2026-07-20 — K-Dense-AI repo MIT, skill dirs resolve, maintained; smoke clone failed only on sandbox missing git.
-- `nextflow-development` — works / cleared · 2026-07-20 — anthropics/life-sciences dir resolves; K-Dense alt smoke clone failed on sandbox git.
-- `pymol` / `foldseek-structural-search` — degraded / cleared · 2026-07-20 — fixed: removed stale scienceskillscommon copy line (404 in repo, not imported).
-- `biomcp` — works / cleared · 2026-07-20 — biomcp-cli v0.8.25 + biomcp-python v0.7.3 MIT, GenomOncology.
-- `scanpy` / `cellrank-mcp` / `decoupler-mcp` / `liana-mcp` — works / caution · 2026-07-20 — scmcphub PyPI v0.4.0/v0.5.0 present, no OSV, but repos unmaintained since 2025-06 (no LICENSE on several).
 
 ## Flagged (broken or security)
 
@@ -28,6 +29,9 @@ _None this run._ (`pymol`, `foldseek-structural-search` degraded but fixed in-pa
 
 - scmcphub ecosystem (`scanpy`, `cellrank-mcp`, `decoupler-mcp`, `liana-mcp`) — recheck for a maintenance bump or archival; currently ~13 months stale.
 - `gromacs-mcp` — recheck upstream for a published LICENSE file; graded caution until then.
+- `blast` (bio-mcp org) — recheck for a published LICENSE and a maintenance bump; caution until then.
+- SciAgent-Skills entries (`bcftools-variant-manipulation`, `autodock-vina-docking`, …) — GitHub reports license NOASSERTION; recheck whether a recognized LICENSE lands to lift from caution.
+- `chemcp` — recheck for a LICENSE file committed to the repo to reconcile the ISC npm metadata.
 
 ## Smoke-test queue
 

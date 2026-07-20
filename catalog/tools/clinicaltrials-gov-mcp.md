@@ -7,6 +7,11 @@ supplier: cyanheads (Casey Hand)
 availability: GA
 tool_categories: [Translational Medicine, Drug Repurposing and Discovery]
 last_verified: 2026-06-28
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches cyanheads, GitHub Apache-2.0 active 2026-07 and npm clinicaltrialsgov-mcp-server v2.8.2 present, no OSV advisories"
 summary: Apache-2.0 MCP server over the ClinicalTrials.gov v2 API — trial search, full study records, outcomes / adverse-event extraction, and patient-to-trial matching. Hosted public instance available.
 ---
 
@@ -21,6 +26,8 @@ Community-maintained MCP server wrapping the ClinicalTrials.gov v2 API. Supports
 | **Availability** | GA — distributed on npm as `clinicaltrialsgov-mcp-server` |
 | **Pricing** | Free / OSS (Apache-2.0). No API key required; public hosted instance hosted on Cloudflare Workers free tier. |
 | **Capabilities** | Read-only — ClinicalTrials.gov API queries; optional patient-matching tool |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches cyanheads, Apache-2.0, npm v2.8.2, no OSV advisories |
 
 ## How to install
 

@@ -4,6 +4,27 @@ Rolling, reverse-chronological log of catalog verification + security passes. Ea
 on-demand run that produces changes prepends a dated block; the top block is mirrored to the pinned
 "Verification updates" issue.
 
+## 2026-07-20 (bootstrap pass 2)
+
+Second bootstrap pass — 8 more entries stamped (all static). All judgments grounded in sources
+fetched this run (GitHub/PyPI/npm APIs and GitHub Advisory/OSV search).
+
+### Verified
+- `arxiv` → works — `blazickjp/arxiv-mcp-server` (Apache-2.0, pushed 2026-05) and PyPI `arxiv-mcp-server` v0.5.0 resolve.
+- `chembl` → works — `anthropics/life-sciences` marketplace repo resolves and is active (non-executable plugin/connector; path current).
+- `clinicaltrials-gov-mcp` → works — `cyanheads/clinicaltrialsgov-mcp-server` (Apache-2.0, pushed 2026-07) and npm `clinicaltrialsgov-mcp-server` v2.8.2 resolve.
+- `datamol` → works — `K-Dense-AI/scientific-agent-skills` (MIT) and PyPI `datamol` v0.12.5 resolve.
+- `blast` → works — `bio-mcp/bio-mcp-blast` repo resolves (clone-and-install path current).
+- `bcftools-variant-manipulation`, `autodock-vina-docking` → works — `jaechang-hits/SciAgent-Skills` (pushed 2026-06) and each skill dir resolve.
+- `chemcp` → works — `scottmreed/ChemCP` repo resolves and npm `chemcp` v1.1.0 present.
+
+### Security
+- cleared: `arxiv` (Apache-2.0, provenance blazickjp), `chembl` (Anthropic-packaged), `clinicaltrials-gov-mcp` (Apache-2.0, provenance cyanheads), `datamol` (K-Dense-AI MIT + Datamol Apache-2.0) — provenance matches, real license, no OSV advisories.
+- caution: `blast` (no LICENSE upstream despite MIT claim, unmaintained since 2025-06); `bcftools-variant-manipulation`, `autodock-vina-docking` (GitHub license NOASSERTION); `chemcp` (no LICENSE file in repo, npm metadata says ISC).
+
+### Flagged
+- None broken. Deferred for LICENSE recheck: `blast`, SciAgent-Skills NOASSERTION entries, `chemcp`.
+
 ## 2026-07-20
 
 First bootstrap pass — 17 entries stamped (8 consuming smoke results, 9 static). All judgments

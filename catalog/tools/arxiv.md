@@ -8,6 +8,11 @@ availability: GA
 tool_categories: [All]
 last_verified: 2026-07-17
 claude_science: true
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches blazickjp, GitHub Apache-2.0 and PyPI arxiv-mcp-server v0.5.0 present, no OSV advisories"
 summary: Search and retrieve arXiv preprints (incl. q-bio) and metadata; part of the Literature Graph connector in Claude Science.
 ---
 
@@ -22,6 +27,8 @@ Searches arXiv and retrieves preprint metadata and full text via a community MCP
 | **Availability** | GA — community OSS (PyPI) |
 | **Pricing** | Free / OSS |
 | **Capabilities** | Read-only |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches blazickjp, Apache-2.0, no OSV advisories |
 
 ## How to install
 

@@ -7,6 +7,11 @@ supplier: Scott Reed
 availability: GA
 tool_categories: [Chemistry]
 last_verified: 2026-06-13
+verification: works
+verified_on: 2026-07-20
+security: caution
+security_on: 2026-07-20
+security_note: "provenance matches scottmreed, npm chemcp v1.1.0 present and GitHub repo active 2026-02, but no LICENSE file in the repo (npm metadata says ISC), no OSV advisories"
 summary: MCP App that renders interactive 2D molecular structures from SMILES and computes basic properties inside Claude conversations via RDKit.js.
 ---
 
@@ -21,6 +26,8 @@ MCP App that draws interactive 2D molecular structure diagrams from SMILES strin
 | **Availability** | GA — installable via npm |
 | **Pricing** | Free / OSS (license not declared upstream) |
 | **Capabilities** | Read-only — renders and describes molecules you supply |
+| **Verified** | works · 2026-07-20 |
+| **Security** | caution · 2026-07-20 — provenance matches scottmreed, no LICENSE file in repo (npm says ISC), no OSV advisories |
 
 ## How to install
 

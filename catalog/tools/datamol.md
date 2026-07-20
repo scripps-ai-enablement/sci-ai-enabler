@@ -7,6 +7,11 @@ supplier: K-Dense
 availability: GA
 tool_categories: [Chemistry, Drug Repurposing and Discovery]
 last_verified: 2026-06-04
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches K-Dense-AI skills repo (MIT, active 2026-07), Datamol on PyPI v0.12.5 Apache-2.0, no OSV advisories"
 summary: Claude skill wrapping Datamol — an RDKit-based Python library for molecular standardization, transformations, featurization, and parallel processing on large compound libraries.
 ---
 
@@ -21,6 +26,8 @@ Claude skill providing Python recipes for [Datamol](https://datamol.io/), an RDK
 | **Availability** | GA — actively maintained 2025–2026 |
 | **Pricing** | Free / OSS skill (MIT collection); Datamol itself is Apache-2.0 |
 | **Capabilities** | Read/Write — Claude executes Datamol via the Bash/Python tool |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — K-Dense-AI skills repo MIT, Datamol PyPI v0.12.5 Apache-2.0, no OSV advisories |
 
 ## How to install
 
