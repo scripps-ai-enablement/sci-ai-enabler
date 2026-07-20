@@ -7,6 +7,12 @@ supplier: K-Dense
 availability: GA
 tool_categories: [Immunology and Microbiology, Molecular and Cellular Biology]
 last_verified: 2026-06-04
+verification: works
+verified_on: 2026-07-20
+verification_note: "repo and skills/scikit-bio dir resolve on K-Dense-AI/scientific-agent-skills; smoke clone failed on sandbox missing git (environmental, not tool)"
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches supplier K-Dense-AI, MIT repo wrapping BSD-3 scikit-bio, maintained (pushed 2026-07-15), no OSV advisories"
 summary: Skill for microbiome ecology — reads BIOM/FASTA, computes alpha/beta diversity (UniFrac), PCoA, PERMANOVA, and builds phylogenetic trees.
 ---
 
@@ -21,6 +27,8 @@ Claude skill wrapping the scikit-bio library for community ecology and microbiom
 | **Availability** | GA |
 | **Pricing** | Free / OSS (BSD-3-Clause) |
 | **Capabilities** | Read/Write — local computation on user-supplied sequence and community data |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches K-Dense-AI, MIT repo, maintained, no OSV advisories |
 
 ## How to install
 

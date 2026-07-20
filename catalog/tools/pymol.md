@@ -7,6 +7,12 @@ supplier: Google DeepMind
 availability: GA
 tool_categories: [Integrative Structural and Computational Biology]
 last_verified: 2026-06-27
+verification: degraded
+verified_on: 2026-07-20
+verification_note: "removed a stale copy of skills/scienceskillscommon (404 in repo, not imported by SKILL.md); pymol skill dir resolves on google-deepmind/science-skills"
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches supplier google-deepmind, Apache-2.0 code, maintained (pushed 2026-07-07), no OSV advisories"
 summary: "Visualize, align, and render protein/molecular structures with PyMOL — headless, GPU-free, producing publication-quality PNGs and editable .pse sessions."
 ---
 
@@ -21,6 +27,8 @@ Render and analyze 3D protein and small-molecule structures with PyMOL from insi
 | **Availability** | GA |
 | **Pricing** | Free / OSS skill (Apache-2.0 code, CC-BY-4.0 docs); PyMOL itself is licensed separately — review [pymol.org](https://www.pymol.org/) |
 | **Capabilities** | Read/Write — Claude writes and runs PyMOL Python scripts locally (`uv run`) over structure files in your project, writing PNG/`.pse`/stdout outputs |
+| **Verified** | degraded · 2026-07-20 — removed stale scienceskillscommon copy line; pymol skill dir resolves |
+| **Security** | cleared · 2026-07-20 — provenance matches google-deepmind, Apache-2.0, maintained, no OSV advisories |
 
 ## How to install
 
@@ -30,9 +38,7 @@ The `google-deepmind/science-skills` collection follows the Agent Skills `SKILL.
   ```
   git clone https://github.com/google-deepmind/science-skills
   cp -r science-skills/skills/pymol ~/.claude/skills/
-  cp -r science-skills/skills/scienceskillscommon ~/.claude/skills/
   ```
-  (The skill imports shared helpers from `scienceskillscommon` — copy it too.)
 - **Prerequisite** — the skill runs PyMOL via `uv run` with PEP 723 dependency headers; install `uv` first if absent: `curl -LsSf https://astral.sh/uv/install.sh | sh`. PyMOL (open-source build, headless via OSMesa) installs into an isolated environment on first run — no GPU, X11, or display server required.
 
 ## What it does

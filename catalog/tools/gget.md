@@ -7,6 +7,12 @@ supplier: K-Dense
 availability: GA
 tool_categories: [Drug Repurposing and Discovery, Immunology and Microbiology, Integrative Structural and Computational Biology, Molecular and Cellular Biology]
 last_verified: 2026-06-04
+verification: works
+verified_on: 2026-07-20
+verification_note: "repo and skills/gget dir resolve on K-Dense-AI/scientific-agent-skills"
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches supplier K-Dense-AI, MIT repo wrapping the gget library, maintained (pushed 2026-07-15), no OSV advisories"
 summary: Claude skill wrapping the gget command-line / Python tool for fast unified queries against Ensembl, UniProt, NCBI, PDB, COSMIC, and other genomics databases.
 ---
 
@@ -21,6 +27,8 @@ Claude skill that teaches the gget unified API for querying 20+ genomics databas
 | **Availability** | GA — actively maintained 2025–2026 |
 | **Pricing** | Free / OSS |
 | **Capabilities** | Read-only — queries public databases via gget |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches K-Dense-AI, MIT repo, maintained, no OSV advisories |
 
 ## How to install
 

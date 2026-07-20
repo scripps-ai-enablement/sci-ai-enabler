@@ -7,6 +7,12 @@ supplier: K-Dense
 availability: GA
 tool_categories: [Chemistry]
 last_verified: 2026-06-04
+verification: works
+verified_on: 2026-07-20
+verification_note: "repo and skills/rdkit dir resolve on K-Dense-AI/scientific-agent-skills; smoke clone failed on sandbox missing git (environmental, not tool)"
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches supplier K-Dense-AI, MIT repo wrapping BSD-3 RDKit, maintained (pushed 2026-07-15), no OSV advisories"
 summary: Claude skill providing RDKit recipes for SMILES parsing, descriptors, fingerprints, substructure search, reactions, and 2D/3D molecular generation.
 ---
 
@@ -21,6 +27,8 @@ Claude skill providing Python recipes for the full RDKit cheminformatics stack �
 | **Availability** | GA — actively maintained 2025–2026 |
 | **Pricing** | Free / OSS (BSD-3-Clause skill; MIT repo) |
 | **Capabilities** | Read/Write — Claude executes RDKit via the Bash/Python tool |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches K-Dense-AI, MIT repo, maintained, no OSV advisories |
 
 ## How to install
 

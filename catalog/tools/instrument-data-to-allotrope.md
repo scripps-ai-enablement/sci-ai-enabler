@@ -7,6 +7,11 @@ supplier: Anthropic
 availability: GA
 tool_categories: [Chemistry, Drug Repurposing and Discovery, Immunology and Microbiology, Molecular and Cellular Biology, Translational Medicine]
 last_verified: 2026-06-20
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "Anthropic marketplace plugin path resolves, allotropy dep is Benchling Open Source MIT, no OSV advisories"
 summary: Converts 40+ lab-instrument output formats to Allotrope Simple Model JSON / CSV for LIMS and data-lake ingestion.
 ---
 
@@ -21,6 +26,8 @@ Parses lab-instrument output (PDF, CSV, Excel, TXT) and writes Allotrope Simple 
 | **Availability** | GA — distributed via `anthropics/life-sciences` marketplace alongside Claude for Life Sciences (Oct 2025) |
 | **Pricing** | Free / OSS |
 | **Capabilities** | Read/Write |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — Anthropic plugin path resolves, allotropy dep is Benchling OSS MIT, no OSV advisories |
 
 ## How to install
 

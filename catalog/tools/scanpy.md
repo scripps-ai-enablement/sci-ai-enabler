@@ -7,6 +7,11 @@ supplier: scmcphub
 availability: GA
 tool_categories: [Drug Repurposing and Discovery, Immunology and Microbiology, Integrative Structural and Computational Biology, Molecular and Cellular Biology, Neuroscience, Translational Medicine]
 last_verified: 2026-07-04
+verification: works
+verified_on: 2026-07-20
+security: caution
+security_on: 2026-07-20
+security_note: "provenance matches scmcphub, PyPI scanpy-mcp v0.5.0 present, BSD-3 repo, no OSV advisories, but repo last pushed 2025-06-27 (unmaintained ~13mo)"
 summary: MCP server wrapping Scanpy so Claude can run end-to-end single-cell RNA-seq analyses (QC, clustering, DE, plotting) from natural language.
 ---
 
@@ -21,6 +26,8 @@ MCP server that exposes the full Scanpy / AnnData workflow as natural-language t
 | **Availability** | GA — v0.5.0 (10 releases) |
 | **Pricing** | Free / OSS (BSD-3-Clause) |
 | **Capabilities** | Read/Write |
+| **Verified** | works · 2026-07-20 |
+| **Security** | caution · 2026-07-20 — provenance matches scmcphub, BSD-3, no OSV advisories, repo unmaintained since 2025-06 |
 
 Install the server:
 

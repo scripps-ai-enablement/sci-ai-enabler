@@ -7,6 +7,12 @@ supplier: MacromNex
 availability: Alpha
 tool_categories: [Integrative Structural and Computational Biology]
 last_verified: 2026-07-11
+verification: works
+verified_on: 2026-07-20
+verification_note: "MacromNex/gromacs_mcp repo and Dockerfile build path resolve; prebuilt ghcr image tag not independently confirmable statically"
+security: caution
+security_on: 2026-07-20
+security_note: "provenance matches supplier MacromNex, no repo LICENSE file (redistribution terms unclear), alpha single-community project, no OSV advisories"
 summary: "Run GROMACS molecular-dynamics simulations and trajectory analysis from Claude via a Docker container with GROMACS 2025.4 pre-installed."
 ---
 
@@ -21,6 +27,8 @@ Drive GROMACS molecular-dynamics simulations and analysis from Claude through a 
 | **Availability** | Alpha (repo created 2025-12-24, last updated 2026-04-17) |
 | **Pricing** | Free / OSS (**Unverified —** upstream declares no repository LICENSE file; the README lists only "LGPL (GROMACS)", which is GROMACS's own license, not the wrapper's. Do not assume redistribution terms until a license is published upstream) |
 | **Capabilities** | Read/Write — runs GROMACS commands and simulations against files in the mounted working directory |
+| **Verified** | works · 2026-07-20 |
+| **Security** | caution · 2026-07-20 — provenance matches MacromNex, no repo LICENSE, alpha, no OSV advisories |
 
 ## How to install
 

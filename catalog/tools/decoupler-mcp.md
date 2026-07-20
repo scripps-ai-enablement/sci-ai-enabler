@@ -7,6 +7,11 @@ supplier: scmcphub
 availability: GA
 tool_categories: [Immunology and Microbiology, Molecular and Cellular Biology]
 last_verified: 2026-06-13
+verification: works
+verified_on: 2026-07-20
+security: caution
+security_on: 2026-07-20
+security_note: "provenance matches scmcphub, PyPI decoupler-mcp v0.4.0 present, no OSV advisories, but no repo LICENSE file and ecosystem unmaintained since 2025-06"
 summary: MCP server wrapping decoupler so Claude can infer pathway and transcription-factor activities from expression data in natural language.
 ---
 
@@ -21,6 +26,8 @@ MCP server that exposes the Python decoupler footprint-analysis workflow as natu
 | **Availability** | GA — v0.4.0 (2025-06-27) |
 | **Pricing** | Free / OSS — BSD-3-Clause (per the scmcphub ecosystem; per-repo LICENSE file not separately confirmed) |
 | **Capabilities** | Read/Write — runs inference on a loaded AnnData object |
+| **Verified** | works · 2026-07-20 |
+| **Security** | caution · 2026-07-20 — provenance matches scmcphub, no OSV advisories, no repo LICENSE and unmaintained since 2025-06 |
 
 ## How to install
 

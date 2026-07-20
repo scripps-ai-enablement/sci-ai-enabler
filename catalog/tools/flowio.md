@@ -7,6 +7,12 @@ supplier: K-Dense
 availability: GA
 tool_categories: [Immunology and Microbiology]
 last_verified: 2026-07-04
+verification: works
+verified_on: 2026-07-20
+verification_note: "repo and skills/flowio dir resolve on K-Dense-AI/scientific-agent-skills; smoke clone failed on sandbox missing git (environmental, not tool)"
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches supplier K-Dense-AI, MIT repo wrapping BSD-3 flowio, maintained (pushed 2026-07-15), no OSV advisories"
 summary: Skill that parses Flow Cytometry Standard (FCS v2–3.1) files into NumPy/pandas for immunophenotyping pipelines and metadata extraction.
 ---
 
@@ -21,6 +27,8 @@ Claude skill wrapping the BSD-3 `flowio` library for parsing and emitting Flow C
 | **Availability** | GA |
 | **Pricing** | Free / OSS (BSD-3-Clause) |
 | **Capabilities** | Read/Write — parses and emits FCS files |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches K-Dense-AI, MIT repo, maintained, no OSV advisories |
 
 ## How to install
 

@@ -8,6 +8,12 @@ supplier: Google DeepMind
 availability: GA
 tool_categories: [Integrative Structural and Computational Biology]
 last_verified: 2026-06-27
+verification: degraded
+verified_on: 2026-07-20
+verification_note: "removed a stale copy of skills/scienceskillscommon (404 in repo, not imported by SKILL.md); foldseek_structural_search skill dir resolves on google-deepmind/science-skills"
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches supplier google-deepmind, Apache-2.0 code, maintained (pushed 2026-07-07), no OSV advisories"
 summary: "Submit a 3D protein structure (.pdb/.cif) and find structurally similar proteins across AFDB, PDB100, SwissProt, and more via the Foldseek API."
 ---
 
@@ -22,6 +28,8 @@ Take a protein 3D coordinate file and find structurally similar proteins across 
 | **Availability** | GA |
 | **Pricing** | Free / OSS skill (Apache-2.0 code, CC-BY-4.0 docs); Foldseek Search API is a public web service, no key |
 | **Capabilities** | Read-only — Claude runs the skill's Python locally (`uv run`) and submits your structure to the Foldseek web API |
+| **Verified** | degraded · 2026-07-20 — removed stale scienceskillscommon copy line; foldseek skill dir resolves |
+| **Security** | cleared · 2026-07-20 — provenance matches google-deepmind, Apache-2.0, maintained, no OSV advisories |
 
 ## How to install
 
@@ -31,9 +39,7 @@ The `google-deepmind/science-skills` collection follows the Agent Skills `SKILL.
   ```
   git clone https://github.com/google-deepmind/science-skills
   cp -r science-skills/skills/foldseek_structural_search ~/.claude/skills/
-  cp -r science-skills/skills/scienceskillscommon ~/.claude/skills/
   ```
-  (The skill imports shared helpers from `scienceskillscommon` — copy it too.)
 - **Prerequisite** — the skill runs its `scripts/search.py` via `uv run`; install `uv` first if absent: `curl -LsSf https://astral.sh/uv/install.sh | sh`. Python deps install into an isolated environment on first run.
 
 ## What it does

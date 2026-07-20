@@ -4,6 +4,30 @@ Rolling, reverse-chronological log of catalog verification + security passes. Ea
 on-demand run that produces changes prepends a dated block; the top block is mirrored to the pinned
 "Verification updates" issue.
 
+## 2026-07-20
+
+First bootstrap pass — 17 entries stamped (8 consuming smoke results, 9 static). All judgments
+grounded in sources fetched this run (GitHub/PyPI/npm APIs, OSV list pages, `.verify/smoke-results.json`).
+
+### Verified
+- `bci-mcp` → works — smoke `pass`; PyPI+npm `bci-mcp` v0.1.3 and `enkhbold470/bci-mcp` (MIT) all resolve.
+- `instrument-data-to-allotrope` → works — smoke `pass`; `anthropics/life-sciences` plugin dir resolves; `allotropy` v0.1.141 on PyPI.
+- `flowio`, `rdkit-skill`, `scikit-bio`, `gget`, `biopython`, `anndata` → works — `K-Dense-AI/scientific-agent-skills` (MIT, pushed 2026-07-15) and each skill dir resolve. Smoke clone failed only on sandbox missing `git` (environmental, not tool) — noted in each `verification_note`.
+- `nextflow-development` → works — `anthropics/life-sciences/nextflow-development` dir resolves.
+- `biomcp` → works — PyPI `biomcp-cli` v0.8.25 and `biomcp-python` v0.7.3 (MIT, GenomOncology) resolve.
+- `scanpy`, `cellrank-mcp`, `decoupler-mcp`, `liana-mcp` → works — scmcphub PyPI packages (v0.5.0/v0.4.0) and repos resolve.
+
+### Fixed
+- `pymol`, `foldseek-structural-search` → degraded — removed a stale `cp -r science-skills/skills/scienceskillscommon` install line (path 404s in `google-deepmind/science-skills`; SKILL.md does not import it). Skill dirs themselves resolve.
+
+### Security
+- cleared: `instrument-data-to-allotrope`, `flowio`, `rdkit-skill`, `scikit-bio`, `gget`, `biopython`, `anndata`, `nextflow-development`, `pymol`, `foldseek-structural-search`, `biomcp` — provenance matches supplier, real license, no OSV advisories, maintained.
+- caution: `bci-mcp` (single-maintainer alpha); `scanpy`, `cellrank-mcp`, `decoupler-mcp`, `liana-mcp` (scmcphub repos unmaintained since 2025-06, several with no LICENSE file); `gromacs-mcp` (no repo LICENSE, alpha).
+
+### Flagged
+- None broken. Deferred for maintenance recheck: scmcphub ecosystem staleness; `gromacs-mcp` missing LICENSE.
+- Infra note: smoke image lacks `git`, so all clone-based skill jobs returned `install_error` spuriously — add `git` to the smoke image before re-queuing them.
+
 ## 2026-07-18
 
 ### Added

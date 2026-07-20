@@ -7,6 +7,11 @@ supplier: enkhbold470 (community)
 availability: Alpha
 tool_categories: [Neuroscience]
 last_verified: 2026-07-05
+verification: works
+verified_on: 2026-07-20
+security: caution
+security_on: 2026-07-20
+security_note: "provenance matches supplier enkhbold470, MIT, no OSV advisories, but single-maintainer alpha (v0.1.x)"
 summary: MCP server streaming live EEG brain-state metrics (focus, calm, attention, band powers) from OpenBCI/Muse/LSL devices — or a hardware-free synthetic mode — into Claude.
 ---
 
@@ -21,6 +26,8 @@ An MCP server that streams live EEG brain-state metrics — focus, calm, attenti
 | **Availability** | Alpha — PyPI/npm `bci-mcp` v0.1.3, released 2026-06-24 |
 | **Pricing** | Free / OSS (MIT) |
 | **Capabilities** | Read/Write — reads live/recorded EEG streams; can record sessions and run neurofeedback loops |
+| **Verified** | works · 2026-07-20 |
+| **Security** | caution · 2026-07-20 — provenance matches supplier, MIT, no OSV advisories, single-maintainer alpha |
 
 ## How to install
 

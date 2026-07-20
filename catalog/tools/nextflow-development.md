@@ -7,6 +7,12 @@ supplier: Anthropic
 availability: GA
 tool_categories: [Drug Repurposing and Discovery, Immunology and Microbiology, Integrative Structural and Computational Biology, Molecular and Cellular Biology, Neuroscience, Translational Medicine]
 last_verified: 2026-06-20
+verification: works
+verified_on: 2026-07-20
+verification_note: "anthropics/life-sciences nextflow-development dir resolves; K-Dense alt clone failed on sandbox missing git (environmental)"
+security: cleared
+security_on: 2026-07-20
+security_note: "Anthropic-supplied plugin path resolves, orchestrates nf-core pipelines, no OSV advisories; Anthropic flags as prototype not production-ready"
 summary: Runs nf-core rnaseq, sarek, and atacseq pipelines on local FASTQ or GEO/SRA inputs.
 ---
 
@@ -21,6 +27,8 @@ Configures and runs nf-core pipelines on local FASTQ inputs or public GEO/SRA ac
 | **Availability** | GA — distributed via `anthropics/life-sciences` (Oct 2025); positioned by Anthropic as a prototype / educational example |
 | **Pricing** | Free / OSS |
 | **Capabilities** | Read/Write |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — Anthropic plugin path resolves, no OSV advisories, flagged by Anthropic as prototype |
 
 ## How to install
 

@@ -7,6 +7,11 @@ supplier: GenomOncology
 availability: GA
 tool_categories: [All]
 last_verified: 2026-05-19
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches GenomOncology, PyPI biomcp-cli v0.8.25 and biomcp-python v0.7.3 present, MIT, no OSV advisories"
 summary: Unified biomedical lookup across PubMed, ClinicalTrials.gov, MyVariant, and OpenFDA.
 ---
 
@@ -21,6 +26,8 @@ Unified MCP access to ClinicalTrials.gov, PubMed, MyVariant.info, OpenFDA, NCI C
 | **Availability** | GA |
 | **Pricing** | Free / OSS (MIT); optional API keys (NCBI, OpenFDA, NCI CTS, OncoKB, AlphaGenome) raise rate limits or unlock private sources |
 | **Capabilities** | Read-only |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches GenomOncology, MIT, no OSV advisories |
 
 - **Claude Code** — install the CLI, then register the server:
   ```
