@@ -8,6 +8,11 @@ availability: GA
 tool_categories: [Neuroscience]
 last_verified: 2026-06-11
 summary: "Run a classical General Linear Model (GLM) for task-evoked fMRI activation analysis."
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches supplier CUHK-AIM-Group/NeuroClaw, MIT, not archived, no OSV advisories"
 ---
 
 # GLM (Task-fMRI) (Claude Skill)
@@ -21,6 +26,8 @@ Run a classical General Linear Model (GLM) for task-evoked fMRI activation analy
 | **Availability** | GA — part of the NeuroClaw neuroimaging skill library |
 | **Pricing** | Free / OSS (MIT) |
 | **Capabilities** | Read/Write — Claude runs the skill's Python locally (Bash), not as an MCP tool |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches supplier CUHK-AIM-Group/NeuroClaw, MIT, no OSV advisories |
 
 ## How to install
 

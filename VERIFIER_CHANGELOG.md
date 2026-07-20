@@ -4,6 +4,41 @@ Rolling, reverse-chronological log of catalog verification + security passes. Ea
 on-demand run that produces changes prepends a dated block; the top block is mirrored to the pinned
 "Verification updates" issue.
 
+## 2026-07-20 (bootstrap pass 24)
+
+Twenty-fourth bootstrap pass — one supplier batch, **25 pages stamped, all `works`/`cleared`**. The
+**NeuroClaw non-`-skill` tool/model pages**: 25 unstamped `supplier: NeuroClaw` catalog entries
+against the anchor `CUHK-AIM-Group/NeuroClaw`. These are Skill-doc type — Claude runs the skill's
+Python locally via Bash (clone + `cp -r`), not an MCP server — so each is graded `works` on the
+confirmed-current clone/copy install path. Every target slug was confirmed present under the repo's
+`skills/` tree via two direct GitHub contents-API fetches this run. All judgments grounded in sources
+fetched this run (1 GitHub repo check + contents-API listings + one representative SKILL.md read +
+the GitHub security-advisories endpoint; no smoke run for these).
+
+### Verified
+- Anchor `CUHK-AIM-Group/NeuroClaw` confirmed via GitHub API (MIT spdx_id, not archived, not
+  disabled, pushed 2026-07-14, updated 2026-07-19, 75 stars, 0 open issues, default branch main).
+- 25 NeuroClaw Claude Skills — all works. Each skill dir confirmed present via the contents API:
+  svm, freesurfer-tool, bnt, brain-visualization, brain_gnn, combraintf, conn-tool, dcm2nii,
+  detrending, dictlearning, dipy-tool, filtering, fm_app, fmriprep-tool, fsl-tool, glm,
+  harmonization-tool, hcppipeline-tool, hierarchical, ibgnn, ica, kmeans, lggnn, mne-eeg-tool,
+  neurostorm. Clone + `cp -r NeuroClaw/skills/<slug>` install paths resolve.
+
+### Fixed
+- None this run.
+
+### Security
+- All 25 cleared. Provenance matches supplier `CUHK-AIM-Group/NeuroClaw`; repo MIT, not archived,
+  no OSV/GitHub advisories (security-advisories endpoint empty). Read `skills/run_models/SKILL.md`
+  (representative) — read-only local orchestration under `./run_models_output/`, no API-key/credential
+  requests, no install-time arbitrary code, no exfiltration.
+- Note (`dcm2nii`): its Pricing line cites BSD-3-Clause for the wrapped rordenlab/dcm2niix binary;
+  the stamp note reflects skill code MIT wrapping BSD-3-Clause dcm2niix (not a provenance mismatch).
+
+### Deferred
+- ~6 NeuroClaw non-`-skill` pages remain unstamped for next run: qsiprep-tool, run_models, spacenet,
+  wmh-segmentation, nii2dcm, nilearn-tool (all present in `skills/`; same grading expected).
+
 ## 2026-07-20 (bootstrap pass 23)
 
 Twenty-third bootstrap pass — two supplier batches, 19 pages stamped, all `works`/`cleared`. First,

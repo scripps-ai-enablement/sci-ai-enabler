@@ -8,6 +8,11 @@ availability: GA
 tool_categories: [Neuroscience]
 last_verified: 2026-06-11
 summary: "Visualize neuroimaging analysis results, including 3D brain connectivity networks, atlas-based regional activation summaries, or FreeSurfer cortical surface meshes with anatomical colors"
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches supplier CUHK-AIM-Group/NeuroClaw, MIT, not archived, no OSV advisories"
 ---
 
 # Brain Visualization (Claude Skill)
@@ -21,6 +26,8 @@ Visualize neuroimaging analysis results, including 3D brain connectivity network
 | **Availability** | GA — part of the NeuroClaw neuroimaging skill library |
 | **Pricing** | Free / OSS (MIT) |
 | **Capabilities** | Read/Write — Claude runs the skill's Python locally (Bash), not as an MCP tool |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches supplier CUHK-AIM-Group/NeuroClaw, MIT, no OSV advisories |
 
 ## How to install
 

@@ -8,6 +8,11 @@ availability: GA
 tool_categories: [Neuroscience]
 last_verified: 2026-06-11
 summary: "Convert DICOM files or folders to NIfTI format (.nii or .nii.gz), extract neuroimaging volumes from clinical DICOM series (MRI, CT, PET, etc.), prepare raw …"
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches supplier CUHK-AIM-Group/NeuroClaw, NeuroClaw skill code MIT (wraps BSD-3-Clause dcm2niix), no OSV advisories"
 ---
 
 # dcm2niix (DICOM → NIfTI) (Claude Skill)
@@ -21,6 +26,8 @@ Convert DICOM files or folders to NIfTI format (.nii or .nii.gz), extract neuroi
 | **Availability** | GA — part of the NeuroClaw neuroimaging skill library |
 | **Pricing** | Free / OSS (BSD 3-Clause (original dcm2niix). See https://github.com/rordenlab/dcm2niix/blob/master/LICENSE for complete terms) |
 | **Capabilities** | Read/Write — Claude runs the skill's Python locally (Bash), not as an MCP tool |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches supplier CUHK-AIM-Group/NeuroClaw, skill code MIT (wraps BSD-3-Clause dcm2niix), no OSV advisories |
 
 ## How to install
 
