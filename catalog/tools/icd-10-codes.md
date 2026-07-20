@@ -7,6 +7,11 @@ supplier: Anthropic
 availability: GA
 tool_categories: [Translational Medicine]
 last_verified: 2026-07-12
+verification: works
+verified_on: 2026-07-20
+security: caution
+security_on: 2026-07-20
+security_note: "first-party Anthropic plugin confirmed in anthropics/healthcare manifest and hosted endpoint reachable (405 to GET as expected), but repo has no top-level LICENSE despite Free/OSS claim"
 summary: Anthropic-published MCP server for ICD-10 diagnosis and procedure code lookup, sourced from CMS and CDC, for medical coding and claims workflows.
 ---
 
@@ -21,6 +26,8 @@ Anthropic-published MCP server distributed via the `anthropics/healthcare` plugi
 | **Availability** | GA — integrated into the marketplace per the `anthropics/healthcare` release history (PR #11) |
 | **Pricing** | Free / OSS |
 | **Capabilities** | Read-only — code lookups and validation |
+| **Verified** | works · 2026-07-20 |
+| **Security** | caution · 2026-07-20 — first-party Anthropic, endpoint reachable, but no repo LICENSE |
 
 ## How to install
 

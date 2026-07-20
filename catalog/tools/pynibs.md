@@ -7,6 +7,11 @@ supplier: NeuroForge
 availability: GA
 tool_categories: [Neuroscience]
 last_verified: 2026-07-12
+verification: works
+verified_on: 2026-07-20
+security: caution
+security_on: 2026-07-20
+security_note: "HughYau/neuroforge-skills resolves and skill dir confirmed but GitHub reports no LICENSE (page claims MIT) and it is single-maintainer/stale (pushed 2026-02-24)"
 summary: "Analyze non-invasive brain stimulation (TMS/NIBS) experiments in pyNIBS — mesh/ROI I/O, coil-placement optimization, and MEP-to-E-field regression mapping."
 ---
 
@@ -21,6 +26,8 @@ Guides Claude through transcranial magnetic stimulation (TMS) and non-invasive b
 | **Availability** | GA — part of the NeuroForge neuroscience skill set |
 | **Pricing** | Free / OSS (MIT) |
 | **Capabilities** | Read/Write — Claude writes and runs pyNIBS Python locally (Bash), not as an MCP tool |
+| **Verified** | works · 2026-07-20 |
+| **Security** | caution · 2026-07-20 — no LICENSE on GitHub despite MIT claim, single-maintainer, stale |
 
 ## How to install
 

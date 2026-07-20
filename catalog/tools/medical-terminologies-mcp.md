@@ -7,6 +7,11 @@ supplier: Sidney Bissoli
 availability: GA
 tool_categories: [Translational Medicine]
 last_verified: 2026-06-21
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches SidneyBissoli/medical-terminologies-mcp MIT + npm 1.5.7 MIT, maintained (pushed 2026-07-06), read-only; WHO/SNOMED data-license notes already on page"
 summary: MIT-licensed MCP server giving Claude unified lookup and cross-mapping across ICD-11, SNOMED CT, LOINC, RxNorm, MeSH, and ATC.
 ---
 
@@ -21,6 +26,8 @@ Community MCP server that exposes the major global medical terminologies — ICD
 | **Availability** | GA — published to npm as `medical-terminologies-mcp` |
 | **Pricing** | Free / OSS (MIT). WHO ICD-11 API credentials required for ICD-11 tools; SNOMED CT needs an IHTSDO/SNOMED International license for production use |
 | **Capabilities** | Read-only — terminology lookup, hierarchy traversal, and cross-mapping |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches supplier, MIT, maintained, read-only |
 
 ## How to install
 

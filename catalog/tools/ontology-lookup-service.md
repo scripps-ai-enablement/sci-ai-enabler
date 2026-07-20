@@ -8,6 +8,11 @@ availability: Beta
 tool_categories: [All]
 last_verified: 2026-07-17
 claude_science: true
+verification: works
+verified_on: 2026-07-20
+security: caution
+security_on: 2026-07-20
+security_note: "seandavi/ols-mcp-server resolves and provenance matches, but GitHub reports no LICENSE (page claims Free/OSS), single-maintainer and stale (pushed 2025-07-16)"
 summary: Search and resolve terms across hundreds of biomedical ontologies via EMBL-EBI's OLS; part of the Genes & Ontologies connector in Claude Science.
 ---
 
@@ -22,6 +27,8 @@ Searches and resolves terms across biomedical ontologies through EMBL-EBI's Onto
 | **Availability** | Beta — community OSS |
 | **Pricing** | Free / OSS |
 | **Capabilities** | Read-only |
+| **Verified** | works · 2026-07-20 |
+| **Security** | caution · 2026-07-20 — no LICENSE on GitHub, single-maintainer, stale |
 
 ## How to install
 

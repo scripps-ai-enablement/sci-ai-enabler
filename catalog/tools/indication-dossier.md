@@ -8,6 +8,11 @@ availability: GA
 tool_categories: [Drug Repurposing and Discovery, Translational Medicine]
 last_verified: 2026-07-17
 claude_science: true
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "first-party Anthropic; listed by name as a featured Claude Science skill in the claude.com connectors-and-skills doc fetched this run, orchestrates existing connectors with no extra credentials"
 summary: Anthropic agent skill that compiles an indication/target dossier by orchestrating Claude Science connectors (Open Targets, ClinicalTrials, literature).
 ---
 
@@ -22,6 +27,8 @@ Compiles a structured drug-indication dossier by orchestrating Claude Science da
 | **Availability** | GA — Claude Science agent skill |
 | **Pricing** | Anthropic proprietary — included with Claude Science |
 | **Capabilities** | Read/Write — synthesizes a dossier document from connector queries |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — first-party Anthropic, confirmed in Claude Science doc, no extra credentials |
 
 ## How to install
 

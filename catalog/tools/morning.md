@@ -8,6 +8,12 @@ availability: GA
 tool_categories: [General-Purpose Utilities]
 last_verified: 2026-07-17
 claude_science: true
+verification: degraded
+verified_on: 2026-07-20
+verification_note: "neither documented path resolves this run — anthropics/skills/skills has no morning dir and the claude.com Claude Science skills doc does not list Morning"
+security: unknown
+security_on: 2026-07-20
+security_note: "first-party Anthropic org but the morning skill could not be located in anthropics/skills or the Claude Science doc this run so its manifest/permissions cannot be assessed"
 summary: Anthropic 'morning brief' agent skill that assembles a daily briefing from the user's own calendar and mail connectors; used in Claude Science.
 ---
 
@@ -22,6 +28,8 @@ Assembles a daily 'morning brief' from the user's calendar and mail connectors, 
 | **Availability** | GA — Anthropic agent skill |
 | **Pricing** | Anthropic proprietary / example skill |
 | **Capabilities** | Read/Write — reads calendar/mail, renders a briefing |
+| **Verified** | degraded · 2026-07-20 — skill not found in anthropics/skills or Claude Science doc this run |
+| **Security** | unknown · 2026-07-20 — skill not locatable this run to assess |
 
 ## How to install
 

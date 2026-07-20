@@ -8,6 +8,11 @@ availability: GA
 tool_categories: [Integrative Structural and Computational Biology, Drug Repurposing and Discovery]
 last_verified: 2026-07-04
 claude_science: true
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches PDBeurope/pdbe-mcp-servers Apache-2.0 + PyPI pdbe-mcp-server 1.1.5, read-only API/Search servers keyless"
 summary: First-party PDBe Europe MCP servers giving Claude access to protein structure data via REST API, Solr search, and an optional Neo4j graph.
 ---
 
@@ -22,6 +27,8 @@ First-party MCP servers from the Protein Data Bank in Europe (PDBe) that let Cla
 | **Availability** | GA — `pdbe-mcp-server` on PyPI (v1.1.4, 2026-06-15) |
 | **Pricing** | Free / OSS (Apache-2.0) |
 | **Capabilities** | Read-only |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches PDBe EMBL-EBI, Apache-2.0, keyless read-only |
 
 ## How to install
 

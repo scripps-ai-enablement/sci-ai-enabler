@@ -7,6 +7,12 @@ supplier: Quentin Cody (community)
 availability: Beta
 tool_categories: [Neuroscience]
 last_verified: 2026-05-29
+verification: degraded
+verified_on: 2026-07-20
+verification_note: "GitHub repo QuentinCody/open-neuro-mcp-server and the hosted workers.dev/sse endpoint both returned 404 on live fetch this run — install path unconfirmed"
+security: caution
+security_on: 2026-07-20
+security_note: "unofficial community wrapper (not endorsed by OpenNeuro); repo/endpoint unreachable this run so maintenance and license unconfirmable against a live source"
 summary: Community MCP server giving Claude GraphQL access to the OpenNeuro archive of MRI, MEG, EEG, iEEG, and ECoG datasets.
 ---
 
@@ -21,6 +27,8 @@ Community MCP server wrapping the OpenNeuro GraphQL API for dataset, snapshot, a
 | **Availability** | Beta — hosted Cloudflare Workers deployment at `open-neuro-mcp-server.quentincody.workers.dev` |
 | **Pricing** | Free / OSS — MIT License with an Academic Citation Requirement (see upstream `LICENSE.md` / `CITATION.md`) |
 | **Capabilities** | Read-only — public OpenNeuro data, no auth |
+| **Verified** | degraded · 2026-07-20 — repo and hosted endpoint both 404 on live fetch this run |
+| **Security** | caution · 2026-07-20 — unofficial wrapper, unreachable this run |
 
 ## How to install
 

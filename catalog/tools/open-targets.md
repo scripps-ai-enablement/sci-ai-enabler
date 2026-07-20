@@ -9,6 +9,12 @@ flagged: MCP endpoint fails `initialize` handshake with JSON-RPC -32602 ("Invali
 tool_categories: [Drug Repurposing and Discovery, Molecular and Cellular Biology, Translational Medicine]
 last_verified: 2026-07-17
 claude_science: true
+verification: degraded
+verified_on: 2026-07-20
+verification_note: "plugin resolves in anthropics/life-sciences manifest but the official endpoint still fails MCP initialize (flagged); the documented Augmented-Nature fallback repo builds and passes handshake"
+security: caution
+security_on: 2026-07-20
+security_note: "official server is Apache-2.0/consortium (clean) but the recommended working fallback Augmented-Nature/OpenTargets-MCP-Server is a community wrapper with a NOASSERTION license (Augmented-Nature repos have shipped restrictive non-commercial terms)"
 summary: Official Open Targets MCP plugin giving Claude GraphQL access to target-disease associations, drug evidence, and target-prioritisation scores.
 ---
 
@@ -23,6 +29,8 @@ Anthropic-packaged Claude Code plugin that wraps the **official Open Targets MCP
 | **Availability** | GA in the `life-sciences` marketplace; underlying MCP server tagged "experimental" — release 2026.03.1 (April 7, 2026) |
 | **Pricing** | Free / OSS (Apache-2.0 server; Open Targets data CC0) |
 | **Capabilities** | Read-only |
+| **Verified** | degraded · 2026-07-20 — official endpoint still fails MCP initialize; documented community fallback works |
+| **Security** | caution · 2026-07-20 — working fallback is a NOASSERTION-licensed community wrapper |
 
 ## How to install
 

@@ -4,6 +4,61 @@ Rolling, reverse-chronological log of catalog verification + security passes. Ea
 on-demand run that produces changes prepends a dated block; the top block is mirrored to the pinned
 "Verification updates" issue.
 
+## 2026-07-20 (bootstrap pass 29)
+
+Twenty-ninth bootstrap pass — **12 pages stamped**, clearing the previously-deferred tail of
+unstamped pages (MCP servers + Claude Skills + Claude Code plugins). Each judgment grounded in a
+source fetched this run (GitHub repo + contents APIs, PyPI + npm registry JSON, the
+`anthropics/life-sciences` and `anthropics/healthcare` marketplace manifests, the Claude Science
+connectors-and-skills doc, and the live `hcls.mcp.claude.com/icd10_codes/mcp` + OpenNeuro endpoints).
+5 works/cleared, 4 works/caution, 3 degraded. No smoke run consumed for these (the 8/8-pass smoke
+batch maps to already-stamped or interactive-picker targets). Stamped strictly sequentially
+(read-then-two-single-Edits per file; the Read cache invalidates across files as expected).
+
+### Verified
+- tcr-epitope-binding — works/cleared. `GPTomics/bioSkills` MIT (GitHub API); `immunoinformatics/tcr-epitope-binding`
+  dir + SKILL.md confirmed via contents API; read-only local clustering/lookup workflow.
+- single-cell-rna-qc — works/cleared. First-party Anthropic; `single-cell-rna-qc` confirmed in the
+  `anthropics/life-sciences` marketplace.json this run; read-into-local QC skill.
+- pdbe — works/cleared. `PDBeurope/pdbe-mcp-servers` Apache-2.0 (pushed 2026-07-16) + PyPI
+  `pdbe-mcp-server` 1.1.5 Apache-2.0; PDBe/EMBL-EBI provenance; keyless read-only API/Search servers.
+- medical-terminologies-mcp — works/cleared. `SidneyBissoli/medical-terminologies-mcp` MIT (pushed
+  2026-07-06) + npm `medical-terminologies-mcp` 1.5.7 MIT; provenance matches; read-only.
+- indication-dossier — works/cleared. First-party Anthropic; listed by name in the claude.com Claude
+  Science connectors-and-skills doc; orchestrates existing connectors, no extra credentials.
+- pynibs — works/caution. `HughYau/neuroforge-skills` resolves and `skills/pynibs` dir confirmed, but
+  GitHub license null vs page MIT claim; single-maintainer/4-star; stale (pushed 2026-02-24).
+- ontology-lookup-service — works/caution. `seandavi/ols-mcp-server` resolves (26 stars) but GitHub
+  license null (page claims Free/OSS) and stale (pushed 2025-07-16).
+- prior-auth-review — works/caution. First-party Anthropic, confirmed in `anthropics/healthcare`
+  manifest (consolidated `healthcare` plugin + `prior-auth` skill dir), but repo has no top-level
+  LICENSE; reads/drafts clinical PA documents.
+- icd-10-codes — works/caution. First-party Anthropic, `icd10-codes` in the healthcare manifest and
+  hosted endpoint reachable (405-to-GET as expected), but repo has no top-level LICENSE.
+- open-targets — degraded. Plugin resolves in the life-sciences manifest but official MCP endpoint
+  still fails `initialize` (existing flag); documented `Augmented-Nature/OpenTargets-MCP-Server`
+  fallback builds/handshakes.
+- openneuro — degraded. `QuentinCody/open-neuro-mcp-server` GitHub repo AND the hosted
+  `*.workers.dev/sse` endpoint both returned 404 on live fetch this run; install path unconfirmed.
+- morning — degraded. Neither `anthropics/skills/skills/` (no `morning` dir) nor the Claude Science
+  doc lists the skill this run; install path unresolvable.
+
+### Fixed
+- None this run (no in-page fixes; the pdbe PyPI version drift 1.1.4→1.1.5 is cosmetic — the `uvx
+  pdbe-mcp-server` install path is unpinned and resolves regardless, so left to the curator).
+
+### Flagged
+- open-targets, openneuro, morning → verification `degraded` (see Security/Verified above). openneuro
+  flagged for recheck: if repo + endpoint remain 404 next run, grade broken and set `flagged:`.
+  morning flagged for the curator to reconcile its install path or Claude Science claim.
+
+### Security
+- caution: pynibs (no LICENSE + stale), ontology-lookup-service (no LICENSE + stale),
+  prior-auth-review + icd-10-codes (no repo LICENSE; prior-auth handles clinical docs), open-targets
+  (working fallback is NOASSERTION Augmented-Nature wrapper), openneuro (unofficial wrapper,
+  unreachable this run). unknown: morning (skill not locatable to assess). cleared: tcr-epitope-binding,
+  single-cell-rna-qc, pdbe, medical-terminologies-mcp, indication-dossier.
+
 ## 2026-07-20 (bootstrap pass 28)
 
 Twenty-eighth bootstrap pass — **12 pages stamped**, a mixed MCP server / Claude Skill / plugin /

@@ -7,6 +7,11 @@ supplier: Anthropic
 availability: GA
 tool_categories: [Drug Repurposing and Discovery, Immunology and Microbiology, Integrative Structural and Computational Biology, Molecular and Cellular Biology, Neuroscience, Translational Medicine]
 last_verified: 2026-06-20
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "first-party Anthropic plugin confirmed in anthropics/life-sciences marketplace manifest, read-only-to-local QC skill"
 summary: scverse MAD-based QC for .h5ad and 10x .h5 single-cell RNA-seq inputs.
 ---
 
@@ -21,6 +26,8 @@ Runs QC on `.h5ad` and 10x `.h5` single-cell files using scverse best practices,
 | **Availability** | GA — first Anthropic-published scientific skill, released with Claude for Life Sciences (Oct 2025) |
 | **Pricing** | Free / OSS |
 | **Capabilities** | Read/Write |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — first-party Anthropic, confirmed in life-sciences marketplace |
 
 ## How to install
 

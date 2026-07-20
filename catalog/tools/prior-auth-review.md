@@ -7,6 +7,11 @@ supplier: Anthropic
 availability: GA
 tool_categories: [Translational Medicine]
 last_verified: 2026-07-12
+verification: works
+verified_on: 2026-07-20
+security: caution
+security_on: 2026-07-20
+security_note: "first-party Anthropic plugin confirmed in anthropics/healthcare manifest (consolidated healthcare plugin + prior-auth skill dir) but repo has no top-level LICENSE and the skill reads/drafts clinical PA documents"
 summary: Anthropic Claude Code skill (in the consolidated healthcare plugin) that reviews prior-authorization request documents and surfaces gaps against payer rules.
 ---
 
@@ -21,6 +26,8 @@ Anthropic-published Claude Code plugin from the `anthropics/healthcare` marketpl
 | **Availability** | GA |
 | **Pricing** | Free / OSS |
 | **Capabilities** | Read/Write — reads PA documents, drafts a review summary |
+| **Verified** | works · 2026-07-20 |
+| **Security** | caution · 2026-07-20 — first-party Anthropic but no repo LICENSE; handles clinical PA documents |
 
 ## How to install
 

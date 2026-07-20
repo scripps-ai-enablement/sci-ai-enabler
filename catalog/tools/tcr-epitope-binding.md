@@ -7,6 +7,11 @@ supplier: GPTomics bioSkills
 availability: GA
 tool_categories: [Immunology and Microbiology]
 last_verified: 2026-07-18
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches GPTomics/bioSkills MIT, skill dir + SKILL.md confirmed via contents API, read-only local workflow"
 summary: "Infer or annotate TCR antigen specificity via unsupervised clustering (tcrdist3, GLIPH2, clusTCR, GIANA) and database lookup (VDJdb, IEDB, McPAS-TCR), with honest caveats on supervised prediction"
 ---
 
@@ -21,6 +26,8 @@ A Claude Code skill that infers or annotates TCR antigen specificity through clu
 | **Availability** | GA — part of the bioSkills collection |
 | **Pricing** | Free / OSS (MIT) |
 | **Capabilities** | Read/Write — Claude runs the skill's workflow locally (Bash/Python), not as an MCP tool |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches GPTomics/bioSkills, MIT, no advisories |
 
 ## How to install
 
