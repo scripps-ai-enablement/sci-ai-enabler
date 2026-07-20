@@ -7,6 +7,11 @@ supplier: Zitnik Lab (Harvard Medical School)
 availability: GA
 tool_categories: [Drug Repurposing and Discovery, Translational Medicine]
 last_verified: 2026-07-12
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches Zitnik Lab (mims-harvard/ToolUniverse), Apache-2.0, skills/tooluniverse-adverse-event-detection confirmed present, no OSV advisories"
 summary: ToolUniverse agent skill that detects adverse-drug-event signals from FDA FAERS with disproportionality statistics (PRR, ROR, IC) and a 0–100 safety signal score.
 ---
 
@@ -21,6 +26,8 @@ A ToolUniverse agent skill for pharmacovigilance signal detection — it mines F
 | **Availability** | GA — part of the ToolUniverse skills collection (`skills/tooluniverse-adverse-event-detection/`) |
 | **Pricing** | Free / OSS (Apache-2.0); wraps public APIs (openFDA FAERS + labels, OpenTargets, ChEMBL, DrugBank, PubMed/OpenAlex/EuropePMC) |
 | **Capabilities** | Read-only — drives ToolUniverse tool calls; no data writes |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches Zitnik Lab, Apache-2.0, skill dir confirmed, no OSV advisories |
 
 ## How to install
 

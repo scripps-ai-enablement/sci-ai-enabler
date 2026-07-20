@@ -7,6 +7,11 @@ supplier: Zitnik Lab (Harvard Medical School)
 availability: GA
 tool_categories: [Chemistry, Drug Repurposing and Discovery, Integrative Structural and Computational Biology]
 last_verified: 2026-07-05
+verification: works
+verified_on: 2026-07-20
+security: caution
+security_on: 2026-07-20
+security_note: "provenance matches Zitnik Lab (mims-harvard/ToolUniverse) Apache-2.0 and skill dir confirmed, but docking/generation calls external NVIDIA NIM endpoints requiring a user NVIDIA_API_KEY"
 summary: ToolUniverse agent skill that discovers small-molecule binders for a target via known-ligand mining, similarity expansion, docking, and ADMET filtering into a ranked shortlist.
 ---
 
@@ -21,6 +26,8 @@ A ToolUniverse agent skill that runs a seven-phase small-molecule discovery work
 | **Availability** | GA — part of the ToolUniverse skills collection (`skills/tooluniverse-binder-discovery/`) |
 | **Pricing** | Free / OSS (Apache-2.0); wraps public APIs (ChEMBL, BindingDB, PubChem, PDB, AlphaFold) plus NVIDIA NIM generative/docking endpoints |
 | **Capabilities** | Read-only — drives ToolUniverse tool calls; no data writes |
+| **Verified** | works · 2026-07-20 |
+| **Security** | caution · 2026-07-20 — provenance/Apache-2.0 clear but docking/generation uses external NVIDIA NIM endpoints requiring a user NVIDIA_API_KEY |
 
 ## How to install
 

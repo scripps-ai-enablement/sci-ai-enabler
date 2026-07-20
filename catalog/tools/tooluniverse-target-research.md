@@ -7,6 +7,11 @@ supplier: Zitnik Lab (Harvard Medical School)
 availability: GA
 tool_categories: [Drug Repurposing and Discovery, Molecular and Cellular Biology, Translational Medicine]
 last_verified: 2026-07-05
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches Zitnik Lab (mims-harvard/ToolUniverse), Apache-2.0, skills/tooluniverse-target-research confirmed present, no OSV advisories"
 summary: ToolUniverse agent skill that profiles a drug target across nine parallel research paths — expression, pathways, interactions, variants, druggability — into a cited report.
 ---
 
@@ -21,6 +26,8 @@ A ToolUniverse agent skill that assembles a comprehensive intelligence dossier o
 | **Availability** | GA — part of the ToolUniverse skills collection (`skills/tooluniverse-target-research/`) |
 | **Pricing** | Free / OSS (Apache-2.0); wraps public APIs (Open Targets, UniProt, GTEx, HPA, STRING, ClinVar, gnomAD, ChEMBL, DGIdb) |
 | **Capabilities** | Read-only — drives ToolUniverse tool calls; no data writes |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches Zitnik Lab, Apache-2.0, skill dir confirmed, no OSV advisories |
 
 ## How to install
 

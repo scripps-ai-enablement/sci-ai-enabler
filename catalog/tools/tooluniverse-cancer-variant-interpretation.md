@@ -7,6 +7,11 @@ supplier: Zitnik Lab (Harvard Medical School)
 availability: GA
 tool_categories: [Drug Repurposing and Discovery, Molecular and Cellular Biology, Translational Medicine]
 last_verified: 2026-07-12
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches Zitnik Lab (mims-harvard/ToolUniverse), Apache-2.0, skills/tooluniverse-cancer-variant-interpretation confirmed present, no OSV advisories"
 summary: ToolUniverse agent skill that turns a gene + somatic variant + cancer type into an evidence-graded precision-oncology report with therapies, resistance, and matching trials.
 ---
 
@@ -21,6 +26,8 @@ A ToolUniverse agent skill that interprets a somatic cancer mutation — gene, v
 | **Availability** | GA — part of the ToolUniverse skills collection (`skills/tooluniverse-cancer-variant-interpretation/`) |
 | **Pricing** | Free / OSS (Apache-2.0); wraps public APIs (CIViC, OncoKB, cBioPortal, OpenTargets, ChEMBL, DrugBank, ClinicalTrials.gov) |
 | **Capabilities** | Read-only — drives ToolUniverse tool calls; no data writes |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches Zitnik Lab, Apache-2.0, skill dir confirmed, no OSV advisories |
 
 ## How to install
 

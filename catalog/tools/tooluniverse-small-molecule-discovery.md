@@ -7,6 +7,11 @@ supplier: Zitnik Lab (Harvard Medical School)
 availability: GA
 tool_categories: [Chemistry, Drug Repurposing and Discovery]
 last_verified: 2026-07-19
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches Zitnik Lab (mims-harvard/ToolUniverse), Apache-2.0, skills/tooluniverse-small-molecule-discovery confirmed present, no OSV advisories"
 summary: ToolUniverse agent skill for compound identification, analog search, bioactivity, ADMET, target prediction, and commercial sourcing across PubChem, ChEMBL, BindingDB, and vendor catalogs.
 ---
 
@@ -21,6 +26,8 @@ A ToolUniverse agent skill that takes a small molecule from identity resolution 
 | **Availability** | GA — part of the ToolUniverse skills collection (`skills/tooluniverse-small-molecule-discovery/`) |
 | **Pricing** | Free / OSS (Apache-2.0); wraps public APIs (PubChem, ChEMBL, BindingDB, ADMET-AI, SwissADME, SwissTargetPrediction, eMolecules, Enamine) |
 | **Capabilities** | Read-only — drives ToolUniverse tool calls; no data writes |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches Zitnik Lab, Apache-2.0, skill dir confirmed, no OSV advisories |
 
 ## How to install
 

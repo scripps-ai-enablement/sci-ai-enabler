@@ -7,6 +7,11 @@ supplier: Zitnik Lab (Harvard Medical School) · MIT Lincoln Laboratory
 availability: GA
 tool_categories: [All]
 last_verified: 2026-07-19
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches Zitnik Lab (mims-harvard/ToolUniverse), Apache-2.0, PyPI tooluniverse 1.0.22, no OSV advisories, actively maintained"
 summary: Harvard / MIT MCP server bundling 600+ vetted scientific tools — literature, chemistry, omics, clinical trials — for AI-scientist-style hypothesis exploration.
 ---
 
@@ -21,6 +26,8 @@ MCP server developed by the Zitnik Lab at Harvard Medical School with MIT Lincol
 | **Availability** | GA — PyPI `tooluniverse` 1.0.x, surfaced as an Anthropic Life Sciences connector at J.P. Morgan 2026 |
 | **Pricing** | Free / OSS; some wrapped APIs require user-supplied keys (e.g., Azure OpenAI for AI-tool-search features) |
 | **Capabilities** | Read/Write — most tools are read-only over public APIs; a few orchestrate analysis steps |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches Zitnik Lab, Apache-2.0, PyPI tooluniverse 1.0.22, no OSV advisories |
 
 ## How to install
 

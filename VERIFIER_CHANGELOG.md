@@ -4,6 +4,40 @@ Rolling, reverse-chronological log of catalog verification + security passes. Ea
 on-demand run that produces changes prepends a dated block; the top block is mirrored to the pinned
 "Verification updates" issue.
 
+## 2026-07-20 (bootstrap pass 19)
+
+Nineteenth bootstrap pass — the **ToolUniverse family**: 19 unstamped `supplier: Zitnik Lab
+(Harvard Medical School)` pages (1 MCP server + 18 Claude Skills), all sharing the single anchor
+`mims-harvard/ToolUniverse`. Each skill directory was individually confirmed present via the GitHub
+contents API; the MCP server was corroborated against PyPI. All judgments grounded in sources
+fetched this run (GitHub repo + contents + security-advisories APIs, PyPI JSON).
+
+### Verified
+- `tooluniverse` — works / cleared. Anchor `mims-harvard/ToolUniverse` via GitHub API (Apache-2.0,
+  not archived, pushed 2026-07-20, 1578 stars, default branch main) + PyPI `tooluniverse` 1.0.22.
+  `uvx tooluniverse` install path resolves.
+- 18 `tooluniverse-*` Claude Skills — all works. Each `skills/tooluniverse-<slug>/SKILL.md`
+  confirmed present via the contents API: target-research, drug-research, drug-target-validation,
+  precision-oncology, rare-disease-diagnosis, pharmacovigilance, immunotherapy-response-prediction,
+  gwas-drug-discovery, small-molecule-discovery, rare-disease-genomics, drug-synergy,
+  adverse-event-detection, adverse-outcome-pathway, cancer-genomics-tcga,
+  cancer-variant-interpretation, chemical-safety, binder-discovery, drug-drug-interaction.
+
+### Fixed
+- None this run.
+
+### Flagged
+- None broken this run.
+
+### Security
+- 17 pages cleared — provenance matches Zitnik Lab (`mims-harvard/ToolUniverse`), Apache-2.0, each
+  skill dir confirmed present, no GitHub security advisories.
+- `tooluniverse-binder-discovery` — caution. Provenance/Apache-2.0 clear and skill dir confirmed,
+  but docking/generation calls external NVIDIA NIM endpoints requiring a user `NVIDIA_API_KEY`.
+- `tooluniverse-drug-drug-interaction` — caution. Provenance/Apache-2.0 clear and skill dir
+  confirmed, but ships a `.env.template` requesting user API keys for external DBs
+  (BioGRID DisGeNET OMIM USPTO NVIDIA BRENDA).
+
 ## 2026-07-20 (bootstrap pass 18)
 
 Eighteenth bootstrap pass — a second batch of **non-K-Dense standalone** entries: five Claude Science

@@ -7,6 +7,11 @@ supplier: Zitnik Lab (Harvard Medical School)
 availability: GA
 tool_categories: [Drug Repurposing and Discovery, Translational Medicine]
 last_verified: 2026-06-28
+verification: works
+verified_on: 2026-07-20
+security: caution
+security_on: 2026-07-20
+security_note: "provenance matches Zitnik Lab (mims-harvard/ToolUniverse) Apache-2.0 and skill dir confirmed, but ships a .env.template requesting user API keys for external DBs (BioGRID DisGeNET OMIM USPTO NVIDIA BRENDA)"
 summary: ToolUniverse agent skill that assesses drug-drug interactions via CYP/transporter pharmacokinetics, pharmacodynamic overlap, and 0-100 clinical risk scoring.
 ---
 
@@ -21,6 +26,8 @@ A ToolUniverse agent skill that evaluates a drug pair for interaction risk by re
 | **Availability** | GA — part of the ToolUniverse skills collection (`skills/tooluniverse-drug-drug-interaction/`) |
 | **Pricing** | Free / OSS (Apache-2.0); reasoning runs locally, database calls go through the ToolUniverse MCP server |
 | **Capabilities** | Read-only — drives ToolUniverse tool calls; no data writes |
+| **Verified** | works · 2026-07-20 |
+| **Security** | caution · 2026-07-20 — provenance/Apache-2.0 clear but ships a .env.template requesting user API keys for external DBs (BioGRID DisGeNET OMIM USPTO NVIDIA BRENDA) |
 
 ## How to install
 

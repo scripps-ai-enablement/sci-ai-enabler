@@ -7,6 +7,11 @@ supplier: Zitnik Lab (Harvard Medical School)
 availability: GA
 tool_categories: [Drug Repurposing and Discovery, Molecular and Cellular Biology, Translational Medicine]
 last_verified: 2026-06-21
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches Zitnik Lab (mims-harvard/ToolUniverse), Apache-2.0, skills/tooluniverse-drug-target-validation confirmed present, no OSV advisories"
 summary: ToolUniverse agent skill that scores a drug target 0–100 across genetic, druggability, safety, and clinical-precedent gates with a GO/NO-GO recommendation.
 ---
 
@@ -21,6 +26,8 @@ A ToolUniverse agent skill that validates a drug-target hypothesis with multi-di
 | **Availability** | GA — part of the ToolUniverse skills collection (`skills/tooluniverse-drug-target-validation/`) |
 | **Pricing** | Free / OSS (Apache-2.0); wraps public APIs (Open Targets, ChEMBL, UniProt, Ensembl, HGNC, expression atlases) |
 | **Capabilities** | Read-only — drives ToolUniverse tool calls; no data writes |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches Zitnik Lab, Apache-2.0, skill dir confirmed, no OSV advisories |
 
 ## How to install
 

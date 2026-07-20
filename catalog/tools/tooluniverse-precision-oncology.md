@@ -7,6 +7,11 @@ supplier: Zitnik Lab (Harvard Medical School)
 availability: GA
 tool_categories: [Drug Repurposing and Discovery, Translational Medicine]
 last_verified: 2026-06-28
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches Zitnik Lab (mims-harvard/ToolUniverse), Apache-2.0, skills/tooluniverse-precision-oncology confirmed present, no OSV advisories"
 summary: ToolUniverse agent skill that maps a tumor molecular profile to matched FDA-approved/investigational therapies, resistance mechanisms, and clinical trials.
 ---
 
@@ -21,6 +26,8 @@ A ToolUniverse agent skill that turns a tumor molecular profile (mutations, fusi
 | **Availability** | GA — part of the ToolUniverse skills collection (`skills/tooluniverse-precision-oncology/`) |
 | **Pricing** | Free / OSS (Apache-2.0); database calls go through the ToolUniverse MCP server |
 | **Capabilities** | Read-only — drives ToolUniverse tool calls; no data writes |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches Zitnik Lab, Apache-2.0, skill dir confirmed, no OSV advisories |
 
 ## How to install
 

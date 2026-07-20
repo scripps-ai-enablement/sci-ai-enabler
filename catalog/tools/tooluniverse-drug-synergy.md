@@ -7,6 +7,11 @@ supplier: Zitnik Lab (Harvard Medical School)
 availability: GA
 tool_categories: [Drug Repurposing and Discovery]
 last_verified: 2026-06-21
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches Zitnik Lab (mims-harvard/ToolUniverse), Apache-2.0, skills/tooluniverse-drug-synergy confirmed present, no OSV advisories"
 summary: ToolUniverse agent skill that quantifies drug-combination synergy using Bliss, HSA, Loewe, ZIP, and Chou-Talalay reference models.
 ---
 
@@ -21,6 +26,8 @@ A ToolUniverse agent skill that classifies a two-drug combination as synergistic
 | **Availability** | GA — part of the ToolUniverse skills collection (`skills/tooluniverse-drug-synergy/`) |
 | **Pricing** | Free / OSS (Apache-2.0); the synergy calculators run locally over user-supplied effect data |
 | **Capabilities** | Read-only — drives ToolUniverse tool calls; no data writes |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches Zitnik Lab, Apache-2.0, skill dir confirmed, no OSV advisories |
 
 ## How to install
 

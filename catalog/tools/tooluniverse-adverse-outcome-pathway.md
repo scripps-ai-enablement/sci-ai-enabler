@@ -7,6 +7,11 @@ supplier: Zitnik Lab (Harvard Medical School)
 availability: GA
 tool_categories: [Chemistry, Drug Repurposing and Discovery]
 last_verified: 2026-07-12
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches Zitnik Lab (mims-harvard/ToolUniverse), Apache-2.0, skills/tooluniverse-adverse-outcome-pathway confirmed present, no OSV advisories"
 summary: ToolUniverse agent skill that maps chemicals to adverse outcome pathways using AOPWiki, GHS/IARC classification, LD50 data, and toxicogenomics.
 ---
 
@@ -21,6 +26,8 @@ A ToolUniverse agent skill that maps environmental and industrial chemicals to a
 | **Availability** | GA — part of the ToolUniverse skills collection (`skills/tooluniverse-adverse-outcome-pathway/`) |
 | **Pricing** | Free / OSS (Apache-2.0); wraps public APIs (AOPWiki, PubChem, PubChemTox, CTD) |
 | **Capabilities** | Read-only — drives ToolUniverse tool calls; no data writes |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches Zitnik Lab, Apache-2.0, skill dir confirmed, no OSV advisories |
 
 ## How to install
 

@@ -7,6 +7,11 @@ supplier: Zitnik Lab (Harvard Medical School)
 availability: GA
 tool_categories: [Chemistry, Drug Repurposing and Discovery, Translational Medicine]
 last_verified: 2026-07-19
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches Zitnik Lab (mims-harvard/ToolUniverse), Apache-2.0, skills/tooluniverse-chemical-safety confirmed present, no OSV advisories"
 summary: ToolUniverse agent skill for chemical hazard and toxicology assessment via ADMET-AI, CTD toxicogenomics, AOPWiki, GHS/IARC classification, and regulatory safety data.
 ---
 
@@ -21,6 +26,8 @@ A ToolUniverse agent skill that assesses a compound's toxicological risk by comb
 | **Availability** | GA — part of the ToolUniverse skills collection (`skills/tooluniverse-chemical-safety/`) |
 | **Pricing** | Free / OSS (Apache-2.0); wraps public APIs (ADMET-AI, CTD, PubChem/PubChemTox, AOPWiki, ChEMBL, STITCH, FDA, DrugBank) |
 | **Capabilities** | Read-only — drives ToolUniverse tool calls; no data writes |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches Zitnik Lab, Apache-2.0, skill dir confirmed, no OSV advisories |
 
 ## How to install
 
