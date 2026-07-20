@@ -8,6 +8,11 @@ availability: GA
 tool_categories: [Drug Repurposing and Discovery, Chemistry]
 last_verified: 2026-06-11
 summary: "Query IUPHAR/BPS Guide to Pharmacology (GtoPdb) for receptor-ligand interactions, target/ligand metadata, families, and approved drugs."
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches jaechang-hits/SciAgent-Skills, skill code CC BY 4.0, GtoPdb data ODbL, no OSV advisories"
 ---
 
 # Guide to Pharmacology (GtoPdb) (Claude Skill)
@@ -21,6 +26,8 @@ Query IUPHAR/BPS Guide to Pharmacology (GtoPdb) for receptor-ligand interactions
 | **Availability** | GA — part of the BixBench-evaluated SciAgent-Skills collection |
 | **Pricing** | Free / OSS (ODbL-1.0) |
 | **Capabilities** | Read/Write — Claude runs the skill's Python locally (Bash), not as an MCP tool |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches supplier, skill code CC BY 4.0, GtoPdb data ODbL, no OSV advisories |
 
 ## How to install
 

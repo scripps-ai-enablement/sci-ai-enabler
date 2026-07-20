@@ -8,6 +8,11 @@ availability: GA
 tool_categories: [Chemistry, Drug Repurposing and Discovery]
 last_verified: 2026-06-11
 summary: "Cross-reference compound IDs across 20+ databases (ChEMBL, DrugBank, PubChem, ChEBI, PDB, SureChEMBL, HMDB, DrugCentral, BindingDB) via UniChem REST API."
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches jaechang-hits/SciAgent-Skills, skill code CC BY 4.0, UniChem data CC0, no OSV advisories"
 ---
 
 # UniChem (Claude Skill)
@@ -21,6 +26,8 @@ Cross-reference compound IDs across 20+ databases (ChEMBL, DrugBank, PubChem, Ch
 | **Availability** | GA — part of the BixBench-evaluated SciAgent-Skills collection |
 | **Pricing** | Free / OSS (Apache-2.0) |
 | **Capabilities** | Read/Write — Claude runs the skill's Python locally (Bash), not as an MCP tool |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches supplier, skill code CC BY 4.0, UniChem data CC0, no OSV advisories |
 
 ## How to install
 

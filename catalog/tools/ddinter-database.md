@@ -8,6 +8,11 @@ availability: GA
 tool_categories: [Translational Medicine, Drug Repurposing and Discovery]
 last_verified: 2026-06-11
 summary: "Query DDInter drug-drug interactions via REST API (1.7M+ interactions, 2,400+ drugs)."
+verification: works
+verified_on: 2026-07-20
+security: caution
+security_on: 2026-07-20
+security_note: "skill code CC BY 4.0 and provenance clears, but DDInter data is CC BY-NC 4.0 (non-commercial) not the page's CC-BY-4.0"
 ---
 
 # DDInter (Claude Skill)
@@ -21,6 +26,8 @@ Query DDInter drug-drug interactions via REST API (1.7M+ interactions, 2,400+ dr
 | **Availability** | GA — part of the BixBench-evaluated SciAgent-Skills collection |
 | **Pricing** | Free / OSS (CC-BY-4.0) |
 | **Capabilities** | Read/Write — Claude runs the skill's Python locally (Bash), not as an MCP tool |
+| **Verified** | works · 2026-07-20 |
+| **Security** | caution · 2026-07-20 — skill code CC BY 4.0 and provenance clears, but DDInter data is CC BY-NC 4.0 (non-commercial) not the page's CC-BY-4.0 |
 
 ## How to install
 

@@ -9,6 +9,11 @@ tool_categories: [Molecular and Cellular Biology]
 last_verified: 2026-06-11
 claude_science: true
 summary: "Query Reactome pathways via REST: pathway queries, entity lookup, keyword search, gene list enrichment, hierarchy, cross-refs."
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches jaechang-hits/SciAgent-Skills, skill code CC BY 4.0, Reactome data CC BY 4.0, no OSV advisories"
 ---
 
 # Reactome (Claude Skill)
@@ -22,6 +27,8 @@ Query Reactome pathways via REST: pathway queries, entity lookup, keyword search
 | **Availability** | GA — part of the BixBench-evaluated SciAgent-Skills collection |
 | **Pricing** | Free / OSS (CC-BY-4.0) |
 | **Capabilities** | Read/Write — Claude runs the skill's Python locally (Bash), not as an MCP tool |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches supplier, skill code CC BY 4.0, Reactome data CC BY 4.0, no OSV advisories |
 
 ## How to install
 

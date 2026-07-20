@@ -4,6 +4,35 @@ Rolling, reverse-chronological log of catalog verification + security passes. Ea
 on-demand run that produces changes prepends a dated block; the top block is mirrored to the pinned
 "Verification updates" issue.
 
+## 2026-07-20 (bootstrap pass 13)
+
+Thirteenth bootstrap pass — SciAgent `-database` batch 2: 18 more unstamped `supplier: SciAgent`
+database skill entries stamped. All judgments grounded in sources fetched this run: anchor repo
+`jaechang-hits/SciAgent-Skills` (GitHub API — not archived, `disabled:false`, pushed 2026-06-15,
+275 stars; classifier NOASSERTION but the committed root `LICENSE` fetched from
+`raw.githubusercontent.com` is verbatim CC BY 4.0, commercial use + redistribution permitted). These
+skills do **not** live under `skills/genomics-bioinformatics/databases/`; each was confirmed by
+fetching its declared *parent* contents endpoint: `structural-biology-drug-discovery` (dailymed,
+ddinter, emdb, fda, gtopdb, opentargets, unichem, zinc), `proteomics-protein-engineering` (hmdb,
+interpro, metabolomics-workbench, pride), `systems-biology-multiomics` (brenda, reactome,
+string-database-ppi), `scientific-writing` (biorxiv, openalex), `scientific-computing` (uspto). All
+graded `works` on the confirmed-current install path (non-executable Skill-doc type). Caps respected
+(18 static verifications ≤25, 0 smoke verdicts consumed).
+
+### Verified
+- works/cleared (17): `biorxiv-database`, `interpro-database`, `hmdb-database`, `gtopdb-database`, `emdb-database`, `brenda-database`, `unichem-database`, `uspto-database`, `zinc-database`, `reactome-database`, `pride-database`, `openalex-database`, `opentargets-database`, `metabolomics-workbench-database`, `dailymed-database`, `fda-database`, `string-database-ppi` — anchor repo live, each skill dir resolves via its parent contents fetch, skill code CC BY 4.0, public REST queries, no OSV advisories.
+- works/caution (1): `ddinter-database` — resolves and install path current; DDInter data is CC BY-NC 4.0 (non-commercial per the NAR 2022/2025 papers), not the page's CC-BY-4.0.
+
+### Fixed
+- None this run.
+
+### Flagged
+- `ddinter-database` — security `caution`: skill code is CC BY 4.0 and provenance clears, but DDInter data is CC BY-NC 4.0 (non-commercial); the page's `Pricing` line claims CC-BY-4.0 (curator handoff to reconcile).
+
+### Security
+- 17 cleared (provenance matches `jaechang-hits/SciAgent-Skills`, skill code CC BY 4.0, open/public data licenses — CC0, CC BY 4.0, Apache-2.0, ODbL, public domain — no OSV advisories).
+- 1 caution (`ddinter-database`, non-commercial data-source license).
+
 ## 2026-07-20 (bootstrap pass 12)
 
 Twelfth bootstrap pass — first non-K-Dense batch: 19 unstamped `supplier: SciAgent` database skill
