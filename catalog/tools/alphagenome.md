@@ -8,6 +8,12 @@ supplier: Google DeepMind
 availability: Preview
 tool_categories: [Molecular and Cellular Biology]
 last_verified: 2026-06-20
+verification: degraded
+verified_on: 2026-07-20
+verification_note: "repo + alphagenome_single_variant_analysis skill dir resolve on google-deepmind/science-skills; replaced a stale scienceskillscommon copy line with the uv skill the SKILL.md requires; API itself is signup-gated research preview"
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches supplier google-deepmind, Apache-2.0 code, maintained (pushed 2026-07-07); ships ALPHAGENOME_API_KEY only to the first-party Google DeepMind AlphaGenome API, no OSV advisories"
 summary: "Predict non-coding variant effects on expression, chromatin accessibility, histone marks, splicing, and TF binding via the AlphaGenome API."
 ---
 
@@ -22,6 +28,8 @@ Predict how a non-coding genetic variant changes gene expression, chromatin acce
 | **Availability** | Preview — AlphaGenome API is research-preview (signup-gated) |
 | **Pricing** | Free / OSS skill (Apache-2.0 code, CC-BY-4.0 docs); AlphaGenome API free for non-commercial use, key required |
 | **Capabilities** | Read/Write — Claude runs the skill's Python locally (`uv run`), calling the AlphaGenome API |
+| **Verified** | degraded · 2026-07-20 — dir resolves; fixed a stale scienceskillscommon copy line; API is signup-gated preview |
+| **Security** | cleared · 2026-07-20 — provenance matches google-deepmind, Apache-2.0, key goes only to the first-party AlphaGenome API, no OSV advisories |
 
 ## How to install
 
@@ -31,9 +39,9 @@ The `google-deepmind/science-skills` collection follows the Agent Skills `SKILL.
   ```
   git clone https://github.com/google-deepmind/science-skills
   cp -r science-skills/skills/alphagenome_single_variant_analysis ~/.claude/skills/
-  cp -r science-skills/skills/scienceskillscommon ~/.claude/skills/
+  cp -r science-skills/skills/uv ~/.claude/skills/
   ```
-  (The skill imports shared helpers from `scienceskillscommon` — copy it too.)
+  (The `SKILL.md` requires the bundled `uv` skill for its setup — copy it too.)
 - **Set the API key** — sign up at [deepmind.google.com/science/alphagenome](https://deepmind.google.com/science/alphagenome/), accept the terms, then:
   ```
   echo "ALPHAGENOME_API_KEY=<your-key>" >> ~/.env

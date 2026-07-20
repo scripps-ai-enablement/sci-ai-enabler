@@ -4,6 +4,40 @@ Rolling, reverse-chronological log of catalog verification + security passes. Ea
 on-demand run that produces changes prepends a dated block; the top block is mirrored to the pinned
 "Verification updates" issue.
 
+## 2026-07-20 (bootstrap pass 14)
+
+Fourteenth bootstrap pass — the 5 remaining unstamped `supplier: Google DeepMind` catalog pages.
+All judgments grounded in sources fetched this run.
+
+### Verified
+- `alphafold2` — works / cleared. Anchor `google-deepmind/alphafold` (GitHub API: not archived,
+  `disabled:false`, Apache-2.0, pushed 2026-04-22, 14,736 stars). The OSS `git clone` install path
+  is confirmed-current; the Claude Science built-in path is Anthropic-hosted. Graded `works` on the
+  confirmed-current clone path.
+- `unibind-database`, `gtex-database`, `embl-ebi-ols`, `alphagenome` — degraded / cleared. Anchor
+  `google-deepmind/science-skills` (GitHub API: not archived, Apache-2.0, pushed 2026-07-07, 2458
+  stars). Each skill dir confirmed present via `contents/skills` (`unibind_database`, `gtex_database`,
+  `embl_ebi_ols`, `alphagenome_single_variant_analysis`).
+
+### Fixed
+- `unibind-database`, `gtex-database`, `embl-ebi-ols`, `alphagenome` — each install block copied a
+  now-nonexistent `skills/scienceskillscommon` dir (absent from the repo's `skills/` contents listing
+  fetched this run). Each SKILL.md fetched from `raw.githubusercontent.com` shows no
+  `scienceskillscommon` import — instead they instruct "Read the `uv` skill". Replaced the stale
+  `cp -r science-skills/skills/scienceskillscommon` line with `cp -r science-skills/skills/uv` and
+  corrected the parenthetical. Graded `degraded` (path auto-fixed this run), same pattern as the
+  prior `pymol`/`foldseek-structural-search` fixes.
+
+### Security
+- `alphagenome` — cleared, but noted it ships `ALPHAGENOME_API_KEY` to the first-party Google
+  DeepMind AlphaGenome API (same provenance as supplier; signup-gated non-commercial research
+  preview). No provenance mismatch, so cleared rather than caution.
+
+Caps respected (5 static verifications ≤25, 0 smoke verdicts consumed). Note: all 8 slugs in this
+run's `.verify/smoke-results.json` (bci-mcp, instrument-data-to-allotrope, flowio,
+foldseek-structural-search, nextflow-development, pymol, rdkit-skill, scikit-bio) were already
+stamped and dated 2026-07-20; their smoke `pass` verdicts corroborate the existing stamps.
+
 ## 2026-07-20 (bootstrap pass 13)
 
 Thirteenth bootstrap pass — SciAgent `-database` batch 2: 18 more unstamped `supplier: SciAgent`

@@ -9,6 +9,12 @@ availability: GA
 tool_categories: [Molecular and Cellular Biology]
 last_verified: 2026-06-20
 claude_science: true
+verification: degraded
+verified_on: 2026-07-20
+verification_note: "repo + unibind_database skill dir resolve on google-deepmind/science-skills; replaced a stale scienceskillscommon copy line (that dir no longer exists) with the uv skill the SKILL.md actually requires"
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches supplier google-deepmind, Apache-2.0 code, maintained (pushed 2026-07-07, 2458 stars), keyless public UniBind API, no OSV advisories"
 summary: "Query UniBind for experimentally validated transcription-factor binding sites; download BED/FASTA coordinates by species, cell line, or TF."
 ---
 
@@ -23,6 +29,8 @@ Query UniBind for experimentally validated, ChIP-seq-derived transcription-facto
 | **Availability** | GA |
 | **Pricing** | Free / OSS skill (Apache-2.0 code, CC-BY-4.0 docs); UniBind API is public, no key |
 | **Capabilities** | Read-only — Claude runs the skill's Python locally (`uv run`) against the UniBind REST API |
+| **Verified** | degraded · 2026-07-20 — dir resolves; fixed a stale scienceskillscommon copy line |
+| **Security** | cleared · 2026-07-20 — provenance matches google-deepmind, Apache-2.0, maintained, keyless public API, no OSV advisories |
 
 ## How to install
 
@@ -32,9 +40,9 @@ The `google-deepmind/science-skills` collection follows the Agent Skills `SKILL.
   ```
   git clone https://github.com/google-deepmind/science-skills
   cp -r science-skills/skills/unibind_database ~/.claude/skills/
-  cp -r science-skills/skills/scienceskillscommon ~/.claude/skills/
+  cp -r science-skills/skills/uv ~/.claude/skills/
   ```
-  (The skill imports shared helpers from `scienceskillscommon` — copy it too.)
+  (The `SKILL.md` requires the bundled `uv` skill for its setup — copy it too.)
 - **Prerequisite** — the skill runs its Python helpers via `uv run`; install `uv` first if absent: `curl -LsSf https://astral.sh/uv/install.sh | sh`. `jq` is recommended for parsing large JSON responses. Python deps install into an isolated environment on first run.
 
 ## What it does

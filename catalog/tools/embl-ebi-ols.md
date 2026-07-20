@@ -7,6 +7,12 @@ supplier: Google DeepMind
 availability: GA
 tool_categories: [All]
 last_verified: 2026-06-27
+verification: degraded
+verified_on: 2026-07-20
+verification_note: "repo + embl_ebi_ols skill dir resolve on google-deepmind/science-skills; replaced a stale scienceskillscommon copy line (that dir no longer exists) with the uv skill the SKILL.md actually requires"
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches supplier google-deepmind, Apache-2.0 code, maintained (pushed 2026-07-07, 2458 stars), keyless public EMBL-EBI OLS4 API, no OSV advisories"
 summary: "Resolve and navigate biomedical ontology terms (GO, MONDO, HP, CHEBI, CL, UBERON, EFO, …) across 250+ ontologies via the EMBL-EBI Ontology Lookup Service."
 ---
 
@@ -21,6 +27,8 @@ Look up biomedical ontology terms, definitions, and hierarchies across 250+ onto
 | **Availability** | GA |
 | **Pricing** | Free / OSS skill (Apache-2.0 code, CC-BY-4.0 docs); the OLS API is a public EMBL-EBI web service, no key |
 | **Capabilities** | Read-only — Claude runs the skill's Python locally (`uv run`) and queries the public OLS4 API |
+| **Verified** | degraded · 2026-07-20 — dir resolves; fixed a stale scienceskillscommon copy line |
+| **Security** | cleared · 2026-07-20 — provenance matches google-deepmind, Apache-2.0, maintained, keyless public API, no OSV advisories |
 
 ## How to install
 
@@ -30,9 +38,9 @@ The `google-deepmind/science-skills` collection follows the Agent Skills `SKILL.
   ```
   git clone https://github.com/google-deepmind/science-skills
   cp -r science-skills/skills/embl_ebi_ols ~/.claude/skills/
-  cp -r science-skills/skills/scienceskillscommon ~/.claude/skills/
+  cp -r science-skills/skills/uv ~/.claude/skills/
   ```
-  (The skill imports shared helpers from `scienceskillscommon` — copy it too.)
+  (The `SKILL.md` requires the bundled `uv` skill for its setup — copy it too.)
 - **Prerequisite** — the skill runs its utility script via `uv run`; install `uv` first if absent: `curl -LsSf https://astral.sh/uv/install.sh | sh`. Python deps install into an isolated environment on first run.
 
 ## What it does
