@@ -48,6 +48,27 @@ def _run(cmd: str, cwd: str, env: dict, timeout: int) -> tuple[int | None, str]:
         return 127, f"[command not found] {e}"
 
 
+def _prepare_install(cmd: str, work: Path, env: dict) -> str:
+    """Adjust cmd + env so the install lands where the boot probe can reach it.
+
+    Returns the (possibly rewritten) install command and mutates `env` in place:
+      * pip  -> install into a temp --target and expose it on PYTHONPATH so a
+                `python -m ...` boot probe can import it.
+      * uv tool install -> uv drops executables in ~/.local/bin (HOME is our temp
+                dir). Pin that bin dir and prepend it to PATH so the boot command
+                (e.g. `biomcp serve`) can actually find the installed binary.
+    """
+    if cmd.startswith("pip install "):
+        target_dir = work / "site"
+        env["PYTHONPATH"] = str(target_dir)
+        return cmd.replace("pip install ", f"pip install --target {target_dir} ", 1)
+    if cmd.startswith("uv tool install "):
+        bin_dir = work / ".local" / "bin"
+        env["UV_TOOL_BIN_DIR"] = str(bin_dir)
+        env["PATH"] = str(bin_dir) + os.pathsep + env.get("PATH", "")
+    return cmd
+
+
 def smoke_one(target: dict, workroot: Path) -> dict:
     slug = target["slug"]
     install_cmd = target.get("install_cmd")
@@ -66,12 +87,7 @@ def smoke_one(target: dict, workroot: Path) -> dict:
     env.pop("ANTHROPIC_API_KEY", None)  # belt-and-suspenders: never expose secrets
     env.pop("GITHUB_TOKEN", None)
 
-    cmd = install_cmd
-    if cmd.startswith("pip install "):
-        target_dir = work / "site"
-        cmd = cmd.replace("pip install ", f"pip install --target {target_dir} ", 1)
-        # So a subsequent `python -m ...` boot probe can import what we installed.
-        env["PYTHONPATH"] = str(target_dir)
+    cmd = _prepare_install(install_cmd, work, env)
 
     rc, log = _run(cmd, str(work), env, INSTALL_TIMEOUT)
     result["log"] = log
