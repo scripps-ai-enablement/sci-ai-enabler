@@ -116,8 +116,9 @@ jobs:
         run: |
           useradd -m smoke || true
           chown -R smoke:smoke .verify scripts
-          # Re-runs only the needs_toolchain targets and merges them back in.
-          su smoke -c "python3 scripts/run_smoke_tests.py --retry-from-results .verify/smoke-results.json --out .verify/smoke-results.json"
+          # Re-runs only the needs_toolchain targets (with a generous per-install
+          # timeout, since source builds are slow) and merges them back in.
+          su smoke -c "python3 scripts/run_smoke_tests.py --retry-from-results .verify/smoke-results.json --out .verify/smoke-results.json --install-timeout 900"
 
       - name: Upload merged smoke results
         uses: actions/upload-artifact@v4
