@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "generated": "2026-07-19",
+  "generated": "2026-07-20",
   "counts": {
-    "tools": 443,
-    "recipes": 86
+    "tools": 447,
+    "recipes": 87
   },
   "tools_file": "composer-tools.json",
   "recipes": [
@@ -33,6 +33,26 @@
         "RMSF"
       ],
       "path": "recipes/items/analyze-md-trajectory-with-mdanalysis.md"
+    },
+    {
+      "slug": "analyze-sar-of-a-compound-series",
+      "title": "Analyze the SAR of a measured compound series",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Chemistry",
+        "Drug Repurposing and Discovery"
+      ],
+      "evidence_level": "Reported",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-07-19",
+      "summary": "Drive the SAR Analysis skill over a CSV of assayed analogs to decompose the common scaffold, tabulate R-group vs potency, and surface activity cliffs for the next lead-optimization round.",
+      "keywords": [
+        "SAR",
+        "SMILES"
+      ],
+      "path": "recipes/items/analyze-sar-of-a-compound-series.md"
     },
     {
       "slug": "analyze-single-cell-tcr-repertoire",
@@ -184,7 +204,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-06-21",
+      "last_verified": "2026-07-19",
       "summary": "Drive the PyTDC Claude skill to load a Therapeutics Data Commons ADMET dataset with its leaderboard split, train or score a baseline model, and emit the standard TDC metrics so a new method can be compared head-to-head against the leaderboard.",
       "keywords": [
         "ADMET",
@@ -1603,7 +1623,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-06-21",
+      "last_verified": "2026-07-19",
       "summary": "Use the OpenFDA MCP server to pull FAERS adverse-event reports and label warnings for a drug, rank the top reported reactions, and assemble a pharmacovigilance snapshot.",
       "keywords": [
         "FAERS",
@@ -1689,7 +1709,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-06-21",
+      "last_verified": "2026-07-19",
       "summary": "Drive the ToolUniverse Drug Synergy skill to pick the right reference model (Bliss / HSA / Loewe / ZIP / Chou-Talalay) for your combination data and classify a two-drug pairing as synergistic, additive, or antagonistic.",
       "keywords": [
         "Chou-Talalay",
