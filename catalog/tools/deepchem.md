@@ -7,6 +7,12 @@ supplier: K-Dense
 availability: GA
 tool_categories: [Chemistry, Drug Repurposing and Discovery]
 last_verified: 2026-06-04
+verification: works
+verified_on: 2026-07-20
+verification_note: "repo and skills/deepchem dir resolve on K-Dense-AI/scientific-agent-skills"
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches supplier K-Dense-AI, MIT collection wrapping MIT DeepChem, maintained (pushed 2026-07-15), no OSV advisories"
 summary: Claude skill driving DeepChem for molecular machine learning — graph neural nets (GCN, GAT, MPNN, AttentiveFP), featurization, and the MoleculeNet benchmarks (toxicity, ADMET, quantum properties).
 ---
 
@@ -21,6 +27,8 @@ Claude skill that drives [DeepChem](https://deepchem.io/), a deep-learning frame
 | **Availability** | GA — actively maintained 2025–2026 |
 | **Pricing** | Free / OSS skill (MIT collection); DeepChem itself is MIT-licensed |
 | **Capabilities** | Read/Write — Claude executes DeepChem via Python/Bash to featurize molecules, train models, and run MoleculeNet benchmarks |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches K-Dense-AI, MIT collection wrapping MIT DeepChem, maintained, no OSV advisories |
 
 ## How to install
 

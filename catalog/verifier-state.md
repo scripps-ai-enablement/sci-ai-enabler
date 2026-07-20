@@ -12,13 +12,13 @@ It owns the `verification` / `security` stamps on catalog entries; the catalog c
 
 ## Recently verified
 
+- K-Dense skill batch (bootstrap) — works / cleared · 2026-07-20 — 19 skills stamped against confirmed anchor `K-Dense-AI/scientific-agent-skills` (MIT, not archived, pushed 2026-07-15, LICENSE.md + SECURITY.md present, skills/ tree lists each dir): `astropy`, `cobrapy`, `deeptools`, `deepchem`, `aeon`, `arboreto`, `cirq`, `bioservices`, `bgpt-paper-search`, `bids`, `bulk-rnaseq`, `cellxgene-census`, `dask`, `database-lookup`, `benchling-integration`, `citation-management`, `clinical-decision-support`, `clinical-reports`, `consciousness-council`.
+- `adaptyv` — works / caution · 2026-07-20 — K-Dense skill dir resolves; writes to a paid external Adaptyv wet-lab platform and handles ADAPTYV_API_KEY (in-silico half runs unauthenticated).
+- `autoskill` — works / caution · 2026-07-20 — K-Dense skill dir resolves; observes user screen via a local screenpipe daemon (detection local, only redacted summaries reach LLM).
 - `arxiv` — works / cleared · 2026-07-20 — blazickjp GitHub Apache-2.0 + PyPI arxiv-mcp-server v0.5.0, no OSV.
 - `chembl` — works / cleared · 2026-07-20 — anthropics/life-sciences marketplace repo resolves and active, ChEMBL data EMBL-EBI.
 - `clinicaltrials-gov-mcp` — works / cleared · 2026-07-20 — cyanheads Apache-2.0, npm clinicaltrialsgov-mcp-server v2.8.2, no OSV.
 - `datamol` — works / cleared · 2026-07-20 — K-Dense-AI repo MIT + Datamol PyPI v0.12.5 Apache-2.0, no OSV.
-- `blast` — works / caution · 2026-07-20 — bio-mcp/bio-mcp-blast resolves but no LICENSE upstream (MIT claimed), unmaintained since 2025-06.
-- `bcftools-variant-manipulation` / `autodock-vina-docking` — works / caution · 2026-07-20 — jaechang-hits/SciAgent-Skills active 2026-06 but GitHub license NOASSERTION.
-- `chemcp` — works / caution · 2026-07-20 — scottmreed GitHub active + npm chemcp v1.1.0, but no LICENSE file in repo (npm says ISC).
 - `bci-mcp` — works / caution · 2026-07-20 — smoke pass; PyPI+npm+GitHub v0.1.3 MIT, single-maintainer alpha.
 
 ## Flagged (broken or security)

@@ -7,6 +7,12 @@ supplier: K-Dense
 availability: GA
 tool_categories: [Neuroscience]
 last_verified: 2026-06-04
+verification: works
+verified_on: 2026-07-20
+verification_note: "repo and skills/bids dir resolve on K-Dense-AI/scientific-agent-skills"
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches supplier K-Dense-AI, MIT collection, maintained (pushed 2026-07-15), no OSV advisories"
 summary: Claude skill for organizing, validating, and querying Brain Imaging Data Structure datasets — MRI, EEG, MEG, iEEG, PET, microscopy, behavioral, and 35 BIDS entities.
 ---
 
@@ -21,6 +27,8 @@ Claude skill for the Brain Imaging Data Structure standard — dataset creation,
 | **Availability** | GA — distributed with the K-Dense marketplace at v2.27.0 |
 | **Pricing** | Free / OSS |
 | **Capabilities** | Read/Write — converts and reorganizes local neuroimaging data into BIDS layout |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches K-Dense-AI, MIT collection, maintained, no OSV advisories |
 
 ## How to install
 

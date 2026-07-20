@@ -7,6 +7,12 @@ supplier: K-Dense
 availability: GA
 tool_categories: [General-Purpose Utilities]
 last_verified: 2026-06-04
+verification: works
+verified_on: 2026-07-20
+verification_note: "repo and skills/autoskill dir resolve on K-Dense-AI/scientific-agent-skills; needs a local screenpipe daemon on port 3030 to function"
+security: caution
+security_on: 2026-07-20
+security_note: "provenance matches supplier K-Dense-AI, MIT, but skill observes the user's screen via a local screenpipe daemon — detection is local and only redacted summaries reach the LLM"
 summary: Observe the user's screen via screenpipe, detect repeated research workflows, match them against existing scientific-agent-skills, and draft new skills (or composition recipes that chain …
 ---
 
@@ -21,6 +27,8 @@ Observe the user's screen via screenpipe, detect repeated research workflows, ma
 | **Availability** | GA — part of the actively maintained K-Dense `scientific-agent-skills` collection |
 | **Pricing** | Free / OSS (MIT) |
 | **Capabilities** | Read/Write — Claude runs the skill's Python locally (Bash), not as an MCP tool |
+| **Verified** | works · 2026-07-20 |
+| **Security** | caution · 2026-07-20 — provenance matches K-Dense-AI, MIT, but skill observes the user's screen via a local screenpipe daemon (detection local, only redacted summaries sent) |
 
 ## How to install
 

@@ -4,6 +4,29 @@ Rolling, reverse-chronological log of catalog verification + security passes. Ea
 on-demand run that produces changes prepends a dated block; the top block is mirrored to the pinned
 "Verification updates" issue.
 
+## 2026-07-20 (bootstrap pass 3)
+
+Third bootstrap pass — 21 K-Dense skill entries stamped (all static). All judgments grounded in
+sources fetched this run: the anchor repo `K-Dense-AI/scientific-agent-skills` (GitHub API — MIT,
+not archived, pushed 2026-07-15, LICENSE.md + SECURITY.md present) and its `skills/` git tree, which
+lists each stamped skill's directory. Per-entry differentiator is the skill subdir resolving.
+
+### Verified
+- `astropy`, `cobrapy`, `deeptools`, `deepchem`, `aeon`, `arboreto`, `cirq`, `bioservices` → works — anchor repo + each `skills/<slug>` dir resolve.
+- `bgpt-paper-search`, `bids`, `bulk-rnaseq`, `cellxgene-census`, `dask`, `database-lookup` → works — anchor repo + each `skills/<slug>` dir resolve.
+- `benchling-integration`, `citation-management`, `clinical-decision-support`, `clinical-reports`, `consciousness-council` → works — anchor repo + each `skills/<slug>` dir resolve.
+- `adaptyv`, `autoskill` → works — anchor repo + each `skills/<slug>` dir resolve (see Security).
+
+### Fixed
+- None this run.
+
+### Security
+- cleared (19): `astropy`, `cobrapy`, `deeptools`, `deepchem`, `aeon`, `arboreto`, `cirq`, `bioservices`, `bgpt-paper-search`, `bids`, `bulk-rnaseq`, `cellxgene-census`, `dask`, `database-lookup`, `benchling-integration`, `citation-management`, `clinical-decision-support`, `clinical-reports`, `consciousness-council` — provenance matches supplier K-Dense-AI, MIT collection (some wrap BSD-3/Apache-2.0/GPL upstream libs, noted per entry), maintained, no OSV advisories.
+- caution (2): `adaptyv` (skill writes to a paid external Adaptyv wet-lab platform and handles an ADAPTYV_API_KEY; in-silico half runs unauthenticated); `autoskill` (skill observes the user's screen via a local screenpipe daemon — detection is local and only redacted summaries reach the LLM).
+
+### Flagged
+- None broken.
+
 ## 2026-07-20 (bootstrap pass 2)
 
 Second bootstrap pass — 8 more entries stamped (all static). All judgments grounded in sources

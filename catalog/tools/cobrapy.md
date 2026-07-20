@@ -7,6 +7,12 @@ supplier: K-Dense
 availability: GA
 tool_categories: [Molecular and Cellular Biology, Chemistry, Drug Repurposing and Discovery]
 last_verified: 2026-06-04
+verification: works
+verified_on: 2026-07-20
+verification_note: "repo and skills/cobrapy dir resolve on K-Dense-AI/scientific-agent-skills"
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches supplier K-Dense-AI, MIT skill collection wrapping GPL-2.0 COBRApy, maintained (pushed 2026-07-15), no OSV advisories"
 summary: Claude skill driving COBRApy for constraint-based metabolic modelling — FBA, FVA, gene knockouts, flux sampling, gapfilling on SBML genome-scale models.
 ---
 
@@ -21,6 +27,8 @@ Claude skill that drives [COBRApy](https://cobrapy.readthedocs.io/) for **constr
 | **Availability** | GA — actively maintained 2025–2026 |
 | **Pricing** | Free / OSS skill (MIT collection); COBRApy itself is GPL-2.0-licensed — review license terms for commercial use |
 | **Capabilities** | Read/Write — Claude executes COBRApy via Python/Bash to load models, run optimisation, and produce flux distributions / knockout screens |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches K-Dense-AI, MIT collection wrapping GPL-2.0 COBRApy, maintained, no OSV advisories |
 
 ## How to install
 

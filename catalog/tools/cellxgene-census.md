@@ -8,6 +8,12 @@ availability: GA
 tool_categories: [Molecular and Cellular Biology, Immunology and Microbiology, Translational Medicine]
 last_verified: 2026-06-04
 claude_science: true
+verification: works
+verified_on: 2026-07-20
+verification_note: "repo and skills/cellxgene-census dir resolve on K-Dense-AI/scientific-agent-skills"
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches supplier K-Dense-AI, MIT collection wrapping MIT cellxgene-census, maintained (pushed 2026-07-15), no OSV advisories"
 summary: Claude skill for querying the CZ CELLxGENE Discover census — 50M+ standardized single-cell observations across 1,000+ datasets via TileDB-SOMA, with AnnData / Scanpy integration.
 ---
 
@@ -22,6 +28,8 @@ Claude skill that drives the [CZ CELLxGENE Discover Census](https://chanzuckerbe
 | **Availability** | GA — actively maintained 2025–2026 |
 | **Pricing** | Free / OSS skill (MIT collection); the CELLxGENE Census itself is free / CC-BY |
 | **Capabilities** | Read-only — queries the public census; Claude executes Python locally |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches K-Dense-AI, MIT collection wrapping MIT cellxgene-census, maintained, no OSV advisories |
 
 ## How to install
 
