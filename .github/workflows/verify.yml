@@ -175,7 +175,10 @@ jobs:
           # Deterministic worklist: the agent must NOT enumerate the tree itself
           # (that missed 7 pages for dozens of runs). This script is the single
           # source of truth for which pages to stamp, unstamped-first.
-          python3 scripts/select_verify_targets.py --count "${COUNT}" --out .verify/worklist.md
+          # --rotate advances the worklist window each run so a uniformly-dated
+          # catalog does not re-serve the same slugs forever (GITHUB_RUN_NUMBER
+          # is monotonic per run).
+          python3 scripts/select_verify_targets.py --count "${COUNT}" --rotate "${GITHUB_RUN_NUMBER:-0}" --out .verify/worklist.md
           {
             cat VERIFIER_AGENT.md
             echo ""
