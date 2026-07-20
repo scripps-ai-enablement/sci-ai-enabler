@@ -23,6 +23,8 @@ import os
 import shlex
 import subprocess
 import tempfile
+import threading
+import time
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -69,6 +71,100 @@ def _prepare_install(cmd: str, work: Path, env: dict) -> str:
     return cmd
 
 
+def _mcp_initialize_request() -> str:
+    """A minimal JSON-RPC `initialize` request for the MCP stdio handshake."""
+    return json.dumps({
+        "jsonrpc": "2.0", "id": 1, "method": "initialize",
+        "params": {
+            "protocolVersion": "2025-06-18",
+            "capabilities": {},
+            "clientInfo": {"name": "smoke-test", "version": "0.0.0"},
+        },
+    })
+
+
+def _probe_boot(cmd: str, cwd: str, env: dict, timeout: int) -> tuple[str, str]:
+    """Boot an MCP stdio server and confirm it actually speaks MCP.
+
+    MCP stdio servers expect a client to send a newline-delimited JSON-RPC
+    `initialize` request on stdin; many (e.g. `biomcp serve`) exit non-zero
+    right away when there is none, which the old "immediate exit = boot_error"
+    heuristic misread as a failure. We now perform the handshake: send the
+    request and watch (merged) stdout for a matching JSON-RPC response.
+
+    Returns (status, log):
+      * a well-formed response to our request  -> pass  (completed the handshake)
+      * still running at the timeout           -> pass  (booted, awaiting client)
+      * clean exit (rc 0)                       -> pass
+      * non-zero exit with no MCP response      -> boot_error
+    """
+    try:
+        p = subprocess.Popen(
+            shlex.split(cmd), cwd=cwd, env=env, text=True,
+            stdin=subprocess.PIPE, stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,  # merge so one reader can't deadlock on a full pipe
+        )
+    except FileNotFoundError as e:
+        return "boot_error", f"[command not found] {e}"
+
+    out_lines: list[str] = []
+    handshook = threading.Event()
+
+    def _reader():
+        for line in p.stdout:  # blocks until the server exits or is terminated
+            out_lines.append(line)
+            s = line.strip()
+            if not s:
+                continue
+            try:
+                msg = json.loads(s)
+            except ValueError:
+                continue  # startup log line, not JSON-RPC
+            if (isinstance(msg, dict) and msg.get("jsonrpc") == "2.0"
+                    and msg.get("id") == 1 and ("result" in msg or "error" in msg)):
+                handshook.set()
+                return
+
+    reader = threading.Thread(target=_reader, daemon=True)
+    reader.start()
+    try:
+        p.stdin.write(_mcp_initialize_request() + "\n")
+        p.stdin.flush()
+    except (BrokenPipeError, OSError):
+        pass  # server exited before it read stdin
+
+    deadline = time.monotonic() + timeout
+    while time.monotonic() < deadline:
+        if handshook.is_set() or p.poll() is not None:
+            break
+        time.sleep(0.1)
+
+    responded = handshook.is_set()
+    rc = p.poll()
+    if rc is None:  # still up — tear it down
+        p.terminate()
+        try:
+            p.wait(3)
+        except subprocess.TimeoutExpired:
+            p.kill()
+    reader.join(2)
+    for stream in (p.stdin, p.stdout):
+        try:
+            if stream:
+                stream.close()
+        except OSError:
+            pass
+    log = "".join(out_lines)[-LOG_CHARS:]
+
+    if responded:
+        return "pass", log
+    if rc is None:
+        return "pass", log
+    if rc == 0:
+        return "pass", log
+    return "boot_error", log
+
+
 def smoke_one(target: dict, workroot: Path) -> dict:
     slug = target["slug"]
     install_cmd = target.get("install_cmd")
@@ -98,18 +194,13 @@ def smoke_one(target: dict, workroot: Path) -> dict:
         result["status"] = "install_error"
         return result
 
-    # Optional boot probe for MCP servers: a server that stays up until the short
-    # timeout is treated as a successful boot; an immediate nonzero exit is a
-    # boot_error. Skills (no boot_cmd) pass on a clean install.
+    # Optional boot probe for MCP servers: perform the MCP stdio handshake and
+    # confirm the server speaks MCP (see _probe_boot). Skills (no boot_cmd) pass
+    # on a clean install.
     if boot_cmd:
-        brc, blog = _run(boot_cmd, str(work), env, BOOT_TIMEOUT)
+        status, blog = _probe_boot(boot_cmd, str(work), env, BOOT_TIMEOUT)
         result["log"] = (log + "\n--- boot ---\n" + blog)[-LOG_CHARS:]
-        if brc is None:
-            result["status"] = "pass"        # still running at timeout = booted
-        elif brc == 0:
-            result["status"] = "pass"
-        else:
-            result["status"] = "boot_error"
+        result["status"] = status
         return result
 
     result["status"] = "pass"

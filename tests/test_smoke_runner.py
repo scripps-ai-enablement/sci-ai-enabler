@@ -17,6 +17,9 @@ from __future__ import annotations
 
 import importlib.util
 import os
+import sys
+import tempfile
+import textwrap
 import unittest
 from pathlib import Path
 
@@ -54,6 +57,67 @@ class PrepareInstall(unittest.TestCase):
         cmd = runner._prepare_install("npx skills add org/repo", self.work, env)
         self.assertEqual(cmd, "npx skills add org/repo")
         self.assertEqual(env, {"PATH": "/usr/bin"})  # no PATH/PYTHONPATH mutation
+
+
+class ProbeBoot(unittest.TestCase):
+    """The MCP stdio handshake probe, exercised against fake local servers."""
+
+    def setUp(self):
+        self.dir = tempfile.mkdtemp(prefix="probe_")
+        self.env = dict(os.environ)
+
+    def _server(self, body: str) -> str:
+        path = Path(self.dir) / f"srv_{len(list(Path(self.dir).iterdir()))}.py"
+        path.write_text(textwrap.dedent(body), encoding="utf-8")
+        return f"{sys.executable} {path}"
+
+    def test_compliant_server_completes_handshake(self):
+        # Reads the initialize request, replies with a JSON-RPC result, stays up.
+        cmd = self._server("""
+            import sys, json, time
+            msg = json.loads(sys.stdin.readline())
+            print(json.dumps({"jsonrpc": "2.0", "id": msg["id"],
+                              "result": {"protocolVersion": "2025-06-18",
+                                         "serverInfo": {"name": "fake"},
+                                         "capabilities": {}}}), flush=True)
+            time.sleep(10)
+        """)
+        status, log = runner._probe_boot(cmd, self.dir, self.env, 5)
+        self.assertEqual(status, "pass")
+        self.assertIn('"result"', log)
+
+    def test_startup_logs_before_response_are_ignored(self):
+        # Non-JSON startup chatter on stderr must not break handshake detection.
+        cmd = self._server("""
+            import sys, json, time
+            sys.stderr.write("booting fake server...\\n"); sys.stderr.flush()
+            json.loads(sys.stdin.readline())
+            print(json.dumps({"jsonrpc": "2.0", "id": 1, "result": {}}), flush=True)
+            time.sleep(10)
+        """)
+        status, _ = runner._probe_boot(cmd, self.dir, self.env, 5)
+        self.assertEqual(status, "pass")
+
+    def test_dead_command_is_boot_error(self):
+        # Exits non-zero immediately without speaking MCP (like a bad subcommand).
+        cmd = self._server("""
+            import sys
+            sys.stderr.write("Error: unknown command 'serve'\\n")
+            sys.exit(2)
+        """)
+        status, _ = runner._probe_boot(cmd, self.dir, self.env, 5)
+        self.assertEqual(status, "boot_error")
+
+    def test_server_that_stays_up_passes_without_response(self):
+        # Legacy fallback: a server still alive at the timeout counts as booted.
+        cmd = self._server("import time; time.sleep(30)")
+        status, _ = runner._probe_boot(cmd, self.dir, self.env, 2)
+        self.assertEqual(status, "pass")
+
+    def test_clean_exit_without_mcp_passes(self):
+        cmd = self._server("print('ok')")
+        status, _ = runner._probe_boot(cmd, self.dir, self.env, 5)
+        self.assertEqual(status, "pass")
 
 
 if __name__ == "__main__":
