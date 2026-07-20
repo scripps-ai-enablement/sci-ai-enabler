@@ -7,6 +7,11 @@ supplier: K-Dense
 availability: GA
 tool_categories: [Neuroscience]
 last_verified: 2026-06-04
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches supplier K-Dense-AI, MIT collection, skills/neuropixels-analysis dir resolves, local SpikeInterface pipelines on user recordings, no OSV advisories"
 summary: Claude skill for end-to-end Neuropixels analysis — SpikeGLX/Open Ephys/NWB loading, preprocessing, motion correction, and Kilosort4/SpykingCircus2/Mountainsort5 spike sorting.
 ---
 
@@ -21,6 +26,8 @@ Claude skill for high-density extracellular electrophysiology pipelines on Neuro
 | **Availability** | GA — distributed with the K-Dense marketplace at v2.27.0 |
 | **Pricing** | Free / OSS |
 | **Capabilities** | Read/Write — local computation on user-supplied recordings; GPU recommended for Kilosort4 |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches K-Dense-AI, MIT collection, local SpikeInterface pipelines on user recordings, no OSV advisories |
 
 ## How to install
 

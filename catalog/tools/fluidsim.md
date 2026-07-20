@@ -7,6 +7,11 @@ supplier: K-Dense
 availability: GA
 tool_categories: [General-Purpose Utilities]
 last_verified: 2026-06-04
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches supplier K-Dense-AI, MIT collection wrapping CeCILL FluidSim, skills/fluidsim dir resolves, local computation, no OSV advisories"
 summary: Framework for computational fluid dynamics simulations using Python.
 ---
 
@@ -21,6 +26,8 @@ Framework for computational fluid dynamics simulations using Python.
 | **Availability** | GA — part of the actively maintained K-Dense `scientific-agent-skills` collection |
 | **Pricing** | Free / OSS (CeCILL FREE SOFTWARE AGREEMENT) |
 | **Capabilities** | Read/Write — Claude runs the skill's Python locally (Bash), not as an MCP tool |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches K-Dense-AI, MIT collection wrapping CeCILL FluidSim, local computation, no OSV advisories |
 
 ## How to install
 

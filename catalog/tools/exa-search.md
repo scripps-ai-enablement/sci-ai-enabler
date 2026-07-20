@@ -7,6 +7,11 @@ supplier: K-Dense
 availability: GA
 tool_categories: [General-Purpose Utilities]
 last_verified: 2026-06-04
+verification: works
+verified_on: 2026-07-20
+security: caution
+security_on: 2026-07-20
+security_note: "provenance matches K-Dense-AI and skills/exa-search dir resolves under MIT, but the skill sends queries plus a user Exa API key to the external Exa web service"
 summary: Web toolkit powered by Exa, tuned for scientific and technical content.
 ---
 
@@ -21,6 +26,8 @@ Web toolkit powered by Exa, tuned for scientific and technical content.
 | **Availability** | GA — part of the actively maintained K-Dense `scientific-agent-skills` collection |
 | **Pricing** | Free / OSS (MIT) |
 | **Capabilities** | Read/Write — Claude runs the skill's Python locally (Bash), not as an MCP tool |
+| **Verified** | works · 2026-07-20 |
+| **Security** | caution · 2026-07-20 — MIT and provenance matches K-Dense-AI, but sends queries plus a user Exa API key to the external Exa service |
 
 ## How to install
 

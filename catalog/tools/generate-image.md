@@ -7,6 +7,11 @@ supplier: K-Dense
 availability: GA
 tool_categories: [General-Purpose Utilities]
 last_verified: 2026-06-04
+verification: works
+verified_on: 2026-07-20
+security: caution
+security_on: 2026-07-20
+security_note: "provenance matches K-Dense-AI and skills/generate-image dir resolves under MIT, but the skill sends prompts plus a user API key to external FLUX/Nano Banana image services"
 summary: Generate or edit images using AI models (FLUX, Nano Banana 2).
 ---
 
@@ -21,6 +26,8 @@ Generate or edit images using AI models (FLUX, Nano Banana 2).
 | **Availability** | GA — part of the actively maintained K-Dense `scientific-agent-skills` collection |
 | **Pricing** | Free / OSS (MIT) |
 | **Capabilities** | Read/Write — Claude runs the skill's Python locally (Bash), not as an MCP tool |
+| **Verified** | works · 2026-07-20 |
+| **Security** | caution · 2026-07-20 — MIT and provenance matches K-Dense-AI, but sends prompts plus a user API key to external FLUX/Nano Banana services |
 
 ## How to install
 

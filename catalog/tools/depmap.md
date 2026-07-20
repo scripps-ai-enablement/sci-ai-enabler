@@ -7,6 +7,11 @@ supplier: K-Dense
 availability: GA
 tool_categories: [Drug Repurposing and Discovery, Molecular and Cellular Biology, Translational Medicine]
 last_verified: 2026-06-04
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches supplier K-Dense-AI, MIT collection, skills/depmap dir resolves, read-only public DepMap data, no OSV advisories"
 summary: Claude skill for querying the Cancer Dependency Map — CRISPR Chronos gene-effect scores, PRISM drug sensitivity, mutation, expression, and CN data across cancer cell lines.
 ---
 
@@ -21,6 +26,8 @@ Claude skill for working with the Broad Institute's Cancer Dependency Map data �
 | **Availability** | GA — actively maintained 2025–2026 |
 | **Pricing** | Free / OSS skill; underlying DepMap data is publicly licensed |
 | **Capabilities** | Read-only — pulls and analyses public DepMap files |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches K-Dense-AI, MIT collection, read-only public data, no OSV advisories |
 
 ## How to install
 

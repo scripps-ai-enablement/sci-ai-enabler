@@ -4,6 +4,34 @@ Rolling, reverse-chronological log of catalog verification + security passes. Ea
 on-demand run that produces changes prepends a dated block; the top block is mirrored to the pinned
 "Verification updates" issue.
 
+## 2026-07-20 (bootstrap pass 9)
+
+Ninth bootstrap pass — 16 more unstamped K-Dense skill entries stamped. All judgments grounded in
+sources fetched this run: anchor repo `K-Dense-AI/scientific-agent-skills` (GitHub API — MIT, not
+archived, `disabled:false`, pushed 2026-07-15, updated 2026-07-20, 31,246 stars) and the `skills/`
+contents API listing, which confirmed each stamped subdir (`depmap`, `dnanexus-integration`,
+`exa-search`, `fluidsim`, `generate-image`, `get-available-resources`, `imaging-data-commons`,
+`matlab`, `molecular-dynamics`, `neuropixels-analysis`, `optimize-for-gpu`, `hugging-science`,
+`pathway-enrichment`, `primekg`, `pufferlib`) resolves. Caps respected (16 static verifications, 0
+smoke verdicts consumed — the 8/8-pass smoke batch was already captured in pass 8). Honesty note: a
+second `skills/` contents fetch returned a garbled/repeated tail past `scholar-evaluation`; those
+names were discarded and flagged in verifier-state for a clean re-fetch.
+
+### Verified
+- works/cleared: `depmap`, `get-available-resources`, `exploratory-data-analysis`, `fluidsim`, `pathway-enrichment`, `molecular-dynamics`, `imaging-data-commons`, `pufferlib`, `matlab`, `neuropixels-analysis` — anchor repo + each `skills/<slug>` resolves via contents API; MIT collection, local execution, no OSV advisories.
+- works/caution: `primekg`, `optimize-for-gpu`, `hugging-science`, `dnanexus-integration`, `exa-search`, `generate-image` — resolve and install path current; concerns noted under Security.
+
+### Fixed
+- None this run.
+
+### Flagged
+- `generate-image`, `exa-search` — security `caution`: MIT/provenance clear, but each ships a user API key to an external service (FLUX/Nano Banana image services; the Exa web API respectively). Same external-credential pattern as `scientific-schematics`.
+- `dnanexus-integration` — security `caution`: license unstated on the page and the skill uses DNAnexus cloud credentials via `dxpy`.
+- `primekg`, `optimize-for-gpu`, `hugging-science` — security `caution`: each page states the skill/data license as unstated; `hugging-science` can also call the external HF Inference API. Lift to cleared once a license is confirmed.
+
+### Security
+- No OSV/GitHub advisories surfaced for the anchor collection this run; all serious concerns are the credential/external-service and unstated-license cautions listed above. No provenance mismatches or typosquat-shaped names in this batch (all under `K-Dense-AI`).
+
 ## 2026-07-20 (bootstrap pass 8)
 
 Eighth bootstrap pass — 12 more unstamped K-Dense skill entries stamped, plus verification-note

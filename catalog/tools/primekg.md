@@ -7,6 +7,11 @@ supplier: K-Dense
 availability: GA
 tool_categories: [Drug Repurposing and Discovery, Molecular and Cellular Biology, Translational Medicine]
 last_verified: 2026-06-04
+verification: works
+verified_on: 2026-07-20
+security: caution
+security_on: 2026-07-20
+security_note: "provenance matches K-Dense-AI and skills/primekg dir resolves, but the underlying PrimeKG data license is unstated on the page; recheck when confirmed"
 summary: Query the Precision Medicine Knowledge Graph (PrimeKG) for multiscale biological data including genes, drugs, diseases, phenotypes, and more.
 ---
 
@@ -21,6 +26,8 @@ Query the Precision Medicine Knowledge Graph (PrimeKG) for multiscale biological
 | **Availability** | GA — part of the actively maintained K-Dense `scientific-agent-skills` collection |
 | **Pricing** | Free / OSS — license not stated upstream |
 | **Capabilities** | Read/Write — Claude runs the skill's Python locally (Bash), not as an MCP tool |
+| **Verified** | works · 2026-07-20 |
+| **Security** | caution · 2026-07-20 — provenance matches K-Dense-AI, dir resolves, but PrimeKG data license unstated on the page |
 
 ## How to install
 

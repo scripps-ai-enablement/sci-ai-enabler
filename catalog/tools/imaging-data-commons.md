@@ -7,6 +7,11 @@ supplier: K-Dense
 availability: GA
 tool_categories: [Translational Medicine]
 last_verified: 2026-06-04
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches supplier K-Dense-AI, MIT skill, skills/imaging-data-commons dir resolves, no-auth public NCI IDC data via idc-index, no OSV advisories"
 summary: Query and download public cancer imaging data from NCI Imaging Data Commons using idc-index.
 ---
 
@@ -21,6 +26,8 @@ Query and download public cancer imaging data from NCI Imaging Data Commons usin
 | **Availability** | GA — part of the actively maintained K-Dense `scientific-agent-skills` collection |
 | **Pricing** | Free / OSS (This skill is provided under the MIT. IDC data itself has individual licensing (mostly CC-BY, some CC-NC) that must be respected when using the data) |
 | **Capabilities** | Read/Write — Claude runs the skill's Python locally (Bash), not as an MCP tool |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches K-Dense-AI, MIT skill, no-auth public NCI IDC data, no OSV advisories |
 
 ## How to install
 

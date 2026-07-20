@@ -7,6 +7,11 @@ supplier: K-Dense
 availability: GA
 tool_categories: [General-Purpose Utilities]
 last_verified: 2026-06-04
+verification: works
+verified_on: 2026-07-20
+security: caution
+security_on: 2026-07-20
+security_note: "provenance matches K-Dense-AI and skills/hugging-science dir resolves, but license is unstated on the page and it can call the external Hugging Face Inference API"
 summary: The user is doing AI/ML work in a scientific domain such as biology, chemistry, physics, astronomy, climate, genomics, materials, medicine, ecology, energy, engineering, math …
 ---
 
@@ -21,6 +26,8 @@ Use when the user is doing AI/ML work in a scientific domain such as biology, ch
 | **Availability** | GA — part of the actively maintained K-Dense `scientific-agent-skills` collection |
 | **Pricing** | Free / OSS — license not stated upstream |
 | **Capabilities** | Read/Write — Claude runs the skill's Python locally (Bash), not as an MCP tool |
+| **Verified** | works · 2026-07-20 |
+| **Security** | caution · 2026-07-20 — provenance matches K-Dense-AI, dir resolves, but license unstated and it can call the external HF Inference API |
 
 ## How to install
 

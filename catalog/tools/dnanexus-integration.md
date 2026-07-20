@@ -7,6 +7,11 @@ supplier: K-Dense
 availability: GA
 tool_categories: [Molecular and Cellular Biology]
 last_verified: 2026-06-04
+verification: works
+verified_on: 2026-07-20
+security: caution
+security_on: 2026-07-20
+security_note: "provenance matches K-Dense-AI and skills/dnanexus-integration dir resolves, but license is unstated on the page and the skill uses DNAnexus cloud credentials via dxpy"
 summary: DNAnexus cloud genomics platform.
 ---
 
@@ -21,6 +26,8 @@ DNAnexus cloud genomics platform.
 | **Availability** | GA — part of the actively maintained K-Dense `scientific-agent-skills` collection |
 | **Pricing** | Free / OSS — license not stated upstream |
 | **Capabilities** | Read/Write — Claude runs the skill's Python locally (Bash), not as an MCP tool |
+| **Verified** | works · 2026-07-20 |
+| **Security** | caution · 2026-07-20 — provenance matches K-Dense-AI, dir resolves, but license unstated and it uses DNAnexus cloud credentials via dxpy |
 
 ## How to install
 

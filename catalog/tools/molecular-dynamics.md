@@ -7,6 +7,11 @@ supplier: K-Dense
 availability: GA
 tool_categories: [Integrative Structural and Computational Biology, Drug Repurposing and Discovery]
 last_verified: 2026-06-04
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches supplier K-Dense-AI, MIT collection, skills/molecular-dynamics dir resolves, wraps OpenMM (MIT) and MDAnalysis (GPLv2+) locally, no OSV advisories"
 summary: Claude skill that runs and analyzes OpenMM molecular dynamics simulations and MDAnalysis trajectory analyses for proteins, ligands, and biomolecular complexes.
 ---
 
@@ -21,6 +26,8 @@ Claude skill that sets up, runs, and analyzes molecular dynamics simulations end
 | **Availability** | GA — distributed via the K-Dense `scientific-agent-skills` collection |
 | **Pricing** | Free / OSS (skill source); OpenMM is MIT, MDAnalysis is GPLv2+ |
 | **Capabilities** | Read/Write — Claude writes and runs Python locally (system preparation, MD execution, trajectory analysis) |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches K-Dense-AI, MIT collection, wraps OpenMM (MIT) and MDAnalysis (GPLv2+) locally, no OSV advisories |
 
 ## How to install
 

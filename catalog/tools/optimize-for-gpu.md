@@ -7,6 +7,11 @@ supplier: K-Dense
 availability: GA
 tool_categories: [General-Purpose Utilities]
 last_verified: 2026-06-04
+verification: works
+verified_on: 2026-07-20
+security: caution
+security_on: 2026-07-20
+security_note: "provenance matches K-Dense-AI and skills/optimize-for-gpu dir resolves, but the skill's license is stated as unknown on the page; recheck when confirmed"
 summary: GPU-accelerate Python code using CuPy, Numba CUDA, Warp, cuDF, cuML, cuGraph, KvikIO, cuCIM, cuxfilter, cuVS, cuSpatial, and RAFT.
 ---
 
@@ -21,6 +26,8 @@ GPU-accelerate Python code using CuPy, Numba CUDA, Warp, cuDF, cuML, cuGraph, Kv
 | **Availability** | GA — part of the actively maintained K-Dense `scientific-agent-skills` collection |
 | **Pricing** | Free / OSS — license not stated upstream |
 | **Capabilities** | Read/Write — Claude runs the skill's Python locally (Bash), not as an MCP tool |
+| **Verified** | works · 2026-07-20 |
+| **Security** | caution · 2026-07-20 — provenance matches K-Dense-AI, dir resolves, but skill license stated as unknown on the page |
 
 ## How to install
 

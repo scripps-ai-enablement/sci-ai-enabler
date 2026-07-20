@@ -7,6 +7,11 @@ supplier: K-Dense
 availability: GA
 tool_categories: [Molecular and Cellular Biology]
 last_verified: 2026-06-04
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches supplier K-Dense-AI, MIT collection, skills/pathway-enrichment dir resolves, wraps gseapy/g:Profiler locally, no OSV advisories"
 summary: Run pathway and gene-set enrichment analysis on gene lists or ranked gene data, then interpret the results.
 ---
 
@@ -21,6 +26,8 @@ Run pathway and gene-set enrichment analysis on gene lists or ranked gene data, 
 | **Availability** | GA — part of the actively maintained K-Dense `scientific-agent-skills` collection |
 | **Pricing** | Free / OSS (MIT) |
 | **Capabilities** | Read/Write — Claude runs the skill's Python locally (Bash), not as an MCP tool |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches K-Dense-AI, MIT collection, wraps gseapy/g:Profiler locally, no OSV advisories |
 
 ## How to install
 

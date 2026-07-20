@@ -7,6 +7,11 @@ supplier: K-Dense
 availability: GA
 tool_categories: [General-Purpose Utilities]
 last_verified: 2026-06-04
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches supplier K-Dense-AI, MIT collection, skills/pufferlib dir resolves, wraps MIT PufferLib locally, no OSV advisories"
 summary: High-performance reinforcement learning framework optimized for speed and scale.
 ---
 
@@ -21,6 +26,8 @@ High-performance reinforcement learning framework optimized for speed and scale.
 | **Availability** | GA — part of the actively maintained K-Dense `scientific-agent-skills` collection |
 | **Pricing** | Free / OSS (MIT) |
 | **Capabilities** | Read/Write — Claude runs the skill's Python locally (Bash), not as an MCP tool |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches K-Dense-AI, MIT collection, wraps MIT PufferLib locally, no OSV advisories |
 
 ## How to install
 
