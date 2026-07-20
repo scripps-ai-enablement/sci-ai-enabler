@@ -7,6 +7,12 @@ supplier: K-Dense
 availability: GA
 tool_categories: [General-Purpose Utilities]
 last_verified: 2026-06-04
+verification: works
+verified_on: 2026-07-20
+verification_note: "repo and skills/torch-geometric dir resolve on K-Dense-AI/scientific-agent-skills; npx skills add CLI confirmed working in this-run smoke batch"
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches supplier K-Dense-AI, MIT repo wrapping MIT PyG, maintained (pushed 2026-07-15), no advisories via reachable sources"
 summary: PyTorch Geometric (PyG) for graph neural networks — node/link/graph classification, message passing (GCN, GAT, GraphSAGE, GIN), heterogeneous graphs, neighbor sampling, and custom datasets.
 ---
 
@@ -21,6 +27,8 @@ PyTorch Geometric (PyG) for graph neural networks — node/link/graph classifica
 | **Availability** | GA — part of the actively maintained K-Dense `scientific-agent-skills` collection |
 | **Pricing** | Free / OSS (MIT) |
 | **Capabilities** | Read/Write — Claude runs the skill's Python locally (Bash), not as an MCP tool |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches K-Dense-AI, MIT repo, maintained, no known advisories |
 
 ## How to install
 

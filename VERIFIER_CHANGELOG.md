@@ -4,6 +4,35 @@ Rolling, reverse-chronological log of catalog verification + security passes. Ea
 on-demand run that produces changes prepends a dated block; the top block is mirrored to the pinned
 "Verification updates" issue.
 
+## 2026-07-20 (bootstrap pass 5)
+
+Fifth bootstrap pass — 8 more unstamped K-Dense skill entries plus the `uniprot` MCP server. All
+judgments grounded in sources fetched this run: the anchor repo `K-Dense-AI/scientific-agent-skills`
+(GitHub API — MIT, not archived, pushed 2026-07-15, open_issues 38), a fresh GitHub tree listing of
+its `skills/` directory (confirming each stamped skill's subdir, and confirming several assumed dirs
+are absent — see below), and for `uniprot` the `Augmented-Nature-UniProt-MCP-Server` repo (GitHub
+API), its `package.json`, and its committed `LICENSE`. The `npx skills add K-Dense-AI/...` CLI is
+shown installing successfully in this run's `smoke-results.json`. OSV was not queryable (POST-only,
+405 via WebFetch); advisories assessed as none-found via reachable sources.
+
+### Verified
+- `shap`, `umap-learn`, `zarr-python`, `transformers` → works — anchor repo + each `skills/<slug>` dir resolve; `npx skills add` CLI confirmed in smoke batch.
+- `simpy`, `scvelo`, `torch-geometric`, `vaex` → works — anchor repo + each `skills/<slug>` dir resolve; `npx skills add` CLI confirmed in smoke batch.
+- `uniprot` → works — `Augmented-Nature-UniProt-MCP-Server` repo resolves (page URL redirects to it); wraps public UniProt REST API, no auth.
+
+### Fixed
+- None this run (page install paths still resolve; `uniprot` license discrepancy is a supplier issue, flagged for the curator rather than edited in-page).
+
+### Security
+- cleared (8): `shap`, `umap-learn`, `zarr-python`, `transformers`, `simpy`, `scvelo`, `torch-geometric`, `vaex` — provenance matches supplier K-Dense-AI, MIT collection (wraps MIT/BSD-3/Apache-2.0 upstream, noted per entry), maintained (pushed 2026-07-15), no advisories via reachable sources.
+- caution (1): `uniprot` — committed LICENSE is restrictive non-commercial ("personal, non-commercial use only", no redistribution/modification) while `package.json` and the catalog page both claim MIT; last push 2025-12-21 (~7mo stale).
+
+### Flagged
+- `uniprot` license discrepancy (see above) — recorded in `catalog/verifier-state.md` for the curator to reconcile the `Pricing` line.
+
+### Notes
+- Corrected a stale assumption in the deferred queue: dirs `scipy`, `seurat`, `squidpy`, `spatialdata`, `sqlalchemy`, `survival-analysis`, `structural-biology`, `systems-biology`, `tensorflow`, `torch` are NOT present in the K-Dense `skills/` tree; future runs must resolve any such catalog entry against its own supplier, not this anchor.
+
 ## 2026-07-20 (bootstrap pass 4)
 
 Fourth bootstrap pass — 16 more unstamped K-Dense skill entries stamped (all static). All judgments

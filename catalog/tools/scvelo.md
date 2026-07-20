@@ -7,6 +7,12 @@ supplier: K-Dense
 availability: GA
 tool_categories: [Molecular and Cellular Biology, Neuroscience]
 last_verified: 2026-06-04
+verification: works
+verified_on: 2026-07-20
+verification_note: "repo and skills/scvelo dir resolve on K-Dense-AI/scientific-agent-skills; npx skills add CLI confirmed working in this-run smoke batch"
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches supplier K-Dense-AI, MIT repo wrapping BSD-3 scVelo, maintained (pushed 2026-07-15), no advisories via reachable sources"
 summary: Claude skill for RNA-velocity analysis with scVelo — estimates cell-state transitions from unspliced/spliced mRNA counts, infers trajectories, latent time, and driver genes.
 ---
 
@@ -21,6 +27,8 @@ Claude skill that drives [scVelo](https://scvelo.readthedocs.io/) for RNA-veloci
 | **Availability** | GA — actively maintained 2025–2026 |
 | **Pricing** | Free / OSS skill (MIT collection); scVelo itself is BSD-3 |
 | **Capabilities** | Read/Write — Claude executes scVelo via Python/Bash |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches K-Dense-AI, MIT repo, maintained, no known advisories |
 
 ## How to install
 
