@@ -8,6 +8,11 @@ availability: GA
 tool_categories: [Drug Repurposing and Discovery, Integrative Structural and Computational Biology]
 last_verified: 2026-07-17
 claude_science: true
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches aqlaboratory/openfold, Apache-2.0, active (pushed 2025-12-16, 3397 stars), no GitHub advisories"
 summary: OpenFold3 open-source biomolecular structure prediction (AlphaFold-class), run locally; a Claude Science skill.
 ---
 
@@ -22,6 +27,8 @@ Predicts biomolecular structures with the open-source OpenFold3 model, driven as
 | **Availability** | GA — Claude Science research skill |
 | **Pricing** | Free / OSS (Apache-2.0 code) |
 | **Capabilities** | Read/Write — writes predicted structures with confidence |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches aqlaboratory/openfold, Apache-2.0, no advisories |
 
 ## How to install
 

@@ -4,6 +4,55 @@ Rolling, reverse-chronological log of catalog verification + security passes. Ea
 on-demand run that produces changes prepends a dated block; the top block is mirrored to the pinned
 "Verification updates" issue.
 
+## 2026-07-20 (bootstrap pass 18)
+
+Eighteenth bootstrap pass — a second batch of **non-K-Dense standalone** entries: five Claude Science
+model skills anchored to their own OSS GitHub repos, two self-hosted MCP servers (each also on PyPI),
+and three entries with issues (an unlicensed MCP, a transferred repo, and a hosted API whose
+documented npm client is a dead package). All judgments grounded in sources fetched this run
+(GitHub / PyPI / npm registry APIs and endpoint probes).
+
+### Verified
+- `evo2` — works / cleared. Anchor `ArcInstitute/evo2` via GitHub API (Apache-2.0, not archived,
+  pushed 2026-06-19, 3993 stars). OSS `git clone` path current.
+- `scgpt` — works / cleared. Anchor `bowang-lab/scGPT` (MIT, not archived, pushed 2026-04-29,
+  1605 stars). OSS clone path current.
+- `proteinmpnn` — works / cleared. Anchor `dauparas/ProteinMPNN` (MIT, not archived, 1796 stars;
+  stable research model). OSS clone path current.
+- `solublempnn` — works / cleared. Anchor `dauparas/LigandMPNN` (MIT, not archived, active, 605
+  stars) where the soluble-optimized weights ship. OSS clone path current.
+- `openfold3` — works / cleared. Anchor `aqlaboratory/openfold` (Apache-2.0, not archived, pushed
+  2025-12-16, 3397 stars). OSS clone path current.
+- `chatspatial` — works / cleared. Anchor `cafferychen777/ChatSpatial` (MIT, not archived, pushed
+  2026-07-16) + PyPI `chatspatial` 1.2.10 (MIT). pip/Docker install paths resolve.
+- `biocontextai` — works / cleared. Anchor `biocontext-ai/knowledgebase-mcp` (Apache-2.0, not
+  archived) + PyPI `biocontext_kb` 0.2.1 (Apache-2.0). `uvx` install path resolves.
+- `neurosift` — works / caution. Anchor `magland/neurosift-mcps` resolves (not archived, not
+  disabled) and the clone/build install path is current, but the repo has **no LICENSE**,
+  single-maintainer, last push 2025-11-03.
+
+### Fixed
+- `allenbrain` — the GitHub API for `maflot/allenbrain-mcp` reports `full_name: MCPmed/allenbrain-mcp`;
+  the repo was transferred to the MCPmed org. Updated the `git clone` command and the Sources link
+  to the canonical `MCPmed/allenbrain-mcp`. Graded verification `degraded` (owner drift, page's
+  Supplier still says `maflot` — curator to reconcile).
+
+### Flagged
+- `covasyn` — verification `degraded` + security `caution`. Hosted endpoint `mcp.covasyn.com/mcp`
+  responds (HTTP 406, API-key gated — a live endpoint, not dead), but the page's documented npm
+  `@covasyn/mcp-client` stdio proxy is a **confirmed 404** (`registry.npmjs.org/-/v1/search?text=covasyn`
+  returns 0 packages). The real connection method is behind covasyn.com account login, so no
+  primary-source fix was possible; left for the curator to reconcile the two stdio-proxy blocks.
+- `allenbrain` — security `caution`: repo transferred to MCPmed org, no LICENSE, Alpha,
+  single-maintainer.
+
+### Security
+- OSV `api.osv.dev/v1/query` is POST-only and WebFetch is GET-only (405), so advisory checks used the
+  GitHub `repos/<org>/<repo>/security-advisories` endpoint (empty for evo2, openfold, ChatSpatial).
+- Provenance matched supplier for all seven cleared entries. `neurosift` and `covasyn` carry
+  license/provenance cautions (unlicensed repo; personal-account examples repo for a commercial
+  hosted service); `allenbrain` carries an ownership-drift caution.
+
 ## 2026-07-20 (bootstrap pass 17)
 
 Seventeenth bootstrap pass — first batch of **non-K-Dense standalone** entries: two Claude Science

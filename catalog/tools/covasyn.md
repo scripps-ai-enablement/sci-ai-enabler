@@ -7,6 +7,12 @@ supplier: CovaSyn
 availability: GA
 tool_categories: [Chemistry, Drug Repurposing and Discovery]
 last_verified: 2026-06-20
+verification: degraded
+verified_on: 2026-07-20
+verification_note: "hosted endpoint mcp.covasyn.com/mcp responds (406, API-key gated) but the documented npm @covasyn/mcp-client stdio proxy is a 404 on the npm registry"
+security: caution
+security_on: 2026-07-20
+security_note: "commercial hosted service requiring a COVASYN_API_KEY credential; examples repo is under a personal account (oliverkraft93-ops) not a covasyn org, MIT on examples only, no GitHub advisories"
 summary: Hosted deterministic cheminformatics MCP with 130+ tools spanning ADMET, docking, retrosynthesis, ICH M7 toxicology, NMR/MS, and biologics design.
 ---
 
@@ -21,6 +27,8 @@ Hosted MCP server that gives Claude a broad, deterministic drug-discovery toolbo
 | **Availability** | GA — registry version 1.27.2, last updated 2026-06-02 |
 | **Pricing** | Freemium — free tier 100 credits/week; Pro €250/mo; Unlimited €750/mo; Enterprise (contact, GxP validation) |
 | **Capabilities** | Read/Write — molecular computation and analysis; no persistent state |
+| **Verified** | degraded · 2026-07-20 — hosted endpoint responds but the documented npm @covasyn/mcp-client proxy is a 404 |
+| **Security** | caution · 2026-07-20 — commercial hosted service, API-key credential, personal-account examples repo, no advisories |
 
 ## How to install
 

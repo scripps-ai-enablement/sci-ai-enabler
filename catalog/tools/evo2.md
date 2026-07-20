@@ -8,6 +8,11 @@ availability: GA
 tool_categories: [Molecular and Cellular Biology]
 last_verified: 2026-07-17
 claude_science: true
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches ArcInstitute/evo2, Apache-2.0, active (pushed 2026-06-19, 3993 stars), no GitHub advisories"
 summary: Evo 2 genome language model for DNA/RNA/protein sequence generation and variant scoring; local (Hopper GPU) or NVIDIA-hosted; a Claude Science skill.
 ---
 
@@ -22,6 +27,8 @@ Generates and scores biological sequences across DNA, RNA, and protein with the 
 | **Availability** | GA — Claude Science research skill |
 | **Pricing** | Free / OSS (Apache-2.0); NVIDIA-hosted inference metered per NVIDIA terms |
 | **Capabilities** | Read/Write — sequence generation and variant likelihood scoring |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches ArcInstitute/evo2, Apache-2.0, active, no advisories |
 
 ## How to install
 

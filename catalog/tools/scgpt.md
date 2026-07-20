@@ -8,6 +8,11 @@ availability: GA
 tool_categories: [Immunology and Microbiology, Molecular and Cellular Biology]
 last_verified: 2026-07-17
 claude_science: true
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches bowang-lab/scGPT, MIT, active (pushed 2026-04-29, 1605 stars), no GitHub advisories"
 summary: scGPT single-cell foundation model for cell-type annotation, integration, and perturbation prediction; runs locally as a Claude Science skill.
 ---
 
@@ -22,6 +27,8 @@ Applies the scGPT single-cell foundation model to annotate, integrate, and pertu
 | **Availability** | GA — Claude Science research skill |
 | **Pricing** | Free / OSS (MIT; weights on Hugging Face/Drive) |
 | **Capabilities** | Read/Write — local inference; writes embeddings, annotations, and predictions |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches bowang-lab/scGPT, MIT, active, no advisories |
 
 ## How to install
 

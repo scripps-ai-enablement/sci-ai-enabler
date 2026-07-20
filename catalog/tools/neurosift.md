@@ -7,6 +7,11 @@ supplier: Flatiron Institute
 availability: Beta
 tool_categories: [Neuroscience]
 last_verified: 2026-06-14
+verification: works
+verified_on: 2026-07-20
+security: caution
+security_on: 2026-07-20
+security_note: "provenance matches magland/neurosift-mcps but repo has no LICENSE (page notes this), single-maintainer, last push 2025-11-03, no GitHub advisories"
 summary: MCP server that lets Claude search DANDI/OpenNeuro and introspect NWB neurophysiology files, plus semantic search over PyNWB docs.
 ---
 
@@ -21,6 +26,8 @@ MCP server for discovering, inspecting, and writing analyses against NWB-format 
 | **Availability** | Beta — active through November 2025 |
 | **Pricing** | Free / OSS — parent project is Apache-2.0; this repo's license field is unset (verify before redistributing) |
 | **Capabilities** | Read-only |
+| **Verified** | works · 2026-07-20 |
+| **Security** | caution · 2026-07-20 — provenance matches magland/neurosift-mcps but no LICENSE, single-maintainer, no advisories |
 
 ## How to install
 

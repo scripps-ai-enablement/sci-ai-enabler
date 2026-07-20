@@ -7,6 +7,12 @@ supplier: maflot (community)
 availability: Alpha
 tool_categories: [Neuroscience]
 last_verified: 2026-06-21
+verification: degraded
+verified_on: 2026-07-20
+verification_note: "repo moved from maflot to MCPmed/allenbrain-mcp — fixed clone URL to the canonical owner this run; still Alpha and no LICENSE"
+security: caution
+security_on: 2026-07-20
+security_note: "repo transferred to the MCPmed org (page still says maflot), no LICENSE file, Alpha work-in-progress, single-maintainer, no GitHub advisories"
 summary: Community MCP wrapper exposing Allen Brain Atlas RMA queries, cell-types, mouse connectivity, ontologies, and image/grid downloads to Claude.
 ---
 
@@ -21,11 +27,13 @@ Community MCP server wrapping the Allen Brain Atlas API — cell types, mouse co
 | **Availability** | Alpha — created February 2026, "work in progress" |
 | **Pricing** | Free / OSS — no explicit license file in the repo; flag for legal review before redistributing |
 | **Capabilities** | Read-only |
+| **Verified** | degraded · 2026-07-20 — repo moved to MCPmed/allenbrain-mcp; fixed clone URL this run |
+| **Security** | caution · 2026-07-20 — transferred to MCPmed org, no LICENSE, Alpha, no advisories |
 
 ## How to install
 
 ```
-git clone https://github.com/maflot/allenbrain-mcp
+git clone https://github.com/MCPmed/allenbrain-mcp
 cd allenbrain-mcp
 npm install
 npm run build
@@ -56,7 +64,7 @@ TypeScript / Node, stdio transport. Calls the public Allen Brain Atlas API — n
 
 ## Sources
 
-- [`maflot/allenbrain-mcp`](https://github.com/maflot/allenbrain-mcp)
+- [`MCPmed/allenbrain-mcp`](https://github.com/MCPmed/allenbrain-mcp) (repo transferred from `maflot`)
 - [Allen Brain Map forum announcement](https://community.brain-map.org/t/allenbrain-mcp-mcp-server-wrapper-for-allen-brain-atlas-api-rma-downloads/4858)
 
 ---

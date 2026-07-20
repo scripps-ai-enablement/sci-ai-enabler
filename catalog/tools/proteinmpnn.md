@@ -8,6 +8,11 @@ availability: GA
 tool_categories: [Drug Repurposing and Discovery, Integrative Structural and Computational Biology]
 last_verified: 2026-07-17
 claude_science: true
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches dauparas/ProteinMPNN, MIT, stable research model (1796 stars, repo active), no GitHub advisories"
 summary: ProteinMPNN deep-learning fixed-backbone protein sequence design; runs locally as a Claude Science skill.
 ---
 
@@ -22,6 +27,8 @@ Designs amino-acid sequences that fold to a target backbone using ProteinMPNN, d
 | **Availability** | GA — Claude Science research skill |
 | **Pricing** | Free / OSS (MIT) |
 | **Capabilities** | Read/Write — local inference; writes designed sequences (FASTA) with per-position scores |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches dauparas/ProteinMPNN, MIT, no advisories |
 
 ## How to install
 

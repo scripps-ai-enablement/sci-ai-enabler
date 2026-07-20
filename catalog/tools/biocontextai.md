@@ -7,6 +7,11 @@ supplier: BioContextAI
 availability: GA
 tool_categories: [All]
 last_verified: 2026-05-20
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches biocontext-ai/knowledgebase-mcp, PyPI biocontext_kb 0.2.1 present, Apache-2.0, active, no GitHub advisories"
 summary: Read-only MCP that unifies 14+ biomedical databases (Antibody Registry, UniProt, STRING, AlphaFold, KEGG, Open Targets) for immune and protein-context queries.
 ---
 
@@ -21,6 +26,8 @@ A single MCP server that fronts 14+ biomedical APIs as a unified retrieval layer
 | **Availability** | GA — v0.2.1 (May 2026) |
 | **Pricing** | Free / OSS (Apache-2.0). Underlying data sources keep their own licenses; KEGG restricts commercial remote hosting. |
 | **Capabilities** | Read-only |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches biocontext-ai, PyPI biocontext_kb 0.2.1, Apache-2.0, no advisories |
 
 The server is published as the `biocontext_kb` package and is most easily run with `uv` (which handles its own Python). To verify it starts:
 

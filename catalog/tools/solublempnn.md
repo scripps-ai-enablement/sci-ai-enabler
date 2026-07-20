@@ -8,6 +8,11 @@ availability: GA
 tool_categories: [Drug Repurposing and Discovery, Integrative Structural and Computational Biology]
 last_verified: 2026-07-17
 claude_science: true
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches dauparas/LigandMPNN (weights bundled there), MIT, active (605 stars), no GitHub advisories"
 summary: Soluble-optimized ProteinMPNN weights that bias sequence design away from exposed hydrophobics; a Claude Science skill.
 ---
 
@@ -22,6 +27,8 @@ Designs protein sequences with ProteinMPNN using soluble-optimized weights that 
 | **Availability** | GA — Claude Science research skill |
 | **Pricing** | Free / OSS (MIT) |
 | **Capabilities** | Read/Write — local inference; writes designed sequences (FASTA) |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches dauparas/LigandMPNN, MIT, no advisories |
 
 ## How to install
 

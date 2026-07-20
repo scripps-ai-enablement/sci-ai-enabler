@@ -7,6 +7,11 @@ supplier: Chen Yang (cafferychen777)
 availability: GA
 tool_categories: [Molecular and Cellular Biology]
 last_verified: 2026-06-27
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches cafferychen777/ChatSpatial, PyPI chatspatial 1.2.10 present, MIT, active (pushed 2026-07-16), no GitHub advisories"
 summary: "MCP server for spatial transcriptomics — preprocessing, spatial domains, deconvolution, cell-cell communication, and SVG detection via Scanpy/Squidpy."
 ---
 
@@ -21,6 +26,8 @@ An MCP server that drives end-to-end spatial transcriptomics analysis through na
 | **Availability** | GA — v1.2.10 |
 | **Pricing** | Free / OSS (MIT) |
 | **Capabilities** | Read/Write — reads/writes `.h5ad` AnnData files on local disk and produces figures/result tables |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches cafferychen777, PyPI chatspatial 1.2.10, MIT, no advisories |
 
 ## How to install
 
