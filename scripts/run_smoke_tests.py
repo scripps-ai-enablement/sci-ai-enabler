@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Install + boot the safe subset of catalog tools and record what happened.
 
-RUNS ONLY inside the quarantined smoke-test job (.github/workflows/verify.yml):
+RUNS ONLY inside the quarantined smoke-test job(s) (.github/workflows/verify.yml):
 an ephemeral container with NO secrets and `contents: read`. It executes
 third-party install/boot commands that `scripts/select_smoke_targets.py` already
 gated to the open, no-auth, no-cost subset. Every command is run with a hard
@@ -9,10 +9,17 @@ timeout in an isolated temp HOME/target so a fresh VM is the entire blast radius
 The verifier AGENT never runs this or any component code — it only reads the
 `smoke-results.json` this script emits.
 
-Statuses per target: pass | install_error | boot_error | timeout | skipped.
+Statuses per target:
+  pass | install_error | boot_error | timeout | skipped | needs_toolchain
+`needs_toolchain` means the install failed ONLY because the slim sandbox has no
+C compiler (a dependency tried to build from source). The workflow retries those
+targets in a compiler-equipped container via --retry-from-results and merges the
+outcome, so the default job stays slim. See verify.yml.
 
 Run: python3 scripts/run_smoke_tests.py --batch .verify/smoke-batch.json \
         --out .verify/smoke-results.json
+Retry: python3 scripts/run_smoke_tests.py --retry-from-results RESULTS.json \
+        --out RESULTS.json          # re-runs needs_toolchain targets, merged
 Stdlib only.
 """
 from __future__ import annotations
@@ -20,6 +27,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 import shlex
 import subprocess
 import tempfile
@@ -31,6 +39,27 @@ from pathlib import Path
 INSTALL_TIMEOUT = 180  # seconds per install command
 BOOT_TIMEOUT = 25      # seconds to probe an MCP server boot
 LOG_CHARS = 1500       # truncate captured output
+
+# An install failed ONLY because no C compiler is present (a dependency tried to
+# build from source). Matched narrowly on "the compiler binary is missing" — a
+# genuine CompileError WITH a compiler present is left as a real install_error.
+_COMPILER_ABSENT = re.compile(
+    r"command '(?:gcc|cc|clang|g\+\+|c\+\+|cl)' failed: (?:No such file or directory|command not found)"
+    r"|\b(?:gcc|cc|clang|g\+\+): (?:not found|command not found|No such file or directory)"
+    r"|unable to execute '(?:gcc|cc|clang|g\+\+)': No such file",
+    re.IGNORECASE,
+)
+
+
+def _needs_toolchain(log: str) -> bool:
+    """True if an install failed purely for lack of a C compiler."""
+    return bool(_COMPILER_ABSENT.search(log))
+
+
+def _merge_results(prior: list[dict], retried: list[dict]) -> list[dict]:
+    """Overlay retried outcomes onto prior results, preserving order."""
+    by_slug = {r["slug"]: r for r in retried}
+    return [by_slug.get(r["slug"], r) for r in prior]
 
 
 def _run(cmd: str, cwd: str, env: dict, timeout: int) -> tuple[int | None, str]:
@@ -191,7 +220,7 @@ def smoke_one(target: dict, workroot: Path) -> dict:
         result["status"] = "timeout"
         return result
     if rc != 0:
-        result["status"] = "install_error"
+        result["status"] = "needs_toolchain" if _needs_toolchain(log) else "install_error"
         return result
 
     # Optional boot probe for MCP servers: perform the MCP stdio handshake and
@@ -211,16 +240,34 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--batch", type=Path, default=Path(".verify/smoke-batch.json"))
     ap.add_argument("--out", type=Path, default=Path(".verify/smoke-results.json"))
+    ap.add_argument("--retry-from-results", type=Path, default=None,
+                    help="re-run only needs_toolchain targets from a prior "
+                         "results file and merge the outcome (for the "
+                         "compiler-equipped retry job)")
     args = ap.parse_args()
 
-    batch = json.loads(args.batch.read_text(encoding="utf-8"))
-    targets = batch.get("selected", [])
-    with tempfile.TemporaryDirectory(prefix="smoke_root_") as root:
-        results = [smoke_one(t, Path(root)) for t in targets]
+    if args.retry_from_results:
+        prior = json.loads(args.retry_from_results.read_text(encoding="utf-8"))
+        prior_results = prior.get("results", [])
+        retry_targets = [
+            {"slug": r["slug"], "install_cmd": r.get("install_cmd"),
+             "boot_cmd": r.get("boot_cmd")}
+            for r in prior_results if r.get("status") == "needs_toolchain"
+        ]
+        with tempfile.TemporaryDirectory(prefix="smoke_root_") as root:
+            retried = [smoke_one(t, Path(root)) for t in retry_targets]
+        results = _merge_results(prior_results, retried)
+        gate = prior.get("gate", "")
+    else:
+        batch = json.loads(args.batch.read_text(encoding="utf-8"))
+        targets = batch.get("selected", [])
+        gate = batch.get("gate", "")
+        with tempfile.TemporaryDirectory(prefix="smoke_root_") as root:
+            results = [smoke_one(t, Path(root)) for t in targets]
 
     doc = {
         "generated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
-        "gate": batch.get("gate", ""),
+        "gate": gate,
         "count": len(results),
         "results": results,
     }

@@ -43,6 +43,10 @@ jobs:
     timeout-minutes: 25
     permissions:
       contents: read
+    outputs:
+      # true when at least one target failed ONLY for lack of a C compiler, so
+      # the dynamic retry job below is worth spinning up.
+      needs_build: ${{ steps.smoke.outputs.needs_build }}
     container:
       image: python:3.12-slim
     steps:
@@ -65,9 +69,15 @@ jobs:
           chown -R smoke:smoke .verify scripts catalog
 
       - name: Run smoke tests as non-root (isolated, timed, no secrets)
+        id: smoke
         run: |
           # Drop to the unprivileged user; no secrets are present in this job.
           su smoke -c "python3 scripts/run_smoke_tests.py --batch .verify/smoke-batch.json --out .verify/smoke-results.json"
+          # Flag targets that failed only for a missing compiler (needs_toolchain)
+          # so the compiler-equipped retry job runs only when there's something to do.
+          NEEDS=$(python3 -c "import json;print(sum(1 for r in json.load(open('.verify/smoke-results.json')).get('results',[]) if r.get('status')=='needs_toolchain'))")
+          echo "smoke needs_toolchain count: $NEEDS"
+          if [ "$NEEDS" -gt 0 ]; then echo "needs_build=true" >> "$GITHUB_OUTPUT"; else echo "needs_build=false" >> "$GITHUB_OUTPUT"; fi
 
       - name: Upload smoke results
         uses: actions/upload-artifact@v4
@@ -77,12 +87,56 @@ jobs:
           if-no-files-found: warn
 
   # ---------------------------------------------------------------------------
+  # Job 1b — DYNAMIC TOOLCHAIN RETRY. Same quarantine posture as job 1 (no
+  # secrets, `contents: read`, non-root, thrown-away VM) but in a container that
+  # HAS a C compiler. Runs ONLY when job 1 flagged `needs_toolchain` targets, and
+  # re-runs ONLY those, merging the outcome into the results artifact the
+  # verifier reads. This keeps the default job slim/fast while still smoke-testing
+  # the rare tool whose dependency must build from source.
+  # ---------------------------------------------------------------------------
+  smoke-test-build:
+    needs: [smoke-test]
+    if: ${{ needs.smoke-test.result == 'success' && needs.smoke-test.outputs.needs_build == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    permissions:
+      contents: read
+    container:
+      image: python:3.12  # full image: bundles gcc / build-essential + git
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download base smoke results
+        uses: actions/download-artifact@v4
+        with:
+          name: smoke-results
+          path: .verify
+
+      - name: Retry needs_toolchain targets as non-root (compiler present, no secrets)
+        run: |
+          useradd -m smoke || true
+          chown -R smoke:smoke .verify scripts
+          # Re-runs only the needs_toolchain targets and merges them back in.
+          su smoke -c "python3 scripts/run_smoke_tests.py --retry-from-results .verify/smoke-results.json --out .verify/smoke-results.json"
+
+      - name: Upload merged smoke results
+        uses: actions/upload-artifact@v4
+        with:
+          name: smoke-results-final
+          path: .verify/smoke-results.json
+          if-no-files-found: warn
+
+  # ---------------------------------------------------------------------------
   # Job 2 — the Verifier agent. Sandboxed like the other curators (NO Bash): it
   # does static checks via WebFetch and reads the smoke-results artifact. It
   # writes stamps + entry fixes, then the workflow commits to main and notifies.
   # ---------------------------------------------------------------------------
   verify:
-    needs: [smoke-test]
+    needs: [smoke-test, smoke-test-build]
+    # Run once smoke-test succeeds, whether or not the retry job ran (it is
+    # skipped when nothing needs a compiler); !cancelled() lets a skipped
+    # dependency through.
+    if: ${{ !cancelled() && needs.smoke-test.result == 'success' }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
     permissions:
@@ -93,10 +147,17 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Download smoke results
+      - name: Download base smoke results
         uses: actions/download-artifact@v4
         with:
           name: smoke-results
+          path: .verify
+        continue-on-error: true
+
+      - name: Download merged smoke results (overrides base when the retry ran)
+        uses: actions/download-artifact@v4
+        with:
+          name: smoke-results-final
           path: .verify
         continue-on-error: true
 
