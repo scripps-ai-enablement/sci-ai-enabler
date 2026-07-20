@@ -4,6 +4,34 @@ Rolling, reverse-chronological log of catalog verification + security passes. Ea
 on-demand run that produces changes prepends a dated block; the top block is mirrored to the pinned
 "Verification updates" issue.
 
+## 2026-07-20 (bootstrap pass 16)
+
+Sixteenth bootstrap pass — the final 12 unstamped `supplier: NeuroClaw` neuroimaging skills,
+completing the entire NeuroClaw batch (37 pages across passes 15+16). All judgments grounded in
+sources fetched this run.
+
+### Verified
+- 12 NeuroClaw `-skill` pages — works / cleared. Anchor `CUHK-AIM-Group/NeuroClaw` re-confirmed via
+  the GitHub API (not archived, `disabled:false`, MIT, default branch `main`, pushed 2026-07-14,
+  updated 2026-07-19, 75 stars, 0 open issues). All 12 skill dirs confirmed present via the
+  `contents/skills` listing. Non-executable Skill-docs (Claude runs the skill's Python locally via
+  Bash, not an MCP server) — graded `works` on the confirmed-current `git clone` +
+  `cp -r NeuroClaw/skills/<slug>` install path. Slugs: `nsd-skill`, `oasis-skill`, `pet-skill`,
+  `pnc-skill`, `ppmi-skill`, `rest-mneta-mdd-skill`, `seed-iv-skill`, `seed-vig-skill`, `smri-skill`,
+  `tcp-skill`, `ucla-cnp-skill`, `ukb-skill`.
+
+### Fixed
+- None — no broken install targets or metadata in this batch.
+
+### Flagged
+- None.
+
+### Security
+- All 12 — cleared. Provenance matches the pages' `supplier: NeuroClaw` (all link to
+  `CUHK-AIM-Group/NeuroClaw`); MIT license matches the pages' claim; repo actively maintained
+  (pushed 2026-07-14); no OSV advisories for the skill collection. No smoke run for these
+  (clone/copy Skill-docs).
+
 ## 2026-07-20 (bootstrap pass 15)
 
 Fifteenth bootstrap pass — first batch of unstamped `supplier: NeuroClaw` neuroimaging skills.
