@@ -48,9 +48,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install toolchain (node for npx, uv for uvx)
+      - name: Install toolchain (git for skill clones, node for npx, uv for uvx)
         run: |
-          apt-get update && apt-get install -y --no-install-recommends nodejs npm curl ca-certificates
+          apt-get update && apt-get install -y --no-install-recommends git nodejs npm curl ca-certificates
           curl -LsSf https://astral.sh/uv/install.sh | sh || true
 
       - name: Create non-root user and select the safe subset

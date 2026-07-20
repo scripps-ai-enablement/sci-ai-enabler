@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "generated": "2026-07-19",
-  "count": 443,
+  "generated": "2026-07-20",
+  "count": 447,
   "tools": [
     {
       "slug": "10x-genomics-cloud",
@@ -7899,6 +7899,27 @@
       "path": "catalog/tools/tooluniverse-binder-discovery.md"
     },
     {
+      "slug": "tooluniverse-cancer-genomics-tcga",
+      "title": "Cancer Genomics TCGA (ToolUniverse Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Drug Repurposing and Discovery",
+        "Molecular and Cellular Biology",
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-07-19",
+      "claude_science": false,
+      "summary": "ToolUniverse agent skill for TCGA/GDC cancer genomics — cohort construction, clinical metadata, somatic mutation frequencies, CNV, survival analysis, and OncoKB variant interpretation.",
+      "keywords": [
+        "CNV",
+        "GDC",
+        "OncoKB",
+        "TCGA"
+      ],
+      "path": "catalog/tools/tooluniverse-cancer-genomics-tcga.md"
+    },
+    {
       "slug": "tooluniverse-cancer-variant-interpretation",
       "title": "Cancer Variant Interpretation (ToolUniverse Claude Skill)",
       "tool_type": "Claude Skill",
@@ -7913,6 +7934,28 @@
       "summary": "ToolUniverse agent skill that turns a gene + somatic variant + cancer type into an evidence-graded precision-oncology report with therapies, resistance, and matching trials.",
       "keywords": [],
       "path": "catalog/tools/tooluniverse-cancer-variant-interpretation.md"
+    },
+    {
+      "slug": "tooluniverse-chemical-safety",
+      "title": "Chemical Safety (ToolUniverse Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Chemistry",
+        "Drug Repurposing and Discovery",
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-07-19",
+      "claude_science": false,
+      "summary": "ToolUniverse agent skill for chemical hazard and toxicology assessment via ADMET-AI, CTD toxicogenomics, AOPWiki, GHS/IARC classification, and regulatory safety data.",
+      "keywords": [
+        "ADMET-AI",
+        "AOPWiki",
+        "CTD",
+        "GHS",
+        "IARC"
+      ],
+      "path": "catalog/tools/tooluniverse-chemical-safety.md"
     },
     {
       "slug": "tooluniverse-drug-drug-interaction",
@@ -8084,6 +8127,44 @@
       "path": "catalog/tools/tooluniverse-rare-disease-diagnosis.md"
     },
     {
+      "slug": "tooluniverse-rare-disease-genomics",
+      "title": "Rare Disease Genomics (ToolUniverse Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Drug Repurposing and Discovery",
+        "Molecular and Cellular Biology",
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-07-19",
+      "claude_science": false,
+      "summary": "ToolUniverse agent skill for rare-disease investigation — Orphanet characterization, HPO phenotypes, causative genes, GenCC validity, ClinVar variants, trials, and repurposing.",
+      "keywords": [
+        "GenCC",
+        "HPO"
+      ],
+      "path": "catalog/tools/tooluniverse-rare-disease-genomics.md"
+    },
+    {
+      "slug": "tooluniverse-small-molecule-discovery",
+      "title": "Small Molecule Discovery (ToolUniverse Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Chemistry",
+        "Drug Repurposing and Discovery"
+      ],
+      "last_verified": "2026-07-19",
+      "claude_science": false,
+      "summary": "ToolUniverse agent skill for compound identification, analog search, bioactivity, ADMET, target prediction, and commercial sourcing across PubChem, ChEMBL, BindingDB, and vendor catalogs.",
+      "keywords": [
+        "ADMET",
+        "BindingDB",
+        "ChEMBL"
+      ],
+      "path": "catalog/tools/tooluniverse-small-molecule-discovery.md"
+    },
+    {
       "slug": "tooluniverse-target-research",
       "title": "Target Research (ToolUniverse Claude Skill)",
       "tool_type": "Claude Skill",
@@ -8110,7 +8191,7 @@
       "tool_categories": [
         "All"
       ],
-      "last_verified": "2026-05-24",
+      "last_verified": "2026-07-19",
       "claude_science": false,
       "summary": "Harvard / MIT MCP server bundling 600+ vetted scientific tools — literature, chemistry, omics, clinical trials — for AI-scientist-style hypothesis exploration.",
       "keywords": [
