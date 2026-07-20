@@ -7,6 +7,12 @@ supplier: K-Dense
 availability: GA
 tool_categories: [Translational Medicine]
 last_verified: 2026-06-04
+verification: works
+verified_on: 2026-07-20
+verification_note: "repo and skills/scikit-survival dir resolve on K-Dense-AI/scientific-agent-skills"
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches supplier K-Dense-AI, MIT collection wrapping GPL-3.0 scikit-survival, maintained (pushed 2026-07-15), no OSV advisories"
 summary: Comprehensive toolkit for survival analysis and time-to-event modeling in Python using scikit-survival.
 ---
 
@@ -21,6 +27,8 @@ Comprehensive toolkit for survival analysis and time-to-event modeling in Python
 | **Availability** | GA — part of the actively maintained K-Dense `scientific-agent-skills` collection |
 | **Pricing** | Free / OSS (GPL-3.0) |
 | **Capabilities** | Read/Write — Claude runs the skill's Python locally (Bash), not as an MCP tool |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches K-Dense-AI, MIT collection wrapping GPL-3.0 scikit-survival, maintained, no OSV advisories |
 
 ## How to install
 

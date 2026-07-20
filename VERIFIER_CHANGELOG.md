@@ -4,6 +4,31 @@ Rolling, reverse-chronological log of catalog verification + security passes. Ea
 on-demand run that produces changes prepends a dated block; the top block is mirrored to the pinned
 "Verification updates" issue.
 
+## 2026-07-20 (bootstrap pass 11)
+
+Eleventh bootstrap pass — 7 more unstamped K-Dense skill entries stamped. All judgments grounded in
+sources fetched this run: anchor repo `K-Dense-AI/scientific-agent-skills` (GitHub API — MIT, not
+archived, `disabled:false`, pushed 2026-07-15, updated 2026-07-20, 31,248 stars) and per-slug
+`contents/skills/<slug>` fetches. These six slugs (`statistical-analysis`, `scikit-survival`,
+`treatment-plans`, `usfiscaldata`, `venue-templates`, `what-if-oracle`) plus `iso-13485-certification`
+had been deferred in a prior run as "not in the skills/ tree" — that was an artifact of a truncated,
+summarized alphabetical listing. Each dir was confirmed to exist via an individual contents fetch
+this run. Caps respected (7 static verifications, 0 smoke verdicts consumed).
+
+### Verified
+- works/cleared: `iso-13485-certification` (MIT), `statistical-analysis` (MIT), `treatment-plans` (MIT), `usfiscaldata` (MIT, keyless public U.S. Treasury Fiscal Data API), `venue-templates` (MIT), `scikit-survival` (MIT collection wrapping GPL-3.0 scikit-survival) — anchor repo live + each `skills/<slug>` resolves via a direct contents fetch; self-contained local execution, license stated, no OSV advisories.
+- works/caution: `what-if-oracle` — resolves and install path current; license concern noted under Security.
+
+### Fixed
+- None this run.
+
+### Flagged
+- `what-if-oracle` — security `caution`: provenance/anchor clear, but the page states CC BY-NC-SA 4.0 (non-commercial, share-alike) while the collection root is MIT. The non-commercial clause limits reuse; recheck if K-Dense relicenses.
+
+### Security
+- Six of seven cleared: K-Dense-AI provenance matches supplier, real stated licenses (MIT; scikit-survival wraps GPL-3.0), collection maintained (pushed 2026-07-15), no OSV advisories, no install-time arbitrary-code or credential-exfiltration signals (`usfiscaldata` uses a keyless public government API).
+- Correction logged in verifier-state: earlier "absent from skills/ tree" notes for these slugs (and for `scipy`/`seurat`/`squidpy`/etc.) were unreliable summarized-listing artifacts; future passes should confirm presence/absence with direct per-slug contents fetches.
+
 ## 2026-07-20 (bootstrap pass 10)
 
 Tenth bootstrap pass — 16 more unstamped K-Dense skill entries stamped (the integration/utility
