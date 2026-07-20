@@ -7,6 +7,12 @@ supplier: Anthropic
 availability: GA
 tool_categories: [All]
 last_verified: 2026-05-20
+verification: degraded
+verified_on: 2026-07-20
+verification_note: "bio-research plugin confirmed in anthropics/knowledge-work-plugins marketplace, but open bug anthropics/claude-code#40106 reports bundled MCP tools returning Session not found in Claude Code"
+security: cleared
+security_on: 2026-07-20
+security_note: "first-party anthropics/knowledge-work-plugins, Apache-2.0, actively maintained (pushed 2026-07-20), no OSV advisories"
 summary: Umbrella plugin bundling 5 analysis skills and ~10 MCP connectors (PubMed, BioRender, ChEMBL, Synapse, Wiley, Open Targets, Benchling, etc.) for preclinical R&D.
 ---
 
@@ -21,6 +27,8 @@ Anthropic umbrella plugin bundling literature search, single-cell QC, sequencing
 | **Availability** | GA — open-sourced in `anthropics/knowledge-work-plugins`; also surfaced inside Claude Cowork |
 | **Pricing** | Free / OSS — plugin itself is Apache 2.0; individual bundled connectors carry their own pricing (Benchling requires institutional access, BioRender Premium gates the full library, …) |
 | **Capabilities** | Read/Write — end-to-end preclinical R&D in a single install |
+| **Verified** | degraded · 2026-07-20 — plugin resolves, but open bug #40106 breaks bundled MCP tools in Claude Code |
+| **Security** | cleared · 2026-07-20 — first-party Anthropic, Apache-2.0, actively maintained |
 
 ## How to install
 

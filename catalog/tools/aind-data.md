@@ -7,6 +7,11 @@ supplier: Allen Institute for Neural Dynamics
 availability: Beta
 tool_categories: [Neuroscience]
 last_verified: 2026-06-14
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches supplier Allen Institute (AllenNeuralDynamics org), PyPI aind-data-mcp v0.4.5 MIT present, repo maintained (pushed 2026-07-13), read-only, no OSV advisories"
 summary: Official Allen Institute MCP server giving Claude query and NWB-introspection access to AIND's V2 neuroscience data assets.
 ---
 
@@ -21,6 +26,8 @@ Official Allen Institute for Neural Dynamics MCP server for querying AIND's V2 m
 | **Availability** | Beta — active through April 2026 |
 | **Pricing** | Free / OSS (MIT) |
 | **Capabilities** | Read-only — public read access to AIND DocDB |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches Allen Institute, PyPI MIT, maintained, read-only, no OSV advisories |
 
 Install the CLI:
 

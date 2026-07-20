@@ -7,6 +7,11 @@ supplier: GPTomics bioSkills
 availability: GA
 tool_categories: [Immunology and Microbiology]
 last_verified: 2026-07-11
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches supplier GPTomics, repo MIT and maintained (pushed 2026-07-18), no OSV advisories; local skill runs user-installed predictors"
 summary: "Predict peptide-MHC class I binding and natural presentation with MHCflurry, NetMHCpan-4.1, and MixMHCpred to nominate candidate CD8 T-cell epitopes"
 ---
 
@@ -21,6 +26,8 @@ A Claude Code skill that scores peptides for binding and natural presentation by
 | **Availability** | GA — part of the bioSkills collection |
 | **Pricing** | Free / OSS (MIT) |
 | **Capabilities** | Read/Write — Claude runs the skill's workflow locally (Bash/Python), not as an MCP tool |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches GPTomics, MIT repo maintained, no OSV advisories |
 
 ## How to install
 

@@ -8,6 +8,11 @@ supplier: Zitnik Lab (Harvard Medical School)
 availability: GA
 tool_categories: [Drug Repurposing and Discovery, Translational Medicine]
 last_verified: 2026-06-14
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches supplier Zitnik Lab (mims-harvard org), repo Apache-2.0 and actively maintained (pushed 2026-07-20), read-only over public APIs, no OSV advisories"
 summary: ToolUniverse agent skill that finds drug-repurposing candidates via target-, compound-, and disease-driven strategies with mechanism and feasibility scoring.
 ---
 
@@ -22,6 +27,8 @@ A ToolUniverse agent skill that systematically identifies and prioritises drug-r
 | **Availability** | GA — part of the ToolUniverse skills collection (`skills/tooluniverse-drug-repurposing/`) |
 | **Pricing** | Free / OSS (Apache-2.0); wraps public APIs (Open Targets, ChEMBL, UniProt, Reactome, STRING) |
 | **Capabilities** | Read-only — drives ToolUniverse tool calls; no data writes |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches Zitnik Lab, Apache-2.0 maintained, read-only, no OSV advisories |
 
 ## How to install
 

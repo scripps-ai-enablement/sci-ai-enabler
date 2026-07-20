@@ -7,6 +7,11 @@ supplier: Anthropic
 availability: GA
 tool_categories: [Translational Medicine]
 last_verified: 2026-07-12
+verification: works
+verified_on: 2026-07-20
+security: caution
+security_on: 2026-07-20
+security_note: "first-party anthropics/healthcare, fraud-detection skill dir confirmed via contents API, but repo has no top-level LICENSE despite Free/OSS claim and skill reads/writes Medicare/Medicaid claims data"
 summary: Anthropic Claude skill that screens Medicare/Medicaid claims for fraud, waste, and abuse, producing ranked, fully-cited investigation referrals for SIU teams.
 ---
 
@@ -21,6 +26,8 @@ Anthropic-published skill from the `anthropics/healthcare` plugin marketplace th
 | **Availability** | GA |
 | **Pricing** | Free / OSS — provided under Anthropic's terms of service |
 | **Capabilities** | Read/Write — reads a claims corpus, writes referral packets and a dashboard |
+| **Verified** | works · 2026-07-20 |
+| **Security** | caution · 2026-07-20 — first-party Anthropic, skill dir confirmed, but repo has no LICENSE and it handles claims data |
 
 ## How to install
 

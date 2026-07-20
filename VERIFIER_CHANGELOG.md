@@ -4,6 +4,66 @@ Rolling, reverse-chronological log of catalog verification + security passes. Ea
 on-demand run that produces changes prepends a dated block; the top block is mirrored to the pinned
 "Verification updates" issue.
 
+## 2026-07-20 (bootstrap pass 30)
+
+Thirtieth bootstrap pass — **16 pages stamped**, clearing the final unstamped remainder of the catalog
+(Anthropic first-party healthcare/connector entries, standalone MCP servers, and a couple of
+lab/first-party skills + plugins). Each judgment grounded in a source fetched this run (GitHub repo +
+contents APIs, PyPI + npm registry JSON, and the `anthropics/healthcare` / `anthropics/life-sciences` /
+`anthropics/knowledge-work-plugins` marketplace manifests). 8 works/cleared, 6 works/caution, 2
+degraded. No smoke run consumed. Enumeration lesson: Grep `count` output_mode gives false "Found 0"
+for line-1 matches — used LS for the full untruncated `catalog/tools/` listing then read candidate
+headers directly (Task/subagent 404'd on the sonnet model). Stamped strictly sequentially
+(read-then-two-single-Edits per file).
+
+### Verified
+- npi-registry — works/cleared. First-party Anthropic hosted connector; `npi-registry` confirmed in
+  the `anthropics/healthcare` marketplace.json; read-only over the public CMS NPPES API.
+- pubmed — works/cleared. First-party Anthropic hosted connector; `pubmed` confirmed in the
+  `anthropics/life-sciences` marketplace.json; read-only over the public NCBI E-utilities.
+- fhir-wso2 — works/cleared. `wso2/fhir-mcp-server` Apache-2.0 (pushed 2026-07-14) + PyPI
+  `fhir-mcp-server` 0.10.0 Apache-2.0; WSO2 org provenance.
+- proto-okn — works/cleared. `sbl-sdsc/mcp-proto-okn` BSD-3-Clause, maintained; read-only SPARQL over
+  public knowledge graphs; SDSC provenance.
+- aind-data — works/cleared. Allen Institute `AllenNeuralDynamics/aind-data-mcp` MIT (maintained) +
+  PyPI `aind-data-mcp` 0.4.5 MIT; read-only over the AIND DocDB.
+- mhc-binding-prediction — works/cleared. `GPTomics/bioSkills` MIT (pushed 2026-07-18); local skill
+  running user-installed predictors; no OSV advisories.
+- drug-repurposing — works/cleared. `mims-harvard/ToolUniverse` Apache-2.0 (pushed 2026-07-20);
+  read-only over public APIs; Zitnik Lab provenance.
+- hypothesis-crucible — works/cleared. First-party this repo; `crucible/.claude-plugin` + `skills`
+  dirs confirmed via contents API; actively maintained.
+- fraud-detection — works/caution. First-party `anthropics/healthcare`, skill dir confirmed via
+  contents API, but repo has no top-level LICENSE despite Free/OSS claim and it handles claims data.
+- procedure-coding — works/caution. First-party `anthropics/healthcare`, skill dir confirmed, but repo
+  has no top-level LICENSE.
+- clinical-note-extract — works/caution. First-party `anthropics/healthcare`, skill dir confirmed, but
+  repo has no top-level LICENSE and it processes clinical notes.
+- openfda — works/caution. `ythalorossy/openfda` + npm `@ythalorossy/openfda` 1.0.19 MIT; provenance
+  matches but single-maintainer community package (4 stars) and reads an API key from env.
+- cbioportal — works/caution. `cBioPortal/cbioportal-mcp` official + maintained (pushed 2026-07-17),
+  read-only, no OSV advisories, but no SPDX LICENSE file despite the Free/OSS claim.
+- arrayexpress — works/caution. `Augmented-Nature/BioStudies-MCP-Server` resolves, read-only, no OSV
+  advisories, but no LICENSE file and the repo is unmaintained since 2025-12 (community, 2 stars).
+- bio-research — degraded. Plugin resolves in `anthropics/knowledge-work-plugins` (Apache-2.0,
+  maintained), but open bug anthropics/claude-code#40106 breaks bundled MCP tools in Claude Code.
+- 10x-genomics-cloud — degraded. `10x-genomics` plugin confirmed in the `anthropics/life-sciences`
+  manifest, but a paid 10x Cloud account + token gate functional use, and it is a closed-source vendor
+  binary that cannot be statically assessed.
+
+### Fixed
+- None this run.
+
+### Flagged
+- arrayexpress, cbioportal, openfda, fraud-detection, procedure-coding, clinical-note-extract →
+  security caution (license/maintenance/data-handling signals — see state file). bio-research and
+  10x-genomics-cloud → degraded verification (upstream bug / paid-account gate).
+
+### Security
+- No OSV advisories surfaced for any repo checked this run. Recurring caution driver: first-party
+  `anthropics/healthcare` skills ship without a top-level LICENSE despite Free/OSS claims — lift to
+  cleared when a LICENSE lands.
+
 ## 2026-07-20 (bootstrap pass 29)
 
 Twenty-ninth bootstrap pass — **12 pages stamped**, clearing the previously-deferred tail of

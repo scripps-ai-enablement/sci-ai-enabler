@@ -8,6 +8,11 @@ availability: Beta
 tool_categories: [Molecular and Cellular Biology]
 last_verified: 2026-07-17
 claude_science: true
+verification: works
+verified_on: 2026-07-20
+security: caution
+security_on: 2026-07-20
+security_note: "provenance matches supplier Augmented-Nature, repo resolves and read-only, no OSV advisories, but no LICENSE file and repo unmaintained since 2025-12 (community, 2 stars)"
 summary: Search functional-genomics studies and metadata in ArrayExpress/BioStudies; part of the Omics Archives connector in Claude Science.
 ---
 
@@ -22,6 +27,8 @@ Exposes ArrayExpress functional-genomics studies (via BioStudies) to Claude thro
 | **Availability** | Beta — community OSS |
 | **Pricing** | Free / OSS |
 | **Capabilities** | Read-only |
+| **Verified** | works · 2026-07-20 |
+| **Security** | caution · 2026-07-20 — provenance matches Augmented-Nature, read-only, but no LICENSE and unmaintained since 2025-12 |
 
 ## How to install
 

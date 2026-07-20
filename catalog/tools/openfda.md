@@ -8,6 +8,11 @@ availability: GA
 tool_categories: [Drug Repurposing and Discovery, Translational Medicine]
 last_verified: 2026-06-06
 claude_science: true
+verification: works
+verified_on: 2026-07-20
+security: caution
+security_on: 2026-07-20
+security_note: "provenance matches supplier ythalorossy, npm @ythalorossy/openfda v1.0.19 MIT present, no OSV advisories, but single-maintainer community package (4 stars) and reads an API key from env"
 summary: MIT-licensed npm MCP server over the openFDA drug API — adverse events, safety/labeling, manufacturer lookups, and NDC resolution.
 ---
 
@@ -22,6 +27,8 @@ Community MCP server that queries the U.S. FDA's public openFDA drug API — adv
 | **Availability** | GA — published to npm as `@ythalorossy/openfda` |
 | **Pricing** | Free / OSS (MIT). Requires a free openFDA API key; key raises the rate limit from 1,000 to 120,000 requests/hour |
 | **Capabilities** | Read-only — openFDA drug-endpoint queries |
+| **Verified** | works · 2026-07-20 |
+| **Security** | caution · 2026-07-20 — provenance matches supplier, npm MIT present, no OSV advisories, but single-maintainer community package |
 
 ## How to install
 

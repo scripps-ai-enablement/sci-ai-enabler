@@ -7,6 +7,11 @@ supplier: Anthropic
 availability: GA
 tool_categories: [Translational Medicine]
 last_verified: 2026-07-12
+verification: works
+verified_on: 2026-07-20
+security: caution
+security_on: 2026-07-20
+security_note: "first-party anthropics/healthcare, clinical-note-extract skill dir confirmed via contents API, but repo has no top-level LICENSE despite Free/OSS claim"
 summary: Anthropic Claude skill that extracts structured, validated records from unstructured clinical notes with span-level provenance and explicit null handling.
 ---
 
@@ -21,6 +26,8 @@ Anthropic-published skill from the `anthropics/healthcare` plugin marketplace th
 | **Availability** | GA |
 | **Pricing** | Free / OSS — provided under Anthropic's terms of service |
 | **Capabilities** | Read/Write — reads clinical notes, writes structured records |
+| **Verified** | works · 2026-07-20 |
+| **Security** | caution · 2026-07-20 — first-party Anthropic, skill dir confirmed, but repo has no LICENSE |
 
 ## How to install
 

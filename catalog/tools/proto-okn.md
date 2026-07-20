@@ -8,6 +8,11 @@ supplier: SBL-SDSC (San Diego Supercomputer Center)
 availability: Beta
 tool_categories: [All]
 last_verified: 2026-07-18
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches supplier sbl-sdsc (SDSC), repo BSD-3-Clause maintained (pushed 2026-07-13), read-only SPARQL over public knowledge graphs, no OSV advisories"
 summary: Natural-language access to 30+ NSF Proto-OKN scientific knowledge graphs (SPOKE biomedicine, BioBricks chemical safety, more) via SPARQL, schema inspection, and cross-graph bridging.
 ---
 
@@ -22,6 +27,8 @@ A single MCP server that lets Claude discover, inspect, and query 30+ NSF-funded
 | **Availability** | Beta — hosted endpoint live; source repo [`sbl-sdsc/mcp-proto-okn`](https://github.com/sbl-sdsc/mcp-proto-okn) |
 | **Pricing** | Free / OSS (BSD 3-Clause); hosted endpoint is free but requires a Claude Pro/Max subscription for custom connectors |
 | **Capabilities** | Read-only — knowledge-graph discovery, SPARQL query, cross-graph identifier bridging |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches SDSC, BSD-3, maintained, read-only over public KGs, no OSV advisories |
 
 ## How to install
 

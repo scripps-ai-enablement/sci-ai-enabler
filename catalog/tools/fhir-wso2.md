@@ -7,6 +7,11 @@ supplier: WSO2
 availability: GA
 tool_categories: [Translational Medicine]
 last_verified: 2026-05-20
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "provenance matches supplier WSO2 org, PyPI fhir-mcp-server v0.10.0 Apache-2.0 present, repo maintained (pushed 2026-07-14), no OSV advisories"
 summary: Open-source MCP bridge that lets Claude search, read, and write FHIR R4 resources against any EHR or sandbox FHIR API with SMART-on-FHIR auth.
 ---
 
@@ -21,6 +26,8 @@ Open-source MCP bridge between Claude and any HL7 FHIR R4 server — Cerner / Or
 | **Availability** | GA — v0.10.0 (released 2025-10-30) |
 | **Pricing** | Free / OSS (Apache-2.0) |
 | **Capabilities** | Read/Write — full FHIR R4 CRUD |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — provenance matches WSO2, PyPI Apache-2.0, maintained, no OSV advisories |
 
 Install the server and start it (defaults to HTTP on `localhost:8000` — keep it running in a separate terminal):
 

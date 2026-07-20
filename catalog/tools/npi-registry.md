@@ -7,6 +7,11 @@ supplier: Anthropic
 availability: GA
 tool_categories: [Translational Medicine]
 last_verified: 2026-07-19
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "first-party Anthropic hosted connector, npi-registry entry confirmed in anthropics/healthcare marketplace manifest, read-only over public CMS NPPES API"
 summary: Anthropic-published MCP server over the CMS NPPES NPI Registry — validate, look up, and search US healthcare providers by National Provider Identifier.
 ---
 
@@ -21,6 +26,8 @@ Anthropic-published MCP server distributed via the `anthropics/healthcare` plugi
 | **Availability** | GA — shipped 2026-01 with the Claude for Healthcare launch |
 | **Pricing** | Free / OSS |
 | **Capabilities** | Read-only — provider validation, lookup, and search |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — first-party Anthropic hosted connector, read-only over public CMS NPPES API |
 
 ## How to install
 

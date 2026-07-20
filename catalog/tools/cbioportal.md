@@ -8,6 +8,11 @@ availability: GA
 tool_categories: [Drug Repurposing and Discovery, Molecular and Cellular Biology, Translational Medicine]
 last_verified: 2026-07-17
 claude_science: true
+verification: works
+verified_on: 2026-07-20
+security: caution
+security_on: 2026-07-20
+security_note: "provenance matches supplier cBioPortal org (official), repo maintained (pushed 2026-07-17), read-only, no OSV advisories, but no SPDX LICENSE file detected despite Free/OSS claim"
 summary: Query cancer genomics studies, mutations, and clinical data from cBioPortal; also the Cancer Models connector in Claude Science.
 ---
 
@@ -22,6 +27,8 @@ Exposes cBioPortal's cancer genomics studies — mutations, copy-number, and cli
 | **Availability** | GA — official MCP server |
 | **Pricing** | Free / OSS (data ODbL; some studies access-restricted) |
 | **Capabilities** | Read-only |
+| **Verified** | works · 2026-07-20 |
+| **Security** | caution · 2026-07-20 — official cBioPortal repo, maintained, read-only, but no SPDX LICENSE detected |
 
 ## How to install
 

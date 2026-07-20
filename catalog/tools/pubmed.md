@@ -7,6 +7,11 @@ supplier: Anthropic
 availability: GA
 tool_categories: [All]
 last_verified: 2026-06-20
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "first-party Anthropic hosted connector, pubmed entry confirmed in anthropics/life-sciences marketplace manifest, read-only over public NCBI E-utilities"
 summary: Anthropic-managed NCBI literature search via PubMed and PubMed Central.
 ---
 
@@ -21,6 +26,8 @@ Anthropic-managed search across PubMed and PubMed Central via NCBI E-utilities, 
 | **Availability** | GA (Claude.ai / Claude Code); Beta MCP HTTP endpoint |
 | **Pricing** | Free / OSS — included with Claude plans; no extra cost beyond model usage |
 | **Capabilities** | Read-only — PubMed and PubMed Central search via NCBI E-utilities |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — first-party Anthropic hosted connector, read-only over public NCBI E-utilities |
 
 ## How to install
 

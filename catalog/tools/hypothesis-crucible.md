@@ -7,6 +7,11 @@ supplier: Scripps AI Enablement
 availability: GA
 tool_categories: [Drug Repurposing and Discovery, Neuroscience, All]
 last_verified: 2026-07-17
+verification: works
+verified_on: 2026-07-20
+security: cleared
+security_on: 2026-07-20
+security_note: "first-party this repo, crucible plugin dir with .claude-plugin and skills confirmed via contents API, actively maintained (pushed 2026-07-20)"
 summary: Agentic cross-corpus hypothesis generation — mines typed knowledge fragments from literature, structured databases, and raw experimental data, bridges them Swanson-style into novel connections, then runs a falsification gauntlet that aggressively rejects non-novel, ungrounded, contradicted, or implausible ideas, emitting only survivors with cited support and a discriminating experimental test.
 ---
 
@@ -21,6 +26,8 @@ A Claude Code plugin in this repo's marketplace that generates novel, falsificat
 | **Availability** | GA — shipped in the `sci-ai-enabler` marketplace |
 | **Pricing** | Free / OSS |
 | **Capabilities** | Read/Write — drives bio-research MCP servers; writes a reproducible run bundle to disk |
+| **Verified** | works · 2026-07-20 |
+| **Security** | cleared · 2026-07-20 — first-party this repo, plugin dir confirmed, actively maintained |
 
 ## How to install
 
