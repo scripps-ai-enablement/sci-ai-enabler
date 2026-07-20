@@ -15,12 +15,15 @@ body:
       description: Auto-synced from the cookbook. Pick "Not listed" if your feedback isn't about one of these.
       options:
         - analyze-md-trajectory-with-mdanalysis
+        - analyze-sar-of-a-compound-series
+        - analyze-single-cell-tcr-repertoire
         - annotate-a-bacterial-genome
         - annotate-and-verify-a-plasmid-construct
         - annotate-cell-types-in-single-cell-data
         - assemble-cancer-imaging-cohort-from-idc
         - assemble-reference-atlas-from-cellxgene-census
         - benchmark-admet-property-with-pytdc
+        - build-functional-connectivity-matrix-from-fmri
         - build-pharmacogenomic-dosing-report
         - build-phylogenetic-tree-from-sequences
         - build-target-dossier
@@ -30,7 +33,9 @@ body:
         - compute-hrv-from-ecg-recording
         - convert-instrument-data-to-allotrope-asm
         - design-crispr-sgrnas-for-a-gene-knockout
+        - design-sequences-for-a-protein-backbone
         - detect-somatic-cnvs-from-tumor-sequencing
+        - diagnose-rare-disease-from-patient-phenotypes
         - discover-nwb-recordings-on-dandi
         - dock-ligand-library-with-diffdock
         - draft-phase23-clinical-trial-protocol
@@ -50,6 +55,7 @@ body:
         - infer-gene-regulatory-network-from-scrnaseq
         - infer-protein-function-from-structure
         - infer-tf-and-pathway-activities-from-expression
+        - integrate-multiomics-with-mofa
         - integrate-single-cell-datasets
         - interpret-clinical-variant
         - interpret-glycosylation-altering-variants
@@ -57,6 +63,7 @@ body:
         - match-patient-to-clinical-trials
         - organize-raw-dicom-to-bids-layout
         - parse-fcs-flow-cytometry-files
+        - plan-a-synthetic-route-for-a-target-molecule
         - predict-antibody-antigen-complex
         - predict-gene-knockout-phenotypes-with-fba
         - predict-hospital-readmission-from-ehr

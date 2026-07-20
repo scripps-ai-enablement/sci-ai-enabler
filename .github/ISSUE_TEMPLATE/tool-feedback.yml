@@ -137,6 +137,7 @@ body:
         - emdb-database
         - ena-database
         - encode-database
+        - encode-toolkit
         - ensembl
         - epitope-prediction
         - eqtl-catalogue
@@ -193,6 +194,7 @@ body:
         - hcpep-skill
         - hcppipeline-tool
         - hcpya-skill
+        - healthlake-mcp
         - hierarchical
         - histolab
         - hmdb-database
@@ -222,6 +224,7 @@ body:
         - kmeans
         - kraken-classification
         - labarchive-integration
+        - labmate-mcp
         - lamindb
         - latchbio-integration
         - latex-posters
@@ -248,6 +251,8 @@ body:
         - metabolomics-workbench-database
         - mgnify
         - mhc-binding-prediction
+        - mhc-class-ii-prediction
+        - mixcr-analysis
         - mnd-skill
         - mne-eeg-tool
         - modal
@@ -263,7 +268,9 @@ body:
         - muon-multiomics-singlecell
         - mygene
         - napari-image-viewer
+        - neoantigen-prediction
         - networkx
+        - neuroflow
         - neurokit2
         - neuropixels-analysis
         - neurosift
@@ -274,6 +281,7 @@ body:
         - nii2dcm
         - nilearn-tool
         - nnunet-segmentation
+        - novomcp
         - npi-registry
         - nsd-skill
         - oasis-skill
@@ -320,6 +328,7 @@ body:
         - procedure-coding
         - prokka-genome-annotation
         - proteinmpnn
+        - proto-okn
         - protocolsio-integration
         - pubchem
         - pubmed
@@ -376,6 +385,7 @@ body:
         - scikit-image-processing
         - scikit-learn
         - scikit-survival
+        - scirpy-analysis
         - scitex
         - scvelo
         - scvi-tools
@@ -406,13 +416,16 @@ body:
         - sympy
         - synapse
         - tcp-skill
+        - tcr-epitope-binding
         - tiledbvcf
         - timesfm-forecasting
         - tooluniverse
         - tooluniverse-adverse-event-detection
         - tooluniverse-adverse-outcome-pathway
         - tooluniverse-binder-discovery
+        - tooluniverse-cancer-genomics-tcga
         - tooluniverse-cancer-variant-interpretation
+        - tooluniverse-chemical-safety
         - tooluniverse-drug-drug-interaction
         - tooluniverse-drug-research
         - tooluniverse-drug-synergy
@@ -422,6 +435,8 @@ body:
         - tooluniverse-pharmacovigilance
         - tooluniverse-precision-oncology
         - tooluniverse-rare-disease-diagnosis
+        - tooluniverse-rare-disease-genomics
+        - tooluniverse-small-molecule-discovery
         - tooluniverse-target-research
         - torch-geometric
         - torchdrug
