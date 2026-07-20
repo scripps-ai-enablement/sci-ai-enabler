@@ -44,7 +44,16 @@ OUT_TOOLS = REPO / "index" / "composer-tools.json"
 # drift; the workflow commits both.
 PLUGIN_DATA = REPO / "composer" / "skills" / "compose" / "data"
 
-# ---- closed vocabularies (facets we validate; see AGENT.md / RECIPE_AGENT.md) ----
+# ---- closed vocabularies — CANONICAL SOURCE OF TRUTH ----
+# These sets are the machine-enforced vocabulary. Every catalog/recipe page is
+# validated against them in CI (check_vocab below), so a value not listed here is
+# REJECTED regardless of what any prompt says. Everything else that names these
+# values — the agent prompts (AGENT.md, RECIPE_AGENT.md), the GitHub
+# issue-template / workflow_dispatch enums, the catalog/recipe landing READMEs —
+# mirrors these lists for humans. To add/rename/remove a facet value: change it
+# HERE first, then update those mirrors. (domain_group / lifecycle_stages for
+# autonomous-science systems are NOT enforced here; their source of truth is the
+# group_order/classes lists that summary.md iterates — see COSCIENTIST_AGENT.md.)
 
 SUBJECT_AREAS = {
     "Chemistry",

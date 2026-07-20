@@ -55,14 +55,19 @@ See [`RECIPES_CHANGELOG.md`](RECIPES_CHANGELOG.md) for the cookbook's update his
 
 ## How it works
 
-Four independent scheduled agents, each a [Claude Code GitHub Action](https://github.com/anthropics/claude-code-base-action) run on a GitHub-hosted runner with web search and fetch enabled. Each posts to its own pinned tracking issue when a run produced changes — that's how update notifications land in your inbox.
+Independent scheduled agents, each a [Claude Code GitHub Action](https://github.com/anthropics/claude-code-base-action) run on a GitHub-hosted runner with web search and fetch enabled. Each posts to its own pinned tracking issue when a run produced changes — that's how update notifications land in your inbox. Runs are staggered across the weekend so no two agents edit the same files at once.
 
-| Resource | Prompt | Workflow | Schedule | Tracking issue |
+| Resource | Prompt | Workflow | Schedule (UTC) | Tracking issue |
 |---|---|---|---|---|
-| Catalog | [`AGENT.md`](AGENT.md) | [`curate.yml`](.github/workflows/curate.yml) | Daily 07:00 UTC | "Catalog updates" |
-| Guide | [`GUIDE_AGENT.md`](GUIDE_AGENT.md) | [`guide.yml`](.github/workflows/guide.yml) | Daily 08:00 UTC | "Guide updates" |
-| Autonomous science | [`COSCIENTIST_AGENT.md`](COSCIENTIST_AGENT.md) | [`coscientist.yml`](.github/workflows/coscientist.yml) | Daily 09:00 UTC | "AI co-scientist updates" |
-| Recipes | [`RECIPE_AGENT.md`](RECIPE_AGENT.md) | [`recipes.yml`](.github/workflows/recipes.yml) | Daily 10:00 UTC | "Recipes updates" |
+| Catalog | [`AGENT.md`](AGENT.md) | [`curate.yml`](.github/workflows/curate.yml) | Weekends — 7 slots, one category per slot (Sat 00/06/12/18, Sun 00/06/12) | "Catalog updates" |
+| Guide | [`GUIDE_AGENT.md`](GUIDE_AGENT.md) | [`guide.yml`](.github/workflows/guide.yml) | Weekly, Sat 01:00 | "Guide updates" |
+| Autonomous science | [`COSCIENTIST_AGENT.md`](COSCIENTIST_AGENT.md) | [`coscientist.yml`](.github/workflows/coscientist.yml) | Weekly, Sat 02:00 | "AI co-scientist updates" |
+| Recipes | [`RECIPE_AGENT.md`](RECIPE_AGENT.md) | [`recipes.yml`](.github/workflows/recipes.yml) | Weekends — 7 slots, one subject area per slot (Sat 03/09/15/21, Sun 03/09/15) | "Recipes updates" |
+| Verifier | [`VERIFIER_AGENT.md`](VERIFIER_AGENT.md) | [`verify.yml`](.github/workflows/verify.yml) | Mon/Wed/Fri 08:00 | "Verification updates" |
+
+The **Verifier** keeps the catalog trustworthy rather than adding tools. Each run it takes a batch of catalog entries, confirms they still work (statically via registries/repos, plus a quarantined sandbox smoke-test job that never hands untrusted code to the agent), runs a security assessment, fixes broken entries (dead install commands, moved repos, stale availability), and stamps each page with graded `verification` and `security` badges. See [`VERIFIER_AGENT.md`](VERIFIER_AGENT.md) and [`VERIFIER_CHANGELOG.md`](VERIFIER_CHANGELOG.md).
+
+Two supporting workflows run on their own schedules: [`index.yml`](.github/workflows/index.yml) rebuilds the searchable knowledge-base index (daily 10:30 and on every content push), and [`digest.yml`](.github/workflows/digest.yml) posts a single weekly summary (Sun 18:00) to the **Weekly digest** issue.
 
 ## Triggering an on-demand run
 
@@ -80,10 +85,14 @@ gh workflow run coscientist.yml -f scope=bootstrap  # re-seed from sources/
 gh workflow run recipes.yml                      # whole cookbook
 gh workflow run recipes.yml -f scope=chemistry   # one subject area
 gh workflow run recipes.yml -f scope=literature-triage  # one problem class
+gh workflow run verify.yml                        # re-verify aging catalog entries
+gh workflow run verify.yml -f scope=bootstrap     # verify unstamped entries first
+gh workflow run digest.yml                        # post a weekly digest now
+gh workflow run index.yml                          # rebuild the knowledge-base index
 ```
 
 ## One-time setup
 
 1. Add an `ANTHROPIC_API_KEY` repository secret (**Settings → Secrets and variables → Actions**).
 2. Enable GitHub Pages from the `main` branch root (**Settings → Pages → Source: Deploy from a branch → main / (root)**).
-3. Subscribe to the **Weekly digest** issue (opened by the `digest.yml` workflow on its first run) for one weekly summary email — or watch the repo, or the per-section **Catalog updates**, **Guide updates**, **AI co-scientist updates**, and **Recipes updates** issues, for finer-grained notifications.
+3. Subscribe to the **Weekly digest** issue (opened by the `digest.yml` workflow on its first run) for one weekly summary email — or watch the repo, or the per-section **Catalog updates**, **Guide updates**, **AI co-scientist updates**, **Recipes updates**, and **Verification updates** issues, for finer-grained notifications.

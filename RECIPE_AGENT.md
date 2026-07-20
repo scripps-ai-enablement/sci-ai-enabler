@@ -31,23 +31,14 @@ Tag every recipe with exactly one of these `problem_class` values:
 
 A recipe sits in one bucket. Recipes that span buckets are usually two recipes, not one.
 
-**This list is a closed vocabulary, and `recipes/summary.md` renders its table by iterating exactly these values.** If you ever add, rename, or remove a `problem_class`, you must update the `classes` list in `recipes/summary.md` to match — otherwise recipes in the changed class fall through to the page's `⚠ Uncategorized` safety-net section instead of their proper group. Prefer reusing an existing class over inventing one.
+**This list is a closed vocabulary.** It is machine-enforced: the canonical set lives in `scripts/build_index.py` (`PROBLEM_CLASSES`), which validates every recipe page in CI — a `problem_class` not in that set is **rejected**. `recipes/summary.md` also renders its table by iterating exactly these values. So if you ever add, rename, or remove a `problem_class`, you must update **both** the `PROBLEM_CLASSES` set in `scripts/build_index.py` (or the page fails validation) **and** the `classes` list in `recipes/summary.md` (or recipes in the changed class fall through to the page's `⚠ Uncategorized` safety-net section). The same "change `build_index.py` first, then the mirrors" rule governs the other closed facets on this page — `subject_areas`, `evidence_level`, `complexity`, `availability`, `compute_requirements`. Prefer reusing an existing value over inventing one.
 
 ## Subject areas
 
-Tag every recipe with one or more of the seven canonical life-science **research-area** categories defined in `AGENT.md` (recipes are organized by science problem, so the `General-Purpose Utilities` shelf is **not** a recipe subject area — utilities are ingredients a recipe assembles, not a problem domain):
+Tag every recipe's `subject_areas` with one or more of the seven canonical life-science **research-area** categories. Do not restate the list here — it is the same closed vocabulary the catalog uses (`SUBJECT_AREAS` in `scripts/build_index.py`, mirrored in `AGENT.md` under *Categories*), and `subject_areas` is validated against it in CI. Two recipe-specific rules on top of that shared vocabulary:
 
-| Category |
-|---|
-| Chemistry |
-| Immunology and Microbiology |
-| Integrative Structural and Computational Biology |
-| Molecular and Cellular Biology |
-| Neuroscience |
-| Translational Medicine |
-| Drug Repurposing and Discovery |
-
-Use the literal value `All` for recipes that apply across every life-science domain (e.g., literature triage of preprints — the bioRxiv MCP doesn't care which field you're in).
+- Recipes are organized by science *problem*, so the `General-Purpose Utilities` shelf is **not** a recipe subject area — utilities are ingredients a recipe assembles, not a problem domain. (`General-Purpose Utilities` is a valid `tool_categories` value but not a valid `subject_areas` value.)
+- Use the literal value `All` for recipes that apply across every life-science domain (e.g., literature triage of preprints — the bioRxiv MCP doesn't care which field you're in).
 
 ## Evidence labels
 
