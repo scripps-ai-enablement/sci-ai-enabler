@@ -4,6 +4,36 @@ Rolling, reverse-chronological log of catalog verification + security passes. Ea
 on-demand run that produces changes prepends a dated block; the top block is mirrored to the pinned
 "Verification updates" issue.
 
+## 2026-07-20 (bootstrap pass 20)
+
+Twentieth bootstrap pass — the **SciAgent genomics-bioinformatics skills** (non-`-database` batch 1):
+13 unstamped `supplier: SciAgent` Claude Skill pages, all sharing the anchor
+`jaechang-hits/SciAgent-Skills`. Each skill directory was individually confirmed present via the
+GitHub contents API; one representative `SKILL.md` (DESeq2) was read raw to confirm read-only local
+analysis with no credential/API-key requests. All judgments grounded in sources fetched this run
+(GitHub repo + contents + security-advisories APIs, one raw SKILL.md).
+
+### Verified
+- Anchor `jaechang-hits/SciAgent-Skills` via GitHub API (root LICENSE verbatim CC BY 4.0, not
+  archived, not disabled, pushed 2026-06-15, 275 stars, default branch main).
+- 13 SciAgent Claude Skills — all works. Each skill directory confirmed present via the contents
+  API: deseq2-differential-expression, featurecounts-rna-counting, salmon-rna-quantification,
+  gseapy-gene-enrichment (rnaseq); star-rna-seq-aligner, samtools-bam-processing,
+  bwa-mem2-dna-aligner (alignment); gatk-variant-calling, snpeff-variant-annotation,
+  cnvkit-copy-number, plink2-gwas-analysis (variant); macs3-peak-calling, homer-motif-analysis
+  (top-level genomics-bioinformatics). Clone/copy install paths resolve.
+
+### Fixed
+- None this run.
+
+### Flagged
+- None broken this run.
+
+### Security
+- 13 pages cleared — provenance matches `jaechang-hits/SciAgent-Skills`, CC BY 4.0 root LICENSE,
+  read-only local skills, no GitHub security advisories.
+- `gseapy-gene-enrichment` note records that it calls the public Enrichr API (no key required).
+
 ## 2026-07-20 (bootstrap pass 19)
 
 Nineteenth bootstrap pass — the **ToolUniverse family**: 19 unstamped `supplier: Zitnik Lab
