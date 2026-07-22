@@ -1,0 +1,49 @@
+{
+  "run_date": "2026-07-22T18:25:28+00:00",
+  "model_id": "claude-opus-4-8",
+  "recipe": "glyco_variants (LOG/GOG glycosylation-impact classification)",
+  "input_variant_file": {
+    "path": "variants.csv",
+    "sha256": "5c088fc2a5975a000bb610e77972f5691d36bc9a8abfc00d3a4816dbd219d616"
+  },
+  "data_sources": {
+    "glygen": {
+      "role": "canonical protein, glycosites/sequons, tissue expression (Bgee)",
+      "data_version": "2.11.1",
+      "data_release_date": "2026-05-04",
+      "mcp_endpoint": "https://mcp.glygen.org/mcp",
+      "rest_api_base": "https://api.glygen.org",
+      "source_bcos": [
+        "https://data.glygen.org/GLY_001534",
+        "https://data.glygen.org/GLY_001537"
+      ]
+    },
+    "uniprot": {
+      "role": "signal-peptide length (mature->precursor offset for frame reconciliation)",
+      "rest_api_base": "https://rest.uniprot.org"
+    },
+    "biomcp": {
+      "role": "ClinVar significance + AlphaMissense pathogenicity join",
+      "version": "biomcp 0.8.25 (git a6694289, build 2026-07-08T18:13:32-04:00)",
+      "mcp_transport": "stdio (`biomcp mcp`) / CLI `biomcp get variant ... predictions`",
+      "federator": "MyVariant.info"
+    }
+  },
+  "snapshots": {
+    "clinvar": {
+      "served_by": "MyVariant.info",
+      "version": "2025-05",
+      "myvariant_build_date": "2025-06-24T16:27:25.889841-07:00"
+    },
+    "alphamissense": {
+      "served_by": "MyVariant.info",
+      "via": "dbNSFP 4.8a",
+      "myvariant_build_date": "2025-06-24T16:27:25.889841-07:00",
+      "note": "requested through the BioMCP `predictions` (expanded) view; not present in the default getter view"
+    }
+  },
+  "outputs": {
+    "candidates_csv": "glyco_candidates.csv",
+    "biocompute_object": "bco.json"
+  }
+}

@@ -1,0 +1,22 @@
+# glyco_variants recipe — pinned client versions.
+#
+# The MCP servers this recipe drives:
+#   glygen : HTTP MCP  https://mcp.glygen.org/mcp        (GlyGen protein/glycosite/expression)
+#   biomcp : stdio MCP `biomcp mcp`                       (ClinVar + AlphaMissense via MyVariant.info)
+#
+# Python clients that speak MCP to those servers (pin these to reproduce the
+# MCP-based workflow):
+mcp==1.28.1
+biomcp-python==0.7.3
+
+# BCO validation against the published IEEE-2791 JSON schema:
+jsonschema==4.22.0
+referencing==0.35.1   # jsonschema>=4.18 ref resolution backend
+
+# NOTE ON THIS RUN'S TOOLING (see provenance.json for the authoritative record):
+# This run did not import the biomcp-python package. It invoked the compiled
+# BioMCP CLI installed via `uv tool install biomcp-cli`:
+#     biomcp-cli == 0.8.25   (git a6694289, build 2026-07-08)
+# and reached GlyGen through its REST API (https://api.glygen.org). glyco_variants.py
+# itself uses only the Python standard library (urllib, subprocess, hashlib, json)
+# plus jsonschema for the final BCO validation step.
