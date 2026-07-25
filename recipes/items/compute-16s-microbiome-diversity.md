@@ -9,7 +9,7 @@ evidence_level: Proposed
 complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Laptop
-last_verified: 2026-06-27
+last_verified: 2026-07-25
 summary: Use the scikit-bio Claude skill to take a BIOM feature table and sample metadata through Shannon/Simpson/Faith's PD, UniFrac, PCoA, and PERMANOVA in one chat.
 ---
 
@@ -104,6 +104,7 @@ Proposed. No documented end-to-end attempt of "Claude Code + the scikit-bio skil
 
 - [scikit-bio (Claude Skill)](../../catalog/tools/scikit-bio.html)
 - [Biomni](../../autonomous-science/systems/biomni.html)
+- [Profile shotgun metagenome taxa with Kraken2 and Bracken](profile-shotgun-metagenome-taxa-with-kraken2.html) — the shotgun-reads path that produces an abundance table for this diversity analysis.
 - [Run bulk RNA-seq differential expression from a counts matrix](run-bulk-rnaseq-differential-expression.html) — analogous one-skill recipe on a different omics modality.
 
 ## Sources

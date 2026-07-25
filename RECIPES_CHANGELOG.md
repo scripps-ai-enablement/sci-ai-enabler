@@ -11,6 +11,17 @@ Reverse-chronological log of changes to the [recipes cookbook]({{ '/recipes/' | 
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-07-25 (Immunology and Microbiology directed pass)
+
+### Added
+
+- **Scan a protein for candidate CD4 T-cell (helper) epitopes** (Problem class: Experimental design; Evidence: Validated) — rung-2 [MHC Class II Prediction skill](catalog/tools/mhc-class-ii-prediction.html) recipe: antigen FASTA + HLA-DR/DQ/DP allele list → 15-mer sliding-window scoring with NetMHCIIpan-4.3 (+ optional MixMHC2pred-2.0) → register-aware 9-mer core extraction → class II `%Rank` cutoffs (≤1% strong / ≤5% weak) → committed `scan_classII_epitopes.py` + pinned env + `epitopes_classII.csv` + `provenance.json` (predictor versions/data release, allele strings, window, input sha256, run date, model id). CD4/MHC-II sibling of the existing [scan-protein-for-cd8-t-cell-epitopes](recipes/items/scan-protein-for-cd8-t-cell-epitopes.html) recipe (cross-linked both ways); run both for a full vaccine-antigen analysis. `Validated` — NetMHCIIpan is the field-standard CD4 predictor and the exact predictor→shortlist step is used in current published vaccine design ([Yakobi & Nwodo, *Biochem. Biophys. Rep.* 2025](https://pubmed.ncbi.nlm.nih.gov/41208833/); coverage-optimized peptide sets T-cell-confirmed in [Nilsson et al., *Front. Immunol.* 2021](https://pubmed.ncbi.nlm.nih.gov/34484239/)); class II remains materially less accurate than class I, and the agent path is not separately benchmarked. `Fully open`; `Laptop`.
+- **Profile shotgun metagenome taxa with Kraken2 and Bracken** (Problem class: Data analysis; Evidence: Reported) — rung-2 [Kraken2 Metagenomic Classification skill](catalog/tools/kraken-classification.html) recipe: quality-trimmed, host-depleted shotgun FASTQs + named reference database → Kraken2 (`--confidence 0.2`) read classification → Bracken species-level abundance re-estimation → merged `bracken_species.tsv` → committed `profile_metagenome.sh` + pinned `environment.yml` + `provenance.json` (kraken2/bracken/KrakenTools versions, database name + build/download date, confidence threshold, per-sample classified fraction, FASTQ sha256s, run date, model id). Shotgun-reads upstream of the [16S diversity](recipes/items/compute-16s-microbiome-diversity.html) recipe's abundance-table analysis (cross-linked both ways); complements the [AMR/virulence](recipes/items/screen-genome-for-resistance-and-virulence-genes.html) recipe. `Reported` — Kraken2→Bracken is the field-standard fast profiler; database+confidence-score dependence pinned per [Liu et al., *aBIOTECH* 2024](https://pubmed.ncbi.nlm.nih.gov/39650139/), applied at 2,101-metagenome scale in [Li et al., *Gastroenterology* 2025](https://pubmed.ncbi.nlm.nih.gov/39490771/); the agent path is not separately benchmarked. `Fully open`; `Workstation with GPU` (RAM/disk floor, not GPU).
+
+### Verified (no changes)
+
+- 2 Immunology recipes spot-checked, `last_verified` bumped to 2026-07-25: **Compute 16S microbiome alpha/beta diversity** (scikit-bio skill + Biomni links resolve; added shotgun cross-link) and **Scan a protein for candidate CD8 T-cell epitopes** (MHC Binding Prediction / Epitope Prediction links resolve; added CD4 sibling cross-link).
+
 ## 2026-07-25 (Chemistry directed pass)
 
 ### Added

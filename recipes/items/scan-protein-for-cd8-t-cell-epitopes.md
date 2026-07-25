@@ -9,7 +9,7 @@ evidence_level: Validated
 complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Laptop
-last_verified: 2026-07-11
+last_verified: 2026-07-25
 summary: Use the MHC Binding Prediction skill to rank a protein's peptides for MHC class I binding and presentation, nominating CD8 T-cell epitope and neoantigen candidates.
 ---
 
@@ -91,6 +91,7 @@ No head-to-head benchmark of the *agent-driven skill* versus a hand-typed MHCflu
 ## See also
 
 - [MHC Binding Prediction (bioSkills)](../../catalog/tools/mhc-binding-prediction.html) — the skill this recipe drives.
+- [Scan a protein for candidate CD4 T-cell (helper) epitopes](scan-protein-for-cd4-t-cell-epitopes.html) — the CD4/MHC-II sibling; run both for a full vaccine antigen analysis.
 - [Epitope Prediction (bioSkills)](../../catalog/tools/epitope-prediction.html) — B-cell and class II epitopes on the same antigen.
 - [Predict an antibody–antigen complex structure](predict-antibody-antigen-complex.html) — the structural, antibody-side counterpart.
 
