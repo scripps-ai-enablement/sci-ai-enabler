@@ -11,6 +11,16 @@ Reverse-chronological log of changes to the [catalog]({{ '/catalog/' | relative_
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-07-25 (Chemistry slot)
+
+Chemistry directed pass plus a manifest sweep. The `anthropics/life-sciences` `.claude-plugin/marketplace.json` (~17 entries) was re-fetched and diffed against the catalog — all entries already covered (pubmed, biorender, synapse, wiley-scholar-gateway, biorxiv, clinical-trials, chembl, owkin, open-targets, tooluniverse, and the local skills). Chemistry seed queries (`cheminformatics MCP server RDKit`, `MCP server SMILES publication reaction scheme mechanism`, `retrosynthesis MCP`, `Polaris drug discovery MCP`) reconfirmed existing RDKit coverage (`chemcp`, `rdkit-mcp`, `rdkit-skill`, `rdkit-agent`) and the standing retrosynthesis/Polaris gaps; one genuinely-new installable ChemDraw-CDXML MCP server was surfaced and catalogued.
+
+### Added
+- **CDXML Toolkit** (Categories: Chemistry) — MIT-licensed MCP server + Python toolkit (PyPI `cdxml-toolkit` v0.5.17) exposing 15 grounded chemistry tools for ChemDraw CDXML office automation: molecule/reaction rendering to publication-ready CDXML, structure extraction from images via DECIMER OCR, ELN/LCMS/NMR parsing, and PPTX/DOCX ChemDraw-OLE embed/extract. Windows + ChemDraw 2015+ required ([GitHub](https://github.com/leehiufung911/cdxml-toolkit), [PyPI](https://pypi.org/project/cdxml-toolkit/)).
+
+### Verified (no changes)
+- Manifest sweep confirmed no new `anthropics/life-sciences` entries; ChEMBL (`chembl.md`, last_verified 2026-07-15) spot-checked and current. Chemistry seed queries reconfirmed existing RDKit-based coverage; the OSS retrosynthesis-wrapper and Polaris-MCP gaps remain open (deferred).
+
 ## 2026-07-19 (Drug Repurposing and Discovery slot)
 
 Drug Repurposing and Discovery directed pass plus a manifest sweep. The `anthropics/life-sciences` (`.claude-plugin/marketplace.json`) and `anthropics/claude-plugins-official` marketplaces were re-fetched and diffed against the catalog — all life-science entries already covered. The Claude Science featured-connectors/skills list was re-checked (no new source-level additions). Seed queries (`DrugBank MCP server`, `drug repurposing agent MCP`) reconfirmed existing coverage (`drugbank.md` already carries the `openpharma-org` MCP + official hosted MCP + SciAgent paths). Four genuinely-new drug-discovery skills were drawn from the deferred `mims-harvard/ToolUniverse/skills/` queue and catalogued.
