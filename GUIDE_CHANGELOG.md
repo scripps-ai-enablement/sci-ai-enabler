@@ -11,6 +11,29 @@ Reverse-chronological log of changes to the [guide]({{ '/guide/' | relative_url 
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-07-25
+
+### Updated
+- **[surfaces/claude-code] Claude Opus 5 is now the default (v2.1.219, 2026-07-24).** Replaced the Sonnet-5-default model line with Opus 5: `claude-opus-5`, 1M context, priced identically to Opus 4.8 ($5 / $25 per Mtok), with automatic fallback to Opus 4.8 when a safety classifier trips. Sonnet 5 and Opus 4.8 remain selectable. Grounded in [Introducing Claude Opus 5](https://www.anthropic.com/news/claude-opus-5) (2026-07-24) and the [Claude Code changelog](https://code.claude.com/docs/en/changelog) v2.1.219, both fetched this run.
+- **[surfaces/claude-api] Opus 5 added to the model line and pitfalls.** Updated "Default model IDs change" so `claude-opus-5` is the current `opus` alias (1M context, thinking on by default, $5/$25 unchanged from Opus 4.8, on API/Bedrock/Vertex/Foundry); added Opus 5 to the `temperature`/`top_p`/`top_k` 400-rejection pitfall and a new pitfall on thinking-on-by-default (disabling above `high` effort → 400) plus the consumer-surface fallback to Opus 4.8. Grounded in the Opus 5 news post plus [The Decoder](https://the-decoder.com/anthropic-claims-its-new-claude-opus-5-delivers-near-fable-5-performance-at-half-the-token-price/) (2026-07-24) as secondary confirmation (the `whats-new-claude-opus-5` API doc 404s as of this run).
+- **[surfaces/claude-science] De-pinned the model name.** Changed "Opus 4.8, Sonnet 5" to "the current Opus and Sonnet lines" so the generic statement doesn't go stale on each model launch.
+
+### Verified (no changes)
+- claude-surfaces.md, surfaces/claude-code.md — install command (`curl -fsSL https://claude.ai/install.sh | bash`) re-verified via WebFetch of `claude.com/product/claude-code`: native installer canonical, no deprecation banner; Terminal / VS Code / JetBrains / web / Desktop / iOS / Android / Slack / GitHub surfaces unchanged. Changelog re-fetched: latest release **v2.1.220 (2026-07-25)**; v2.1.215–v2.1.220 mostly below the beginner threshold (`/verify` and `/code-review` no longer auto-run and now run as background subagents, `sandbox.filesystem.disabled` setting, emoji shortcode autocomplete, `--forward-subagent-text`, screen-reader deletion announcements, quadratic-slowdown fix) other than the Opus 5 default captured above.
+- anthropic.com/news scanned — Economic Index connector (2026-07-22, all plans, one-click in the connectors directory), Claude for Teachers (2026-07-14), AI-for-Science rare-disease grants, funding/governance items — none meet the beginner cross-cutting / component bar for a new page. Economic Index is a single first-party connector already covered by the connectors page's "growing directory" framing.
+- claude-surfaces.md, surfaces/claude-ai.md, surfaces/claude-desktop.md, surfaces/claude-cowork.md, surfaces/claude-tag.md — unchanged (Claude Tag's "Opus 4.8" is a sourced historical launch fact).
+- skills.md, mcp-servers.md, plugins.md, marketplaces.md, connectors.md, decision-tree.md — unchanged.
+- advanced/hooks.md, advanced/slash-commands.md, advanced/routines.md, advanced/authentication.md, advanced/reproducibility.md, advanced/verification.md — unchanged.
+
+### Flagged for review
+- **`whats-new-claude-opus-5` API doc missing** — `platform.claude.com/docs/en/about-claude/models/whats-new-claude-opus-5` 404s as of this run; Opus 5 API-level claims are grounded in the news post + secondary coverage. Re-check next run and swap in the canonical doc when it's live.
+- **Opus 5 as `opus` alias / Max default** — confirm against the canonical model docs once published, and watch whether Sonnet 5 remains the Claude Code default on Pro vs. Opus 5 on Max.
+- **Economic Index connector** — first-party, all-plans; watch whether the connectors directory grows enough distinct first-party connectors to warrant naming them individually on connectors.md.
+- **Agent SDK billing split** — carried over; paused, not cancelled. Re-verify the help-center pause notice each run.
+- **Mythos 5 general availability** — restricted to approved U.S. orgs; watch for broader availability.
+- **Claude Tag** — Team/Enterprise beta; watch the old Claude-in-Slack app retirement (~early Aug 2026).
+- **Promote `security-guidance` to its own page** — carried over; stays inside `plugins.md` unless a human expands the topic list.
+
 ## 2026-07-18
 
 ### Updated

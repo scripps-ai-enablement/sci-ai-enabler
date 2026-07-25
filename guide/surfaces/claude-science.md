@@ -11,7 +11,7 @@ nav_order: 6
 
 ## What it is
 
-Claude Science is a desktop app for researchers that you download from `claude.com/science`. One lead agent plans your work, spawns specialist and reviewer sub-agents, and calls curated skills and database connectors on your behalf. It ships with 60+ skills for genomics, single-cell, proteomics, structural biology, and cheminformatics, and connectors to databases like UniProt, PDB, Ensembl, ClinVar, ChEMBL, and GEO. It runs the same models everyone else uses (Opus 4.8, Sonnet 5) — no special biology model or gating. Every figure carries the exact code, environment, and message history that produced it.
+Claude Science is a desktop app for researchers that you download from `claude.com/science`. One lead agent plans your work, spawns specialist and reviewer sub-agents, and calls curated skills and database connectors on your behalf. It ships with 60+ skills for genomics, single-cell, proteomics, structural biology, and cheminformatics, and connectors to databases like UniProt, PDB, Ensembl, ClinVar, ChEMBL, and GEO. It runs the same general-purpose models everyone else uses (the current Opus and Sonnet lines) — no special biology model or gating. Every figure carries the exact code, environment, and message history that produced it.
 
 ## When to use it
 
