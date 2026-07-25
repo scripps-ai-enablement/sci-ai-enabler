@@ -11,6 +11,17 @@ Reverse-chronological log of changes to the [catalog]({{ '/catalog/' | relative_
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-07-25 (Integrative Structural and Computational Biology slot)
+
+Integrative Structural and Computational Biology directed pass plus a manifest sweep. The `anthropics/life-sciences` `.claude-plugin/marketplace.json` (19 plugin entries) and the Claude Science featured-connectors/skills list were re-fetched and diffed against the catalog — all entries already covered (the featured connectors decompose to source-level pages already present; featured research skills — AlphaFold2, Boltz-2, Chai-1, ESMFold2, OpenFold3, ProteinMPNN/LigandMPNN/SolubleMPNN, DiffDock, ESM-2, Evo 2, Borzoi, scGPT, scvi-tools — all present). Structural seed queries (`RCSB PDB MCP server protein structure ChimeraX MCP`, `molecular dynamics MCP server GROMACS OpenMM cryo-EM Claude skill`) reconfirmed the standing cryo-EM-wrapper gap and existing GROMACS/OpenMM/PDB/PyMOL coverage; two genuinely-new installable structural-biology MCP servers were surfaced and catalogued.
+
+### Added
+- **Protein MCP Server** (Categories: Integrative Structural and Computational Biology) — keyless federated protein-structure engine over RCSB PDB + AlphaFold DB + 3D-Beacons + UniProt + InterPro + Foldseek; 7 tools for search, fetch, sequence/fold-homolog search, ligand tracking, TM-align/jFATCAT comparison, collection profiling, and annotation. Apache-2.0, npm `@cyanheads/protein-mcp-server` (stdio) plus a public HTTP instance ([GitHub](https://github.com/cyanheads/protein-mcp-server)).
+- **ChimeraX MCP Server** (Categories: Integrative Structural and Computational Biology) — natural-language UCSF ChimeraX driver: 39 tools for structure open/edit/mutate/minimize, surface/cartoon/label visualization, distance/angle/RMSD/contact measurement, and selection; ChimeraX auto-launches. MIT, PyPI `chimerax-mcp` ([GitHub](https://github.com/mahynotch/chimerax-mcp)).
+
+### Verified (no changes)
+- Manifest sweep confirmed no new `anthropics/life-sciences` or Claude Science featured-connector/skill entries. `pdb.md` and `pymol.md` (structural neighbors) spot-checked and current; cryo-EM (RELION/cryoSPARC/CTFFIND) wrapper gap remains open (deferred).
+
 ## 2026-07-25 (Immunology and Microbiology slot)
 
 Immunology and Microbiology directed pass plus a manifest sweep. The `anthropics/life-sciences` plugin directories and the Claude Science featured-connectors/skills list were re-checked against the catalog — all entries already covered (the Claude Science featured connectors decompose to sources already catalogued at source-level; featured research skills — AlphaFold2, Boltz-2, Chai-1, ESMFold2, OpenFold3, ProteinMPNN, DiffDock, ESM-2, Evo 2, Borzoi, scGPT, scvi-tools — all present). Five genuinely-new immunology/microbiology skills were drawn from the deferred `GPTomics/bioSkills` (MIT) queue and catalogued; each SKILL.md, its tool/database list, and the MIT license were verified against the upstream repo this run.
