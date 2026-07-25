@@ -9,7 +9,7 @@ evidence_level: Reported
 complexity: One skill or MCP
 availability: Subscription required
 compute_requirements: Laptop
-last_verified: 2026-06-27
+last_verified: 2026-07-25
 summary: Use the Boltz plugin to predict an antibody/nanobody–antigen complex and read off a candidate epitope — with explicit handling of the field's low success rate and unreliable confidence ranking.
 ---
 

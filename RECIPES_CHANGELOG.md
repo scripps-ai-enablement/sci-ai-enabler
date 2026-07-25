@@ -11,6 +11,16 @@ Reverse-chronological log of changes to the [recipes cookbook]({{ '/recipes/' | 
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-07-25 (Integrative Structural and Computational Biology directed pass)
+
+### Added
+
+- **Build a protein interaction network and rank hub genes** (Problem class: Data analysis; Evidence: Reported) — rung-2 [STRING skill](catalog/tools/string-database-ppi.html) recipe: gene-symbol list (DE hits / module / screen set) + species + high-confidence cutoff (combined score ≥0.7) → STRING REST network retrieval (`results/string_edges.tsv`) → deterministic pinned `rank_hubs.py` (networkx degree/betweenness/closeness centrality replicating CytoHubba "Degree", Louvain modules) → `results/hub_genes.csv` / `top_hubs.csv` + `ppi_network.png` → synthesis anchored only to the tables → `provenance.json` (STRING skill commit, **STRING database version** + query date, species, score cutoff, gene-list sha256, library versions, model id). Fills the previously-uncovered STRING catalog tool; complements the term-overlap [run-functional-enrichment-on-a-gene-list](recipes/items/run-functional-enrichment-on-a-gene-list.html) (find central genes vs. name pathways) and takes a gene set from [map-disease-to-genes-and-pathways](recipes/items/map-disease-to-genes-and-pathways.html) (all cross-linked). `Reported` — the DEGs→STRING PPI→CytoHubba hub-ranking chain is one of the most heavily documented systems-biology patterns ([Hasan et al., *Sci. Rep.* 2023](https://pubmed.ncbi.nlm.nih.gov/36882493/); [Jiang et al., *Int. Immunopharmacol.* 2024](https://pubmed.ncbi.nlm.nih.gov/39079197/); [Mao et al., *Sci. Rep.* 2025](https://pubmed.ncbi.nlm.nih.gov/40854963/)); the exact Claude+STRING-skill composition is not separately benchmarked. `Fully open`; `Laptop`.
+
+### Verified (no changes)
+
+- 3 Integrative Structural and Computational Biology recipes spot-checked, `last_verified` bumped to 2026-07-25: **Predict an antibody–antigen complex to map an epitope** (Boltz plugin + gget catalog links and both benchmark sources resolve), **Superpose two protein structures and quantify where they differ** (PyMOL / AlphaFold / PDB catalog links resolve), and **Set up a protein molecular dynamics simulation in GROMACS from a PDB ID** (molecule-mcp bundle link resolves).
+
 ## 2026-07-25 (Immunology and Microbiology directed pass)
 
 ### Added

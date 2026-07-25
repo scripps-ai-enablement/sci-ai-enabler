@@ -9,7 +9,7 @@ evidence_level: Proposed
 complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Laptop
-last_verified: 2026-07-04
+last_verified: 2026-07-25
 summary: Superpose a predicted model onto an experimental structure (or apo onto holo) with the PyMOL skill, then report global RMSD, per-residue deviation, and a rendered overlay.
 ---
 
