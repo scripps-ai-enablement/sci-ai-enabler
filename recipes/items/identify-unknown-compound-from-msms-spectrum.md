@@ -10,7 +10,7 @@ complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Laptop
 summary: Use the matchms skill in Claude Code to clean an unknown MS/MS spectrum and rank candidate identities by spectral similarity against a reference library.
-last_verified: 2026-07-05
+last_verified: 2026-07-25
 ---
 
 # Identify an unknown compound from an MS/MS spectrum

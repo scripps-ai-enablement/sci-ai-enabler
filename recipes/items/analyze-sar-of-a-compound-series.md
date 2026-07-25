@@ -97,6 +97,7 @@ Reported. No published paper documents this exact Claude + SAR-Analysis-skill as
 - [datamol (Claude Skill)](../../catalog/tools/datamol.html) — standardize the input series first.
 - [medchem (Claude Skill)](../../catalog/tools/medchem.html) — structural-alert / drug-likeness companion.
 - [Enumerate analogs around a lead compound for SAR expansion](enumerate-analogs-around-a-lead.html) — forward sibling: propose new analogs to make.
+- [Train a QSAR model from your own assay data and predict untested compounds](train-qsar-model-from-assay-data.html) — predictive sibling: score the next batch once you understand the series.
 - [Filter a virtual screening hit list with drug-likeness rules and structural alerts](filter-virtual-screening-hits.html)
 
 ## Sources

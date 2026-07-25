@@ -9,7 +9,7 @@ evidence_level: Reported
 complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Laptop
-last_verified: 2026-07-04
+last_verified: 2026-07-25
 summary: Use the MedChem skill in Claude Code to cascade Lipinski / Veber / PAINS / BRENK filters over a SMILES hit list and emit a triaged CSV with per-rule flags and a final keep/drop column.
 ---
 

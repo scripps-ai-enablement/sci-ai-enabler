@@ -11,6 +11,16 @@ Reverse-chronological log of changes to the [recipes cookbook]({{ '/recipes/' | 
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-07-25 (Chemistry directed pass)
+
+### Added
+
+- **Train a QSAR model from your own assay data and predict untested compounds** (Problem class: Data analysis; Evidence: Proposed) — rung-2 [ChemLint MCP](catalog/tools/chemlint.html) recipe: assay CSV (`smiles` + measured activity) + untested library → standardize/QC + activity-cliff/outlier flagging → ECFP4 + MACCS featurization → scaffold-based train/test split → Random Forest / gradient-boosting with 5-fold CV, hyperparameter tuning, and Y-randomization chance-correlation control → Tanimoto applicability-domain gate → committed `qsar_train.py` + pinned `requirements.txt` + `model.pkl` + validation report + `predictions/scored_library.csv` + `provenance.json` (ChemLint commit, RDKit/scikit-learn versions, descriptor set, algorithm, split seed, Y-scramble result, AD cutoff, input sha256, run date, model id). Ligand-based counterpart to the structure-based [rank-compound-library-by-predicted-affinity](recipes/items/rank-compound-library-by-predicted-affinity.html); predictive sibling of [analyze-sar-of-a-compound-series](recipes/items/analyze-sar-of-a-compound-series.html) and bespoke-endpoint sibling of [benchmark-admet-property-with-pytdc](recipes/items/benchmark-admet-property-with-pytdc.html) (all cross-linked). `Proposed` — no documented Claude+ChemLint attempt; grounded on a current field-standard exemplar (MACCS-RF QSAR with CV, applicability domain, Y-randomization, SHAP for SMYD3 modulators, [Alzahrani et al., *Mol. Divers.* 2026](https://pubmed.ncbi.nlm.nih.gov/41961390/)) and the ChEMBL-anchored ML-QSAR repurposing pattern ([Kamboj et al., *CSBJ* 2022](https://pubmed.ncbi.nlm.nih.gov/35832613/), 10-fold CV r 0.80–0.92). `Fully open`; `Laptop`.
+
+### Verified (no changes)
+
+- 3 Chemistry recipes spot-checked, all current, `last_verified` bumped to 2026-07-25: **Filter a virtual screening hit list** (MedChem/Datamol/RDKit links + PAINS/BRENK/Lipinski/Veber sources resolve; K-Dense marketplace live), **Identify an unknown compound from an MS/MS spectrum** (matchms skill + pyOpenMS/PubChem links resolve), **Estimate pharmacokinetic properties of a small molecule** (RDKit/MedChem/ChEMBL links resolve).
+
 ## 2026-07-19 (Drug Repurposing and Discovery directed pass)
 
 ### Added

@@ -93,6 +93,7 @@ Reported. The canonical benchmark itself is established in [Huang et al., *NeurI
 - [molfeat (Claude Skill)](../../catalog/tools/molfeat.html) — featurizer sweep companion.
 - [datamol (Claude Skill)](../../catalog/tools/datamol.html) — preprocessing companion.
 - [Estimate pharmacokinetic properties of a small molecule](estimate-pk-properties.html) — sibling recipe that answers *"what's the predicted ADMET profile for this molecule"* rather than *"how does my model score on the benchmark"*.
+- [Train a QSAR model from your own assay data and predict untested compounds](train-qsar-model-from-assay-data.html) — bespoke-endpoint sibling for when your labels are your own measurements, not a public benchmark.
 - [Filter a virtual screening hit list with drug-likeness rules and structural alerts](filter-virtual-screening-hits.html) — downstream use of an ADMET model.
 
 ## Sources
