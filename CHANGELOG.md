@@ -11,6 +11,16 @@ Reverse-chronological log of changes to the [catalog]({{ '/catalog/' | relative_
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-07-25 (Molecular and Cellular Biology slot)
+
+Molecular and Cellular Biology directed pass plus a manifest sweep. The `anthropics/life-sciences` `.claude-plugin/marketplace.json` (18 plugin entries) and `anthropics/claude-plugins-official` were re-fetched and diffed against the catalog — all entries already covered (Boltz is the only life-science plugin in the official marketplace and is present as `boltz.md`). M&CB seed queries (`single-cell RNA-seq MCP server Scanpy Bioconductor`, `Ensembl Bioconductor CRISPR MCP server Claude skill`, `Geneformer/scGPT MCP server`, `CRISPR guide RNA design MCP server`) reconfirmed existing single-cell coverage (scanpy-mcp/scmcp/LIANA/decoupler/CellRank, CELLxGENE, scvi-tools) and the standing Geneformer/scGPT-wrapper and standalone-CRISPR-gRNA-design gaps; one new install path for an already-catalogued tool was surfaced.
+
+### Updated
+- **gget** — added the `longevity-genie/gget-mcp` MCP-server install path (MIT, PyPI `gget-mcp`, 13 keyless tools, `uvx --from gget-mcp@latest stdio`) as an alternative to the catalogued K-Dense/SciAgent skill packagings; Notes + Sources now distinguish the skill vs. MCP surfaces; `last_verified` bumped to 2026-07-25 ([GitHub](https://github.com/longevity-genie/gget-mcp)).
+
+### Verified (no changes)
+- Manifest sweep confirmed no new `anthropics/life-sciences` or `claude-plugins-official` life-science entries. `scanpy.md` (scmcphub family), `ensembl.md` (effieklimi + Pipeworx HTTP variant already noted), `cellxgene-census.md`, and `encode-toolkit.md` spot-checked and current; Geneformer/scGPT foundation-model wrapper and standalone CRISPR gRNA-design MCP/Skill gaps remain open (deferred).
+
 ## 2026-07-25 (Integrative Structural and Computational Biology slot)
 
 Integrative Structural and Computational Biology directed pass plus a manifest sweep. The `anthropics/life-sciences` `.claude-plugin/marketplace.json` (19 plugin entries) and the Claude Science featured-connectors/skills list were re-fetched and diffed against the catalog — all entries already covered (the featured connectors decompose to source-level pages already present; featured research skills — AlphaFold2, Boltz-2, Chai-1, ESMFold2, OpenFold3, ProteinMPNN/LigandMPNN/SolubleMPNN, DiffDock, ESM-2, Evo 2, Borzoi, scGPT, scvi-tools — all present). Structural seed queries (`RCSB PDB MCP server protein structure ChimeraX MCP`, `molecular dynamics MCP server GROMACS OpenMM cryo-EM Claude skill`) reconfirmed the standing cryo-EM-wrapper gap and existing GROMACS/OpenMM/PDB/PyMOL coverage; two genuinely-new installable structural-biology MCP servers were surfaced and catalogued.

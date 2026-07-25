@@ -6,7 +6,7 @@ tool_type: Claude Skill
 supplier: K-Dense
 availability: GA
 tool_categories: [Drug Repurposing and Discovery, Immunology and Microbiology, Integrative Structural and Computational Biology, Molecular and Cellular Biology]
-last_verified: 2026-06-04
+last_verified: 2026-07-25
 verification: works
 verified_on: 2026-07-20
 verification_note: "repo and skills/gget dir resolve on K-Dense-AI/scientific-agent-skills"
@@ -35,6 +35,21 @@ Claude skill that teaches the gget unified API for querying 20+ genomics databas
 <!-- alt-install:sciagent -->
 - **Also packaged in the SciAgent-Skills collection** ([jaechang-hits](https://github.com/jaechang-hits/SciAgent-Skills) (community OSS, CC BY 4.0)): clone [`jaechang-hits/SciAgent-Skills`](https://github.com/jaechang-hits/SciAgent-Skills) and run `/plugin install sciagent-skills` in Claude Code (or copy `skills/genomics-bioinformatics/databases/gget-genomic-databases` into `~/.claude/skills/`).
 <!-- /alt-install:sciagent -->
+<!-- alt-install:gget-mcp -->
+- **Also available as an MCP server** ([`longevity-genie/gget-mcp`](https://github.com/longevity-genie/gget-mcp), MIT, PyPI `gget-mcp`) — exposes gget's functions as discrete MCP tools rather than as a skill; no API key. Register with Claude Code (stdio — Claude Code launches the process itself, so don't run it separately):
+  ```
+  claude mcp add --transport stdio gget-mcp -- uvx --from gget-mcp@latest stdio
+  ```
+  Or with Claude Desktop, add to `claude_desktop_config.json`:
+  ```json
+  {
+    "mcpServers": {
+      "gget-mcp": { "command": "uvx", "args": ["--from", "gget-mcp@latest", "stdio"] }
+    }
+  }
+  ```
+  (Requires [uv](https://docs.astral.sh/uv/); use `uvx --from gget-mcp@latest server` instead of `stdio` for streamable-HTTP transport.)
+<!-- /alt-install:gget-mcp -->
 - **Claude Code / Claude.ai** — Skills CLI (recommended):
   ```
   npx skills add K-Dense-AI/scientific-agent-skills
@@ -66,10 +81,13 @@ Includes batch-query support, pandas DataFrame integration, and result formattin
 
 Useful when a workflow needs heterogeneous lookups (gene → sequence → ortholog → structure) without orchestrating separate database clients. For dedicated UniProt or PDB workflows, the standalone MCP servers expose more specialised tooling.
 
+Two packagings of the same underlying gget library are offered above: the K-Dense/SciAgent **skills** (procedural recipes Claude follows in local Python) and the `longevity-genie/gget-mcp` **MCP server** (gget functions exposed as discrete tools — `gget_search`, `gget_info`, `gget_seq`, `gget_ref`, `gget_blast`, `gget_blat`, `gget_muscle`, `gget_archs4`, `gget_enrichr`, `gget_pdb`, `gget_alphafold`, `gget_cosmic`, `gget_cellxgene`). Pick the MCP path if you want Claude to call gget mid-conversation; pick a skill if you prefer scripted, reproducible runs.
+
 ## Sources
 
 - [`K-Dense-AI/scientific-agent-skills`](https://github.com/K-Dense-AI/scientific-agent-skills)
 - [`skills/gget/SKILL.md`](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/gget/SKILL.md)
+- [`longevity-genie/gget-mcp`](https://github.com/longevity-genie/gget-mcp)
 - [gget documentation](https://pachterlab.github.io/gget/)
 
 ---
