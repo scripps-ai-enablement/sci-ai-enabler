@@ -9,6 +9,10 @@ permalink: /updates/ai-scientists.html
 
 Reverse-chronological log of changes to the [AI scientists tracker]({{ '/autonomous-science/' | relative_url }}). Newest at the top.
 
+## 2026-07-25
+
+No substantive updates — Phase A surfaced no new in-scope systems. Synthesis re-checked against the current grouping (`synthesis_reviewed` 2026-07-18, within the 30-day cadence; no systems added or removed) — all superlatives still hold, no refresh needed. The link/repo re-verification backlog (55+ entries past the 30-day window) remains deferred to Phase A, which alone has the web/MCP tools to confirm link liveness.
+
 ## 2026-07-18
 
 ### Added
