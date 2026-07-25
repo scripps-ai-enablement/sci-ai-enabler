@@ -9,7 +9,7 @@ evidence_level: Reported
 complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Laptop
-last_verified: 2026-06-27
+last_verified: 2026-07-25
 summary: Use the Cellpose skill to segment cells or nuclei in fluorescence/brightfield images and extract per-cell counts, areas, and intensities to a committed table.
 ---
 

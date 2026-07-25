@@ -9,7 +9,7 @@ evidence_level: Reported
 complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Workstation with GPU
-last_verified: 2026-06-21
+last_verified: 2026-07-25
 summary: Use the CNVkit Claude Skill to call somatic gene amplifications and deletions from tumor WES/targeted-panel BAMs and export segmented, plotted copy-number profiles.
 ---
 

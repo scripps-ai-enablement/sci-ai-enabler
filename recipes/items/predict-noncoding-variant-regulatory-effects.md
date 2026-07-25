@@ -9,7 +9,7 @@ evidence_level: Reported
 complexity: One skill or MCP
 availability: Subscription required
 compute_requirements: Laptop
-last_verified: 2026-06-20
+last_verified: 2026-07-25
 summary: Use the DeepMind AlphaGenome skill to score how a single non-coding variant changes expression, chromatin accessibility, histone marks, splicing, and TF binding.
 ---
 

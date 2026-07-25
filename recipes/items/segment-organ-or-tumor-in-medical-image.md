@@ -9,7 +9,7 @@ evidence_level: Reported
 complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Workstation with GPU
-last_verified: 2026-06-21
+last_verified: 2026-07-25
 summary: Drive nnU-Net's self-configuring framework from Claude Code to train and run a voxel-accurate segmentation model for an organ or lesion in CT/MRI, with 5-fold cross-validated Dice.
 ---
 

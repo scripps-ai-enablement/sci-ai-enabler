@@ -9,7 +9,7 @@ evidence_level: Proposed
 complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Laptop
-last_verified: 2026-06-21
+last_verified: 2026-07-25
 summary: Use the scikit-survival Claude Skill to fit Cox and Random Survival Forest models to censored time-to-event data and report concordance with proper validation.
 ---
 

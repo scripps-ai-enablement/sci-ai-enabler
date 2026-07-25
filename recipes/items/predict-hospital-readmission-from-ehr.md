@@ -9,7 +9,7 @@ evidence_level: Proposed
 complexity: One skill or MCP
 availability: Institutional access
 compute_requirements: Workstation with GPU
-last_verified: 2026-06-21
+last_verified: 2026-07-25
 summary: Use the PyHealth Claude Skill to build a 30-day readmission predictor on MIMIC/OMOP EHR data with a reproducible dataset → task → model → metrics pipeline.
 ---
 

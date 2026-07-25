@@ -9,7 +9,7 @@ evidence_level: Reported
 complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Laptop
-last_verified: 2026-06-27
+last_verified: 2026-07-25
 summary: Drop a raw instrument file (cell counter, plate reader, HPLC, qPCR) onto Claude Code and get back valid Allotrope Simple Model JSON, a flattened CSV for LIMS, and a standalone Python parser script.
 ---
 

@@ -11,6 +11,17 @@ Reverse-chronological log of changes to the [recipes cookbook]({{ '/recipes/' | 
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-07-25 (Molecular and Cellular Biology directed pass)
+
+### Added
+
+- **Quantify a western blot from a scanned image** (Problem class: Data analysis; Evidence: Reported) — rung-2 [Western Blot Quantification skill](catalog/tools/western-blot-quantification.html) recipe: uncompressed blot scan + lane map → `analyze_pixel_distribution`/`find_roi_from_image` band detection → two-step normalization (target → loading control → control lane, total-protein preferred) → replicate aggregation → committed `quantify_blot.py` + pinned env + `blot01_quant.csv`/`replicate_summary.csv` + `roi_overlay.png` + `provenance.json` (skill commit, versions, image sha256, ROI/background/normalization method). Fills the previously-uncovered western-blot catalog skill; cross-linked to the [microscopy cell-segmentation](recipes/items/segment-and-quantify-cells-in-microscopy.html) recipe as its densitometry counterpart. `Reported` — integrated-density quantification with total-protein-over-housekeeping normalization is field-standard and directly evidenced ([Maloy et al., *Anal. Biochem.* 2022](https://pubmed.ncbi.nlm.nih.gov/35931182/); [Kirshner & Gibbs, *Mol. Cell. Endocrinol.* 2018](https://pubmed.ncbi.nlm.nih.gov/29396126/); [Maestri et al., *PLOS ONE* 2025](https://pubmed.ncbi.nlm.nih.gov/40504814/)); the agent path is not separately benchmarked. `Fully open`; `Laptop`.
+- **Track single particles and measure their diffusion coefficient** (Problem class: Data analysis; Evidence: Reported) — rung-2 [trackpy skill](catalog/tools/trackpy-particle-tracking.html) recipe: video-microscopy stack + pixel size / frame interval / diameter → Crocker–Grier detection (`tp.locate`) → trajectory linking (`tp.link` + `tp.filter_stubs`) → MSD fit (`tp.emsd`/`tp.imsd`) for diffusion coefficient D and anomalous exponent → committed `track_and_diffuse.py` + pinned env + `trajectories.csv`/`msd.csv`/`diffusion.csv` + `tracks_overlay.png` + `provenance.json` (skill commit, trackpy/pims versions, pixel size, frame interval, linking params, stack sha256). Fills the previously-uncovered trackpy catalog skill; cross-linked to the [microscopy cell-segmentation](recipes/items/segment-and-quantify-cells-in-microscopy.html) recipe as its motion-across-frames counterpart. `Reported` — locate→link→MSD→diffusion-mode is the canonical SPT chain ([Kusumi et al., *Biophys. J.* 1993](https://pubmed.ncbi.nlm.nih.gov/8298032/); [Taylor et al., *Methods Mol. Biol.* 2019](https://pubmed.ncbi.nlm.nih.gov/31218627/); [Vu et al., *BBA Biomembranes* 2021](https://pubmed.ncbi.nlm.nih.gov/34352241/)); the agent path is not separately benchmarked. `Fully open`; `Laptop`.
+
+### Verified (no changes)
+
+- 8 aging recipes spot-checked (oldest `last_verified` first), all catalog links resolve and none flagged; `last_verified` bumped to 2026-07-25: **Predict the regulatory effect of a non-coding variant**, **Detect somatic copy-number variants from tumor sequencing**, **Predict hospital readmission from EHR data**, **Segment an organ or tumor in a medical image with nnU-Net**, **Fit a survival model to censored clinical outcomes**, **Segment and quantify cells in a microscopy image**, **Convert raw analytical instrument data to Allotrope ASM JSON**, **Parse FCS flow-cytometry files for downstream immunophenotyping**.
+
 ## 2026-07-25 (Integrative Structural and Computational Biology directed pass)
 
 ### Added
