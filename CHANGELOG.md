@@ -11,6 +11,20 @@ Reverse-chronological log of changes to the [catalog]({{ '/catalog/' | relative_
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-07-25 (Immunology and Microbiology slot)
+
+Immunology and Microbiology directed pass plus a manifest sweep. The `anthropics/life-sciences` plugin directories and the Claude Science featured-connectors/skills list were re-checked against the catalog — all entries already covered (the Claude Science featured connectors decompose to sources already catalogued at source-level; featured research skills — AlphaFold2, Boltz-2, Chai-1, ESMFold2, OpenFold3, ProteinMPNN, DiffDock, ESM-2, Evo 2, Borzoi, scGPT, scvi-tools — all present). Five genuinely-new immunology/microbiology skills were drawn from the deferred `GPTomics/bioSkills` (MIT) queue and catalogued; each SKILL.md, its tool/database list, and the MIT license were verified against the upstream repo this run.
+
+### Added
+- **Repertoire Visualization (bioSkills)** (Categories: Immunology and Microbiology) — TCR/BCR figure skill: VDJtools + R circlize/iNEXT + Python networkx/rapidfuzz for V-J chord diagrams, spectratypes, clonal tracking, rarefaction/extrapolation, overlap heatmaps and similarity networks, with Morisita-Horn/Jaccard depth-robust metric guidance ([SKILL.md](https://github.com/GPTomics/bioSkills/blob/main/tcr-bcr-analysis/repertoire-visualization/SKILL.md)).
+- **Specificity Annotation (bioSkills)** (Categories: Immunology and Microbiology) — TCR/BCR antigen-specificity annotation (VDJdb/McPAS/IEDB+TCRMatch), clustering (tcrdist3/GLIPH2/GIANA/clusTCR), and generation-probability nulls (OLGA/IGoR/SONIA), treating matches as hypotheses ([SKILL.md](https://github.com/GPTomics/bioSkills/blob/main/tcr-bcr-analysis/specificity-annotation/SKILL.md)).
+- **VDJtools Analysis (bioSkills)** (Categories: Immunology and Microbiology) — repertoire diversity (Hill orders q=0/1/2), depth-normalized overlap, clonality, and V/J segment usage via VDJtools/immunarch ([SKILL.md](https://github.com/GPTomics/bioSkills/blob/main/tcr-bcr-analysis/vdjtools-analysis/SKILL.md)).
+- **Amplicon Processing (bioSkills)** (Categories: Immunology and Microbiology) — 16S/ITS ASV inference with DADA2: cutadapt primer removal, per-run error modeling, pair merging, chimera + decontam removal ([SKILL.md](https://github.com/GPTomics/bioSkills/blob/main/microbiome/amplicon-processing/SKILL.md)).
+- **Taxonomy Assignment (bioSkills)** (Categories: Immunology and Microbiology) — 16S/ITS/18S ASV classification via DADA2/DECIPHER IDTAXA/QIIME2 against SILVA/GTDB/Greengenes2/UNITE/PR2, with region-specific training and confidence-threshold guidance ([SKILL.md](https://github.com/GPTomics/bioSkills/blob/main/microbiome/taxonomy-assignment/SKILL.md)).
+
+### Verified (no changes)
+- Manifest sweep confirmed no new `anthropics/life-sciences` or Claude Science featured-connector/skill entries. bioSkills MIT `LICENSE` and the five new `SKILL.md` directories confirmed live upstream this run.
+
 ## 2026-07-25 (Chemistry slot)
 
 Chemistry directed pass plus a manifest sweep. The `anthropics/life-sciences` `.claude-plugin/marketplace.json` (~17 entries) was re-fetched and diffed against the catalog — all entries already covered (pubmed, biorender, synapse, wiley-scholar-gateway, biorxiv, clinical-trials, chembl, owkin, open-targets, tooluniverse, and the local skills). Chemistry seed queries (`cheminformatics MCP server RDKit`, `MCP server SMILES publication reaction scheme mechanism`, `retrosynthesis MCP`, `Polaris drug discovery MCP`) reconfirmed existing RDKit coverage (`chemcp`, `rdkit-mcp`, `rdkit-skill`, `rdkit-agent`) and the standing retrosynthesis/Polaris gaps; one genuinely-new installable ChemDraw-CDXML MCP server was surfaced and catalogued.
