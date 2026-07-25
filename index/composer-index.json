@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "generated": "2026-07-24",
+  "generated": "2026-07-25",
   "counts": {
-    "tools": 447,
-    "recipes": 87
+    "tools": 453,
+    "recipes": 90
   },
   "tools_file": "composer-tools.json",
   "recipes": [
@@ -348,7 +348,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-06-27",
+      "last_verified": "2026-07-25",
       "summary": "Use the scikit-bio Claude skill to take a BIOM feature table and sample metadata through Shannon/Simpson/Faith's PD, UniFrac, PCoA, and PERMANOVA in one chat.",
       "keywords": [
         "BIOM",
@@ -637,7 +637,7 @@
       "complexity": "Multi-tool harness",
       "availability": "Fully open",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-07-05",
+      "last_verified": "2026-07-25",
       "summary": "Combine RDKit physchem descriptors, MedChem rule-based ADMET flags, and measured ChEMBL bioactivity / DMPK endpoints to build a defensible PK estimate for one compound without an ML predictor in the loop.",
       "keywords": [
         "ADMET",
@@ -702,7 +702,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-07-04",
+      "last_verified": "2026-07-25",
       "summary": "Use the MedChem skill in Claude Code to cascade Lipinski / Veber / PAINS / BRENK filters over a SMILES hit list and emit a triaged CSV with per-rule flags and a final keep/drop column.",
       "keywords": [
         "BRENK",
@@ -853,7 +853,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-07-05",
+      "last_verified": "2026-07-25",
       "summary": "Use the matchms skill in Claude Code to clean an unknown MS/MS spectrum and rank candidate identities by spectral similarity against a reference library.",
       "keywords": [
         "GNPS",
@@ -1426,6 +1426,24 @@
       "path": "recipes/items/profile-compound-polypharmacology.md"
     },
     {
+      "slug": "profile-shotgun-metagenome-taxa-with-kraken2",
+      "title": "Profile shotgun metagenome taxa with Kraken2 and Bracken",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Immunology and Microbiology"
+      ],
+      "evidence_level": "Reported",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Workstation with GPU",
+      "last_verified": "2026-07-25",
+      "summary": "Use the Kraken2 skill to classify shotgun metagenomic reads to taxa and re-estimate abundances with Bracken, with database and confidence-threshold choices recorded.",
+      "keywords": [
+        "FASTQs"
+      ],
+      "path": "recipes/items/profile-shotgun-metagenome-taxa-with-kraken2.md"
+    },
+    {
       "slug": "qc-single-cell-rna-seq",
       "title": "Run first-pass QC on a single-cell RNA-seq dataset",
       "problem_class": "Data analysis",
@@ -1676,6 +1694,26 @@
       "path": "recipes/items/scan-drug-repurposing-candidates.md"
     },
     {
+      "slug": "scan-protein-for-cd4-t-cell-epitopes",
+      "title": "Scan a protein for candidate CD4 T-cell (helper) epitopes",
+      "problem_class": "Experimental design",
+      "subject_areas": [
+        "Immunology and Microbiology"
+      ],
+      "evidence_level": "Validated",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-07-25",
+      "summary": "Use the MHC Class II Prediction skill to rank a protein's peptides for HLA-DR/DQ/DP binding, nominating CD4 T-helper epitope candidates for vaccine design.",
+      "keywords": [
+        "HLA",
+        "HLA-DR",
+        "MHC"
+      ],
+      "path": "recipes/items/scan-protein-for-cd4-t-cell-epitopes.md"
+    },
+    {
       "slug": "scan-protein-for-cd8-t-cell-epitopes",
       "title": "Scan a protein for candidate CD8 T-cell epitopes",
       "problem_class": "Experimental design",
@@ -1686,7 +1724,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-07-11",
+      "last_verified": "2026-07-25",
       "summary": "Use the MHC Binding Prediction skill to rank a protein's peptides for MHC class I binding and presentation, nominating CD8 T-cell epitope and neoantigen candidates.",
       "keywords": [
         "ELISpot",
@@ -1901,6 +1939,25 @@
         "WSIs"
       ],
       "path": "recipes/items/tile-and-normalize-whole-slide-image.md"
+    },
+    {
+      "slug": "train-qsar-model-from-assay-data",
+      "title": "Train a QSAR model from your own assay data and predict untested compounds",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Chemistry",
+        "Drug Repurposing and Discovery"
+      ],
+      "evidence_level": "Proposed",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-07-25",
+      "summary": "Use the ChemLint MCP in Claude Code to clean an assay CSV, featurize, train and cross-validate a QSAR model with an applicability domain, then score an untested library.",
+      "keywords": [
+        "QSAR"
+      ],
+      "path": "recipes/items/train-qsar-model-from-assay-data.md"
     },
     {
       "slug": "triage-alphafold-model-for-docking",

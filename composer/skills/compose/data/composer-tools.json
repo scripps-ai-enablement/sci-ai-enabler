@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "generated": "2026-07-24",
-  "count": 447,
+  "generated": "2026-07-25",
+  "count": 453,
   "tools": [
     {
       "slug": "10x-genomics-cloud",
@@ -282,6 +282,27 @@
         "Single-Variant"
       ],
       "path": "catalog/tools/alphagenome.md"
+    },
+    {
+      "slug": "amplicon-processing",
+      "title": "Amplicon Processing (bioSkills)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Immunology and Microbiology"
+      ],
+      "last_verified": "2026-07-25",
+      "claude_science": false,
+      "summary": "\"Convert demultiplexed 16S/ITS amplicon FASTQs into exact amplicon sequence variants (ASVs) with DADA2 — primer removal, per-run error modeling, pair merging and chimera removal\"",
+      "keywords": [
+        "ASVs",
+        "DADA2",
+        "FASTQ",
+        "FASTQs",
+        "ITS",
+        "rRNA"
+      ],
+      "path": "catalog/tools/amplicon-processing.md"
     },
     {
       "slug": "amr-detection",
@@ -1121,6 +1142,26 @@
         "CNA"
       ],
       "path": "catalog/tools/cbioportal.md"
+    },
+    {
+      "slug": "cdxml-toolkit",
+      "title": "CDXML Toolkit",
+      "tool_type": "MCP server",
+      "availability": "Beta",
+      "tool_categories": [
+        "Chemistry"
+      ],
+      "last_verified": "2026-07-25",
+      "claude_science": false,
+      "summary": "MCP server that draws molecules and reaction schemes to publication-ready ChemDraw CDXML, parses ELN/LCMS/NMR files, and reads structures from images.",
+      "keywords": [
+        "CDXML",
+        "ELN",
+        "LCMS",
+        "NMR",
+        "SMILES"
+      ],
+      "path": "catalog/tools/cdxml-toolkit.md"
     },
     {
       "slug": "cellchat-cell-communication",
@@ -6689,6 +6730,24 @@
       "path": "catalog/tools/remap-database.md"
     },
     {
+      "slug": "repertoire-visualization",
+      "title": "Repertoire Visualization (bioSkills)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Immunology and Microbiology"
+      ],
+      "last_verified": "2026-07-25",
+      "claude_science": false,
+      "summary": "\"Render TCR/BCR repertoire figures — V-J chord diagrams, spectratypes, clonal tracking, rarefaction curves, overlap heatmaps and similarity networks — with depth-robust metric guidance\"",
+      "keywords": [
+        "AIRR",
+        "BCR",
+        "TCR"
+      ],
+      "path": "catalog/tools/repertoire-visualization.md"
+    },
+    {
       "slug": "research-grants",
       "title": "Research Grants (Claude Skill)",
       "tool_type": "Claude Skill",
@@ -7577,6 +7636,23 @@
       "path": "catalog/tools/spacenet.md"
     },
     {
+      "slug": "specificity-annotation",
+      "title": "Specificity Annotation (bioSkills)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Immunology and Microbiology"
+      ],
+      "last_verified": "2026-07-25",
+      "claude_science": false,
+      "summary": "\"Annotate TCR/BCR sequences against antigen-specificity databases and cluster by shared-specificity signal, treating matches as hypotheses with generation-probability nulls\"",
+      "keywords": [
+        "BCR",
+        "TCR"
+      ],
+      "path": "catalog/tools/specificity-annotation.md"
+    },
+    {
       "slug": "spikeinterface-electrophysiology",
       "title": "SpikeInterface (Claude Skill)",
       "tool_type": "Claude Skill",
@@ -7760,6 +7836,31 @@
         "Synapse-hosted"
       ],
       "path": "catalog/tools/synapse.md"
+    },
+    {
+      "slug": "taxonomy-assignment",
+      "title": "Taxonomy Assignment (bioSkills)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Immunology and Microbiology"
+      ],
+      "last_verified": "2026-07-25",
+      "claude_science": false,
+      "summary": "\"Assign taxonomy to 16S/ITS/18S amplicon ASVs using DADA2, DECIPHER IDTAXA or QIIME2 classifiers against SILVA/GTDB/Greengenes2/UNITE, with region-specific training guidance\"",
+      "keywords": [
+        "ASVs",
+        "DADA2",
+        "DECIPHER",
+        "GTDB",
+        "IDTAXA",
+        "ITS",
+        "OTUs",
+        "QIIME2",
+        "SILVA",
+        "UNITE"
+      ],
+      "path": "catalog/tools/taxonomy-assignment.md"
     },
     {
       "slug": "tcp-skill",
@@ -8492,6 +8593,24 @@
         "HDF5"
       ],
       "path": "catalog/tools/vaex.md"
+    },
+    {
+      "slug": "vdjtools-analysis",
+      "title": "VDJtools Analysis (bioSkills)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Immunology and Microbiology"
+      ],
+      "last_verified": "2026-07-25",
+      "claude_science": false,
+      "summary": "\"Compute depth-normalized TCR/BCR repertoire diversity (Hill profiles), overlap, clonality and segment usage with VDJtools/immunarch, with estimator and normalization guidance\"",
+      "keywords": [
+        "BCR",
+        "TCR",
+        "VDJtools"
+      ],
+      "path": "catalog/tools/vdjtools-analysis.md"
     },
     {
       "slug": "venue-templates",
