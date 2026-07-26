@@ -6,7 +6,7 @@ tool_type: MCP server
 supplier: openpharma-org (community)
 availability: GA
 tool_categories: [Drug Repurposing and Discovery, Chemistry, Translational Medicine]
-last_verified: 2026-06-21
+last_verified: 2026-07-26
 verification: works
 verified_on: 2026-07-20
 security: caution

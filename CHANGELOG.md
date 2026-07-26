@@ -11,6 +11,20 @@ Reverse-chronological log of changes to the [catalog]({{ '/catalog/' | relative_
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-07-26 (Drug Repurposing and Discovery slot)
+
+Drug Repurposing and Discovery directed pass plus a manifest sweep. The `anthropics/life-sciences` `.claude-plugin/marketplace.json` (21 plugin entries) was re-fetched and diffed against the catalog — all entries already covered (medidata, consensus, cortellis, adisinsight all present; biorxiv@life-sciences / clinical-trials@life-sciences remain DOA per the standing flags). Drug-discovery seed queries (`DrugBank MCP server`, `drug repurposing agent MCP server`, `Open Targets standalone MCP`, `ADMET prediction Claude skill/MCP`) reconfirmed existing coverage (DrugBank, Open Targets, Inductive Bio ADMET) and surfaced two new verifiable, cleanly-licensed, installable servers.
+
+### Added
+- **ADMETlab MCP Server** (Categories: Chemistry, Drug Repurposing and Discovery) — Apache-2.0 self-hostable HTTP MCP server wrapping the ADMETlab 3.0 API (4 tools: molecule washing, SVG rendering, ADMET prediction, CSV retrieval); keyless free/self-hosted alternative to the enterprise-gated Inductive Bio connector ([GitHub](https://github.com/ToxMCP/admetlab-mcp)).
+- **Drug Pipeline MCP Server** (Categories: Drug Repurposing and Discovery, Translational Medicine) — MIT server (PyPI `drug-pipeline-mcp`) aggregating ClinicalTrials.gov + openFDA + RxNorm + PubMed + EMA + DailyMed + Open Targets + MyChem.info into 6 source-traceable pipeline-intelligence tools; adds cross-source synthesis + EMA approval coverage beyond the discrete openFDA/ClinicalTrials.gov entries ([GitHub](https://github.com/DasClown/drug-pipeline-mcp)).
+
+### Updated
+- **DrugBank MCP Server** — `last_verified` bumped to 2026-07-26 (openpharma-org repo confirmed active, MIT, 17,430 drugs, npm/node install path unchanged) ([GitHub](https://github.com/openpharma-org/drugbank-mcp-server)).
+
+### Verified (no changes)
+- Manifest sweep confirmed no new `anthropics/life-sciences` life-science entries (21 plugins, all catalogued). Open Targets standalone MCP (`opentargets/open-targets-platform-mcp`) already cited on the flagged `open-targets.md`; Inductive Bio ADMET connector already covered.
+
 ## 2026-07-26 (Translational Medicine slot)
 
 Translational Medicine directed pass plus a manifest sweep. The `anthropics/life-sciences` `.claude-plugin/marketplace.json` (18 plugin entries) and the Claude Science *Featured connectors + Research skills* list were re-fetched and diffed against the catalog — all entries already covered (biorxiv@life-sciences / clinical-trials@life-sciences remain DOA per the standing flags). Translational seed queries (`FHIR MCP server Claude`, `ClinicalTrials.gov MCP server`, `regulatory submission FDA 510k eCTD MCP/skill`, `OpenFDA drug adverse event MCP server`, `CMS Blue Button / Medicare claims MCP server`) surfaced two new verifiable, cleanly-licensed, installable servers; the FHIR and ClinicalTrials.gov candidates were already covered (`fhir-momentum`, `fhir-wso2`, `clinicaltrials-gov-mcp`).
