@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "generated": "2026-07-25",
+  "generated": "2026-07-26",
   "counts": {
-    "tools": 453,
-    "recipes": 90
+    "tools": 457,
+    "recipes": 95
   },
   "tools_file": "composer-tools.json",
   "recipes": [
@@ -115,7 +115,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-06-27",
+      "last_verified": "2026-07-26",
       "summary": "Use the pLannotate skill to auto-annotate an engineered plasmid — promoters, resistance markers, origins, tags — and verify a construct's sequence before you clone or order it.",
       "keywords": [
         "DNA",
@@ -142,6 +142,34 @@
         "PanglaoDB"
       ],
       "path": "recipes/items/annotate-cell-types-in-single-cell-data.md"
+    },
+    {
+      "slug": "annotate-tumor-variants-with-clinical-actionability",
+      "title": "Annotate tumor somatic variants with clinical actionability evidence",
+      "problem_class": "Knowledge synthesis",
+      "subject_areas": [
+        "Translational Medicine",
+        "Drug Repurposing and Discovery",
+        "Molecular and Cellular Biology"
+      ],
+      "evidence_level": "Reported",
+      "complexity": "One skill or MCP",
+      "availability": "Institutional access",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-07-26",
+      "summary": "Use the CIViC connector to match a tumor's somatic variant list to predictive/prognostic/diagnostic clinical evidence and produce an AMP/ASCO/CAP-tiered, cited actionability table for a molecular tumor board.",
+      "keywords": [
+        "AMP",
+        "ASCO",
+        "CAP",
+        "CAP-tiered",
+        "CIViC",
+        "FDA-approved",
+        "III",
+        "MTB",
+        "NGS"
+      ],
+      "path": "recipes/items/annotate-tumor-variants-with-clinical-actionability.md"
     },
     {
       "slug": "assemble-cancer-imaging-cohort-from-idc",
@@ -291,6 +319,26 @@
       "path": "recipes/items/build-phylogenetic-tree-from-sequences.md"
     },
     {
+      "slug": "build-ppi-network-and-rank-hub-genes",
+      "title": "Build a protein interaction network and rank hub genes",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Integrative Structural and Computational Biology",
+        "Molecular and Cellular Biology"
+      ],
+      "evidence_level": "Reported",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-07-25",
+      "summary": "Feed a gene list to the STRING skill to build a PPI network, then rank hub proteins by degree/centrality and detect modules — the canonical \"which of these genes matter most\" step.",
+      "keywords": [
+        "PPI",
+        "STRING"
+      ],
+      "path": "recipes/items/build-ppi-network-and-rank-hub-genes.md"
+    },
+    {
       "slug": "build-target-dossier",
       "title": "Build a target dossier from gene name to structure to cancer dependency",
       "problem_class": "Knowledge synthesis",
@@ -381,6 +429,33 @@
       "path": "recipes/items/compute-bacterial-pangenome-from-assemblies.md"
     },
     {
+      "slug": "compute-dti-scalar-maps-from-diffusion-mri",
+      "title": "Compute DTI scalar maps (FA/MD/AD/RD) from diffusion MRI",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Neuroscience"
+      ],
+      "evidence_level": "Reported",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-07-26",
+      "summary": "Use the DIPY skill in Claude Code to fit a diffusion tensor to a DWI volume and emit FA/MD/AD/RD maps plus ROI statistics, as a re-runnable script.",
+      "keywords": [
+        "DIPY",
+        "DTI",
+        "DWI",
+        "MRI",
+        "NIfTI",
+        "OLS",
+        "RESTORE",
+        "ROI",
+        "ROIs",
+        "SNR"
+      ],
+      "path": "recipes/items/compute-dti-scalar-maps-from-diffusion-mri.md"
+    },
+    {
       "slug": "compute-hrv-from-ecg-recording",
       "title": "Compute HRV from an ECG recording",
       "problem_class": "Data analysis",
@@ -417,7 +492,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-06-27",
+      "last_verified": "2026-07-25",
       "summary": "Drop a raw instrument file (cell counter, plate reader, HPLC, qPCR) onto Claude Code and get back valid Allotrope Simple Model JSON, a flattened CSV for LIMS, and a standalone Python parser script.",
       "keywords": [
         "ASM",
@@ -446,7 +521,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-06-27",
+      "last_verified": "2026-07-26",
       "summary": "Use the sgRNA Design skill to pick CRISPR-Cas9 knockout guides for a gene — preferring validated/CRISPick guides, falling back to Rule Set 2 + CFD de novo rules.",
       "keywords": [
         "CFD",
@@ -496,7 +571,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Workstation with GPU",
-      "last_verified": "2026-06-21",
+      "last_verified": "2026-07-25",
       "summary": "Use the CNVkit Claude Skill to call somatic gene amplifications and deletions from tumor WES/targeted-panel BAMs and export segmented, plotted copy-number profiles.",
       "keywords": [
         "BAMs",
@@ -547,7 +622,7 @@
       "complexity": "Multi-tool harness",
       "availability": "Fully open",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-07-12",
+      "last_verified": "2026-07-26",
       "summary": "Use the Neurosift Tools MCP to find Neuropixels (or other extracellular) NWB sessions on DANDI matching your hypothesis, inspect them in-place, and stage a download list for downstream spike sorting.",
       "keywords": [
         "DANDI",
@@ -765,7 +840,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-06-21",
+      "last_verified": "2026-07-25",
       "summary": "Use the scikit-survival Claude Skill to fit Cox and Random Survival Forest models to censored time-to-event data and report concordance with proper validation.",
       "keywords": [
         "Kaplan-Meier",
@@ -809,7 +884,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-06-28",
+      "last_verified": "2026-07-26",
       "summary": "Use the Medical Terminologies MCP to map a column of free-text diagnoses, drugs, or labs to ICD-11/SNOMED/RxNorm/LOINC codes as a committed, reviewable crosswalk.",
       "keywords": [
         "ATC",
@@ -1142,7 +1217,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-06-27",
+      "last_verified": "2026-07-25",
       "summary": "Use the FlowIO Claude skill to parse FCS 2.0/3.0/3.1 files into tidy DataFrames with channel categorisation and batch metadata extraction, ready for downstream immunophenotyping or QC.",
       "keywords": [
         "BSD-3",
@@ -1183,7 +1258,7 @@
       "complexity": "One skill or MCP",
       "availability": "Subscription required",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-06-27",
+      "last_verified": "2026-07-25",
       "summary": "Use the Boltz plugin to predict an antibody/nanobody–antigen complex and read off a candidate epitope — with explicit handling of the field's low success rate and unreliable confidence ranking.",
       "keywords": [
         "CDR-H3",
@@ -1225,7 +1300,7 @@
       "complexity": "One skill or MCP",
       "availability": "Institutional access",
       "compute_requirements": "Workstation with GPU",
-      "last_verified": "2026-06-21",
+      "last_verified": "2026-07-25",
       "summary": "Use the PyHealth Claude Skill to build a 30-day readmission predictor on MIMIC/OMOP EHR data with a reproducible dataset → task → model → metrics pipeline.",
       "keywords": [
         "ATC",
@@ -1254,7 +1329,7 @@
       "complexity": "One skill or MCP",
       "availability": "Subscription required",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-06-20",
+      "last_verified": "2026-07-25",
       "summary": "Use the DeepMind AlphaGenome skill to score how a single non-coding variant changes expression, chromatin accessibility, histone marks, splicing, and TF binding.",
       "keywords": [
         "eQTL",
@@ -1415,7 +1490,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-06-28",
+      "last_verified": "2026-07-26",
       "summary": "Use the ChEMBL connector in Claude Code to pull every measured activity for one compound, group by target and assay, and surface the off-target profile a medicinal chemist needs before committing to a chemotype.",
       "keywords": [
         "ChEMBL",
@@ -1486,6 +1561,26 @@
       "path": "recipes/items/quantify-bulk-rnaseq-fastq-to-counts.md"
     },
     {
+      "slug": "quantify-western-blot-densitometry",
+      "title": "Quantify a western blot from a scanned image",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Molecular and Cellular Biology"
+      ],
+      "evidence_level": "Reported",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-07-25",
+      "summary": "Use the Western Blot Quantification skill to detect bands, normalize target to a loading control, aggregate replicates, and emit a committed densitometry table.",
+      "keywords": [
+        "GAPDH",
+        "Housekeeping-protein",
+        "ROI"
+      ],
+      "path": "recipes/items/quantify-western-blot-densitometry.md"
+    },
+    {
       "slug": "rank-compound-library-by-predicted-affinity",
       "title": "Rank a compound library against a target by predicted binding affinity",
       "problem_class": "Data analysis",
@@ -1498,7 +1593,7 @@
       "complexity": "One skill or MCP",
       "availability": "Subscription required",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-06-28",
+      "last_verified": "2026-07-26",
       "summary": "Use the Boltz plugin's hosted small-molecule screen to rank a SMILES library against a target by predicted binding affinity — no local GPU — and treat the score as a binder/non-binder enrichment filter, not a quantitative ranker.",
       "keywords": [
         "GNINA",
@@ -1541,7 +1636,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Workstation with GPU",
-      "last_verified": "2026-06-28",
+      "last_verified": "2026-07-26",
       "summary": "Drive SimpleITK from Claude Code to rigidly then deformably align a patient's baseline and follow-up CT/MRI, propagate contours, and emit a reproducible transform + warped volume.",
       "keywords": [
         "CBCT",
@@ -1832,7 +1927,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-06-27",
+      "last_verified": "2026-07-25",
       "summary": "Use the Cellpose skill to segment cells or nuclei in fluorescence/brightfield images and extract per-cell counts, areas, and intensities to a committed table.",
       "keywords": [],
       "path": "recipes/items/segment-and-quantify-cells-in-microscopy.md"
@@ -1848,7 +1943,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Workstation with GPU",
-      "last_verified": "2026-06-21",
+      "last_verified": "2026-07-25",
       "summary": "Drive nnU-Net's self-configuring framework from Claude Code to train and run a voxel-accurate segmentation model for an organ or lesion in CT/MRI, with 5-fold cross-validated Dice.",
       "keywords": [
         "MRI"
@@ -1867,7 +1962,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Workstation with GPU",
-      "last_verified": "2026-06-27",
+      "last_verified": "2026-07-25",
       "summary": "Drive the GROMACS Copilot component of molecule-mcp to take a PDB ID through topology, solvation, ion neutralisation, minimisation, NVT/NPT equilibration, and a short production MD, with RMSD/RMSF/Rg analysis on the resulting trajectory.",
       "keywords": [
         "GROMACS",
@@ -1913,7 +2008,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-07-04",
+      "last_verified": "2026-07-25",
       "summary": "Superpose a predicted model onto an experimental structure (or apo onto holo) with the PyMOL skill, then report global RMSD, per-residue deviation, and a rendered overlay.",
       "keywords": [
         "PyMOL",
@@ -1932,13 +2027,34 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Workstation with GPU",
-      "last_verified": "2026-06-28",
+      "last_verified": "2026-07-26",
       "summary": "Use the histolab skill to turn a gigapixel H&E slide into a tissue-masked, stain-normalized tile dataset with a committed, re-runnable script.",
       "keywords": [
         "Re-implementing",
         "WSIs"
       ],
       "path": "recipes/items/tile-and-normalize-whole-slide-image.md"
+    },
+    {
+      "slug": "track-particles-and-measure-diffusion",
+      "title": "Track single particles and measure their diffusion coefficient",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Molecular and Cellular Biology"
+      ],
+      "evidence_level": "Reported",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-07-25",
+      "summary": "Use the trackpy skill to locate and link particles across video-microscopy frames, then compute MSD and diffusion coefficients into a committed trajectory table.",
+      "keywords": [
+        "MSD",
+        "MSD-vs-lag",
+        "SPT",
+        "TIRF"
+      ],
+      "path": "recipes/items/track-particles-and-measure-diffusion.md"
     },
     {
       "slug": "train-qsar-model-from-assay-data",

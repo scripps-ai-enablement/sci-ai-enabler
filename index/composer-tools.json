@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "generated": "2026-07-25",
-  "count": 453,
+  "generated": "2026-07-26",
+  "count": 457,
   "tools": [
     {
       "slug": "10x-genomics-cloud",
@@ -1407,6 +1407,22 @@
       "path": "catalog/tools/chemlint.md"
     },
     {
+      "slug": "chimerax-mcp",
+      "title": "ChimeraX MCP Server",
+      "tool_type": "MCP server",
+      "availability": "GA",
+      "tool_categories": [
+        "Integrative Structural and Computational Biology"
+      ],
+      "last_verified": "2026-07-25",
+      "claude_science": false,
+      "summary": "Drive UCSF ChimeraX from Claude in natural language — open, mutate, visualize, measure, and render protein structures; ChimeraX auto-launches.",
+      "keywords": [
+        "UCSF"
+      ],
+      "path": "catalog/tools/chimerax-mcp.md"
+    },
+    {
       "slug": "cirq",
       "title": "Cirq (Claude Skill)",
       "tool_type": "Claude Skill",
@@ -1654,6 +1670,23 @@
         "NCDs"
       ],
       "path": "catalog/tools/cms-coverage.md"
+    },
+    {
+      "slug": "cms-datagov-mcp",
+      "title": "CMS data.gov MCP Server",
+      "tool_type": "MCP server",
+      "availability": "GA",
+      "tool_categories": [
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-07-26",
+      "claude_science": false,
+      "summary": "MIT-licensed MCP server over data.cms.gov — search, query, and export CMS public datasets (provider enrollment, hospital quality, spending) for healthcare analytics.",
+      "keywords": [
+        "CMS",
+        "MIT-licensed"
+      ],
+      "path": "catalog/tools/cms-datagov-mcp.md"
     },
     {
       "slug": "cnvkit-copy-number",
@@ -3150,7 +3183,7 @@
         "Integrative Structural and Computational Biology",
         "Molecular and Cellular Biology"
       ],
-      "last_verified": "2026-06-04",
+      "last_verified": "2026-07-25",
       "claude_science": false,
       "summary": "Claude skill wrapping the gget command-line / Python tool for fast unified queries against Ensembl, UniProt, NCBI, PDB, COSMIC, and other genomics databases.",
       "keywords": [
@@ -5062,7 +5095,7 @@
       "tool_categories": [
         "Neuroscience"
       ],
-      "last_verified": "2026-06-14",
+      "last_verified": "2026-07-26",
       "claude_science": false,
       "summary": "MCP server that lets Claude search DANDI/OpenNeuro and introspect NWB neurophysiology files, plus semantic search over PyNWB docs.",
       "keywords": [
@@ -5437,6 +5470,27 @@
       "path": "catalog/tools/opencv-bioimage-analysis.md"
     },
     {
+      "slug": "openfda-mcp-server",
+      "title": "OpenFDA MCP Server (cyanheads)",
+      "tool_type": "MCP server",
+      "availability": "GA",
+      "tool_categories": [
+        "Drug Repurposing and Discovery",
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-07-26",
+      "claude_science": false,
+      "summary": "Apache-2.0 MCP server federating the full openFDA API — drugs, food, devices (510k/PMA), veterinary, recalls, and shortages — with a public HTTP instance.",
+      "keywords": [
+        "Apache-2",
+        "FDA",
+        "OpenFDA",
+        "openFDA",
+        "PMA"
+      ],
+      "path": "catalog/tools/openfda-mcp-server.md"
+    },
+    {
       "slug": "openfda",
       "title": "OpenFDA MCP Server (ythalorossy)",
       "tool_type": "MCP server",
@@ -5445,7 +5499,7 @@
         "Drug Repurposing and Discovery",
         "Translational Medicine"
       ],
-      "last_verified": "2026-06-06",
+      "last_verified": "2026-07-26",
       "claude_science": true,
       "summary": "MIT-licensed npm MCP server over the openFDA drug API — adverse events, safety/labeling, manufacturer lookups, and NDC resolution.",
       "keywords": [
@@ -6137,6 +6191,23 @@
         "tRNA"
       ],
       "path": "catalog/tools/prokka-genome-annotation.md"
+    },
+    {
+      "slug": "protein-mcp-server",
+      "title": "Protein MCP Server",
+      "tool_type": "MCP server",
+      "availability": "GA",
+      "tool_categories": [
+        "Integrative Structural and Computational Biology"
+      ],
+      "last_verified": "2026-07-25",
+      "claude_science": false,
+      "summary": "Federated protein-structure search across experimental (PDB) and predicted (AlphaFold) models — homolog search, structural alignment, ligand and annotation lookup, keyless.",
+      "keywords": [
+        "PDB",
+        "RCSB"
+      ],
+      "path": "catalog/tools/protein-mcp-server.md"
     },
     {
       "slug": "proteinmpnn",
@@ -7681,7 +7752,7 @@
       "tool_categories": [
         "Neuroscience"
       ],
-      "last_verified": "2026-06-14",
+      "last_verified": "2026-07-26",
       "claude_science": false,
       "summary": "Agent-skill suite for multi-electrode-array spike-train analysis and spike sorting (Kilosort2/4, RT-Sort), with an optional built-in MCP server.",
       "keywords": [
