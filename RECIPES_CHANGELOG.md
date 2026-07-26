@@ -11,6 +11,16 @@ Reverse-chronological log of changes to the [recipes cookbook]({{ '/recipes/' | 
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-07-26 (Neuroscience directed pass)
+
+### Added
+
+- **Compute DTI scalar maps (FA/MD/AD/RD) from diffusion MRI** (Problem class: Data analysis; Evidence: Reported) — rung-2 [DIPY skill](catalog/tools/dipy-tool.html) recipe: preprocessed DWI + `.bval`/`.bvec` → `read_bvals_bvecs`→`gradient_table` (b-shell report) → `median_otsu` brain mask → `TensorModel(fit_method="WLS")` fit → FA/MD/AD/RD NIfTI maps + DEC-FA QC overlay (catches b-vector flips) → per-ROI mean/std/median stats → committed `fit_dti.py` + pinned env + `fa/md/ad/rd.nii.gz`/`roi_stats.csv` + `provenance.json` (DIPY version, b-shells, mask params, fit method, ROI/atlas label, input sha256s, model id). Fills the previously-uncovered DIPY neuroimaging catalog skill; diffusion-modality sibling of the fMRI [build-functional-connectivity-matrix-from-fmri](recipes/items/build-functional-connectivity-matrix-from-fmri.html) and EEG [extract-event-related-potentials-from-eeg](recipes/items/extract-event-related-potentials-from-eeg.html) NeuroClaw recipes, downstream of [organize-raw-dicom-to-bids-layout](recipes/items/organize-raw-dicom-to-bids-layout.html) (all cross-linked). `Reported` — load→mask→tensor-fit→scalar-map→ROI-stats is the canonical DTI pipeline on a field-standard component ([Garyfallidis et al., *Front. Neuroinform.* 2014](https://pubmed.ncbi.nlm.nih.gov/24600385/)) and directly evidenced in current clinical studies ([Vano et al., *Mol. Psychiatry* 2026](https://pubmed.ncbi.nlm.nih.gov/40913112/); [Lu et al., *J. Alzheimers Dis.* 2025](https://pubmed.ncbi.nlm.nih.gov/40899970/); [Koevoets et al., *Brain Imaging Behav.* 2025](https://pubmed.ncbi.nlm.nih.gov/39804457/)); the agent path is not separately benchmarked. `Fully open`; `Laptop`.
+
+### Verified (no changes)
+
+- 1 aging recipe spot-checked and `last_verified` bumped to 2026-07-26: **Discover NWB recordings on DANDI and prepare them for sorting** (all catalog links — Neurosift Tools, OpenNeuro, neuropixels-analysis, AIND Data — resolve and none flagged; canonical journal sources intact).
+
 ## 2026-07-25 (Molecular and Cellular Biology directed pass)
 
 ### Added

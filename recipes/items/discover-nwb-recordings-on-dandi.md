@@ -9,7 +9,7 @@ evidence_level: Reported
 complexity: Multi-tool harness
 availability: Fully open
 compute_requirements: Laptop
-last_verified: 2026-07-12
+last_verified: 2026-07-26
 summary: Use the Neurosift Tools MCP to find Neuropixels (or other extracellular) NWB sessions on DANDI matching your hypothesis, inspect them in-place, and stage a download list for downstream spike sorting.
 ---
 
