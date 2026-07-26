@@ -6,7 +6,7 @@ tool_type: MCP server
 supplier: Ythalo Saldanha
 availability: GA
 tool_categories: [Drug Repurposing and Discovery, Translational Medicine]
-last_verified: 2026-06-06
+last_verified: 2026-07-26
 claude_science: true
 verification: works
 verified_on: 2026-07-20
@@ -77,7 +77,7 @@ Exposes seven tools over the openFDA drug endpoints:
 
 **Claude Science:** This resource is offered inside Anthropic's **Claude Science** via the *Drug Regulatory* featured connector. Its inclusion there is an independent signal of quality and trustworthiness for life-science research.
 
-stdio transport. Drug-endpoint coverage only (no device or food endpoints). The openFDA API key is required at startup via the `OPENFDA_API_KEY` env var; store it in your client config rather than committing it to a file. For a broader, multi-source biomedical server that also wraps openFDA adverse events alongside PubMed / ClinicalTrials.gov / MyVariant, see [BioMCP](biomcp.html).
+stdio transport. Drug-endpoint coverage only (no device or food endpoints). The openFDA API key is required at startup via the `OPENFDA_API_KEY` env var; store it in your client config rather than committing it to a file. For a broader openFDA server that also covers devices (510k/PMA), food, veterinary, shortages, and recalls with a public HTTP instance, see [OpenFDA MCP Server (cyanheads)](openfda-mcp-server.html). For a multi-source biomedical server that wraps openFDA adverse events alongside PubMed / ClinicalTrials.gov / MyVariant, see [BioMCP](biomcp.html).
 
 ## Sources
 

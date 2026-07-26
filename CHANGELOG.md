@@ -11,6 +11,20 @@ Reverse-chronological log of changes to the [catalog]({{ '/catalog/' | relative_
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-07-26 (Translational Medicine slot)
+
+Translational Medicine directed pass plus a manifest sweep. The `anthropics/life-sciences` `.claude-plugin/marketplace.json` (18 plugin entries) and the Claude Science *Featured connectors + Research skills* list were re-fetched and diffed against the catalog — all entries already covered (biorxiv@life-sciences / clinical-trials@life-sciences remain DOA per the standing flags). Translational seed queries (`FHIR MCP server Claude`, `ClinicalTrials.gov MCP server`, `regulatory submission FDA 510k eCTD MCP/skill`, `OpenFDA drug adverse event MCP server`, `CMS Blue Button / Medicare claims MCP server`) surfaced two new verifiable, cleanly-licensed, installable servers; the FHIR and ClinicalTrials.gov candidates were already covered (`fhir-momentum`, `fhir-wso2`, `clinicaltrials-gov-mcp`).
+
+### Added
+- **OpenFDA MCP Server (cyanheads)** (Categories: Drug Repurposing and Discovery, Translational Medicine) — Apache-2.0 npm server (`@cyanheads/openfda-mcp-server`) federating the full openFDA API across drugs, food, devices (510k/PMA), veterinary, shortages, and recalls (14 tools) with a public HTTP instance; fills the device-clearance gap that the deferred Augmented-Nature variant left open ([GitHub](https://github.com/cyanheads/openfda-mcp-server)).
+- **CMS data.gov MCP Server** (Categories: Translational Medicine) — MIT server (`@clarify/cms-datagov-mcp-server`) over data.cms.gov statistical datasets (provider enrollment, hospital quality, spending); distinct from the Anthropic CMS Coverage policy MCP ([GitHub](https://github.com/clarifyhealth/cms-datagov-mcp-server)).
+
+### Updated
+- **OpenFDA MCP Server (ythalorossy)** — `last_verified` bumped to 2026-07-26 (npm `@ythalorossy/openfda` MIT + openFDA rate-limit facts re-confirmed); Notes now cross-link the broader cyanheads server ([npm](https://www.npmjs.com/package/@ythalorossy/openfda)).
+
+### Flagged
+- **openpharma-org/fda-mcp** and **openpharma-org/medicare-mcp** — deferred: no explicit upstream license (same bar as ChemCP / PLSDB). fda-mcp adds Orange Book / Purple Book patent-cliff + biosimilar intelligence; medicare-mcp adds CMS provider/prescriber/hospital-quality tools. Revisit once each declares a license.
+
 ## 2026-07-26 (Neuroscience slot)
 
 Neuroscience directed pass plus a manifest sweep. The `anthropics/life-sciences` `.claude-plugin/marketplace.json` (18 plugin entries) was re-fetched and diffed against the catalog — all entries already covered. Neuroscience seed queries (`Allen Brain Atlas MCP server`, `Neurodata Without Borders NWB MCP server Claude skill`, `neuroscience MCP EEG spike sorting electrophysiology SKILL.md`, `DANDI archive / calcium imaging / connectome MCP`) surfaced no new *verifiable, installable* candidates — the neuroscience surface is heavily covered by the batch-ingested NeuroClaw (68 pages) and NeuroForge collections plus discrete `neurosift`, `allenbrain`, `openneuro`, `spikelab`, and `neuropixels-analysis` entries. The MCP Registry `brain` search returned only memory/business servers (no neuroscience). NeuroClaw README re-checked: still 86 skills, no upstream additions. No new entries this run.
