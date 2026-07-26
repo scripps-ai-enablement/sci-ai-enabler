@@ -11,6 +11,17 @@ Reverse-chronological log of changes to the [catalog]({{ '/catalog/' | relative_
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-07-26 (Neuroscience slot)
+
+Neuroscience directed pass plus a manifest sweep. The `anthropics/life-sciences` `.claude-plugin/marketplace.json` (18 plugin entries) was re-fetched and diffed against the catalog — all entries already covered. Neuroscience seed queries (`Allen Brain Atlas MCP server`, `Neurodata Without Borders NWB MCP server Claude skill`, `neuroscience MCP EEG spike sorting electrophysiology SKILL.md`, `DANDI archive / calcium imaging / connectome MCP`) surfaced no new *verifiable, installable* candidates — the neuroscience surface is heavily covered by the batch-ingested NeuroClaw (68 pages) and NeuroForge collections plus discrete `neurosift`, `allenbrain`, `openneuro`, `spikelab`, and `neuropixels-analysis` entries. The MCP Registry `brain` search returned only memory/business servers (no neuroscience). NeuroClaw README re-checked: still 86 skills, no upstream additions. No new entries this run.
+
+### Updated
+- **SpikeLab** — `last_verified` bumped to 2026-07-26; PyPI `spikelab` 0.1.2 (MIT, released 2026-05-29) and `braingeneers/SpikeLab` repo confirmed live, install paths and pricing unchanged ([PyPI](https://pypi.org/project/spikelab/)).
+- **Neurosift Tools MCP** — `last_verified` bumped to 2026-07-26; `magland/neurosift-mcps` repo confirmed live (license still unset, already noted on page), plugin-marketplace and stdio install paths unchanged ([GitHub](https://github.com/magland/neurosift-mcps)).
+
+### Verified (no changes)
+- Manifest sweep confirmed no new `anthropics/life-sciences` life-science entries. Neuroscience directed pass reconfirmed standing deferrals: `bendichter/dandi-query-mcp` (boilerplate tools), `neuromechanist/hed-mcp` (not yet on PyPI), `brain-bbqs/NeuroMCP` (repo 404). `openneuro.md` left as verifier-flagged broken (repo/endpoint 404).
+
 ## 2026-07-25 (Molecular and Cellular Biology slot)
 
 Molecular and Cellular Biology directed pass plus a manifest sweep. The `anthropics/life-sciences` `.claude-plugin/marketplace.json` (18 plugin entries) and `anthropics/claude-plugins-official` were re-fetched and diffed against the catalog — all entries already covered (Boltz is the only life-science plugin in the official marketplace and is present as `boltz.md`). M&CB seed queries (`single-cell RNA-seq MCP server Scanpy Bioconductor`, `Ensembl Bioconductor CRISPR MCP server Claude skill`, `Geneformer/scGPT MCP server`, `CRISPR guide RNA design MCP server`) reconfirmed existing single-cell coverage (scanpy-mcp/scmcp/LIANA/decoupler/CellRank, CELLxGENE, scvi-tools) and the standing Geneformer/scGPT-wrapper and standalone-CRISPR-gRNA-design gaps; one new install path for an already-catalogued tool was surfaced.

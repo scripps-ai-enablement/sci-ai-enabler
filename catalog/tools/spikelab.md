@@ -6,7 +6,7 @@ tool_type: Claude Skill
 supplier: Braingeneers
 availability: Beta
 tool_categories: [Neuroscience]
-last_verified: 2026-06-14
+last_verified: 2026-07-26
 verification: works
 verified_on: 2026-07-20
 security: cleared
