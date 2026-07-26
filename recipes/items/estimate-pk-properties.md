@@ -9,7 +9,7 @@ evidence_level: Reported
 complexity: Multi-tool harness
 availability: Fully open
 compute_requirements: Laptop
-last_verified: 2026-07-25
+last_verified: 2026-07-26
 summary: Combine RDKit physchem descriptors, MedChem rule-based ADMET flags, and measured ChEMBL bioactivity / DMPK endpoints to build a defensible PK estimate for one compound without an ML predictor in the loop.
 ---
 
@@ -149,7 +149,7 @@ The component-level evidence is solid: the [ChEMBL Connector tutorial](https://c
 - **Rung 2 — RDKit skill alone.** Adequate when the question is purely "is this molecule drug-like" and the chemist will read the rules themselves. Loses the empirical anchor and the structured ADMET-alert layer.
 - **Rung 2 — ChEMBL connector alone.** Adequate when an exact ChEMBL hit exists; degrades fast for novel scaffolds (no neighbours within Tanimoto 0.7 means no anchor, and the card collapses to "no data").
 - **Rung 4 — Biomni or a similar autonomous system.** No documented Biomni / Robin workflow exists for single-compound PK profiling; using one would obscure the per-claim provenance a working DMPK scientist needs. Revisit if such a workflow is published.
-- **External ML predictor (ADMET-AI, AdmetLab 3.0, Deep-PK).** These would tighten the predictions substantially, particularly for non-Lipinski endpoints like CYP isoform inhibition and hERG IC50. None has a Claude-installable wrapper in [`catalog/tools/`](../../catalog/) today — see the Missing components note below.
+- **External ML predictor (AdmetLab 3.0).** For non-Lipinski endpoints like CYP isoform inhibition, hERG, and clearance, a trained model tightens the estimate substantially. The [ADMETlab MCP server](../../catalog/tools/admetlab-mcp.html) now wraps ADMETlab 3.0 as a catalogued component — reach for the [Predict ADMET properties for a compound series](predict-admet-properties-for-a-compound-series.html) recipe when you want the ML-prediction layer (note it runs cloud-side, a data-residency caveat this fully-local descriptor/analog recipe avoids).
 
 ## See also
 
@@ -158,6 +158,7 @@ The component-level evidence is solid: the [ChEMBL Connector tutorial](https://c
 - [ChEMBL Connector](../../catalog/tools/chembl.html)
 - [Filter a virtual screening hit list with drug-likeness rules and structural alerts](filter-virtual-screening-hits.html) — upstream of this recipe; reach for it on a hit list, reach for this on a single compound earning deeper review.
 - [Profile a compound's polypharmacology from ChEMBL bioactivity data](profile-compound-polypharmacology.html) — companion recipe; polypharmacology covers off-target *activity*, this one covers DMPK / safety endpoints.
+- [Predict ADMET properties for a compound series with an ML predictor](predict-admet-properties-for-a-compound-series.html) — the ML-prediction sibling; use it for a batch and for endpoints (CYP, hERG, clearance) that descriptors and rules cannot produce.
 
 ## Sources
 

@@ -11,6 +11,16 @@ Reverse-chronological log of changes to the [recipes cookbook]({{ '/recipes/' | 
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-07-26 (Drug Repurposing and Discovery directed pass)
+
+### Added
+
+- **Predict ADMET properties for a compound series with an ML predictor** (Problem class: Data analysis; Evidence: Reported) — rung-2 [ADMETlab MCP server](catalog/tools/admetlab-mcp.html) recipe: SMILES CSV → `wash_molecule` standardization → batched `predict_admet`/`fetch_admet_csv` over ~119 ML endpoints (CYP1A2/2C9/2C19/2D6/3A4, hERG, HIA, F20/F30, Caco-2, logS, CL, t½, PPB, BBB, Ames) with per-endpoint uncertainty → committed `predict_admet.py` + pinned `requirements.txt` + `series_admet.csv` (red/amber/green triage per endpoint, `n_red` rollup) + `provenance.json` (MCP server version, ADMETlab 3.0 model version, UTC query date, input sha256, model id). Fills the long-standing ML-ADMET-predictor gap now that the ADMETlab MCP is catalogued (verified 2026-07-26) — the ML-prediction layer between rule-based [filter-virtual-screening-hits](recipes/items/filter-virtual-screening-hits.html) and descriptor/analog [estimate-pk-properties](recipes/items/estimate-pk-properties.html), and distinct from model-benchmarking [benchmark-admet-property-with-pytdc](recipes/items/benchmark-admet-property-with-pytdc.html) (all cross-linked). `Reported` — ADMETlab 3.0 is peer-reviewed (multi-task DMPNN, >400k entries, 119 endpoints, per-prediction uncertainty; [Fu et al., *NAR* 2024](https://doi.org/10.1093/nar/gkae236)); the exact Claude+ADMETlab-MCP assembly is not separately benchmarked. Cloud-side data-residency caveat noted. `Fully open`; `Laptop`.
+
+### Verified (no changes)
+
+- Aging-recipe sweep: oldest `last_verified` across the cookbook is 2026-07-04 (≤30 days), so no recipes were due for re-verification this run.
+
 ## 2026-07-26 (Translational Medicine directed pass)
 
 ### Added

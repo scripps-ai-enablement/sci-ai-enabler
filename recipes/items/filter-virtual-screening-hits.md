@@ -120,7 +120,7 @@ No peer-reviewed head-to-head benchmark of "Claude + MedChem skill" against a ha
 - **Plain Claude Code, no skill.** Works for small lists and one-off questions, but Claude has to re-derive the alert catalogues every session and the PAINS / BRENK SMARTS strings are long, easy to typo, and version-dependent. Reach for plain Claude only when filtering ≤100 compounds you can spot-check by eye.
 - **RDKit-MCP server alone.** The [RDKit MCP](../../catalog/tools/rdkit-mcp.html) exposes raw RDKit tools but does not bundle the filter catalogues; you would re-implement PAINS / BRENK on top of it. Use it when you need stateless RDKit calls but not the medchem cascade.
 - **A chemistry-agent system (ChemCrow).** [ChemCrow](../../autonomous-science/systems/chemcrow.html) is designed for synthesis planning and reaction execution, not hit-list triage. Overkill and out of scope.
-- **Wait for ADMET-AI integration.** ML-based ADMET predictors (ADMET-AI 2024; PharmaBench 2024) outperform rule-based filters on aqueous solubility and clearance, but are not yet wrapped as a catalogued component. If solubility is critical, run them downstream of this triage rather than instead of it.
+- **ML-based ADMET prediction.** ML predictors outperform rule-based filters on aqueous solubility and clearance. The [ADMETlab MCP server](../../catalog/tools/admetlab-mcp.html) is now catalogued — run the [Predict ADMET properties for a compound series](predict-admet-properties-for-a-compound-series.html) recipe *downstream* of this triage (on the survivors), not instead of it.
 
 ## See also
 
@@ -128,6 +128,7 @@ No peer-reviewed head-to-head benchmark of "Claude + MedChem skill" against a ha
 - [Datamol (Claude Skill)](../../catalog/tools/datamol.html)
 - [RDKit Cheminformatics Skill](../../catalog/tools/rdkit-skill.html)
 - [Scan approved drugs for repurposing candidates against a disease](scan-drug-repurposing-candidates.html) — upstream step that produces the candidate list this recipe triages.
+- [Predict ADMET properties for a compound series with an ML predictor](predict-admet-properties-for-a-compound-series.html) — downstream ML-prediction step for the survivors of this rule-based triage.
 
 ## Sources
 
