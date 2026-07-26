@@ -9,7 +9,7 @@ evidence_level: Reported
 complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Workstation with GPU
-last_verified: 2026-06-28
+last_verified: 2026-07-26
 summary: Drive SimpleITK from Claude Code to rigidly then deformably align a patient's baseline and follow-up CT/MRI, propagate contours, and emit a reproducible transform + warped volume.
 ---
 

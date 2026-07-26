@@ -9,7 +9,7 @@ evidence_level: Proposed
 complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Laptop
-last_verified: 2026-06-28
+last_verified: 2026-07-26
 summary: Use the Medical Terminologies MCP to map a column of free-text diagnoses, drugs, or labs to ICD-11/SNOMED/RxNorm/LOINC codes as a committed, reviewable crosswalk.
 ---
 

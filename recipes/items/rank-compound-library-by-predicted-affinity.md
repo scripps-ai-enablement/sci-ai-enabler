@@ -10,7 +10,7 @@ complexity: One skill or MCP
 availability: Subscription required
 compute_requirements: Laptop
 summary: Use the Boltz plugin's hosted small-molecule screen to rank a SMILES library against a target by predicted binding affinity — no local GPU — and treat the score as a binder/non-binder enrichment filter, not a quantitative ranker.
-last_verified: 2026-06-28
+last_verified: 2026-07-26
 ---
 
 # Rank a compound library against a target by predicted binding affinity

@@ -9,7 +9,7 @@ evidence_level: Reported
 complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Laptop
-last_verified: 2026-06-27
+last_verified: 2026-07-26
 summary: Use the pLannotate skill to auto-annotate an engineered plasmid — promoters, resistance markers, origins, tags — and verify a construct's sequence before you clone or order it.
 ---
 

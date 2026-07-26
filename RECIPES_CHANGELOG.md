@@ -11,6 +11,16 @@ Reverse-chronological log of changes to the [recipes cookbook]({{ '/recipes/' | 
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-07-26 (Translational Medicine directed pass)
+
+### Added
+
+- **Annotate tumor somatic variants with clinical actionability evidence** (Problem class: Knowledge synthesis; Evidence: Reported) — rung-2 [CIViC connector](catalog/tools/civic.html) recipe: tumor somatic variant list (gene + HGVS, variant type) → CIViC clinical-evidence match per variant → committed `annotate_actionability.py` + pinned env + `actionability.csv` (evidence type Predictive/Prognostic/Diagnostic/Predisposing/Oncogenic, disease, therapy/outcome, A–E evidence level, citation, CIViC evidence id) + suggested AMP/ASCO/CAP tier (I/II/III) + `provenance.json` (CIViC release date, connector identity, input sha256, versions). Fills the previously-uncovered precision-oncology actionability gap; the somatic/therapy-oriented counterpart to the germline [interpret-clinical-variant](recipes/items/interpret-clinical-variant.html) recipe, upstream of [match-patient-to-clinical-trials](recipes/items/match-patient-to-clinical-trials.html), and CNV sibling of [detect-somatic-cnvs-from-tumor-sequencing](recipes/items/detect-somatic-cnvs-from-tumor-sequencing.html) (all cross-linked). `Reported` — CIViC is among the most-used MTB annotation knowledgebases ([Borchert et al., *Brief. Bioinform.* 2021](https://pubmed.ncbi.nlm.nih.gov/33971666/); [Lutz et al., *Target. Oncol.* 2025](https://pubmed.ncbi.nlm.nih.gov/39609355/)) with a quantified programmatic-match step (38.6% of 59,437 GENIE tumors matched CIViC Level A/B, >1,200 variants/s; [Wagner et al., *JCO CCI* 2020](https://pubmed.ncbi.nlm.nih.gov/32191543/)) and documented evidence-type/level schema ([Krysiak et al., *NAR* 2023](https://pubmed.ncbi.nlm.nih.gov/36373660/)); the exact Claude+CIViC assembly is not separately benchmarked and requires human review before clinical use. `Institutional access`; `Laptop`.
+
+### Verified (no changes)
+
+- 7 aging recipes spot-checked and `last_verified` bumped to 2026-07-26: **Design CRISPR sgRNAs for a gene knockout** and **Annotate and verify an engineered plasmid construct** (SciAgent-Skills repo resolves, sgRNA/pLannotate catalog pages GA + security-cleared, canonical sources intact); **Tile and stain-normalize a whole-slide image for ML**, **Rank a compound library against a target by predicted binding affinity**, **Profile a compound's polypharmacology from ChEMBL bioactivity data**, **Register longitudinal medical scans to a common frame**, and **Harmonize free-text clinical terms to standard codes** (all linked catalog pages — histolab, pathml, Boltz, gget, ChEMBL, SimpleITK, Medical Terminologies MCP, PyHealth, icd-10-codes, PubChem, DrugBank, Open Targets, ToolUniverse — resolve and none flagged).
+
 ## 2026-07-26 (Neuroscience directed pass)
 
 ### Added

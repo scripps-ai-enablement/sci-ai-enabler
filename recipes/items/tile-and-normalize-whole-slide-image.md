@@ -9,7 +9,7 @@ evidence_level: Reported
 complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Workstation with GPU
-last_verified: 2026-06-28
+last_verified: 2026-07-26
 summary: Use the histolab skill to turn a gigapixel H&E slide into a tissue-masked, stain-normalized tile dataset with a committed, re-runnable script.
 ---
 

@@ -9,7 +9,7 @@ evidence_level: Reported
 complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Laptop
-last_verified: 2026-06-27
+last_verified: 2026-07-26
 summary: Use the sgRNA Design skill to pick CRISPR-Cas9 knockout guides for a gene — preferring validated/CRISPick guides, falling back to Rule Set 2 + CFD de novo rules.
 ---
 
