@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "generated": "2026-07-26",
+  "generated": "2026-07-27",
   "counts": {
-    "tools": 457,
-    "recipes": 95
+    "tools": 459,
+    "recipes": 96
   },
   "tools_file": "composer-tools.json",
   "recipes": [
@@ -712,7 +712,7 @@
       "complexity": "Multi-tool harness",
       "availability": "Fully open",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-07-25",
+      "last_verified": "2026-07-26",
       "summary": "Combine RDKit physchem descriptors, MedChem rule-based ADMET flags, and measured ChEMBL bioactivity / DMPK endpoints to build a defensible PK estimate for one compound without an ML predictor in the loop.",
       "keywords": [
         "ADMET",
@@ -1245,6 +1245,32 @@
         "SMILES"
       ],
       "path": "recipes/items/plan-a-synthetic-route-for-a-target-molecule.md"
+    },
+    {
+      "slug": "predict-admet-properties-for-a-compound-series",
+      "title": "Predict ADMET properties for a compound series with an ML predictor",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Chemistry",
+        "Drug Repurposing and Discovery"
+      ],
+      "evidence_level": "Reported",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-07-26",
+      "summary": "Drive the ADMETlab MCP server to batch-predict ~119 ML ADMET endpoints (with uncertainty) for a SMILES series, then commit a triaged CSV, pinned client env, and a provenance record.",
+      "keywords": [
+        "ADMET",
+        "ADMETlab",
+        "BRENK",
+        "CYP",
+        "hERG",
+        "PAINS",
+        "Rule-based",
+        "SMILES"
+      ],
+      "path": "recipes/items/predict-admet-properties-for-a-compound-series.md"
     },
     {
       "slug": "predict-antibody-antigen-complex",

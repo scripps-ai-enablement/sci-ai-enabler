@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "generated": "2026-07-26",
-  "count": 457,
+  "generated": "2026-07-27",
+  "count": 459,
   "tools": [
     {
       "slug": "10x-genomics-cloud",
@@ -127,6 +127,26 @@
         "OAuth-style"
       ],
       "path": "catalog/tools/adisinsight.md"
+    },
+    {
+      "slug": "admetlab-mcp",
+      "title": "ADMETlab MCP Server",
+      "tool_type": "MCP server",
+      "availability": "Beta",
+      "tool_categories": [
+        "Chemistry",
+        "Drug Repurposing and Discovery"
+      ],
+      "last_verified": "2026-07-26",
+      "claude_science": false,
+      "summary": "Self-hostable MCP server wrapping the ADMETlab 3.0 API for molecule washing, SVG rendering, ADMET property prediction, and CSV retrieval.",
+      "keywords": [
+        "ADMET",
+        "ADMETlab",
+        "Self-hostable",
+        "SVG"
+      ],
+      "path": "catalog/tools/admetlab-mcp.md"
     },
     {
       "slug": "adni-skill",
@@ -2301,6 +2321,26 @@
       "path": "catalog/tools/docx.md"
     },
     {
+      "slug": "drug-pipeline-mcp",
+      "title": "Drug Pipeline MCP Server",
+      "tool_type": "MCP server",
+      "availability": "GA",
+      "tool_categories": [
+        "Drug Repurposing and Discovery",
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-07-26",
+      "claude_science": false,
+      "summary": "MCP server aggregating clinical trials, FDA/EMA approvals, safety data, and labels into source-traceable drug pipeline intelligence — no predictions, every output cites its primary source.",
+      "keywords": [
+        "EMA",
+        "FDA",
+        "NCT",
+        "PMID"
+      ],
+      "path": "catalog/tools/drug-pipeline-mcp.md"
+    },
+    {
       "slug": "drug-repurposing",
       "title": "Drug Repurposing (Claude Skill)",
       "tool_type": "Claude Skill",
@@ -2325,7 +2365,7 @@
         "Chemistry",
         "Translational Medicine"
       ],
-      "last_verified": "2026-06-21",
+      "last_verified": "2026-07-26",
       "claude_science": false,
       "summary": "Community MCP server exposing a local DrugBank SQLite (17k+ drugs) with 16 query methods for repurposing, target lookup, interactions, and structural similarity.",
       "keywords": [
