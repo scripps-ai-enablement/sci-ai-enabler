@@ -28,12 +28,23 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
-PKG = re.compile(r"pip install ([A-Za-z0-9._\-]+)==")
+# Every pinned spec in the command, not just the first. A recipe installing
+# `pip install A==1 B==2 C==3` executes and imports all three in one target, so
+# one verdict covers all three — recording only A left B and C looking unchecked
+# on the library index while they had in fact been tested.
+SPEC = re.compile(r"([A-Za-z0-9._\-]+)(?:\[[A-Za-z0-9,._\-]+\])?==[A-Za-z0-9._!*+\-]+")
 
 
-def package_of(install_cmd: str) -> str | None:
-    m = PKG.search(install_cmd or "")
-    return m.group(1) if m else None
+def packages_of(install_cmd: str) -> list[str]:
+    """Base names of every `==`-pinned package in a pip command, in order."""
+    if not install_cmd or "pip install" not in install_cmd:
+        return []
+    tail = install_cmd.split("pip install", 1)[1]
+    seen: list[str] = []
+    for name in SPEC.findall(tail):
+        if name not in seen:
+            seen.append(name)
+    return seen
 
 
 def fold(results: list[dict], previous: dict, today: str) -> dict:
@@ -42,17 +53,15 @@ def fold(results: list[dict], previous: dict, today: str) -> dict:
     for r in results:
         if r.get("source") != "recipe":
             continue  # catalog tool pages are the Verifier agent's lane
-        pkg = package_of(r.get("install_cmd", ""))
-        if not pkg:
-            continue
-        by_package[pkg] = {
-            "package": pkg,
-            "recipe": r.get("slug", ""),
-            "install_cmd": r.get("install_cmd", ""),
-            "boot_cmd": r.get("boot_cmd") or "",
-            "status": r.get("status", ""),
-            "checked_on": today,
-        }
+        for pkg in packages_of(r.get("install_cmd", "")):
+            by_package[pkg] = {
+                "package": pkg,
+                "recipe": r.get("slug", ""),
+                "install_cmd": r.get("install_cmd", ""),
+                "boot_cmd": r.get("boot_cmd") or "",
+                "status": r.get("status", ""),
+                "checked_on": today,
+            }
     return {
         "version": 1,
         "generated": today,

@@ -29,7 +29,9 @@ import json
 import os
 import re
 import shlex
+import shutil
 import subprocess
+import sys
 import tempfile
 import threading
 import time
@@ -106,6 +108,44 @@ def _prepare_install(cmd: str, work: Path, env: dict) -> str:
         env["UV_TOOL_BIN_DIR"] = str(bin_dir)
         env["PATH"] = str(bin_dir) + os.pathsep + env.get("PATH", "")
     return cmd
+
+
+def unshadow_stdlib(target_dir: Path) -> list[str]:
+    """Remove entries from a pip `--target` dir that shadow a stdlib module.
+
+    `pip install --target X` + `PYTHONPATH=X` puts X *ahead* of the standard
+    library, which a virtualenv never does — there, site-packages comes after
+    stdlib. So a package declaring an obsolete stdlib backport (DeepSlice 1.2.8
+    declares `typing`; others declare `enum34`, `futures`, `dataclasses`) drops a
+    `typing.py` into X that hijacks `import typing` and dies with
+    "AttributeError: type object 'Callable' has no attribute '_abc_registry'".
+
+    That is a false negative, and a bad one: it reports a `boot_error` for a
+    package that installs and imports perfectly well in the venv every real user
+    would have. Verified both ways locally — in a venv the backport is inert; via
+    `--target` + PYTHONPATH it breaks.
+
+    The rule is principled rather than a blocklist: anything in the target whose
+    top-level name is a stdlib module name could not have shadowed stdlib in a
+    venv, so removing it reproduces venv resolution order exactly.
+
+    Returns the names removed, for the log.
+    """
+    if not target_dir.is_dir():
+        return []
+    removed = []
+    for entry in sorted(target_dir.iterdir()):
+        name = entry.name[:-3] if entry.name.endswith(".py") else entry.name
+        if name in sys.stdlib_module_names and not name.startswith("_"):
+            try:
+                if entry.is_dir():
+                    shutil.rmtree(entry)
+                else:
+                    entry.unlink()
+                removed.append(name)
+            except OSError:
+                pass
+    return removed
 
 
 def _mcp_initialize_request() -> str:
@@ -241,7 +281,14 @@ def smoke_one(target: dict, workroot: Path, install_timeout: int = INSTALL_TIMEO
     # confirm the server speaks MCP (see _probe_boot). Skills (no boot_cmd) pass
     # on a clean install.
     if boot_cmd:
+        # Make the --target dir behave like venv site-packages before probing,
+        # or an obsolete stdlib backport in the dependency tree yields a bogus
+        # boot_error. See unshadow_stdlib().
+        shadowed = unshadow_stdlib(work / "site")
         status, blog = _probe_boot(boot_cmd, str(work), env, BOOT_TIMEOUT)
+        if shadowed:
+            blog = (f"[unshadowed stdlib backports from --target: "
+                    f"{', '.join(shadowed)}]\n" + blog)
         result["log"] = (log + "\n--- boot ---\n" + blog)[-LOG_CHARS:]
         result["status"] = status
         return result

@@ -293,6 +293,26 @@ class TestVerdictRecorder(unittest.TestCase):
         self.assertEqual(packages["a"]["checked_on"], "2026-07-20", "stale verdict lost")
         self.assertEqual(packages["b"]["status"], "boot_error")
 
+    def test_records_every_package_in_a_multi_package_install(self):
+        """One command installs and imports three packages, so one verdict covers
+        all three. Recording only the first left two looking unchecked on the
+        library index when they had in fact been tested (observed on #74)."""
+        cmd = ("pip install DeepSlice==1.2.8 brainglobe-atlasapi==2.3.1 "
+               "PyNutil==0.6.2")
+        self.assertEqual(self.rec.packages_of(cmd),
+                         ["DeepSlice", "brainglobe-atlasapi", "PyNutil"])
+        out = self.rec.fold([{"slug": "r", "source": "recipe", "status": "pass",
+                              "install_cmd": cmd, "boot_cmd": ""}], {}, "2026-07-27")
+        self.assertEqual({r["package"] for r in out["results"]},
+                         {"DeepSlice", "brainglobe-atlasapi", "PyNutil"})
+        self.assertTrue(all(r["status"] == "pass" for r in out["results"]))
+
+    def test_packages_of_handles_extras_and_ignores_non_pip(self):
+        self.assertEqual(self.rec.packages_of("pip install spikeinterface[full]==0.101.0"),
+                         ["spikeinterface"])
+        self.assertEqual(self.rec.packages_of("npx skills add foo/bar"), [])
+        self.assertEqual(self.rec.packages_of(""), [])
+
     def test_unpinned_or_unparseable_installs_are_dropped(self):
         out = self.rec.fold([
             {"slug": "r", "source": "recipe", "status": "pass",
@@ -319,11 +339,24 @@ class TestRealRecipes(unittest.TestCase):
         self.assertEqual(errors, [], "shipped recipes have dependency-block errors")
 
     def test_every_pip_install_in_a_block_is_exactly_pinned(self):
+        """Only real install COMMANDS count, not prose that mentions pip.
+
+        The first version of this test regex-scanned the whole block and flagged
+        `--target` as an unpinned package when the recipe's prose explained a
+        PYTHONPATH pitfall. Extract with the same patterns the machinery uses —
+        they require a backtick or line-boundary delimiter — so prose is excluded
+        and the test agrees with what actually gets executed.
+        """
+        pip_rx = [rx for rx, kind in gate.INSTALL_PATTERNS if kind == "pip"][0]
         for path, block in self.blocks.items():
-            for m in re.finditer(r"pip install ([A-Za-z0-9._\-\[\]]+)(\S*)", block):
-                with self.subTest(path.stem, pkg=m.group(1)):
-                    self.assertTrue(m.group(2).startswith("=="),
-                                    f"{path.stem}: {m.group(1)} is not ==pinned")
+            for m in pip_rx.finditer(block):
+                cmd = m.group(1)
+                specs = [tok for tok in cmd.split()[2:] if not tok.startswith("-")]
+                if not specs:
+                    continue  # a flags-only fragment in prose, not an install
+                for tok in specs:
+                    with self.subTest(path.stem, pkg=tok):
+                        self.assertIn("==", tok, f"{path.stem}: {tok} is not ==pinned")
 
     def test_no_vcs_installs(self):
         for path, block in self.blocks.items():
