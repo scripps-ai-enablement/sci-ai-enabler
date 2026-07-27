@@ -28,8 +28,8 @@
       "recipes": [
         "localize-implant-tip-in-brain-atlas-subregion"
       ],
-      "verdict": "",
-      "verdict_on": ""
+      "verdict": "boot_error",
+      "verdict_on": "2026-07-27"
     },
     {
       "package": "brainglobe-atlasapi",
@@ -42,8 +42,8 @@
       "recipes": [
         "localize-implant-tip-in-brain-atlas-subregion"
       ],
-      "verdict": "",
-      "verdict_on": ""
+      "verdict": "boot_error",
+      "verdict_on": "2026-07-27"
     }
   ]
 }

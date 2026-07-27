@@ -4,6 +4,29 @@ Rolling, reverse-chronological log of catalog verification + security passes. Ea
 on-demand run that produces changes prepends a dated block; the top block is mirrored to the pinned
 "Verification updates" issue.
 
+## 2026-07-27 (worklist maintenance — 4-page recheck, kegg-database → kmeans)
+
+Worked the injected 4-page worklist top-to-bottom. All four were already stamped 2026-07-20 (within
+cadence); rechecked against fresh source fetches — zero drift, no fixes. Stamps refreshed to
+2026-07-27.
+
+### Verified
+- `kegg-database` works/caution (unchanged) — `jaechang-hits/SciAgent-Skills` NOASSERTION-classifier-
+  but-CC-BY-4.0-root/not-archived/pushed 2026-07-24/284★; `skills/genomics-bioinformatics/databases/
+  kegg-database/SKILL.md` (18418 B) confirmed.
+- `kegg-pathway-analysis` works/caution (unchanged) — same anchor; `skills/systems-biology-multiomics/
+  kegg-pathway-analysis/SKILL.md` (17508 B) confirmed.
+- `ketcher` works/cleared (unchanged) — `epam/ketcher` Apache-2.0/not-archived/pushed 2026-07-27/847★;
+  npm `ketcher-react` 3.17.1 Apache-2.0; Anthropic Claude Science connector, client-side editor, no creds.
+- `kmeans` works/cleared (unchanged) — `CUHK-AIM-Group/NeuroClaw` MIT/not-archived/pushed 2026-07-26/
+  76★; `skills/kmeans/SKILL.md` (4082 B) confirmed.
+
+### Security
+- `kegg-database` + `kegg-pathway-analysis` caution: skill code CC BY 4.0 and provenance clear, but the
+  underlying KEGG data needs a paid commercial license for non-academic use (data-use restriction only).
+- `ketcher` + `kmeans` cleared: provenance matches supplier, real Apache-2.0/MIT licenses, no OSV
+  advisories, no credentials.
+
 ## 2026-07-27 (worklist maintenance — 4-page recheck, inductive-bio → intact)
 
 Worked the injected 4-page worklist top-to-bottom. All four were already stamped 2026-07-20 (within

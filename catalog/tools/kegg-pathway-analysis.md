@@ -8,9 +8,9 @@ availability: GA
 tool_categories: [Molecular and Cellular Biology]
 last_verified: 2026-06-11
 verification: works
-verified_on: 2026-07-20
+verified_on: 2026-07-27
 security: caution
-security_on: 2026-07-20
+security_on: 2026-07-27
 security_note: "skill code is CC BY 4.0 and provenance matches jaechang-hits, but KEGG data itself needs a paid commercial license for non-academic use"
 summary: "Guide to KEGG pathway enrichment for DEG results."
 ---
@@ -26,8 +26,8 @@ Guide to KEGG pathway enrichment for DEG results.
 | **Availability** | GA — part of the BixBench-evaluated SciAgent-Skills collection |
 | **Pricing** | Free / OSS (CC-BY-4.0) |
 | **Capabilities** | Read/Write — Claude runs the skill's Python locally (Bash), not as an MCP tool |
-| **Verified** | works · 2026-07-20 |
-| **Security** | caution · 2026-07-20 — skill code CC BY 4.0 but KEGG data needs a paid commercial license for non-academic use |
+| **Verified** | works · 2026-07-27 |
+| **Security** | caution · 2026-07-27 — skill code CC BY 4.0 but KEGG data needs a paid commercial license for non-academic use |
 
 ## How to install
 
