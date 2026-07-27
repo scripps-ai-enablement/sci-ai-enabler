@@ -48,9 +48,14 @@ Filing an issue starts a curator run on your request straight away — you're no
 
 Your issue is only closed when there's a real answer — shipped, already covered, or a plainly stated no. It is never closed just because a run finished.
 
-### When the answer needs a tool that isn't catalogued yet
+### When the answer needs something that isn't catalogued yet
 
-The cookbook only writes recipes from components that are already in the catalog and verified — writing one from memory would hand you an install path nobody checked. So sometimes the honest answer is "this is a good request, and one piece is missing."
+The cookbook won't write a recipe from memory — that would hand you an install path nobody checked. But what counts as "catalogued" depends on what's missing:
+
+- **A missing library** — something Claude Code can just `pip install` — is not a blocker. The recipe declares it as a dependency with an exact pinned version, its license, and the module to import, and that pinned install and import get **executed** in a clean container. You can browse everything the cookbook reaches for on the [library index](recipes/dependencies.html).
+- **A missing Claude component** — a Skill, MCP server, plugin, or connector — *is* a blocker, because without it there's nothing for you to install.
+
+So sometimes the honest answer is still "this is a good request, and one piece is missing."
 
 When that happens your issue is **not closed**. It gets labelled `claude:blocked-on-catalog`, and the request is handed straight to the catalog curator, which evaluates the missing components right away against the usual bar (real, installable, license-clear, in scope). If they clear it, the request comes back to the recipe assembler automatically and the recipe gets written — all in your thread, with no action from you. If they don't clear it (no license, out of scope, unverifiable), you get told exactly why rather than a silent close.
 

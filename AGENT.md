@@ -40,6 +40,7 @@ A component does **not** have to be life-science-specific to be in scope. A gene
 **Out of scope** — do not add or retain:
 
 - General libraries and toolkits distributed **only** as a raw package with no Claude wrapper (e.g., RDKit, Scanpy, DeepChem as bare PyPI installs). When the same library is packaged as an installable Skill or MCP (as community collections like K-Dense do), it **is** in scope — catalogue it under its research area, or under `General-Purpose Utilities` if domain-agnostic.
+  **This is no longer a dead end for the recipe that wanted it.** A pip-installable library the recipe's own script imports is now declarable in that recipe's `## Dependencies` block (pinned, licensed, import-verified, with a dated source) without a catalog page — see "Claude components vs. dependencies" in `RECIPE_AGENT.md`. So when you decline a library, say so with `outcome=declined` and note that the recipes curator can carry it as a dependency; do not leave it sitting in `## Missing components` as though the recipe were permanently blocked. Non-pip cases (conda, npm, CRAN, compiled binaries, hosted services, model weights) *are* still genuinely blocked and stay in `## Missing components`.
 - Pure novelty / persona-roleplay prompts, business-consulting templates, and product-locked personal feeds that are not reusable scientific or computational utilities
 - Model weights or training code distributed only as research artifacts (e.g., AlphaFold 3, RFdiffusion, ESM-2, Boltz, Chai-1)
 - Hosted SaaS without a Claude-installable surface (e.g., AlphaFold Server web UI alone, "Claude for Life Sciences" as an umbrella offering)
@@ -540,7 +541,7 @@ Name the `catalog/tools/<slug>.md` page in the note when one shipped, so the loo
 ```
 - [#43 @bob 2026-05-21] queue: catalog | feedback-on=pydeseq2 | sentiment=got-stuck | author=@bob | issue=43 → added Mac M1 conda-forge workaround to pydeseq2 Notes; last_verified bumped. outcome=shipped
 - [#57 @dr-lee 2026-07-14] queue: catalog | request=new-tool | name="scVI" | url="https://github.com/scverse/scvi-tools" | issue=57 → in scope; created catalog/tools/scvi-tools.md (Molecular and Cellular Biology). outcome=shipped
-- [#74 @goodb 2026-07-27] queue: catalog | request=unblock-recipe | components="brainglobe-atlasapi,deepslice" | issue=74 | via=recipes-block → created catalog/tools/brainglobe-atlasapi.md; DeepSlice left out, no upstream LICENSE. outcome=shipped
+- [#74 @goodb 2026-07-27] queue: catalog | request=unblock-recipe | components="brainglobe-atlasapi,deepslice" | issue=74 | via=recipes-block → both verified real and cleanly licensed (brainglobe-atlasapi BSD-3-Clause; DeepSlice MIT), but neither ships as a Claude-installable Skill/MCP/plugin/connector, so neither is catalogable. Banked the license facts under Deferred and told the recipes curator to carry them as recipe dependencies instead. outcome=declined
 ```
 
 6. **Re-examine `## User requests (blocked)` every run.** Check whether whatever each entry was waiting on has since changed; if so, move it back to `## User requests (open)`, drop the stale `outcome=` token, and process it this run. If not, leave it untouched — don't re-post the analysis.
