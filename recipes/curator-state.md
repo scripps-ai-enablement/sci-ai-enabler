@@ -51,7 +51,7 @@ _None._
 
 ## User requests (blocked)
 
-- [#74 @goodb 2026-07-27] queue: recipes | question="Validate fiber/probe implant placement by locating tip in Allen CCF subregion, batched across 2D coronal histology sections. Wants Claude Code workflow reporting subregion and hit/miss verdict. QUINT replacement." | author=@goodb | issue=74 | blocked-on=catalog:brainglobe-atlasapi,deepslice → understood and answerable, but the two load-bearing components (brainglobe-atlasapi CCF voxel→subregion lookup, DeepSlice cutting-plane predictor) are not in catalog/tools/; the SimpleITK-affine alternative is the confidently-wrong off-axis path the requester warned against. Missing-components brief + Deferred rung-3 recipe note both filed 2026-07-27. outcome=blocked
+- [#74 @goodb 2026-07-27] queue: recipes | question="Validate fiber/probe implant placement by locating tip in Allen CCF subregion, batched across 2D coronal histology sections. Wants Claude Code workflow reporting subregion and hit/miss verdict. QUINT replacement." | author=@goodb | issue=74 | blocked-on=catalog:brainglobe-atlasapi,deepslice | chain=1 → understood and answerable, but the two load-bearing components (brainglobe-atlasapi CCF voxel→subregion lookup, DeepSlice cutting-plane predictor) are not in catalog/tools/; the SimpleITK-affine alternative is the confidently-wrong off-axis path the requester warned against. Missing-components brief + Deferred rung-3 recipe note both filed 2026-07-27. outcome=blocked
 
 ## User requests (closed this run)
 
