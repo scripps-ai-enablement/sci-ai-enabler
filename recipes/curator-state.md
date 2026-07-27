@@ -47,7 +47,7 @@ _None._
 
 ## User requests (open)
 
-_None._
+- [#74 @goodb 2026-07-27] queue: recipes | question="Validate fiber/probe implant placement by locating tip in Allen CCF subregion, batched across 2D coronal histology sections. Wants Claude Code workflow reporting subregion and hit/miss verdict. QUINT replacement." | author=@goodb | issue=74
 
 ## User requests (blocked)
 
