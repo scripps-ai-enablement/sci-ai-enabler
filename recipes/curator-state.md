@@ -51,7 +51,7 @@ _None._
 
 ## User requests (closed this run)
 
-- [#74 @goodb 2026-07-27] question about a QUINT-replacement fiber/probe-implant localization workflow (2D coronal histology → Allen CCF subregion + hit/miss verdict) → **No page shipped — deferred, grounding gap.** The two load-bearing components (DeepSlice cutting-plane prediction; brainglobe-atlasapi CCF voxel→structure lookup) are not in `catalog/tools/`, and the catalogued neighbours (allenbrain-mcp read-only queries; SimpleITK general 3D registration) can't substitute without hitting the exact naive-affine-warp failure the requester flagged. Per the cookbook's hard grounding rule, filed a `## Missing components` note for the catalog curator (brainglobe-atlasapi + DeepSlice, DeepSlice license unverified) and a matching `## Deferred — next-run priority` note; the rung-3 recipe writes cleanly once those land. Posted the reasoning to the thread.
+_None._
 
 ## Composition reports
 
