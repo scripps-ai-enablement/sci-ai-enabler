@@ -102,6 +102,14 @@ security_note: "<one line rationale; quoted; always>"
   off — a path or launch command you auto-fixed this run, a `boot_error` in the smoke test, or an
   auth/subscription/institutional gate that makes it functionally unverifiable (say which in the
   note). `broken`: no working install path (404 / removed / renamed with no fix).
+- **Recipe dependencies are not yours to stamp.** The smoke batch also contains targets with
+  `"source": "recipe"` — libraries a recipe's own script pip-installs, which have no catalog page and
+  no badge. The workflow folds those verdicts into `index/recipe-dependencies.json` before you start;
+  leave that file alone, and never edit a `recipes/items/*.md` page. The recipes curator acts on them.
+  A `boot_error` there means "the pinned version installed but the declared import module was wrong",
+  which is that curator's fix, not yours. Note also that a smoke `pass` is never a *safety* claim:
+  `pip install` already runs the package's own build hooks, and an import probe never exercises a
+  first-run model-weight or atlas download.
 - **security** — `cleared`: provenance matches, real license, no known advisories, maintained, no
   risky patterns. `caution`: minor concerns (unmaintained/archived, license unstated, single
   maintainer, broad-but-plausible permissions). `flagged`: serious — provenance mismatch/typosquat,

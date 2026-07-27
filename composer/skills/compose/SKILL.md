@@ -130,7 +130,9 @@ its page. State the **evidence label, availability bar, and compute tier** up fr
 a scientist should be able to decide in 30 seconds whether it fits.
 
 Then offer to **make it real** (this is the point of the skill). Each state-changing action needs the
-scientist's explicit go-ahead, and you run **only** commands quoted from a component's catalog page:
+scientist's explicit go-ahead, and you run **only** commands quoted from a component's catalog page
+or from the `## Dependencies` block of a recipe page you read (those are pinned library installs the
+recipe declares — `pip install pkg==x.y.z`; never invent or un-pin one):
 - **Install** the components (`/plugin install …`, `claude mcp add …` — exactly as the page states).
 - **Capture the analysis as a durable, reproducible artifact — this is the deliverable of record, not
   the chat.** Write the workflow to a version-controllable file the scientist owns: a script

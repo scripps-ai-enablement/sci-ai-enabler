@@ -40,6 +40,13 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
 TOOLS = REPO / "catalog" / "tools"
+RECIPES = REPO / "recipes" / "items"
+
+# At most 1-in-N of a batch may be recipe dependencies. Candidate ordering is
+# unstamped-first, and recipe targets carry no `verified_on`, so without a cap a
+# fresh crop of dependency blocks would monopolize every batch and silently
+# starve tool-page re-verification.
+RECIPE_SHARE = 3
 
 # tool_type values whose install is a runnable install+boot we can smoke-test.
 SMOKE_TYPES = {"Claude Skill", "MCP server"}
@@ -148,7 +155,116 @@ INSTALL_PATTERNS = [
 
 # Optional boot check for MCP servers: a `claude mcp add ... -- <cmd>` line tells
 # us the launch command; we only capture it, the runner decides how to probe.
-MCP_BOOT = re.compile(r"claude mcp add[^`\n]*?--\s+([A-Za-z0-9_.\-]+(?:\s+[A-Za-z0-9_.\-]+)*)")
+# `[ \t]` rather than `\s` between argv tokens: `\s` matches newlines, so the
+# capture ran past the end of the line and swallowed whatever followed on the
+# next line (a page with an install line plus an import line yielded
+# "foo-server run\npython3 -c"). Launch commands are single-line by definition.
+MCP_BOOT = re.compile(
+    r"claude mcp add[^`\n]*?--[ \t]+([A-Za-z0-9_.\-]+(?:[ \t]+[A-Za-z0-9_.\-]+)*)"
+)
+
+# Optional boot check for anything that documents an import: a
+# `python3 -c "import <module>"` line. We capture ONLY a dotted identifier and
+# SYNTHESIZE the command in `import_boot()` — we never pass the page's literal
+# string through. That is the whole point: these pages are LLM-authored, and
+# scraping the literal text would turn any page into an arbitrary-code channel
+# into the smoke container, destroying the property this module exists to hold
+# (what untrusted code runs is decided by auditable Python, not by a page).
+# The `python3 -c "..."` payload, confined to one line (`.` excludes newlines).
+IMPORT_CMD = re.compile(r"""python3? +-c +(["'])(.+?)\1""")
+# A dotted module name following the `import` keyword, and nothing else.
+IMPORT_NAME = re.compile(r"\bimport +([A-Za-z_][A-Za-z0-9_]*(?:\.[A-Za-z0-9_]+)*)")
+
+
+def import_boot(text: str) -> str | None:
+    """A safe `python3 -c "import a, b"` boot command, or None.
+
+    Every module a block documents is checked, not just the first: a recipe with
+    two dependencies writes one import line for both, and verifying half of it
+    would report a pass while leaving a dependency untested.
+
+    The returned command is REBUILT from validated dotted identifiers, so
+    whatever else the page's literal string contained cannot survive into it.
+    """
+    modules: list[str] = []
+    for cmd in IMPORT_CMD.finditer(text):
+        for name in IMPORT_NAME.findall(cmd.group(2)):
+            if name not in modules:
+                modules.append(name)
+    if not modules:
+        return None
+    return 'python3 -c "import ' + ", ".join(modules) + '"'
+
+
+def boot_for(text: str) -> str | None:
+    """MCP launch command if the page has one, else a documented import check."""
+    m = MCP_BOOT.search(text)
+    if m:
+        return m.group(1).strip()
+    return import_boot(text)
+
+
+def section_block(text: str, heading: str) -> str:
+    """The whole body of a `## <heading>` section, or "" when absent."""
+    lines = text.splitlines()
+    out, capture = [], False
+    for line in lines:
+        if line.startswith("## "):
+            if capture:
+                break
+            capture = line[3:].strip().lower() == heading.lower()
+            continue
+        if capture:
+            out.append(line)
+    return "\n".join(out)
+
+
+def recipe_dependency_targets() -> list[dict]:
+    """Smoke targets from every recipe's `## Dependencies` block.
+
+    A recipe dependency is a pinned pip install plus a documented import, so it
+    is exactly the shape the runner already handles. Only `pip` is eligible: the
+    runner's install rewriting (`_prepare_install`) understands pip and uv, and
+    the sandbox image has no conda, R, or compiler — a conda target would fail
+    with rc 127 and read as a real `install_error`.
+    """
+    targets = []
+    if not RECIPES.is_dir():
+        return targets
+    for path in sorted(RECIPES.glob("*.md")):
+        text = path.read_text(encoding="utf-8")
+        block = section_block(text, "Dependencies")
+        if not block.strip():
+            continue
+        # Gate the DEPENDENCIES BLOCK, not the whole page. Scanning the whole
+        # recipe measured 87/97 pages blocked, because HARD_DENY terms
+        # ("institutional", "subscription") occur in a recipe's `## Availability`
+        # section describing its *components'* access bars — which says nothing
+        # about whether a pinned public PyPI package is safe to install. The gate
+        # asks "does executing this need credentials or paid access?", and for a
+        # public pip package the answer is structurally no: the `==` pin and the
+        # pip-only restriction below already confine these to registry-resolvable
+        # public packages. A block that does mention a key or a license gate is
+        # still excluded.
+        if gate_blocked(block):
+            continue
+        for rx, kind in INSTALL_PATTERNS:
+            if kind != "pip":
+                continue
+            for m in rx.finditer(block):
+                cmd = m.group(1).strip()
+                if "==" not in cmd:
+                    continue  # unpinned: RECIPE_AGENT.md forbids it, don't execute it
+                targets.append({
+                    "slug": path.stem,
+                    "source": "recipe",
+                    "tool_type": "",
+                    "install_kind": kind,
+                    "install_cmd": cmd,
+                    "boot_cmd": import_boot(block),
+                    "verified_on": "",
+                })
+    return targets
 
 
 def parse_frontmatter(text: str) -> dict:
@@ -184,19 +300,33 @@ def select(max_n: int) -> list[dict]:
                 break
         if not install_cmd:
             continue
-        mb = MCP_BOOT.search(text)
-        if mb:
-            boot_cmd = mb.group(1).strip()
+        # An MCP launch command if the page documents one, otherwise a documented
+        # import check. The import branch is deliberately NOT conditional on
+        # tool_type: a wrapper Skill page that documents `python3 -c "import x"`
+        # gains a real functional check instead of passing on install alone.
+        boot_cmd = boot_for(text)
         candidates.append({
             "slug": path.stem,
+            "source": "tool",
             "tool_type": fm.get("tool_type", ""),
             "install_kind": install_kind,
             "install_cmd": install_cmd,
             "boot_cmd": boot_cmd,
             "verified_on": fm.get("verified_on", ""),  # "" sorts first -> unstamped first
         })
-    # Unstamped ("") first, then oldest verified_on.
-    candidates.sort(key=lambda c: (c["verified_on"] != "", c["verified_on"], c["slug"]))
+
+    # Canonical order: unstamped ("") first, then oldest verified_on.
+    order = lambda c: (c["verified_on"] != "", c["verified_on"], c["slug"])
+    recipes = sorted(recipe_dependency_targets(), key=order)
+    candidates.sort(key=order)
+
+    # Cap the recipe share so dependency targets — all unstamped, so all sorting
+    # to the front — cannot crowd tool pages out of the batch entirely.
+    if recipes:
+        cap = max(1, max_n // RECIPE_SHARE)
+        batch = recipes[:cap] + candidates
+        batch.sort(key=order)
+        return batch[:max_n]
     return candidates[:max_n]
 
 
