@@ -29,6 +29,7 @@ nav_exclude: true
 
 ## Deferred — next-run priority
 
+- **BrainGlobe atlas-registration stack (brainglobe-atlasapi + DeepSlice)** — user request #74 (@goodb, 2026-07-27, via recipes-block chain) needs these two for a QUINT-replacement implant-localization recipe. **Both verified real and cleanly licensed this run** (bank these — no re-verification needed): **brainglobe-atlasapi** is **BSD-3-Clause** ([JOSS 2020](https://doi.org/10.21105/joss.02668), `pip install brainglobe-atlasapi`, Python 3.9+, ships `allen_mouse_25um` with `annotation`/`lookup_df`/`structures`), **DeepSlice** is **MIT** (LICENSE file, © 2023 Harry Carey; [Carey et al., *Nat Commun* 2023](https://doi.org/10.1038/s41467-023-41645-4); `pip install DeepSlice`, coronal-only, QuickNII-compatible output). **Declined to catalogue 2026-07-27 — out of scope as bare PyPI libraries**: neither ships as a Claude-installable Skill / MCP / plugin / connector (checked PyPI, both repos, and the NeuroClaw / SciAgent / K-Dense / bioSkills collections — no `SKILL.md` or MCP wrapper exists for either). Same bar as raw RDKit/Scanpy. **Revisit the moment a community `SKILL.md` or MCP wrapper for either surfaces** — the license/identity verification is done, so cataloguing is then a fast create + the recipes rung-3 recipe unblocks. Most relevant to Neuroscience.
 - **openpharma-org/fda-mcp** (npm `fda-mcp`) — pharmaceutical-intelligence MCP over openFDA + **Orange Book** (47,486 drugs / 21,126 patents / 2,444 exclusivity records) + **Purple Book** (2,168 biologics) via a unified `fda_info` tool (`lookup_drug`, `search_orange_book`, `get_therapeutic_equivalents`, `get_patent_exclusivity`, `analyze_patent_cliff`, `search_purple_book`, `get_biosimilar_interchangeability`); keyless, Node/TS, <10 ms cached Orange/Purple lookups. Surfaced 2026-07-26 Translational Medicine pass. **Deferred on an unspecified upstream license** (GitHub license field / README do not state one — same bar as ChemCP / PLSDB). Unique value is the patent-cliff + biosimilar-interchangeability surface not covered by the catalogued openFDA servers. Revisit once a license is declared. Most relevant to Drug Repurposing and Discovery / Translational Medicine.
 - **openpharma-org/medicare-mcp** (npm `medicare-mcp`) — CMS Medicare MCP via a unified `medicare_info` tool with 16+ methods: provider/prescriber/hospital search, hospital star ratings, readmission/mortality/infection rates, VBP/HCAHPS scores, ASP drug pricing + trends (2013–2023, Socrata API), keyless, Node/TS. Surfaced 2026-07-26 Translational Medicine pass. **Deferred on an unspecified upstream license** (same org / same gap as fda-mcp). Complements the newly-catalogued `cms-datagov-mcp.md` (dataset catalog) with pre-shaped Medicare quality/pricing tools. Revisit once a license is declared. Most relevant to Translational Medicine.
 
@@ -78,7 +79,7 @@ nav_exclude: true
 
 ## User requests (open)
 
-- [#74 @goodb 2026-07-27] queue: catalog | request=unblock-recipe | components="brainglobe-atlasapi,deepslice" | author=@goodb | issue=74 | via=recipes-block | chain=1
+_None._
 
 ## User requests (blocked)
 
@@ -86,4 +87,4 @@ _None._
 
 ## User requests (closed this run)
 
-_None._
+- [#74 @goodb 2026-07-27] queue: catalog | request=unblock-recipe | components="brainglobe-atlasapi,deepslice" | author=@goodb | issue=74 | via=recipes-block | chain=1 → both verified real + cleanly licensed (brainglobe-atlasapi BSD-3-Clause; DeepSlice MIT, © 2023 Harry Carey) but **neither ships as a Claude-installable Skill/MCP/plugin/connector** — bare PyPI libraries only (checked PyPI, both repos, NeuroClaw/SciAgent/K-Dense/bioSkills collections; no SKILL.md or MCP wrapper for either). Same out-of-scope bar as raw RDKit/Scanpy; cataloguing would mean fabricating a non-existent install path. Recorded under Deferred with license verification banked for the moment a wrapper surfaces. No page shipped. outcome=declined

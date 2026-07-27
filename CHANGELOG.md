@@ -11,6 +11,13 @@ Reverse-chronological log of changes to the [catalog]({{ '/catalog/' | relative_
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-07-27 (user request #74)
+
+Immediate-fulfillment run for @goodb's recipe-block chain (#74): the recipes curator blocked a QUINT-replacement implant-localization recipe on two uncatalogued components, `brainglobe-atlasapi` and `DeepSlice`. Both were verified as real, actively-maintained, and cleanly-licensed — but neither is catalogable: each is a **bare PyPI library with no Claude-installable Skill / MCP / plugin / connector**, the same out-of-scope bar applied to raw RDKit/Scanpy. Verified licenses banked for the moment a wrapper surfaces; recorded under Deferred. No page shipped.
+
+### Declined
+- **brainglobe-atlasapi** (BSD-3-Clause; [JOSS 2020](https://doi.org/10.21105/joss.02668)) and **DeepSlice** (MIT, © 2023 Harry Carey; [Carey et al., *Nat Commun* 2023](https://doi.org/10.1038/s41467-023-41645-4)) — out of scope as bare `pip install` libraries with no upstream `SKILL.md` or MCP wrapper (checked PyPI, both repos, and the NeuroClaw / SciAgent / K-Dense / bioSkills collections). Deferred; revisit if a community wrapper ships.
+
 ## 2026-07-26 (Drug Repurposing and Discovery slot)
 
 Drug Repurposing and Discovery directed pass plus a manifest sweep. The `anthropics/life-sciences` `.claude-plugin/marketplace.json` (21 plugin entries) was re-fetched and diffed against the catalog — all entries already covered (medidata, consensus, cortellis, adisinsight all present; biorxiv@life-sciences / clinical-trials@life-sciences remain DOA per the standing flags). Drug-discovery seed queries (`DrugBank MCP server`, `drug repurposing agent MCP server`, `Open Targets standalone MCP`, `ADMET prediction Claude skill/MCP`) reconfirmed existing coverage (DrugBank, Open Targets, Inductive Bio ADMET) and surfaced two new verifiable, cleanly-licensed, installable servers.
