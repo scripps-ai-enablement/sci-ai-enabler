@@ -8,6 +8,12 @@ availability: Beta
 tool_categories: [Chemistry, Drug Repurposing and Discovery]
 last_verified: 2026-07-26
 summary: Self-hostable MCP server wrapping the ADMETlab 3.0 API for molecule washing, SVG rendering, ADMET property prediction, and CSV retrieval.
+verification: degraded
+verified_on: 2026-07-27
+verification_note: "install-from-clone repo resolves and the uvicorn launch is documented but not smoke-tested; depends on the upstream ADMETlab 3.0 API the project notes is unstable"
+security: caution
+security_on: 2026-07-27
+security_note: "provenance matches ToxMCP org, Apache-2.0, no OSV advisories, but early Beta single-maintainer-scale (2 stars) not on PyPI"
 ---
 
 # ADMETlab MCP Server
@@ -21,6 +27,8 @@ A self-hostable MCP server that fronts the ADMETlab 3.0 web API so Claude can wa
 | **Availability** | Beta — install-from-source, part of the ToxMCP suite |
 | **Pricing** | Free / OSS (Apache-2.0); backed by the public ADMETlab 3.0 API |
 | **Capabilities** | Read-only — submits SMILES to ADMETlab and returns predictions/renderings |
+| **Verified** | degraded · 2026-07-27 — repo resolves; uvicorn launch documented, not smoke-tested |
+| **Security** | caution · 2026-07-27 — provenance matches ToxMCP, Apache-2.0, no OSV advisories, early Beta 2-star |
 
 ## How to install
 

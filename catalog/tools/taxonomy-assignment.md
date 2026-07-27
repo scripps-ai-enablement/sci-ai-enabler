@@ -8,6 +8,11 @@ availability: GA
 tool_categories: [Immunology and Microbiology]
 last_verified: 2026-07-25
 summary: "Assign taxonomy to 16S/ITS/18S amplicon ASVs using DADA2, DECIPHER IDTAXA or QIIME2 classifiers against SILVA/GTDB/Greengenes2/UNITE, with region-specific training guidance"
+verification: works
+verified_on: 2026-07-27
+security: cleared
+security_on: 2026-07-27
+security_note: "provenance matches GPTomics/bioSkills, MIT, maintained (pushed 2026-07-25), no OSV advisories; DADA2/DECIPHER/QIIME2 and reference DBs are separately-installed OSS"
 ---
 
 # Taxonomy Assignment (bioSkills)
@@ -21,6 +26,8 @@ A Claude Code skill that assigns taxonomy to amplicon ASVs/OTUs using classifier
 | **Availability** | GA — part of the bioSkills collection |
 | **Pricing** | Free / OSS (MIT) — DADA2, DECIPHER, QIIME2 and the reference databases are separately installed OSS |
 | **Capabilities** | Read/Write — Claude runs the skill's workflow locally (Bash/R), not as an MCP tool |
+| **Verified** | works · 2026-07-27 — GPTomics/bioSkills resolves; clone + copy install path current |
+| **Security** | cleared · 2026-07-27 — provenance matches GPTomics/bioSkills, MIT, maintained, no OSV advisories |
 
 ## How to install
 

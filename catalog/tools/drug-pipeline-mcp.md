@@ -8,6 +8,13 @@ availability: GA
 tool_categories: [Drug Repurposing and Discovery, Translational Medicine]
 last_verified: 2026-07-26
 summary: MCP server aggregating clinical trials, FDA/EMA approvals, safety data, and labels into source-traceable drug pipeline intelligence — no predictions, every output cites its primary source.
+verification: degraded
+verified_on: 2026-07-27
+verification_note: "GitHub repo resolves (MIT, pushed 2026-07-07) and the git-source install works, but PyPI drug-pipeline-mcp returned 404 this run so the documented pip/uvx launch does not resolve"
+security: caution
+security_on: 2026-07-27
+security_note: "provenance matches DasClown, MIT, no OSV advisories, but community single-maintainer (3 stars) and not resolvable on PyPI despite the GA/PyPI claim"
+flagged: PyPI drug-pipeline-mcp not resolvable — only the git-source install works this run
 ---
 
 # Drug Pipeline MCP Server
@@ -21,6 +28,8 @@ An MCP server that synthesizes pharmaceutical R&D pipeline intelligence — clin
 | **Availability** | GA — published on PyPI (`drug-pipeline-mcp`) |
 | **Pricing** | Free / OSS (MIT); all backing data sources are public and keyless |
 | **Capabilities** | Read-only — aggregates public regulatory/trial/literature APIs |
+| **Verified** | degraded · 2026-07-27 — repo resolves + git-source install works; PyPI drug-pipeline-mcp 404 so pip/uvx does not resolve |
+| **Security** | caution · 2026-07-27 — provenance matches DasClown, MIT, no OSV advisories, single-maintainer + not on PyPI |
 
 ## How to install
 

@@ -8,6 +8,11 @@ availability: GA
 tool_categories: [Immunology and Microbiology]
 last_verified: 2026-07-25
 summary: "Convert demultiplexed 16S/ITS amplicon FASTQs into exact amplicon sequence variants (ASVs) with DADA2 — primer removal, per-run error modeling, pair merging and chimera removal"
+verification: works
+verified_on: 2026-07-27
+security: cleared
+security_on: 2026-07-27
+security_note: "provenance matches GPTomics/bioSkills, MIT, maintained (pushed 2026-07-25), no OSV advisories; wrapped DADA2/cutadapt/QIIME2 are separately-installed OSS"
 ---
 
 # Amplicon Processing (bioSkills)
@@ -21,6 +26,8 @@ A Claude Code skill that turns demultiplexed 16S rRNA or ITS amplicon FASTQ file
 | **Availability** | GA — part of the bioSkills collection |
 | **Pricing** | Free / OSS (MIT) — DADA2, cutadapt, QIIME2 and related tools are separately installed OSS |
 | **Capabilities** | Read/Write — Claude runs the skill's workflow locally (Bash/R), not as an MCP tool |
+| **Verified** | works · 2026-07-27 — GPTomics/bioSkills resolves; clone + copy install path current |
+| **Security** | cleared · 2026-07-27 — provenance matches GPTomics/bioSkills, MIT, maintained, no OSV advisories |
 
 ## How to install
 

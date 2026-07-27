@@ -8,6 +8,11 @@ availability: GA
 tool_categories: [Immunology and Microbiology]
 last_verified: 2026-07-25
 summary: "Annotate TCR/BCR sequences against antigen-specificity databases and cluster by shared-specificity signal, treating matches as hypotheses with generation-probability nulls"
+verification: works
+verified_on: 2026-07-27
+security: cleared
+security_on: 2026-07-27
+security_note: "provenance matches GPTomics/bioSkills, MIT, maintained (pushed 2026-07-25), no OSV advisories; wrapped VDJdb/tcrdist3/OLGA are separately-installed OSS"
 ---
 
 # Specificity Annotation (bioSkills)
@@ -21,6 +26,8 @@ A Claude Code skill that maps immune-receptor sequences to candidate antigen spe
 | **Availability** | GA — part of the bioSkills collection |
 | **Pricing** | Free / OSS (MIT) — the wrapped databases and tools (VDJdb, tcrdist3, OLGA, …) are separately installed OSS |
 | **Capabilities** | Read/Write — Claude runs the skill's workflow locally (Bash/Python), not as an MCP tool |
+| **Verified** | works · 2026-07-27 — GPTomics/bioSkills resolves; clone + copy install path current |
+| **Security** | cleared · 2026-07-27 — provenance matches GPTomics/bioSkills, MIT, maintained, no OSV advisories |
 
 ## How to install
 

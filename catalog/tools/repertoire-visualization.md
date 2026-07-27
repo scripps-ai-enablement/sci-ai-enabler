@@ -8,6 +8,11 @@ availability: GA
 tool_categories: [Immunology and Microbiology]
 last_verified: 2026-07-25
 summary: "Render TCR/BCR repertoire figures — V-J chord diagrams, spectratypes, clonal tracking, rarefaction curves, overlap heatmaps and similarity networks — with depth-robust metric guidance"
+verification: works
+verified_on: 2026-07-27
+security: cleared
+security_on: 2026-07-27
+security_note: "provenance matches GPTomics/bioSkills, MIT, maintained (pushed 2026-07-25), no OSV advisories; VDJtools and R/Python deps are separately-installed OSS"
 ---
 
 # Repertoire Visualization (bioSkills)
@@ -21,6 +26,8 @@ A Claude Code skill that renders publication-quality TCR/BCR repertoire figures 
 | **Availability** | GA — part of the bioSkills collection |
 | **Pricing** | Free / OSS (MIT) — VDJtools and R/Python dependencies are separately installed OSS |
 | **Capabilities** | Read/Write — Claude runs the skill's workflow locally (Bash/R/Python), not as an MCP tool |
+| **Verified** | works · 2026-07-27 — GPTomics/bioSkills resolves; clone + copy install path current |
+| **Security** | cleared · 2026-07-27 — provenance matches GPTomics/bioSkills, MIT, maintained, no OSV advisories |
 
 ## How to install
 

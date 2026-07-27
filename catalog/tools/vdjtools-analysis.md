@@ -8,6 +8,11 @@ availability: GA
 tool_categories: [Immunology and Microbiology]
 last_verified: 2026-07-25
 summary: "Compute depth-normalized TCR/BCR repertoire diversity (Hill profiles), overlap, clonality and segment usage with VDJtools/immunarch, with estimator and normalization guidance"
+verification: works
+verified_on: 2026-07-27
+security: cleared
+security_on: 2026-07-27
+security_note: "provenance matches GPTomics/bioSkills, MIT, maintained (pushed 2026-07-25), no OSV advisories; VDJtools (Java) and immunarch (R) are separately-installed OSS"
 ---
 
 # VDJtools Analysis (bioSkills)
@@ -21,6 +26,8 @@ A Claude Code skill that computes immune-repertoire diversity, clonal structure,
 | **Availability** | GA — part of the bioSkills collection |
 | **Pricing** | Free / OSS (MIT) — VDJtools (Java) and immunarch (R) are separately installed OSS |
 | **Capabilities** | Read/Write — Claude runs the skill's workflow locally (Bash/Java/R), not as an MCP tool |
+| **Verified** | works · 2026-07-27 — GPTomics/bioSkills resolves; clone + copy install path current |
+| **Security** | cleared · 2026-07-27 — provenance matches GPTomics/bioSkills, MIT, maintained, no OSV advisories |
 
 ## How to install
 

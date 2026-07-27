@@ -8,11 +8,11 @@ availability: Preview
 tool_categories: [Chemistry, Drug Repurposing and Discovery, Integrative Structural and Computational Biology]
 last_verified: 2026-07-18
 verification: degraded
-verified_on: 2026-07-20
-verification_note: "supplier site novomcp.com loads but the MCP endpoints are API-key gated (nmcp_ key) and access is application-gated research preview, so the install path/tool list is not functionally resolvable without an account"
+verified_on: 2026-07-27
+verification_note: "novomcp.com now points to a self-host repo NovoMCP/novomcp (pushed 2026-07-26) with a local localhost:8018/mcp endpoint, but its README launch command is not yet confirmed and the hosted FAVES tier stays application-gated, so still not functionally resolved this run"
 security: unknown
-security_on: 2026-07-20
-security_note: "closed-source hosted SaaS by Quant NexusAI with no published client source or license, so provenance/advisory assessment is not possible"
+security_on: 2026-07-27
+security_note: "new NovoMCP/novomcp repo appeared but GitHub reports license NOASSERTION (site claims Apache-2.0) and it is 2-star day-old, so provenance/license not yet assessable"
 summary: Hosted computational-chemistry engine MCP — ADMET, GFN2-xTB QM, GPU GROMACS MD, and AutoDock-GPU docking over a precomputed compound layer.
 ---
 
@@ -27,8 +27,8 @@ Hosted MCP server that gives Claude a computational-chemistry engine — molecul
 | **Availability** | Preview — research-preview access; the platform describes an application process for full access |
 | **Pricing** | Freemium — free tier (molecular profiling, ADMET, compliance screening); paid Core / Scale / Enterprise plans unlock **Novo Compute** (QM, MD, docking). Specific prices not published. |
 | **Capabilities** | Read/Write — read-only property/ADMET lookups; compute tools launch GPU simulation jobs |
-| **Verified** | degraded · 2026-07-20 — site loads but MCP endpoints are API-key/application-gated, not functionally resolvable |
-| **Security** | unknown · 2026-07-20 — closed-source hosted SaaS, no published client source or license |
+| **Verified** | degraded · 2026-07-27 — new self-host repo NovoMCP/novomcp appeared but launch not yet confirmed; hosted tier still gated |
+| **Security** | unknown · 2026-07-27 — NovoMCP/novomcp license NOASSERTION vs Apache-2.0 claim, day-old 2-star, not yet assessable |
 
 ## How to install
 

@@ -4,6 +4,68 @@ Rolling, reverse-chronological log of catalog verification + security passes. Ea
 on-demand run that produces changes prepends a dated block; the top block is mirrored to the pinned
 "Verification updates" issue.
 
+## 2026-07-27 (worklist maintenance — 12 unstamped stamped, 13 rechecked, novomcp drift)
+
+Worked the injected worklist top-to-bottom: stamped the 12 unstamped pages, then rechecked the 13
+already-stamped pages (all 2026-07-20, within cadence). One real drift found on recheck: `novomcp`.
+
+### Verified (newly stamped)
+- `cdxml-toolkit` works/caution — PyPI `cdxml-toolkit` 0.5.17 MIT resolves; both the `cdxml-mcp`
+  entry point and the `cdxml_toolkit.mcp_server` module launch are confirmed in PyPI metadata (the
+  smoke `boot_error` was only because the dep resolver backtracked to 0.5.1, which lacks the entry
+  point). Windows+ChemDraw-only so not smoke-testable. Provenance matches leehiufung911; single-
+  maintainer Beta.
+- `chimerax-mcp` works/caution — PyPI `chimerax-mcp` 0.1.1 MIT resolves; `chimerax-mcp` entry point
+  confirmed. Needs GUI + separate ChimeraX install so not smoke-tested. Provenance matches mahynotch;
+  early v0.1.1 single-maintainer (3★) + runs arbitrary scripts.
+- `openfda-mcp-server` works/cleared — **smoke test passed this run** (`npx -y
+  @cyanheads/openfda-mcp-server@latest` installed + booted v0.11.0 over stdio). `cyanheads` Apache-2.0,
+  pushed 2026-07-27.
+- `protein-mcp-server` works/cleared — npm `@cyanheads/protein-mcp-server` 0.4.0 Apache-2.0; bin
+  `protein-mcp-server`→dist/index.js confirms the npx launch. Pushed 2026-07-03.
+- `cms-datagov-mcp` works/caution — `clarifyhealth/cms-datagov-mcp-server` MIT; package.json bin
+  `cms-datagov-mcp-server`→build/index.js confirms the npm-link launch. Clone-and-build so not
+  smoke-tested; single-maintainer (1★) + stale (pushed 2025-12-02).
+- `admetlab-mcp` degraded/caution — `ToxMCP/admetlab-mcp` Apache-2.0 resolves; uvicorn HTTP launch
+  documented but not smoke-tested, and depends on the upstream ADMETlab 3.0 API the project notes is
+  unstable. Not on PyPI, 2★ Beta.
+- `amplicon-processing`, `repertoire-visualization`, `specificity-annotation`, `taxonomy-assignment`,
+  `vdjtools-analysis` works/cleared — all anchor `GPTomics/bioSkills` MIT/not-archived/pushed
+  2026-07-25/1084★; clone + copy install path current. Wrapped tools (DADA2/QIIME2/VDJtools/etc.) are
+  separately-installed OSS.
+
+### Fixed
+- (none — `drug-pipeline-mcp` flagged rather than fixed; see below)
+
+### Flagged
+- `drug-pipeline-mcp` degraded/caution + `flagged:` — `DasClown/drug-pipeline-mcp` MIT repo resolves
+  (pushed 2026-07-07) and the `git+https` source install works, but PyPI `drug-pipeline-mcp` returned
+  404 on all three endpoints (JSON, simple index, project page) this run, so the documented `pip
+  install drug-pipeline-mcp` / `uvx drug-pipeline-mcp` launch does NOT resolve despite the page's
+  GA/PyPI claim. Curator: confirm the real PyPI package name or drop the pip/uvx blocks in favor of
+  the git-source install.
+
+### Security / drift
+- `novomcp` still degraded/unknown but **note refreshed for a real change**: novomcp.com now points
+  to a self-host repo `NovoMCP/novomcp` (pushed 2026-07-26, 2★) exposing a local `localhost:8018/mcp`
+  endpoint — a shift from the prior closed-source-SaaS assessment. GitHub reports its license as
+  NOASSERTION (site claims Apache-2.0). Launch command not yet confirmed against the README and the
+  hosted FAVES tier stays application-gated, so kept degraded/unknown this run. Next run: fetch the
+  repo README, confirm the self-host launch, and reconcile the LICENSE — likely flips toward
+  works/caution if the self-host path checks out.
+
+### Verified (rechecked, unchanged — within cadence, 2026-07-20 stamps left in place)
+- `CUHK-AIM-Group/NeuroClaw` MIT/not-archived/pushed 2026-07-26/76★ → `nii2dcm`, `nibabel-skill`,
+  `nilearn-tool`, `nifd-skill`, `neurostorm` works.
+- `K-Dense-AI/scientific-agent-skills` MIT/not-archived/pushed 2026-07-27/31.9k★ → `neurokit2`,
+  `neuropixels-analysis` works.
+- `jaechang-hits/SciAgent-Skills` NOASSERTION-classifier-but-CC-BY-4.0-root/pushed 2026-07-24/284★ →
+  `nnunet-segmentation` works/cleared.
+- `stanislavjiricek/neuroflow` MIT/pushed 2026-06-04/6★ → `neuroflow` works/caution (unchanged).
+- `magland/neurosift-mcps` no-LICENSE/pushed 2025-11-03/1★ → `neurosift` works/caution (unchanged).
+- Anthropic first-party: `nextflow-development` (life-sciences), `npi-registry` (healthcare) works —
+  unchanged.
+
 ## 2026-07-22 (worklist maintenance — selector loop broken, new window served, zero drift)
 
 The selector finally **advanced past the stuck 25-page window**: this run's worklist was a fresh,

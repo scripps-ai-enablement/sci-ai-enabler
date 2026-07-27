@@ -8,6 +8,12 @@ availability: GA
 tool_categories: [Drug Repurposing and Discovery, Translational Medicine]
 last_verified: 2026-07-26
 summary: Apache-2.0 MCP server federating the full openFDA API — drugs, food, devices (510k/PMA), veterinary, recalls, and shortages — with a public HTTP instance.
+verification: works
+verified_on: 2026-07-27
+verification_note: "smoke test passed this run — npx -y @cyanheads/openfda-mcp-server@latest installed and booted (v0.11.0) over stdio"
+security: cleared
+security_on: 2026-07-27
+security_note: "provenance matches cyanheads, Apache-2.0, maintained (pushed 2026-07-27), no OSV advisories"
 ---
 
 # OpenFDA MCP Server (cyanheads)
@@ -21,6 +27,8 @@ Community MCP server that queries the U.S. FDA's public openFDA API across drugs
 | **Availability** | GA — published to npm as `@cyanheads/openfda-mcp-server`; public HTTP instance live |
 | **Pricing** | Free / OSS (Apache-2.0). An openFDA API key is optional — free tier is 1,000 requests/day, a free key raises it to 120,000/day |
 | **Capabilities** | Read-only — federated openFDA queries across drug/food/device/animal/recall endpoints |
+| **Verified** | works · 2026-07-27 — smoke test booted v0.11.0 via npx over stdio |
+| **Security** | cleared · 2026-07-27 — provenance matches cyanheads, Apache-2.0, maintained, no OSV advisories |
 
 ## How to install
 

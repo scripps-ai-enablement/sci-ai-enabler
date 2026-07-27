@@ -8,6 +8,12 @@ availability: GA
 tool_categories: [Translational Medicine]
 last_verified: 2026-07-26
 summary: MIT-licensed MCP server over data.cms.gov — search, query, and export CMS public datasets (provider enrollment, hospital quality, spending) for healthcare analytics.
+verification: works
+verified_on: 2026-07-27
+verification_note: "clarifyhealth/cms-datagov-mcp-server resolves and package.json bin cms-datagov-mcp-server maps to build/index.js confirming the npm-link launch; clone-and-build so not smoke-tested"
+security: caution
+security_on: 2026-07-27
+security_note: "provenance matches clarifyhealth, MIT, no OSV advisories, but single-maintainer (1 star) and stale (pushed 2025-12-02)"
 ---
 
 # CMS data.gov MCP Server
@@ -21,6 +27,8 @@ Community MCP server that gives Claude direct access to the Centers for Medicare
 | **Availability** | GA — published as `@clarify/cms-datagov-mcp-server` |
 | **Pricing** | Free / OSS (MIT). No API key — data.cms.gov is public |
 | **Capabilities** | Read-only — dataset search, filtered queries (≤ 5,000 rows), and CSV export links |
+| **Verified** | works · 2026-07-27 — repo resolves; package.json bin cms-datagov-mcp-server confirms the launch |
+| **Security** | caution · 2026-07-27 — provenance matches clarifyhealth, MIT, no OSV advisories, single-maintainer + stale (2025-12) |
 
 ## How to install
 

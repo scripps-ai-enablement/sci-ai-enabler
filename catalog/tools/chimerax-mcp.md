@@ -8,6 +8,12 @@ availability: GA
 tool_categories: [Integrative Structural and Computational Biology]
 last_verified: 2026-07-25
 summary: Drive UCSF ChimeraX from Claude in natural language — open, mutate, visualize, measure, and render protein structures; ChimeraX auto-launches.
+verification: works
+verified_on: 2026-07-27
+verification_note: "PyPI chimerax-mcp 0.1.1 resolves and the chimerax-mcp entry point launch is confirmed in PyPI metadata; needs a GUI + separate ChimeraX install so not smoke-testable"
+security: caution
+security_on: 2026-07-27
+security_note: "provenance matches mahynotch, MIT, no OSV advisories, but early v0.1.1 single-maintainer (3 stars) and it runs arbitrary ChimeraX scripts on your machine"
 ---
 
 # ChimeraX MCP Server
@@ -21,6 +27,8 @@ Control UCSF ChimeraX conversationally from Claude — load structures, mutate r
 | **Availability** | GA |
 | **Pricing** | Free / OSS (MIT); UCSF ChimeraX is licensed separately (free for academic/non-profit) — review [rbvi.ucsf.edu/chimerax](https://www.rbvi.ucsf.edu/chimerax/) |
 | **Capabilities** | Read/Write — Claude issues ChimeraX commands and runs arbitrary scripts against structures on your machine, writing snapshots and edited coordinate files |
+| **Verified** | works · 2026-07-27 — PyPI 0.1.1 resolves; chimerax-mcp entry point launch confirmed |
+| **Security** | caution · 2026-07-27 — provenance matches mahynotch, MIT, no OSV advisories, early v0.1.1 single-maintainer + runs arbitrary scripts |
 
 ## How to install
 

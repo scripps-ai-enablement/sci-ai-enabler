@@ -8,6 +8,12 @@ availability: Beta
 tool_categories: [Chemistry]
 last_verified: 2026-07-25
 summary: MCP server that draws molecules and reaction schemes to publication-ready ChemDraw CDXML, parses ELN/LCMS/NMR files, and reads structures from images.
+verification: works
+verified_on: 2026-07-27
+verification_note: "PyPI cdxml-toolkit 0.5.17 resolves and both the cdxml-mcp entry point and cdxml_toolkit.mcp_server module launch are confirmed in PyPI metadata; Windows+ChemDraw-only so not smoke-testable"
+security: caution
+security_on: 2026-07-27
+security_note: "provenance matches leehiufung911, MIT, no OSV advisories, but single-maintainer Beta and a hard Windows plus proprietary ChemDraw COM dependency"
 ---
 
 # CDXML Toolkit
@@ -21,6 +27,8 @@ MCP server and Python toolkit that lets a Claude agent draw molecules and reacti
 | **Availability** | Beta — PyPI `cdxml-toolkit` v0.5.17 (2026) |
 | **Pricing** | Free / OSS (MIT) |
 | **Capabilities** | Read/Write — resolves and renders structures, writes CDXML/PNG files, reads/writes ChemDraw objects in Office documents |
+| **Verified** | works · 2026-07-27 — PyPI 0.5.17 resolves; cdxml-mcp entry point + module launch confirmed |
+| **Security** | caution · 2026-07-27 — provenance matches leehiufung911, MIT, no OSV advisories, single-maintainer Beta + Windows/ChemDraw dependency |
 
 ## How to install
 

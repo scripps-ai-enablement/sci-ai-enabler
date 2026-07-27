@@ -8,6 +8,12 @@ availability: GA
 tool_categories: [Integrative Structural and Computational Biology]
 last_verified: 2026-07-25
 summary: Federated protein-structure search across experimental (PDB) and predicted (AlphaFold) models — homolog search, structural alignment, ligand and annotation lookup, keyless.
+verification: works
+verified_on: 2026-07-27
+verification_note: "npm @cyanheads/protein-mcp-server 0.4.0 resolves and its bin protein-mcp-server maps to dist/index.js confirming the npx launch"
+security: cleared
+security_on: 2026-07-27
+security_note: "provenance matches cyanheads, Apache-2.0, maintained (pushed 2026-07-03), no OSV advisories"
 ---
 
 # Protein MCP Server
@@ -21,6 +27,8 @@ Query experimental and predicted protein structures through one keyless MCP serv
 | **Availability** | GA |
 | **Pricing** | Free / OSS (Apache-2.0) |
 | **Capabilities** | Read-only — searches, fetches, aligns, and annotates public structure/sequence data; no writes |
+| **Verified** | works · 2026-07-27 — npm 0.4.0 resolves; bin protein-mcp-server confirms the npx launch |
+| **Security** | cleared · 2026-07-27 — provenance matches cyanheads, Apache-2.0, maintained, no OSV advisories |
 
 ## How to install
 
