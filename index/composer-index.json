@@ -1158,9 +1158,9 @@
         "JOSS",
         "MIT",
         "Neural-Systems-at-UIO",
-        "PYTHONPATH",
-        "QuickNII",
-        "QUINT"
+        "OpenCV",
+        "PNGs",
+        "PYTHONPATH"
       ],
       "path": "recipes/items/localize-implant-tip-in-brain-atlas-subregion.md"
     },

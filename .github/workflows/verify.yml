@@ -54,7 +54,17 @@ jobs:
 
       - name: Install toolchain (git for skill clones, node for npx, uv for uvx)
         run: |
-          apt-get update && apt-get install -y --no-install-recommends git nodejs npm curl ca-certificates
+          # The graphics runtime libs matter: `opencv-python` (pulled in by e.g.
+          # PyNutil) links libGL/libxcb, so `import cv2` dies in a bare slim image
+          # with "libxcb.so.1: cannot open shared object file". Recipes here target
+          # a laptop (`compute_requirements: Laptop`), where those libs are always
+          # present, so without them the harness would report a boot_error for
+          # every opencv-dependent package and misrepresent the environment its
+          # readers actually have. Headless-server users need
+          # `opencv-python-headless` instead; that caveat belongs on the recipe.
+          apt-get update && apt-get install -y --no-install-recommends \
+            git nodejs npm curl ca-certificates \
+            libgl1 libglib2.0-0 libxcb1 libxext6 libsm6
           curl -LsSf https://astral.sh/uv/install.sh | sh || true
 
       - name: Create non-root user and select the safe subset

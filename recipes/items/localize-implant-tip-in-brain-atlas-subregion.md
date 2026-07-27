@@ -103,6 +103,14 @@ Libraries this recipe's scripts install and import directly. Claude Code install
 
 **Give DeepSlice its own virtualenv — do not install it into a project environment you care about.** Its declared dependencies include TensorFlow, a hard pin of `urllib3==1.26.6` (which will fight anything wanting a modern `urllib3`/`requests`), and the obsolete `typing` stdlib backport. That backport is inert in a normal venv, where site-packages resolves after the standard library, but it hijacks `import typing` in any layout that puts site-packages *first* — a `--target` install exposed via `PYTHONPATH`, and some Docker and conda layouts — failing with `AttributeError: type object 'Callable' has no attribute '_abc_registry'`. If you see that, the cause is the backport shadowing stdlib, not your code. brainglobe-atlasapi and PyNutil are well-behaved and can live in your project env.
 
+**On a headless Linux box, swap OpenCV.** PyNutil depends on `opencv-python`, the desktop build, which links the system graphics libraries. On a laptop that is invisible; on a headless server, compute node, or slim container `import cv2` fails with `libxcb.so.1: cannot open shared object file`. This recipe never opens a window — it writes overlay PNGs to disk — so the headless build is a drop-in:
+
+```
+pip uninstall -y opencv-python && pip install opencv-python-headless
+```
+
+Verified in a `python:3.12-slim` container: without the graphics libs the import fails exactly as above.
+
 **Python 3.11–3.13 only.** brainglobe-atlasapi 2.3.1 declares `requires_python >=3.11`; DeepSlice's README says to install Python 3.11; DeepSlice pulls TensorFlow, which ships CPython wheels only up to cp313. On 3.14 the install fails immediately. Check `python3 -V` first.
 
 | Package | Registry | Pinned | License | Import | Source (fetched 2026-07-27) |
