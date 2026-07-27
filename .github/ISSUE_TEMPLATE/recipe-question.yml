@@ -1,6 +1,6 @@
 # .github/ISSUE_TEMPLATE/recipe-question.yml
 name: Ask a recipe question
-description: "How should I do X? — we'll reply in-thread and queue a durable recipe for the next scheduled run."
+description: "How should I do X? — we'll reply in-thread within minutes and start writing a durable recipe right away."
 title: "[Recipe question] "
 labels: ["claude:recipe-question"]
 body:

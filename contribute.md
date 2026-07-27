@@ -36,15 +36,17 @@ Same idea, scoped to one tool from the catalog. This is how `last_verified` stay
 
 [Open the form →](https://github.com/scripps-ai-enablement/sci-ai-enabler/issues/new?template=tool-request.yml)
 
-Use this when a tool you rely on isn't in the catalog yet. A bot replies in-thread — pointing you to the existing page if it's already covered, otherwise confirming it's queued. The next daily Catalog curator run evaluates it and, if it's in scope and installable, adds a tool page and closes your issue with a link. Include a repo/docs/PyPI URL and the install path if you know it — that's what lets the curator verify it fast.
+Use this when a tool you rely on isn't in the catalog yet. A bot replies in-thread — pointing you to the existing page if it's already covered, otherwise confirming it's been picked up. A Catalog curator run then evaluates it and, if it's in scope and installable, adds a tool page and closes your issue with a link. Include a repo/docs/PyPI URL and the install path if you know it — that's what lets the curator verify it fast.
 
 ## What happens after you file
 
-1. **Within minutes** — a bot reads your issue and posts an in-thread comment with the closest existing recipes or tools (or a best-effort answer if no good match exists), and queues your request for the next curator run.
-2. **Within ~24h** — the next daily scheduled curator run (Recipes runs at 10:00 UTC; Catalog at 07:00 UTC) ships any durable change: a new recipe page, an updated tool note, an evidence-label bump, or a flag for review.
-3. **At loop-close** — the curator posts a comment on your issue with a direct link to the rendered page and closes the issue. You'll get a GitHub notification when this happens.
+Filing an issue starts a curator run on your request straight away — you're not waiting for the weekend batch.
 
-If a request needs more than one run — for example because the curator wants to read a paper before publishing — it stays in the queue and is retried next run. Nothing gets dropped.
+1. **Within minutes** — a bot reads your issue and posts an in-thread comment with the closest existing recipes or tools (or a best-effort answer if no good match exists).
+2. **Right after that** — a curator run starts on your request specifically. The issue gets a `claude:working` label, and the curator posts what it's doing in your thread as it goes: what it searched, what it found or ruled out, what it's about to write.
+3. **Usually within the hour** — the durable change ships: a new recipe page, an updated tool note, an evidence-label bump, or a flag for review. The curator comments with the commit and a direct link to the rendered page, then closes the issue. You'll get a GitHub notification.
+
+Some requests need more than one run — the curator may want to read a paper first, or the answer may depend on a tool that isn't catalogued yet. When that happens it says so in the thread and the request stays queued for the next scheduled pass (Catalog and Recipes both run through all seven subject areas each weekend). Nothing gets dropped.
 
 ## What you need
 
@@ -54,9 +56,9 @@ If a request needs more than one run — for example because the curator wants t
 
 ## What the bot can and can't do
 
-The in-thread responder is **read-only on the site content** — it only reads existing pages and posts a comment. Durable changes are made by the scheduled curator agents, which run with the full evidence rules, simplicity ladder, and source-verification machinery applied. That keeps the rules consistent on every change, regardless of whether the trigger was a user request or the daily directed pass.
+The in-thread responder that replies first is **read-only on the site content** — it only reads existing pages and posts a comment. Durable changes are made by the curator agents, with the full evidence rules, simplicity ladder, and source-verification machinery applied. The on-demand run triggered by your issue is the *same* curator agent under the *same* rules as the weekend pass, just scoped to your one request — responding fast doesn't lower the bar.
 
-The bot will not invent tools or recipes that don't exist. If a question reaches beyond what's catalogued today, it'll say so plainly and queue the gap for the curator to consider in the next run.
+The bot will not invent tools or recipes that don't exist. If a question reaches beyond what's catalogued today, it'll say so plainly and record the gap rather than papering over it.
 
 ## Other ways to engage
 

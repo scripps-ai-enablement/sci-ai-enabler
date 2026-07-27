@@ -392,6 +392,8 @@ Recipes are read by working scientists, engineers, and clinicians who do not kno
 
 The workflow pre-fetches the body of every open user-request issue into `.request-bodies/<NN>.md` before you start, so you can `Read` it directly — you do not have `gh` or a shell. If a `.request-bodies/<NN>.md` file is missing (the fetch failed, e.g. the issue was deleted), leave that entry in `## User requests (open)` and move on; do not guess at its contents.
 
+**Immediate mode.** A user request no longer waits for the weekend cron. The moment `responder.yml` queues one it dispatches `fulfill.yml`, which re-runs *you* — this same spec — scoped to that single entry, with `Bash(gh issue comment:*)` added so you can post progress to the user's thread while you work. That run's prompt spells out the scope reduction (one entry, one new page, no directed pass) and the notification contract. Nothing about the evidence rules or the simplicity ladder changes. The scheduled pass below stays the safety net: whatever an immediate run leaves in `## User requests (open)` — because it ran out of wall-clock, errored, or was superseded while queued behind another run — is retried here as normal.
+
 **Each run, process every entry in `## User requests (open)`:**
 
 1. For a `question=` entry: check if an existing recipe in `recipes/items/` already covers it.

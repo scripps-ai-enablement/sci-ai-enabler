@@ -1,6 +1,6 @@
 # .github/ISSUE_TEMPLATE/tool-request.yml
 name: Request a new catalog tool
-description: "The catalog is missing a tool you want — tell us about it and we'll evaluate it for the next scheduled run."
+description: "The catalog is missing a tool you want — tell us about it and a curator run evaluates it right away."
 title: "[Tool request] "
 labels: ["claude:tool-request"]
 body:

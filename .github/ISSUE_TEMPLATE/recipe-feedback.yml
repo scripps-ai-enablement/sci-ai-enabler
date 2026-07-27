@@ -1,6 +1,6 @@
 # .github/ISSUE_TEMPLATE/recipe-feedback.yml
 name: Share feedback on a recipe
-description: "I tried recipe X and… — we'll reply in-thread and queue the feedback for the next scheduled run."
+description: "I tried recipe X and… — we'll reply in-thread and a curator run picks up your feedback right away."
 title: "[Recipe feedback] "
 labels: ["claude:recipe-feedback"]
 body:

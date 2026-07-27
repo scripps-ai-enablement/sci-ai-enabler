@@ -5,6 +5,9 @@ output.txt
 .run-prompt.md
 .digest-prompt.md
 
+# Transient queue entry extracted by fulfill.yml for the on-demand run prompt
+.fulfill-entry.txt
+
 # Transient weekly digest written by the digest agent before it is posted
 .digest.md
 
