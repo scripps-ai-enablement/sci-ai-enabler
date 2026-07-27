@@ -260,6 +260,8 @@ jobs:
             fi
 
             gh issue comment "$NUM" --repo "$REPO" --body "Shipped in ${COMMIT_URL}. ${RESULT}${LINK_LINE}"$'\n\nClosing — feel free to reopen if this missed the mark.' || true
+            # A previously-parked request is no longer parked once it ships.
+            gh issue edit "$NUM" --repo "$REPO" --remove-label "claude:blocked-on-catalog" >/dev/null 2>&1 || true
             gh issue close "$NUM" --repo "$REPO" --reason completed || true
           done <<< "$BLOCK"
 

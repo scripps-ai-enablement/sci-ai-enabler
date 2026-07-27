@@ -170,21 +170,30 @@ MCP_BOOT = re.compile(
 # scraping the literal text would turn any page into an arbitrary-code channel
 # into the smoke container, destroying the property this module exists to hold
 # (what untrusted code runs is decided by auditable Python, not by a page).
-IMPORT_BOOT = re.compile(
-    r"""python3? +-c +["']import +([A-Za-z_][A-Za-z0-9_]*(?:\.[A-Za-z0-9_]+)*)"""
-)
+# The `python3 -c "..."` payload, confined to one line (`.` excludes newlines).
+IMPORT_CMD = re.compile(r"""python3? +-c +(["'])(.+?)\1""")
+# A dotted module name following the `import` keyword, and nothing else.
+IMPORT_NAME = re.compile(r"\bimport +([A-Za-z_][A-Za-z0-9_]*(?:\.[A-Za-z0-9_]+)*)")
 
 
 def import_boot(text: str) -> str | None:
-    """A safe `python3 -c "import <module>"` boot command, or None.
+    """A safe `python3 -c "import a, b"` boot command, or None.
 
-    The returned command is built from a validated dotted identifier, so it can
-    contain nothing but an import of that module.
+    Every module a block documents is checked, not just the first: a recipe with
+    two dependencies writes one import line for both, and verifying half of it
+    would report a pass while leaving a dependency untested.
+
+    The returned command is REBUILT from validated dotted identifiers, so
+    whatever else the page's literal string contained cannot survive into it.
     """
-    m = IMPORT_BOOT.search(text)
-    if not m:
+    modules: list[str] = []
+    for cmd in IMPORT_CMD.finditer(text):
+        for name in IMPORT_NAME.findall(cmd.group(2)):
+            if name not in modules:
+                modules.append(name)
+    if not modules:
         return None
-    return f'python3 -c "import {m.group(1)}"'
+    return 'python3 -c "import ' + ", ".join(modules) + '"'
 
 
 def boot_for(text: str) -> str | None:
