@@ -114,7 +114,7 @@ jobs:
             echo "- Walk the simplicity ladder. The lowest rung that solves the problem is the right answer."
           } > .run-prompt.md
 
-      - name: Pre-fetch open user-request issue bodies
+      - name: Pre-fetch user-request issue bodies
         # The curator agent runs sandboxed (no Bash/gh), but RECIPE_AGENT.md asks
         # it to read issue bodies for feedback and triage entries. The agent step
         # has no gh access, so fetch the bodies here (where GH_TOKEN is available)
@@ -127,10 +127,12 @@ jobs:
           STATE="recipes/curator-state.md"
           mkdir -p .request-bodies
           [ -f "$STATE" ] || exit 0
-          # Issue numbers in the "## User requests (open)" block (e.g. "[#12 ...]").
+          # Issue numbers (e.g. "[#12 ...]") from both `(open)` and `(blocked)` — the agent re-examines blocked requests
+          # each run to see whether their missing components have since landed,
+          # which it cannot do without the original issue body.
           NUMS=$(awk '
-            /^## User requests \(open\)/ { capture=1; next }
-            /^## / && capture { exit }
+            /^## User requests \((open|blocked)\)/ { capture=1; next }
+            /^## / { capture=0 }
             capture
           ' "$STATE" | grep -oE '\[#[0-9]+' | tr -d '[#' | sort -u)
           for NUM in $NUMS; do
@@ -259,6 +261,30 @@ jobs:
             if [ -n "$PAGE_PATH" ]; then
               PAGE_URL="${PAGES_BASE}/${PAGE_PATH%.md}.html"
               LINK_LINE=$'\n\nRead the answer here: '"${PAGE_URL}"
+            fi
+
+            # An entry claiming `outcome=blocked` must never close the issue — the
+            # request is understood but unanswered, and closing it as `completed`
+            # tells the user "done" when the truth is "can't yet" (issue #74).
+            # Park it in `(blocked)` instead; fulfill.yml and later scheduled runs
+            # pick it up from there once the blocker clears.
+            if printf '%s' "$LINE" | grep -q 'outcome=blocked'; then
+              echo "#${NUM} is blocked; parking it instead of closing."
+              python3 scripts/request_state.py move --state "$STATE" --issue "$NUM" --to blocked || true
+              gh label create "claude:blocked-on-catalog" --repo "$REPO" --color "D93F0B" \
+                --description "Answerable, but waiting on a component to be catalogued" --force || true
+              gh issue edit "$NUM" --repo "$REPO" --add-label "claude:blocked-on-catalog" || true
+              gh issue comment "$NUM" --repo "$REPO" --body \
+              "**Not done yet — and not closing this.** ${RESULT}"$'\n\n'"Recorded in ${COMMIT_URL}. Every scheduled curator pass re-checks blocked requests, so this is picked up again automatically once the blocker clears." || true
+              continue
+            fi
+
+            if printf '%s' "$LINE" | grep -q 'outcome=declined'; then
+              # Terminal, but not a success — don't dress it up as one.
+              gh issue comment "$NUM" --repo "$REPO" --body \
+              "**Not doing this one — here's why.** ${RESULT}"$'\n\n'"Recorded in ${COMMIT_URL} so the reasoning isn't lost. Closing, but reopen with more detail if you think this was the wrong call." || true
+              gh issue close "$NUM" --repo "$REPO" --reason completed || true
+              continue
             fi
 
             gh issue comment "$NUM" --repo "$REPO" --body "Shipped in ${COMMIT_URL}. ${RESULT}${LINK_LINE}"$'\n\nClosing — feel free to reopen if this missed the mark.' || true

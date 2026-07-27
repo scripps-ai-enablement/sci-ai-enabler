@@ -190,7 +190,7 @@ For `Proposed`: state explicitly that no documented attempt is known, and list t
 
 ## Curator-only state
 
-`recipes/curator-state.md` holds curator-only lists that do not appear in the public site nav (`nav_exclude: true`). Maintain these sections (plus the responder-fed `## User requests (open)` / `## User requests (closed this run)` and the `## Composition reports` demand tally):
+`recipes/curator-state.md` holds curator-only lists that do not appear in the public site nav (`nav_exclude: true`). Maintain these sections (plus the responder-fed `## User requests (open)` / `## User requests (blocked)` / `## User requests (closed this run)` lifecycle and the `## Composition reports` demand tally):
 
 ```markdown
 ---
@@ -392,7 +392,9 @@ Recipes are read by working scientists, engineers, and clinicians who do not kno
 
 The workflow pre-fetches the body of every open user-request issue into `.request-bodies/<NN>.md` before you start, so you can `Read` it directly — you do not have `gh` or a shell. If a `.request-bodies/<NN>.md` file is missing (the fetch failed, e.g. the issue was deleted), leave that entry in `## User requests (open)` and move on; do not guess at its contents.
 
-**Immediate mode.** A user request no longer waits for the weekend cron. The moment `responder.yml` queues one it dispatches `fulfill.yml`, which re-runs *you* — this same spec — scoped to that single entry, with `Bash(gh issue comment:*)` added so you can post progress to the user's thread while you work. That run's prompt spells out the scope reduction (one entry, one new page, no directed pass) and the notification contract. Nothing about the evidence rules or the simplicity ladder changes. The scheduled pass below stays the safety net: whatever an immediate run leaves in `## User requests (open)` — because it ran out of wall-clock, errored, or was superseded while queued behind another run — is retried here as normal.
+**Immediate mode.** A user request no longer waits for the weekend cron. The moment `responder.yml` queues one it dispatches `fulfill.yml`, which re-runs *you* — this same spec — scoped to that single entry, with `Bash(gh issue comment:*)` added so you can post progress to the user's thread while you work. That run's prompt spells out the scope reduction (one entry, one new page, no directed pass) and the notification contract. Nothing about the evidence rules or the simplicity ladder changes. The scheduled pass below stays the safety net: whatever an immediate run leaves in `## User requests (open)` or `## User requests (blocked)` — because it ran out of wall-clock, errored, was superseded while queued behind another run, or is waiting on a component — is retried here as normal.
+
+**The catalog chain.** If you mark a request `outcome=blocked` (see below), `fulfill.yml` does not stop there: it appends a `request=unblock-recipe` entry to `catalog/curator-state.md` and dispatches the catalog curator on the components you named, then hands the request back to you once they land. So `blocked` is an active state that gets the user an answer, not a shelf. The chain is capped at one catalog round-trip per request; a second block leaves the issue open and labelled for the scheduled passes to pick up.
 
 **Each run, process every entry in `## User requests (open)`:**
 
@@ -411,8 +413,23 @@ The workflow pre-fetches the body of every open user-request issue into `.reques
    - `outcome=failed` — the assembly ran but wasn't useful. If it maps to an existing recipe, treat like `got stuck`; otherwise record the gap for a future directed pass.
    Then append one line to `## Composition reports` (the rolling demand tally) and trim it to the last ~15.
 4. For `(no trailer emitted; needs curator triage)` entries, read the issue body from `.request-bodies/<NN>.md` and decide what to do — the bare entry's `title=`/`label=` rarely carry the request; the body is where the actual feedback lives.
-5. **Move each processed entry** from `## User requests (open)` to `## User requests (closed this run)` and append `→ <result note>` describing what shipped or why nothing did.
+5. **Move each processed entry out of `## User requests (open)`** and append `→ <result note>` ending in an `outcome=` token. The token decides what the user is told and whether their issue is closed, so it has to be honest:
 
-Entries not actioned this run stay in `## User requests (open)` and are retried next run. The loop-closer step in `recipes.yml` reads `## User requests (closed this run)` after you exit and resets the section to `_None._` itself.
+| Token | When | Move it to |
+|---|---|---|
+| `outcome=shipped` | a recipe shipped, or an existing recipe was updated | `## User requests (closed this run)` |
+| `outcome=already-covered` | an existing recipe already answers it | `## User requests (closed this run)` |
+| `outcome=declined` | genuinely out of scope or unanswerable in principle — say why | `## User requests (closed this run)` |
+| `outcome=blocked` | you understand the request and it *is* answerable, but a load-bearing component is not in `catalog/tools/` yet | **`## User requests (blocked)`** |
 
-The soft cap of **≤ 3 new recipes per run** still applies. User-requested new recipes count toward it but get priority over the directed-pass picks.
+Name the `recipes/items/<slug>.md` path in the note whenever a page shipped, so the loop-closer can link it.
+
+**`outcome=blocked` is the important one.** It is what you use instead of writing an ungrounded recipe *or* pretending the request is finished. Move the entry to `## User requests (blocked)`, add a `blocked-on=catalog:<slug>,<slug>` field naming the components (lowercase, comma-separated, no spaces), and file the usual `## Missing components` note with each component's URL, install path, and purpose — that note is the brief the catalog curator acts on, so make it complete enough to work from, and flag any license you could not verify.
+
+A blocked entry is not parked and forgotten. The workflow keeps the user's issue **open**, labels it `claude:blocked-on-catalog`, and dispatches a catalog run on those components immediately; if they get catalogued, the request is handed straight back to you and you write the recipe. Before this existed, a blocked request was moved to `(closed this run)` and the user's issue was closed as `completed` — which told them "done" when the truth was "can't yet" (issue #74, closed 2m24s after filing with nothing shipped). Never do that again: if nothing shipped, do not use `outcome=shipped`.
+
+6. **Re-examine `## User requests (blocked)` every run.** For each entry, check whether the components in its `blocked-on=catalog:` field now exist in `catalog/tools/`. If they all do, move the entry back to `## User requests (open)`, drop the stale `outcome=` token, and process it this run — that's a user who has been waiting. If they still don't, leave it alone; do not re-post the analysis or re-file the `## Missing components` note. This is the safety net for a component catalogued by any route, including a chain hop that failed and a human who added the page by hand.
+
+Entries not actioned this run stay in `## User requests (open)` and are retried next run. The loop-closer step in `recipes.yml` reads `## User requests (closed this run)` after you exit and resets the section to `_None._` itself; it leaves `## User requests (blocked)` alone.
+
+The soft cap of **≤ 3 new recipes per run** still applies. User-requested new recipes count toward it but get priority over the directed-pass picks; a blocked request returning from the catalog hop outranks a fresh directed-pass pick, since the user has already waited a round-trip.
