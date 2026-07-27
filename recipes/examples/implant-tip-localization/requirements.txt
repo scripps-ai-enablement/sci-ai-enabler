@@ -1,0 +1,18 @@
+# Pinned environment for the LIVE run of localize_tips.py.
+#
+# The offline replay (--offline) needs none of these — it is standard-library
+# only, which is why the test suite can prove the coordinate arithmetic without
+# downloading a 3D atlas or TensorFlow weights.
+#
+# Python 3.11-3.13. Not wider, and this is a hard constraint, not a preference:
+#   * brainglobe-atlasapi 2.3.1 declares requires_python >=3.11
+#   * DeepSlice's README says "make sure you have Python 3.11 installed"
+#   * DeepSlice pulls TensorFlow, which ships CPython wheels only up to cp313
+# On 3.14 the install fails outright.
+#
+# DeepSlice is GPL-3.0-only (copyleft): running it in-house is fine, but
+# redistributing a derived pipeline carries its obligations.
+DeepSlice==1.2.8
+brainglobe-atlasapi==2.3.1
+PyNutil==0.6.2
+scikit-image==0.25.2

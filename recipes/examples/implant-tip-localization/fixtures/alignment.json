@@ -1,0 +1,24 @@
+{
+ "_comment": "QuickNII-format alignment as DeepSlice's save_predictions() emits. One section. anchoring is [ox,oy,oz,ux,uy,uz,vx,vy,vz].",
+ "name": "mini_demo",
+ "target": "mini_demo_25um",
+ "slices": [
+  {
+   "filename": "demo_s001.png",
+   "nr": 1,
+   "width": 100,
+   "height": 80,
+   "anchoring": [
+    0.0,
+    0.0,
+    0.0,
+    8.0,
+    0.0,
+    0.0,
+    0.0,
+    8.0,
+    0.0
+   ]
+  }
+ ]
+}

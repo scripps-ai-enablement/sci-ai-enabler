@@ -38,7 +38,7 @@ Rung 3 — a three-component toolbelt driving two directly-imported dependencies
 
 1. **Install the [scikit-image skill](../../catalog/tools/scikit-image-processing.html)** for the per-section tip detection (install commands on the catalog page). Add the two Python dependencies below to your project environment (see [Dependencies](#dependencies)).
 
-2. **Predict each section's cutting plane with DeepSlice.** DeepSlice reads the whole folder and emits one QuickNII-compatible JSON alignment (anchoring vectors `ox,oy,oz,ux,uy,uz,vx,vy,vz` per section) — this is what handles non-orthogonal planes that a fixed coronal plate cannot:
+2. **Predict each section's cutting plane with DeepSlice.** DeepSlice reads the whole folder and emits one QuickNII-compatible JSON alignment (anchoring vectors `ox,oy,oz,ux,uy,uz,vx,vy,vz` per section) — this is what handles non-orthogonal planes that a fixed coronal plate cannot. Three input requirements from DeepSlice's own README, all of which will bite silently if missed: every section in the folder must be **from the same brain**; it works on **coronally cut sections only**; and if you pass `section_numbers=True` the filenames must carry the number as `_sNNN` (e.g. `brain1_s042.png`). It performs best on brightfield images.
 
    ```
    Write predict_planes.py using DeepSlice (from DeepSlice import DSModel):
@@ -59,24 +59,41 @@ Rung 3 — a three-component toolbelt driving two directly-imported dependencies
    to out/overlays/ for human QC. Emit out/tips.csv: section, x_px, y_px.
    ```
 
-4. **Map the tip pixel into CCF and read the subregion.** Apply the section's DeepSlice anchoring vectors to convert the tip pixel `(x,y)` into a CCF voxel `(ap,dv,ml)`, then look it up with brainglobe-atlasapi:
+4. **Map the tip pixel into CCF and read the subregion.** This is the step that goes wrong quietly, so use the canonical implementation rather than deriving it. The QuickNII anchoring is an origin plus two in-plane vectors, and the transform is
+
+   ```
+   atlas_coord = O + (x / width) * U + (y / height) * V
+   ```
+
+   dividing by `width`/`height` — **not** `width-1`. An off-by-one here yields coordinates that look plausible and are wrong with no error raised. [PyNutil](https://github.com/Neural-Systems-at-UIO/PyNutil) is the maintained Python implementation from the QUINT authors and does exactly this, including multi-section series and VisuAlign non-linear deformation, so prefer it over hand-rolling:
 
    ```
    In localize_tips.py:
+     import pandas as pd
      from brainglobe_atlasapi import BrainGlobeAtlas
+     from PyNutil import read_alignment, xy_to_coords
+
      atlas = BrainGlobeAtlas("allen_mouse_25um")
-     # map tip pixel -> CCF voxel via the section's anchoring vectors
-     sid  = atlas.annotation[ap, dv, ml]                 # structure id
-     row  = atlas.lookup_df.loc[atlas.lookup_df.id == sid]  # acronym, name
-     ancestors = atlas.get_structure_ancestors(row.acronym)  # hierarchy roll-up
-   For the distance-to-boundary margin, compute the shortest distance
-   from the tip voxel to the nearest voxel of a *different* structure id
-   in atlas.annotation, times the 25 um voxel size.
+     registration = read_alignment("out/alignment/alignment.json")
+     # tips must carry: X, Y, image_width, image_height, section number
+     result = xy_to_coords(tips_df, registration, atlas)   # (N,3) atlas points
+
+   Then read the subregion with the atlas's own lookup rather than indexing
+   the annotation array by hand:
+     acronym   = atlas.structure_from_coords(voxel, as_acronym=True,
+                                             key_error_string="Outside atlas")
+     ancestors = atlas.get_structure_ancestors(acronym)   # hierarchy roll-up
    ```
+
+   **Axis order:** read `atlas.orientation`, don't assume it. `allen_mouse_25um` reports `"asr"` — axis 0 anterior (AP), axis 1 superior→inferior (DV), axis 2 →right (ML) — which is what `xy_to_coords` returns by default (`return_orientation="asr"`). A different atlas may differ, and `structure_from_coords` takes voxels unless you pass `microns=True`.
+
+   For the distance-to-boundary margin, compute the shortest distance from the tip coordinate to the nearest voxel of a *different* structure id, times the 25 µm voxel size — on the real atlas use a distance transform (`scipy.ndimage.distance_transform_edt` on a same-structure mask), not a brute-force scan.
 
 5. **Emit the verdict table.** For each section write: predicted AP, tip CCF voxel, structure id/acronym/name, its parent structures, a `hit` boolean (target acronym is the structure or one of its ancestors), and `margin_um` (distance to boundary). A tip whose `margin_um` is smaller than the plane-prediction AP error should be reported as *marginal*, not a clean hit/miss.
 
 6. **Record provenance.** Have the scripts write `out/provenance.json`: DeepSlice version + model (`mouse`), the atlas name and BrainGlobe atlas version (`allen_mouse_25um`), the voxel size, the tip-detection threshold parameters, the input-folder `sha256` manifest, the run date, and the model/agent identity. See the [reproducibility guide](../../guide/advanced/reproducibility.html).
+
+A runnable reference artifact ships with this recipe: [`recipes/examples/implant-tip-localization/`](https://github.com/scripps-ai-enablement/sci-ai-enabler/tree/main/recipes/examples/implant-tip-localization) — `python localize_tips.py --offline --target TGT --outdir results/demo` replays a synthetic 8×8×8 atlas with standard library only (no atlas download, no TensorFlow) and demonstrates the hit / miss / **marginal** logic against an answer you can check by hand. Start there to confirm the coordinate arithmetic before pointing it at real sections.
 
 The durable artifact is `predict_planes.py` + `detect_tips.py` + `localize_tips.py` + the pinned `requirements.txt` + the emitted `alignment.json`, `tips.csv`, `placements.csv`, overlay PNGs, and `provenance.json` — all under version control. Re-running on the same folder reproduces the placement table (modulo DeepSlice ensemble stochasticity, which the provenance records).
 
@@ -84,14 +101,17 @@ The durable artifact is `predict_planes.py` + `detect_tips.py` + `localize_tips.
 
 Libraries this recipe's scripts install and import directly. Claude Code installs these into your project environment — they are not available in Claude.ai chat. DeepSlice fetches its trained model weights on first use (the `DSModel("mouse")` call downloads them), so the first run needs network access and a few hundred MB of disk; the import check below proves the package imports, not that the weight download succeeded. DeepSlice is **GPL-3.0** (copyleft) — redistributing a modified pipeline carries its license obligations, though running it in-house does not.
 
+**Python 3.11–3.13 only.** brainglobe-atlasapi 2.3.1 declares `requires_python >=3.11`; DeepSlice's README says to install Python 3.11; DeepSlice pulls TensorFlow, which ships CPython wheels only up to cp313. On 3.14 the install fails immediately. Check `python3 -V` first.
+
 | Package | Registry | Pinned | License | Import | Source (fetched 2026-07-27) |
 |---|---|---|---|---|---|
 | DeepSlice | PyPI | `1.2.8` | GPL-3.0-only | `DeepSlice` | [Carey et al., *Nat Commun* 2023](https://doi.org/10.1038/s41467-023-41645-4) |
 | brainglobe-atlasapi | PyPI | `2.3.1` | BSD-3-Clause | `brainglobe_atlasapi` | [Claudi et al., *JOSS* 2020](https://doi.org/10.21105/joss.02668) |
+| PyNutil | PyPI | `0.6.2` | MIT | `PyNutil` | [PyNutil (Neural Systems at UIO)](https://github.com/Neural-Systems-at-UIO/PyNutil) |
 
 ```
-pip install DeepSlice==1.2.8 brainglobe-atlasapi==2.3.1
-python3 -c "import DeepSlice; import brainglobe_atlasapi"
+pip install DeepSlice==1.2.8 brainglobe-atlasapi==2.3.1 PyNutil==0.6.2
+python3 -c "import DeepSlice; import brainglobe_atlasapi; import PyNutil"
 ```
 
 ## Why this assembly
@@ -103,6 +123,8 @@ Rung 3 (multi-tool harness). Two of the three components carry non-substitutable
 Fully open. brainglobe-atlasapi is BSD-3-Clause; the scikit-image skill and its library are BSD/OSS. DeepSlice is **GPL-3.0** — fine to run in-house, but if you redistribute a derived pipeline you inherit copyleft obligations; that is the strictest license in the stack and it keeps the recipe at `Fully open` (no subscription, no institutional gate). No account required. The recipe assumes mouse sections in the Allen CCF; DeepSlice ships a rat model too, but the brainglobe atlas name and the QC thresholds would need adjusting.
 
 ## Compute requirements
+
+**Python 3.11–3.13 — a hard constraint, check it before anything else.** brainglobe-atlasapi 2.3.1 declares `requires_python >=3.11`, DeepSlice's README says to install Python 3.11, and DeepSlice pulls TensorFlow, which ships CPython wheels only up to cp313. On 3.14 the install fails outright.
 
 Laptop. DeepSlice inference is CPU-only and processes a folder of sections in seconds to a couple of minutes; brainglobe-atlasapi's `allen_mouse_25um` volume (~tens of MB) loads into a few hundred MB of RAM. No GPU. First run downloads DeepSlice weights and the BrainGlobe atlas (one-time, a few hundred MB total). The accuracy ceiling, not compute, is the constraint: DeepSlice reports a mean placement error on the order of a QuickNII-anchored human, but a single 2D section still inherits AP uncertainty from the plane prediction — so this is a screening tool. For a publication-grade boundary call, keep VisuAlign's human nonlinear correction in the loop or confirm marginal placements manually.
 
@@ -129,6 +151,7 @@ Proposed — no documented attempt at this exact three-component Claude Code ass
 - [Carey et al., "DeepSlice: rapid fully automatic registration of mouse brain imaging to a volumetric atlas," *Nat Commun* 2023](https://doi.org/10.1038/s41467-023-41645-4) — published 2023-09; verified 2026-07-27 (this run).
 - [Claudi et al., "BrainGlobe Atlas API," *JOSS* 2020](https://doi.org/10.21105/joss.02668) — published 2020; verified 2026-07-27 (this run).
 - [Yates et al., "QUINT: Workflow for Quantification and Spatial Analysis of Features in Histological Images," *Front. Neuroinform.* 2019](https://doi.org/10.3389/fninf.2019.00075) — published 2019; the manual workflow this recipe scripts.
+- [PyNutil](https://github.com/Neural-Systems-at-UIO/PyNutil) — MIT; the QUINT authors' Python implementation of the QuickNII anchoring transform (`transform_to_atlas_space`, `PyNutil/processing/atlas_map.py`, which documents `atlas = O + (x/width)*U + (y/height)*V`); version 0.6.2, fetched 2026-07-27 (this run).
 - [DeepSlice on PyPI](https://pypi.org/project/DeepSlice/) — version 1.2.8, GPL-3.0-only; fetched 2026-07-27 (this run).
 - [brainglobe-atlasapi on PyPI](https://pypi.org/project/brainglobe-atlasapi/) — version 2.3.1, BSD-3-Clause; fetched 2026-07-27 (this run).
 
