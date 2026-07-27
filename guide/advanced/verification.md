@@ -8,7 +8,9 @@ nav_order: 6
 # How catalog entries are verified
 
 Every tool in the [Catalog](../../catalog/) points at a third-party component — a Skill, MCP
-server, plugin, or connector maintained by someone else. To make the catalog trustworthy, an
+server, plugin, or connector maintained by someone else. (The same machinery also checks the
+[libraries recipes install](../../recipes/dependencies.md), which are not catalog entries and carry
+no badge — see the end of this page.) To make the catalog trustworthy, an
 automated **Verifier agent** checks each entry and stamps it with two badges you'll see in the
 entry's metadata table and on the area-page cards.
 
@@ -52,3 +54,21 @@ The Verifier runs as two separate GitHub Actions jobs, split deliberately for sa
 Everything is initially stamped in a bootstrap pass, then re-checked on a rolling 30-day cycle as
 part of ongoing maintenance. This complements — it does not replace — the curator's `last_verified`
 date, which records the last manual link/pricing review.
+
+## Libraries recipes install
+
+Some recipes have Claude Code `pip install` a scientific library and write a script against it. Those
+libraries aren't Claude components, so they get no catalog page and **no badge** — but the same
+quarantined job still checks them: it installs the exact pinned version the recipe declares and runs
+the declared import. Verdicts land on the [library index](../../recipes/dependencies.md).
+
+Two limits worth knowing. The probe proves the package installs and imports; it is **not** a safety
+claim, because `pip install` already executes the package's own build hooks. And it never exercises
+first-run downloads — model weights, atlas volumes — so a recipe that needs those says so in its own
+text. Only `pip` packages are checked at all: the container has no conda, R, or compiler, so a recipe
+needing one of those is deferred rather than shipped on a claim nobody can test.
+
+The import command is **synthesized** from a validated module identifier, never copied out of the
+page. Pages here are written by an agent, so scraping a literal `python3 -c "…"` string would let a
+page choose what runs in the container; extracting only a dotted name and rebuilding the command
+keeps that decision in auditable code.

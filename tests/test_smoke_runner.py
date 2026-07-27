@@ -122,6 +122,43 @@ class ProbeBoot(unittest.TestCase):
         self.assertEqual(status, "pass")
 
 
+class ImportProbe(unittest.TestCase):
+    """An import check as a boot command needs NO runner changes — pinned here.
+
+    The recipe-dependency probe relies on three existing runner behaviours rather
+    than new code: pip's `--target` is already on PYTHONPATH, a boot command that
+    exits 0 is already `pass`, and the JSON-RPC write to a process that has
+    already exited is already swallowed. If any of those regress, the dependency
+    verification silently stops meaning anything, so assert them directly.
+    """
+
+    def setUp(self):
+        self.env = dict(os.environ)
+        self.dir = tempfile.mkdtemp(prefix="importprobe_")
+
+    def test_successful_import_is_a_pass(self):
+        status, log = runner._probe_boot(
+            f'{sys.executable} -c "import json"', self.dir, self.env, 30)
+        self.assertEqual(status, "pass", log)
+
+    def test_failed_import_is_a_boot_error_with_the_traceback(self):
+        status, log = runner._probe_boot(
+            f'{sys.executable} -c "import nonexistent_module_xyz"',
+            self.dir, self.env, 30)
+        self.assertEqual(status, "boot_error")
+        self.assertIn("ModuleNotFoundError", log)
+
+    def test_import_of_a_module_installed_into_the_pip_target_resolves(self):
+        """Mirrors the real path: pip --target dir on PYTHONPATH, then import it."""
+        site = Path(self.dir) / "site"
+        site.mkdir()
+        (site / "fake_dep_pkg.py").write_text("VALUE = 1\n", encoding="utf-8")
+        env = dict(self.env, PYTHONPATH=str(site))
+        status, log = runner._probe_boot(
+            f'{sys.executable} -c "import fake_dep_pkg"', self.dir, env, 30)
+        self.assertEqual(status, "pass", log)
+
+
 class ToolchainDetection(unittest.TestCase):
     """`needs_toolchain` fires only when the compiler binary is missing."""
 

@@ -13,7 +13,20 @@ The catalog ([`catalog/`](catalog/)) is a component library. The autonomous-scie
 
 A recipe must start at the lowest rung that actually solves the problem. If a higher rung is recommended, the **Alternatives considered** section must say why a lower rung fails. Most well-scoped problems sit at rung 1 or 2; rung 4 is reserved for problems whose validation in the literature actually used a named autonomous system.
 
-**Harder rule: do not write a recipe from pre-training knowledge.** Every assembly must be grounded in (a) a `catalog/tools/<slug>.md` page that documents an installable component, or (b) an `autonomous-science/systems/<slug>.md` page that documents a named system, or (c) an external URL with a publication date that you fetched in the current run. Hallucinated tools, made-up install paths, and "I remember a paper that…" claims are forbidden. If a recipe needs a component that is not in `catalog/tools/`, do not write the recipe — defer it and surface the missing component as a note to the catalog curator instead.
+**Harder rule: do not write a recipe from pre-training knowledge.** Every assembly must be grounded in (a) a `catalog/tools/<slug>.md` page that documents an installable component, or (b) an `autonomous-science/systems/<slug>.md` page that documents a named system, or (c) an external URL with a publication date that you fetched in the current run. Hallucinated tools, made-up install paths, and "I remember a paper that…" claims are forbidden.
+
+### Claude components vs. dependencies
+
+Two different kinds of thing appear in a recipe, and only one of them has to be catalogued.
+
+- A **Claude component** is the Claude-side artifact the reader installs or enables: a Claude Skill, MCP server, Claude Code Plugin, or Claude.ai Connector. **It must have a `catalog/tools/<slug>.md` page**, grounded by clause (a). If a recipe needs a Claude component that isn't catalogued, do not write the recipe — mark the request `outcome=blocked`, name it under `blocked-on=catalog:<slug>`, and file a `## Missing components` note for the catalog curator.
+- A **dependency** is a library the recipe's own script installs and imports directly — `brainglobe-atlasapi`, `allotropy`, `mhcflurry`. It does **not** need a catalog page. It is grounded by clause (c) and declared in the recipe's `## Dependencies` block with its license, pinned version, import module, and a dated source URL you fetched this run.
+
+This distinction exists because the two failure modes are different. An uncatalogued *component* means the reader has nothing to install and the recipe is fiction. An uncatalogued *dependency* is just `pip install x` — the thing Claude Code does natively — and refusing to write the recipe over it blocks real work for no safety gain. Issue #74 was refused that way: both libraries were verified real and cleanly licensed, and the recipe still couldn't be written.
+
+What has **not** relaxed: a dependency you have not verified this run is still forbidden. No unpinned installs, no guessed import module, no library you didn't fetch a dated source for. The bar moved from "must be catalogued" to "must be verified and pinned" — it did not disappear.
+
+A recipe whose only software is dependencies is legitimate and often correct: it sits at rung 1 (`complexity: Claude Code alone`), which the simplicity ladder puts first. `recipes/items/extract-structured-data-from-clinical-notes.md` is the existing precedent.
 
 ## Problem classes
 
@@ -64,7 +77,7 @@ Every recipe carries one of three `evidence_level` values:
 
 - Opinion essays, vendor comparisons without a concrete problem ("MCP vs Skill — which is better?" — that belongs in the guide).
 - Install tutorials. Linked catalog pages own the install instructions; do not duplicate them. If a recipe step *invokes* something post-install (a slash command, a CLI), it still must be followable verbatim — namespace plugin slash commands as `/<plugin>:<skill>` (e.g., `/bio-research:start`, not bare `/start`), and don't reference a binary or skill the catalog page doesn't actually install.
-- Recipes whose tools are not in `catalog/tools/` or `autonomous-science/systems/`. Defer them to the catalog curator instead.
+- Recipes whose **Claude components** (Skill / MCP server / Plugin / Connector) are not in `catalog/tools/` or `autonomous-science/systems/`. Defer them to the catalog curator instead. This does *not* apply to **dependencies** — a library the recipe's own script pip-installs and imports is declared in `## Dependencies` and needs no catalog page (see "Claude components vs. dependencies").
 - Recipes for problems no working scientist has. "Use ChEMBL to find caffeine" is not a real problem.
 - Hypothetical recipes ("once tool X exists, you could…"). The cookbook only stocks ingredients that are on the shelf today.
 
@@ -97,7 +110,7 @@ The cookbook is rendered as a [just-the-docs](https://just-the-docs.com/) GitHub
 
 ## Recipe page schema
 
-Every per-recipe page is a self-contained reader-facing document. It opens with YAML front-matter, then a one-sentence description, then sections in this fixed order: a metadata table, **Problem**, **Recommended approach**, **Why this assembly**, **Availability**, **Compute requirements**, **Evidence**, **Alternatives considered**, **See also**, **Sources**.
+Every per-recipe page is a self-contained reader-facing document. It opens with YAML front-matter, then a one-sentence description, then sections in this fixed order: a metadata table, **Problem**, **Recommended approach**, **Dependencies** (only when the recipe's script imports libraries directly), **Why this assembly**, **Availability**, **Compute requirements**, **Evidence**, **Alternatives considered**, **See also**, **Sources**.
 
 ```markdown
 ---
@@ -139,6 +152,24 @@ summary: <≤ 25-word plain-language statement of the problem and the recommende
 1. Step one — e.g., install [<Tool A>](../../catalog/tools/<slug-a>.html); then …
 2. Step two — have the assistant write the analysis to a versioned script/notebook (name the file); pin the environment.
 3. Step three — run it, then record provenance (tool/library versions, external-source snapshot date, model id) so the run can be audited and re-attempted.
+
+## Dependencies
+
+<Only when the recipe's own script imports libraries directly. Omit the section entirely otherwise —
+a recipe that only drives catalogued components has no Dependencies block. Do NOT list a catalogued
+component's own runtime dependency here: that install belongs on the component's catalog page.>
+
+Libraries this recipe's script installs and imports directly. Claude Code installs these into your
+project environment — they are not available in Claude.ai chat.
+
+| Package | Registry | Pinned | License | Import | Source (fetched YYYY-MM-DD) |
+|---|---|---|---|---|---|
+| <pypi-name> | PyPI | `<x.y.z>` | <SPDX id> | `<import_module>` | [<citation or repo>](<url>) |
+
+```
+pip install <pypi-name>==<x.y.z>
+python3 -c "import <import_module>"
+```
 
 ## Why this assembly
 
@@ -184,7 +215,17 @@ For `Proposed`: state explicitly that no documented attempt is known, and list t
 **Front-matter rules**:
 
 - `complexity` must match the simplicity ladder rung the recipe actually recommends.
-- `availability` is the strictest access bar across all components in the recipe — if *any* step needs a subscription, the whole recipe is `Subscription required`. Same logic for `Institutional access` and `Internal only`.
+### Rules for the `## Dependencies` block
+
+- **pip/PyPI only.** conda, npm, CRAN/Bioconductor, compiled binaries, and hosted services are *not* declarable as dependencies yet — the verification sandbox has no R, conda, or compiler, so a pin there would carry a claim nobody can check. If a recipe needs one, file it under `## Missing components` as before and block the recipe.
+- **Every pin is exact** (`==`). No ranges, no bare package names. If the recipe ships a `recipes/examples/` bundle, the pin here and the one in its `requirements.txt` must match — divergence is a bug, and `tests/test_reproducible_example.py` already enforces `==` there.
+- **The import module is declared, never guessed.** It frequently differs from the package name (`scikit-bio`→`skbio`, `pytdc`→`tdc`, `cobrapy`→`cobra`). It is what gets executed, so get it from a primary source.
+- **The fenced block is canonical**; the table is for readers and the generated index. A test asserts they agree, so keep both in sync.
+- **No `pip install git+https://…`** — no registry, no pin semantics, and nothing can verify it.
+- **Disclose first-run side effects** in the block's prose: model weights or atlas volumes fetched on first use (`mhcflurry-downloads fetch`, DeepSlice's weights). The import check proves the package imports, not that a multi-gigabyte download will succeed.
+- **Act on the verdicts.** `index/recipe-dependencies.json` carries the executed install+import result per dependency. An `install_error` usually means the pin was yanked — correct it. A `boot_error` means the declared import module is wrong — fix it from a primary source. If you cannot resolve either, flag the recipe under `## Flagged for review`.
+
+- `availability` is the strictest access bar across all components **and dependencies** in the recipe — a copyleft or non-commercial dependency license counts, so read the license you recorded in `## Dependencies` — if *any* step needs a subscription, the whole recipe is `Subscription required`. Same logic for `Institutional access` and `Internal only`.
 - `compute_requirements` is the highest hardware tier the recipe needs at any step. State concrete numbers in the **Compute requirements** body section, not in the front-matter.
 - `last_verified` is the date the curator last confirmed the recipe still works (every linked catalog page resolves, every source URL still loads, the install paths on the linked pages still match what the recipe assumes).
 

@@ -43,6 +43,13 @@ OUT_TOOLS = REPO / "index" / "composer-tools.json"
 # install with no repo checkout. build_index writes both locations so they can't
 # drift; the workflow commits both.
 PLUGIN_DATA = REPO / "composer" / "skills" / "compose" / "data"
+# Recipe dependencies (libraries a recipe's own script pip-installs) are NOT
+# catalog entries — they have no page, no shelf card, and no verification badge.
+# They are collected here into Jekyll's `_data/` so `recipes/dependencies.md` can
+# render one browsable row per library across the whole cookbook.
+OUT_DEPS = REPO / "_data" / "dependencies.json"
+# Executed install+import verdicts, committed by verify.yml's smoke job.
+IN_DEP_VERDICTS = REPO / "index" / "recipe-dependencies.json"
 
 # ---- closed vocabularies — CANONICAL SOURCE OF TRUTH ----
 # These sets are the machine-enforced vocabulary. Every catalog/recipe page is
@@ -170,6 +177,25 @@ def lead_description(body: str, path: Path) -> str:
     return text
 
 
+def section_block(body: str, header: str) -> str:
+    """The WHOLE body of a `## <header>` section, up to the next `## `.
+
+    Distinct from `section_body`, which returns only the first paragraph (that is
+    what `## Problem` wants). Tables and fenced blocks need the full section, so
+    anything parsing a `## Dependencies` table must use this one.
+    """
+    pattern = re.compile(rf"^## {re.escape(header)}\s*$", re.MULTILINE)
+    m = pattern.search(body)
+    if not m:
+        return ""
+    out = []
+    for line in body[m.end():].splitlines():
+        if line.startswith("## "):
+            break
+        out.append(line)
+    return "\n".join(out)
+
+
 def section_body(body: str, header: str) -> str:
     """First paragraph under a `## <header>` section, if present."""
     pattern = re.compile(rf"^## {re.escape(header)}\s*$", re.MULTILINE)
@@ -289,7 +315,8 @@ def build_recipe(path: Path, errors: list) -> dict | None:
         "compute_requirements": cr,
         "last_verified": fm.get("last_verified", ""),
         "summary": summary,
-        "keywords": extract_keywords(title, summary, lead, problem),
+        "keywords": extract_keywords(title, summary, lead, problem,
+                                     section_block(body, "Dependencies")),
         "path": f"recipes/items/{path.name}",
     }
 
@@ -341,6 +368,73 @@ def build_all(repo: Path) -> tuple[list[dict], list[dict], list[dict], list[str]
     return tools, recipes, systems, errors
 
 
+DEP_ROW = re.compile(
+    r"^\|\s*([A-Za-z0-9._-]+)\s*\|\s*([A-Za-z]+)\s*\|\s*`([^`|]+)`\s*\|"
+    r"\s*([^|]+?)\s*\|\s*`([A-Za-z_][A-Za-z0-9_.]*)`\s*\|\s*(.+?)\s*\|\s*$",
+    re.MULTILINE,
+)
+DEP_PIN = re.compile(r"pip install ([A-Za-z0-9._-]+)==([A-Za-z0-9._!<>=-]+)")
+MD_LINK = re.compile(r"\[([^\]]+)\]\(([^)]+)\)")
+
+
+def build_recipe_dependencies(repo: Path, errors: list) -> list[dict]:
+    """Collect every recipe's `## Dependencies` table into one browsable record set.
+
+    The table is the reader-facing and index-facing source; the fenced
+    `pip install x==y` block is what the smoke probe actually executes. Both are
+    required to agree — a table row with no matching pinned install is a page
+    error here, so the two can never drift into disagreement silently.
+    """
+    by_package: dict[str, dict] = {}
+    for path in sorted((repo / "recipes" / "items").glob("*.md")):
+        body = path.read_text(encoding="utf-8")
+        block = section_block(body, "Dependencies")
+        if not block.strip():
+            continue
+        pins = dict(DEP_PIN.findall(block))
+        rows = DEP_ROW.findall(block)
+        if not rows:
+            errors.append(f"{path}: `## Dependencies` present but no parseable table row")
+            continue
+        for pkg, registry, pin, license_, module, source in rows:
+            if pkg.lower() in ("package",) or set(pkg) <= {"-"}:
+                continue  # header / separator row
+            pin = pin.strip()
+            if pins.get(pkg) != pin:
+                errors.append(
+                    f"{path}: dependency {pkg} table pin {pin!r} has no matching "
+                    f"`pip install {pkg}=={pin}` in the fenced block"
+                )
+            m = MD_LINK.search(source)
+            rec = by_package.setdefault(pkg, {
+                "package": pkg,
+                "registry": registry.strip(),
+                "pin": pin,
+                "license": license_.strip(),
+                "import": module.strip(),
+                "source_url": m.group(2) if m else "",
+                "source_label": m.group(1) if m else source.strip(),
+                "recipes": [],
+                "verdict": "",
+                "verdict_on": "",
+            })
+            rec["recipes"].append(path.stem)
+    # Merge executed install+import verdicts, when the smoke job has produced any.
+    if IN_DEP_VERDICTS.exists():
+        try:
+            verdicts = json.loads(IN_DEP_VERDICTS.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            verdicts = {}
+        for v in verdicts.get("results", []):
+            rec = by_package.get(v.get("package", ""))
+            if rec:
+                rec["verdict"] = v.get("status", "")
+                rec["verdict_on"] = v.get("checked_on", "")
+    for rec in by_package.values():
+        rec["recipes"] = sorted(set(rec["recipes"]))
+    return [by_package[k] for k in sorted(by_package)]
+
+
 def main() -> int:
     tools, recipes, systems, errors = build_all(REPO)
 
@@ -372,6 +466,21 @@ def main() -> int:
         base.mkdir(parents=True, exist_ok=True)
         (base / "composer-index.json").write_text(index_json, encoding="utf-8")
         (base / "composer-tools.json").write_text(tools_json, encoding="utf-8")
+
+    # Recipe dependencies -> Jekyll _data/ for recipes/dependencies.md.
+    dep_errors: list = []
+    deps = build_recipe_dependencies(REPO, dep_errors)
+    if dep_errors:
+        print(f"build_index: {len(dep_errors)} dependency error(s):", file=sys.stderr)
+        for e in dep_errors:
+            print(f"  - {e}", file=sys.stderr)
+        return 1
+    OUT_DEPS.parent.mkdir(parents=True, exist_ok=True)
+    OUT_DEPS.write_text(
+        json.dumps({"version": 1, "generated": generated, "count": len(deps),
+                    "dependencies": deps}, indent=2, ensure_ascii=False) + "\n",
+        encoding="utf-8",
+    )
     print(
         f"build_index: wrote index/ and {PLUGIN_DATA.relative_to(REPO)}/ — "
         f"{len(recipes)} recipes, {len(tools)} tools "

@@ -69,6 +69,24 @@ class TestParsing(unittest.TestCase):
                          "already-covered")
         self.assertIsNone(rs.outcome_of(Q74))
 
+    def test_result_prose_strips_the_machine_token(self):
+        """The token is state, not prose — a comment must not end in
+        "outcome=blocked", which reads as a leaked variable to the user."""
+        self.assertEqual(rs.result_prose(Q74 + " → components missing. outcome=blocked"),
+                         "components missing.")
+        self.assertEqual(rs.result_prose(Q74 + " → outcome=shipped; wrote recipes/items/a.md"),
+                         "wrote recipes/items/a.md")
+        self.assertEqual(rs.result_prose(Q74 + " → no LICENSE upstream outcome=declined."),
+                         "no LICENSE upstream")
+        self.assertEqual(rs.result_prose(Q74 + " → plain note"), "plain note")
+
+    def test_classify_always_carries_result_prose(self):
+        for section, kw in (("open", "open_"), ("blocked", "blocked"), ("closed this run", "closed")):
+            got = rs.classify(state(**{kw: [Q74 + " → done. outcome=shipped"]}), "74")
+            with self.subTest(section):
+                self.assertEqual(got["result_prose"], "done.")
+        self.assertEqual(rs.classify(state(), "74")["result_prose"], "")
+
     def test_result_note(self):
         self.assertEqual(rs.result_of(Q74 + " → wrote recipes/items/foo.md"),
                          "wrote recipes/items/foo.md")

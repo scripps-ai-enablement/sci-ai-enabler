@@ -179,6 +179,15 @@ jobs:
           # catalog does not re-serve the same slugs forever (GITHUB_RUN_NUMBER
           # is monotonic per run).
           python3 scripts/select_verify_targets.py --count "${COUNT}" --rotate "${GITHUB_RUN_NUMBER:-0}" --out .verify/worklist.md
+
+          # Recipe-dependency verdicts. These targets are libraries a recipe
+          # pip-installs, not catalog pages, so there is no page for the Verifier
+          # agent to stamp — it owns catalog badges only. Record them as data the
+          # recipes curator reads (RECIPE_AGENT.md) and the library index renders.
+          python3 scripts/record_dependency_verdicts.py \
+            --results .verify/smoke-results.json \
+            --out index/recipe-dependencies.json
+          python3 scripts/build_index.py
           {
             cat VERIFIER_AGENT.md
             echo ""
@@ -189,6 +198,7 @@ jobs:
             echo "- scope: ${SCOPE}"
             echo "- count budget: ${COUNT}"
             echo "- smoke results: .verify/smoke-results.json (read it for boot verdicts)"
+            echo "- recipe-dependency verdicts: \`index/recipe-dependencies.json\` is written for you by the workflow before you start. It covers libraries recipes pip-install, which have no catalog page. Do NOT edit it and do NOT stamp recipe pages — the recipes curator acts on it."
             echo ""
             cat .verify/worklist.md
           } > .run-prompt.md
