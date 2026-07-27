@@ -204,6 +204,61 @@ class ResultFieldContract(unittest.TestCase):
         self.assertEqual(folded["results"][0]["status"], "pass")
 
 
+class UnshadowStdlib(unittest.TestCase):
+    """`pip install --target` must be made to resolve like venv site-packages.
+
+    Found on the first real verification run: DeepSlice 1.2.8 declares the
+    obsolete `typing` stdlib backport, which is inert in a venv but hijacks
+    `import typing` when the target dir precedes stdlib on PYTHONPATH, giving a
+    false `boot_error` for a package that installs and imports fine for users.
+    """
+
+    def _target(self, *names: str) -> Path:
+        d = Path(tempfile.mkdtemp(prefix="unshadow_")) / "site"
+        d.mkdir(parents=True)
+        for n in names:
+            if n.endswith(".py"):
+                (d / n).write_text("raise RuntimeError('backport')\n")
+            else:
+                (d / n).mkdir()
+                (d / n / "__init__.py").write_text("")
+        return d
+
+    def test_removes_a_stdlib_shadowing_module(self):
+        d = self._target("typing.py", "DeepSlice", "numpy")
+        self.assertEqual(runner.unshadow_stdlib(d), ["typing"])
+        self.assertEqual(sorted(x.name for x in d.iterdir()), ["DeepSlice", "numpy"])
+
+    def test_removes_shadowing_packages_not_just_modules(self):
+        d = self._target("concurrent", "requests")   # `futures` backport ships this
+        self.assertEqual(runner.unshadow_stdlib(d), ["concurrent"])
+        self.assertTrue((d / "requests").exists())
+
+    def test_leaves_real_third_party_packages_alone(self):
+        d = self._target("DeepSlice", "brainglobe_atlasapi", "PyNutil", "tensorflow")
+        self.assertEqual(runner.unshadow_stdlib(d), [])
+        self.assertEqual(len(list(d.iterdir())), 4)
+
+    def test_skips_dunder_entries(self):
+        d = self._target("__pycache__")
+        self.assertEqual(runner.unshadow_stdlib(d), [])
+
+    def test_missing_target_is_not_an_error(self):
+        self.assertEqual(runner.unshadow_stdlib(Path("/nonexistent/site")), [])
+
+    def test_the_actual_failure_mode_end_to_end(self):
+        """Install a real typing backport, prove it breaks, prove unshadow fixes it."""
+        d = self._target("typing.py")
+        env = dict(os.environ, PYTHONPATH=str(d))
+        status, _ = runner._probe_boot(f'{sys.executable} -c "import typing"',
+                                      str(d.parent), env, 30)
+        self.assertEqual(status, "boot_error", "fixture failed to reproduce shadowing")
+        runner.unshadow_stdlib(d)
+        status, log = runner._probe_boot(f'{sys.executable} -c "import typing"',
+                                        str(d.parent), env, 30)
+        self.assertEqual(status, "pass", log)
+
+
 class ToolchainDetection(unittest.TestCase):
     """`needs_toolchain` fires only when the compiler binary is missing."""
 
