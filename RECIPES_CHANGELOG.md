@@ -11,6 +11,10 @@ Reverse-chronological log of changes to the [recipes cookbook]({{ '/recipes/' | 
 
 <!-- Curator appends new dated entries directly below this line. -->
 
+## 2026-07-27 (user request #74)
+
+No recipe shipped — deferred on a grounding gap. @goodb (#74) asked for a QUINT-replacement Claude Code workflow that batches over 2D coronal histology sections, reports which Allen CCF subregion each fiber/probe tip lands in, and gives a hit/miss verdict against the intended target. The two load-bearing components — **DeepSlice** (coronal cutting-plane prediction) and **brainglobe-atlasapi** (CCF voxel→structure lookup) — are not in `catalog/tools/`, and the catalogued neighbours don't substitute: [allenbrain-mcp](catalog/tools/allenbrain.html) is read-only RMA/ontology/image queries (Alpha, no LICENSE) and the [SimpleITK skill](catalog/tools/simpleitk-image-registration.html) is general 3D registration with no Allen atlas or cutting-plane model — a naive affine warp is exactly the off-axis failure the requester flagged. Per the cookbook's hard grounding rule, filed a `## Missing components` note (brainglobe-atlasapi + DeepSlice; DeepSlice license unverified) for the catalog curator and a `## Deferred — next-run priority` note in `recipes/curator-state.md`; the rung-3 recipe writes cleanly once those components land.
+
 ## 2026-07-26 (Drug Repurposing and Discovery directed pass)
 
 ### Added
