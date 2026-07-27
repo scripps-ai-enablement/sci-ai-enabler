@@ -9,10 +9,10 @@ tool_categories: [Chemistry, Drug Repurposing and Discovery]
 last_verified: 2026-07-04
 summary: Claude.ai connector surfacing Inductive Bio's ADMET prediction models so drug-discovery chemists can predict compound properties in-conversation.
 verification: degraded
-verified_on: 2026-07-20
+verified_on: 2026-07-27
 verification_note: "launch as an MCP connector in Anthropic's life-sciences ecosystem confirmed via cited PR Newswire release (2026-06-30); no public MCP endpoint or self-serve sign-up, so install path and tool list cannot be functionally resolved"
 security: cleared
-security_on: 2026-07-20
+security_on: 2026-07-27
 security_note: "vendor connector in Anthropic's life-sciences ecosystem (provenance confirmed via press); read-only, enterprise-gated, per vendor submitted structures are not retained or used for training"
 ---
 
@@ -27,8 +27,8 @@ A Claude.ai connector that brings Inductive Bio's ADMET (Absorption, Distributio
 | **Availability** | GA — joined Anthropic's Life Sciences connector ecosystem 2026-06-30 |
 | **Pricing** | Enterprise (contact Inductive Bio) — no public self-serve tier |
 | **Capabilities** | Read-only — submit chemical structures, receive ADMET property predictions |
-| **Verified** | degraded · 2026-07-20 — launch confirmed via cited PR Newswire release; no public endpoint, so install path/tool list not functionally resolvable |
-| **Security** | cleared · 2026-07-20 — vendor connector in Anthropic's life-sciences ecosystem (provenance confirmed); read-only, enterprise-gated, structures not retained per vendor |
+| **Verified** | degraded · 2026-07-27 — launch confirmed via cited PR Newswire release; no public endpoint, so install path/tool list not functionally resolvable |
+| **Security** | cleared · 2026-07-27 — vendor connector in Anthropic's life-sciences ecosystem (provenance confirmed); read-only, enterprise-gated, structures not retained per vendor |
 
 ## How to install
 

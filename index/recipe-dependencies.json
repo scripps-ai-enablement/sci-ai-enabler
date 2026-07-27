@@ -1,5 +1,14 @@
 {
   "version": 1,
   "generated": "2026-07-27",
-  "results": []
+  "results": [
+    {
+      "package": "DeepSlice",
+      "recipe": "localize-implant-tip-in-brain-atlas-subregion",
+      "install_cmd": "pip install DeepSlice==1.2.8 brainglobe-atlasapi==2.3.1 PyNutil==0.6.2",
+      "boot_cmd": "python3 -c \"import DeepSlice, brainglobe_atlasapi, PyNutil\"",
+      "status": "boot_error",
+      "checked_on": "2026-07-27"
+    }
+  ]
 }

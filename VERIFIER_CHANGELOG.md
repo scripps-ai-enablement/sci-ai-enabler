@@ -4,6 +4,30 @@ Rolling, reverse-chronological log of catalog verification + security passes. Ea
 on-demand run that produces changes prepends a dated block; the top block is mirrored to the pinned
 "Verification updates" issue.
 
+## 2026-07-27 (worklist maintenance — 4-page recheck, inductive-bio → intact)
+
+Worked the injected 4-page worklist top-to-bottom. All four were already stamped 2026-07-20 (within
+cadence); rechecked against fresh source fetches — zero drift, no fixes. Stamps refreshed to
+2026-07-27.
+
+### Verified
+- `inductive-bio` degraded/cleared (unchanged) — supplier inductive.bio loads (Beacon-1 ADMET, 3×
+  OpenADMET blind-challenge wins) but no public MCP endpoint / self-serve sign-up, and the Claude
+  Science connectors-and-skills doc does not list Inductive Bio; the vendor connector is confirmed
+  only via the cited PR Newswire release, so the install path stays functionally unverifiable.
+- `infographics` works/caution (unchanged) — `K-Dense-AI/scientific-agent-skills` MIT/not-archived/
+  pushed 2026-07-27/31.9k★; `skills/infographics/SKILL.md` (10949 B) + references/scripts confirmed.
+- `instrument-data-to-allotrope` works/cleared (unchanged) — plugin registered in `anthropics/
+  life-sciences` `.claude-plugin/marketplace.json` (source `./`); `allotropy` dep on PyPI is Benchling
+  MIT (latest 0.1.142).
+- `intact` works/cleared (unchanged) — Claude Science connectors-and-skills doc confirms "Structures
+  & Interactions | PDB, AlphaFold, EMDB, Complex Portal, IntAct"; read-only EMBL-EBI CC BY 4.0.
+
+### Security
+- `infographics` caution: unstated skill license + prompts sent to external Google Gemini / Nano
+  Banana image services. The other three unchanged (inductive-bio cleared vendor connector;
+  allotrope/intact cleared Anthropic-provenance, real MIT/CC-BY licenses, no OSV advisories).
+
 ## 2026-07-27 (worklist maintenance — 4-page recheck, hypothesis-crucible → ica)
 
 Worked the injected 4-page worklist top-to-bottom. All four were already `works/cleared` (stamped
