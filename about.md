@@ -43,6 +43,20 @@ gh workflow run recipes.yml                      # whole cookbook
 gh workflow run recipes.yml -f scope=chemistry   # one subject area
 ```
 
+To re-run the on-demand fulfiller for a single queued user request — normally the
+responder dispatches this automatically, so you only need it to retry a run that
+errored or was superseded:
+
+```sh
+gh workflow run fulfill.yml -f issue=74 -f queue=recipes
+gh workflow run fulfill.yml -f issue=80 -f queue=catalog
+```
+
+It refuses to run unless the issue is open and still listed under `## User requests (open)`
+in that queue's `curator-state.md`, so re-dispatching a finished request is a no-op.
+Setting the `FULFILL_DISABLED` repo variable turns immediate fulfillment off and reverts
+to weekend-only processing.
+
 ## Reproducing this site
 
 The repo lives at [`scripps-ai-enablement/sci-ai-enabler`](https://github.com/scripps-ai-enablement/sci-ai-enabler) and is rendered as a GitHub Pages site using the [just-the-docs](https://github.com/just-the-docs/just-the-docs) theme. One-time setup if you fork it:
@@ -59,6 +73,6 @@ See the [updates archive](updates/) for the change history of each section.
 
 Two types of inbound flow are accepted via GitHub Issue Forms: **recipe questions** ("How should I do X?") and **feedback** on a recipe or catalog tool ("I tried X and…").
 
-When you open an issue with one of the forms, a responder bot reads the issue, leaves an in-thread reply within a few minutes (linking the closest existing recipes or tools), and adds the request to the curator's work queue. The next daily scheduled curator run (~24h) ships any durable change — a new recipe, an updated tool note, a flag — and closes the issue with a commit link. If a request needs more than one run to address, it stays in the queue and is retried.
+When you open an issue with one of the forms, a responder bot reads the issue, leaves an in-thread reply within a few minutes (linking the closest existing recipes or tools), and adds the request to the curator's work queue. It then **immediately dispatches an on-demand curator run** (`fulfill.yml`) scoped to that one request, rather than leaving it for the weekend cron. That run labels the issue `claude:working`, posts progress notes to the thread as it searches and decides, ships the durable change — a new recipe, an updated tool note, a flag — and closes the issue with a commit link and a rendered-page URL. If a request needs more wall-clock than one run, or depends on a component that isn't catalogued yet, the run says so in the thread and the request stays queued for the next scheduled pass, which retries it.
 
-The bot that replies in-thread is **read-only on the repository**; only the scheduled curator agents change content files. That keeps the existing evidence and simplicity-ladder rules in force on every durable change.
+The bot that replies in-thread is **read-only on the repository**; only the curator agents change content files. The on-demand fulfiller is not a separate agent with looser rules — it is the same `RECIPE_AGENT.md` / `AGENT.md` curator, running the same evidence and simplicity-ladder rules, with its scope narrowed to a single queue entry and the ability to comment on the thread.

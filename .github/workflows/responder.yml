@@ -7,6 +7,8 @@ on:
 permissions:
   contents: write
   issues: write
+  # Needed by the final step to dispatch fulfill.yml on demand.
+  actions: write
 
 concurrency:
   group: responder-${{ github.event.issue.number }}
@@ -320,3 +322,16 @@ jobs:
           git commit -m "auto-queue: issue #${NUM}"
           git pull --rebase origin main
           git push
+
+          # Hand off to the on-demand fulfiller so the request is worked now
+          # rather than at the next weekend cron. This must come after the push:
+          # fulfill.yml checks out main and refuses to run if the queue entry
+          # isn't there yet. `workflow_dispatch` is one of the two events that
+          # GITHUB_TOKEN is allowed to trigger, so no PAT is needed.
+          # If the dispatch fails, the request is already durably queued and the
+          # scheduled pass picks it up — warn, don't fail the job.
+          QUEUE="${TARGET%%/*}"   # recipes | catalog
+          echo "Dispatching immediate fulfillment for #${NUM} (queue=${QUEUE})"
+          gh workflow run fulfill.yml --repo "$REPO" \
+            -f "issue=${NUM}" -f "queue=${QUEUE}" \
+            || echo "::warning::could not dispatch fulfill.yml for #${NUM}; it stays queued for the scheduled run."

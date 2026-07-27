@@ -1,0 +1,446 @@
+name: Fulfill request
+
+# Immediate fulfillment of a single user request.
+#
+# Request volume is low, so making a user wait for the weekend curator cron is a
+# bad trade: the request sits in `## User requests (open)` for up to six days
+# while the thread looks abandoned. `responder.yml` now dispatches this workflow
+# the moment it has queued a request, so the durable change (a new recipe page,
+# a tool page, an evidence-label bump) usually lands within the hour, and the
+# agent narrates its progress in the user's own thread while it works.
+#
+# This is a *scoped re-run of the same curator agent*, not a second curator: the
+# prompt is `RECIPE_AGENT.md` / `AGENT.md` verbatim plus a run section that
+# reduces scope to one queue entry. Every evidence rule, the simplicity ladder,
+# and the page schemas therefore apply identically to an immediate run and a
+# scheduled one. The weekend cron remains the safety net — anything this run
+# leaves in `## User requests (open)` is retried there.
+
+on:
+  workflow_dispatch:
+    inputs:
+      issue:
+        description: 'Issue number to fulfill now'
+        required: true
+        type: string
+      queue:
+        description: 'Which curator handles it (must match where the request was queued)'
+        required: true
+        default: recipes
+        type: choice
+        options:
+          - recipes
+          - catalog
+
+permissions:
+  contents: write
+  issues: write
+
+# Deliberately share the *scheduled* curators' concurrency groups (`recipes` /
+# `curate`) rather than using a per-issue group. Groups are repo-wide, so this
+# guarantees an immediate run and a weekend pass never edit `recipes/` or
+# `catalog/` — above all `curator-state.md` — concurrently, which would collide
+# on the rebase-and-push. The cost is that a second request arriving while one is
+# already queued behind a running pass supersedes the first pending run; that
+# request simply stays in `## User requests (open)` and the weekend pass picks it
+# up, i.e. it degrades to the old behaviour instead of being lost.
+concurrency:
+  group: ${{ github.event.inputs.queue == 'catalog' && 'curate' || 'recipes' }}
+  cancel-in-progress: false
+
+jobs:
+  fulfill:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Repo-level kill switch
+        id: killswitch
+        env:
+          DISABLED: ${{ vars.FULFILL_DISABLED }}
+        run: |
+          # Setting the FULFILL_DISABLED repo variable reverts to weekly-only
+          # fulfillment: requests keep queueing, nothing runs on demand.
+          if [ -n "${DISABLED}" ]; then
+            echo "FULFILL_DISABLED is set; exiting."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/checkout@v4
+        if: steps.killswitch.outputs.skip != 'true'
+        with:
+          fetch-depth: 0
+
+      - name: Resolve the queued request
+        id: resolve
+        if: steps.killswitch.outputs.skip != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          RAW_NUM: ${{ github.event.inputs.issue }}
+          QUEUE: ${{ github.event.inputs.queue }}
+        run: |
+          set -euo pipefail
+
+          # Digits only — the input reaches `gh` and a state-file grep.
+          NUM=$(printf '%s' "$RAW_NUM" | tr -cd '0-9')
+          if [ -z "$NUM" ]; then
+            echo "::error::issue input '${RAW_NUM}' is not a number."
+            exit 1
+          fi
+          echo "num=${NUM}" >> "$GITHUB_OUTPUT"
+
+          case "$QUEUE" in
+            catalog) STATE="catalog/curator-state.md"; SPEC="AGENT.md";        CHANGELOG="CHANGELOG.md" ;;
+            recipes) STATE="recipes/curator-state.md"; SPEC="RECIPE_AGENT.md"; CHANGELOG="RECIPES_CHANGELOG.md" ;;
+            *) echo "::error::unknown queue '${QUEUE}'."; exit 1 ;;
+          esac
+          {
+            echo "state=${STATE}"
+            echo "spec=${SPEC}"
+            echo "changelog=${CHANGELOG}"
+          } >> "$GITHUB_OUTPUT"
+
+          # The request must actually be queued. If it isn't, the responder
+          # either hasn't pushed yet or skipped this issue; either way there is
+          # nothing to fulfill and inventing work would double-answer the thread.
+          ENTRY=$(awk '
+            /^## User requests \(open\)/ { c=1; next }
+            /^## / && c { exit }
+            c
+          ' "$STATE" | grep -F "[#${NUM} " | head -1 || true)
+          if [ -z "$ENTRY" ]; then
+            echo "No open queue entry for #${NUM} in ${STATE}; nothing to fulfill."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          # Keep the entry in a file rather than a step output: it carries
+          # user-authored free text, and a file never reaches a shell as code.
+          printf '%s\n' "$ENTRY" > .fulfill-entry.txt
+
+          STATE_JSON=$(gh issue view "$NUM" --repo "$REPO" --json state,author --jq '.state + " " + .author.login')
+          ISSUE_STATE=${STATE_JSON%% *}
+          echo "author=${STATE_JSON##* }" >> "$GITHUB_OUTPUT"
+          if [ "$ISSUE_STATE" != "OPEN" ]; then
+            echo "Issue #${NUM} is ${ISSUE_STATE}; not fulfilling."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Announce the start in-thread
+        if: steps.killswitch.outputs.skip != 'true' && steps.resolve.outputs.skip != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          NUM: ${{ steps.resolve.outputs.num }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          # A visible "in progress" label plus a timestamped comment, so the
+          # thread shows work starting rather than going quiet after the reply.
+          gh label create "claude:working" \
+            --repo "$REPO" \
+            --color "1D76DB" \
+            --description "A curator run is actively working this request" \
+            --force || true
+          gh issue edit "$NUM" --repo "$REPO" --add-label "claude:working" || true
+
+          gh issue comment "$NUM" --repo "$REPO" --body \
+          "**Working on this now** — a curator run started at $(date -u +'%Y-%m-%d %H:%M UTC') and is reading the catalog and the literature for your request. I'll post what I find in this thread as I go, then a link to the published page when it ships. ([run log](${RUN_URL}))"
+
+      - name: Install uv (for uvx)
+        # Only the recipes path uses the `papers` MCP server (matching recipes.yml
+        # vs. curate.yml), so don't pay for the install on a catalog request.
+        if: steps.killswitch.outputs.skip != 'true' && steps.resolve.outputs.skip != 'true' && github.event.inputs.queue == 'recipes'
+        run: curl -LsSf https://astral.sh/uv/install.sh | sh
+
+      - name: Compose MCP config
+        if: steps.killswitch.outputs.skip != 'true' && steps.resolve.outputs.skip != 'true'
+        env:
+          QUEUE: ${{ github.event.inputs.queue }}
+        run: |
+          # Claude Code connects to every configured server regardless of
+          # allowed_tools, so a catalog run gets an empty server map rather than a
+          # papers server it is not permitted to call.
+          if [ "$QUEUE" = "recipes" ]; then
+            cat > .mcp-config.json <<'JSON'
+          {
+            "mcpServers": {
+              "papers": {
+                "command": "/home/runner/.local/bin/uvx",
+                "args": ["--from", "paper-search-mcp", "python", "-m", "paper_search_mcp.server"]
+              }
+            }
+          }
+          JSON
+          else
+            echo '{ "mcpServers": {} }' > .mcp-config.json
+          fi
+
+      - name: Pre-fetch the issue body
+        if: steps.killswitch.outputs.skip != 'true' && steps.resolve.outputs.skip != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          NUM: ${{ steps.resolve.outputs.num }}
+        run: |
+          # Same contract as the scheduled runs: the agent Reads
+          # `.request-bodies/<NN>.md` for the full request. Gitignored.
+          mkdir -p .request-bodies
+          gh issue view "$NUM" --repo "$REPO" \
+            --json number,title,author,labels,body \
+            --template '# Issue #{{.number}} — {{.title}}
+          Author: @{{.author.login}}
+          Labels: {{range .labels}}{{.name}} {{end}}
+
+          {{.body}}
+          ' > ".request-bodies/${NUM}.md"
+
+      - name: Compose run prompt
+        id: prompt
+        if: steps.killswitch.outputs.skip != 'true' && steps.resolve.outputs.skip != 'true'
+        env:
+          REPO: ${{ github.repository }}
+          NUM: ${{ steps.resolve.outputs.num }}
+          AUTHOR: ${{ steps.resolve.outputs.author }}
+          QUEUE: ${{ github.event.inputs.queue }}
+          STATE: ${{ steps.resolve.outputs.state }}
+          SPEC: ${{ steps.resolve.outputs.spec }}
+          CHANGELOG: ${{ steps.resolve.outputs.changelog }}
+        run: |
+          set -euo pipefail
+
+          if [ "$QUEUE" = "recipes" ]; then
+            PAGE_DIR="recipes/items/"
+            TOOLS="Read,Edit,Write,Glob,Grep,WebSearch,WebFetch,Bash(gh issue comment:*),mcp__papers__search_pubmed,mcp__papers__search_biorxiv,mcp__papers__search_medrxiv,mcp__papers__search_arxiv,mcp__papers__read_pubmed_paper,mcp__papers__read_biorxiv_paper,mcp__papers__read_medrxiv_paper,mcp__papers__read_arxiv_paper"
+          else
+            PAGE_DIR="catalog/tools/"
+            TOOLS="Read,Edit,Write,Glob,Grep,WebSearch,WebFetch,Bash(gh issue comment:*)"
+          fi
+          echo "tools=${TOOLS}" >> "$GITHUB_OUTPUT"
+
+          {
+            cat "${SPEC}"
+            echo ""
+            echo "---"
+            echo ""
+            echo "## This run — immediate fulfillment of one user request"
+            echo ""
+            echo "- UTC now: $(date -u +'%Y-%m-%d %H:%M')"
+            echo "- Trigger: @${AUTHOR} filed issue #${NUM} minutes ago. This is **not** a scheduled pass."
+            echo "- Queue file: \`${STATE}\`"
+            echo "- Full request body: \`.request-bodies/${NUM}.md\` — Read it first."
+            echo "- The queued entry:"
+            echo ""
+            echo '```'
+            cat .fulfill-entry.txt
+            echo '```'
+            echo ""
+            echo "### Scope — narrower than a scheduled run"
+            echo ""
+            echo "Do exactly one thing: process the \`[#${NUM} …]\` entry in \`## User requests (open)\`,"
+            echo "following the **User requests** procedure in the spec above. Everything else in that spec"
+            echo "about directed passes, focus areas/categories, manifest sweeps, verification of aging"
+            echo "pages, and the per-run soft caps is **suspended for this run**."
+            echo ""
+            echo "- Do not touch any other \`## User requests (open)\` entry — those belong to the scheduled pass."
+            echo "- At most **one** new page (\`${PAGE_DIR}<slug>.md\`). Editing existing pages as the request"
+            echo "  requires is fine. Do not opportunistically improve unrelated pages."
+            echo "- The evidence rules, the simplicity ladder, and the page schema are **not** relaxed by"
+            echo "  the deadline. A correct \`Proposed\` recipe beats a rushed overclaim, and \"the honest"
+            echo "  answer is that no catalogued component does this yet\" is a legitimate outcome — record"
+            echo "  it under \`## Missing components\` (recipes) or \`## Deferred — next-run priority\` (catalog)."
+            echo "- Move the #${NUM} entry to \`## User requests (closed this run)\` with a \`→ <result>\` note."
+            echo "  Name the page path (e.g. \`${PAGE_DIR}<slug>.md\`) in that note when one shipped — the"
+            echo "  workflow turns it into a rendered link for the user."
+            echo "- If you genuinely cannot action it, leave it in \`## User requests (open)\`, say why in a"
+            echo "  progress comment, and stop. The scheduled pass will retry it; nothing is lost."
+            echo "- Add a \`${CHANGELOG}\` entry under a \`## $(date -u +%Y-%m-%d) (user request #${NUM})\` heading."
+            echo ""
+            echo "### Keep the user posted — this is the point of immediate mode"
+            echo ""
+            echo "@${AUTHOR} is watching the thread right now. Unlike the scheduled curators, you have a"
+            echo "shell here, limited to \`gh issue comment\`. Use it:"
+            echo ""
+            echo "1. Write the comment body with the \`Write\` tool to \`/tmp/progress-1.md\`."
+            echo "2. Run: \`gh issue comment ${NUM} --repo ${REPO} --body-file /tmp/progress-1.md\`"
+            echo ""
+            echo "Post **one** progress comment as soon as you know your plan — early, not at the end."
+            echo "Post **at most one more** only if the work genuinely turns (the request needs a component"
+            echo "that isn't catalogued; a paper changes the approach; the recipe has to move up a rung)."
+            echo "Two comments maximum. Never post a contentless \"still working\" note."
+            echo ""
+            echo "A good progress comment is 2–4 sentences of specifics: what you searched, what you found"
+            echo "or ruled out, and what you are about to write. \"No existing recipe covers CCF subregion"
+            echo "lookup; the nearest is <x>. brainglobe-atlasapi is catalogued and does the tip-coordinate"
+            echo "lookup, so I'm writing a rung-2 recipe around it\" is worth posting. \"Working on it\" is not."
+            echo ""
+            echo "Do **not** post a final \"shipped\" comment and do **not** close the issue — the workflow"
+            echo "does both after you exit, with the commit SHA and the rendered page URL."
+            echo ""
+            echo "### Wall-clock"
+            echo ""
+            echo "You have 20 minutes. Budget it: read the request, search, decide, write one good page,"
+            echo "update the state file and changelog. Depth on one request, not breadth."
+          } > .run-prompt.md
+
+      - uses: anthropics/claude-code-base-action@e8132bc5e637a42c27763fc757faa37e1ee43b34
+        if: steps.killswitch.outputs.skip != 'true' && steps.resolve.outputs.skip != 'true'
+        env:
+          # See the long note in recipes.yml: the pinned action bundles Claude Code
+          # 1.0.88, which reads the OLD var name for WebFetch's summarizer model.
+          # Both names are set so the pin can move later. Do NOT bump to a CC 2.x
+          # pin — it sends the context_management API feature, which this org's
+          # HIPAA/ZDR key rejects with a 400.
+          ANTHROPIC_SMALL_FAST_MODEL: claude-haiku-4-5-20251001
+          ANTHROPIC_DEFAULT_HAIKU_MODEL: claude-haiku-4-5-20251001
+          # Lets the agent authenticate `gh issue comment` for progress notes.
+          GH_TOKEN: ${{ github.token }}
+        with:
+          prompt_file: .run-prompt.md
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          model: claude-opus-4-8
+          mcp_config: .mcp-config.json
+          timeout_minutes: "20"
+          allowed_tools: ${{ steps.prompt.outputs.tools }}
+
+      - name: Commit, push, and notify
+        id: commit
+        if: steps.killswitch.outputs.skip != 'true' && steps.resolve.outputs.skip != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          SERVER_URL: ${{ github.server_url }}
+          NUM: ${{ steps.resolve.outputs.num }}
+          QUEUE: ${{ github.event.inputs.queue }}
+          CHANGELOG: ${{ steps.resolve.outputs.changelog }}
+        run: |
+          rm -f .run-prompt.md .mcp-config.json .fulfill-entry.txt
+          rm -rf .request-bodies
+
+          if [ "$QUEUE" = "catalog" ]; then
+            BOT="catalog-curator"; TRACKER="Catalog updates"
+          else
+            BOT="recipes-curator"; TRACKER="Recipes updates"
+          fi
+          git config user.name "${BOT}[bot]"
+          git config user.email "${BOT}@users.noreply.github.com"
+
+          if [ -z "$(git status --porcelain)" ]; then
+            # The agent produced nothing durable. Say so plainly instead of
+            # letting the thread trail off after "working on this now".
+            echo "No changes this run."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            gh issue comment "$NUM" --repo "$REPO" --body \
+            "This run didn't get your request to a durable change. It's still queued, and the next scheduled curator pass will pick it up with more wall-clock. If you can add detail to the issue — the exact data you have, the tool you'd expect to use, the output you need — that materially improves the next attempt."
+            exit 0
+          fi
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+
+          git add -A
+          git commit -m "Fulfill request #${NUM}"
+          # Rebase onto anything that landed during the run (index rebuilds,
+          # another curator, the responder's own auto-queue commit).
+          git pull --rebase origin main
+          git push
+          SHA=$(git rev-parse HEAD)
+          echo "sha=${SHA}" >> "$GITHUB_OUTPUT"
+
+          # Keep the rolling tracking issue complete: it claims every run that
+          # produced changes posts here, and an immediate run is still a run.
+          ISSUE=$(gh issue list \
+            --state open \
+            --search "in:title \"${TRACKER}\"" \
+            --json number,title \
+            --jq "[.[] | select(.title == \"${TRACKER}\")][0].number")
+          if [ -n "${ISSUE}" ] && [ "${ISSUE}" != "null" ]; then
+            LATEST=$(awk '/^## / {n++} n>=2 {exit} n==1 {print}' "${CHANGELOG}")
+            {
+              echo "${LATEST}"
+              echo ""
+              echo "On-demand run for user request #${NUM}. [View commit](${SERVER_URL}/${REPO}/commit/${SHA})"
+            } | gh issue comment "${ISSUE}" --body-file -
+          fi
+
+      - name: Close the request if it shipped
+        if: steps.killswitch.outputs.skip != 'true' && steps.resolve.outputs.skip != 'true' && steps.commit.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          SERVER_URL: ${{ github.server_url }}
+          NUM: ${{ steps.resolve.outputs.num }}
+          STATE: ${{ steps.resolve.outputs.state }}
+          SHA: ${{ steps.commit.outputs.sha }}
+        run: |
+          # Same loop-closer contract as recipes.yml / curate.yml, but scoped to
+          # this one issue: other lines in `(closed this run)` (e.g. left behind
+          # by a scheduled run that died before its own loop-closer) are left
+          # untouched for that workflow to handle.
+          BLOCK=$(awk '
+            /^## User requests \(closed this run\)/ { c=1; next }
+            /^## / && c { exit }
+            c
+          ' "$STATE")
+          LINE=$(printf '%s\n' "$BLOCK" | grep -F "[#${NUM} " | head -1 || true)
+
+          if [ -z "$LINE" ]; then
+            # Changes landed but the agent didn't mark the request done — it may
+            # have shipped a partial (e.g. a `## Missing components` note). Report
+            # honestly and leave the issue open for the scheduled retry.
+            gh issue comment "$NUM" --repo "$REPO" --body \
+            "Progress landed in ${SERVER_URL}/${REPO}/commit/${SHA}, but this run didn't consider your request fully answered, so it stays open and queued for the next scheduled curator pass."
+            exit 0
+          fi
+
+          RESULT=$(printf '%s' "$LINE" | sed -E 's/.*→ //')
+          PAGES_BASE="https://scripps-ai-enablement.github.io/sci-ai-enabler"
+          PAGE_PATH=$(printf '%s' "$RESULT" | grep -oE '(recipes/items|catalog/tools)/[a-z0-9-]+\.md' | head -1 || true)
+          LINK_LINE=""
+          if [ -n "$PAGE_PATH" ]; then
+            LINK_LINE=$'\n\nRead the answer here: '"${PAGES_BASE}/${PAGE_PATH%.md}.html"$'\n\n(The site rebuilds within a couple of minutes of the commit — if the link 404s, give it a moment.)'
+          fi
+
+          gh issue comment "$NUM" --repo "$REPO" --body \
+          "Shipped in ${SERVER_URL}/${REPO}/commit/${SHA}. ${RESULT}${LINK_LINE}"$'\n\nClosing — reopen if this missed the mark, or file a feedback issue once you\'ve tried it.'
+          gh issue close "$NUM" --repo "$REPO" --reason completed || true
+
+          # Remove only our line from `(closed this run)`, restoring the `_None._`
+          # placeholder if that empties the section.
+          python3 - "$STATE" "$NUM" <<'PY'
+          import pathlib, re, sys
+          path, num = pathlib.Path(sys.argv[1]), sys.argv[2]
+          text = path.read_text()
+          m = re.search(r"(## User requests \(closed this run\)\n\n)(.*?)(?=\n## |\Z)", text, re.DOTALL)
+          if not m:
+              sys.exit("ERROR: (closed this run) section not found")
+          kept = [ln for ln in m.group(2).splitlines()
+                  if ln.strip() and ln.strip() != "_None._" and f"[#{num} " not in ln]
+          body = ("\n".join(kept) if kept else "_None._") + "\n"
+          path.write_text(text[:m.start(2)] + body + text[m.end(2):])
+          print("pruned #%s from (closed this run)" % num)
+          PY
+
+          if ! git diff --quiet "$STATE"; then
+            git add "$STATE"
+            git commit -m "loop-closed: request #${NUM}"
+            git pull --rebase origin main
+            git push
+          fi
+
+      - name: Report a failed run in-thread
+        if: failure() && steps.resolve.outputs.skip != 'true' && steps.resolve.outputs.num != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          NUM: ${{ steps.resolve.outputs.num }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          # Never leave the thread hanging after "working on this now".
+          gh issue comment "$NUM" --repo "$REPO" --body \
+          "The on-demand run on your request hit an error and stopped ([run log](${RUN_URL})). Your request is still queued — the next scheduled curator pass will retry it, and nothing you filed was lost." || true
+
+      - name: Clear the working label
+        if: always() && steps.resolve.outputs.num != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          NUM: ${{ steps.resolve.outputs.num }}
+        run: gh issue edit "$NUM" --repo "$REPO" --remove-label "claude:working" || true

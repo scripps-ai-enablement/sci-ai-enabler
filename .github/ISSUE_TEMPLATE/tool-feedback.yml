@@ -1,6 +1,6 @@
 # .github/ISSUE_TEMPLATE/tool-feedback.yml
 name: Share feedback on a catalog tool
-description: "I installed tool Y and… — we'll reply in-thread and queue the feedback for the next scheduled run."
+description: "I installed tool Y and… — we'll reply in-thread and a curator run picks up your feedback right away."
 title: "[Tool feedback] "
 labels: ["claude:tool-feedback"]
 body:
