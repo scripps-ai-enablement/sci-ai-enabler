@@ -206,7 +206,13 @@ def smoke_one(target: dict, workroot: Path, install_timeout: int = INSTALL_TIMEO
     slug = target["slug"]
     install_cmd = target.get("install_cmd")
     boot_cmd = target.get("boot_cmd")
-    result = {"slug": slug, "install_cmd": install_cmd, "boot_cmd": boot_cmd,
+    # `source` MUST be carried through. It is how downstream tells a catalog tool
+    # page (which the Verifier agent stamps with badges) from a recipe dependency
+    # (which has no page — `record_dependency_verdicts.py` routes those to
+    # index/recipe-dependencies.json instead). Dropping it silently produced zero
+    # recipe verdicts while the target was in fact selected and executed.
+    result = {"slug": slug, "source": target.get("source", "tool"),
+              "install_cmd": install_cmd, "boot_cmd": boot_cmd,
               "status": "skipped", "log": ""}
     if not install_cmd:
         result["log"] = "no install command"

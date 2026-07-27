@@ -159,6 +159,51 @@ class ImportProbe(unittest.TestCase):
         self.assertEqual(status, "pass", log)
 
 
+class ResultFieldContract(unittest.TestCase):
+    """The integration boundary that broke: the runner's result shape.
+
+    `record_dependency_verdicts.py` filters on `source` to separate recipe
+    dependencies (no catalog page, no badge) from catalog tool pages. When the
+    runner dropped that field the recorder silently produced zero verdicts even
+    though the target had been selected and executed. Unit-testing the recorder
+    against hand-made results hid it, so assert the real producer's output here.
+    """
+
+    def _result(self, **target):
+        # An empty install_cmd returns before any subprocess runs, so this needs
+        # no network and still exercises the real construction path.
+        target.setdefault("slug", "x")
+        target.setdefault("install_cmd", "")
+        return runner.smoke_one(target, Path(tempfile.mkdtemp(prefix="contract_")))
+
+    def test_source_is_propagated(self):
+        self.assertEqual(self._result(source="recipe")["source"], "recipe")
+        self.assertEqual(self._result(source="tool")["source"], "tool")
+
+    def test_source_defaults_to_tool_when_absent(self):
+        """Pre-existing batches have no `source`; they must stay tool-lane."""
+        self.assertEqual(self._result()["source"], "tool")
+
+    def test_result_carries_every_field_the_recorder_reads(self):
+        spec = importlib.util.spec_from_file_location(
+            "record_dependency_verdicts",
+            Path(__file__).resolve().parent.parent / "scripts"
+            / "record_dependency_verdicts.py")
+        rec = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(rec)
+        # Built by the real runner via its early-return path: no subprocess, no
+        # network, but the genuine result shape rather than a fabricated dict.
+        result = self._result(source="recipe", slug="r")
+        for key in ("slug", "source", "install_cmd", "boot_cmd", "status"):
+            self.assertIn(key, result, f"runner result lacks {key!r}")
+        result["install_cmd"] = "pip install a==1.0"
+        result["status"] = "pass"
+        folded = rec.fold([result], {}, "2026-07-27")
+        self.assertEqual([r["package"] for r in folded["results"]], ["a"],
+                         "the recorder cannot read the runner's own output")
+        self.assertEqual(folded["results"][0]["status"], "pass")
+
+
 class ToolchainDetection(unittest.TestCase):
     """`needs_toolchain` fires only when the compiler binary is missing."""
 
