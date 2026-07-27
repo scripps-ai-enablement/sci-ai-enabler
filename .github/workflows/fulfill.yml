@@ -507,7 +507,9 @@ jobs:
           # `//` defaults on every field: classify() guarantees a complete record,
           # but this step runs under `set -u` and a null would abort the router.
           STATUS=$(printf '%s' "$CLS" | jq -r '.status // "absent"')
-          RESULT=$(printf '%s' "$CLS" | jq -r '.result // ""')
+          # `result_prose` is the note with the machine `outcome=` token stripped —
+          # every user-facing comment uses it, so the token never leaks into prose.
+          RESULT=$(printf '%s' "$CLS" | jq -r '.result_prose // .result // ""')
           OUTCOME=$(printf '%s' "$CLS" | jq -r '.outcome // ""')
           VIA=$(printf '%s' "$CLS" | jq -r '.via // ""')
           CHAIN=$(printf '%s' "$CLS" | jq -r '.chain // 0')

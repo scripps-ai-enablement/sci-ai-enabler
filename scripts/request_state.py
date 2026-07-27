@@ -148,6 +148,19 @@ def result_of(line: str) -> str:
     return re.sub(r"^-\s*", "", line).strip()
 
 
+def result_prose(line: str) -> str:
+    """`result_of` with the `outcome=` token stripped, for user-facing text.
+
+    The token is machine state. Interpolating the raw note into a GitHub comment
+    ends it with a bare "outcome=blocked", which reads like a leaked variable to
+    the person waiting on the request.
+    """
+    s = re.sub(r"\s*\boutcome=[a-z-]+\.?", "", result_of(line), flags=re.I)
+    s = re.sub(r"\s+", " ", s).strip()
+    s = re.sub(r"^[\s;,.]+", "", s)
+    return re.sub(r"[\s;,]+$", "", s)
+
+
 def find(text: str, issue: str) -> tuple[str, str] | None:
     """Locate `issue`'s entry as (section, line). `(open)` wins ties."""
     for section in SECTIONS:
@@ -166,8 +179,8 @@ def classify(text: str, issue: str) -> dict:
     complete-record guarantee is load-bearing, not tidiness.
     """
     empty = {"status": "absent", "issue": issue, "section": None, "line": "",
-             "result": "", "outcome": None, "blocked_on": [], "chain": 0,
-             "via": None}
+             "result": "", "result_prose": "", "outcome": None,
+             "blocked_on": [], "chain": 0, "via": None}
     hit = find(text, issue)
     if hit is None:
         return empty
@@ -182,6 +195,7 @@ def classify(text: str, issue: str) -> dict:
         "section": section,
         "line": line,
         "result": result_of(line),
+        "result_prose": result_prose(line),
         "outcome": outcome,
         "blocked_on": blocked_on(line),
         "chain": chain_of(line),
