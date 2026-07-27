@@ -8,9 +8,9 @@ availability: GA
 tool_categories: [Immunology and Microbiology, Molecular and Cellular Biology]
 last_verified: 2026-06-13
 verification: works
-verified_on: 2026-07-20
+verified_on: 2026-07-27
 security: caution
-security_on: 2026-07-20
+security_on: 2026-07-27
 security_note: "provenance matches scmcphub, PyPI liana-mcp v0.4.0 present, no OSV advisories, but no repo LICENSE file and ecosystem unmaintained since 2025-06"
 summary: MCP server wrapping LIANA so Claude can infer and plot cell-cell communication from single-cell data in natural language.
 ---
@@ -26,8 +26,8 @@ MCP server that exposes the Python LIANA cell-cell communication workflow as nat
 | **Availability** | GA — v0.4.0 (2025-06-27) |
 | **Pricing** | Free / OSS — BSD-3-Clause (per the scmcphub ecosystem; per-repo LICENSE file not separately confirmed) |
 | **Capabilities** | Read/Write — runs analysis on a loaded AnnData object and writes plots |
-| **Verified** | works · 2026-07-20 |
-| **Security** | caution · 2026-07-20 — provenance matches scmcphub, no OSV advisories, no repo LICENSE and unmaintained since 2025-06 |
+| **Verified** | works · 2026-07-27 |
+| **Security** | caution · 2026-07-27 — provenance matches scmcphub, no OSV advisories, no repo LICENSE and unmaintained since 2025-06 |
 
 ## How to install
 

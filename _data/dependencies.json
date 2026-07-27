@@ -14,7 +14,7 @@
       "recipes": [
         "localize-implant-tip-in-brain-atlas-subregion"
       ],
-      "verdict": "boot_error",
+      "verdict": "pass",
       "verdict_on": "2026-07-27"
     },
     {
@@ -28,7 +28,7 @@
       "recipes": [
         "localize-implant-tip-in-brain-atlas-subregion"
       ],
-      "verdict": "boot_error",
+      "verdict": "pass",
       "verdict_on": "2026-07-27"
     },
     {
@@ -42,7 +42,7 @@
       "recipes": [
         "localize-implant-tip-in-brain-atlas-subregion"
       ],
-      "verdict": "boot_error",
+      "verdict": "pass",
       "verdict_on": "2026-07-27"
     }
   ]

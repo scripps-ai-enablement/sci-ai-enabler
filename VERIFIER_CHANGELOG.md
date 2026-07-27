@@ -4,6 +4,31 @@ Rolling, reverse-chronological log of catalog verification + security passes. Ea
 on-demand run that produces changes prepends a dated block; the top block is mirrored to the pinned
 "Verification updates" issue.
 
+## 2026-07-27 (worklist maintenance — 4-page recheck, latchbio-integration → liana-mcp)
+
+Worked the injected 4-page worklist top-to-bottom. All four were already stamped 2026-07-20 (within
+cadence); rechecked against fresh source fetches — zero drift, no fixes. Stamps refreshed to
+2026-07-27.
+
+### Verified
+- `latchbio-integration` works/caution (unchanged) — `K-Dense-AI/scientific-agent-skills` MIT/not-
+  archived/pushed 2026-07-27/31.9k★; `skills/latchbio-integration/SKILL.md` (8527 B) confirmed.
+- `latex-posters` works/caution (unchanged) — same anchor; `skills/latex-posters/SKILL.md` (15554 B)
+  confirmed.
+- `lggnn` works/cleared (unchanged) — `CUHK-AIM-Group/NeuroClaw` MIT/not-archived/pushed 2026-07-26/
+  76★; `skills/lggnn/SKILL.md` (5467 B) confirmed.
+- `liana-mcp` works/caution (unchanged) — `scmcphub/liana-mcp` no-LICENSE/not-archived/pushed
+  2025-06-27/1★; PyPI `liana-mcp` 0.4.0; launch `liana-mcp run` re-confirmed against the repo README.
+
+### Security
+- `latchbio-integration` caution: provenance matches K-Dense-AI, but the per-skill license is unstated
+  on the page and it deploys workflows/data to the external LatchBio cloud with user credentials.
+- `latex-posters` caution: provenance matches K-Dense-AI, no external calls, but the per-skill license
+  is unstated on the page (collection root is MIT).
+- `lggnn` cleared: provenance matches CUHK-AIM-Group/NeuroClaw, MIT, no OSV advisories.
+- `liana-mcp` caution: provenance matches scmcphub, no OSV advisories, but no repo LICENSE file and the
+  scmcphub ecosystem is unmaintained since 2025-06.
+
 ## 2026-07-27 (worklist maintenance — 4-page recheck, kegg-database → kmeans)
 
 Worked the injected 4-page worklist top-to-bottom. All four were already stamped 2026-07-20 (within
