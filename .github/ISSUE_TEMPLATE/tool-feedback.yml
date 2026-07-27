@@ -20,6 +20,7 @@ body:
         - adaptyv
         - adhd200-skill
         - adisinsight
+        - admetlab-mcp
         - adni-skill
         - aeon
         - aibl-skill
@@ -28,6 +29,7 @@ body:
         - alphafold
         - alphafold2
         - alphagenome
+        - amplicon-processing
         - amr-detection
         - anndata
         - antibody-registry
@@ -72,6 +74,7 @@ body:
         - camcan-skill
         - cbioportal
         - cbioportal-database
+        - cdxml-toolkit
         - cellchat-cell-communication
         - cellguide
         - cellpose-cell-segmentation
@@ -85,6 +88,7 @@ body:
         - chembl
         - chemcp
         - chemlint
+        - chimerax-mcp
         - cirq
         - citation-management
         - civic
@@ -98,6 +102,7 @@ body:
         - clinpgx-database
         - clinvar-database
         - cms-coverage
+        - cms-datagov-mcp
         - cnvkit-copy-number
         - cobrapy
         - cobre-skill
@@ -129,6 +134,7 @@ body:
         - dmt-har-med-skill
         - dnanexus-integration
         - docx
+        - drug-pipeline-mcp
         - drug-repurposing
         - drugbank
         - dwi-skill
@@ -293,6 +299,7 @@ body:
         - openalex-database
         - opencv-bioimage-analysis
         - openfda
+        - openfda-mcp-server
         - openfold3
         - openmm-mcp
         - openneuro
@@ -327,6 +334,7 @@ body:
         - prior-auth-review
         - procedure-coding
         - prokka-genome-annotation
+        - protein-mcp-server
         - proteinmpnn
         - proto-okn
         - protocolsio-integration
@@ -358,6 +366,7 @@ body:
         - reactome-database
         - regulomedb-database
         - remap-database
+        - repertoire-visualization
         - research-grants
         - research-lookup
         - rest-mneta-mdd-skill
@@ -405,6 +414,7 @@ body:
         - snpeff-variant-annotation
         - solublempnn
         - spacenet
+        - specificity-annotation
         - spikeinterface-electrophysiology
         - spikelab
         - stable-baselines3
@@ -415,6 +425,7 @@ body:
         - svm
         - sympy
         - synapse
+        - taxonomy-assignment
         - tcp-skill
         - tcr-epitope-binding
         - tiledbvcf
@@ -453,6 +464,7 @@ body:
         - usfiscaldata
         - uspto-database
         - vaex
+        - vdjtools-analysis
         - venue-templates
         - viennarna-structure-prediction
         - western-blot-quantification

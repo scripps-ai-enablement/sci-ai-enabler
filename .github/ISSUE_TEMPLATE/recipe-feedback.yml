@@ -20,16 +20,19 @@ body:
         - annotate-a-bacterial-genome
         - annotate-and-verify-a-plasmid-construct
         - annotate-cell-types-in-single-cell-data
+        - annotate-tumor-variants-with-clinical-actionability
         - assemble-cancer-imaging-cohort-from-idc
         - assemble-reference-atlas-from-cellxgene-census
         - benchmark-admet-property-with-pytdc
         - build-functional-connectivity-matrix-from-fmri
         - build-pharmacogenomic-dosing-report
         - build-phylogenetic-tree-from-sequences
+        - build-ppi-network-and-rank-hub-genes
         - build-target-dossier
         - call-peaks-and-motifs-from-chipseq-atacseq
         - compute-16s-microbiome-diversity
         - compute-bacterial-pangenome-from-assemblies
+        - compute-dti-scalar-maps-from-diffusion-mri
         - compute-hrv-from-ecg-recording
         - convert-instrument-data-to-allotrope-asm
         - design-crispr-sgrnas-for-a-gene-knockout
@@ -59,11 +62,13 @@ body:
         - integrate-single-cell-datasets
         - interpret-clinical-variant
         - interpret-glycosylation-altering-variants
+        - localize-implant-tip-in-brain-atlas-subregion
         - map-disease-to-genes-and-pathways
         - match-patient-to-clinical-trials
         - organize-raw-dicom-to-bids-layout
         - parse-fcs-flow-cytometry-files
         - plan-a-synthetic-route-for-a-target-molecule
+        - predict-admet-properties-for-a-compound-series
         - predict-antibody-antigen-complex
         - predict-gene-knockout-phenotypes-with-fba
         - predict-hospital-readmission-from-ehr
@@ -75,8 +80,10 @@ body:
         - profile-cancer-cohort-genomics-with-cbioportal
         - profile-chipseq-atacseq-signal-around-features
         - profile-compound-polypharmacology
+        - profile-shotgun-metagenome-taxa-with-kraken2
         - qc-single-cell-rna-seq
         - quantify-bulk-rnaseq-fastq-to-counts
+        - quantify-western-blot-densitometry
         - rank-compound-library-by-predicted-affinity
         - reconstruct-bcr-clonal-lineages
         - register-longitudinal-medical-scans
@@ -86,6 +93,7 @@ body:
         - scan-adverse-events-for-drug-safety-signal
         - scan-antibody-glycosylation-sites
         - scan-drug-repurposing-candidates
+        - scan-protein-for-cd4-t-cell-epitopes
         - scan-protein-for-cd8-t-cell-epitopes
         - score-drug-combination-synergy
         - score-protein-variants-with-esm
@@ -97,6 +105,8 @@ body:
         - sort-spikes-from-neuropixels-recording
         - superpose-two-protein-structures
         - tile-and-normalize-whole-slide-image
+        - track-particles-and-measure-diffusion
+        - train-qsar-model-from-assay-data
         - triage-alphafold-model-for-docking
         - triage-gwas-hits-to-drug-targets
         - triage-new-preprints
