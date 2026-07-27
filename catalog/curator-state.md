@@ -87,4 +87,4 @@ _None._
 
 ## User requests (closed this run)
 
-- [#74 @goodb 2026-07-27] queue: catalog | request=unblock-recipe | components="brainglobe-atlasapi,deepslice" | author=@goodb | issue=74 | via=recipes-block | chain=1 → both verified real + cleanly licensed (brainglobe-atlasapi BSD-3-Clause; DeepSlice MIT, © 2023 Harry Carey) but **neither ships as a Claude-installable Skill/MCP/plugin/connector** — bare PyPI libraries only (checked PyPI, both repos, NeuroClaw/SciAgent/K-Dense/bioSkills collections; no SKILL.md or MCP wrapper for either). Same out-of-scope bar as raw RDKit/Scanpy; cataloguing would mean fabricating a non-existent install path. Recorded under Deferred with license verification banked for the moment a wrapper surfaces. No page shipped. outcome=declined
+_None._
