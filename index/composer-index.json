@@ -1156,8 +1156,11 @@
         "GPL-3",
         "GUI-driven",
         "JOSS",
+        "MIT",
+        "Neural-Systems-at-UIO",
         "QuickNII",
-        "QUINT"
+        "QUINT",
+        "UIO"
       ],
       "path": "recipes/items/localize-implant-tip-in-brain-atlas-subregion.md"
     },

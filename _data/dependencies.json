@@ -1,7 +1,7 @@
 {
   "version": 1,
   "generated": "2026-07-27",
-  "count": 2,
+  "count": 3,
   "dependencies": [
     {
       "package": "DeepSlice",
@@ -11,6 +11,20 @@
       "import": "DeepSlice",
       "source_url": "https://doi.org/10.1038/s41467-023-41645-4",
       "source_label": "Carey et al., *Nat Commun* 2023",
+      "recipes": [
+        "localize-implant-tip-in-brain-atlas-subregion"
+      ],
+      "verdict": "",
+      "verdict_on": ""
+    },
+    {
+      "package": "PyNutil",
+      "registry": "PyPI",
+      "pin": "0.6.2",
+      "license": "MIT",
+      "import": "PyNutil",
+      "source_url": "https://github.com/Neural-Systems-at-UIO/PyNutil",
+      "source_label": "PyNutil (Neural Systems at UIO)",
       "recipes": [
         "localize-implant-tip-in-brain-atlas-subregion"
       ],
