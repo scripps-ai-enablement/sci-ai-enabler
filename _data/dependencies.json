@@ -1,6 +1,35 @@
 {
   "version": 1,
   "generated": "2026-07-27",
-  "count": 0,
-  "dependencies": []
+  "count": 2,
+  "dependencies": [
+    {
+      "package": "DeepSlice",
+      "registry": "PyPI",
+      "pin": "1.2.8",
+      "license": "GPL-3.0-only",
+      "import": "DeepSlice",
+      "source_url": "https://doi.org/10.1038/s41467-023-41645-4",
+      "source_label": "Carey et al., *Nat Commun* 2023",
+      "recipes": [
+        "localize-implant-tip-in-brain-atlas-subregion"
+      ],
+      "verdict": "",
+      "verdict_on": ""
+    },
+    {
+      "package": "brainglobe-atlasapi",
+      "registry": "PyPI",
+      "pin": "2.3.1",
+      "license": "BSD-3-Clause",
+      "import": "brainglobe_atlasapi",
+      "source_url": "https://doi.org/10.21105/joss.02668",
+      "source_label": "Claudi et al., *JOSS* 2020",
+      "recipes": [
+        "localize-implant-tip-in-brain-atlas-subregion"
+      ],
+      "verdict": "",
+      "verdict_on": ""
+    }
+  ]
 }

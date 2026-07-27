@@ -373,7 +373,21 @@ DEP_ROW = re.compile(
     r"\s*([^|]+?)\s*\|\s*`([A-Za-z_][A-Za-z0-9_.]*)`\s*\|\s*(.+?)\s*\|\s*$",
     re.MULTILINE,
 )
-DEP_PIN = re.compile(r"pip install ([A-Za-z0-9._-]+)==([A-Za-z0-9._!<>=-]+)")
+# `pip install A==1 B==2` on one line is idiomatic and is what the assembler
+# writes, so collect every pinned spec inside each install command rather than
+# only the first. Extras (`pkg[full]==1.0`) are keyed by the base name, which is
+# what the table's Package column carries.
+DEP_INSTALL_CMD = re.compile(r"pip install ([^\n`]+)")
+DEP_SPEC = re.compile(r"([A-Za-z0-9._-]+)(\[[A-Za-z0-9,._-]+\])?==([A-Za-z0-9._!*+-]+)")
+
+
+def dependency_pins(block: str) -> dict[str, str]:
+    """{package: pinned_version} for every `==` spec in the block's pip commands."""
+    pins: dict[str, str] = {}
+    for cmd in DEP_INSTALL_CMD.finditer(block):
+        for name, _extras, version in DEP_SPEC.findall(cmd.group(1)):
+            pins[name] = version
+    return pins
 MD_LINK = re.compile(r"\[([^\]]+)\]\(([^)]+)\)")
 
 
@@ -391,7 +405,7 @@ def build_recipe_dependencies(repo: Path, errors: list) -> list[dict]:
         block = section_block(body, "Dependencies")
         if not block.strip():
             continue
-        pins = dict(DEP_PIN.findall(block))
+        pins = dependency_pins(block)
         rows = DEP_ROW.findall(block)
         if not rows:
             errors.append(f"{path}: `## Dependencies` present but no parseable table row")

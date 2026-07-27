@@ -496,6 +496,11 @@ jobs:
               || echo "::warning::could not comment on #${NUM}"
           }
 
+          unpark() {  # the request is no longer waiting on anything
+            gh issue edit "$NUM" --repo "$REPO" \
+              --remove-label "claude:blocked-on-catalog" >/dev/null 2>&1 || true
+          }
+
           dispatch() {  # dispatch <issue> <queue>
             echo "dispatching next hop: issue=$1 queue=$2"
             gh workflow run fulfill.yml --repo "$REPO" -f "issue=$1" -f "queue=$2" \
@@ -590,6 +595,7 @@ jobs:
               # Terminal, but not a success — don't dress it up as one.
               say \
               "**Not doing this one — here's why.** ${RESULT}"$'\n\n'"Recorded in ${COMMIT_URL} so the reasoning isn't lost. Closing, but reopen with more detail if you think this was the wrong call."
+              unpark
               gh issue close "$NUM" --repo "$REPO" --reason completed || true
               apply_and_push "loop-closed: request #${NUM}" \
                 prune --state "$STATE" --issue "$NUM" --section "closed this run" || true
@@ -602,6 +608,7 @@ jobs:
               fi
               say \
               "Shipped in ${COMMIT_URL}. ${RESULT}${LINK_LINE}"$'\n\nClosing — reopen if this missed the mark, or file a feedback issue once you\'ve tried it.'
+              unpark
               gh issue close "$NUM" --repo "$REPO" --reason completed || true
               apply_and_push "loop-closed: request #${NUM}" \
                 prune --state "$STATE" --issue "$NUM" --section "closed this run" || true
@@ -633,8 +640,10 @@ jobs:
           "The on-demand run on your request hit an error and stopped ([run log](${RUN_URL})). Your request is still queued — the next scheduled curator pass will retry it, and nothing you filed was lost." || true
 
       - name: Clear the working label
-        # `claude:blocked-on-catalog` is deliberately left in place — it is the
-        # standing signal that a request is parked, not a per-run status.
+        # `claude:working` is per-run, so it always comes off. The router removes
+        # `claude:blocked-on-catalog` itself on a terminal outcome — that label is
+        # a standing "parked" signal, and a shipped request that keeps it reads as
+        # still-blocked (observed on #74 after the recipe shipped).
         if: always() && steps.resolve.outputs.num != ''
         env:
           GH_TOKEN: ${{ github.token }}

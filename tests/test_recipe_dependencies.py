@@ -24,6 +24,10 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
 
+# A synthesized import boot command may only ever be an import of one or more
+# validated dotted identifiers — never anything a page supplied verbatim.
+SAFE_BOOT = r'^python3 -c "import [A-Za-z_][A-Za-z0-9_.]*(?:, [A-Za-z_][A-Za-z0-9_.]*)*"$'
+
 
 def _load(name: str, rel: str):
     spec = importlib.util.spec_from_file_location(name, REPO / rel)
@@ -176,7 +180,37 @@ class TestSmokeTargets(unittest.TestCase):
         ):
             got = gate.import_boot(probe)
             if got is not None:
-                self.assertRegex(got, r'^python3 -c "import [A-Za-z_][A-Za-z0-9_.]*"$')
+                self.assertRegex(got, SAFE_BOOT)
+
+    def test_multi_package_install_pins_every_package(self):
+        """`pip install A==1 B==2` on one line is idiomatic and is what the
+        assembler writes; collecting only the first pin silently unverifies the
+        rest (caught on the real #74 recipe)."""
+        block = (
+            "## Dependencies\n\n"
+            "| Package | Registry | Pinned | License | Import | Source (fetched 2026-07-27) |\n"
+            "|---|---|---|---|---|---|\n"
+            "| DeepSlice | PyPI | `1.2.8` | GPL-3.0-only | `DeepSlice` | [x](https://a) |\n"
+            "| brainglobe-atlasapi | PyPI | `2.3.1` | BSD-3-Clause | `brainglobe_atlasapi` | [y](https://b) |\n\n"
+            "```\npip install DeepSlice==1.2.8 brainglobe-atlasapi==2.3.1\n"
+            'python3 -c "import DeepSlice; import brainglobe_atlasapi"\n```\n'
+        )
+        self.assertEqual(bi.dependency_pins(block),
+                         {"DeepSlice": "1.2.8", "brainglobe-atlasapi": "2.3.1"})
+        self.assertEqual(gate.import_boot(block),
+                         'python3 -c "import DeepSlice, brainglobe_atlasapi"')
+        self.assertRegex(gate.import_boot(block), SAFE_BOOT)
+
+    def test_extras_are_keyed_by_base_package_name(self):
+        block = "```\npip install spikeinterface[full]==0.101.0\n```\n"
+        self.assertEqual(bi.dependency_pins(block), {"spikeinterface": "0.101.0"})
+
+    def test_multi_module_import_is_still_only_identifiers(self):
+        payload = ('python3 -c "import os, sys; import subprocess; '
+                   'os.system(\'x\')"')
+        got = gate.import_boot(payload)
+        self.assertRegex(got, SAFE_BOOT)
+        self.assertNotIn("system", got)
 
     def test_mcp_boot_still_wins_when_a_page_has_both(self):
         both = ('claude mcp add foo -- foo-server run\n'
@@ -213,7 +247,7 @@ class TestSmokeTargets(unittest.TestCase):
             boot = target.get("boot_cmd") or ""
             if boot.startswith("python3 -c"):
                 self.assertRegex(
-                    boot, r'^python3 -c "import [A-Za-z_][A-Za-z0-9_.]*"$',
+                    boot, SAFE_BOOT,
                     f"{target['slug']} produced an unsafe boot command: {boot!r}",
                 )
 

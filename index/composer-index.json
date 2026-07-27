@@ -3,7 +3,7 @@
   "generated": "2026-07-27",
   "counts": {
     "tools": 459,
-    "recipes": 96
+    "recipes": 97
   },
   "tools_file": "composer-tools.json",
   "recipes": [
@@ -1134,6 +1134,32 @@
         "Swiss-Prot"
       ],
       "path": "recipes/items/interpret-glycosylation-altering-variants.md"
+    },
+    {
+      "slug": "localize-implant-tip-in-brain-atlas-subregion",
+      "title": "Localize a fiber/probe implant tip in an Allen CCF subregion from 2D histology",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Neuroscience"
+      ],
+      "evidence_level": "Proposed",
+      "complexity": "Multi-tool harness",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-07-27",
+      "summary": "Batch-register coronal histology with DeepSlice, detect each fiber tip, and read its Allen CCF subregion plus a hit/miss-vs-target verdict — a scripted QUINT replacement.",
+      "keywords": [
+        "Batch-register",
+        "BSD-3-Clause",
+        "CCF",
+        "DSModel",
+        "GPL-3",
+        "GUI-driven",
+        "JOSS",
+        "QuickNII",
+        "QUINT"
+      ],
+      "path": "recipes/items/localize-implant-tip-in-brain-atlas-subregion.md"
     },
     {
       "slug": "map-disease-to-genes-and-pathways",
