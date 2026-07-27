@@ -73,6 +73,19 @@ See the [updates archive](updates/) for the change history of each section.
 
 Two types of inbound flow are accepted via GitHub Issue Forms: **recipe questions** ("How should I do X?") and **feedback** on a recipe or catalog tool ("I tried X and…").
 
-When you open an issue with one of the forms, a responder bot reads the issue, leaves an in-thread reply within a few minutes (linking the closest existing recipes or tools), and adds the request to the curator's work queue. It then **immediately dispatches an on-demand curator run** (`fulfill.yml`) scoped to that one request, rather than leaving it for the weekend cron. That run labels the issue `claude:working`, posts progress notes to the thread as it searches and decides, ships the durable change — a new recipe, an updated tool note, a flag — and closes the issue with a commit link and a rendered-page URL. If a request needs more wall-clock than one run, or depends on a component that isn't catalogued yet, the run says so in the thread and the request stays queued for the next scheduled pass, which retries it.
+When you open an issue with one of the forms, a responder bot reads the issue, leaves an in-thread reply within a few minutes (linking the closest existing recipes or tools), and adds the request to the curator's work queue. It then **immediately dispatches an on-demand curator run** (`fulfill.yml`) scoped to that one request, rather than leaving it for the weekend cron. That run labels the issue `claude:working`, posts progress notes to the thread as it searches and decides, ships the durable change — a new recipe, an updated tool note, a flag — and closes the issue with a commit link and a rendered-page URL.
+
+Each request ends in one of four recorded outcomes, and only three of them close the issue:
+
+| Outcome | Issue |
+|---|---|
+| shipped — a page was written or updated | closed, with the rendered page link |
+| already covered | closed, with the link to the existing page |
+| declined — out of scope, unverifiable, or license-blocked | closed, with the reason stated |
+| **blocked** — answerable, but a load-bearing component isn't catalogued | **stays open**, labelled `claude:blocked-on-catalog` |
+
+A blocked recipe request **chains across the queues**: `fulfill.yml` queues the missing components for the catalog curator, dispatches it immediately, and hands the request back to the recipe assembler if they get catalogued — so the recipe is written in the same sitting. The chain is capped at one catalog round-trip; beyond that the issue stays open and the scheduled passes, which re-examine blocked requests every run, pick it up once the blocker clears by any route.
+
+This distinction exists because it was gotten wrong: before it, a blocked request was closed as `completed`, and issue #74 was closed 2m24s after filing with nothing shipped. Fast and wrong reads worse than slow.
 
 The bot that replies in-thread is **read-only on the repository**; only the curator agents change content files. The on-demand fulfiller is not a separate agent with looser rules — it is the same `RECIPE_AGENT.md` / `AGENT.md` curator, running the same evidence and simplicity-ladder rules, with its scope narrowed to a single queue entry and the ability to comment on the thread.

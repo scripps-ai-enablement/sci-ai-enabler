@@ -500,7 +500,9 @@ Or, if the responder fell back without a trailer:
 
 The workflow pre-fetches the body of every open user-request issue into `.request-bodies/<NN>.md` before you start, so you can `Read` it directly — you do not have `gh` or a shell. If a `.request-bodies/<NN>.md` file is missing (the fetch failed, e.g. the issue was deleted), leave that entry in `## User requests (open)` and move on; do not guess at its contents.
 
-**Immediate mode.** A user request no longer waits for the weekend cron. The moment `responder.yml` queues one it dispatches `fulfill.yml`, which re-runs *you* — this same spec — scoped to that single entry, with `Bash(gh issue comment:*)` added so you can post progress to the user's thread while you work. That run's prompt spells out the scope reduction (one entry, one new page, no manifest sweep or directed pass) and the notification contract. The surfacing bar — real, installable, license-clear, in scope — is unchanged. The scheduled pass below stays the safety net: whatever an immediate run leaves in `## User requests (open)` — because it ran out of wall-clock, errored, or was superseded while queued behind another run — is retried here as normal.
+**Immediate mode.** A user request no longer waits for the weekend cron. The moment `responder.yml` queues one it dispatches `fulfill.yml`, which re-runs *you* — this same spec — scoped to that single entry, with `Bash(gh issue comment:*)` added so you can post progress to the user's thread while you work. That run's prompt spells out the scope reduction (one entry, one new page, no manifest sweep or directed pass) and the notification contract. The surfacing bar — real, installable, license-clear, in scope — is unchanged. The scheduled pass below stays the safety net: whatever an immediate run leaves in `## User requests (open)` or `## User requests (blocked)` is retried here as normal.
+
+**You are also the second hop of a chain.** When the recipes curator blocks a user's request on components that aren't catalogued, `fulfill.yml` queues a `request=unblock-recipe` entry here and dispatches you on it immediately, then hands the request back to the recipes curator if you catalogue them. Those entries are a user waiting in a live thread, not routine backlog — see the handler below.
 
 **Each run, process every entry in `## User requests (open)`:**
 
@@ -514,14 +516,35 @@ The workflow pre-fetches the body of every open user-request issue into `.reques
    - **Already catalogued** — if a `catalog/tools/<slug>.md` already covers it, don't duplicate; note "already covered" and link the slug. If the request names an install path the existing page lacks, add it to that page instead (one entry per tool).
    - **In scope, installable, not yet catalogued** — **create `catalog/tools/<slug>.md`** following the page schema above, set `tool_categories` (map the requested subject area to the canonical category; use judgment when the user picked "I'm not sure"), and add a line under `## Recently surfaced`.
    - **Out of scope, unverifiable, or license-blocked** — do not create a page; record the reason in the result note (and under `## Deferred — next-run priority` if it's worth revisiting).
-3. For `(no trailer emitted; needs curator triage)` entries, read the issue body from `.request-bodies/<NN>.md` and decide what to do — the bare entry's `title=`/`label=` rarely carry the request; the body is where the actual feedback lives. (Often: act on it if clear; otherwise flag the request as unactionable. Do not leave a body-bearing entry to "reconsider next run" — it will loop forever.)
-4. **Move each processed entry** from `## User requests (open)` to `## User requests (closed this run)` and append `→ <result note>` describing what shipped or why nothing did. Name the `catalog/tools/<slug>.md` page in the note when one shipped, so the loop-closer can link it. Examples:
+3. For `request=unblock-recipe` entries, **a recipe is blocked on you.** The recipes curator could not answer a user's request because the components named in `components="…"` are not catalogued. It filed the details — URL, install path, what each component does, any license concern — under `## Missing components` in `recipes/curator-state.md`: **read that note, it is the request.** `.request-bodies/<NN>.md` has the user's original question for context.
+
+   Apply the **normal surfacing bar** — real, installable, license-clear, in scope. Do not lower it because a recipe is waiting: cataloguing a tool you could not verify puts an unchecked install path in front of a user, which is worse than making them wait.
+   - The per-run new-page cap does **not** apply to these entries. Catalogue *every* component that clears the bar — a partial set leaves the recipe blocked and wastes the round-trip.
+   - **All clear** → `outcome=shipped`. The workflow hands the request back to the recipes curator automatically and the recipe gets written on the next hop.
+   - **Some clear, some don't** → still `outcome=shipped`; name which didn't and why. The recipes curator decides whether the recipe is possible with what landed.
+   - **None clear** → `outcome=declined` with the reason (out of scope, no license, unverifiable). The workflow tells the user plainly instead of bouncing the request back into a loop.
+
+   In `fulfill.yml` you are commenting on the *user's* issue, not an internal thread. Write the progress note for them: which components you're evaluating, and what you found.
+4. For `(no trailer emitted; needs curator triage)` entries, read the issue body from `.request-bodies/<NN>.md` and decide what to do — the bare entry's `title=`/`label=` rarely carry the request; the body is where the actual feedback lives. (Often: act on it if clear; otherwise flag the request as unactionable. Do not leave a body-bearing entry to "reconsider next run" — it will loop forever.)
+5. **Move each processed entry out of `## User requests (open)`** and append `→ <result note>` ending in an `outcome=` token. The token decides what the user is told and whether their issue is closed, so it has to be honest:
+
+| Token | When | Move it to |
+|---|---|---|
+| `outcome=shipped` | a tool page shipped, or an existing page was updated | `## User requests (closed this run)` |
+| `outcome=already-covered` | the catalog already covers it | `## User requests (closed this run)` |
+| `outcome=declined` | out of scope, unverifiable, or license-blocked — say which | `## User requests (closed this run)` |
+| `outcome=blocked` | you understand the request and it *is* actionable, but something external has to change first | **`## User requests (blocked)`** |
+
+Name the `catalog/tools/<slug>.md` page in the note when one shipped, so the loop-closer can link it. Never write `outcome=shipped` when nothing shipped: a `(closed this run)` entry closes the user's issue as `completed`, and claiming a tool landed when it didn't is worse than saying no. Examples:
 
 ```
-- [#43 @bob 2026-05-21] queue: catalog | feedback-on=pydeseq2 | sentiment=got-stuck | author=@bob | issue=43 → added Mac M1 conda-forge workaround to pydeseq2 Notes; last_verified bumped.
-- [#57 @dr-lee 2026-07-14] queue: catalog | request=new-tool | name="scVI" | url="https://github.com/scverse/scvi-tools" | issue=57 → in scope; created catalog/tools/scvi-tools.md (Molecular and Cellular Biology).
+- [#43 @bob 2026-05-21] queue: catalog | feedback-on=pydeseq2 | sentiment=got-stuck | author=@bob | issue=43 → added Mac M1 conda-forge workaround to pydeseq2 Notes; last_verified bumped. outcome=shipped
+- [#57 @dr-lee 2026-07-14] queue: catalog | request=new-tool | name="scVI" | url="https://github.com/scverse/scvi-tools" | issue=57 → in scope; created catalog/tools/scvi-tools.md (Molecular and Cellular Biology). outcome=shipped
+- [#74 @goodb 2026-07-27] queue: catalog | request=unblock-recipe | components="brainglobe-atlasapi,deepslice" | issue=74 | via=recipes-block → created catalog/tools/brainglobe-atlasapi.md; DeepSlice left out, no upstream LICENSE. outcome=shipped
 ```
+
+6. **Re-examine `## User requests (blocked)` every run.** Check whether whatever each entry was waiting on has since changed; if so, move it back to `## User requests (open)`, drop the stale `outcome=` token, and process it this run. If not, leave it untouched — don't re-post the analysis.
 
 Entries not actioned this run stay in `## User requests (open)` and are retried next run. If `## User requests (open)` is empty after processing, leave the section as `_None._`.
 
-Do not delete `## User requests (closed this run)` entries — the loop-closer step in `curate.yml` reads them after the curator agent exits and resets the section to `_None._` itself.
+Do not delete `## User requests (closed this run)` entries — the loop-closer step in `curate.yml` reads them after the curator agent exits and resets the section to `_None._` itself. It leaves `## User requests (blocked)` alone.

@@ -46,7 +46,17 @@ Filing an issue starts a curator run on your request straight away — you're no
 2. **Right after that** — a curator run starts on your request specifically. The issue gets a `claude:working` label, and the curator posts what it's doing in your thread as it goes: what it searched, what it found or ruled out, what it's about to write.
 3. **Usually within the hour** — the durable change ships: a new recipe page, an updated tool note, an evidence-label bump, or a flag for review. The curator comments with the commit and a direct link to the rendered page, then closes the issue. You'll get a GitHub notification.
 
-Some requests need more than one run — the curator may want to read a paper first, or the answer may depend on a tool that isn't catalogued yet. When that happens it says so in the thread and the request stays queued for the next scheduled pass (Catalog and Recipes both run through all seven subject areas each weekend). Nothing gets dropped.
+Your issue is only closed when there's a real answer — shipped, already covered, or a plainly stated no. It is never closed just because a run finished.
+
+### When the answer needs a tool that isn't catalogued yet
+
+The cookbook only writes recipes from components that are already in the catalog and verified — writing one from memory would hand you an install path nobody checked. So sometimes the honest answer is "this is a good request, and one piece is missing."
+
+When that happens your issue is **not closed**. It gets labelled `claude:blocked-on-catalog`, and the request is handed straight to the catalog curator, which evaluates the missing components right away against the usual bar (real, installable, license-clear, in scope). If they clear it, the request comes back to the recipe assembler automatically and the recipe gets written — all in your thread, with no action from you. If they don't clear it (no license, out of scope, unverifiable), you get told exactly why rather than a silent close.
+
+Every scheduled curator pass also re-checks blocked requests, so a component catalogued later by any route still unblocks yours.
+
+Requests that simply run out of time stay queued and are retried on the next scheduled pass (Catalog and Recipes both run through all seven subject areas each weekend). Nothing gets dropped.
 
 ## What you need
 

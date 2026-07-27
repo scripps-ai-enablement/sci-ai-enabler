@@ -14,7 +14,31 @@ name: Fulfill request
 # reduces scope to one queue entry. Every evidence rule, the simplicity ladder,
 # and the page schemas therefore apply identically to an immediate run and a
 # scheduled one. The weekend cron remains the safety net — anything this run
-# leaves in `## User requests (open)` is retried there.
+# leaves in `## User requests (open)` or `(blocked)` is retried there.
+#
+# ## Outcomes, and the cross-queue chain
+#
+# The agent ends its result note with an `outcome=` token, and `scripts/
+# request_state.py` classifies the entry afterwards. Four routes:
+#
+#   shipped / already-covered / declined  terminal — comment + close the issue.
+#   blocked                               the request is understood and answerable,
+#                                         but a load-bearing component is not in
+#                                         `catalog/tools/`. Keep the issue OPEN.
+#
+# `blocked` used to be impossible to express: the agent moved the entry to
+# `(closed this run)` and the loop-closer closed the issue as `completed`. Issue
+# #74 was closed 2m24s after filing with nothing shipped — fast *and* wrong, which
+# reads worse than the old weekly delay. Now a blocked recipe request chains: this
+# workflow appends a derived `request=unblock-recipe` entry to the catalog queue,
+# dispatches a catalog run on the missing components, and — if they get catalogued
+# — hands the request back and re-runs the recipes curator, which then writes the
+# recipe. The user watches all of it happen in their own thread.
+#
+# The chain is capped at one catalog detour (`chain=` on the entry). A second block
+# terminates: the issue stays open and labelled `claude:blocked-on-catalog`, and
+# the scheduled pass re-examines `(blocked)` entries each run, so a component
+# catalogued later by any route still unblocks the request.
 
 on:
   workflow_dispatch:
@@ -35,6 +59,8 @@ on:
 permissions:
   contents: write
   issues: write
+  # Needed to dispatch the next hop of the chain.
+  actions: write
 
 # Deliberately share the *scheduled* curators' concurrency groups (`recipes` /
 # `curate`) rather than using a per-issue group. Groups are repo-wide, so this
@@ -100,19 +126,20 @@ jobs:
             echo "changelog=${CHANGELOG}"
           } >> "$GITHUB_OUTPUT"
 
-          # The request must actually be queued. If it isn't, the responder
-          # either hasn't pushed yet or skipped this issue; either way there is
-          # nothing to fulfill and inventing work would double-answer the thread.
-          ENTRY=$(awk '
-            /^## User requests \(open\)/ { c=1; next }
-            /^## / && c { exit }
-            c
-          ' "$STATE" | grep -F "[#${NUM} " | head -1 || true)
-          if [ -z "$ENTRY" ]; then
-            echo "No open queue entry for #${NUM} in ${STATE}; nothing to fulfill."
+          # The request must be queued and in the `(open)` state. If it isn't, the
+          # responder hasn't pushed yet, the issue was skipped, or it is parked in
+          # `(blocked)` waiting on a component — in none of those cases is there
+          # work to do, and inventing some would double-answer the thread.
+          CLS=$(python3 scripts/request_state.py classify --state "$STATE" --issue "$NUM")
+          STATUS=$(printf '%s' "$CLS" | jq -r '.status')
+          echo "classify: ${CLS}"
+          if [ "$STATUS" != "open" ]; then
+            echo "#${NUM} is '${STATUS}' in ${STATE}, not 'open'; nothing to fulfill."
             echo "skip=true" >> "$GITHUB_OUTPUT"
             exit 0
           fi
+          ENTRY=$(printf '%s' "$CLS" | jq -r '.line')
+          echo "chain=$(printf '%s' "$CLS" | jq -r '.chain')" >> "$GITHUB_OUTPUT"
 
           # Keep the entry in a file rather than a step output: it carries
           # user-authored free text, and a file never reaches a shell as code.
@@ -248,12 +275,37 @@ jobs:
             echo "  the deadline. A correct \`Proposed\` recipe beats a rushed overclaim, and \"the honest"
             echo "  answer is that no catalogued component does this yet\" is a legitimate outcome — record"
             echo "  it under \`## Missing components\` (recipes) or \`## Deferred — next-run priority\` (catalog)."
-            echo "- Move the #${NUM} entry to \`## User requests (closed this run)\` with a \`→ <result>\` note."
-            echo "  Name the page path (e.g. \`${PAGE_DIR}<slug>.md\`) in that note when one shipped — the"
-            echo "  workflow turns it into a rendered link for the user."
-            echo "- If you genuinely cannot action it, leave it in \`## User requests (open)\`, say why in a"
-            echo "  progress comment, and stop. The scheduled pass will retry it; nothing is lost."
             echo "- Add a \`${CHANGELOG}\` entry under a \`## $(date -u +%Y-%m-%d) (user request #${NUM})\` heading."
+            echo ""
+            echo "### Outcome — pick exactly one, and end your result note with the token"
+            echo ""
+            echo "Move the #${NUM} entry out of \`## User requests (open)\` and append a \`→ <result>\` note"
+            echo "ending in an \`outcome=\` token. The workflow reads that token to decide what to tell the"
+            echo "user and whether to close the thread, so it has to be honest."
+            echo ""
+            echo "| Token | When | Move it to | What the workflow does |"
+            echo "|---|---|---|---|"
+            echo "| \`outcome=shipped\` | a page shipped, or an existing page was updated | \`(closed this run)\` | comments the commit + page link, closes the issue |"
+            echo "| \`outcome=already-covered\` | the cookbook/catalog already answers it | \`(closed this run)\` | same, linking the existing page |"
+            echo "| \`outcome=declined\` | genuinely out of scope, unverifiable, or license-blocked | \`(closed this run)\` | closes with your reason — so state it plainly |"
+            echo "| \`outcome=blocked\` | you understand the request and it *is* answerable, but a load-bearing component is not in \`catalog/tools/\` | **\`## User requests (blocked)\`** | keeps the issue **open**, and immediately dispatches a catalog run on the components you name |"
+            echo ""
+            echo "Name the page path (e.g. \`${PAGE_DIR}<slug>.md\`) in the note whenever one shipped — the"
+            echo "workflow turns it into a rendered link for the user."
+            echo ""
+            echo "**On \`outcome=blocked\`:** move the entry to \`## User requests (blocked)\` — *not*"
+            echo "\`(closed this run)\` — and add a \`blocked-on=catalog:<slug>,<slug>\` field naming the"
+            echo "components, lowercase, comma-separated, no spaces. Also file the usual"
+            echo "\`## Missing components\` note with the URL, install path, and what each component does:"
+            echo "that note *is* the brief the catalog curator reads on the next hop, so make it complete"
+            echo "enough to act on. Flag any license you could not verify."
+            echo ""
+            echo "\`blocked\` is not a failure and not a soft \`declined\` — it is the state that triggers the"
+            echo "chain that actually unblocks the user. Never write \`outcome=shipped\` when nothing shipped."
+            echo ""
+            echo "- If you cannot action the request at all (not blocked — you simply ran out of time), leave"
+            echo "  it in \`## User requests (open)\`, say why in a progress comment, and stop. The scheduled"
+            echo "  pass will retry it; nothing is lost."
             echo ""
             echo "### Keep the user posted — this is the point of immediate mode"
             echo ""
@@ -276,6 +328,35 @@ jobs:
             echo "Do **not** post a final \"shipped\" comment and do **not** close the issue — the workflow"
             echo "does both after you exit, with the commit SHA and the rendered page URL."
             echo ""
+            # A chained detour: the recipes curator blocked on components this run
+            # has to evaluate. It needs a different brief from a direct request.
+            if grep -q 'request=unblock-recipe' .fulfill-entry.txt; then
+              echo "### This is a chained request — a recipe is blocked on you"
+              echo ""
+              echo "The recipes curator could not answer issue #${NUM} because the components named in"
+              echo "the entry above are not in \`catalog/tools/\`. It filed the details — URL, install path,"
+              echo "what each component does, and any license concern — under \`## Missing components\` in"
+              echo "\`recipes/curator-state.md\`. **Read that note first: it is the request.**"
+              echo "\`.request-bodies/${NUM}.md\` has the user's original question for context."
+              echo ""
+              echo "Evaluate each component against the **normal surfacing bar** — real, installable,"
+              echo "license-clear, in scope. Do not lower it because a recipe is waiting: cataloguing a tool"
+              echo "you could not verify would put an unverified install path in front of a user, which is"
+              echo "worse than making them wait."
+              echo ""
+              echo "- The one-new-page cap does **not** apply to this run. Catalogue every component that"
+              echo "  clears the bar — a partial set leaves the recipe blocked and wastes the whole chain."
+              echo "- Every component clears → \`outcome=shipped\`. The workflow hands the request back to the"
+              echo "  recipes curator automatically and the recipe gets written on the next hop."
+              echo "- Some clear, some don't → still \`outcome=shipped\`; name which didn't and why. The"
+              echo "  recipes curator decides whether the recipe is possible with what landed."
+              echo "- None clear (out of scope, no license, unverifiable) → \`outcome=declined\` with the"
+              echo "  reason. The workflow tells the user plainly instead of looping."
+              echo ""
+              echo "Your progress comment goes on issue #${NUM} — the user's own thread. Write it for them,"
+              echo "not for the recipes curator: say which components you're evaluating and what you found."
+              echo ""
+            fi
             echo "### Wall-clock"
             echo ""
             echo "You have 20 minutes. Budget it: read the request, search, decide, write one good page,"
@@ -360,70 +441,182 @@ jobs:
             } | gh issue comment "${ISSUE}" --body-file -
           fi
 
-      - name: Close the request if it shipped
+      - name: Route the outcome
         if: steps.killswitch.outputs.skip != 'true' && steps.resolve.outputs.skip != 'true' && steps.commit.outputs.changed == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
           REPO: ${{ github.repository }}
           SERVER_URL: ${{ github.server_url }}
           NUM: ${{ steps.resolve.outputs.num }}
+          AUTHOR: ${{ steps.resolve.outputs.author }}
+          QUEUE: ${{ github.event.inputs.queue }}
           STATE: ${{ steps.resolve.outputs.state }}
           SHA: ${{ steps.commit.outputs.sha }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: |
-          # Same loop-closer contract as recipes.yml / curate.yml, but scoped to
-          # this one issue: other lines in `(closed this run)` (e.g. left behind
-          # by a scheduled run that died before its own loop-closer) are left
-          # untouched for that workflow to handle.
-          BLOCK=$(awk '
-            /^## User requests \(closed this run\)/ { c=1; next }
-            /^## / && c { exit }
-            c
-          ' "$STATE")
-          LINE=$(printf '%s\n' "$BLOCK" | grep -F "[#${NUM} " | head -1 || true)
-
-          if [ -z "$LINE" ]; then
-            # Changes landed but the agent didn't mark the request done — it may
-            # have shipped a partial (e.g. a `## Missing components` note). Report
-            # honestly and leave the issue open for the scheduled retry.
-            gh issue comment "$NUM" --repo "$REPO" --body \
-            "Progress landed in ${SERVER_URL}/${REPO}/commit/${SHA}, but this run didn't consider your request fully answered, so it stays open and queued for the next scheduled curator pass."
-            exit 0
-          fi
-
-          RESULT=$(printf '%s' "$LINE" | sed -E 's/.*→ //')
+          set -uo pipefail
+          COMMIT_URL="${SERVER_URL}/${REPO}/commit/${SHA}"
           PAGES_BASE="https://scripps-ai-enablement.github.io/sci-ai-enabler"
-          PAGE_PATH=$(printf '%s' "$RESULT" | grep -oE '(recipes/items|catalog/tools)/[a-z0-9-]+\.md' | head -1 || true)
-          LINK_LINE=""
-          if [ -n "$PAGE_PATH" ]; then
-            LINK_LINE=$'\n\nRead the answer here: '"${PAGES_BASE}/${PAGE_PATH%.md}.html"$'\n\n(The site rebuilds within a couple of minutes of the commit — if the link 404s, give it a moment.)'
+          RS="python3 scripts/request_state.py"
+          # The *other* queue's state file — the chain writes across the pair.
+          if [ "$QUEUE" = "catalog" ]; then
+            OTHER_STATE="recipes/curator-state.md"; OTHER_QUEUE="recipes"
+          else
+            OTHER_STATE="catalog/curator-state.md"; OTHER_QUEUE="catalog"
           fi
 
-          gh issue comment "$NUM" --repo "$REPO" --body \
-          "Shipped in ${SERVER_URL}/${REPO}/commit/${SHA}. ${RESULT}${LINK_LINE}"$'\n\nClosing — reopen if this missed the mark, or file a feedback issue once you\'ve tried it.'
-          gh issue close "$NUM" --repo "$REPO" --reason completed || true
+          # Apply one idempotent request_state.py mutation and push it, re-applying
+          # from a clean origin/main if we lose a push race. Idempotence is what
+          # makes the retry safe: re-running the same mutation on the rebased tree
+          # either does nothing or does exactly what it did before.
+          apply_and_push() {
+            MSG="$1"; shift
+            for attempt in 1 2 3; do
+              if [ "$attempt" -gt 1 ]; then
+                echo "push race; re-applying on a fresh origin/main (attempt ${attempt})"
+                git fetch -q origin main && git reset -q --hard origin/main
+              fi
+              $RS "$@" || return 1
+              if git diff --quiet; then
+                echo "nothing to commit for: ${MSG}"
+                return 0
+              fi
+              git add -A && git commit -q -m "$MSG"
+              if git push -q; then return 0; fi
+            done
+            echo "::warning::could not push '${MSG}' after 3 attempts."
+            return 1
+          }
 
-          # Remove only our line from `(closed this run)`, restoring the `_None._`
-          # placeholder if that empties the section.
-          python3 - "$STATE" "$NUM" <<'PY'
-          import pathlib, re, sys
-          path, num = pathlib.Path(sys.argv[1]), sys.argv[2]
-          text = path.read_text()
-          m = re.search(r"(## User requests \(closed this run\)\n\n)(.*?)(?=\n## |\Z)", text, re.DOTALL)
-          if not m:
-              sys.exit("ERROR: (closed this run) section not found")
-          kept = [ln for ln in m.group(2).splitlines()
-                  if ln.strip() and ln.strip() != "_None._" and f"[#{num} " not in ln]
-          body = ("\n".join(kept) if kept else "_None._") + "\n"
-          path.write_text(text[:m.start(2)] + body + text[m.end(2):])
-          print("pruned #%s from (closed this run)" % num)
-          PY
+          # Post to the user's thread. Never fatal: the queue state is already
+          # committed by the time these run, so aborting the router on a transient
+          # comment failure would strand the chain instead of just losing a comment.
+          say() {
+            gh issue comment "$NUM" --repo "$REPO" --body "$1" \
+              || echo "::warning::could not comment on #${NUM}"
+          }
 
-          if ! git diff --quiet "$STATE"; then
-            git add "$STATE"
-            git commit -m "loop-closed: request #${NUM}"
-            git pull --rebase origin main
-            git push
-          fi
+          dispatch() {  # dispatch <issue> <queue>
+            echo "dispatching next hop: issue=$1 queue=$2"
+            gh workflow run fulfill.yml --repo "$REPO" -f "issue=$1" -f "queue=$2" \
+              || echo "::warning::could not dispatch fulfill.yml for #$1 ($2); the scheduled pass will retry."
+          }
+
+          CLS=$($RS classify --state "$STATE" --issue "$NUM")
+          echo "classify: ${CLS}"
+          # `//` defaults on every field: classify() guarantees a complete record,
+          # but this step runs under `set -u` and a null would abort the router.
+          STATUS=$(printf '%s' "$CLS" | jq -r '.status // "absent"')
+          RESULT=$(printf '%s' "$CLS" | jq -r '.result // ""')
+          OUTCOME=$(printf '%s' "$CLS" | jq -r '.outcome // ""')
+          VIA=$(printf '%s' "$CLS" | jq -r '.via // ""')
+          CHAIN=$(printf '%s' "$CLS" | jq -r '.chain // 0')
+          BLOCKED_ON=$(printf '%s' "$CLS" | jq -r '(.blocked_on // []) | join(",")')
+
+          # ------------------------------------------------------------------ #
+          case "$STATUS" in
+
+          blocked)
+            # Understood but unanswerable. The issue stays OPEN — closing here is
+            # exactly the #74 mistake. Normalize the entry into `(blocked)` in case
+            # the agent wrote `outcome=blocked` while leaving it elsewhere.
+            apply_and_push "blocked: request #${NUM}" \
+              move --state "$STATE" --issue "$NUM" --to blocked || true
+            gh label create "claude:blocked-on-catalog" --repo "$REPO" --color "D93F0B" \
+              --description "Answerable, but waiting on a component to be catalogued" --force || true
+            gh issue edit "$NUM" --repo "$REPO" --add-label "claude:blocked-on-catalog" || true
+
+            if [ "$QUEUE" = "recipes" ] && [ -n "$BLOCKED_ON" ] && [ "$CHAIN" -lt 1 ]; then
+              # Chain hop 1: ask the catalog curator for the missing components now.
+              SLUGS=$(printf '%s' "$BLOCKED_ON" | tr 'A-Z' 'a-z' | tr -cd 'a-z0-9,._-')
+              PRETTY=$(printf '%s' "$SLUGS" | tr ',' ' ' | tr -s ' ')
+              LINE="- [#${NUM} @${AUTHOR} $(date -u +%Y-%m-%d)] queue: catalog | request=unblock-recipe | components=\"${SLUGS}\" | author=@${AUTHOR} | issue=${NUM} | via=recipes-block | chain=1"
+              if apply_and_push "chain: catalog hop for request #${NUM}" \
+                   append --state "$OTHER_STATE" --section open --line "$LINE"; then
+                say \
+                "**Not done yet — and not closing this.** ${RESULT}"$'\n\n'"I've handed the missing pieces straight to the catalog curator, which is evaluating **${PRETTY}** right now against the usual bar (real, installable, license-clear, in scope). If they clear it, this request comes back to the recipe assembler automatically and I'll write the recipe in this same thread — no action needed from you. If they don't clear it, I'll tell you exactly why."$'\n\n'"Progress so far: ${COMMIT_URL}"
+                dispatch "$NUM" catalog
+              else
+                say \
+                "${RESULT}"$'\n\n'"I couldn't queue the catalog follow-up automatically ([run log](${RUN_URL})). Leaving this open and labelled — the next scheduled catalog pass will evaluate **${PRETTY}**, and the recipe gets written once they land."
+              fi
+            elif [ -n "$BLOCKED_ON" ]; then
+              # Budget spent (a second block) — stop rather than ping-pong.
+              PRETTY=$(printf '%s' "$BLOCKED_ON" | tr ',' ' ' | tr -s ' ')
+              say \
+              "**Still blocked, and I've stopped auto-chaining on this one.** ${RESULT}"$'\n\n'"This request already took one automated trip through the catalog curator, so rather than bounce it again I'm leaving it open and labelled \`claude:blocked-on-catalog\`. It needs **${PRETTY}**. Every scheduled curator pass re-checks blocked requests, so the moment those are catalogued — by any route — the recipe gets written and you'll get a comment here."$'\n\n'"Progress so far: ${COMMIT_URL}"
+            else
+              say \
+              "**Not done yet — and not closing this.** ${RESULT}"$'\n\n'"Leaving it open and labelled \`claude:blocked-on-catalog\`. Every scheduled curator pass re-checks blocked requests, so this gets picked up again automatically once the blocker clears."$'\n\n'"Progress so far: ${COMMIT_URL}"
+            fi
+            ;;
+
+          "closed this run")
+            if [ "$VIA" = "recipes-block" ]; then
+              # This run WAS the catalog detour. Never close here — the user asked
+              # for a recipe, not a tool page.
+              apply_and_push "chain: catalog hop done for request #${NUM}" \
+                prune --state "$STATE" --issue "$NUM" --section "closed this run" || true
+
+              case "$OUTCOME" in
+              shipped|already-covered)
+                say \
+                "**Components are in the catalog now.** ${RESULT}"$'\n\n'"Handing this straight back to the recipe assembler — it's starting on your recipe now, in this thread. ${COMMIT_URL}"
+                # Hand back: `(blocked)` -> `(open)` with the chain spent, and a
+                # fresh note (a stale `outcome=blocked` would re-block it forever).
+                if apply_and_push "chain: hand #${NUM} back to recipes" \
+                     move --state "$OTHER_STATE" --issue "$NUM" --to open --chain 1 \
+                     --note "components catalogued via the catalog hop (${COMMIT_URL}); write the recipe now"; then
+                  dispatch "$NUM" recipes
+                else
+                  say \
+                  "I couldn't re-queue the recipe step automatically ([run log](${RUN_URL})). The components are catalogued, so the next scheduled recipes pass will write it."
+                fi
+                ;;
+              *)
+                # The blocker itself was declined. Handing back would just re-block.
+                # Spend the chain budget on the parked recipes entry so a later
+                # re-block can't send the same components back to a catalog curator
+                # that has already said no.
+                apply_and_push "chain: budget spent for request #${NUM}" \
+                  move --state "$OTHER_STATE" --issue "$NUM" --to blocked --chain 1 || true
+                say \
+                "**I can't get you this one, and here's the honest reason.** ${RESULT}"$'\n\n'"Because those components can't go in the catalog, the recipe can't be written against them — the cookbook's rule is that a recipe only assembles components that are catalogued and verified, so writing it anyway would hand you an install path nobody checked. I'm leaving this open and labelled \`claude:blocked-on-catalog\` rather than closing it: if the licensing or packaging situation changes, or if you know a catalogued alternative, say so here and it gets picked straight back up."$'\n\n'"${COMMIT_URL}"
+                ;;
+              esac
+            elif [ "$OUTCOME" = "declined" ]; then
+              # Terminal, but not a success — don't dress it up as one.
+              say \
+              "**Not doing this one — here's why.** ${RESULT}"$'\n\n'"Recorded in ${COMMIT_URL} so the reasoning isn't lost. Closing, but reopen with more detail if you think this was the wrong call."
+              gh issue close "$NUM" --repo "$REPO" --reason completed || true
+              apply_and_push "loop-closed: request #${NUM}" \
+                prune --state "$STATE" --issue "$NUM" --section "closed this run" || true
+            else
+              # Shipped / already-covered — the happy path.
+              PAGE_PATH=$(printf '%s' "$RESULT" | grep -oE '(recipes/items|catalog/tools)/[a-z0-9-]+\.md' | head -1)
+              LINK_LINE=""
+              if [ -n "$PAGE_PATH" ]; then
+                LINK_LINE=$'\n\nRead the answer here: '"${PAGES_BASE}/${PAGE_PATH%.md}.html"$'\n\n(The site rebuilds within a couple of minutes of the commit — if the link 404s, give it a moment.)'
+              fi
+              say \
+              "Shipped in ${COMMIT_URL}. ${RESULT}${LINK_LINE}"$'\n\nClosing — reopen if this missed the mark, or file a feedback issue once you\'ve tried it.'
+              gh issue close "$NUM" --repo "$REPO" --reason completed || true
+              apply_and_push "loop-closed: request #${NUM}" \
+                prune --state "$STATE" --issue "$NUM" --section "closed this run" || true
+            fi
+            ;;
+
+          open)
+            # Ran out of wall-clock without reaching a verdict.
+            say \
+            "This run made progress (${COMMIT_URL}) but didn't reach a verdict on your request, so it stays queued and open. The next scheduled curator pass retries it with a full time budget. Adding detail to the issue — the exact data you have, the tool you'd expect to use, the output you need — materially improves the next attempt."
+            ;;
+
+          *)
+            say \
+            "Changes landed in ${COMMIT_URL}, but I lost track of your request's queue entry, so I'm leaving this open rather than guessing. A maintainer will see the \`claude:working\` history on this thread; the next scheduled pass also re-scans the queue."
+            ;;
+          esac
 
       - name: Report a failed run in-thread
         if: failure() && steps.resolve.outputs.skip != 'true' && steps.resolve.outputs.num != ''
@@ -438,6 +631,8 @@ jobs:
           "The on-demand run on your request hit an error and stopped ([run log](${RUN_URL})). Your request is still queued — the next scheduled curator pass will retry it, and nothing you filed was lost." || true
 
       - name: Clear the working label
+        # `claude:blocked-on-catalog` is deliberately left in place — it is the
+        # standing signal that a request is parked, not a per-run status.
         if: always() && steps.resolve.outputs.num != ''
         env:
           GH_TOKEN: ${{ github.token }}
