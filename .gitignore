@@ -17,6 +17,15 @@ output.txt
 # Transient user-request issue bodies pre-fetched for the curator agents
 .request-bodies/
 
+# Example-bundle run outputs. The bundles document `--outdir results/...`, and
+# seven workflows commit with `git add -A`, so without this an agent that ever
+# executes an example sweeps its run artifacts into the repo.
+# glyco-variants is the deliberate exception: its IEEE-2791 BioCompute Object
+# declares `object_id: .../blob/main/recipes/examples/glyco-variants/results/
+# glyco_run.bco.json`, and a BCO has to resolve at the URI it claims.
+recipes/examples/*/results/
+!recipes/examples/glyco-variants/results/
+
 # macOS metadata
 .DS_Store
 __pycache__/
