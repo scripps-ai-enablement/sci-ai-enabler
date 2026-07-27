@@ -4,6 +4,27 @@ Rolling, reverse-chronological log of catalog verification + security passes. Ea
 on-demand run that produces changes prepends a dated block; the top block is mirrored to the pinned
 "Verification updates" issue.
 
+## 2026-07-27 (worklist maintenance — 4-page recheck, hypothesis-crucible → ica)
+
+Worked the injected 4-page worklist top-to-bottom. All four were already `works/cleared` (stamped
+2026-07-20, within cadence); rechecked against fresh source fetches — zero drift, no fixes. Stamps
+refreshed to 2026-07-27. Catalog is now at full `verification:` coverage (459 total · 0 unstamped).
+
+### Verified
+- `hypothesis-crucible` works/cleared — first-party this repo; confirmed `crucible/.claude-plugin/
+  plugin.json` (name `crucible`), `crucible/skills/forge/SKILL.md`, and the `crucible` entry in root
+  `.claude-plugin/marketplace.json` so `/plugin install crucible` matches.
+- `hypothesis-generation` works/cleared — `K-Dense-AI/scientific-agent-skills` MIT/not-archived/
+  pushed 2026-07-27/31.9k★; `skills/hypothesis-generation/` holds SKILL.md (14767 B) + assets/
+  references/scripts.
+- `ibgnn` works/cleared — `CUHK-AIM-Group/NeuroClaw` MIT/not-archived/pushed 2026-07-26/76★;
+  `skills/ibgnn/SKILL.md` (5587 B) resolves.
+- `ica` works/cleared — same NeuroClaw anchor; `skills/ica/SKILL.md` (4275 B) resolves.
+
+### Security
+- All four cleared: provenance matches supplier, real licenses (MIT / first-party OSS), no OSV
+  advisories, maintained. Skills execute locally via Bash/Python (no smoke target).
+
 ## 2026-07-27 (worklist maintenance — 12 unstamped stamped, 13 rechecked, novomcp drift)
 
 Worked the injected worklist top-to-bottom: stamped the 12 unstamped pages, then rechecked the 13

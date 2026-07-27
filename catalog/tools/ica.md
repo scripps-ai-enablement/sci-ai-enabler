@@ -9,10 +9,10 @@ tool_categories: [Neuroscience]
 last_verified: 2026-06-11
 summary: "Perform resting-state network decomposition using ICA."
 verification: works
-verified_on: 2026-07-20
+verified_on: 2026-07-27
 security: cleared
-security_on: 2026-07-20
-security_note: "provenance matches supplier CUHK-AIM-Group/NeuroClaw, MIT, not archived, no OSV advisories"
+security_on: 2026-07-27
+security_note: "provenance matches supplier CUHK-AIM-Group/NeuroClaw, MIT, not archived (pushed 2026-07-26), skills/ica with SKILL.md resolves, no OSV advisories"
 ---
 
 # ICA Decomposition (Claude Skill)
@@ -26,8 +26,8 @@ Perform resting-state network decomposition using ICA.
 | **Availability** | GA — part of the NeuroClaw neuroimaging skill library |
 | **Pricing** | Free / OSS (MIT) |
 | **Capabilities** | Read/Write — Claude runs the skill's Python locally (Bash), not as an MCP tool |
-| **Verified** | works · 2026-07-20 |
-| **Security** | cleared · 2026-07-20 — provenance matches supplier CUHK-AIM-Group/NeuroClaw, MIT, no OSV advisories |
+| **Verified** | works · 2026-07-27 |
+| **Security** | cleared · 2026-07-27 — provenance matches supplier CUHK-AIM-Group/NeuroClaw, MIT, no OSV advisories |
 
 ## How to install
 
