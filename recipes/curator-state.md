@@ -54,7 +54,7 @@ _None._
 
 ## User requests (closed this run)
 
-- [#74 @goodb 2026-07-27] queue: recipes | question="Validate fiber/probe implant placement by locating tip in Allen CCF subregion, batched across 2D coronal histology sections. QUINT replacement." | author=@goodb | issue=74 → shipped `recipes/items/localize-implant-tip-in-brain-atlas-subregion.md` (rung-3 `Proposed`: DeepSlice cutting-plane prediction → scikit-image tip detection → brainglobe-atlasapi CCF subregion lookup → hit/miss verdict + distance-to-boundary margin). DeepSlice + brainglobe-atlasapi carried as pip dependencies (verified this run; DeepSlice license corrected MIT→GPL-3.0). outcome=shipped
+_None._
 
 ## Composition reports
 
