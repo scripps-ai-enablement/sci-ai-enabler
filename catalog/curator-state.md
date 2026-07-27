@@ -78,7 +78,7 @@ nav_exclude: true
 
 ## User requests (open)
 
-_None._
+- [#74 @goodb 2026-07-27] queue: catalog | request=unblock-recipe | components="brainglobe-atlasapi,deepslice" | author=@goodb | issue=74 | via=recipes-block | chain=1
 
 ## User requests (blocked)
 
