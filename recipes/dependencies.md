@@ -61,3 +61,9 @@ weights or atlas volumes, which the import never touches. Recipes that need thos
 
 An empty **Checked** cell means the dependency hasn't come up in the rotation yet, not that it
 failed.
+
+A verdict is also **environment-specific**. The check runs in a Linux container provisioned to
+resemble the laptop these recipes target, graphics libraries included — because a package like
+`opencv-python` imports fine on a laptop and fails on a bare headless server. Where that distinction
+matters, the recipe says so and gives the remedy; a verdict here is evidence about one environment,
+not a universal claim.
