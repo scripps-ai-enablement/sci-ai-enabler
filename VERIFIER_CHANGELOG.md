@@ -9,6 +9,24 @@ Older entries live in [VERIFIER_CHANGELOG_ARCHIVE.md](VERIFIER_CHANGELOG_ARCHIVE
 ## 2026-07-29
 
 ### Verified
+- `arboreto` (K-Dense) — works/cleared, `verified_on`/`reviewed_on` refreshed to 2026-07-29. Liveness flagged `changed-since-verified` (skill dir last committed 2026-07-26): fetched `skills/arboreto/SKILL.md` this run — unchanged install (`uv pip install arboreto` / `conda install -c bioconda arboreto`), no risky patterns, no external creds. Smoke-test `pip install arboreto` passed this run (`.verify/smoke-results.json`), upgrading the evidence to a real install verdict.
+- `archs4-database` (SciAgent) — works/cleared, `verified_on`/`reviewed_on` refreshed to 2026-07-29. Liveness flagged `license-missing`: GitHub's API reports NOASSERTION for `jaechang-hits/SciAgent-Skills`, but the raw root `LICENSE` fetched this run is verbatim CC BY 4.0 — consistent with the standing SciAgent finding, reconfirmed independently this run.
+- `arxiv` — works/cleared, `verified_on`/`reviewed_on` refreshed to 2026-07-29. Liveness flagged the launch command as unconfirmed by execution (auth-not-applicable but not smoke-run): fetched `blazickjp/arxiv-mcp-server`'s README this run — `claude mcp add --transport stdio --scope user arxiv -- uvx arxiv-mcp-server` and the `claude_desktop_config.json` stdio block both match the page verbatim. No fix needed.
+
+### Fixed
+- `arrayexpress` (Augmented Nature) — Pricing row corrected from "Free / OSS" to note the wrapper's restrictive personal/non-commercial LICENSE. Liveness flagged `license-missing`; the GitHub license API actually returns a LICENSE file (SPDX NOASSERTION) whose text, fetched this run, is a restrictive non-commercial grant — same pattern as `uniprot`/`alphafold`/`gene-ontology`/`human-protein-atlas`. This is a license-text discrepancy the prefetch's binary "license present/missing" signal cannot distinguish from a real absence.
+
+### Flagged
+- `arrayexpress` — security stays `caution`; added to the Flagged registry with the corrected rationale (restrictive LICENSE vs. the page's former OSS claim, not just "no LICENSE").
+
+### Security
+- No new advisories or provenance mismatches found in this batch. `arrayexpress` regrades its existing `caution` rationale (see Fixed/Flagged) but the grade itself is unchanged.
+
+Note: worked the digest's 4-page review-budget list in full; the other 9 flagged pages in this run's 14-page liveness batch were over budget and were not touched — they stay due and lead the next worklist.
+
+## 2026-07-29
+
+### Verified
 - Worked the injected 8-page worklist (`allenbrain` → `aomic-skill`) top-to-bottom. 3 pages resolved clean per the workflow's liveness prefetch (`alphafold2`, `amr-detection`, `aomic-skill`) — anchors re-confirmed (`google-deepmind/alphafold`/`science-skills` Apache-2.0/2026-04-22+2026-07-07; `GPTomics/bioSkills` MIT/2026-07-18; `CUHK-AIM-Group/NeuroClaw` MIT/2026-07-14), stamps refreshed 2026-07-20→2026-07-29 with no content changes.
 - `allenbrain`: fetched `api.github.com/repos/MCPmed/allenbrain-mcp` — still resolves, no LICENSE, not archived, pushed 2026-04-01, 3 stars. Prior-run transfer fix stands; kept degraded/caution.
 - `alphafold`: fetched `api.github.com/repos/Augmented-Nature/AlphaFold-MCP-Server` — LICENSE still NOASSERTION (restrictive non-commercial), not archived, pushed 2025-12-21, 35 stars. Kept works/caution.
@@ -357,31 +375,4 @@ resolve to the same slug ordering every run. Rechecked top-to-bottom against fre
 Confirmed selector loop: `select_verify_targets.py`'s stable tie-break re-serves the same 25 pages
 indefinitely on a uniformly-dated catalog, so the other ~420 pages never rotate into a worklist. Add
 a secondary tie-break (e.g. hash slug against run date) or advance `verified_on` on rechecked pages.
-
-## 2026-07-20 (worklist maintenance batch #2 — same 25 pages rechecked)
-
-The selector re-served the identical worklist (`10x-genomics-cloud` → `autodock-vina-docking`, 25
-pages) because these remain the 25 oldest `verified_on` (the whole catalog is now uniformly dated
-2026-07-20). Rechecked top-to-bottom against fresh source fetches: 24 unchanged, 1 micro-fixed.
-
-### Fixed
-- arxiv — security_note version string 0.5.0→0.5.1. PyPI `arxiv-mcp-server` published 0.5.1 (still
-  Apache-2.0; the `uvx arxiv-mcp-server` launch command is unchanged). Grade stays works/cleared.
-
-### Verified (rechecked, unchanged)
-- NeuroClaw `CUHK-AIM-Group/NeuroClaw` MIT/pushed 2026-07-14/75-star → abcd/abide/adhd200/adni/aibl/
-  aomic/asl works/cleared.
-- K-Dense `K-Dense-AI/scientific-agent-skills` MIT/pushed 2026-07-20/31.3k-star + this-run smoke pass
-  → adaptyv works/caution; aeon/anndata/arboreto/astropy works/cleared.
-- SciAgent `jaechang-hits/SciAgent-Skills` CC-BY-4.0-root/pushed 2026-06-15/278-star → archs4-database
-  + autodock-vina-docking works/cleared.
-- `google-deepmind/alphafold` Apache-2.0/14.7k-star → alphafold2 works/cleared;
-  `google-deepmind/science-skills` Apache-2.0/pushed 2026-07-07 → alphagenome degraded/cleared.
-- `GPTomics/bioSkills` MIT/pushed 2026-07-18 → amr-detection works/cleared.
-- `Augmented-Nature/AlphaFold-MCP-Server` + `BioStudies-MCP-Server` (both NOASSERTION/no-real-LICENSE,
-  pushed 2025-12-21) → alphafold + arrayexpress works/caution.
-- PyPI `aind-data-mcp` 0.4.5 MIT → aind-data works/cleared.
-- `MCPmed/allenbrain-mcp` no-LICENSE/Alpha → allenbrain degraded/caution.
-- `anthropics/life-sciences` marketplace still lists adisinsight + 10x-genomics → both degraded
-  (subscription/paid-account gated); antibody-registry Anthropic connector works/cleared.
 

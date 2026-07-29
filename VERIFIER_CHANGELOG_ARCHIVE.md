@@ -2,6 +2,33 @@
 # Verifier changelog archive
 
 Older entries rotated out of [VERIFIER_CHANGELOG.md](VERIFIER_CHANGELOG.md). Newest first, same format.
+## 2026-07-20 (worklist maintenance batch #2 — same 25 pages rechecked)
+
+The selector re-served the identical worklist (`10x-genomics-cloud` → `autodock-vina-docking`, 25
+pages) because these remain the 25 oldest `verified_on` (the whole catalog is now uniformly dated
+2026-07-20). Rechecked top-to-bottom against fresh source fetches: 24 unchanged, 1 micro-fixed.
+
+### Fixed
+- arxiv — security_note version string 0.5.0→0.5.1. PyPI `arxiv-mcp-server` published 0.5.1 (still
+  Apache-2.0; the `uvx arxiv-mcp-server` launch command is unchanged). Grade stays works/cleared.
+
+### Verified (rechecked, unchanged)
+- NeuroClaw `CUHK-AIM-Group/NeuroClaw` MIT/pushed 2026-07-14/75-star → abcd/abide/adhd200/adni/aibl/
+  aomic/asl works/cleared.
+- K-Dense `K-Dense-AI/scientific-agent-skills` MIT/pushed 2026-07-20/31.3k-star + this-run smoke pass
+  → adaptyv works/caution; aeon/anndata/arboreto/astropy works/cleared.
+- SciAgent `jaechang-hits/SciAgent-Skills` CC-BY-4.0-root/pushed 2026-06-15/278-star → archs4-database
+  + autodock-vina-docking works/cleared.
+- `google-deepmind/alphafold` Apache-2.0/14.7k-star → alphafold2 works/cleared;
+  `google-deepmind/science-skills` Apache-2.0/pushed 2026-07-07 → alphagenome degraded/cleared.
+- `GPTomics/bioSkills` MIT/pushed 2026-07-18 → amr-detection works/cleared.
+- `Augmented-Nature/AlphaFold-MCP-Server` + `BioStudies-MCP-Server` (both NOASSERTION/no-real-LICENSE,
+  pushed 2025-12-21) → alphafold + arrayexpress works/caution.
+- PyPI `aind-data-mcp` 0.4.5 MIT → aind-data works/cleared.
+- `MCPmed/allenbrain-mcp` no-LICENSE/Alpha → allenbrain degraded/caution.
+- `anthropics/life-sciences` marketplace still lists adisinsight + 10x-genomics → both degraded
+  (subscription/paid-account gated); antibody-registry Anthropic connector works/cleared.
+
 ## 2026-07-20 (worklist maintenance batch — 25 pages rechecked)
 
 Worked the injected worklist (`10x-genomics-cloud` → `autodock-vina-docking`, 25 pages) top-to-bottom.
