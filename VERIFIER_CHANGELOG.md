@@ -6,6 +6,28 @@ on-demand run that produces changes prepends a dated block; the top block is mir
 
 Older entries live in [VERIFIER_CHANGELOG_ARCHIVE.md](VERIFIER_CHANGELOG_ARCHIVE.md).
 
+## 2026-07-29
+
+### Verified
+- Worked the injected 8-page worklist (`allenbrain` → `aomic-skill`) top-to-bottom. 3 pages resolved clean per the workflow's liveness prefetch (`alphafold2`, `amr-detection`, `aomic-skill`) — anchors re-confirmed (`google-deepmind/alphafold`/`science-skills` Apache-2.0/2026-04-22+2026-07-07; `GPTomics/bioSkills` MIT/2026-07-18; `CUHK-AIM-Group/NeuroClaw` MIT/2026-07-14), stamps refreshed 2026-07-20→2026-07-29 with no content changes.
+- `allenbrain`: fetched `api.github.com/repos/MCPmed/allenbrain-mcp` — still resolves, no LICENSE, not archived, pushed 2026-04-01, 3 stars. Prior-run transfer fix stands; kept degraded/caution.
+- `alphafold`: fetched `api.github.com/repos/Augmented-Nature/AlphaFold-MCP-Server` — LICENSE still NOASSERTION (restrictive non-commercial), not archived, pushed 2025-12-21, 35 stars. Kept works/caution.
+- `alphagenome`: `google-deepmind/science-skills` still Apache-2.0/not-archived, pushed 2026-07-07, 2,552 stars; skill dir resolves. AlphaGenome API remains a signup-gated research preview, so kept degraded/cleared per the auth-gate rubric.
+- `anndata`: confirmed `K-Dense-AI/scientific-agent-skills` MIT/not-archived, pushed 2026-07-29 (same-day), and PyPI `anndata` 0.13.2 (BSD-3-Clause). The quarantined smoke job additionally reports `pip install anndata` as a `pass` this run — first smoke evidence for this page (install-only, no import/boot script) — noted in the `**Verified**` row. Kept works/cleared.
+- `antibody-registry`: refetched `claude.com/docs/claude-science/connectors-and-skills` — the Research Resources featured connector still lists "Grants.gov, Antibody Registry" as sources. Kept works/cleared.
+
+### Discrepancy noted (informational, no page change)
+- The injected liveness prefetch resolved `antibody-registry`'s "repo" to `scripps-ai-enablement/sci-ai-enabler` (this catalog repo) rather than an external tool repo — expected, since this is an Anthropic-hosted connector with no installable repo of its own; the page correctly documents no git-based install path. Flagging so the mismatch between prefetch and page content is visible, per this run's instructions.
+
+### Fixed
+(none this run — all 8 pages held their existing grades)
+
+### Flagged
+(none new this run)
+
+### Security
+No security regrades this run. All 5 adjudicated pages' existing `caution`/`cleared` grades were reconfirmed against freshly fetched GitHub/PyPI/doc evidence (see Verified above); no new OSV/GitHub advisories found for any of the 8 repos/packages checked.
+
 ## 2026-07-29 (worklist maintenance — 25-page window, umap-learn → aind-data)
 
 Worked the injected 25-page worklist top-to-bottom. All 25 were already stamped 2026-07-20;
@@ -362,33 +384,4 @@ pages) because these remain the 25 oldest `verified_on` (the whole catalog is no
 - `MCPmed/allenbrain-mcp` no-LICENSE/Alpha → allenbrain degraded/caution.
 - `anthropics/life-sciences` marketplace still lists adisinsight + 10x-genomics → both degraded
   (subscription/paid-account gated); antibody-registry Anthropic connector works/cleared.
-
-## 2026-07-20 (worklist maintenance batch — 25 pages rechecked)
-
-Worked the injected worklist (`10x-genomics-cloud` → `autodock-vina-docking`, 25 pages) top-to-bottom.
-Every entry was already stamped 2026-07-20, so this was a recheck grounded on fresh source fetches:
-24 confirmed unchanged, 1 fixed.
-
-### Fixed
-- autodock-vina-docking — security caution→cleared. The note still cited GitHub's NOASSERTION
-  license classifier, but the committed SciAgent-Skills root LICENSE is verbatim CC BY 4.0
-  (supersedes the NOASSERTION caution, same basis as the already-cleared sibling `archs4-database`).
-
-### Verified (rechecked, unchanged)
-- NeuroClaw `CUHK-AIM-Group/NeuroClaw` MIT/pushed 2026-07-14/75-star → abcd/abide/adhd200/adni/aibl/
-  aomic/asl skills works/cleared.
-- K-Dense `K-Dense-AI/scientific-agent-skills` MIT/pushed 2026-07-20/31.3k-star + smoke pass →
-  adaptyv works/caution; aeon/anndata/arboreto/astropy works/cleared.
-- SciAgent `jaechang-hits/SciAgent-Skills` CC-BY-4.0-root/pushed 2026-06-15/278-star → archs4-database
-  + autodock works/cleared.
-- PyPI `arxiv-mcp-server` 0.5.0 Apache-2.0 → arxiv works/cleared; `aind-data-mcp` 0.4.5 MIT →
-  aind-data works/cleared.
-- `GPTomics/bioSkills` MIT/pushed 2026-07-18 → amr-detection works/cleared.
-- `google-deepmind/alphafold` Apache-2.0/14.7k-star → alphafold2 works/cleared;
-  `google-deepmind/science-skills` Apache-2.0/pushed 2026-07-07 → alphagenome degraded/cleared.
-- `Augmented-Nature/AlphaFold-MCP-Server` (restrictive, NOASSERTION) → alphafold works/caution;
-  `BioStudies-MCP-Server` (no LICENSE) → arrayexpress works/caution.
-- `MCPmed/allenbrain-mcp` (transfer confirmed, no LICENSE) → allenbrain degraded/caution.
-- `anthropics/life-sciences` marketplace still lists `adisinsight` + `10x-genomics` → both degraded
-  (subscription/paid-account gated). antibody-registry Research Resources connector works/cleared.
 

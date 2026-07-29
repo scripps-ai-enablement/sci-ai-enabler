@@ -2,6 +2,35 @@
 # Verifier changelog archive
 
 Older entries rotated out of [VERIFIER_CHANGELOG.md](VERIFIER_CHANGELOG.md). Newest first, same format.
+## 2026-07-20 (worklist maintenance batch — 25 pages rechecked)
+
+Worked the injected worklist (`10x-genomics-cloud` → `autodock-vina-docking`, 25 pages) top-to-bottom.
+Every entry was already stamped 2026-07-20, so this was a recheck grounded on fresh source fetches:
+24 confirmed unchanged, 1 fixed.
+
+### Fixed
+- autodock-vina-docking — security caution→cleared. The note still cited GitHub's NOASSERTION
+  license classifier, but the committed SciAgent-Skills root LICENSE is verbatim CC BY 4.0
+  (supersedes the NOASSERTION caution, same basis as the already-cleared sibling `archs4-database`).
+
+### Verified (rechecked, unchanged)
+- NeuroClaw `CUHK-AIM-Group/NeuroClaw` MIT/pushed 2026-07-14/75-star → abcd/abide/adhd200/adni/aibl/
+  aomic/asl skills works/cleared.
+- K-Dense `K-Dense-AI/scientific-agent-skills` MIT/pushed 2026-07-20/31.3k-star + smoke pass →
+  adaptyv works/caution; aeon/anndata/arboreto/astropy works/cleared.
+- SciAgent `jaechang-hits/SciAgent-Skills` CC-BY-4.0-root/pushed 2026-06-15/278-star → archs4-database
+  + autodock works/cleared.
+- PyPI `arxiv-mcp-server` 0.5.0 Apache-2.0 → arxiv works/cleared; `aind-data-mcp` 0.4.5 MIT →
+  aind-data works/cleared.
+- `GPTomics/bioSkills` MIT/pushed 2026-07-18 → amr-detection works/cleared.
+- `google-deepmind/alphafold` Apache-2.0/14.7k-star → alphafold2 works/cleared;
+  `google-deepmind/science-skills` Apache-2.0/pushed 2026-07-07 → alphagenome degraded/cleared.
+- `Augmented-Nature/AlphaFold-MCP-Server` (restrictive, NOASSERTION) → alphafold works/caution;
+  `BioStudies-MCP-Server` (no LICENSE) → arrayexpress works/caution.
+- `MCPmed/allenbrain-mcp` (transfer confirmed, no LICENSE) → allenbrain degraded/caution.
+- `anthropics/life-sciences` marketplace still lists `adisinsight` + `10x-genomics` → both degraded
+  (subscription/paid-account gated). antibody-registry Research Resources connector works/cleared.
+
 ## 2026-07-20 (launch-command sweep — verifier check hardened)
 
 New static check in `VERIFIER_AGENT.md`: resolving the install target is no longer sufficient for

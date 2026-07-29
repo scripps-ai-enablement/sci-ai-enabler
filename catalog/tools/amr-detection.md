@@ -8,9 +8,9 @@ availability: GA
 tool_categories: [Immunology and Microbiology]
 last_verified: 2026-07-11
 verification: works
-verified_on: 2026-07-20
+verified_on: 2026-07-29
 security: cleared
-security_on: 2026-07-20
+security_on: 2026-07-29
 security_note: "GPTomics/bioSkills MIT (GitHub API, pushed 2026-07-18), metagenomics/amr-detection SKILL.md confirmed via contents API; provenance matches, read-only local workflow, no credential requests"
 summary: "Profile the antimicrobial-resistance gene content (resistome) of shotgun metagenomes with RGI, AMR++/MEGARes, deepARG, and AMRFinderPlus/ABRicate"
 ---
@@ -26,8 +26,8 @@ A Claude Code skill for detecting and quantifying antimicrobial-resistance genes
 | **Availability** | GA — part of the bioSkills collection |
 | **Pricing** | Free / OSS (MIT) |
 | **Capabilities** | Read/Write — Claude runs the skill's workflow locally (Bash), not as an MCP tool |
-| **Verified** | works · 2026-07-20 |
-| **Security** | cleared · 2026-07-20 — GPTomics/bioSkills MIT, amr-detection SKILL.md confirmed, provenance matches, read-only local workflow |
+| **Verified** | works · 2026-07-29 |
+| **Security** | cleared · 2026-07-29 — GPTomics/bioSkills MIT, amr-detection SKILL.md confirmed, provenance matches, read-only local workflow |
 
 ## How to install
 

@@ -8,11 +8,11 @@ availability: Alpha
 tool_categories: [Neuroscience]
 last_verified: 2026-06-21
 verification: degraded
-verified_on: 2026-07-20
-verification_note: "repo moved from maflot to MCPmed/allenbrain-mcp — fixed clone URL to the canonical owner this run; still Alpha and no LICENSE"
+verified_on: 2026-07-29
+verification_note: "MCPmed/allenbrain-mcp still resolves at the fixed clone URL; still Alpha and no LICENSE file"
 security: caution
-security_on: 2026-07-20
-security_note: "repo transferred to the MCPmed org (page still says maflot), no LICENSE file, Alpha work-in-progress, single-maintainer, no GitHub advisories"
+security_on: 2026-07-29
+security_note: "MCPmed/allenbrain-mcp not archived, pushed 2026-04-01, 3 stars, still no LICENSE file, Alpha, no GitHub advisories"
 summary: Community MCP wrapper exposing Allen Brain Atlas RMA queries, cell-types, mouse connectivity, ontologies, and image/grid downloads to Claude.
 ---
 
@@ -27,8 +27,8 @@ Community MCP server wrapping the Allen Brain Atlas API — cell types, mouse co
 | **Availability** | Alpha — created February 2026, "work in progress" |
 | **Pricing** | Free / OSS — no explicit license file in the repo; flag for legal review before redistributing |
 | **Capabilities** | Read-only |
-| **Verified** | degraded · 2026-07-20 — repo moved to MCPmed/allenbrain-mcp; fixed clone URL this run |
-| **Security** | caution · 2026-07-20 — transferred to MCPmed org, no LICENSE, Alpha, no advisories |
+| **Verified** | degraded · 2026-07-29 — MCPmed/allenbrain-mcp resolves; still Alpha, no LICENSE |
+| **Security** | caution · 2026-07-29 — MCPmed org, no LICENSE, Alpha, no advisories |
 
 ## How to install
 

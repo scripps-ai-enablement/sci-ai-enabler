@@ -9,11 +9,11 @@ availability: Preview
 tool_categories: [Molecular and Cellular Biology]
 last_verified: 2026-06-20
 verification: degraded
-verified_on: 2026-07-20
-verification_note: "repo + alphagenome_single_variant_analysis skill dir resolve on google-deepmind/science-skills; replaced a stale scienceskillscommon copy line with the uv skill the SKILL.md requires; API itself is signup-gated research preview"
+verified_on: 2026-07-29
+verification_note: "repo + alphagenome_single_variant_analysis skill dir still resolve on google-deepmind/science-skills; API itself remains a signup-gated research preview"
 security: cleared
-security_on: 2026-07-20
-security_note: "provenance matches supplier google-deepmind, Apache-2.0 code, maintained (pushed 2026-07-07); ships ALPHAGENOME_API_KEY only to the first-party Google DeepMind AlphaGenome API, no OSV advisories"
+security_on: 2026-07-29
+security_note: "provenance matches supplier google-deepmind, Apache-2.0, maintained (pushed 2026-07-07, 2552 stars); key goes only to the first-party AlphaGenome API, no OSV advisories"
 summary: "Predict non-coding variant effects on expression, chromatin accessibility, histone marks, splicing, and TF binding via the AlphaGenome API."
 ---
 
@@ -28,8 +28,8 @@ Predict how a non-coding genetic variant changes gene expression, chromatin acce
 | **Availability** | Preview — AlphaGenome API is research-preview (signup-gated) |
 | **Pricing** | Free / OSS skill (Apache-2.0 code, CC-BY-4.0 docs); AlphaGenome API free for non-commercial use, key required |
 | **Capabilities** | Read/Write — Claude runs the skill's Python locally (`uv run`), calling the AlphaGenome API |
-| **Verified** | degraded · 2026-07-20 — dir resolves; fixed a stale scienceskillscommon copy line; API is signup-gated preview |
-| **Security** | cleared · 2026-07-20 — provenance matches google-deepmind, Apache-2.0, key goes only to the first-party AlphaGenome API, no OSV advisories |
+| **Verified** | degraded · 2026-07-29 — dir still resolves; API remains signup-gated preview |
+| **Security** | cleared · 2026-07-29 — provenance matches google-deepmind, Apache-2.0, key goes only to the first-party AlphaGenome API, no OSV advisories |
 
 ## How to install
 
