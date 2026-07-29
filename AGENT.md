@@ -406,7 +406,11 @@ The workflow injects the slot's focus category into the run prompt as `focus_cat
 ## Your responsibilities each run
 
 1. **List `catalog/tools/`** to see what's currently catalogued. Read `catalog/curator-state.md` (if it exists) to pick up `Deferred` candidates from the last run.
-2. **Verify existing tools** whose `last_verified` front-matter is more than 30 days old. Confirm the supplier link resolves, availability/pricing claims are still accurate, and at least one install path under **How to install** still works. Update `last_verified` in front-matter and any out-of-date fields in the body. If a tool's `title`, `tool_type`, `supplier`, `availability`, or `summary` changed, the auto-rendered category cards pick this up on the next site build — no manual edit needed.
+2. **Verify existing tools — only when the run prompt says `link_recheck: yes`.** This recheck runs in one weekend slot, not all seven; when the prompt says `link_recheck: no`, skip this step entirely and spend the run on discovery. Re-fetching supplier links in every slot duplicated work across seven agents per weekend and overlapped the Verifier's own liveness fetches.
+
+   When it is your run: for tools whose `last_verified` front-matter is more than 30 days old, confirm the supplier link resolves, availability/pricing claims are still accurate, and at least one install path under **How to install** still works. Update `last_verified` in front-matter and any out-of-date fields in the body. If a tool's `title`, `tool_type`, `supplier`, `availability`, or `summary` changed, the auto-rendered category cards pick this up on the next site build — no manual edit needed. Work oldest-`last_verified` first and stop when the wall clock says so; the next recheck slot continues where you left off.
+
+   This is a *link and pricing* check and is deliberately separate from the Verifier's liveness/security grades. Do not touch `verification` / `security` fields or their table rows (see the front-matter notes above).
 3. **Surface new components.** The action has a hard 10-minute wall and per-tool web research is the most expensive thing you do. Keep the surfacing pass narrow:
 
    **Soft cap: ≤ 5 logical new entries per run.** Stop adding after the fifth. The rest are next-run work.

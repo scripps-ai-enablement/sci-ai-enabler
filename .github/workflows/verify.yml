@@ -195,7 +195,6 @@ jobs:
           python3 scripts/record_dependency_verdicts.py \
             --results .verify/smoke-results.json \
             --out index/recipe-dependencies.json
-          python3 scripts/build_index.py
 
           # Deterministic worklist: the agent must NOT enumerate the tree itself
           # (that missed 7 pages for dozens of runs). This script is the single
@@ -249,6 +248,11 @@ jobs:
           # a newer model than the claude-opus-4-8 it replaces, and shares its
           # tokenizer, so this is a price cut with no token-count inflation.
           model: claude-sonnet-5
+          # Keeps a run alive if the pinned model is briefly unavailable
+          # (overload/capacity). It does NOT cover the model string being
+          # unrecognized by the bundled CLI — the workflow_dispatch smoke test
+          # is what validates that.
+          fallback_model: claude-sonnet-4-6
           # NO Bash: static checks are WebFetch calls to GitHub/npm/PyPI/OSV.
           allowed_tools: "Read,Edit,Write,Glob,Grep,WebSearch,WebFetch"
           timeout_minutes: "25"
@@ -261,6 +265,16 @@ jobs:
         run: |
           rm -f .run-prompt.md
           rm -rf .verify
+
+          # Rebuild the index AFTER the agent, not before. Building it first meant
+          # the "Verification pass" commit shipped an index that predated the very
+          # page edits in that same commit, and index.yml's push trigger then had
+          # to re-fire and correct it with a second commit. Built here, the commit
+          # is self-consistent and index.yml's re-fire is a cheap no-op ("No index
+          # changes this run"). This also makes build_index's vocabulary check gate
+          # the agent's own edits, which it previously never saw.
+          python3 scripts/build_index.py
+
           git config user.name "verifier[bot]"
           git config user.email "verifier@users.noreply.github.com"
 

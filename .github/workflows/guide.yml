@@ -81,6 +81,11 @@ jobs:
           # primary sources rather than exercising judgment about what to include.
           # It is also a newer model than the claude-opus-4-8 it replaces.
           model: claude-sonnet-5
+          # Keeps a run alive if the pinned model is briefly unavailable
+          # (overload/capacity). It does NOT cover the model string being
+          # unrecognized by the bundled CLI — the workflow_dispatch smoke test
+          # is what validates that.
+          fallback_model: claude-sonnet-4-6
           allowed_tools: "Read,Edit,Write,Glob,Grep,WebSearch,WebFetch"
           # Explicit, because the action's own default is 10 minutes — well short
           # of the 30 this job allows, so an unset value silently truncated runs.

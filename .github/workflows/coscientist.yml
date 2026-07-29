@@ -131,6 +131,11 @@ jobs:
           prompt_file: .phase-a-prompt.md
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           model: claude-opus-5
+          # Keeps a run alive if the pinned model is briefly unavailable
+          # (overload/capacity). It does NOT cover the model string being
+          # unrecognized by the bundled CLI — the workflow_dispatch smoke test
+          # is what validates that.
+          fallback_model: claude-opus-4-8
           mcp_config: .mcp-config.json
           timeout_minutes: "15"
           allowed_tools: "Read,Write,Glob,Grep,Bash,WebSearch,WebFetch,mcp__papers__search_pubmed,mcp__papers__search_biorxiv,mcp__papers__search_medrxiv,mcp__papers__search_arxiv,mcp__papers__download_arxiv,mcp__papers__download_pubmed,mcp__papers__download_biorxiv,mcp__papers__download_medrxiv,mcp__papers__read_arxiv_paper,mcp__papers__read_pubmed_paper,mcp__papers__read_biorxiv_paper,mcp__papers__read_medrxiv_paper"
@@ -181,10 +186,22 @@ jobs:
       - name: Phase B — write and verify
         if: env.PHASE_B_SKIP != '1'
         uses: anthropics/claude-code-base-action@e8132bc5e637a42c27763fc757faa37e1ee43b34
+        env:
+          # Set for parity with every other LLM step in the repo. Phase B has no
+          # WebFetch today so nothing calls the small/fast model, but leaving the
+          # vars unset means a future tool grant would silently 404 on a retired
+          # Haiku. See curate.yml for why the action must NOT be bumped.
+          ANTHROPIC_SMALL_FAST_MODEL: claude-haiku-4-5-20251001
+          ANTHROPIC_DEFAULT_HAIKU_MODEL: claude-haiku-4-5-20251001
         with:
           prompt_file: .phase-b-prompt.md
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           model: claude-opus-5
+          # Keeps a run alive if the pinned model is briefly unavailable
+          # (overload/capacity). It does NOT cover the model string being
+          # unrecognized by the bundled CLI — the workflow_dispatch smoke test
+          # is what validates that.
+          fallback_model: claude-opus-4-8
           timeout_minutes: "15"
           allowed_tools: "Read,Edit,Write,Glob,Grep,Bash"
 

@@ -68,6 +68,11 @@ jobs:
           # most mechanical LLM job in the repo. Also a newer model than the
           # claude-opus-4-8 it replaces.
           model: claude-sonnet-5
+          # Keeps a run alive if the pinned model is briefly unavailable
+          # (overload/capacity). It does NOT cover the model string being
+          # unrecognized by the bundled CLI — the workflow_dispatch smoke test
+          # is what validates that.
+          fallback_model: claude-sonnet-4-6
           # Read-only synthesis of four local changelogs + one Write. No gh/Bash
           # (the post step below comments to the issue) and no web access.
           allowed_tools: "Read,Glob,Grep,Write"
