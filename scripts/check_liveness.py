@@ -590,8 +590,15 @@ def check(batch: list[dict], smoke_results: dict, f: Fetcher, today: str) -> dic
                         flags.append("repo-archived")
                     if info.get("renamed_from"):
                         flags.append("repo-renamed")
-                    if not info.get("license_spdx"):
-                        flags.append("license-missing")
+                    # Two different findings, and the difference decides whether
+                    # the model has to fetch the LICENSE text. The Verifier flagged
+                    # this in validation: GitHub returns NOASSERTION for a repo
+                    # whose root LICENSE is verbatim CC BY 4.0, which is not the
+                    # same as having no licence at all.
+                    if info.get("license_raw") == "NOASSERTION":
+                        flags.append("license-unrecognized")
+                    elif not info.get("license_spdx"):
+                        flags.append("license-absent")
                     pushed = _iso_date(info.get("pushed_at"))
                     if pushed and (date.fromisoformat(today) - pushed).days > STALE_DAYS:
                         flags.append("stale-12mo")
@@ -624,7 +631,7 @@ def check(batch: list[dict], smoke_results: dict, f: Fetcher, today: str) -> dic
                     if info.get("yanked"):
                         flags.append("pkg-yanked")
                     if not info.get("license"):
-                        flags.append("license-missing")
+                        flags.append("license-absent")
                     for a in fetch_osv(f, t["name"], "PyPI"):
                         flags.append("osv-advisory")
                         r.setdefault("advisories", []).append(a)
@@ -640,7 +647,7 @@ def check(batch: list[dict], smoke_results: dict, f: Fetcher, today: str) -> dic
                     if info.get("deprecated"):
                         flags.append("pkg-yanked")
                     if not info.get("license"):
-                        flags.append("license-missing")
+                        flags.append("license-absent")
                     for a in fetch_osv(f, t["name"], "npm"):
                         flags.append("osv-advisory")
                         r.setdefault("advisories", []).append(a)

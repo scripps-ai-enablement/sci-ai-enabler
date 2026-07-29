@@ -64,10 +64,15 @@ a stale availability). Everything else on the page belongs to the curator — le
 
   Work the digest's **"Needs your adjudication"** list. That is where a registry cannot answer the
   question, and it is what you are for:
-  - **`license-missing` / a license that changed** — read the actual LICENSE text. A `NOASSERTION`
-    SPDX id means the file exists but is non-standard, which is not the same as "no license", and
-    the difference decides `cleared` vs `caution`. (`Augmented-Nature` is the standing example: a
-    restrictive non-commercial licence where the repo header suggested MIT.)
+  - **`license-unrecognized`** — a LICENSE file exists but GitHub could not map it to an SPDX id
+    (`NOASSERTION`). **Fetch the raw LICENSE text**; this is the flag that hides both good and bad
+    news. `jaechang-hits/SciAgent-Skills` turns out to be verbatim CC BY 4.0, while
+    `Augmented-Nature`'s repos carry a restrictive personal/non-commercial grant despite headers
+    suggesting MIT. The prefetch cannot tell these apart — it only knows the file is non-standard —
+    and the difference decides `cleared` vs `caution` **and** whether the page's Pricing row is a
+    false "Free / OSS" claim.
+  - **`license-absent`** — no licence at all. Usually `caution`, but confirm; a licence may live
+    somewhere the API does not look.
   - **`repo-renamed` / provenance mismatch** — a mismatch is often legitimate (`supplier: NeuroClaw`
     vs owner `CUHK-AIM-Group`). Judging whether a name is a rebrand or a typosquat is yours.
   - **`changed-since-verified`** — the skill's own directory has new commits, so the manifest may
