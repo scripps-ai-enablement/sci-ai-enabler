@@ -8,10 +8,10 @@ availability: GA
 tool_categories: [General-Purpose Utilities]
 last_verified: 2026-06-04
 verification: works
-verified_on: 2026-07-20
+verified_on: 2026-07-29
 verification_note: "repo and skills/what-if-oracle dir resolve on K-Dense-AI/scientific-agent-skills"
 security: caution
-security_on: 2026-07-20
+security_on: 2026-07-29
 security_note: "provenance matches K-Dense-AI but page states CC BY-NC-SA 4.0 (non-commercial) while the collection root is MIT — non-commercial restriction limits reuse"
 summary: Run structured What-If scenario analysis with 4–6 branch possibility exploration (best, likely, worst, wild card, contrarian, second-order).
 ---
@@ -27,8 +27,8 @@ Run structured What-If scenario analysis with 4–6 branch possibility explorati
 | **Availability** | GA — part of the actively maintained K-Dense `scientific-agent-skills` collection |
 | **Pricing** | Free / OSS (CC BY-NC-SA 4.0) |
 | **Capabilities** | Read/Write — Claude runs the skill's Python locally (Bash), not as an MCP tool |
-| **Verified** | works · 2026-07-20 |
-| **Security** | caution · 2026-07-20 — provenance matches K-Dense-AI but page states CC BY-NC-SA 4.0 non-commercial while the collection root is MIT |
+| **Verified** | works · 2026-07-29 |
+| **Security** | caution · 2026-07-29 — provenance matches K-Dense-AI but page states CC BY-NC-SA 4.0 non-commercial while the collection root is MIT |
 
 ## How to install
 

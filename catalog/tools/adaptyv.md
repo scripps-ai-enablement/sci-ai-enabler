@@ -8,10 +8,10 @@ availability: GA
 tool_categories: [Immunology and Microbiology, Drug Repurposing and Discovery, Integrative Structural and Computational Biology]
 last_verified: 2026-06-04
 verification: works
-verified_on: 2026-07-20
+verified_on: 2026-07-29
 verification_note: "repo and skills/adaptyv dir resolve on K-Dense-AI/scientific-agent-skills; wet-lab submission half needs a gated Adaptyv API key (in-silico half runs unauthenticated)"
 security: caution
-security_on: 2026-07-20
+security_on: 2026-07-29
 security_note: "provenance matches supplier K-Dense-AI, MIT collection, but skill writes to a paid external wet-lab platform and handles an ADAPTYV_API_KEY — review submissions before approval"
 summary: K-Dense skill that submits designed protein and antibody sequences to the Adaptyv cloud lab for wet-lab binding, expression, thermostability, and activity assays, with NetSolP/SoluProt/SolubleMPNN/ESM/ipTM/pSAE pre-screening.
 ---
@@ -27,8 +27,8 @@ Claude skill that closes the design–build–test loop for proteins and antibod
 | **Availability** | GA — distributed via the K-Dense `scientific-agent-skills` collection. The Adaptyv platform itself is in alpha/beta and API access is request-gated by Adaptyv. |
 | **Pricing** | Free / OSS (skill source). Adaptyv wet-lab assays are paid per-experiment via Adaptyv; pricing is quoted by Adaptyv on API onboarding. |
 | **Capabilities** | Read/Write — local in-silico pre-screening, plus authenticated API calls that **submit experiments to a wet lab** (the skill writes to the Adaptyv platform on the user's behalf). |
-| **Verified** | works · 2026-07-20 |
-| **Security** | caution · 2026-07-20 — provenance matches K-Dense-AI, MIT collection, but skill writes to a paid external wet-lab platform and handles an API key |
+| **Verified** | works · 2026-07-29 |
+| **Security** | caution · 2026-07-29 — provenance matches K-Dense-AI, MIT collection, but skill writes to a paid external wet-lab platform and handles an API key |
 
 ## How to install
 

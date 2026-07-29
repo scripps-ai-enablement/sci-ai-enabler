@@ -8,11 +8,11 @@ availability: GA
 tool_categories: [Neuroscience]
 last_verified: 2026-06-11
 verification: works
-verified_on: 2026-07-20
+verified_on: 2026-07-29
 verification_note: "repo CUHK-AIM-Group/NeuroClaw and skills/aibl-skill dir resolve; non-executable Skill-doc install path confirmed current"
 security: cleared
-security_on: 2026-07-20
-security_note: "provenance matches supplier CUHK-AIM-Group, committed MIT LICENSE, maintained (pushed 2026-07-14), no OSV advisories"
+security_on: 2026-07-29
+security_note: "provenance matches supplier CUHK-AIM-Group, committed MIT LICENSE, maintained (pushed 2026-07-26), no OSV advisories"
 summary: "End-to-end workflow for the AIBL (Australian Imaging, Biomarkers and Lifestyle) dataset, including data access guidance, BIDS organization, and multimodal processing of sMRI and PET …"
 ---
 
@@ -27,8 +27,8 @@ End-to-end workflow for the AIBL (Australian Imaging, Biomarkers and Lifestyle) 
 | **Availability** | GA — part of the NeuroClaw neuroimaging skill library |
 | **Pricing** | Free / OSS (MIT) |
 | **Capabilities** | Read/Write — Claude runs the skill's Python locally (Bash), not as an MCP tool |
-| **Verified** | works · 2026-07-20 |
-| **Security** | cleared · 2026-07-20 — provenance matches CUHK-AIM-Group, committed MIT LICENSE, maintained, no OSV advisories |
+| **Verified** | works · 2026-07-29 |
+| **Security** | cleared · 2026-07-29 — provenance matches CUHK-AIM-Group, committed MIT LICENSE, maintained, no OSV advisories |
 
 ## How to install
 

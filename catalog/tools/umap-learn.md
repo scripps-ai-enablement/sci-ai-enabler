@@ -8,10 +8,10 @@ availability: GA
 tool_categories: [General-Purpose Utilities]
 last_verified: 2026-06-04
 verification: works
-verified_on: 2026-07-20
-verification_note: "repo and skills/umap-learn dir resolve on K-Dense-AI/scientific-agent-skills; npx skills add CLI confirmed working in this-run smoke batch"
+verified_on: 2026-07-29
+verification_note: "repo and skills/umap-learn dir resolve on K-Dense-AI/scientific-agent-skills; npx skills add CLI confirmed working in prior smoke batch"
 security: cleared
-security_on: 2026-07-20
+security_on: 2026-07-29
 security_note: "provenance matches supplier K-Dense-AI, MIT repo wrapping BSD-3 umap-learn, maintained (pushed 2026-07-15), no advisories via reachable sources"
 summary: UMAP dimensionality reduction.
 ---
@@ -27,8 +27,8 @@ UMAP dimensionality reduction.
 | **Availability** | GA — part of the actively maintained K-Dense `scientific-agent-skills` collection |
 | **Pricing** | Free / OSS (BSD-3-Clause) |
 | **Capabilities** | Read/Write — Claude runs the skill's Python locally (Bash), not as an MCP tool |
-| **Verified** | works · 2026-07-20 |
-| **Security** | cleared · 2026-07-20 — provenance matches K-Dense-AI, MIT repo, maintained, no known advisories |
+| **Verified** | works · 2026-07-29 |
+| **Security** | cleared · 2026-07-29 — provenance matches K-Dense-AI, MIT repo, maintained, no known advisories |
 
 ## How to install
 

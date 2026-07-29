@@ -7,10 +7,11 @@ supplier: Allen Institute for Neural Dynamics
 availability: Beta
 tool_categories: [Neuroscience]
 last_verified: 2026-06-14
-verification: works
-verified_on: 2026-07-20
+verification: degraded
+verified_on: 2026-07-29
+verification_note: "PyPI aind-data-mcp v0.4.5 resolves but upstream README now documents a remote HTTP endpoint (metadata-portal.allenneuraldynamics.org/mcp, responds 406 to browser) not the stdio console-script the page had; fixed the install block to the current HTTP transport this run"
 security: cleared
-security_on: 2026-07-20
+security_on: 2026-07-29
 security_note: "provenance matches supplier Allen Institute (AllenNeuralDynamics org), PyPI aind-data-mcp v0.4.5 MIT present, repo maintained (pushed 2026-07-13), read-only, no OSV advisories"
 summary: Official Allen Institute MCP server giving Claude query and NWB-introspection access to AIND's V2 neuroscience data assets.
 ---
@@ -26,19 +27,15 @@ Official Allen Institute for Neural Dynamics MCP server for querying AIND's V2 m
 | **Availability** | Beta — active through April 2026 |
 | **Pricing** | Free / OSS (MIT) |
 | **Capabilities** | Read-only — public read access to AIND DocDB |
-| **Verified** | works · 2026-07-20 |
-| **Security** | cleared · 2026-07-20 — provenance matches Allen Institute, PyPI MIT, maintained, read-only, no OSV advisories |
+| **Verified** | degraded · 2026-07-29 — PyPI package resolves but upstream now ships a remote HTTP endpoint; install block fixed to the HTTP transport this run |
+| **Security** | cleared · 2026-07-29 — provenance matches Allen Institute, PyPI MIT, maintained, read-only, no OSV advisories |
 
-Install the CLI:
+The server is now hosted by AIND as a remote HTTP MCP endpoint (`https://metadata-portal.allenneuraldynamics.org/mcp/`); no local install is required.
 
-```
-uv tool install aind-data-mcp
-```
-
-Then register with Claude Code:
+Register with Claude Code:
 
 ```
-claude mcp add --transport stdio aind_data_access -- aind-data-mcp
+claude mcp add --transport http aind_data_access https://metadata-portal.allenneuraldynamics.org/mcp/
 ```
 
 Or for Claude Desktop, add to `claude_desktop_config.json`:
@@ -46,7 +43,7 @@ Or for Claude Desktop, add to `claude_desktop_config.json`:
 ```json
 {
   "mcpServers": {
-    "aind_data_access": { "type": "stdio", "command": "aind-data-mcp", "timeout": 300 }
+    "aind_data_access": { "type": "http", "url": "https://metadata-portal.allenneuraldynamics.org/mcp/" }
   }
 }
 ```

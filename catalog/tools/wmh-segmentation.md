@@ -8,9 +8,10 @@ availability: GA
 tool_categories: [Neuroscience]
 last_verified: 2026-06-11
 verification: works
-verified_on: 2026-07-20
+verified_on: 2026-07-29
+verification_note: "repo CUHK-AIM-Group/NeuroClaw resolves (MIT, pushed 2026-07-26, 76 stars) and the skills/wmh-segmentation dir install path is current; local nnU-Net orchestration, no network"
 security: cleared
-security_on: 2026-07-20
+security_on: 2026-07-29
 security_note: "provenance matches CUHK-AIM-Group/NeuroClaw, MIT skill code, no OSV/GitHub advisories, read-only local orchestration"
 summary: "Perform automated white matter hyperintensity (WMH) segmentation on structural MRI data using the MARS-WMH nnU-Net model."
 ---
@@ -26,8 +27,8 @@ Perform automated white matter hyperintensity (WMH) segmentation on structural M
 | **Availability** | GA — part of the NeuroClaw neuroimaging skill library |
 | **Pricing** | Free / OSS (MIT) |
 | **Capabilities** | Read/Write — Claude runs the skill's Python locally (Bash), not as an MCP tool |
-| **Verified** | works · 2026-07-20 |
-| **Security** | cleared · 2026-07-20 — provenance matches CUHK-AIM-Group/NeuroClaw, MIT skill code, no advisories, read-only local orchestration |
+| **Verified** | works · 2026-07-29 |
+| **Security** | cleared · 2026-07-29 — provenance matches CUHK-AIM-Group/NeuroClaw, MIT skill code, no advisories, read-only local orchestration |
 
 ## How to install
 

@@ -9,9 +9,10 @@ tool_categories: [General-Purpose Utilities]
 last_verified: 2026-06-11
 summary: "Access USPTO patent data via PatentsView REST API and Google Patents Public Data (BigQuery)."
 verification: works
-verified_on: 2026-07-20
+verified_on: 2026-07-29
+verification_note: "repo jaechang-hits/SciAgent-Skills resolves (CC BY 4.0 root, pushed 2026-07-24) and the skills/scientific-computing/uspto-database dir install path is current; wraps keyless public PatentsView REST API"
 security: cleared
-security_on: 2026-07-20
+security_on: 2026-07-29
 security_note: "provenance matches jaechang-hits/SciAgent-Skills, skill code CC BY 4.0, USPTO data public domain, no OSV advisories"
 ---
 
@@ -26,8 +27,8 @@ Access USPTO patent data via PatentsView REST API and Google Patents Public Data
 | **Availability** | GA — part of the BixBench-evaluated SciAgent-Skills collection |
 | **Pricing** | Free / OSS (CC0-1.0) |
 | **Capabilities** | Read/Write — Claude runs the skill's Python locally (Bash), not as an MCP tool |
-| **Verified** | works · 2026-07-20 |
-| **Security** | cleared · 2026-07-20 — provenance matches supplier, skill code CC BY 4.0, USPTO data public domain, no OSV advisories |
+| **Verified** | works · 2026-07-29 |
+| **Security** | cleared · 2026-07-29 — provenance matches supplier, skill code CC BY 4.0, USPTO data public domain, no OSV advisories |
 
 ## How to install
 

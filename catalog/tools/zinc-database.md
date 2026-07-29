@@ -10,9 +10,10 @@ last_verified: 2026-06-11
 claude_science: true
 summary: "Query ZINC15/ZINC22 virtual compound libraries (1.4B compounds, 750M purchasable)."
 verification: works
-verified_on: 2026-07-20
+verified_on: 2026-07-29
+verification_note: "repo jaechang-hits/SciAgent-Skills resolves (CC BY 4.0 root, pushed 2026-07-24) and the skills/structural-biology-drug-discovery/zinc-database dir install path is current; also a Claude Science featured connector"
 security: cleared
-security_on: 2026-07-20
+security_on: 2026-07-29
 security_note: "provenance matches jaechang-hits/SciAgent-Skills, skill code CC BY 4.0, ZINC data free for research, no OSV advisories"
 ---
 
@@ -27,8 +28,8 @@ Query ZINC15/ZINC22 virtual compound libraries (1.4B compounds, 750M purchasable
 | **Availability** | GA — part of the BixBench-evaluated SciAgent-Skills collection |
 | **Pricing** | Free / OSS (CC-BY-4.0) |
 | **Capabilities** | Read/Write — Claude runs the skill's Python locally (Bash), not as an MCP tool |
-| **Verified** | works · 2026-07-20 |
-| **Security** | cleared · 2026-07-20 — provenance matches supplier, skill code CC BY 4.0, ZINC data free for research, no OSV advisories |
+| **Verified** | works · 2026-07-29 |
+| **Security** | cleared · 2026-07-29 — provenance matches supplier, skill code CC BY 4.0, ZINC data free for research, no OSV advisories |
 
 ## How to install
 

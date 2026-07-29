@@ -9,10 +9,10 @@ tool_categories: [Immunology and Microbiology, Integrative Structural and Comput
 last_verified: 2026-05-20
 claude_science: true
 verification: works
-verified_on: 2026-07-20
+verified_on: 2026-07-29
 verification_note: "GitHub repo resolves (redirects to Augmented-Nature-UniProt-MCP-Server); wraps the public UniProt REST API and needs no auth"
 security: caution
-security_on: 2026-07-20
+security_on: 2026-07-29
 security_note: "provenance matches supplier Augmented-Nature but committed LICENSE is restrictive non-commercial while package.json and page claim MIT; last push 2025-12-21 (~7mo stale)"
 summary: MCP server giving Claude 26 tools over the UniProt REST API for protein search, domains, orthologs, PTMs, pathways, and multi-format export.
 ---
@@ -28,8 +28,8 @@ MCP wrapper over the UniProt REST API — the standard protein-annotation layer 
 | **Availability** | GA |
 | **Pricing** | Free / OSS (MIT) |
 | **Capabilities** | Read-only |
-| **Verified** | works · 2026-07-20 |
-| **Security** | caution · 2026-07-20 — committed LICENSE is restrictive non-commercial while page/package.json claim MIT; ~7mo stale |
+| **Verified** | works · 2026-07-29 |
+| **Security** | caution · 2026-07-29 — committed LICENSE is restrictive non-commercial while page/package.json claim MIT; ~7mo stale |
 
 ## How to install
 

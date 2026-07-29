@@ -4,6 +4,46 @@ Rolling, reverse-chronological log of catalog verification + security passes. Ea
 on-demand run that produces changes prepends a dated block; the top block is mirrored to the pinned
 "Verification updates" issue.
 
+## 2026-07-29 (worklist maintenance — 25-page window, umap-learn → aind-data)
+
+Worked the injected 25-page worklist top-to-bottom. All 25 were already stamped 2026-07-20;
+rechecked against fresh source fetches. 24 clean rechecks + 1 launch-command fix. Stamps refreshed
+2026-07-20→2026-07-29.
+
+### Verified
+- 24 pages rechecked works/degraded (unchanged) against fresh anchors: `K-Dense-AI/scientific-agent-
+  skills` MIT/pushed 2026-07-29/32073★ (umap-learn, usfiscaldata, vaex, venue-templates,
+  what-if-oracle, xlsx, zarr-python, adaptyv, aeon); `google-deepmind/science-skills` Apache-2.0/
+  pushed 2026-07-07/2552★ (unibind-database — prior scienceskillscommon fix stands, stays degraded);
+  `jaechang-hits/SciAgent-Skills` CC-BY-4.0-root/pushed 2026-07-24/288★ (unichem-database,
+  uspto-database, viennarna-structure-prediction, western-blot-quantification, zinc-database);
+  `Augmented-Nature/UniProt-MCP-Server` NOASSERTION/pushed 2025-12-21/19★ (uniprot);
+  `CUHK-AIM-Group/NeuroClaw` MIT/pushed 2026-07-26/76★ (wmh-segmentation, abcd-skill, abide-skill,
+  adhd200-skill, adni-skill, aibl-skill); `anthropics/life-sciences` marketplace 21 plugins
+  (10x-genomics-cloud, adisinsight — both stay degraded, subscription/account-gated).
+- Added missing `verification_note` + `**Verified**` table row to `unichem-database`, and missing
+  `verification_note` to `uspto-database` / `viennarna-structure-prediction` /
+  `western-blot-quantification`.
+
+### Fixed
+- `aind-data` works→degraded — PyPI `aind-data-mcp` v0.4.5 MIT still resolves but the upstream README
+  no longer ships a stdio console-script; it now documents a remote HTTP endpoint
+  `https://metadata-portal.allenneuraldynamics.org/mcp/` (live: 406 to a browser Accept header). No
+  `aind-data-mcp` entry point in PyPI metadata. Rewrote the install block from the dead
+  `uv tool install` + `--transport stdio -- aind-data-mcp` invocation to the current
+  `--transport http` registration (plus the HTTP `claude_desktop_config.json` form).
+
+### Flagged
+- `aind-data` degraded — launch command auto-fixed to the HTTP transport this run; recheck the HTTP
+  endpoint next cycle and flip to works once it proves stable.
+
+### Security
+- No security regrades. Kept-caution unchanged: `xlsx` (Anthropic-proprietary LICENSE.txt in an MIT
+  collection), `what-if-oracle` (CC BY-NC-SA 4.0 non-commercial), `adaptyv` (writes to a paid wet-lab
+  platform, handles ADAPTYV_API_KEY), `uniprot` (restrictive non-commercial LICENSE vs page's MIT
+  claim, ~7mo stale), `10x-genomics-cloud` (closed-source vendor binary). `aind-data` security stays
+  cleared (Allen Institute provenance, MIT, read-only).
+
 ## 2026-07-27 (worklist maintenance — 4-page recheck, latchbio-integration → liana-mcp)
 
 Worked the injected 4-page worklist top-to-bottom. All four were already stamped 2026-07-20 (within

@@ -8,10 +8,10 @@ availability: GA
 tool_categories: [General-Purpose Utilities]
 last_verified: 2026-06-04
 verification: works
-verified_on: 2026-07-20
+verified_on: 2026-07-29
 verification_note: "repo and skills/aeon dir resolve on K-Dense-AI/scientific-agent-skills"
 security: cleared
-security_on: 2026-07-20
+security_on: 2026-07-29
 security_note: "provenance matches supplier K-Dense-AI, MIT repo wrapping BSD-3 aeon, maintained (pushed 2026-07-15), no OSV advisories"
 summary: Time series machine learning tasks including classification, regression, clustering, forecasting, anomaly detection, segmentation, and similarity search.
 ---
@@ -27,8 +27,8 @@ This skill should be used for time series machine learning tasks including class
 | **Availability** | GA — part of the actively maintained K-Dense `scientific-agent-skills` collection |
 | **Pricing** | Free / OSS (BSD-3-Clause) |
 | **Capabilities** | Read/Write — Claude runs the skill's Python locally (Bash), not as an MCP tool |
-| **Verified** | works · 2026-07-20 |
-| **Security** | cleared · 2026-07-20 — provenance matches K-Dense-AI, MIT repo, maintained, no OSV advisories |
+| **Verified** | works · 2026-07-29 |
+| **Security** | cleared · 2026-07-29 — provenance matches K-Dense-AI, MIT repo, maintained, no OSV advisories |
 
 ## How to install
 

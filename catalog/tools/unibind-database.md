@@ -10,11 +10,11 @@ tool_categories: [Molecular and Cellular Biology]
 last_verified: 2026-06-20
 claude_science: true
 verification: degraded
-verified_on: 2026-07-20
-verification_note: "repo + unibind_database skill dir resolve on google-deepmind/science-skills; replaced a stale scienceskillscommon copy line (that dir no longer exists) with the uv skill the SKILL.md actually requires"
+verified_on: 2026-07-29
+verification_note: "repo + unibind_database skill dir resolve on google-deepmind/science-skills; the prior-run fix (stale scienceskillscommon copy line replaced with the uv skill the SKILL.md requires) stands"
 security: cleared
-security_on: 2026-07-20
-security_note: "provenance matches supplier google-deepmind, Apache-2.0 code, maintained (pushed 2026-07-07, 2458 stars), keyless public UniBind API, no OSV advisories"
+security_on: 2026-07-29
+security_note: "provenance matches supplier google-deepmind, Apache-2.0 code, maintained (pushed 2026-07-07, 2552 stars), keyless public UniBind API, no OSV advisories"
 summary: "Query UniBind for experimentally validated transcription-factor binding sites; download BED/FASTA coordinates by species, cell line, or TF."
 ---
 
@@ -29,8 +29,8 @@ Query UniBind for experimentally validated, ChIP-seq-derived transcription-facto
 | **Availability** | GA |
 | **Pricing** | Free / OSS skill (Apache-2.0 code, CC-BY-4.0 docs); UniBind API is public, no key |
 | **Capabilities** | Read-only — Claude runs the skill's Python locally (`uv run`) against the UniBind REST API |
-| **Verified** | degraded · 2026-07-20 — dir resolves; fixed a stale scienceskillscommon copy line |
-| **Security** | cleared · 2026-07-20 — provenance matches google-deepmind, Apache-2.0, maintained, keyless public API, no OSV advisories |
+| **Verified** | degraded · 2026-07-29 — dir resolves; prior-run fix of a stale scienceskillscommon copy line stands |
+| **Security** | cleared · 2026-07-29 — provenance matches google-deepmind, Apache-2.0, maintained, keyless public API, no OSV advisories |
 
 ## How to install
 

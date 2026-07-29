@@ -8,10 +8,10 @@ availability: GA
 tool_categories: [Drug Repurposing and Discovery, Immunology and Microbiology, Integrative Structural and Computational Biology, Molecular and Cellular Biology, Neuroscience, Translational Medicine]
 last_verified: 2026-06-11
 verification: degraded
-verified_on: 2026-07-20
+verified_on: 2026-07-29
 verification_note: "10x-genomics plugin confirmed in anthropics/life-sciences marketplace and field-report install works, but a paid 10x Cloud account and access token gate functional use"
 security: caution
-security_on: 2026-07-20
+security_on: 2026-07-29
 security_note: "provenance matches supplier 10x Genomics (own docs and MCPB binary), but closed-source vendor binary with read/write cloud access cannot be statically assessed"
 summary: Conversational orchestration of 10x Cloud single-cell, immune-profiling, and spatial-transcriptomics analyses.
 ---
@@ -27,8 +27,8 @@ Conversational orchestration of single-cell, immune-profiling, and spatial-trans
 | **Availability** | GA — available from Oct 20, 2025 |
 | **Pricing** | Free plugin; requires a paid 10x Genomics Cloud account with active analysis data |
 | **Capabilities** | Read/Write — query and trigger single-cell, immune-profiling, and spatial-transcriptomics analyses stored in 10x Genomics Cloud |
-| **Verified** | degraded · 2026-07-20 — plugin confirmed in life-sciences marketplace, but paid 10x Cloud account gates functional use |
-| **Security** | caution · 2026-07-20 — provenance matches 10x Genomics, but closed-source vendor binary cannot be statically assessed |
+| **Verified** | degraded · 2026-07-29 — plugin confirmed in life-sciences marketplace, but paid 10x Cloud account gates functional use |
+| **Security** | caution · 2026-07-29 — provenance matches 10x Genomics, but closed-source vendor binary cannot be statically assessed |
 
 ## How to install
 

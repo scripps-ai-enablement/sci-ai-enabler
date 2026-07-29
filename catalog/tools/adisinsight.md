@@ -8,10 +8,10 @@ availability: GA
 tool_categories: [Drug Repurposing and Discovery, Translational Medicine]
 last_verified: 2026-05-20
 verification: degraded
-verified_on: 2026-07-20
-verification_note: "install path resolves (adisinsight plugin v1.0.0 in anthropics/life-sciences, endpoint adisinsight-mcp.springer.com) but needs an AdisInsight subscription so it is functionally unverifiable"
+verified_on: 2026-07-29
+verification_note: "install path resolves (adisinsight plugin in anthropics/life-sciences marketplace, endpoint adisinsight-mcp.springer.com) but needs an AdisInsight subscription so it is functionally unverifiable"
 security: cleared
-security_on: 2026-07-20
+security_on: 2026-07-29
 security_note: "Anthropic-packaged plugin in official anthropics/life-sciences marketplace; MCP endpoint on springer.com matches Springer Nature supplier; read-only OAuth-gated"
 summary: Springer Nature AdisInsight MCP plugin surfacing drug-development pipeline, clinical-trial, and deal intelligence to Claude for repurposing and competitive scouting.
 ---
@@ -27,8 +27,8 @@ Anthropic-packaged Claude Code plugin that wraps Springer Nature's AdisInsight M
 | **Availability** | GA in the `life-sciences` marketplace (manifest v1.0.0) |
 | **Pricing** | Commercial — requires an active AdisInsight subscription; plugin install is free |
 | **Capabilities** | Read-only |
-| **Verified** | degraded · 2026-07-20 — resolves in anthropics/life-sciences but needs an AdisInsight subscription |
-| **Security** | cleared · 2026-07-20 — Anthropic-packaged, endpoint on springer.com matches Springer Nature |
+| **Verified** | degraded · 2026-07-29 — resolves in anthropics/life-sciences but needs an AdisInsight subscription |
+| **Security** | cleared · 2026-07-29 — Anthropic-packaged, endpoint on springer.com matches Springer Nature |
 
 ## How to install
 
