@@ -153,6 +153,30 @@ class Staleness(unittest.TestCase):
         rows = self._rows(["2026-07-29", "2026-01-01"])
         self.assertEqual(sv.due(rows, "not-a-date", 30), rows)
 
+    def test_rotate_is_forced_to_zero_for_a_positive_max_age(self):
+        """The two pointer mechanisms must never compose.
+
+        Rotation exists because stamped pages never left the candidate set. Once a
+        positive staleness threshold retires them, the pointer advances on its own,
+        so applying both would advance the window AND shrink the list -- a
+        double-skip that opens coverage gaps inside a cycle.
+        """
+        for rotate in (1, 5, 100):
+            with self.subTest(rotate=rotate):
+                self.assertEqual(sv.effective_offset(rotate, 25, 30), 0)
+                self.assertEqual(sv.effective_offset(rotate, 25, 1), 0)
+
+    def test_rotate_is_kept_when_staleness_cannot_retire_a_page(self):
+        # --max-age-days 0 makes every page due whatever its stamp, so nothing
+        # leaves the due set and rotation is still the right pointer.
+        self.assertEqual(sv.effective_offset(2, 25, 0), 50)
+        # ...as it is with no staleness filter at all (the pre-change behaviour).
+        self.assertEqual(sv.effective_offset(2, 25, None), 50)
+
+    def test_offset_is_never_negative(self):
+        self.assertEqual(sv.effective_offset(-3, 25, None), 0)
+        self.assertEqual(sv.effective_offset(2, 0, None), 2)
+
     def test_due_set_fully_covered_within_a_cycle(self):
         # The staleness analogue of test_windows_tile_full_catalog_over_runs, and
         # the direct guard against the rotation/staleness double-skip: stamping a
