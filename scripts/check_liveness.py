@@ -723,10 +723,21 @@ def _page_stub(row: dict) -> dict:
     }
 
 
-def render_digest(result: dict) -> str:
+def render_digest(result: dict, max_review: int = 0) -> str:
+    """Render the agent-facing digest.
+
+    `max_review` caps how many exception pages are listed. The worklist can now be
+    large (the prefetch is cheap), but the model's per-run capacity is not, and the
+    old failure mode was serving 25 pages and stamping 4 while the window advanced
+    past all 25. Capped-out pages are simply not stamped this run, so they stay due
+    and lead the next one.
+    """
     s = result["summary"]
     clean = [p for p in result["pages"] if not p["needs_model"]]
     need = [p for p in result["pages"] if p["needs_model"]]
+    deferred = []
+    if max_review > 0 and len(need) > max_review:
+        need, deferred = need[:max_review], need[max_review:]
     out = [f"## Liveness prefetch ({s['pages']} pages, {s['distinct_repos']} repos)", ""]
     if result["budget"]["degraded"]:
         out += ["> The prefetch was rate-limited or ran out of budget, so some facts are "
@@ -740,6 +751,10 @@ def render_digest(result: dict) -> str:
         out += ["<details><summary>clean slugs</summary>", "",
                 ", ".join(f"`{p['slug']}`" for p in clean), "", "</details>", ""]
     out += [f"### Needs your adjudication ({len(need)})", ""]
+    if deferred:
+        out += [f"_{len(deferred)} further page(s) also need attention but are over this "
+                f"run's review budget. They are NOT stamped this run, so they stay due and "
+                f"lead the next worklist. Do not try to work them._", ""]
     if not need:
         out += ["_Nothing._", ""]
     for p in need:
@@ -773,6 +788,8 @@ def main() -> int:
     ap.add_argument("--out", type=Path, required=True)
     ap.add_argument("--digest", type=Path, default=None)
     ap.add_argument("--budget-seconds", type=float, default=240.0)
+    ap.add_argument("--max-review", type=int, default=0,
+                    help="cap exception pages listed in the digest (0 = no cap)")
     ap.add_argument("--today", default=None)
     args = ap.parse_args()
 
@@ -796,7 +813,7 @@ def main() -> int:
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
     if args.digest:
-        args.digest.write_text(render_digest(result), encoding="utf-8")
+        args.digest.write_text(render_digest(result, args.max_review), encoding="utf-8")
     s = result["summary"]
     print(f"liveness: {s['pages']} pages, {s['clean']} clean, {s['needs_model']} need the model, "
           f"{f.calls} HTTP calls, github_remaining={f.gh_remaining}")
