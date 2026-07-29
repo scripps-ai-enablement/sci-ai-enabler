@@ -10,7 +10,7 @@
 # BioMCP is NOT a pip dependency: the live run shells out to the `biomcp` CLI,
 # installed out-of-band as the recipe prescribes:
 #   uv tool install biomcp-cli        # provides `biomcp` (this run used 0.8.25)
-mcp==1.12.0
+mcp==1.28.1
 requests==2.33.0
 jsonschema==4.23.0
 referencing==0.35.1
