@@ -77,8 +77,19 @@ jobs:
         with:
           prompt_file: .run-prompt.md
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          model: claude-opus-4-8
+          # Sonnet 5, not Opus: this run refreshes reference docs from fetched
+          # primary sources rather than exercising judgment about what to include.
+          # It is also a newer model than the claude-opus-4-8 it replaces.
+          model: claude-sonnet-5
+          # Keeps a run alive if the pinned model is briefly unavailable
+          # (overload/capacity). It does NOT cover the model string being
+          # unrecognized by the bundled CLI — the workflow_dispatch smoke test
+          # is what validates that.
+          fallback_model: claude-sonnet-4-6
           allowed_tools: "Read,Edit,Write,Glob,Grep,WebSearch,WebFetch"
+          # Explicit, because the action's own default is 10 minutes — well short
+          # of the 30 this job allows, so an unset value silently truncated runs.
+          timeout_minutes: "25"
 
       - name: Commit, push, and notify
         env:
@@ -89,6 +100,15 @@ jobs:
           rm -f .run-prompt.md
           git config user.name "guide-curator[bot]"
           git config user.email "guide-curator@users.noreply.github.com"
+
+          # Splice in the agent's dated changelog block and rotate older blocks to
+          # GUIDE_CHANGELOG_ARCHIVE.md. The agent writes `.changelog-block.md` instead of
+          # editing a 100 KB+ file, which keeps the changelog out of its context.
+          # If the block file is absent (the agent edited GUIDE_CHANGELOG.md directly, the
+          # older instruction), this still rotates and is a no-op otherwise.
+          python3 scripts/prepend_changelog.py --file GUIDE_CHANGELOG.md \
+            --block .changelog-block.md --keep 12
+          rm -f .changelog-block.md
 
           if [ -z "$(git status --porcelain)" ]; then
             echo "No guide changes this run."

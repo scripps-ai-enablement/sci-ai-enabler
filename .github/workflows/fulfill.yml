@@ -378,7 +378,12 @@ jobs:
         with:
           prompt_file: .run-prompt.md
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          model: claude-opus-4-8
+          model: claude-opus-5
+          # Keeps a run alive if the pinned model is briefly unavailable
+          # (overload/capacity). It does NOT cover the model string being
+          # unrecognized by the bundled CLI — the workflow_dispatch smoke test
+          # is what validates that.
+          fallback_model: claude-opus-4-8
           mcp_config: .mcp-config.json
           timeout_minutes: "20"
           allowed_tools: ${{ steps.prompt.outputs.tools }}
@@ -404,6 +409,17 @@ jobs:
           fi
           git config user.name "${BOT}[bot]"
           git config user.email "${BOT}@users.noreply.github.com"
+
+          # Splice in the agent's dated changelog block and rotate older blocks to
+          # the matching *_ARCHIVE.md. The agent writes `.changelog-block.md`
+          # instead of editing a 100 KB+ file, which keeps the changelog out of its
+          # context. If the block file is absent (the agent edited ${CHANGELOG}
+          # directly, the older instruction), this still rotates and is otherwise a
+          # no-op. Runs before the git-status gate so a changelog-only run counts
+          # as a change.
+          python3 scripts/prepend_changelog.py --file "${CHANGELOG}" \
+            --block .changelog-block.md --keep 12
+          rm -f .changelog-block.md
 
           if [ -z "$(git status --porcelain)" ]; then
             # The agent produced nothing durable. Say so plainly instead of

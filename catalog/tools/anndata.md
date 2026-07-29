@@ -8,11 +8,11 @@ availability: GA
 tool_categories: [Immunology and Microbiology, Molecular and Cellular Biology, Neuroscience]
 last_verified: 2026-06-04
 verification: works
-verified_on: 2026-07-20
-verification_note: "repo and skills/anndata dir resolve on K-Dense-AI/scientific-agent-skills"
+verified_on: 2026-07-29
+verification_note: "repo and skills/anndata dir resolve on K-Dense-AI/scientific-agent-skills; PyPI anndata 0.13.2 pip-installs cleanly in the smoke sandbox"
 security: cleared
-security_on: 2026-07-20
-security_note: "provenance matches supplier K-Dense-AI, MIT repo wrapping BSD-3 anndata, maintained (pushed 2026-07-15), no OSV advisories"
+security_on: 2026-07-29
+security_note: "provenance matches supplier K-Dense-AI, MIT repo wrapping BSD-3-Clause anndata 0.13.2, maintained (pushed 2026-07-29), no OSV advisories"
 summary: Claude skill teaching the AnnData annotated-data-matrix format used by Scanpy and scvi-tools for single-cell and other observation/feature matrices.
 ---
 
@@ -27,8 +27,8 @@ Claude skill that documents the AnnData object model — `X`, `obs`, `var`, `lay
 | **Availability** | GA — actively maintained 2025–2026 |
 | **Pricing** | Free / OSS |
 | **Capabilities** | Read/Write — Claude executes AnnData via Python/Bash |
-| **Verified** | works · 2026-07-20 |
-| **Security** | cleared · 2026-07-20 — provenance matches K-Dense-AI, MIT repo, maintained, no OSV advisories |
+| **Verified** | works · 2026-07-29 — smoke-tested: `pip install anndata` passes |
+| **Security** | cleared · 2026-07-29 — provenance matches K-Dense-AI, MIT repo, maintained, no OSV advisories |
 
 ## How to install
 

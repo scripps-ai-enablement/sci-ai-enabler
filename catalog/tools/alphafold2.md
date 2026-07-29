@@ -9,9 +9,9 @@ tool_categories: [Drug Repurposing and Discovery, Integrative Structural and Com
 last_verified: 2026-07-17
 claude_science: true
 verification: works
-verified_on: 2026-07-20
+verified_on: 2026-07-29
 security: cleared
-security_on: 2026-07-20
+security_on: 2026-07-29
 security_note: "provenance matches supplier google-deepmind, Apache-2.0 code (weights CC BY 4.0), maintained (pushed 2026-04-22, 14.7k stars), no OSV advisories"
 summary: AlphaFold2 protein/complex structure prediction, run locally or via a hosted API with an optional ColabFold MSA server; a Claude Science skill.
 ---
@@ -27,8 +27,8 @@ Predicts 3D protein and complex structures with AlphaFold2, driven as a Claude s
 | **Availability** | GA — Claude Science research skill |
 | **Pricing** | Free / OSS (Apache-2.0 code; AlphaFold2 parameters CC BY 4.0) |
 | **Capabilities** | Read/Write — Claude runs the model and writes predicted structures (PDB/mmCIF) plus per-residue pLDDT/PAE confidence |
-| **Verified** | works · 2026-07-20 |
-| **Security** | cleared · 2026-07-20 — provenance matches google-deepmind, Apache-2.0, maintained, no OSV advisories |
+| **Verified** | works · 2026-07-29 |
+| **Security** | cleared · 2026-07-29 — provenance matches google-deepmind, Apache-2.0, maintained, no OSV advisories |
 
 ## How to install
 

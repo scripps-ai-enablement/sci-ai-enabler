@@ -3,20 +3,21 @@ name: Verify catalog
 on:
   schedule:
     # Weekday runs, offset from the weekend catalog/recipe curators so the two
-    # agents don't edit catalog/tools/*.md at the same time. Mon/Wed/Fri 08:00 UTC.
-    - cron: '0 8 * * 1,3,5'
+    # agents don't edit catalog/tools/*.md at the same time. Mon/Thu 08:00 UTC.
+    # Cut from Mon/Wed/Fri now that the staleness gate below makes a run with
+    # nothing due cost zero tokens.
+    - cron: '0 8 * * 1,4'
   workflow_dispatch:
     inputs:
-      scope:
-        description: 'bootstrap (unstamped first) or maintenance (re-verify aging)'
-        required: false
-        default: 'maintenance'
-        type: choice
-        options: [bootstrap, maintenance]
       count:
         description: 'Per-run verification budget'
         required: false
         default: '25'
+        type: string
+      max_age_days:
+        description: 'Re-verify only pages older than N days (0 = force a full pass)'
+        required: false
+        default: '30'
         type: string
       smoke_max:
         description: 'Max components the quarantined smoke job may install/boot'
@@ -173,31 +174,70 @@ jobs:
         continue-on-error: true
 
       - name: Compose run prompt
+        id: prompt
         env:
-          SCOPE_IN: ${{ inputs.scope }}
           COUNT_IN: ${{ inputs.count }}
+          MAX_AGE_IN: ${{ inputs.max_age_days }}
+          # Read-only, repo-scoped, and used ONLY for api.github.com by
+          # check_liveness.py. This step is in the `verify` job, never in the
+          # secret-free quarantined smoke jobs.
+          GH_API_TOKEN: ${{ github.token }}
         run: |
-          SCOPE="${SCOPE_IN:-maintenance}"
-          case "$SCOPE" in bootstrap|maintenance) ;; *) SCOPE=maintenance ;; esac
           COUNT="${COUNT_IN:-25}"
           case "$COUNT" in ''|*[!0-9]*) COUNT=25 ;; esac
+          MAX_AGE="${MAX_AGE_IN:-30}"
+          case "$MAX_AGE" in ''|*[!0-9]*) MAX_AGE=30 ;; esac
           [ -f .verify/smoke-results.json ] || echo '{"results":[]}' > .verify/smoke-results.json
-          # Deterministic worklist: the agent must NOT enumerate the tree itself
-          # (that missed 7 pages for dozens of runs). This script is the single
-          # source of truth for which pages to stamp, unstamped-first.
-          # --rotate advances the worklist window each run so a uniformly-dated
-          # catalog does not re-serve the same slugs forever (GITHUB_RUN_NUMBER
-          # is monotonic per run).
-          python3 scripts/select_verify_targets.py --count "${COUNT}" --rotate "${GITHUB_RUN_NUMBER:-0}" --out .verify/worklist.md
 
           # Recipe-dependency verdicts. These targets are libraries a recipe
           # pip-installs, not catalog pages, so there is no page for the Verifier
           # agent to stamp — it owns catalog badges only. Record them as data the
           # recipes curator reads (RECIPE_AGENT.md) and the library index renders.
+          # This runs BEFORE the staleness gate below: the smoke jobs ran either
+          # way, and their verdicts are worth recording even on a run where no
+          # catalog page is due and the agent is skipped.
           python3 scripts/record_dependency_verdicts.py \
             --results .verify/smoke-results.json \
             --out index/recipe-dependencies.json
-          python3 scripts/build_index.py
+
+          # Deterministic worklist: the agent must NOT enumerate the tree itself
+          # (that missed 7 pages for dozens of runs). This script is the single
+          # source of truth for which pages to stamp, unstamped-first.
+          # --max-age-days drops pages verified within the window, so a run with
+          # nothing stale serves an empty batch. It also supersedes --rotate: see
+          # the module docstring for why the two must not compose.
+          python3 scripts/select_verify_targets.py \
+            --count "${COUNT}" --max-age-days "${MAX_AGE}" \
+            --out .verify/worklist.md --json .verify/worklist.json
+
+          # GATE A — nothing is stale, so there is nothing for the model to do.
+          # Skipping the Claude step below costs zero tokens. `if:` is evaluated by
+          # the runner before the action is invoked, so this needs no action input
+          # and is safe under the pinned SHA.
+          DUE=$(python3 -c 'import json,sys; print(len(json.load(open(".verify/worklist.json"))["batch"]))')
+          if [ "${DUE}" -eq 0 ]; then
+            echo "Nothing due (max_age_days=${MAX_AGE}); skipping the agent."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          # Liveness prefetch. Resolves each worklist page's install target against
+          # GitHub / npm / PyPI / OSV deterministically, so the agent does not spend
+          # a WebFetch per page re-confirming facts a registry answers the same way
+          # every time. GH_API_TOKEN raises the GitHub allowance from 60/hr/IP
+          # (shared across the Actions fleet) to 1,000/hr/repo; the script attaches
+          # it only to api.github.com and drops it on any cross-host redirect.
+          #
+          # SHADOW MODE: VERIFIER_AGENT.md is unchanged and still instructs a full
+          # per-page verification. The digest below is supplementary context only.
+          # Compare these verdicts against the agent's for a few cycles before
+          # anything is allowed to depend on them.
+          python3 scripts/check_liveness.py \
+            --worklist .verify/worklist.json \
+            --smoke .verify/smoke-results.json \
+            --out .verify/liveness.json --digest .verify/liveness.md \
+            --budget-seconds 240 || echo "liveness prefetch failed; continuing without it"
+
           {
             cat VERIFIER_AGENT.md
             echo ""
@@ -205,15 +245,28 @@ jobs:
             echo ""
             echo "## This run"
             echo "- UTC date: $(date -u +%Y-%m-%d)"
-            echo "- scope: ${SCOPE}"
             echo "- count budget: ${COUNT}"
+            echo "- re-verify interval: pages verified within ${MAX_AGE} days are not served this run"
             echo "- smoke results: .verify/smoke-results.json (read it for boot verdicts)"
             echo "- recipe-dependency verdicts: \`index/recipe-dependencies.json\` is written for you by the workflow before you start. It covers libraries recipes pip-install, which have no catalog page. Do NOT edit it and do NOT stamp recipe pages — the recipes curator acts on it."
             echo ""
             cat .verify/worklist.md
+            if [ -s .verify/liveness.md ]; then
+              echo ""
+              echo "---"
+              echo ""
+              echo "The workflow prefetched the registry facts below for the pages in your"
+              echo "worklist. Treat them as evidence fetched this run on your behalf, exactly"
+              echo "as you treat .verify/smoke-results.json. They do NOT replace your own"
+              echo "checks yet: verify normally, and where a fact here differs from what you"
+              echo "find, say so in your changelog block so the discrepancy is visible."
+              echo ""
+              cat .verify/liveness.md
+            fi
           } > .run-prompt.md
 
       - uses: anthropics/claude-code-base-action@e8132bc5e637a42c27763fc757faa37e1ee43b34
+        if: steps.prompt.outputs.skip != 'true'
         env:
           # See curate.yml for why these are pinned and why the action must NOT be
           # bumped to a CC 2.x pin (HIPAA/ZDR key rejects context_management).
@@ -222,7 +275,17 @@ jobs:
         with:
           prompt_file: .run-prompt.md
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          model: claude-opus-4-8
+          # Sonnet 5, not Opus: the per-page work here is registry lookups and date
+          # stamping, and the safety-critical half (what may be installed/booted) is
+          # already auditable Python in the quarantined jobs above. Sonnet 5 is also
+          # a newer model than the claude-opus-4-8 it replaces, and shares its
+          # tokenizer, so this is a price cut with no token-count inflation.
+          model: claude-sonnet-5
+          # Keeps a run alive if the pinned model is briefly unavailable
+          # (overload/capacity). It does NOT cover the model string being
+          # unrecognized by the bundled CLI — the workflow_dispatch smoke test
+          # is what validates that.
+          fallback_model: claude-sonnet-4-6
           # NO Bash: static checks are WebFetch calls to GitHub/npm/PyPI/OSV.
           allowed_tools: "Read,Edit,Write,Glob,Grep,WebSearch,WebFetch"
           timeout_minutes: "25"
@@ -235,8 +298,39 @@ jobs:
         run: |
           rm -f .run-prompt.md
           rm -rf .verify
+
+          # Rebuild the index AFTER the agent, not before. Building it first meant
+          # the "Verification pass" commit shipped an index that predated the very
+          # page edits in that same commit, and index.yml's push trigger then had
+          # to re-fire and correct it with a second commit. Built here, the commit
+          # is self-consistent and index.yml's re-fire is a cheap no-op ("No index
+          # changes this run"). This also makes build_index's vocabulary check gate
+          # the agent's own edits, which it previously never saw.
+          python3 scripts/build_index.py
+
           git config user.name "verifier[bot]"
           git config user.email "verifier@users.noreply.github.com"
+
+          # Splice in the agent's dated changelog block and rotate older blocks to
+          # VERIFIER_CHANGELOG_ARCHIVE.md. The agent writes `.changelog-block.md` instead of
+          # editing a 100 KB+ file, which keeps the changelog out of its context.
+          # If the block file is absent (the agent edited VERIFIER_CHANGELOG.md directly, the
+          # older instruction), this still rotates and is a no-op otherwise.
+          # --min-days 0: the digest-window guard exists to protect digest.yml's
+          # `since` reads, and the digest never reads VERIFIER_CHANGELOG.md (see
+          # DIGEST_AGENT.md — it reads catalog/guide/coscientist/recipes only). Its
+          # sole consumer is the awk newest-block extractor below, so a plain count
+          # cap is correct here. This matters: 43 verifier runs landed on
+          # 2026-07-20, so 48 blocks span ~10 days and a 21-day window would hold
+          # every one of them.
+          python3 scripts/prepend_changelog.py --file VERIFIER_CHANGELOG.md \
+            --block .changelog-block.md --keep 12 --min-days 0
+          rm -f .changelog-block.md
+
+          # Enforce the `## Recently verified` cap the agent is asked to respect.
+          # That section duplicates the changelog block for the same run, and the
+          # agent reads this whole file at the start of every run.
+          python3 scripts/trim_verifier_state.py --file catalog/verifier-state.md --keep 4
 
           if [ -z "$(git status --porcelain)" ]; then
             echo "No verification changes this run."

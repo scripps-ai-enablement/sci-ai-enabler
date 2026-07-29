@@ -67,6 +67,13 @@ jobs:
             7) FOCUS="Drug Repurposing and Discovery" ;;
           esac
 
+          # The aging-entry link/pricing recheck runs in ONE weekend slot, not all
+          # seven. It is re-checking, not discovery: running it every slot meant
+          # seven agents per weekend each re-fetching supplier links, overlapping
+          # both each other and the Verifier's own liveness fetches. Discovery
+          # (manifest sweep + directed pass) still runs in every slot.
+          if [ "${IDX}" = "1" ]; then LINK_RECHECK="yes"; else LINK_RECHECK="no"; fi
+
           {
             cat AGENT.md
             echo ""
@@ -76,6 +83,7 @@ jobs:
             echo "- UTC date: $(date -u +%Y-%m-%d)"
             echo "- Scope: ${SCOPE}"
             echo "- focus_category: ${FOCUS}"
+            echo "- link_recheck: ${LINK_RECHECK}"
             if [ "${SCOPE}" = "all" ]; then
               echo "- Run the manifest sweep AND the directed pass for the focus category. Update any per-tool pages under \`catalog/tools/\` as warranted, plus \`CHANGELOG.md\` per your instructions."
             else
@@ -136,7 +144,12 @@ jobs:
         with:
           prompt_file: .run-prompt.md
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          model: claude-opus-4-8
+          model: claude-opus-5
+          # Keeps a run alive if the pinned model is briefly unavailable
+          # (overload/capacity). It does NOT cover the model string being
+          # unrecognized by the bundled CLI — the workflow_dispatch smoke test
+          # is what validates that.
+          fallback_model: claude-opus-4-8
           allowed_tools: "Read,Edit,Write,Glob,Grep,WebSearch,WebFetch"
           # The action defaults to a 10-minute internal timeout, which the
           # full manifest sweep + directed pass routinely overruns. Match
@@ -154,6 +167,15 @@ jobs:
           rm -rf .request-bodies
           git config user.name "catalog-curator[bot]"
           git config user.email "catalog-curator@users.noreply.github.com"
+
+          # Splice in the agent's dated changelog block and rotate older blocks to
+          # CHANGELOG_ARCHIVE.md. The agent writes `.changelog-block.md` instead of
+          # editing a 100 KB+ file, which keeps the changelog out of its context.
+          # If the block file is absent (the agent edited CHANGELOG.md directly, the
+          # older instruction), this still rotates and is a no-op otherwise.
+          python3 scripts/prepend_changelog.py --file CHANGELOG.md \
+            --block .changelog-block.md --keep 12
+          rm -f .changelog-block.md
 
           if [ -z "$(git status --porcelain)" ]; then
             echo "No catalog changes this run."

@@ -214,7 +214,7 @@ Consult all of the following on every run. **WebFetch (or MCP-fetch) the relevan
    3. **Download new PDFs.** Before downloading, check `sources/manifest.json` for the DOI (case-insensitive) or canonical URL. If present, skip. Otherwise: prefer `download_with_fallback` from the `papers` MCP; fall back to `WebFetch`. Save the PDF as `sources/<doi-slug>.pdf` (slug rule: lowercase, `/` → `-`, drop URL-illegal chars). Shell out via `Bash` to `pdftotext sources/<doi-slug>.pdf sources/<doi-slug>.txt` to produce the sidecar. Append a manifest entry: `{"doi": "...", "filename": "<doi-slug>.pdf", "title": "...", "source_url": "...", "downloaded": "<today>", "txt_sidecar": "<doi-slug>.txt"}`.
    4. **Update outputs.** Create or edit per-system pages under `autonomous-science/systems/` with complete front-matter (including the controlled `domain_group`, `validation_type`, `org_short`, `access`, `tagline` fields) — the Landscape index table re-renders itself from those pages. Only edit `summary.md` synthesis prose (or `evaluation.md`) when a *cross-cutting* pattern shifts, never per system.
    5. **Verify aging entries.** Re-check any system whose `last_verified` is more than 30 days old. Confirm the primary paper link resolves, the code repo (if any) still exists, and the affiliation has not been retracted. Bump `last_verified` to today on success. **Also re-verify the `summary.md` synthesis** against the current grouping if you added/removed any system this run or if `synthesis_reviewed` is more than 30 days old (see the Landscape-page section); correct any drifted claim and bump `synthesis_reviewed`.
-   6. **Append to `COSCIENTIST_CHANGELOG.md`** (which renders as `/updates/ai-scientists.html`) in the standard format. Insert the new dated block directly after the YAML front-matter and the `# AI scientist updates` header — preserve the front-matter intact.
+   6. **Write your changelog block to `.changelog-block.md`** — a new file containing ONLY this run's dated block, starting with its `## YYYY-MM-DD` heading, in the standard format. Do **not** open or edit `COSCIENTIST_CHANGELOG.md` (which renders as `/updates/ai-scientists.html`): the workflow splices your block in, preserves the front matter, and rotates older entries to `COSCIENTIST_CHANGELOG_ARCHIVE.md` after you finish.
 3. **Flag rather than delete.** If a system is withdrawn, retracted, or its code disappears, move it to `Flagged for review` with a dated reason. Do not silently remove.
 4. **Cite every claim.** Every architectural description, validation result, and availability claim must trace to a URL in `Sources` or `Other references`. Prefer primary papers and official announcements over secondary coverage.
 
@@ -247,7 +247,7 @@ The handoff file format is documented in `.github/workflows/coscientist.yml` (se
 
 ## Changelog format
 
-Append to `COSCIENTIST_CHANGELOG.md`. Newest entry at the top, directly after the `# Autonomous science changelog` header.
+Write one dated block to `.changelog-block.md`. The workflow prepends it to `COSCIENTIST_CHANGELOG.md` and rotates older entries out; you never open that file.
 
 ```markdown
 ## YYYY-MM-DD

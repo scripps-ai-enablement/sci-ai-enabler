@@ -93,6 +93,10 @@ jobs:
             7) FOCUS="Drug Repurposing and Discovery" ;;
           esac
 
+          # The aging-recipe recheck runs in ONE weekend slot, not all seven — it is
+          # re-checking, not discovery. See curate.yml for the same split.
+          if [ "${IDX}" = "1" ]; then RECIPE_RECHECK="yes"; else RECIPE_RECHECK="no"; fi
+
           {
             cat RECIPE_AGENT.md
             echo ""
@@ -102,8 +106,9 @@ jobs:
             echo "- UTC date: $(date -u +%Y-%m-%d)"
             echo "- Scope: ${SCOPE}"
             echo "- focus_area: ${FOCUS}"
+            echo "- recipe_recheck: ${RECIPE_RECHECK}"
             if [ "${SCOPE}" = "all" ]; then
-              echo "- Verify aging recipes (oldest \`last_verified\` first, up to the soft cap) AND run the directed pass for the focus subject area. Update any per-recipe pages under \`recipes/items/\` as warranted, plus \`RECIPES_CHANGELOG.md\` per your instructions."
+              echo "- Run the directed pass for the focus subject area. Update any per-recipe pages under \`recipes/items/\` as warranted, plus \`RECIPES_CHANGELOG.md\` per your instructions. Verify aging recipes only if \`recipe_recheck: yes\` above."
             else
               echo "- Limit edits to recipes whose front-matter matches \"${SCOPE}\" — either \`subject_areas\` (for a subject scope) or \`problem_class\` (for a problem-class scope), plus \`RECIPES_CHANGELOG.md\`. Map slug to canonical value: e.g., \`chemistry\` -> subject \"Chemistry\"; \`literature-triage\` -> problem class \"Literature triage\"."
             fi
@@ -167,7 +172,12 @@ jobs:
         with:
           prompt_file: .run-prompt.md
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          model: claude-opus-4-8
+          model: claude-opus-5
+          # Keeps a run alive if the pinned model is briefly unavailable
+          # (overload/capacity). It does NOT cover the model string being
+          # unrecognized by the bundled CLI — the workflow_dispatch smoke test
+          # is what validates that.
+          fallback_model: claude-opus-4-8
           mcp_config: .mcp-config.json
           timeout_minutes: "25"
           allowed_tools: "Read,Edit,Write,Glob,Grep,WebSearch,WebFetch,mcp__papers__search_pubmed,mcp__papers__search_biorxiv,mcp__papers__search_medrxiv,mcp__papers__search_arxiv,mcp__papers__read_pubmed_paper,mcp__papers__read_biorxiv_paper,mcp__papers__read_medrxiv_paper,mcp__papers__read_arxiv_paper"
@@ -182,6 +192,15 @@ jobs:
           rm -rf .request-bodies
           git config user.name "recipes-curator[bot]"
           git config user.email "recipes-curator@users.noreply.github.com"
+
+          # Splice in the agent's dated changelog block and rotate older blocks to
+          # RECIPES_CHANGELOG_ARCHIVE.md. The agent writes `.changelog-block.md` instead of
+          # editing a 100 KB+ file, which keeps the changelog out of its context.
+          # If the block file is absent (the agent edited RECIPES_CHANGELOG.md directly, the
+          # older instruction), this still rotates and is a no-op otherwise.
+          python3 scripts/prepend_changelog.py --file RECIPES_CHANGELOG.md \
+            --block .changelog-block.md --keep 12
+          rm -f .changelog-block.md
 
           if [ -z "$(git status --porcelain)" ]; then
             echo "No recipes changes this run."

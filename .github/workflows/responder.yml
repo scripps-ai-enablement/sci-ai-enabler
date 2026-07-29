@@ -141,7 +141,12 @@ jobs:
         with:
           prompt_file: .responder-prompt.md
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          model: claude-sonnet-4-6
+          model: claude-sonnet-5
+          # Keeps a run alive if the pinned model is briefly unavailable
+          # (overload/capacity). It does NOT cover the model string being
+          # unrecognized by the bundled CLI — the workflow_dispatch smoke test
+          # is what validates that.
+          fallback_model: claude-sonnet-4-6
           timeout_minutes: "6"
           allowed_tools: "Read,Glob,Grep,Write,Bash(gh issue comment:*)"
         env:

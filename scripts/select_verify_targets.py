@@ -19,11 +19,28 @@ that tiles the whole catalog. Unstamped pages are never rotated — they stay at
 the front and drain in order. --rotate 0 (the default) reproduces the plain
 deterministic ordering.
 
-stdlib only. Run: python3 scripts/select_verify_targets.py --count 25 --rotate 0 --out .verify/worklist.md
+Staleness (--max-age-days): a page verified within the last N days is not due, so it
+never reaches the worklist and never costs the agent a token. When nothing is due the
+batch is empty and `verify.yml` skips the Claude step outright. The filter lives in
+`due()` and is applied in `main()` — deliberately NOT inside `worklist()`, because
+`tests/test_composer.py::test_covers_every_tool_page` asserts `worklist()` returns
+every page on disk and exists to guard the enumeration blind spot described above.
+Do not "simplify" the filter into `worklist()`.
+
+--max-age-days and --rotate must not compose: rotation exists only because stamped
+pages never leave the candidate set, and once staleness removes them the pointer
+advances by itself. Applying both would advance the window *and* shrink the list — a
+double-skip that opens coverage gaps inside a cycle. main() forces offset 0 whenever
+--max-age-days is in effect.
+
+stdlib only. Run: python3 scripts/select_verify_targets.py --count 25 --max-age-days 30 --out .verify/worklist.md
 """
 from __future__ import annotations
 
 import argparse
+import json
+import sys
+from datetime import date, timedelta
 from itertools import groupby
 from pathlib import Path
 
@@ -83,39 +100,116 @@ def worklist(tools_dir: Path, offset: int = 0) -> list[dict]:
     return ordered
 
 
+def due(rows: list[dict], today: str, max_age_days: int | None) -> list[dict]:
+    """Rows whose `verified_on` is older than `max_age_days` days before `today`.
+
+    An unstamped page is always due. A missing, empty, or unparseable `verified_on`
+    is also treated as due — a page whose freshness cannot be established must be
+    re-checked, never silently skipped. `max_age_days=None` is a no-op (returns
+    `rows` unchanged), which preserves the pre-staleness behaviour exactly.
+
+    `max_age_days=0` makes every page due, including ones stamped today: it is the
+    manual "re-verify everything" override, not a drain-across-runs setting.
+    """
+    if max_age_days is None:
+        return rows
+    try:
+        cutoff = date.fromisoformat(today) - timedelta(days=max(0, max_age_days))
+    except ValueError:
+        # An unusable --today must not silently drop the whole batch.
+        return rows
+    out = []
+    for r in rows:
+        if not r["stamped"]:
+            out.append(r)
+            continue
+        try:
+            stamped_on = date.fromisoformat(r["verified_on"])
+        except ValueError:
+            out.append(r)  # no/garbled date -> due
+            continue
+        if stamped_on <= cutoff:
+            out.append(r)
+    return out
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description="Deterministic Verifier worklist.")
     ap.add_argument("--count", type=int, default=25, help="max pages this run")
     ap.add_argument("--rotate", type=int, default=0,
                     help="run counter (e.g. github.run_number); rotates same-date "
-                         "groups so the served window advances each run")
+                         "groups so the served window advances each run. Ignored "
+                         "when --max-age-days is set (see module docstring)")
+    ap.add_argument("--max-age-days", type=int, default=None,
+                    help="only serve pages last verified more than N days ago; "
+                         "omit for the previous always-serve behaviour")
+    ap.add_argument("--today", default=None,
+                    help="UTC date as YYYY-MM-DD (default: today); injectable for tests")
     ap.add_argument("--out", type=Path, default=None, help="write markdown checklist here")
+    ap.add_argument("--json", dest="json_out", type=Path, default=None,
+                    help="write the batch as JSON here (consumed by check_liveness.py "
+                         "and by the workflow's empty-batch gate)")
     args = ap.parse_args()
 
     count = max(1, args.count)
+    today = args.today or date.today().isoformat()
+
     # Slide the window by a full batch each run so successive runs tile the catalog.
     offset = max(0, args.rotate) * count
+    if args.max_age_days is not None and args.max_age_days > 0 and offset:
+        # Rotation + a positive staleness threshold would double-skip: the window
+        # advances by `count` AND stamped pages drop out of the due set. With
+        # --max-age-days 0 (the manual full-pass escape hatch) nothing leaves the
+        # due set when stamped, so rotation is still the correct pointer there.
+        print("note: --rotate ignored because --max-age-days is set", file=sys.stderr)
+        offset = 0
+
     rows = worklist(TOOLS, offset)
+    total = len(rows)
     unstamped = sum(1 for r in rows if not r["stamped"])
-    batch = rows[:count]
+    candidates = due(rows, today, args.max_age_days)
+    batch = candidates[:count]
+
+    if args.max_age_days is None:
+        window = ("Ordered unstamped-first, then oldest `verified_on`, with same-date groups "
+                  "rotated per run\nso the window advances (no page is starved when the catalog "
+                  "shares one date). Work\ntop-to-bottom; if the count budget runs out, stop — "
+                  "the next run serves the next window.")
+    else:
+        window = (f"Only pages last verified more than {args.max_age_days} days before {today} are "
+                  f"due; {len(candidates)} of\n{total} pages qualify. Ordered unstamped-first then "
+                  "oldest `verified_on`. Work top-to-bottom;\nif the budget runs out, stop — the "
+                  "remainder stays due and leads the next run.")
 
     lines = [
         "## This run's worklist (verify EXACTLY these pages — do not enumerate the tree yourself)",
         "",
-        f"Catalog total: {len(rows)} tool pages · unstamped: {unstamped} · this batch: {len(batch)}.",
-        "Ordered unstamped-first, then oldest `verified_on`, with same-date groups rotated per run",
-        "so the window advances (no page is starved when the catalog shares one date). Work",
-        "top-to-bottom; if the count budget runs out, stop — the next run serves the next window.",
+        f"Catalog total: {total} tool pages · unstamped: {unstamped} · due: {len(candidates)} · "
+        f"this batch: {len(batch)}.",
+        window,
         "",
     ]
     for r in batch:
         tag = "UNSTAMPED" if not r["stamped"] else f"{r['verification']} · {r['verified_on'] or 'no-date'}"
         lines.append(f"- [ ] `{r['path']}` — {tag}")
+    if not batch:
+        lines.append("_Nothing is due this run._")
     text = "\n".join(lines) + "\n"
 
     if args.out:
         args.out.parent.mkdir(parents=True, exist_ok=True)
         args.out.write_text(text, encoding="utf-8")
+    if args.json_out:
+        args.json_out.parent.mkdir(parents=True, exist_ok=True)
+        args.json_out.write_text(json.dumps({
+            "schema": "worklist-v1",
+            "today": today,
+            "max_age_days": args.max_age_days,
+            "total": total,
+            "unstamped": unstamped,
+            "due": len(candidates),
+            "batch": batch,
+        }, indent=2) + "\n", encoding="utf-8")
     print(text, end="")
     return 0
 

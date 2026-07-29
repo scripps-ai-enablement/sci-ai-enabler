@@ -143,11 +143,15 @@ The workflow injects a `## This run` stanza with the UTC date, a `scope` (`boots
 3. **Verify + assess** each entry per the two checks above, fetching sources.
 4. **Fix** broken entries you can fix from a primary source; flag those you can't.
 5. **Stamp** each entry (front-matter + the two table rows), dating with the run's UTC date.
-6. **Record.** Update `catalog/verifier-state.md` (`## Recently verified` — keep ~last 8; move
-   handled items out of `## Deferred`; add broken/insecure ones to `## Flagged`; refresh the
+6. **Record.** Update `catalog/verifier-state.md` (`## Recently verified` — at most 4 one-line items;
+   move handled items out of `## Deferred`; add broken/insecure ones to `## Flagged`; refresh the
    `## Smoke-test queue` with the safe, aging targets you want the next run's smoke job to cover).
-   Prepend a dated block to `VERIFIER_CHANGELOG.md` (`### Verified`, `### Fixed`, `### Flagged`,
-   `### Security`).
+   Respect the 300-character-per-item cap documented under **State file** below — that file is
+   working memory, not a second changelog.
+   Write your dated block to `.changelog-block.md` (`### Verified`, `### Fixed`, `### Flagged`,
+   `### Security`) — a new file containing ONLY this run's block, starting with its
+   `## YYYY-MM-DD` heading. Do **not** open or edit `VERIFIER_CHANGELOG.md`: the workflow
+   splices your block in and rotates older entries to `VERIFIER_CHANGELOG_ARCHIVE.md`.
 
 ## Soft caps & wall clock
 Stop at ~20 minutes of wall clock or the per-run caps above, whichever comes first — bootstrap is
@@ -155,11 +159,26 @@ designed to take many runs. Never let a single hard-to-resolve entry consume the
 defer it to `## Deferred` and move on.
 
 ## State file — `catalog/verifier-state.md`
-`nav_exclude: true`. Sections: `## Recently verified` (last ~8, one line each with grades +
-date), `## Flagged (broken or security)`, `## Deferred — next-run priority`, `## Smoke-test queue`
-(the slugs + install commands you want the next quarantined smoke run to attempt; the
-`scripts/select_smoke_targets.py` selector is authoritative for safety, but you may narrow/prioritize
-here).
+`nav_exclude: true`. Sections: `## Recently verified`, `## Flagged (broken or security)`,
+`## Deferred — next-run priority`, `## Smoke-test queue` (the slugs + install commands you want the
+next quarantined smoke run to attempt; the `scripts/select_smoke_targets.py` selector is
+authoritative for safety, but you may narrow/prioritize here).
+
+**Every item is at most 2 lines / 300 characters.** This is a working-memory file you read in full
+at the start of every run, and it had grown to 60 KB — items in `## Recently verified` were reaching
+2,300 characters each, restating almost verbatim the changelog block for the same run. Evidence
+anchors (repo, license, push date, star count, advisory IDs) belong in your changelog block, not
+here. Write what the *next run* needs to act, and nothing else.
+
+Per-section rules:
+- `## Recently verified` — **at most 4 items**, one line each: slug range, grades, date.
+  `scripts/trim_verifier_state.py` enforces this cap after you finish, dropping trailing items, so
+  anything you write beyond four is discarded. It is a pointer to history, not the history itself.
+- `## Deferred — next-run priority` — **at most 12 items.** When it is full, drop the oldest and say
+  so in one line of your changelog block. A deferral list nobody drains is a backlog, not state.
+- `## Flagged (broken or security)` — no count cap (it is a real registry of broken entries and
+  security findings), but the 300-character item cap still applies, and remove an item once it has
+  been resolved for two consecutive cycles.
 
 ## Tone
 Terse, factual, second person. No emoji in prose. Every grade traces to fetched evidence; when a

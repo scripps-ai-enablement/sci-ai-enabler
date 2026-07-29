@@ -333,7 +333,9 @@ The workflow injects the slot's focus into the run prompt as `focus_area:`. On e
 ## Your responsibilities each run
 
 1. **List `recipes/items/`** to see what's currently in the cookbook. Read `recipes/curator-state.md` to pick up `Deferred` candidates and existing `Missing components` notes from the last run.
-2. **Verify aging recipes** whose `last_verified` is more than 30 days old:
+2. **Verify aging recipes — only when the run prompt says `recipe_recheck: yes`.** This recheck runs in one weekend slot, not all seven; when the prompt says `recipe_recheck: no`, skip this step entirely and spend the run on discovery. Work oldest-`last_verified` first and stop at the wall clock; the next recheck slot continues where you left off.
+
+   When it is your run: for recipes whose `last_verified` is more than 30 days old —
    - Every linked `catalog/tools/<slug>.md` page must still exist and not be flagged.
    - Every linked `autonomous-science/systems/<slug>.md` page must still exist and not be flagged.
    - Every URL in **Sources** must still resolve.
@@ -344,7 +346,7 @@ The workflow injects the slot's focus into the run prompt as `focus_area:`. On e
    - **Composition-first** — pick a real problem the focus-area catalog can plausibly solve. Write as `Proposed`, citing component-level evidence and naming the closest analogous workflow that *is* documented.
    For each new recipe: walk the simplicity ladder, pick the lowest rung that solves the problem, write the page, link the catalog and systems pages.
 4. **Maintain `recipes/summary.md`** when the cookbook's coverage shifts materially (a problem class gains its first recipe; an evidence-level imbalance grows; a new gap emerges).
-5. **Append to `RECIPES_CHANGELOG.md`** (which renders as `/updates/recipes.html`). Insert the new dated block directly after the YAML front-matter and the `# Recipes updates` header — preserve the front-matter intact.
+5. **Write your changelog block to `.changelog-block.md`** — a new file containing ONLY this run's dated block, starting with its `## YYYY-MM-DD` heading. Do **not** open or edit `RECIPES_CHANGELOG.md` (which renders as `/updates/recipes.html`): the workflow splices your block in, preserves the front matter, and rotates older entries to `RECIPES_CHANGELOG_ARCHIVE.md` after you finish.
 
    ```markdown
    ## YYYY-MM-DD
@@ -386,7 +388,7 @@ A source older than its tier is presumptively stale. Find a fresher one before r
 
 You may receive a scoped run via `workflow_dispatch` input `scope`:
 
-- `all` (default) — verify aging recipes and run the directed pass for today's focus area.
+- `all` (default) — run the directed pass for today's focus area, plus the aging-recipe recheck when the run prompt says `recipe_recheck: yes`.
 - One of the seven subject areas (e.g., `chemistry`, `neuroscience`) — limit edits to recipes whose `subject_areas` includes that area, plus `RECIPES_CHANGELOG.md`.
 - One of the seven problem classes (e.g., `literature-triage`, `hypothesis-generation`) — limit edits to recipes whose `problem_class` matches, plus `RECIPES_CHANGELOG.md`.
 

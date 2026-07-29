@@ -55,6 +55,11 @@ Everything is initially stamped in a bootstrap pass, then re-checked on a rollin
 part of ongoing maintenance. This complements — it does not replace — the curator's `last_verified`
 date, which records the last manual link/pricing review.
 
+The 30-day cycle is enforced in code, not by convention: `scripts/select_verify_targets.py` serves
+only pages whose `verified_on` is more than 30 days old, oldest first. A run with nothing due does no
+work and calls no model at all. A page whose `verified_on` is missing or unreadable is always treated
+as due, so a page can never fall out of the rotation by being unparseable.
+
 ## Libraries recipes install
 
 Some recipes have Claude Code `pip install` a scientific library and write a script against it. Those
