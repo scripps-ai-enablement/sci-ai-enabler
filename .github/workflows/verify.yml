@@ -3,20 +3,21 @@ name: Verify catalog
 on:
   schedule:
     # Weekday runs, offset from the weekend catalog/recipe curators so the two
-    # agents don't edit catalog/tools/*.md at the same time. Mon/Wed/Fri 08:00 UTC.
-    - cron: '0 8 * * 1,3,5'
+    # agents don't edit catalog/tools/*.md at the same time. Mon/Thu 08:00 UTC.
+    # Cut from Mon/Wed/Fri now that the staleness gate below makes a run with
+    # nothing due cost zero tokens.
+    - cron: '0 8 * * 1,4'
   workflow_dispatch:
     inputs:
-      scope:
-        description: 'bootstrap (unstamped first) or maintenance (re-verify aging)'
-        required: false
-        default: 'maintenance'
-        type: choice
-        options: [bootstrap, maintenance]
       count:
         description: 'Per-run verification budget'
         required: false
         default: '25'
+        type: string
+      max_age_days:
+        description: 'Re-verify only pages older than N days (0 = force a full pass)'
+        required: false
+        default: '30'
         type: string
       smoke_max:
         description: 'Max components the quarantined smoke job may install/boot'
@@ -173,31 +174,50 @@ jobs:
         continue-on-error: true
 
       - name: Compose run prompt
+        id: prompt
         env:
-          SCOPE_IN: ${{ inputs.scope }}
           COUNT_IN: ${{ inputs.count }}
+          MAX_AGE_IN: ${{ inputs.max_age_days }}
         run: |
-          SCOPE="${SCOPE_IN:-maintenance}"
-          case "$SCOPE" in bootstrap|maintenance) ;; *) SCOPE=maintenance ;; esac
           COUNT="${COUNT_IN:-25}"
           case "$COUNT" in ''|*[!0-9]*) COUNT=25 ;; esac
+          MAX_AGE="${MAX_AGE_IN:-30}"
+          case "$MAX_AGE" in ''|*[!0-9]*) MAX_AGE=30 ;; esac
           [ -f .verify/smoke-results.json ] || echo '{"results":[]}' > .verify/smoke-results.json
-          # Deterministic worklist: the agent must NOT enumerate the tree itself
-          # (that missed 7 pages for dozens of runs). This script is the single
-          # source of truth for which pages to stamp, unstamped-first.
-          # --rotate advances the worklist window each run so a uniformly-dated
-          # catalog does not re-serve the same slugs forever (GITHUB_RUN_NUMBER
-          # is monotonic per run).
-          python3 scripts/select_verify_targets.py --count "${COUNT}" --rotate "${GITHUB_RUN_NUMBER:-0}" --out .verify/worklist.md
 
           # Recipe-dependency verdicts. These targets are libraries a recipe
           # pip-installs, not catalog pages, so there is no page for the Verifier
           # agent to stamp — it owns catalog badges only. Record them as data the
           # recipes curator reads (RECIPE_AGENT.md) and the library index renders.
+          # This runs BEFORE the staleness gate below: the smoke jobs ran either
+          # way, and their verdicts are worth recording even on a run where no
+          # catalog page is due and the agent is skipped.
           python3 scripts/record_dependency_verdicts.py \
             --results .verify/smoke-results.json \
             --out index/recipe-dependencies.json
           python3 scripts/build_index.py
+
+          # Deterministic worklist: the agent must NOT enumerate the tree itself
+          # (that missed 7 pages for dozens of runs). This script is the single
+          # source of truth for which pages to stamp, unstamped-first.
+          # --max-age-days drops pages verified within the window, so a run with
+          # nothing stale serves an empty batch. It also supersedes --rotate: see
+          # the module docstring for why the two must not compose.
+          python3 scripts/select_verify_targets.py \
+            --count "${COUNT}" --max-age-days "${MAX_AGE}" \
+            --out .verify/worklist.md --json .verify/worklist.json
+
+          # GATE A — nothing is stale, so there is nothing for the model to do.
+          # Skipping the Claude step below costs zero tokens. `if:` is evaluated by
+          # the runner before the action is invoked, so this needs no action input
+          # and is safe under the pinned SHA.
+          DUE=$(python3 -c 'import json,sys; print(len(json.load(open(".verify/worklist.json"))["batch"]))')
+          if [ "${DUE}" -eq 0 ]; then
+            echo "Nothing due (max_age_days=${MAX_AGE}); skipping the agent."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
           {
             cat VERIFIER_AGENT.md
             echo ""
@@ -205,8 +225,8 @@ jobs:
             echo ""
             echo "## This run"
             echo "- UTC date: $(date -u +%Y-%m-%d)"
-            echo "- scope: ${SCOPE}"
             echo "- count budget: ${COUNT}"
+            echo "- re-verify interval: pages verified within ${MAX_AGE} days are not served this run"
             echo "- smoke results: .verify/smoke-results.json (read it for boot verdicts)"
             echo "- recipe-dependency verdicts: \`index/recipe-dependencies.json\` is written for you by the workflow before you start. It covers libraries recipes pip-install, which have no catalog page. Do NOT edit it and do NOT stamp recipe pages — the recipes curator acts on it."
             echo ""
@@ -214,6 +234,7 @@ jobs:
           } > .run-prompt.md
 
       - uses: anthropics/claude-code-base-action@e8132bc5e637a42c27763fc757faa37e1ee43b34
+        if: steps.prompt.outputs.skip != 'true'
         env:
           # See curate.yml for why these are pinned and why the action must NOT be
           # bumped to a CC 2.x pin (HIPAA/ZDR key rejects context_management).

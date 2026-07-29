@@ -67,6 +67,11 @@ class Ordering(unittest.TestCase):
     def test_windows_tile_full_catalog_over_runs(self):
         # With N=7 pages and count=3, run r uses offset = r*count. The union of
         # the top-`count` windows across runs must cover every page (no starvation).
+        #
+        # NOTE: production no longer relies on rotation to advance the window —
+        # `verify.yml` passes --max-age-days, and a page that gets stamped simply
+        # drops out of the due set (see Staleness below). Rotation is kept as a
+        # safety valve for --max-age-days 0 / omitted; these two tests pin it.
         d = self._dir(stamped_n=7)
         count, n = 3, 7
         seen = set()
@@ -84,6 +89,90 @@ class Ordering(unittest.TestCase):
         b2 = [r["slug"] for r in sv.worklist(d, 2 * count)][:count]
         self.assertNotEqual(b0, b1)
         self.assertNotEqual(b1, b2)
+
+
+class Staleness(unittest.TestCase):
+    """The --max-age-days gate: a page verified inside the window is not served.
+
+    This is what makes a Verifier run with nothing stale cost zero tokens —
+    `verify.yml`'s Gate A skips the Claude step when the batch is empty.
+    """
+
+    def _rows(self, dates, unstamped=0):
+        """Build worklist-shaped rows directly; `due()` is pure and takes rows."""
+        rows = [
+            {"slug": f"s{i:02d}", "path": f"catalog/tools/s{i:02d}.md",
+             "verification": "works", "verified_on": d, "stamped": True}
+            for i, d in enumerate(dates)
+        ]
+        rows += [
+            {"slug": f"u{i:02d}", "path": f"catalog/tools/u{i:02d}.md",
+             "verification": "", "verified_on": "", "stamped": False}
+            for i in range(unstamped)
+        ]
+        return rows
+
+    def test_max_age_days_excludes_fresh(self):
+        rows = self._rows(["2026-07-29", "2026-06-28"])  # fresh, 31 days old
+        got = [r["slug"] for r in sv.due(rows, "2026-07-29", 30)]
+        self.assertEqual(got, ["s01"])
+
+    def test_boundary_is_inclusive_at_exactly_n_days(self):
+        # Exactly N days old is due; one day younger is not.
+        rows = self._rows(["2026-06-29", "2026-06-30"])
+        got = [r["slug"] for r in sv.due(rows, "2026-07-29", 30)]
+        self.assertEqual(got, ["s00"])
+
+    def test_empty_when_all_fresh(self):
+        # Backs Gate A. Without this, a regression silently pays for a full run.
+        rows = self._rows(["2026-07-29"] * 25)
+        self.assertEqual(sv.due(rows, "2026-07-29", 30), [])
+
+    def test_unstamped_always_due(self):
+        rows = self._rows(["2026-07-29"], unstamped=2)
+        got = [r["slug"] for r in sv.due(rows, "2026-07-29", 30)]
+        self.assertEqual(got, ["u00", "u01"])
+
+    def test_malformed_verified_on_is_due(self):
+        # A page whose freshness cannot be established must be re-checked, and
+        # nothing may raise.
+        rows = self._rows(["soon", "2026-13-99", "", "2026-07-29"])
+        got = [r["slug"] for r in sv.due(rows, "2026-07-29", 30)]
+        self.assertEqual(got, ["s00", "s01", "s02"])
+
+    def test_none_reproduces_current_behavior(self):
+        rows = self._rows(["2026-07-29", "2026-01-01"], unstamped=1)
+        self.assertEqual(sv.due(rows, "2026-07-29", None), rows)
+
+    def test_zero_forces_everything_including_today(self):
+        rows = self._rows(["2026-07-29", "2026-01-01"])
+        got = [r["slug"] for r in sv.due(rows, "2026-07-29", 0)]
+        self.assertEqual(got, ["s00", "s01"])
+
+    def test_unusable_today_does_not_drop_the_batch(self):
+        rows = self._rows(["2026-07-29", "2026-01-01"])
+        self.assertEqual(sv.due(rows, "not-a-date", 30), rows)
+
+    def test_due_set_fully_covered_within_a_cycle(self):
+        # The staleness analogue of test_windows_tile_full_catalog_over_runs, and
+        # the direct guard against the rotation/staleness double-skip: stamping a
+        # served page must retire it, so successive runs tile the catalog with
+        # offset 0 and no page is skipped or served twice.
+        dates = {f"s{i:02d}": "2026-06-01" for i in range(10)}
+        count, today, seen = 3, "2026-07-29", []
+        for _ in range(4):
+            rows = self._rows([])
+            rows = [
+                {"slug": s, "path": f"catalog/tools/{s}.md", "verification": "works",
+                 "verified_on": d, "stamped": True}
+                for s, d in sorted(dates.items())
+            ]
+            batch = sv.due(rows, today, 30)[:count]
+            seen.extend(r["slug"] for r in batch)
+            for r in batch:  # the run stamps what it served
+                dates[r["slug"]] = today
+        self.assertEqual(sorted(seen), [f"s{i:02d}" for i in range(10)])
+        self.assertEqual(len(seen), len(set(seen)))  # nothing served twice
 
 
 if __name__ == "__main__":

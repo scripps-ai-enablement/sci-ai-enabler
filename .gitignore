@@ -17,6 +17,11 @@ output.txt
 # Transient user-request issue bodies pre-fetched for the curator agents
 .request-bodies/
 
+# Transient Verifier scratch: worklist, smoke results, liveness prefetch. The
+# verify workflow also `rm -rf`s this before committing, but seven workflows
+# commit with `git add -A`, so belt-and-braces.
+.verify/
+
 # Example-bundle run outputs. The bundles document `--outdir results/...`, and
 # seven workflows commit with `git add -A`, so without this an agent that ever
 # executes an example sweeps its run artifacts into the repo.
