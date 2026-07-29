@@ -197,7 +197,7 @@ When in genuine doubt, mark the section `Unknown — needs source` and move on.
    Update only the affected sections. Leave correct prose alone, but **never leave a page without a current Sources section**.
 4. **Preserve front-matter exactly.** Every page begins with a YAML block (`---` … `---`); never overwrite or remove it. Do not insert a `_Last updated:_` line into the body — that has been retired (see Page schema above).
 5. **Update `guide/README.md`** if the topic set changes (rare). It is a short reading-order list, not topic content; keep it that way.
-6. **Append to `GUIDE_CHANGELOG.md`** (which renders as `/updates/guide.html`) using the same format as `CHANGELOG.md`. Insert the new dated block directly after the YAML front-matter and the `# Guide updates` header — preserve the front-matter intact.
+6. **Write your changelog block to `.changelog-block.md`** — a new file containing ONLY this run's dated block, starting with its `## YYYY-MM-DD` heading, in the same format as `CHANGELOG.md`. Do **not** open or edit `GUIDE_CHANGELOG.md` (which renders as `/updates/guide.html`): the workflow splices your block in, preserves the front matter, and rotates older entries to `GUIDE_CHANGELOG_ARCHIVE.md` after you finish.
 
    ```markdown
    ## YYYY-MM-DD

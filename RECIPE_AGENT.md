@@ -346,7 +346,7 @@ The workflow injects the slot's focus into the run prompt as `focus_area:`. On e
    - **Composition-first** — pick a real problem the focus-area catalog can plausibly solve. Write as `Proposed`, citing component-level evidence and naming the closest analogous workflow that *is* documented.
    For each new recipe: walk the simplicity ladder, pick the lowest rung that solves the problem, write the page, link the catalog and systems pages.
 4. **Maintain `recipes/summary.md`** when the cookbook's coverage shifts materially (a problem class gains its first recipe; an evidence-level imbalance grows; a new gap emerges).
-5. **Append to `RECIPES_CHANGELOG.md`** (which renders as `/updates/recipes.html`). Insert the new dated block directly after the YAML front-matter and the `# Recipes updates` header — preserve the front-matter intact.
+5. **Write your changelog block to `.changelog-block.md`** — a new file containing ONLY this run's dated block, starting with its `## YYYY-MM-DD` heading. Do **not** open or edit `RECIPES_CHANGELOG.md` (which renders as `/updates/recipes.html`): the workflow splices your block in, preserves the front matter, and rotates older entries to `RECIPES_CHANGELOG_ARCHIVE.md` after you finish.
 
    ```markdown
    ## YYYY-MM-DD

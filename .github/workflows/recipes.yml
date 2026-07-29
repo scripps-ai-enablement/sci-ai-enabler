@@ -193,6 +193,15 @@ jobs:
           git config user.name "recipes-curator[bot]"
           git config user.email "recipes-curator@users.noreply.github.com"
 
+          # Splice in the agent's dated changelog block and rotate older blocks to
+          # RECIPES_CHANGELOG_ARCHIVE.md. The agent writes `.changelog-block.md` instead of
+          # editing a 100 KB+ file, which keeps the changelog out of its context.
+          # If the block file is absent (the agent edited RECIPES_CHANGELOG.md directly, the
+          # older instruction), this still rotates and is a no-op otherwise.
+          python3 scripts/prepend_changelog.py --file RECIPES_CHANGELOG.md \
+            --block .changelog-block.md --keep 12
+          rm -f .changelog-block.md
+
           if [ -z "$(git status --porcelain)" ]; then
             echo "No recipes changes this run."
             exit 0

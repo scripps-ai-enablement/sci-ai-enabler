@@ -101,6 +101,15 @@ jobs:
           git config user.name "guide-curator[bot]"
           git config user.email "guide-curator@users.noreply.github.com"
 
+          # Splice in the agent's dated changelog block and rotate older blocks to
+          # GUIDE_CHANGELOG_ARCHIVE.md. The agent writes `.changelog-block.md` instead of
+          # editing a 100 KB+ file, which keeps the changelog out of its context.
+          # If the block file is absent (the agent edited GUIDE_CHANGELOG.md directly, the
+          # older instruction), this still rotates and is a no-op otherwise.
+          python3 scripts/prepend_changelog.py --file GUIDE_CHANGELOG.md \
+            --block .changelog-block.md --keep 12
+          rm -f .changelog-block.md
+
           if [ -z "$(git status --porcelain)" ]; then
             echo "No guide changes this run."
             exit 0

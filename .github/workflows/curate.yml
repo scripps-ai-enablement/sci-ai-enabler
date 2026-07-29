@@ -168,6 +168,15 @@ jobs:
           git config user.name "catalog-curator[bot]"
           git config user.email "catalog-curator@users.noreply.github.com"
 
+          # Splice in the agent's dated changelog block and rotate older blocks to
+          # CHANGELOG_ARCHIVE.md. The agent writes `.changelog-block.md` instead of
+          # editing a 100 KB+ file, which keeps the changelog out of its context.
+          # If the block file is absent (the agent edited CHANGELOG.md directly, the
+          # older instruction), this still rotates and is a no-op otherwise.
+          python3 scripts/prepend_changelog.py --file CHANGELOG.md \
+            --block .changelog-block.md --keep 12
+          rm -f .changelog-block.md
+
           if [ -z "$(git status --porcelain)" ]; then
             echo "No catalog changes this run."
             exit 0

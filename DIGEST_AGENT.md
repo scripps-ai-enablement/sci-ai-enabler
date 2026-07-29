@@ -38,6 +38,13 @@ The run prompt's `## This run` stanza gives you the **date window** (`since` …
 `today`) and the **output path** to write to. Only consider changelog entries
 whose `## YYYY-MM-DD` date is on or after `since`.
 
+Each changelog keeps only its recent blocks; older ones are rotated to a matching
+`<NAME>_ARCHIVE.md` by `scripts/prepend_changelog.py`. Rotation is guaranteed to
+leave at least 21 days of history in the live file, so for the default 7-day window
+you never need the archive. Read the archive **only** if you are given a `since`
+older than the oldest `## ` block in the live file — then check the archive for the
+remainder rather than reporting a gap.
+
 ## What to produce
 
 Write the digest to the output path with `Write`. Structure:

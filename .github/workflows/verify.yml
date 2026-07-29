@@ -278,6 +278,27 @@ jobs:
           git config user.name "verifier[bot]"
           git config user.email "verifier@users.noreply.github.com"
 
+          # Splice in the agent's dated changelog block and rotate older blocks to
+          # VERIFIER_CHANGELOG_ARCHIVE.md. The agent writes `.changelog-block.md` instead of
+          # editing a 100 KB+ file, which keeps the changelog out of its context.
+          # If the block file is absent (the agent edited VERIFIER_CHANGELOG.md directly, the
+          # older instruction), this still rotates and is a no-op otherwise.
+          # --min-days 0: the digest-window guard exists to protect digest.yml's
+          # `since` reads, and the digest never reads VERIFIER_CHANGELOG.md (see
+          # DIGEST_AGENT.md — it reads catalog/guide/coscientist/recipes only). Its
+          # sole consumer is the awk newest-block extractor below, so a plain count
+          # cap is correct here. This matters: 43 verifier runs landed on
+          # 2026-07-20, so 48 blocks span ~10 days and a 21-day window would hold
+          # every one of them.
+          python3 scripts/prepend_changelog.py --file VERIFIER_CHANGELOG.md \
+            --block .changelog-block.md --keep 12 --min-days 0
+          rm -f .changelog-block.md
+
+          # Enforce the `## Recently verified` cap the agent is asked to respect.
+          # That section duplicates the changelog block for the same run, and the
+          # agent reads this whole file at the start of every run.
+          python3 scripts/trim_verifier_state.py --file catalog/verifier-state.md --keep 4
+
           if [ -z "$(git status --porcelain)" ]; then
             echo "No verification changes this run."
             exit 0

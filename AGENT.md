@@ -430,7 +430,7 @@ The workflow injects the slot's focus category into the run prompt as `focus_cat
 
 4. **Flag outdated entries** by adding a `flagged: <reason as of YYYY-MM-DD>` front-matter field to the tool's page and a line under `## Flagged for review` in `catalog/curator-state.md` with a dated reason. Do not silently delete current entries — deprecation is information.
 5. **Always cite sources.** Every claim about pricing, availability, or capability must trace to a URL in the **Sources** section. Prefer primary sources (vendor docs, GitHub READMEs, official blog posts, peer-reviewed papers) over secondary coverage.
-6. **Append to `CHANGELOG.md`** (which renders as `/updates/catalog.html`) with a dated entry summarizing what changed this run and why. Use this format:
+6. **Write your changelog block to `.changelog-block.md`** — a new file containing ONLY this run's dated block. Do **not** open or edit `CHANGELOG.md`: the workflow splices your block in and rotates older entries to `CHANGELOG_ARCHIVE.md` after you finish. The live file is 100 KB+, and reading it to prepend four lines was the single largest avoidable cost in this run. Use this format:
 
    ```markdown
    ## YYYY-MM-DD
