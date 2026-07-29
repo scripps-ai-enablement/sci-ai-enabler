@@ -99,6 +99,14 @@ STALE_DAYS = 365         # "unmaintained" signal
 SEGMENT_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]*$")
 RESERVED = {".", "..", ".git", ".github"}
 
+# This catalog's own repo. Pages link to it constantly (Sources rows, relative
+# links rendered absolute, the smoke-test methodology page), so an indiscriminate
+# "first github.com URL on the page" fallback resolves 24 of 459 pages to the
+# catalog itself and then cheerfully reports the catalog as their install target.
+# The Verifier agent caught exactly this in the first shadow-mode run. Excluded
+# everywhere: a page's install target is never this repository.
+SELF_REPO = "scripps-ai-enablement/sci-ai-enabler"
+
 GIT_CLONE_RE = re.compile(r"git clone\s+(?:--[\w-]+\s+)*https://github\.com/([^\s/]+/[^\s/]+?)(?:\.git)?(?:\s|$)")
 CP_DIR_RE = re.compile(r"^\s*cp\s+-r\s+([A-Za-z0-9][A-Za-z0-9._/-]*)\s", re.M)
 NPX_SKILLS_RE = re.compile(r"npx skills add\s+([A-Za-z0-9][A-Za-z0-9._/-]*)")
@@ -127,7 +135,10 @@ def valid_repo(slug: str) -> str | None:
         return None
     if not SEGMENT_RE.match(org) or not SEGMENT_RE.match(repo):
         return None
-    return f"{org}/{repo}"
+    slug = f"{org}/{repo}"
+    if slug.casefold() == SELF_REPO.casefold():
+        return None
+    return slug
 
 
 def valid_path(p: str) -> str | None:
@@ -244,11 +255,17 @@ def extract_targets(text: str) -> list[dict]:
             if repo:
                 add({"kind": "github-repo", "repo": repo})
     if not any(t["kind"].startswith("github") for t in out):
-        m = GITHUB_URL_RE.search(text)
-        if m:
+        # Last resort: the `## Sources` section only. A whole-page search is not
+        # safe -- pages reference this catalog repo in prose and relative links, so
+        # an unscoped "first github.com URL" resolves the page's install target to
+        # the catalog itself. A page with genuinely no repo (an Anthropic-hosted
+        # Connector, say) SHOULD yield no github target: `no-target-extracted`
+        # routes it to the model, which is the honest outcome.
+        for m in GITHUB_URL_RE.finditer(smoke.section_block(text, "Sources")):
             repo = valid_repo(m.group(1))
             if repo:
                 add({"kind": "github-repo", "repo": repo})
+                break
 
     # 6. Remote MCP endpoints. Status code only, never a verdict.
     for m in re.finditer(r"https://[A-Za-z0-9.-]+/(?:sse|mcp)\b[^\s`)\]]*", text):

@@ -135,17 +135,44 @@ class ExtractionOnRealPages(unittest.TestCase):
         self.assertTrue(kinds & {"pypi", "npm", "github-repo", "github-dir"},
                         f"biomcp yielded only {kinds}")
 
-    def test_every_real_page_yields_at_least_one_target(self):
-        # A page yielding nothing is a hole where auto-stamping would rest on no
-        # evidence at all, so this is the coverage guard for PR 6.
-        tools = sorted((REPO / "catalog" / "tools").glob("*.md"))
-        empty = []
-        for p in tools:
-            if p.name == "index.md":
-                continue
-            if not cl.extract_targets(p.read_text(encoding="utf-8")):
-                empty.append(p.name)
-        self.assertEqual(empty, [], f"{len(empty)} page(s) yielded no target: {empty[:10]}")
+    def test_no_page_resolves_to_this_catalog_repo(self):
+        # The Verifier agent caught this in the first shadow-mode run: an unscoped
+        # "first github.com URL on the page" fallback resolved 24 of 459 pages to
+        # this catalog itself, then reported the catalog as their install target.
+        bad = [p.name for p in (REPO / "catalog" / "tools").glob("*.md")
+               if p.name != "index.md"
+               for t in cl.extract_targets(p.read_text(encoding="utf-8"))
+               if t.get("repo", "").casefold() == cl.SELF_REPO.casefold()]
+        self.assertEqual(bad, [], f"{len(bad)} page(s) resolved to SELF_REPO")
+
+    def test_pages_without_a_target_are_bounded_and_expected(self):
+        # A page yielding nothing is not automatically a bug: an Anthropic-hosted
+        # Connector has no installable repo, and this repo's own plugins install
+        # from SELF_REPO. Those get `no-target-extracted` -> needs_model, which is
+        # the honest outcome. What must not happen is the count silently growing,
+        # since PR 6 would auto-stamp on the strength of these targets.
+        tools = [p for p in sorted((REPO / "catalog" / "tools").glob("*.md"))
+                 if p.name != "index.md"]
+        empty = [p.name for p in tools
+                 if not cl.extract_targets(p.read_text(encoding="utf-8"))]
+        self.assertLessEqual(len(empty), 30,
+                             f"{len(empty)} pages yield no target: {empty[:12]}")
+        # And the overwhelming majority must be the legitimately repo-less kinds.
+        connectors = 0
+        for name in empty:
+            fm = smoke.parse_frontmatter((REPO / "catalog" / "tools" / name)
+                                         .read_text(encoding="utf-8"))
+            if fm.get("tool_type") == "Claude.ai Connector":
+                connectors += 1
+        self.assertGreaterEqual(connectors, len(empty) - 6,
+                                f"unexpected non-Connector pages yield nothing: {empty}")
+
+    def test_coverage_of_pages_with_a_resolvable_target(self):
+        tools = [p for p in sorted((REPO / "catalog" / "tools").glob("*.md"))
+                 if p.name != "index.md"]
+        with_target = sum(1 for p in tools
+                          if cl.extract_targets(p.read_text(encoding="utf-8")))
+        self.assertGreaterEqual(with_target / len(tools), 0.94)
 
     def test_all_extracted_repos_are_shape_valid(self):
         tools = sorted((REPO / "catalog" / "tools").glob("*.md"))
