@@ -167,7 +167,7 @@ jobs:
         with:
           prompt_file: .run-prompt.md
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          model: claude-opus-4-8
+          model: claude-opus-5
           mcp_config: .mcp-config.json
           timeout_minutes: "25"
           allowed_tools: "Read,Edit,Write,Glob,Grep,WebSearch,WebFetch,mcp__papers__search_pubmed,mcp__papers__search_biorxiv,mcp__papers__search_medrxiv,mcp__papers__search_arxiv,mcp__papers__read_pubmed_paper,mcp__papers__read_biorxiv_paper,mcp__papers__read_medrxiv_paper,mcp__papers__read_arxiv_paper"

@@ -64,7 +64,10 @@ jobs:
         with:
           prompt_file: .digest-prompt.md
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          model: claude-opus-4-8
+          # Sonnet 5, not Opus: summarizing four changelogs into one digest is the
+          # most mechanical LLM job in the repo. Also a newer model than the
+          # claude-opus-4-8 it replaces.
+          model: claude-sonnet-5
           # Read-only synthesis of four local changelogs + one Write. No gh/Bash
           # (the post step below comments to the issue) and no web access.
           allowed_tools: "Read,Glob,Grep,Write"

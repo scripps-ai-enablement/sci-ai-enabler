@@ -141,7 +141,7 @@ jobs:
         with:
           prompt_file: .responder-prompt.md
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          model: claude-sonnet-4-6
+          model: claude-sonnet-5
           timeout_minutes: "6"
           allowed_tools: "Read,Glob,Grep,Write,Bash(gh issue comment:*)"
         env:

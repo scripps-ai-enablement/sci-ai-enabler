@@ -136,7 +136,7 @@ jobs:
         with:
           prompt_file: .run-prompt.md
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          model: claude-opus-4-8
+          model: claude-opus-5
           allowed_tools: "Read,Edit,Write,Glob,Grep,WebSearch,WebFetch"
           # The action defaults to a 10-minute internal timeout, which the
           # full manifest sweep + directed pass routinely overruns. Match
