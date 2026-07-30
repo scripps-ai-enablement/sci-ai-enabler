@@ -139,7 +139,7 @@ summary: <≤ 25-word plain-language description; used by the category card list
 
 - `/plugin install pubmed@anthropics/life-sciences`
 - `claude mcp add --transport http pubmed https://pubmed.mcp.claude.com/mcp`
-- "Clone `K-Dense-AI/scientific-agent-skills`, copy `scientific-skills/<skill-name>/` into `~/.claude/skills/`"
+- "Clone `K-Dense-AI/scientific-agent-skills`, copy `skills/<skill-name>/` into `~/.claude/skills/`"
 - "Toggle in **Settings → Connectors**"
 - "Manual `mcp_config.json` entry"
 

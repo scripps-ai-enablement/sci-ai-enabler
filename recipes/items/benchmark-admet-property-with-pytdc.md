@@ -35,8 +35,15 @@ ADMET prediction is the front-line filter for any virtual library — but every 
 1. **Install the PyTDC Claude skill** ([catalog page](../../catalog/tools/pytdc.html)).
 
    ```
-   /plugin marketplace add K-Dense-AI/claude-scientific-skills
-   /plugin install pytdc@claude-scientific-skills
+   npx skills add K-Dense-AI/scientific-agent-skills
+   pip install pytdc
+   ```
+
+   Or clone the collection manually over HTTPS and copy the skill into place:
+
+   ```
+   git clone https://github.com/K-Dense-AI/scientific-agent-skills
+   cp -r scientific-agent-skills/skills/pytdc ~/.claude/skills/
    pip install pytdc
    ```
 
@@ -105,7 +112,7 @@ Reported. The canonical benchmark itself is established in [Huang et al., *NeurI
 - [Hao et al., "PharmaBench: Enhancing ADMET benchmarks with large language models," *Scientific Data* 11:864 (2024)](https://doi.org/10.1038/s41597-024-03793-0).
 - [Yuan et al., "Tx-LLM: A Large Language Model for Therapeutics," arXiv:2406.06316 (2024)](https://arxiv.org/abs/2406.06316).
 - [`mims-harvard/TDC`](https://github.com/mims-harvard/TDC) — verified 2026-06-21 (this run).
-- [`K-Dense-AI/scientific-agent-skills` (`scientific-skills/pytdc/SKILL.md`)](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/pytdc/SKILL.md) — verified 2026-06-21 (this run).
+- [`K-Dense-AI/scientific-agent-skills` (`skills/pytdc/SKILL.md`)](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/pytdc/SKILL.md) — verified 2026-06-21 (this run).
 
 ---
 

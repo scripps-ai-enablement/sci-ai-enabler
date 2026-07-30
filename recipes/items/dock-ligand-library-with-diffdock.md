@@ -36,7 +36,7 @@ Solved looks like: one prompt referencing a target and a SMILES file; one ranked
 
 Rung 2 of the simplicity ladder — one Claude skill, the [DiffDock skill](../../catalog/tools/diffdock.html), wraps the GitHub `gcorso/DiffDock` model and ships the batch CSV templates, the confidence-aware analysis script, and pose-export helpers. The skill does not ship the model weights; the catalog page documents the conda environment install.
 
-1. **Install the skill and the DiffDock environment.** Verbatim commands are on the [catalog page](../../catalog/tools/diffdock.html); the short version is `/plugin marketplace add K-Dense-AI/claude-scientific-skills` then `/plugin install diffdock@claude-scientific-skills`, plus a separate `git clone https://github.com/gcorso/DiffDock` and `conda env create --file environment.yml`. The skill's `setup_check.py` verifies PyTorch + CUDA, PyTorch Geometric, RDKit, and ESM before any run.
+1. **Install the skill and the DiffDock environment.** Verbatim commands are on the [catalog page](../../catalog/tools/diffdock.html); the short version is `npx skills add K-Dense-AI/scientific-agent-skills` (or a manual clone of `skills/diffdock/` into `~/.claude/skills/`), plus a separate `git clone https://github.com/gcorso/DiffDock` and `conda env create --file environment.yml`. The skill's `setup_check.py` verifies PyTorch + CUDA, PyTorch Geometric, RDKit, and ESM before any run.
 
 2. **Stage the target.** If using a triaged AlphaFold model from the [AlphaFold triage recipe](triage-alphafold-model-for-docking.html), point at the local `.pdb` file the triage step exported; otherwise pull a PDB:
 
@@ -146,7 +146,7 @@ A peer-reviewed benchmark of "Claude + DiffDock skill" against a hand-built note
 
 ## Sources
 
-- [`K-Dense-AI/claude-scientific-skills` — diffdock SKILL.md](https://github.com/K-Dense-AI/claude-scientific-skills/blob/main/scientific-skills/diffdock/SKILL.md) — verified 2026-06-03 (this run).
+- [`K-Dense-AI/scientific-agent-skills` — diffdock SKILL.md](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/diffdock/SKILL.md) — verified 2026-06-03 (this run).
 - [`gcorso/DiffDock`](https://github.com/gcorso/DiffDock) — verified 2026-06-03 (this run).
 - [Corso G. et al., "DiffDock: Diffusion Steps, Twists, and Turns for Molecular Docking," ICLR 2023, arXiv:2210.01776](https://arxiv.org/abs/2210.01776) — published 2022-10.
 - [Corso G. et al., "Deep confident steps to new pockets: strategies for docking generalization," ICLR 2024, arXiv:2402.18396](https://arxiv.org/abs/2402.18396) — published 2024-02.

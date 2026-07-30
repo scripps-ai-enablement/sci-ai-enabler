@@ -35,8 +35,14 @@ Time-to-event data is the backbone of clinical prognosis work — overall surviv
 1. **Install the [scikit-survival skill](../../catalog/tools/scikit-survival.html)** in Claude Code:
 
    ```
-   /plugin marketplace add K-Dense-AI/claude-scientific-skills
-   /plugin install scikit-survival@claude-scientific-skills
+   npx skills add K-Dense-AI/scientific-agent-skills
+   ```
+
+   Or clone the collection manually over HTTPS and copy the skill into place:
+
+   ```
+   git clone https://github.com/K-Dense-AI/scientific-agent-skills
+   cp -r scientific-agent-skills/skills/scikit-survival ~/.claude/skills/
    ```
 
    The skill wraps the GPL-3.0 `scikit-survival` (`sksurv`) library. Confirm `pip show scikit-survival` returns a version ≥ 0.23.
@@ -78,7 +84,7 @@ Rung 2. scikit-survival *is* the validated Python survival-analysis stack (Cox, 
 
 ## Availability
 
-Fully open. scikit-survival is GPL-3.0 and the K-Dense skill wrapper is OSS on the K-Dense marketplace. Any current Claude plan suffices. The cohort table stays local — no institutional license or data-residency gate from the tooling itself. Note that the *data* (e.g., MIMIC, a hospital registry) usually carries its own access and IRB constraints; those are the user's to satisfy.
+Fully open. scikit-survival is GPL-3.0 and the K-Dense skill wrapper is OSS in the `K-Dense-AI/scientific-agent-skills` collection. Any current Claude plan suffices. The cohort table stays local — no institutional license or data-residency gate from the tooling itself. Note that the *data* (e.g., MIMIC, a hospital registry) usually carries its own access and IRB constraints; those are the user's to satisfy.
 
 ## Compute requirements
 
@@ -111,7 +117,7 @@ No published comparison of LLM-driven survival analysis against a hand-coded `sk
 - [scikit-survival paper, Pölsterl 2020 (JMLR)](https://jmlr.org/papers/v21/20-729.html) — published 2020; verified 2026-06-06 (this run).
 - [Zhang et al. 2026, nomogram vs RSF in TNBC (Transl. Cancer Res.)](https://doi.org/10.21037/tcr-2025-aw-2462) — published 2026; verified 2026-06-06 (this run).
 - [Liu et al. 2026, 101 ML survival methods in CRC (Medicine)](https://doi.org/10.1097/MD.0000000000048757) — published 2026; verified 2026-06-06 (this run).
-- [`scientific-skills/scikit-survival/SKILL.md` (K-Dense)](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/scikit-survival/SKILL.md) — verified 2026-06-06 (this run).
+- [`skills/scikit-survival/SKILL.md` (K-Dense)](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/scikit-survival/SKILL.md) — verified 2026-06-06 (this run).
 
 ---
 

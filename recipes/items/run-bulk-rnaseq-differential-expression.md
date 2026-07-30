@@ -32,11 +32,18 @@ Differential expression from bulk RNA-seq is the most common biostatistical anal
 
 ## Recommended approach
 
-1. **Install the [PyDESeq2 Claude Skill](../../catalog/tools/pydeseq2.html).** From the K-Dense scientific-skills marketplace:
+1. **Install the [PyDESeq2 Claude Skill](../../catalog/tools/pydeseq2.html)** (PyDESeq2 is a Skill, not a marketplace plugin). Skills CLI (recommended), then install the Python package:
 
    ```
-   /plugin marketplace add K-Dense-AI/claude-scientific-skills
-   /plugin install pydeseq2@claude-scientific-skills
+   npx skills add K-Dense-AI/scientific-agent-skills
+   pip install pydeseq2
+   ```
+
+   Or clone the collection manually over HTTPS and copy the skill into place:
+
+   ```
+   git clone https://github.com/K-Dense-AI/scientific-agent-skills
+   cp -r scientific-agent-skills/skills/pydeseq2 ~/.claude/skills/
    pip install pydeseq2
    ```
 
@@ -75,7 +82,7 @@ Laptop-sufficient. PyDESeq2 on a typical bulk RNA-seq study (10–60 samples, ~2
 
 ## Evidence
 
-Reported. The PyDESeq2 skill's [SKILL.md in `K-Dense-AI/scientific-agent-skills`](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/pydeseq2/SKILL.md) documents this exact workflow — size factors, dispersion, Wald / LRT, BH correction — and is actively maintained 2025–2026 per the catalog entry. The underlying PyDESeq2 library is a published Python reimplementation of the DESeq2 algorithm and produces results numerically consistent with the R original.
+Reported. The PyDESeq2 skill's [SKILL.md in `K-Dense-AI/scientific-agent-skills`](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/pydeseq2/SKILL.md) documents this exact workflow — size factors, dispersion, Wald / LRT, BH correction — and is actively maintained 2025–2026 per the catalog entry. The underlying PyDESeq2 library is a published Python reimplementation of the DESeq2 algorithm and produces results numerically consistent with the R original.
 
 No peer-reviewed benchmark of "Claude + this skill" against hand-written PyDESeq2 code is known. The reproducibility win is in the prompt-to-DataFrame contract, not in any new statistical method.
 
@@ -95,7 +102,7 @@ No peer-reviewed benchmark of "Claude + this skill" against hand-written PyDESeq
 
 ## Sources
 
-- [PyDESeq2 skill (`SKILL.md`)](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/pydeseq2/SKILL.md) — last updated 2025–2026; verified 2026-05-21 (this run).
+- [PyDESeq2 skill (`SKILL.md`)](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/pydeseq2/SKILL.md) — last updated 2025–2026; verified 2026-05-21 (this run).
 - [`K-Dense-AI/scientific-agent-skills` repository](https://github.com/K-Dense-AI/scientific-agent-skills) — verified 2026-05-21 (this run).
 - [PyDESeq2 documentation](https://pydeseq2.readthedocs.io/) — verified 2026-05-21 (this run).
 

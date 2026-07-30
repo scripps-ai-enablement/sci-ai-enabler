@@ -132,7 +132,7 @@ Reported. The strongest reference for the assembly *class* is **GeneAgent** ([Wa
 - [Joshi M. et al., "llm2geneset: leveraging LLMs to dynamically generate gene sets," bioRxiv 2024-11-12 (DOI:10.1101/2024.11.11.621189)](https://doi.org/10.1101/2024.11.11.621189) — posted 2024-11-12.
 - [gget documentation — `gget enrichr`](https://pachterlab.github.io/gget/en/enrichr.html) — verified 2026-06-04 (this run).
 - [Enrichr help and terms](https://maayanlab.cloud/Enrichr/help) — verified 2026-06-04 (this run).
-- [`K-Dense-AI/scientific-agent-skills` — gget skill](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/gget/SKILL.md) — verified 2026-06-04 (this run).
+- [`K-Dense-AI/scientific-agent-skills` — gget skill](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/gget/SKILL.md) — verified 2026-06-04 (this run).
 
 ---
 

@@ -37,9 +37,15 @@ Target dossiers are the bread-and-butter of early discovery and translational re
    ```
    /plugin marketplace add anthropics/life-sciences
    /plugin install open-targets@life-sciences
-   /plugin marketplace add K-Dense-AI/claude-scientific-skills
-   /plugin install gget@claude-scientific-skills
-   /plugin install depmap@claude-scientific-skills
+   npx skills add K-Dense-AI/scientific-agent-skills
+   ```
+
+   Or clone the collection manually over HTTPS and copy the skills into place:
+
+   ```
+   git clone https://github.com/K-Dense-AI/scientific-agent-skills
+   cp -r scientific-agent-skills/skills/gget ~/.claude/skills/
+   cp -r scientific-agent-skills/skills/depmap ~/.claude/skills/
    ```
 
    Add the UniProt and AlphaFold MCP servers per their catalog pages — both are stdio Node servers, no auth needed.
@@ -104,7 +110,7 @@ Proposed. No published end-to-end benchmark of this exact four-component assembl
 - [Open Targets Platform MCP (official blog post)](https://blog.opentargets.org/official-open-targets-mcp/) — published 2026-04 release 2026.03.1; verified 2026-05-21 (this run).
 - [`Augmented-Nature/UniProt-MCP-Server`](https://github.com/Augmented-Nature/UniProt-MCP-Server) — verified 2026-05-21 (this run).
 - [`Augmented-Nature/AlphaFold-MCP-Server`](https://github.com/Augmented-Nature/AlphaFold-MCP-Server) — verified 2026-05-21 (this run).
-- [DepMap skill (`SKILL.md`)](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/depmap/SKILL.md) — last updated 2025–2026; verified 2026-05-21 (this run).
+- [DepMap skill (`SKILL.md`)](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/depmap/SKILL.md) — last updated 2025–2026; verified 2026-05-21 (this run).
 - [Huang et al., "Biomni: A General-Purpose Biomedical AI Agent," *bioRxiv*](https://doi.org/10.1101/2025.05.30.656746) — published 2025-05; closest analogous benchmark.
 
 ---
