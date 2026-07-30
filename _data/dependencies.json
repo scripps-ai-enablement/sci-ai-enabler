@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated": "2026-07-29",
+  "generated": "2026-07-30",
   "count": 3,
   "dependencies": [
     {
@@ -15,7 +15,7 @@
         "localize-implant-tip-in-brain-atlas-subregion"
       ],
       "verdict": "pass",
-      "verdict_on": "2026-07-29"
+      "verdict_on": "2026-07-30"
     },
     {
       "package": "PyNutil",
@@ -29,7 +29,7 @@
         "localize-implant-tip-in-brain-atlas-subregion"
       ],
       "verdict": "pass",
-      "verdict_on": "2026-07-29"
+      "verdict_on": "2026-07-30"
     },
     {
       "package": "brainglobe-atlasapi",
@@ -43,7 +43,7 @@
         "localize-implant-tip-in-brain-atlas-subregion"
       ],
       "verdict": "pass",
-      "verdict_on": "2026-07-29"
+      "verdict_on": "2026-07-30"
     }
   ]
 }
