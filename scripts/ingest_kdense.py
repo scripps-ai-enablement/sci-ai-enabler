@@ -337,7 +337,14 @@ def repair_text(text: str, slug: str) -> str:
         )
     # Path migration: scientific-skills/ -> skills/
     text = text.replace("scientific-agent-skills/scientific-skills/", "scientific-agent-skills/skills/")
-    text = text.replace("scientific-skills/", "skills/")
+    # The second pass catches the path segment on its own (`blob/main/scientific-skills/
+    # <slug>/SKILL.md`), which the anchored replace above cannot see. The lookbehind is
+    # load-bearing: this used to be a plain `.replace()`, which also matched inside
+    # `claude-scientific-skills/` and rewrote it to `claude-skills/` -- a repo that has
+    # never existed. That shipped 2026-06-04 and left six dead links across adaptyv,
+    # cobrapy, diffdock and glycoengineering. Only migrate the segment when it starts
+    # one, never when it is the tail of a longer repo name.
+    text = re.sub(r"(?<![-\w])scientific-skills/", "skills/", text)
     # Bump last_verified.
     text = re.sub(r"^last_verified:\s*\d{4}-\d{2}-\d{2}\s*$",
                   f"last_verified: {TODAY}", text, count=1, flags=re.M)

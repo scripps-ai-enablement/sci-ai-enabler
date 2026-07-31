@@ -75,16 +75,14 @@ Claude skill that closes the design–build–test loop for proteins and antibod
 
 - **The skill writes to a wet lab.** Review submitted sequences and experiment configurations carefully before approval — each call spends Adaptyv credits and consumes platform-side wet-lab resources.
 - **Adaptyv API is gated.** Access is alpha/beta as of 2026-06-02; without an issued API key the in-silico pre-screening half is still usable, but the submission tools will fail.
-- **K-Dense skill path migration.** The canonical K-Dense `scientific-agent-skills` repo moved skill directories from `skills/<name>/` to `skills/<name>/` in v2.43.0 to match the Agent Skills CLI layout. The published marketplace repo (`K-Dense-AI/scientific-agent-skills`) still uses `skills/<name>/` paths at the time of verification; the manual-clone snippet above matches that layout. If the marketplace path migrates, update the `cp` source path accordingly.
+- **K-Dense skill path migration.** The canonical K-Dense `scientific-agent-skills` repo moved skill directories from `scientific-skills/<name>/` to `skills/<name>/` in v2.43.0 to match the Agent Skills CLI layout. The published marketplace repo (`K-Dense-AI/scientific-agent-skills`) still uses `skills/<name>/` paths at the time of verification; the manual-clone snippet above matches that layout. If the marketplace path migrates, update the `cp` source path accordingly.
 - Pairs with the [AlphaFold (Claude Skill)](alphafold.html), [PDB (Claude Skill)](pdb.html), and [Glycoengineering (Claude Skill)](glycoengineering.html) entries for an antibody-design workflow that runs from sequence → structure → glycan profile → in-silico screen → wet-lab validation.
 
 ## Sources
 
 - [`K-Dense-AI/scientific-agent-skills`](https://github.com/K-Dense-AI/scientific-agent-skills) — canonical skill repository (170+ skills; Adaptyv at `skills/adaptyv/SKILL.md` post-v2.43.0 migration)
-- [`K-Dense-AI/scientific-agent-skills`](https://github.com/K-Dense-AI/scientific-agent-skills) — Claude Code plugin marketplace publishing the `scientific-skills` plugin
-- [`skills/adaptyv/reference/examples.md`](https://github.com/K-Dense-AI/claude-skills/blob/main/skills/adaptyv/reference/examples.md) — usage examples shipped with the skill
+- [`skills/adaptyv/references/api-endpoints.md`](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/adaptyv/references/api-endpoints.md) — API endpoint reference shipped with the skill
 - [Adaptyv Bio](https://www.adaptyvbio.com/) — wet-lab platform documentation and API onboarding (`[email protected]`)
-- [Playbooks: adaptyv skill](https://playbooks.com/skills/k-dense-ai/claude-skills/adaptyv) — third-party skill catalog mirror
 
 ---
 

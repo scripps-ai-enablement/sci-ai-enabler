@@ -424,6 +424,89 @@ class Verdicts(unittest.TestCase):
         self.assertLessEqual(len(got[0]["summary"]), 160)
 
 
+class DirListingFailsClosed(unittest.TestCase):
+    """A directory listing that did not succeed must never read as a pass.
+
+    `fetch_dir_listing` used to signal every failure — 404, a non-list body, a
+    budget skip — by returning an empty `names` list, which is also what a real
+    listing of an empty directory returns. The call site guarded with
+    `if names and leaf not in names`, so a 404 reported the leaf as PRESENT and
+    left the page `clean`, i.e. eligible for `apply_clean_stamps.py` to refresh
+    `verified_on` without a model ever looking. One 404 on `contents/skills`
+    covers ~140 pages.
+
+    Routes are matched by substring in insertion order and `/repos/` is a
+    substring of both the contents and the commits URL, so `/contents` and
+    `/commits` must come first in every route dict below. These tests also need
+    a page that really exists and really yields a `github-dir` target — the
+    `Verdicts` tests above all use absent pages, which short-circuit as
+    `page-unreadable` before any target is resolved.
+    """
+
+    PAGE = "abcd-skill"          # -> CUHK-AIM-Group/NeuroClaw, skills/abcd-skill
+    LEAF = "abcd-skill"
+    REPO_OK = {"full_name": "CUHK-AIM-Group/NeuroClaw", "archived": False,
+               "owner": {"login": "CUHK-AIM-Group"}, "license": {"spdx_id": "MIT"},
+               "pushed_at": "2026-07-20T00:00:00Z", "default_branch": "main"}
+
+    def setUp(self):
+        if not (REPO / "catalog" / "tools" / f"{self.PAGE}.md").exists():
+            self.skipTest(f"{self.PAGE}.md not in the corpus")
+
+    def _flags(self, contents):
+        op = StubOpener(routes={"/contents": contents, "/commits": (200, []),
+                                "/repos/": (200, self.REPO_OK)})
+        f = cl.Fetcher(opener=op, retry_sleep=0)
+        page = cl.check([_row(self.PAGE)], {}, f, "2026-07-29")["pages"][0]
+        return page, op
+
+    def test_a_404_listing_flags_fetch_error_rather_than_nothing(self):
+        page, _ = self._flags((404, {}))
+        self.assertIn("fetch-error", page["flags"])
+        self.assertEqual(page["verdict"], "error")
+        self.assertTrue(page["needs_model"])
+        # And it must not overclaim in the other direction: we did not look, so
+        # we do not know the directory is gone.
+        self.assertNotIn("dir-missing", page["flags"])
+
+    def test_a_listing_that_is_a_file_not_a_directory_is_not_evidence(self):
+        page, _ = self._flags((200, {"name": "SKILL.md", "type": "file"}))
+        self.assertIn("fetch-error", page["flags"])
+        self.assertNotIn("dir-missing", page["flags"])
+
+    def test_a_200_listing_without_the_leaf_flags_dir_missing(self):
+        page, _ = self._flags((200, [{"name": "something-else", "type": "dir"}]))
+        self.assertIn("dir-missing", page["flags"])
+        self.assertNotIn("fetch-error", page["flags"])
+
+    def test_a_200_listing_containing_the_leaf_raises_neither_flag(self):
+        page, _ = self._flags((200, [{"name": self.LEAF, "type": "dir"},
+                                     {"name": "other", "type": "dir"}]))
+        self.assertNotIn("dir-missing", page["flags"])
+        self.assertNotIn("fetch-error", page["flags"])
+
+    def test_a_budget_skipped_listing_is_not_an_empty_directory(self):
+        # Unit level: the stub's rate header would immediately undo a pre-set
+        # gh_remaining if this went through check().
+        op = StubOpener()
+        f = cl.Fetcher(opener=op, retry_sleep=0)
+        f.gh_remaining = cl.RATE_FLOOR - 1
+        got = cl.fetch_dir_listing(f, "o/r", "skills")
+        self.assertFalse(got["ok"])
+        self.assertEqual(got["skipped"], "budget")
+        self.assertEqual(f.calls, 0)
+        self.assertEqual(op.seen, [])
+
+    def test_the_listing_is_fetched_once_per_repo_and_parent(self):
+        # The whole cost model rests on this dedup: one call to contents/skills
+        # answers dir-missing for every page under it.
+        op = StubOpener(routes={"/contents": (200, [{"name": self.LEAF, "type": "dir"}]),
+                                "/commits": (200, []), "/repos/": (200, self.REPO_OK)})
+        f = cl.Fetcher(opener=op, retry_sleep=0)
+        cl.check([_row(self.PAGE), _row(self.PAGE)], {}, f, "2026-07-29")
+        self.assertEqual(sum(1 for r in op.seen if "/contents" in r.full_url), 1)
+
+
 class DigestRendering(unittest.TestCase):
     def test_digest_lists_only_pages_needing_the_model(self):
         result = {
