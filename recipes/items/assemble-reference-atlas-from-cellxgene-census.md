@@ -37,11 +37,17 @@ The non-obvious failure mode is forgetting that the Census is versioned. Differe
 1. **Install the [cellxgene-census skill](../../catalog/tools/cellxgene-census.html)** in Claude Code:
 
    ```
-   /plugin marketplace add K-Dense-AI/claude-scientific-skills
-   /plugin install cellxgene-census@claude-scientific-skills
+   npx skills add K-Dense-AI/scientific-agent-skills
    ```
 
-   Confirm with `/plugin list`. If you intend to integrate the query atlas with your own data, install the [scvi-tools skill](../../catalog/tools/scvi-tools.html) too; if you want to do downstream clustering, also install the [Scanpy-MCP](../../catalog/tools/scanpy.html).
+   Or clone the collection manually over HTTPS and copy the skill into place:
+
+   ```
+   git clone https://github.com/K-Dense-AI/scientific-agent-skills
+   cp -r scientific-agent-skills/skills/cellxgene-census ~/.claude/skills/
+   ```
+
+   Confirm the skill landed in `~/.claude/skills/`. If you intend to integrate the query atlas with your own data, install the [scvi-tools skill](../../catalog/tools/scvi-tools.html) too; if you want to do downstream clustering, also install the [Scanpy-MCP](../../catalog/tools/scanpy.html).
 
 2. **Pin a Census version up front.** Pinning is the single most important reproducibility decision. A minimal prompt:
 
@@ -114,7 +120,7 @@ No peer-reviewed benchmark of "Claude + cellxgene-census skill" against the hand
 - [`comp_bio_data_integration_scvi` notebook](https://chanzuckerberg.github.io/cellxgene-census/notebooks/analysis_demo/comp_bio_data_integration_scvi.html) — Census team, verified 2026-05-28.
 - [Ergen C. et al., "Scvi-hub: an actionable repository for model-driven single-cell analysis", *Nature Methods* 2025, doi:10.1038/s41592-025-02799-9](https://www.nature.com/articles/s41592-025-02799-9) — published 2025.
 - [Sikkema L. et al., "An integrated cell atlas of the human lung in health and disease", *Nature Medicine* 2023, doi:10.1038/s41591-023-02327-2](https://doi.org/10.1038/s41591-023-02327-2) — published 2023.
-- [`scientific-skills/cellxgene-census/SKILL.md`](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/cellxgene-census/SKILL.md) — K-Dense-AI, verified 2026-05-28.
+- [`skills/cellxgene-census/SKILL.md`](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/cellxgene-census/SKILL.md) — K-Dense-AI, verified 2026-05-28.
 
 ---
 

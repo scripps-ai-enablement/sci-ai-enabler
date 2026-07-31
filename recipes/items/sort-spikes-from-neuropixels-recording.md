@@ -35,8 +35,14 @@ Neuropixels recordings yield gigabytes per probe per session and the spike-sorti
 1. **Install the [neuropixels-analysis](../../catalog/tools/neuropixels-analysis.html) skill** in Claude Code:
 
    ```
-   /plugin marketplace add K-Dense-AI/claude-scientific-skills
-   /plugin install neuropixels-analysis@claude-scientific-skills
+   npx skills add K-Dense-AI/scientific-agent-skills
+   ```
+
+   Or clone the collection manually over HTTPS and copy the skill into place:
+
+   ```
+   git clone https://github.com/K-Dense-AI/scientific-agent-skills
+   cp -r scientific-agent-skills/skills/neuropixels-analysis ~/.claude/skills/
    ```
 
    Verify the environment has SpikeInterface installed (`pip install spikeinterface[full]`) and a CUDA-capable GPU available if you intend to run Kilosort4.
@@ -82,7 +88,7 @@ Rung 2. The skill is a thin but valuable wrapper: it encodes the SpikeInterface 
 
 ## Availability
 
-Fully open. The neuropixels-analysis skill is community OSS distributed via the K-Dense marketplace; SpikeInterface, Kilosort4, SpykingCircus2, and Mountainsort5 are all open-source. No institutional license. Any current Claude plan works.
+Fully open. The neuropixels-analysis skill is community OSS distributed in the `K-Dense-AI/scientific-agent-skills` collection; SpikeInterface, Kilosort4, SpykingCircus2, and Mountainsort5 are all open-source. No institutional license. Any current Claude plan works.
 
 ## Compute requirements
 

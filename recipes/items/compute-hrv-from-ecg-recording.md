@@ -35,8 +35,14 @@ HRV is the workhorse autonomic-nervous-system readout for psychophysiology, slee
 1. **Install the [NeuroKit2 skill](../../catalog/tools/neurokit2.html)** in Claude Code:
 
    ```
-   /plugin marketplace add K-Dense-AI/claude-scientific-skills
-   /plugin install neurokit2@claude-scientific-skills
+   npx skills add K-Dense-AI/scientific-agent-skills
+   ```
+
+   Or clone the collection manually over HTTPS and copy the skill into place:
+
+   ```
+   git clone https://github.com/K-Dense-AI/scientific-agent-skills
+   cp -r scientific-agent-skills/skills/neurokit2 ~/.claude/skills/
    ```
 
    The skill imports the MIT-licensed `neurokit2` Python library. Confirm `pip show neurokit2` returns a version ≥ 0.2.
@@ -74,7 +80,7 @@ Rung 2. NeuroKit2 *is* the validated HRV pipeline; the skill is a thin Claude wr
 
 ## Availability
 
-Fully open. NeuroKit2 is MIT-licensed and the K-Dense skill wrapper is OSS on the K-Dense marketplace. Any current Claude plan is enough. No institutional license or data-residency constraint — the recording stays local.
+Fully open. NeuroKit2 is MIT-licensed and the K-Dense skill wrapper is OSS in the `K-Dense-AI/scientific-agent-skills` collection. Any current Claude plan is enough. No institutional license or data-residency constraint — the recording stays local.
 
 ## Compute requirements
 
@@ -106,7 +112,7 @@ No published comparison of LLM-driven HRV against a hand-coded NeuroKit2 script 
 - [NeuroKit2 paper, Makowski et al. 2021 (Behavior Research Methods)](https://doi.org/10.3758/s13428-020-01516-y) — published 2021-02-02; verified 2026-05-29 (this run).
 - [HRV indices tutorial, Pham et al. 2021 (Sensors)](https://doi.org/10.3390/s21123998) — published 2021-06-09; verified 2026-05-29 (this run).
 - [EEGAgent preprint, Yan et al. (arXiv:2511.09947)](https://arxiv.org/abs/2511.09947) — posted 2025-11-12; verified 2026-05-29 (this run).
-- [`scientific-skills/neurokit2/SKILL.md` (K-Dense)](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/neurokit2/SKILL.md) — verified 2026-05-29 (this run).
+- [`skills/neurokit2/SKILL.md` (K-Dense)](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/neurokit2/SKILL.md) — verified 2026-05-29 (this run).
 - [NeuroKit2 documentation](https://neuropsychology.github.io/NeuroKit/) — verified 2026-05-29 (this run).
 
 ---

@@ -37,11 +37,17 @@ Solved looks like: one lead SMILES in, a deduplicated table of candidate analogs
 1. **Install the [Datamol skill](../../catalog/tools/datamol.html)** — it bundles the standardization, enumeration, and featurization recipes:
 
    ```
-   /plugin marketplace add K-Dense-AI/claude-scientific-skills
-   /plugin install datamol@claude-scientific-skills
+   npx skills add K-Dense-AI/scientific-agent-skills
    ```
 
-   Confirm with `/plugin list`. The [RDKit skill](../../catalog/tools/rdkit-skill.html) is implicitly available (Datamol is RDKit-built); install it explicitly only if you want raw reaction-SMARTS enumeration beyond what Datamol exposes.
+   Or clone the collection manually over HTTPS and copy the skill into place:
+
+   ```
+   git clone https://github.com/K-Dense-AI/scientific-agent-skills
+   cp -r scientific-agent-skills/skills/datamol ~/.claude/skills/
+   ```
+
+   Confirm the skill landed in `~/.claude/skills/`. The [RDKit skill](../../catalog/tools/rdkit-skill.html) is implicitly available (Datamol is RDKit-built); install it explicitly only if you want raw reaction-SMARTS enumeration beyond what Datamol exposes.
 
 2. **Standardize and expand the stereo/tautomer space first.** A minimal prompt:
 
@@ -96,7 +102,7 @@ Rung 2 of the simplicity ladder. The whole problem — standardize, enumerate ta
 
 ## Availability
 
-Fully open. The [Datamol](../../catalog/tools/datamol.html) and [RDKit](../../catalog/tools/rdkit-skill.html) skills ship via the `K-Dense-AI/claude-scientific-skills` marketplace under MIT (skills) / Apache-2.0 and BSD-3-Clause (underlying libraries). No subscription, no institutional licence, no account beyond a Claude plan.
+Fully open. The [Datamol](../../catalog/tools/datamol.html) and [RDKit](../../catalog/tools/rdkit-skill.html) skills ship via the `K-Dense-AI/scientific-agent-skills` skills collection under MIT (skills) / Apache-2.0 and BSD-3-Clause (underlying libraries). No subscription, no institutional licence, no account beyond a Claude plan.
 
 ## Compute requirements
 

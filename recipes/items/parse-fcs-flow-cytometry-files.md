@@ -36,7 +36,7 @@ Every immunophenotyping or cytometry analysis starts the same way: parse the ven
 
    ```
    git clone https://github.com/K-Dense-AI/scientific-agent-skills
-   cp -r scientific-agent-skills/scientific-skills/flowio ~/.claude/skills/
+   cp -r scientific-agent-skills/skills/flowio ~/.claude/skills/
    uv pip install flowio   # Python 3.9+
    ```
 
@@ -100,7 +100,7 @@ Proposed. No documented end-to-end attempt of "Claude Code + the FlowIO skill on
 
 ## Sources
 
-- [`scientific-skills/flowio/SKILL.md`](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/flowio/SKILL.md) — skill manifest; verified 2026-06-02 (this run).
+- [`skills/flowio/SKILL.md`](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/flowio/SKILL.md) — skill manifest; verified 2026-06-02 (this run).
 - [`flowio` library](https://github.com/whitews/flowio) — canonical FCS parser; verified 2026-06-02 (this run).
 - ["Enhancing Clinical Workflow Efficiency in Flow Cytometry Reporting with LLMs" (PMC13053331, *Journal of Clinical Immunology* 2026)](https://pubmed.ncbi.nlm.nih.gov/?term=PMC13053331) — class-level LLM evidence on downstream cytometry report generation; verified 2026-06-02 (this run).
 - [International Society for Advancement of Cytometry: FCS 3.1 specification](https://isac-net.org/page/Data-Standards) — canonical file-format definition; verified 2026-06-02 (this run).

@@ -36,7 +36,7 @@ After a 16S rRNA or shotgun-metagenomics run, the standard first analytical pass
 
    ```
    git clone https://github.com/K-Dense-AI/scientific-agent-skills
-   cp -r scientific-agent-skills/scientific-skills/scikit-bio ~/.claude/skills/
+   cp -r scientific-agent-skills/skills/scikit-bio ~/.claude/skills/
    uv pip install scikit-bio
    ```
 
@@ -109,7 +109,7 @@ Proposed. No documented end-to-end attempt of "Claude Code + the scikit-bio skil
 
 ## Sources
 
-- [`scientific-skills/scikit-bio/SKILL.md`](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/scikit-bio/SKILL.md) — skill manifest; verified 2026-06-02 (this run).
+- [`skills/scikit-bio/SKILL.md`](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/scikit-bio/SKILL.md) — skill manifest; verified 2026-06-02 (this run).
 - [scikit-bio documentation](https://scikit.bio/) — canonical library docs; verified 2026-06-02 (this run).
 - [Huang et al., "Biomni: A General-Purpose Biomedical AI Agent," bioRxiv 2025.05.30.656746](https://doi.org/10.1101/2025.05.30.656746) — class-level LLM-agent evidence on microbiome bioinformatics; verified 2026-06-02 (this run).
 - [QIIME 2 documentation: diversity analyses](https://docs.qiime2.org/) — canonical upstream context for BIOM / tree inputs; verified 2026-06-02 (this run).

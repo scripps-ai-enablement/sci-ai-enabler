@@ -39,11 +39,17 @@ The non-obvious failure modes are (1) running GRNBoost2 on log-normalised data w
 2. **Install the [Arboreto skill](../../catalog/tools/arboreto.html)** in Claude Code:
 
    ```
-   /plugin marketplace add K-Dense-AI/claude-scientific-skills
-   /plugin install arboreto@claude-scientific-skills
+   npx skills add K-Dense-AI/scientific-agent-skills
    ```
 
-   Confirm with `/plugin list`. Have the [AnnData skill](../../catalog/tools/anndata.html) installed too — Arboreto consumes a `(cells × genes)` expression matrix, not an `.h5ad` directly.
+   Or clone the collection manually over HTTPS and copy the skill into place:
+
+   ```
+   git clone https://github.com/K-Dense-AI/scientific-agent-skills
+   cp -r scientific-agent-skills/skills/arboreto ~/.claude/skills/
+   ```
+
+   Confirm the skill landed in `~/.claude/skills/`. Have the [AnnData skill](../../catalog/tools/anndata.html) installed too — Arboreto consumes a `(cells × genes)` expression matrix, not an `.h5ad` directly.
 
 3. **Obtain a transcription-factor list for your organism.** For human / mouse, the [Aerts lab cisTarget resources](https://resources.aertslab.org/cistarget/) ship curated TF lists (`allTFs_hg38.txt`, `allTFs_mm10.txt`). Download once and keep alongside the data. Without this, Arboreto will treat every gene as a candidate regulator and the runtime explodes.
 
@@ -90,7 +96,7 @@ Workstation with GPU is not strictly required — GRNBoost2 is CPU-bound and ben
 
 ## Evidence
 
-Reported. The Arboreto skill's [SKILL.md](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/arboreto/SKILL.md) documents the GRNBoost2 invocation this recipe wraps. Method evidence is strong: Moerman et al. ([*Bioinformatics* 2019, doi:10.1093/bioinformatics/bty916](https://doi.org/10.1093/bioinformatics/bty916)) introduced GRNBoost2 as a scalable replacement for GENIE3 and benchmarked it against the DREAM5 networks; van de Sande et al. ([*Nature Protocols* 2020, doi:10.1038/s41596-020-0336-2](https://doi.org/10.1038/s41596-020-0336-2)) published the canonical SCENIC workflow protocol around it. Bravo González-Blas et al. ([*Nature Methods* 2023, doi:10.1038/s41592-023-01938-4](https://doi.org/10.1038/s41592-023-01938-4)) showed that GRNBoost2-derived networks recover differentially expressed and ChIP-anchored TFs better than competing methods in the SCENIC+ benchmark. The stochasticity caveat in step 6 reflects the protocol's published guidance, not optional advice.
+Reported. The Arboreto skill's [SKILL.md](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/arboreto/SKILL.md) documents the GRNBoost2 invocation this recipe wraps. Method evidence is strong: Moerman et al. ([*Bioinformatics* 2019, doi:10.1093/bioinformatics/bty916](https://doi.org/10.1093/bioinformatics/bty916)) introduced GRNBoost2 as a scalable replacement for GENIE3 and benchmarked it against the DREAM5 networks; van de Sande et al. ([*Nature Protocols* 2020, doi:10.1038/s41596-020-0336-2](https://doi.org/10.1038/s41596-020-0336-2)) published the canonical SCENIC workflow protocol around it. Bravo González-Blas et al. ([*Nature Methods* 2023, doi:10.1038/s41592-023-01938-4](https://doi.org/10.1038/s41592-023-01938-4)) showed that GRNBoost2-derived networks recover differentially expressed and ChIP-anchored TFs better than competing methods in the SCENIC+ benchmark. The stochasticity caveat in step 6 reflects the protocol's published guidance, not optional advice.
 
 No peer-reviewed benchmark of "Claude + Arboreto skill" against a hand-written pySCENIC pipeline is known. The skill adds reproducibility and convenience.
 
@@ -111,7 +117,7 @@ No peer-reviewed benchmark of "Claude + Arboreto skill" against a hand-written p
 
 ## Sources
 
-- [`scientific-skills/arboreto/SKILL.md`](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/arboreto/SKILL.md) — K-Dense-AI, verified 2026-05-28.
+- [`skills/arboreto/SKILL.md`](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/arboreto/SKILL.md) — K-Dense-AI, verified 2026-05-28.
 - [Moerman T. et al., "GRNBoost2 and Arboreto: efficient and scalable inference of gene regulatory networks", *Bioinformatics* 2019](https://doi.org/10.1093/bioinformatics/bty916) — published 2019.
 - [Van de Sande B. et al., "A scalable SCENIC workflow for single-cell gene regulatory network analysis", *Nature Protocols* 2020](https://doi.org/10.1038/s41596-020-0336-2) — published 2020.
 - [Bravo González-Blas C. et al., "SCENIC+: single-cell multiomic inference of enhancers and gene regulatory networks", *Nature Methods* 2023](https://doi.org/10.1038/s41592-023-01938-4) — published 2023.

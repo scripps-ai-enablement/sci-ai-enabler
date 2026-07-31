@@ -37,11 +37,17 @@ Solved looks like: one prompt, one CSV in, one CSV out, with the rule cascade an
 1. **Install the [MedChem skill](../../catalog/tools/medchem.html)** — it bundles the filter recipes and the configurable cut-offs:
 
    ```
-   /plugin marketplace add K-Dense-AI/claude-scientific-skills
-   /plugin install medchem@claude-scientific-skills
+   npx skills add K-Dense-AI/scientific-agent-skills
    ```
 
-   Confirm with `/plugin list`. Install the sibling [Datamol skill](../../catalog/tools/datamol.html) too — MedChem operates on standardized molecules and Datamol is what produces them. The [RDKit skill](../../catalog/tools/rdkit-skill.html) is implicitly available because both are RDKit-built; install it explicitly only if you also want descriptor work outside the filter cascade.
+   Or clone the collection manually over HTTPS and copy the skill into place:
+
+   ```
+   git clone https://github.com/K-Dense-AI/scientific-agent-skills
+   cp -r scientific-agent-skills/skills/medchem ~/.claude/skills/
+   ```
+
+   Confirm the skill landed in `~/.claude/skills/`. Install the sibling [Datamol skill](../../catalog/tools/datamol.html) too — MedChem operates on standardized molecules and Datamol is what produces them. The [RDKit skill](../../catalog/tools/rdkit-skill.html) is implicitly available because both are RDKit-built; install it explicitly only if you also want descriptor work outside the filter cascade.
 
 2. **Pre-standardize the SMILES before filtering.** A minimal prompt:
 
@@ -101,7 +107,7 @@ Rung 2 of the simplicity ladder. The filter cascade is mechanical, but the right
 
 ## Availability
 
-Fully open. The [MedChem](../../catalog/tools/medchem.html) and [Datamol](../../catalog/tools/datamol.html) skills ship via the `K-Dense-AI/claude-scientific-skills` marketplace under MIT (skills) / Apache-2.0 (underlying libraries). RDKit is BSD-3-Clause. No subscription or institutional licence required.
+Fully open. The [MedChem](../../catalog/tools/medchem.html) and [Datamol](../../catalog/tools/datamol.html) skills ship via the `K-Dense-AI/scientific-agent-skills` skills collection under MIT (skills) / Apache-2.0 (underlying libraries). RDKit is BSD-3-Clause. No subscription or institutional licence required.
 
 ## Compute requirements
 
@@ -132,7 +138,7 @@ No peer-reviewed head-to-head benchmark of "Claude + MedChem skill" against a ha
 
 ## Sources
 
-- [`K-Dense-AI/scientific-agent-skills` — medchem](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/medchem/SKILL.md) — verified 2026-06-04 (this run).
+- [`K-Dense-AI/scientific-agent-skills` — medchem](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/medchem/SKILL.md) — verified 2026-06-04 (this run).
 - [MedChem documentation — medchem.datamol.io](https://medchem.datamol.io/) — verified 2026-06-04 (this run).
 - [Baell J.B., Holloway G.A. — PAINS, *J. Med. Chem.* 2010](https://doi.org/10.1021/jm901137j) — published 2010-04-08.
 - [Brenk R. et al. — BRENK, *ChemMedChem* 2008](https://doi.org/10.1002/cmdc.200700139) — published 2008-03.
