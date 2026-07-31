@@ -36,6 +36,7 @@ Pure standard library. Run: python3 -m unittest discover -s tests
 from __future__ import annotations
 
 import re
+import subprocess
 import unittest
 from pathlib import Path
 
@@ -79,11 +80,19 @@ WARNING_MARKERS = (
 
 
 def pages() -> list[Path]:
-    return sorted(
-        p
-        for p in REPO.rglob("*.md")
-        if ".git" not in p.parts and not SKIP_NAMES.search(p.name)
-    )
+    """Every tracked `.md`, minus the changelogs.
+
+    Tracked, not globbed: an `rglob` also walks scratch copies that are not part
+    of the corpus — a `.claude/worktrees/<name>/` checkout of an older commit
+    reintroduces all 25 original offenders and fails the lint locally while CI,
+    which has no such directory, stays green. Only what is committed ships.
+    """
+    proc = subprocess.run(["git", "ls-files", "-z", "*.md"],
+                          cwd=REPO, capture_output=True, text=True)
+    if proc.returncode != 0:
+        raise unittest.SkipTest("git ls-files unavailable")
+    return sorted(REPO / p for p in proc.stdout.split("\0")
+                  if p and not SKIP_NAMES.search(p))
 
 
 def command_lines(text: str) -> list[tuple[int, str]]:
