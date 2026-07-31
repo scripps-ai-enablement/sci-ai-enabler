@@ -13,3 +13,4 @@ Daily change history for each section.
 - [Guide updates](guide.html)
 - [AI scientist updates](ai-scientists.html)
 - [Recipes updates](recipes.html)
+- [Verification updates](verification.html)

@@ -60,6 +60,36 @@ only pages whose `verified_on` is more than 30 days old, oldest first. A run wit
 work and calls no model at all. A page whose `verified_on` is missing or unreadable is always treated
 as due, so a page can never fall out of the rotation by being unparseable.
 
+### Two dates, two different claims
+
+A badge can be backed by either of two things, and the page says which:
+
+| Front matter | What it claims |
+|---|---|
+| `verified_on` | The install target was confirmed to still resolve, unchanged. Either the agent or `scripts/apply_clean_stamps.py` can set this. |
+| `reviewed_on` | A **model** did the full review — read the primary source for the launch command, read the manifest for risky patterns, weighed the licence. Only the agent ever sets this. |
+
+Before each run, `scripts/check_liveness.py` resolves every due page's install target against the
+GitHub, npm, PyPI and OSV APIs. Pages where nothing has moved — the repo still exists and is not
+archived or renamed, the skill directory is still there, the package still resolves with the same
+licence, no advisory matches, and no commit has touched the page's own path since it was last
+verified — get their `verified_on` refreshed automatically and are rendered as:
+
+```
+| **Verified** | works · 2026-08-19 (auto-recheck; reviewed 2026-07-20) |
+```
+
+Everything else goes to the model: anything flagged, anything not already `works` + `cleared`, and
+anything whose launch command has not been confirmed by actually booting it in the quarantined job.
+
+So `verified_on == reviewed_on` means a model looked at this entry on that date. `verified_on`
+being *later* than `reviewed_on` means a script has confirmed since then that nothing about the
+entry moved. That is a genuinely weaker claim than a full review, which is exactly why the two dates
+are kept apart rather than collapsed into one green badge.
+
+The automated refresh is **off by default** and enabled per-repository (the `VERIFIER_AUTOSTAMP`
+variable); until it is turned on, every stamp on every page was written by a model.
+
 ## Libraries recipes install
 
 Some recipes have Claude Code `pip install` a scientific library and write a script against it. Those

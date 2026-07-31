@@ -133,6 +133,23 @@ def due(rows: list[dict], today: str, max_age_days: int | None) -> list[dict]:
     return out
 
 
+def effective_offset(rotate: int, count: int, max_age_days: int | None) -> int:
+    """The rotation offset to actually use, given the staleness setting.
+
+    Rotation and a positive staleness threshold must never compose. Rotation exists
+    only because stamped pages never left the candidate set; once staleness retires
+    them the pointer advances by itself, so applying both would advance the window
+    AND shrink the list — a double-skip that opens coverage gaps inside a cycle.
+
+    `max_age_days=0` is the exception: it makes every page due regardless of when it
+    was stamped, so nothing retires and rotation is still the correct pointer there.
+    """
+    offset = max(0, rotate) * max(1, count)
+    if max_age_days is not None and max_age_days > 0:
+        return 0
+    return offset
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description="Deterministic Verifier worklist.")
     ap.add_argument("--count", type=int, default=25, help="max pages this run")
@@ -155,14 +172,9 @@ def main() -> int:
     today = args.today or date.today().isoformat()
 
     # Slide the window by a full batch each run so successive runs tile the catalog.
-    offset = max(0, args.rotate) * count
-    if args.max_age_days is not None and args.max_age_days > 0 and offset:
-        # Rotation + a positive staleness threshold would double-skip: the window
-        # advances by `count` AND stamped pages drop out of the due set. With
-        # --max-age-days 0 (the manual full-pass escape hatch) nothing leaves the
-        # due set when stamped, so rotation is still the correct pointer there.
+    offset = effective_offset(args.rotate, count, args.max_age_days)
+    if args.rotate and not offset:
         print("note: --rotate ignored because --max-age-days is set", file=sys.stderr)
-        offset = 0
 
     rows = worklist(TOOLS, offset)
     total = len(rows)
