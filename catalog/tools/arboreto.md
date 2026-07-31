@@ -8,11 +8,12 @@ availability: GA
 tool_categories: [Molecular and Cellular Biology, Drug Repurposing and Discovery]
 last_verified: 2026-06-04
 verification: works
-verified_on: 2026-07-20
-verification_note: "repo and skills/arboreto dir resolve on K-Dense-AI/scientific-agent-skills"
+verified_on: 2026-07-29
+reviewed_on: 2026-07-29
+verification_note: "skills/arboreto changed since last verify (2026-07-26 commit); SKILL.md re-read, no risky patterns, smoke pip-install passed"
 security: cleared
-security_on: 2026-07-20
-security_note: "provenance matches supplier K-Dense-AI, MIT collection wrapping BSD-3 Arboreto, maintained (pushed 2026-07-15), no OSV advisories"
+security_on: 2026-07-29
+security_note: "provenance matches supplier K-Dense-AI, MIT collection wrapping BSD-3 Arboreto, maintained (pushed 2026-07-29), no OSV advisories"
 summary: Claude skill for gene-regulatory-network inference with Arboreto — GRNBoost2 / GENIE3 tree-based regression over bulk or single-cell expression, distributed via Dask.
 ---
 
@@ -27,8 +28,8 @@ Claude skill that drives [Arboreto](https://arboreto.readthedocs.io/) for gene-r
 | **Availability** | GA — actively maintained 2025–2026 |
 | **Pricing** | Free / OSS skill (MIT collection); Arboreto itself is BSD-3 |
 | **Capabilities** | Read/Write — Claude executes Arboreto via Python/Bash; Dask handles parallelism |
-| **Verified** | works · 2026-07-20 |
-| **Security** | cleared · 2026-07-20 — provenance matches K-Dense-AI, MIT collection wrapping BSD-3 Arboreto, maintained, no OSV advisories |
+| **Verified** | works · 2026-07-29 |
+| **Security** | cleared · 2026-07-29 — provenance matches K-Dense-AI, MIT collection wrapping BSD-3 Arboreto, maintained, no OSV advisories |
 
 ## How to install
 

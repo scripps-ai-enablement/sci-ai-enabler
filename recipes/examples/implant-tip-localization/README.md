@@ -1,3 +1,11 @@
+---
+title: 'Reproducible example: implant-tip localization'
+parent: All recipes
+grand_parent: Recipes
+nav_exclude: true
+permalink: /recipes/examples/implant-tip-localization/
+---
+
 # Implant-tip localization — reference artifact
 
 The durable artifact for [Localize a fiber/probe implant tip in an Allen CCF

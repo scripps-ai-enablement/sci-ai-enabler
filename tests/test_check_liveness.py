@@ -466,3 +466,41 @@ class DigestRendering(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class LicenseFlagPrecision(unittest.TestCase):
+    """`license-unrecognized` vs `license-absent` decides whether the model must
+    fetch the LICENSE text. The Verifier surfaced this in validation: GitHub returns
+    NOASSERTION for a repo whose root LICENSE is verbatim CC BY 4.0, which is a very
+    different finding from having no licence at all -- and the same flag also covers
+    Augmented-Nature's restrictive non-commercial grants."""
+
+    def _repo(self, license_obj):
+        body = {"full_name": "o/r", "owner": {"login": "o"},
+                "pushed_at": "2026-07-01T00:00:00Z"}
+        if license_obj is not None:
+            body["license"] = license_obj
+        f = cl.Fetcher(opener=StubOpener(routes={"api.github.com": (200, body)}))
+        return cl.fetch_repo(f, "o/r")
+
+    def test_noassertion_is_unrecognized_not_absent(self):
+        got = self._repo({"spdx_id": "NOASSERTION"})
+        self.assertEqual(got["license_raw"], "NOASSERTION")
+        self.assertIsNone(got["license_spdx"])
+
+    def test_no_license_object_is_absent(self):
+        got = self._repo(None)
+        self.assertIsNone(got["license_raw"])
+        self.assertIsNone(got["license_spdx"])
+
+    def test_real_spdx_id_is_neither(self):
+        got = self._repo({"spdx_id": "MIT"})
+        self.assertEqual(got["license_spdx"], "MIT")
+
+    def test_the_two_flags_are_distinct_strings(self):
+        # Guards against a refactor collapsing them back into one flag, which would
+        # cost the model a LICENSE fetch on every page that has a licence.
+        src = (REPO / "scripts" / "check_liveness.py").read_text(encoding="utf-8")
+        self.assertIn('"license-unrecognized"', src)
+        self.assertIn('"license-absent"', src)
+        self.assertNotIn('"license-missing"', src)

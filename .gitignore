@@ -20,6 +20,7 @@ output.txt
 # Transient changelog block an agent writes for scripts/prepend_changelog.py to
 # splice in. Gitignored so a mid-run failure can't commit the scratch file.
 .changelog-block.md
+.changelog-block-auto.md
 
 # Transient Verifier scratch: worklist, smoke results, liveness prefetch. The
 # verify workflow also `rm -rf`s this before committing, but seven workflows

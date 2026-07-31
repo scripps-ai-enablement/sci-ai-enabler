@@ -10,9 +10,14 @@ on:
   workflow_dispatch:
     inputs:
       count:
-        description: 'Per-run verification budget'
+        description: 'Pages the deterministic prefetch resolves per run'
         required: false
-        default: '25'
+        default: '120'
+        type: string
+      max_review:
+        description: 'Max exception pages handed to the model per run'
+        required: false
+        default: '15'
         type: string
       max_age_days:
         description: 'Re-verify only pages older than N days (0 = force a full pass)'
@@ -22,7 +27,7 @@ on:
       smoke_max:
         description: 'Max components the quarantined smoke job may install/boot'
         required: false
-        default: '12'
+        default: '24'
         type: string
 
 concurrency:
@@ -72,8 +77,10 @@ jobs:
         env:
           SMOKE_MAX_IN: ${{ inputs.smoke_max }}
         run: |
-          SMOKE_MAX="${SMOKE_MAX_IN:-12}"
-          case "$SMOKE_MAX" in ''|*[!0-9]*) SMOKE_MAX=12 ;; esac  # digits only
+          # Raised 12 -> 24: executing an MCP server's launch command is strictly
+          # better evidence than reasoning about it, and cheaper than either model.
+          SMOKE_MAX="${SMOKE_MAX_IN:-24}"
+          case "$SMOKE_MAX" in ''|*[!0-9]*) SMOKE_MAX=24 ;; esac  # digits only
           mkdir -p .verify
           python3 scripts/select_smoke_targets.py --max "${SMOKE_MAX}" --out .verify/smoke-batch.json
           useradd -m smoke || true
@@ -177,14 +184,21 @@ jobs:
         id: prompt
         env:
           COUNT_IN: ${{ inputs.count }}
+          MAX_REVIEW_IN: ${{ inputs.max_review }}
           MAX_AGE_IN: ${{ inputs.max_age_days }}
+          # Set to 1 to let scripts/apply_clean_stamps.py actually write. Off by
+          # default: the prefetch needs several shadow cycles diffed against the
+          # agent before a script is trusted to refresh verified_on.
+          STAMP_CLEAN: ${{ vars.VERIFIER_AUTOSTAMP }}
           # Read-only, repo-scoped, and used ONLY for api.github.com by
           # check_liveness.py. This step is in the `verify` job, never in the
           # secret-free quarantined smoke jobs.
           GH_API_TOKEN: ${{ github.token }}
         run: |
-          COUNT="${COUNT_IN:-25}"
-          case "$COUNT" in ''|*[!0-9]*) COUNT=25 ;; esac
+          COUNT="${COUNT_IN:-120}"
+          case "$COUNT" in ''|*[!0-9]*) COUNT=120 ;; esac
+          MAX_REVIEW="${MAX_REVIEW_IN:-15}"
+          case "$MAX_REVIEW" in ''|*[!0-9]*) MAX_REVIEW=15 ;; esac
           MAX_AGE="${MAX_AGE_IN:-30}"
           case "$MAX_AGE" in ''|*[!0-9]*) MAX_AGE=30 ;; esac
           [ -f .verify/smoke-results.json ] || echo '{"results":[]}' > .verify/smoke-results.json
@@ -236,7 +250,30 @@ jobs:
             --worklist .verify/worklist.json \
             --smoke .verify/smoke-results.json \
             --out .verify/liveness.json --digest .verify/liveness.md \
+            --max-review "${MAX_REVIEW}" \
             --budget-seconds 240 || echo "liveness prefetch failed; continuing without it"
+
+          # Refresh verified_on for pages the prefetch found unchanged and clean.
+          # Writes nothing unless the VERIFIER_AUTOSTAMP repo variable is set to 1;
+          # otherwise it reports what it would do. It never writes reviewed_on, so
+          # `verified_on > reviewed_on` always means "script-confirmed, not
+          # model-reviewed" -- see VERIFIER_AGENT.md.
+          STAMP_ARGS=""
+          if [ "${STAMP_CLEAN}" = "1" ]; then STAMP_ARGS="--apply"; fi
+          python3 scripts/apply_clean_stamps.py \
+            --liveness .verify/liveness.json \
+            --date "$(date -u +%Y-%m-%d)" \
+            --changelog-block .changelog-block-auto.md ${STAMP_ARGS} || true
+
+          # GATE B — pages were due, but the prefetch resolved every one of them
+          # clean, so there is nothing left to adjudicate. Unlike Gate A this leaves
+          # changes on disk (the stamps above), so the commit step must still run.
+          NEEDS=$(python3 -c 'import json;print(json.load(open(".verify/liveness.json"))["summary"]["needs_model"])' 2>/dev/null || echo 1)
+          if [ "${NEEDS}" -eq 0 ]; then
+            echo "All ${DUE} due page(s) resolved clean; skipping the agent."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
 
           {
             cat VERIFIER_AGENT.md
@@ -249,19 +286,19 @@ jobs:
             echo "- re-verify interval: pages verified within ${MAX_AGE} days are not served this run"
             echo "- smoke results: .verify/smoke-results.json (read it for boot verdicts)"
             echo "- recipe-dependency verdicts: \`index/recipe-dependencies.json\` is written for you by the workflow before you start. It covers libraries recipes pip-install, which have no catalog page. Do NOT edit it and do NOT stamp recipe pages — the recipes curator acts on it."
+            echo "- review budget: at most ${MAX_REVIEW} pages reach you this run"
             echo ""
-            cat .verify/worklist.md
+            # The digest supersedes the raw worklist: every worklist page appears in
+            # it with a verdict, so injecting both would just invite the agent to
+            # re-verify the clean ones. Fall back to the worklist only if the
+            # prefetch produced nothing.
             if [ -s .verify/liveness.md ]; then
-              echo ""
-              echo "---"
-              echo ""
-              echo "The workflow prefetched the registry facts below for the pages in your"
-              echo "worklist. Treat them as evidence fetched this run on your behalf, exactly"
-              echo "as you treat .verify/smoke-results.json. They do NOT replace your own"
-              echo "checks yet: verify normally, and where a fact here differs from what you"
-              echo "find, say so in your changelog block so the discrepancy is visible."
-              echo ""
               cat .verify/liveness.md
+            else
+              echo "The liveness prefetch produced no digest this run, so verify the"
+              echo "worklist below the old way -- resolve each install target yourself."
+              echo ""
+              cat .verify/worklist.md
             fi
           } > .run-prompt.md
 
@@ -281,10 +318,11 @@ jobs:
           # a newer model than the claude-opus-4-8 it replaces, and shares its
           # tokenizer, so this is a price cut with no token-count inflation.
           model: claude-sonnet-5
-          # Keeps a run alive if the pinned model is briefly unavailable
-          # (overload/capacity). It does NOT cover the model string being
-          # unrecognized by the bundled CLI — the workflow_dispatch smoke test
-          # is what validates that.
+          # Narrower than it looks — do not rely on it. Observed 2026-07-29: a
+          # first-turn `529 overloaded_error` on claude-opus-5 killed the run with
+          # exit 1 while this was set, so it does NOT rescue a capacity event at the
+          # start of a run. It also cannot cover an unrecognized model string. Kept
+          # only because it costs nothing and may still catch a mid-run failure.
           fallback_model: claude-sonnet-4-6
           # NO Bash: static checks are WebFetch calls to GitHub/npm/PyPI/OSV.
           allowed_tools: "Read,Edit,Write,Glob,Grep,WebSearch,WebFetch"
@@ -323,9 +361,13 @@ jobs:
           # cap is correct here. This matters: 43 verifier runs landed on
           # 2026-07-20, so 48 blocks span ~10 days and a 21-day window would hold
           # every one of them.
+          # --extra-block merges the automated-recheck record into the agent's own
+          # block under one dated heading, and is the run's ONLY record when Gate B
+          # skipped the agent -- the awk extractor below still needs a top block.
           python3 scripts/prepend_changelog.py --file VERIFIER_CHANGELOG.md \
-            --block .changelog-block.md --keep 12 --min-days 0
-          rm -f .changelog-block.md
+            --block .changelog-block.md --extra-block .changelog-block-auto.md \
+            --keep 12 --min-days 0
+          rm -f .changelog-block.md .changelog-block-auto.md
 
           # Enforce the `## Recently verified` cap the agent is asked to respect.
           # That section duplicates the changelog block for the same run, and the
