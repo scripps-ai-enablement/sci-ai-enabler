@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated": "2026-07-29",
+  "generated": "2026-07-30",
   "results": [
     {
       "package": "DeepSlice",
@@ -8,7 +8,7 @@
       "install_cmd": "pip install DeepSlice==1.2.8 brainglobe-atlasapi==2.3.1 PyNutil==0.6.2",
       "boot_cmd": "python3 -c \"import DeepSlice, brainglobe_atlasapi, PyNutil\"",
       "status": "pass",
-      "checked_on": "2026-07-29"
+      "checked_on": "2026-07-30"
     },
     {
       "package": "PyNutil",
@@ -16,7 +16,7 @@
       "install_cmd": "pip install DeepSlice==1.2.8 brainglobe-atlasapi==2.3.1 PyNutil==0.6.2",
       "boot_cmd": "python3 -c \"import DeepSlice, brainglobe_atlasapi, PyNutil\"",
       "status": "pass",
-      "checked_on": "2026-07-29"
+      "checked_on": "2026-07-30"
     },
     {
       "package": "brainglobe-atlasapi",
@@ -24,7 +24,7 @@
       "install_cmd": "pip install DeepSlice==1.2.8 brainglobe-atlasapi==2.3.1 PyNutil==0.6.2",
       "boot_cmd": "python3 -c \"import DeepSlice, brainglobe_atlasapi, PyNutil\"",
       "status": "pass",
-      "checked_on": "2026-07-29"
+      "checked_on": "2026-07-30"
     }
   ]
 }
