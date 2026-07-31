@@ -72,10 +72,9 @@ Claude skill that drives [DiffDock](https://github.com/gcorso/DiffDock) — a di
 ## Sources
 
 - [`K-Dense-AI/scientific-agent-skills`](https://github.com/K-Dense-AI/scientific-agent-skills)
-- [`skills/diffdock/SKILL.md`](https://github.com/K-Dense-AI/claude-skills/blob/main/skills/diffdock/SKILL.md)
+- [`skills/diffdock/SKILL.md`](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/diffdock/SKILL.md)
 - [DiffDock — `gcorso/DiffDock`](https://github.com/gcorso/DiffDock)
 - [Corso et al., *ICLR* 2023 — DiffDock: Diffusion Steps, Twists, and Turns for Molecular Docking](https://arxiv.org/abs/2210.01776)
-- [Playbooks: diffdock skill](https://playbooks.com/skills/k-dense-ai/claude-skills/diffdock)
 
 ---
 

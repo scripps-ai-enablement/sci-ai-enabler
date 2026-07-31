@@ -448,14 +448,29 @@ def fetch_repo(f: Fetcher, slug: str) -> dict:
 
 def fetch_dir_listing(f: Fetcher, slug: str, parent: str) -> dict:
     """One `contents/<parent>` call covers every slug under it — a single call to
-    `.../contents/skills` answers `dir-missing` for ~140 catalog pages."""
+    `.../contents/skills` answers `dir-missing` for ~140 catalog pages.
+
+    `ok` is the point of the return shape. This used to signal every failure by
+    returning an empty `names` list, which is also what a successful listing of an
+    empty directory returns, so the caller could not tell "the leaf is not there"
+    from "nobody looked". It guarded with `if names and leaf not in names` and
+    therefore reported the leaf as PRESENT on the strength of a 404.
+
+    The leaf going missing is the small case. The dangerous one is the parent: a
+    single 404 on `contents/skills` covers ~140 pages, and clean pages are what
+    `apply_clean_stamps.py` is allowed to re-stamp without a model. Fail closed.
+    """
     org, repo = slug.split("/")
     if not f.gh_allowed(optional=True):
-        return {"status": 0, "skipped": "budget", "names": []}
+        return {"status": 0, "ok": False, "skipped": "budget", "names": []}
     segs = ["repos", org, repo, "contents"] + parent.split("/") if parent else ["repos", org, repo, "contents"]
     st, body = f.json(f.gh_url(*segs))
-    names = [e.get("name") for e in body] if st == 200 and isinstance(body, list) else []
-    return {"status": st, "names": [n for n in names if n]}
+    if st != 200 or not isinstance(body, list):
+        # A dict body means the path resolved to a *file*, not a directory —
+        # equally not a listing, equally not evidence about the leaf.
+        return {"status": st, "ok": False, "names": []}
+    return {"status": st, "ok": True,
+            "names": [n for n in (e.get("name") for e in body if isinstance(e, dict)) if n]}
 
 
 def fetch_path_last_commit(f: Fetcher, slug: str, path: str) -> str | None:
@@ -608,7 +623,15 @@ def check(batch: list[dict], smoke_results: dict, f: Fetcher, today: str) -> dic
                         key = (slug, parent)
                         if key not in listings:
                             listings[key] = fetch_dir_listing(f, slug, parent)
-                        if listings[key].get("names") and leaf not in listings[key]["names"]:
+                        lst = listings[key]
+                        r["dir_status"] = lst.get("status")
+                        if not lst.get("ok"):
+                            # A listing that did not answer is `fetch-error`, never
+                            # silence — the same precedent fetch_repo sets above.
+                            # Saying `dir-missing` here would be the opposite lie:
+                            # we did not look, so we do not know.
+                            flags.append("fetch-error")
+                        elif leaf not in lst["names"]:
                             flags.append("dir-missing")
                         last = fetch_path_last_commit(f, slug, t["path"])
                         r["last_commit"] = last
@@ -769,7 +792,11 @@ def render_digest(result: dict, max_review: int = 0) -> str:
         for t in p["targets"]:
             if t["kind"].startswith("github"):
                 bits.append(f"repo `{t.get('repo')}`" + (f" path `{t['path']}`" if t.get("path") else "")
-                            + f" -> {t.get('status')}")
+                            + f" -> {t.get('status')}"
+                            # Which lookup failed matters: the repo answering 200 while
+                            # its directory listing 404s is a different story to chase.
+                            + (f" (dir listing -> {t['dir_status']})"
+                               if t.get("dir_status") is not None else ""))
             elif t["kind"] in ("pypi", "npm"):
                 bits.append(f"{t['kind']} `{t.get('name')}` {t.get('version') or t.get('latest') or ''}"
                             f" ({t.get('license') or 'no license'}) -> {t.get('status')}")

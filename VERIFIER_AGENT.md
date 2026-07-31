@@ -52,7 +52,9 @@ a stale availability). Everything else on the page belongs to the curator — le
 - **Static resolution is prefetched — do not redo it.** `scripts/check_liveness.py` has already
   resolved every worklist page's install target against the GitHub / npm / PyPI / OSV APIs and
   written the result to `.verify/liveness.json`, summarized in the digest injected below. That
-  covers: does the repo exist, is it archived or renamed, does the skill subdirectory still exist,
+  covers: does the repo exist, is it archived or renamed, does the skill subdirectory still exist
+  (checked against the upstream parent listing, with a listing that did not succeed reported as
+  `fetch-error` rather than assumed clean),
   does the package resolve and at what version, is it yanked or deprecated, is there a license, does
   any OSV advisory match, when was the path last committed to, and does the install-target owner
   match the page's `supplier`. Re-fetching those URLs yourself is the single largest waste available
@@ -79,10 +81,22 @@ a stale availability). Everything else on the page belongs to the curator — le
     genuinely have changed: this is when you read `SKILL.md` / the manifest / README for risky
     patterns. When a page is *not* flagged this way, its directory has not been touched since the
     last verification and there is no new manifest to read.
+  - **`dir-missing`** — the repo is alive but the skill's own subdirectory is no longer listed in
+    its parent. Usually an upstream rename rather than a deletion, and the successor usually says
+    so: `iso-13485-certification` became `skills/iso-standards-readiness`, whose `SKILL.md` records
+    `supersedes: iso-13485-certification`. **List the parent directory upstream and look for the
+    successor.** If you find it, fix the install block *and* the `## Sources` paths to it and grade
+    `degraded` (auto-fixed this run). Grade `broken` only when you have looked and there is none.
+    The prefetch cannot make that call — a listing tells it the name is gone, never what replaced it.
   - **`osv-advisory`** — the advisory ID is prefetched; whether it actually affects this component
     at this version is your call.
   - **`endpoint-non-2xx`** — a status code is not a verdict. A live MCP server answers 400/405/406
     to a browser-shaped request; 5xx is usually transient; only 404 is real evidence of removal.
+  - **`fetch-error`** — a lookup this page depends on returned no answer: the repo call was skipped
+    for budget, or the directory listing came back non-200 or was not a listing at all. This is the
+    absence of evidence, not evidence of absence, and it is the whole reason the page reached you —
+    resolve the target yourself. It is deliberately never silent: a failed directory listing used to
+    produce no flag whatsoever, which reported a skill directory as present on the strength of a 404.
   - **`no-target-extracted`** — the page has no machine-resolvable install target. Often correct (an
     Anthropic-hosted Connector has no repo); confirm the install path by hand.
   - **A grade that is not `works`+`cleared`** — those pages carry an open story in

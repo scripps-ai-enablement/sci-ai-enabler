@@ -66,7 +66,7 @@ Claude skill that analyzes and engineers protein glycosylation — scans sequenc
 
 - [`skills/glycoengineering/SKILL.md`](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/glycoengineering/SKILL.md)
 - [`K-Dense-AI/scientific-agent-skills` marketplace](https://github.com/K-Dense-AI/scientific-agent-skills)
-- [K-Dense scientific-skills catalog](https://github.com/K-Dense-AI/claude-skills/blob/main/docs/scientific-skills.md)
+- [K-Dense skills catalog](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/docs/skills.md)
 
 ---
 

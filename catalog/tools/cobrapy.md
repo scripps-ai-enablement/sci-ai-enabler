@@ -75,7 +75,6 @@ Solver backends are pluggable via `model.solver` — defaults to GLPK, with CPLE
 - [COBRApy documentation](https://cobrapy.readthedocs.io/)
 - [`opencobra/cobrapy` on GitHub](https://github.com/opencobra/cobrapy)
 - [Ebrahim et al., *BMC Syst. Biol.* 2013 — COBRApy](https://bmcsystbiol.biomedcentral.com/articles/10.1186/1752-0509-7-74)
-- [Playbooks: cobrapy skill](https://playbooks.com/skills/k-dense-ai/claude-skills/cobrapy)
 
 ---
 
