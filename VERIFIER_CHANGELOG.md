@@ -1,4 +1,11 @@
-# Verifier changelog
+---
+title: Verification updates
+parent: Updates
+nav_order: 5
+permalink: /updates/verification.html
+---
+
+# Verification updates
 
 Rolling, reverse-chronological log of catalog verification + security passes. Each scheduled or
 on-demand run that produces changes prepends a dated block; the top block is mirrored to the pinned

@@ -154,8 +154,10 @@ class Rotation(unittest.TestCase):
         self.assertIn("nav_exclude: true", a)
 
     def test_unrendered_source_gets_unrendered_archive(self):
-        # VERIFIER_CHANGELOG.md has no front matter; its archive must not gain any,
-        # or Jekyll would start publishing a page that was never published before.
+        # A changelog with no front matter must not have any invented for its
+        # archive, or Jekyll would start publishing a page that was never
+        # published before. (All five live changelogs are rendered today, but the
+        # script must not assume that.)
         self._write(["2026-07-20", "2026-07-19"], front_matter=False)
         pc.run(self.live, None, keep=1, archive=self.archive, min_days=0)
         self.assertFalse(self.archive.read_text(encoding="utf-8").startswith("---"))

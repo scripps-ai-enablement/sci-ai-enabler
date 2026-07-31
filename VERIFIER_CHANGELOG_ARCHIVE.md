@@ -1,5 +1,9 @@
+---
+title: Verification updates archive
+nav_exclude: true
+---
 
-# Verifier changelog archive
+# Verification updates archive
 
 Older entries rotated out of [VERIFIER_CHANGELOG.md](VERIFIER_CHANGELOG.md). Newest first, same format.
 ## 2026-07-20 (worklist maintenance batch #2 — same 25 pages rechecked)

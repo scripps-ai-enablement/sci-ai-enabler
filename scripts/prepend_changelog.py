@@ -35,10 +35,10 @@ Six workflows extract the newest block for their tracking-issue comment with
 `tests/test_changelog_rotation.py` pins them with a Python reimplementation of
 that exact awk program.
 
-Jekyll: four of the five changelogs carry front matter and render as site pages;
-VERIFIER_CHANGELOG.md has none and is copied verbatim. An archive inherits its
-source's convention, and a rendered archive gets `nav_exclude: true` so it does
-not clutter the sidebar.
+Jekyll: all five changelogs carry front matter and render as site pages. A file
+without front matter is copied verbatim; an archive inherits its source's
+convention, and a rendered archive gets `nav_exclude: true` so it does not
+clutter the sidebar.
 
 stdlib only. Run:
   python3 scripts/prepend_changelog.py --file CHANGELOG.md --block .changelog-block.md --keep 12
