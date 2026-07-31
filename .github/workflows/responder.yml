@@ -142,10 +142,11 @@ jobs:
           prompt_file: .responder-prompt.md
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           model: claude-sonnet-5
-          # Keeps a run alive if the pinned model is briefly unavailable
-          # (overload/capacity). It does NOT cover the model string being
-          # unrecognized by the bundled CLI — the workflow_dispatch smoke test
-          # is what validates that.
+          # Narrower than it looks — do not rely on it. Observed 2026-07-29: a
+          # first-turn `529 overloaded_error` on claude-opus-5 killed the run with
+          # exit 1 while this was set, so it does NOT rescue a capacity event at the
+          # start of a run. It also cannot cover an unrecognized model string. Kept
+          # only because it costs nothing and may still catch a mid-run failure.
           fallback_model: claude-sonnet-4-6
           timeout_minutes: "6"
           allowed_tools: "Read,Glob,Grep,Write,Bash(gh issue comment:*)"

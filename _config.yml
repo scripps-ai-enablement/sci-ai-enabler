@@ -35,6 +35,7 @@ exclude:
   - RECIPE_AGENT.md
   - RESPONDER_AGENT.md
   - DIGEST_AGENT.md
+  - VERIFIER_AGENT.md
   - README.md
   - sources/
   - docs/

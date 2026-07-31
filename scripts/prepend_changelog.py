@@ -35,10 +35,10 @@ Six workflows extract the newest block for their tracking-issue comment with
 `tests/test_changelog_rotation.py` pins them with a Python reimplementation of
 that exact awk program.
 
-Jekyll: four of the five changelogs carry front matter and render as site pages;
-VERIFIER_CHANGELOG.md has none and is copied verbatim. An archive inherits its
-source's convention, and a rendered archive gets `nav_exclude: true` so it does
-not clutter the sidebar.
+Jekyll: all five changelogs carry front matter and render as site pages. A file
+without front matter is copied verbatim; an archive inherits its source's
+convention, and a rendered archive gets `nav_exclude: true` so it does not
+clutter the sidebar.
 
 stdlib only. Run:
   python3 scripts/prepend_changelog.py --file CHANGELOG.md --block .changelog-block.md --keep 12
@@ -161,8 +161,38 @@ def ensure_pointer(preamble: str, live_name: str, archive_name: str) -> str:
     return preamble.rstrip("\n") + "\n\n" + pointer + "\n\n"
 
 
+def _read_block(path: Path | None) -> str | None:
+    """A single dated block from `path`, or None when absent/empty/malformed."""
+    if path is None or not path.exists():
+        return None
+    body = path.read_text(encoding="utf-8").strip("\n")
+    if not body.strip():
+        return None
+    if not DATED_HEADING_RE.match(body):
+        print(f"error: {path} must start with a '## YYYY-MM-DD' heading", file=sys.stderr)
+        return None
+    if BLOCK_RE.search(body[3:]):
+        print(f"error: {path} contains more than one '## ' block", file=sys.stderr)
+        return None
+    return body
+
+
+def merge_blocks(primary: str, extra: str) -> str:
+    """One dated block carrying both bodies, under the primary's heading.
+
+    A run can produce two blocks for the same date: the agent's, and
+    apply_clean_stamps.py's record of the pages it refreshed without a model. They
+    describe the same run, so they belong in one entry rather than two headings for
+    the same day.
+    """
+    extra_body = extra.split("\n", 1)[1].lstrip("\n") if "\n" in extra else ""
+    if not extra_body.strip():
+        return primary
+    return primary.rstrip("\n") + "\n\n" + extra_body.rstrip("\n") + "\n"
+
+
 def run(live: Path, block: Path | None, keep: int, archive: Path | None,
-        min_days: int = 21) -> int:
+        min_days: int = 21, extra_block: Path | None = None) -> int:
     if not live.exists():
         print(f"error: {live} does not exist", file=sys.stderr)
         return 1
@@ -172,20 +202,16 @@ def run(live: Path, block: Path | None, keep: int, archive: Path | None,
     verify_awk_invariant(text)  # refuse to operate on an already-broken file
     preamble, blocks = split_blocks(text)
 
-    if block is not None:
-        if not block.exists() or not block.read_text(encoding="utf-8").strip():
-            print(f"note: {block} missing or empty; rotating only", file=sys.stderr)
-        else:
-            new = block.read_text(encoding="utf-8").strip("\n")
-            if not DATED_HEADING_RE.match(new):
-                print(f"error: {block} must start with a '## YYYY-MM-DD' heading",
-                      file=sys.stderr)
-                return 1
-            if BLOCK_RE.search(new[3:]):
-                print(f"error: {block} contains more than one '## ' block", file=sys.stderr)
-                return 1
-            blocks.insert(0, new + "\n\n")
-            print(f"prepended {len(new)} bytes to {live.name}")
+    primary = _read_block(block)
+    extra = _read_block(extra_block)
+    if block is not None and primary is None and extra is None:
+        print(f"note: no usable block in {block}; rotating only", file=sys.stderr)
+    new = primary or extra
+    if new is not None:
+        if primary is not None and extra is not None:
+            new = merge_blocks(primary, extra)
+        blocks.insert(0, new.rstrip("\n") + "\n\n")
+        print(f"prepended {len(new)} bytes to {live.name}")
 
     evicted: list[str] = []
     if keep > 0 and len(blocks) > keep:
@@ -235,8 +261,12 @@ def main() -> int:
                          "`since` window (7 days by default).")
     ap.add_argument("--archive", type=Path, default=None,
                     help="archive path (default: <stem>_ARCHIVE.md)")
+    ap.add_argument("--extra-block", type=Path, default=None,
+                    help="a second dated block for the same run; merged under the "
+                         "primary block's heading (used for the automated-recheck record)")
     args = ap.parse_args()
-    return run(args.file, args.block, args.keep, args.archive, args.min_days)
+    return run(args.file, args.block, args.keep, args.archive, args.min_days,
+               args.extra_block)
 
 
 if __name__ == "__main__":

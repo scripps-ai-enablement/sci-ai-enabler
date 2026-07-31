@@ -154,8 +154,10 @@ class Rotation(unittest.TestCase):
         self.assertIn("nav_exclude: true", a)
 
     def test_unrendered_source_gets_unrendered_archive(self):
-        # VERIFIER_CHANGELOG.md has no front matter; its archive must not gain any,
-        # or Jekyll would start publishing a page that was never published before.
+        # A changelog with no front matter must not have any invented for its
+        # archive, or Jekyll would start publishing a page that was never
+        # published before. (All five live changelogs are rendered today, but the
+        # script must not assume that.)
         self._write(["2026-07-20", "2026-07-19"], front_matter=False)
         pc.run(self.live, None, keep=1, archive=self.archive, min_days=0)
         self.assertFalse(self.archive.read_text(encoding="utf-8").startswith("---"))
@@ -182,20 +184,89 @@ class Rotation(unittest.TestCase):
         self.assertEqual(rc, 0)
         self.assertTrue(self.archive.exists())
 
-    def test_block_must_be_a_single_dated_h2(self):
-        self._write(["2026-07-20"])
-        bad = self.d / "bad.md"
+    def test_malformed_block_is_rejected_without_losing_the_run(self):
+        # A malformed block is a spec bug worth surfacing, but it must NOT fail the
+        # step: prepend runs before `git add -A`, so a non-zero exit would discard
+        # the run's page edits along with its changelog entry. Warn, skip the block,
+        # keep going.
         for content in (
-            "no heading here\n",                       # no heading at all
-            "## Notes\n\nx\n",                         # heading, but not dated
+            "no heading here\n",                           # no heading at all
+            "## Notes\n\nx\n",                             # heading, but not dated
             "## 2026-07-27\n\nx\n\n## 2026-07-26\n\ny\n",  # two blocks in one file
         ):
             with self.subTest(content=content.splitlines()[0]):
+                self._write(["2026-07-20"])
+                bad = self.d / "bad.md"
                 bad.write_text(content, encoding="utf-8")
-                self.assertEqual(pc.run(self.live, bad, keep=5, archive=self.archive, min_days=0), 1)
-        # ...and the live file is untouched by any of the rejected attempts.
-        _, blocks = pc.split_blocks(self.live.read_text(encoding="utf-8"))
-        self.assertEqual([b.splitlines()[0] for b in blocks], ["## 2026-07-20"])
+                rc = pc.run(self.live, bad, keep=5, archive=self.archive, min_days=0)
+                self.assertEqual(rc, 0)
+                _, blocks = pc.split_blocks(self.live.read_text(encoding="utf-8"))
+                self.assertEqual([b.splitlines()[0] for b in blocks], ["## 2026-07-20"])
+                pc.verify_awk_invariant(self.live.read_text(encoding="utf-8"))
+
+
+class BlockMerging(unittest.TestCase):
+    """A run can produce two blocks for one date: the agent's and the auto-recheck's."""
+
+    def setUp(self):
+        self.d = Path(tempfile.mkdtemp(prefix="cm_"))
+        self.live = self.d / "CHANGELOG.md"
+        self.live.write_text(_doc(True, ["2026-07-20"]), encoding="utf-8")
+        self.archive = self.d / "CHANGELOG_ARCHIVE.md"
+        self.agent = self.d / "agent.md"
+        self.auto = self.d / "auto.md"
+
+    def _run(self):
+        return pc.run(self.live, self.agent, keep=12, archive=self.archive,
+                      min_days=0, extra_block=self.auto)
+
+    def test_merges_under_one_heading(self):
+        self.agent.write_text("## 2026-08-19\n\n### Verified\n- agent did a thing\n", encoding="utf-8")
+        self.auto.write_text("## 2026-08-19\n\n### Verified\n- script rechecked 40 pages\n", encoding="utf-8")
+        self._run()
+        latest = _awk_latest(self.live.read_text(encoding="utf-8"))
+        # Count H2 lines, not the "## " substring -- "### Verified" contains it.
+        h2 = [l for l in latest.splitlines() if l.startswith("## ")]
+        self.assertEqual(len(h2), 1, h2)
+        self.assertIn("agent did a thing", latest)
+        self.assertIn("script rechecked 40 pages", latest)
+
+    def test_auto_block_alone_is_used_when_the_agent_was_skipped(self):
+        # Gate B: the agent never ran, so the auto block is the run's only record --
+        # and the awk extractor still needs a dated top block.
+        self.auto.write_text("## 2026-08-19\n\n### Verified\n- script rechecked 40 pages\n", encoding="utf-8")
+        self._run()
+        latest = _awk_latest(self.live.read_text(encoding="utf-8"))
+        self.assertTrue(latest.startswith("## 2026-08-19"))
+        self.assertIn("script rechecked 40 pages", latest)
+
+    def test_agent_block_alone_when_nothing_was_auto_stamped(self):
+        self.agent.write_text("## 2026-08-19\n\n### Verified\n- agent did a thing\n", encoding="utf-8")
+        self._run()
+        latest = _awk_latest(self.live.read_text(encoding="utf-8"))
+        self.assertIn("agent did a thing", latest)
+        self.assertNotIn("script rechecked", latest)
+
+    def test_neither_block_leaves_the_file_alone(self):
+        before = self.live.read_text(encoding="utf-8")
+        self._run()
+        self.assertEqual(self.live.read_text(encoding="utf-8"), before)
+
+    def test_merged_block_still_passes_the_awk_invariant(self):
+        self.agent.write_text("## 2026-08-19\n\n- a\n", encoding="utf-8")
+        self.auto.write_text("## 2026-08-19\n\n- b\n", encoding="utf-8")
+        self._run()
+        pc.verify_awk_invariant(self.live.read_text(encoding="utf-8"))
+
+    def test_merge_is_pure(self):
+        merged = pc.merge_blocks("## 2026-08-19\n\n- a\n", "## 2026-08-19\n\n- b\n")
+        self.assertEqual(len([l for l in merged.splitlines() if l.startswith("## ")]), 1)
+        self.assertIn("- a", merged)
+        self.assertIn("- b", merged)
+
+    def test_merge_with_empty_extra_body_is_a_noop(self):
+        self.assertEqual(pc.merge_blocks("## 2026-08-19\n\n- a\n", "## 2026-08-19\n"),
+                         "## 2026-08-19\n\n- a\n")
 
 
 class DigestWindow(unittest.TestCase):

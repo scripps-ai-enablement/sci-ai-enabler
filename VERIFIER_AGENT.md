@@ -20,10 +20,15 @@ a stale availability). Everything else on the page belongs to the curator — le
    sandboxed smoke-test job, whose results are handed to you in `.verify/smoke-results.json`. You
    never install, import, clone-and-run, or call a third-party tool yourself.
 
-2. **Ground every judgment in something you fetched this run.** A liveness, provenance, license,
-   advisory, or maintenance claim must trace to a URL you fetched (or a line in
-   `smoke-results.json`). No pre-training recall. "I believe this package exists" is forbidden —
-   fetch `https://pypi.org/pypi/<name>/json` or the npm/GitHub API and confirm.
+2. **Ground every judgment in evidence gathered this run.** A liveness, provenance, license,
+   advisory, or maintenance claim must trace to one of exactly three things: a URL **you** fetched
+   this run, a record in `.verify/smoke-results.json`, or a record in `.verify/liveness.json` —
+   the last two being evidence the workflow gathered this run *on your behalf*, deterministically,
+   before you started. No pre-training recall. "I believe this package exists" is forbidden.
+
+   The prefetch is **not** licence to infer. If a fact you need is neither in the prefetch nor
+   something you fetched yourself, it is `Unknown` — do not fill the gap from memory, and do not
+   assume a fact about one page transfers to another because they share a repo.
 
 3. **Fix the catalog entry, never the external tool.** If an install path is dead/renamed, correct
    *the page* to the current working path (verified against a primary source) and record it. If the
@@ -44,18 +49,56 @@ a stale availability). Everything else on the page belongs to the curator — le
 ## The two checks
 
 ### Verification — does the entry work?
-- **Static (every entry):** the install target resolves and the documented install path is current.
-  Resolve by `tool_type`/install kind:
-  - GitHub `org/repo` → `https://api.github.com/repos/<org>/<repo>` (exists, not archived/404).
-  - npm package → `https://registry.npmjs.org/<pkg>` (latest version present).
-  - PyPI package → `https://pypi.org/pypi/<name>/json`.
-  - Remote MCP endpoint / Connector → fetch the endpoint or its documented status page.
-  Also confirm the `supplier` link loads. Audit the install block against the followable-verbatim
+- **Static resolution is prefetched — do not redo it.** `scripts/check_liveness.py` has already
+  resolved every worklist page's install target against the GitHub / npm / PyPI / OSV APIs and
+  written the result to `.verify/liveness.json`, summarized in the digest injected below. That
+  covers: does the repo exist, is it archived or renamed, does the skill subdirectory still exist,
+  does the package resolve and at what version, is it yanked or deprecated, is there a license, does
+  any OSV advisory match, when was the path last committed to, and does the install-target owner
+  match the page's `supplier`. Re-fetching those URLs yourself is the single largest waste available
+  to you: it is ~96% confirmation that nothing changed, at Opus-or-Sonnet rates, per page, per run.
+
+  **Never re-open a page listed in the digest's clean section.** Those pages resolved unchanged; the
+  digest names them so you can see the coverage, not so you can re-verify them. Spending your budget
+  re-doing the prefetch's work is the one failure mode that makes this whole arrangement pointless.
+
+  Work the digest's **"Needs your adjudication"** list. That is where a registry cannot answer the
+  question, and it is what you are for:
+  - **`license-unrecognized`** — a LICENSE file exists but GitHub could not map it to an SPDX id
+    (`NOASSERTION`). **Fetch the raw LICENSE text**; this is the flag that hides both good and bad
+    news. `jaechang-hits/SciAgent-Skills` turns out to be verbatim CC BY 4.0, while
+    `Augmented-Nature`'s repos carry a restrictive personal/non-commercial grant despite headers
+    suggesting MIT. The prefetch cannot tell these apart — it only knows the file is non-standard —
+    and the difference decides `cleared` vs `caution` **and** whether the page's Pricing row is a
+    false "Free / OSS" claim.
+  - **`license-absent`** — no licence at all. Usually `caution`, but confirm; a licence may live
+    somewhere the API does not look.
+  - **`repo-renamed` / provenance mismatch** — a mismatch is often legitimate (`supplier: NeuroClaw`
+    vs owner `CUHK-AIM-Group`). Judging whether a name is a rebrand or a typosquat is yours.
+  - **`changed-since-verified`** — the skill's own directory has new commits, so the manifest may
+    genuinely have changed: this is when you read `SKILL.md` / the manifest / README for risky
+    patterns. When a page is *not* flagged this way, its directory has not been touched since the
+    last verification and there is no new manifest to read.
+  - **`osv-advisory`** — the advisory ID is prefetched; whether it actually affects this component
+    at this version is your call.
+  - **`endpoint-non-2xx`** — a status code is not a verdict. A live MCP server answers 400/405/406
+    to a browser-shaped request; 5xx is usually transient; only 404 is real evidence of removal.
+  - **`no-target-extracted`** — the page has no machine-resolvable install target. Often correct (an
+    Anthropic-hosted Connector has no repo); confirm the install path by hand.
+  - **A grade that is not `works`+`cleared`** — those pages carry an open story in
+    `catalog/verifier-state.md` that a script cannot advance. They always come to you.
+
+  Also confirm the `supplier` link loads and audit the install block against the followable-verbatim
   rules in `AGENT.md` (namespaced plugin commands, literal registration snippets, prerequisite
   installs).
   - **Launch command / registration snippet (not just the package):** resolving the install target
     is necessary but NOT sufficient — a package can exist on PyPI/npm while the page documents a dead
-    or renamed way to *invoke* it. For every entry whose install block launches the tool, confirm the
+    or renamed way to *invoke* it. This applies to a **minority** of pages: 358 of 459 entries are
+    Claude Skills and 21 are Connectors, none of which have a binary to invoke, and for a
+    smoke-eligible MCP server the quarantined job has already *executed* the launch command it
+    extracted, so a wrong subcommand surfaces as `boot_error`. What is left for you is the residual
+    the safety gate excludes from execution — auth-gated and remote servers, which the digest marks
+    with a `launch:` line and a smoke status that is not `pass`. For those, confirm the
     exact invocation the user runs against a primary source for the current version: the token(s)
     after `claude mcp add <name> ... -- <binary> <subcommand> <args>`, the `command`/`args` in a
     `claude_desktop_config.json` / `mcpServers` block, and any bare `<binary> <subcommand>`. The
@@ -89,12 +132,27 @@ Front-matter fields you add/update on the page (and keep the two table rows in s
 
 ```yaml
 verification: works | degraded | broken
-verified_on: YYYY-MM-DD
+verified_on: YYYY-MM-DD      # last date the entry was confirmed LIVE (you or a script)
+reviewed_on: YYYY-MM-DD      # last date a MODEL did the full review — you only
 verification_note: "<one line; quoted; required for degraded/broken>"
 security: cleared | caution | flagged | unknown
 security_on: YYYY-MM-DD
 security_note: "<one line rationale; quoted; always>"
 ```
+
+**The two dates carry different claims, and conflating them would be dishonest.**
+`verified_on` says the install target was confirmed to still resolve, unchanged — which
+`scripts/apply_clean_stamps.py` can establish deterministically for a `works`+`cleared` page whose
+targets have not moved. `reviewed_on` says a model did the full primary-source and manifest review
+that `works` actually claims, which no script can establish. So:
+
+- **You** set both, to the run date, on every page you actually work.
+- **The script** refreshes `verified_on` only, and never touches `reviewed_on`.
+- `verified_on == reviewed_on` ⇒ a model looked. `verified_on > reviewed_on` ⇒ a script confirmed
+  nothing moved since the last time one did.
+
+A page whose `reviewed_on` has fallen a long way behind `verified_on` is one the worklist should
+bring back to you even though it looks fresh; the digest flags that for you.
 
 - **verification** — `works`: resolves **and** (smoke-tested `pass`, or — for non-executable or
   smoke-excluded types like Connectors and auth-gated servers — the install path **and its launch
@@ -125,24 +183,45 @@ parser and Jekyll YAML happy). Bad grades always carry a note naming the evidenc
 | **Security** | cleared · 2026-07-18 — provenance matches supplier, MIT, no OSV advisories |
 ```
 
+A page last confirmed by the automated recheck rather than by a model carries the review date too,
+so a reader can tell which of the two claims backs the badge:
+```
+| **Verified** | works · 2026-08-19 (auto-recheck; reviewed 2026-07-20) |
+```
+
 ## What to do each run
 
-The workflow injects a `## This run` stanza with the UTC date, a `scope` (`bootstrap` or
-`maintenance`), a `count` budget, the path to `.verify/smoke-results.json`, **and a
-`## This run's worklist`** — the exact, ordered list of pages to stamp this run.
+The workflow injects a `## This run` stanza with the UTC date, the re-verify interval, the path to
+`.verify/smoke-results.json`, **and the liveness digest** — the prefetch's per-page verdicts, split
+into a clean section and a **"Needs your adjudication"** list.
 
 1. **Read state.** Read `catalog/verifier-state.md` (`## Deferred`, `## Flagged`, `## Smoke-test
-   queue`) and `.verify/smoke-results.json`.
-2. **Work the injected worklist — do NOT enumerate the catalog yourself.** The `## This run's
-   worklist` (computed deterministically by `scripts/select_verify_targets.py`, unstamped-first then
-   oldest `verified_on`) is the authoritative batch. Verify the pages in it, top to bottom, until the
-   `count` budget or the wall-clock cap is hit. Self-enumerating the tree (Grep/Glob/LS) previously
-   produced a reproducible blind spot that left 7 pages unstamped for dozens of runs while the count
-   looked "complete" — trust the worklist, not a tree scan. You may still consult `## Deferred` /
-   `## Flagged` for *context*, but the worklist decides the batch.
-3. **Verify + assess** each entry per the two checks above, fetching sources.
+   queue`), `.verify/smoke-results.json`, and the injected digest. `.verify/liveness.json` has the
+   full detail behind the digest if you need a field the summary omits.
+2. **Work the digest's "Needs your adjudication" list — do NOT enumerate the catalog yourself.**
+   That list is the authoritative batch, derived deterministically by
+   `scripts/select_verify_targets.py` and `scripts/check_liveness.py`. Work it top to bottom until
+   the review budget or the wall clock is hit. Self-enumerating the tree (Grep/Glob/LS) previously
+   produced a reproducible blind spot that left 7 pages unstamped for dozens of runs while the
+   agent's own count read "complete" — trust the injected list, not a tree scan. You may consult
+   `## Deferred` / `## Flagged` for *context*, but the digest decides the batch.
+
+   **Do not touch a page in the clean section**, and do not work pages listed as over the review
+   budget — those stay due and lead the next run.
+3. **Adjudicate** each page on the list: read the primary source the flag calls for, decide the
+   grade, and say which fetched evidence decided it.
 4. **Fix** broken entries you can fix from a primary source; flag those you can't.
-5. **Stamp** each entry (front-matter + the two table rows), dating with the run's UTC date.
+5. **Stamp** each entry you worked (front-matter + the two table rows), dating with the run's UTC
+   date. Set **`reviewed_on` to the same date** on those pages: it records that a model, not a
+   script, did the full review. `scripts/apply_clean_stamps.py` refreshes `verified_on` on
+   script-confirmed pages but **never** writes `reviewed_on`, so `verified_on > reviewed_on` is
+   precisely the signal that a page has been auto-rechecked but not re-reviewed. Never hand-edit
+   `reviewed_on` to a date you did not actually review on.
+
+   **If the prefetch and your own findings disagree, say so explicitly in your changelog block.**
+   A discrepancy is a bug in the prefetch and is more valuable than the stamp — the first shadow
+   run's report that the prefetch had resolved a Connector page's repo to this catalog itself is
+   what caught a defect affecting 24 pages.
 6. **Record.** Update `catalog/verifier-state.md` (`## Recently verified` — at most 4 one-line items;
    move handled items out of `## Deferred`; add broken/insecure ones to `## Flagged`; refresh the
    `## Smoke-test queue` with the safe, aging targets you want the next run's smoke job to cover).
