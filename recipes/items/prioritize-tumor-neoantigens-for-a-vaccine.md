@@ -103,6 +103,7 @@ The manual-review step in step 4 is a known bottleneck rather than a curator's c
 - [Scan a protein for candidate CD8 T-cell epitopes](scan-protein-for-cd8-t-cell-epitopes.html) — the sequence-only, tumor-context-free sibling.
 - [Scan a protein for candidate CD4 T-cell (helper) epitopes](scan-protein-for-cd4-t-cell-epitopes.html) — class II candidates for the same construct.
 - [Annotate tumor somatic variants with clinical actionability evidence](annotate-tumor-variants-with-clinical-actionability.html) — the therapy-matching read of the same somatic VCF.
+- [Predict checkpoint-blockade response for a tumor from its biomarker profile](predict-checkpoint-blockade-response-for-a-tumor.html) — the ICI-eligibility read, where TMB summarizes the neoantigen supply this recipe enumerates.
 - [Annotate TCR antigen specificity by clustering and database lookup](annotate-tcr-specificity-by-clustering.html) — the post-vaccination readout, when you sequence the responding T cells.
 
 ## Sources

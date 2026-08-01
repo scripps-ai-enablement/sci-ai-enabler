@@ -15,6 +15,25 @@ Older entries live in [RECIPES_CHANGELOG_ARCHIVE.md](RECIPES_CHANGELOG_ARCHIVE.m
 
 ## 2026-08-01
 
+### Added
+
+- **Predict checkpoint-blockade response for a tumor from its biomarker profile** (Problem class: Knowledge synthesis; Evidence: Proposed) — Immunology and Microbiology focus-day recipe closing the top-of-queue deferred item and completing the immuno-oncology trio alongside the neoantigen and CIViC-actionability recipes. Rung 2: the [ToolUniverse Immunotherapy Response Prediction skill](https://scripps-ai-enablement.github.io/sci-ai-enabler/catalog/tools/tooluniverse-immunotherapy-response-prediction.html) turns a per-sample biomarker table (TMB with assay, MMR/MSI with method, PD-L1 with antibody clone *and* scoring convention kept un-converted, HLA genotype, resistance genotypes) into per-axis component scores with T1–T4 evidence grades — never the integrated 0–100 score alone — plus a direction-disagreement flag as the human-review trigger, emitted through a committed `.claude/commands/ici-response.md` with `ici_biomarkers.csv` and a `provenance.json` recording each knowledgebase's release date. Marked `Proposed` because the skill's integrated score is not benchmarked against outcomes; the component axes are strong: TMB and the T-cell-inflamed GEP are independently predictive and only weakly correlated across >300 samples, 22 tumor types, 4 KEYNOTE trials ([Cristescu et al., *Science* 2018](https://pubmed.ncbi.nlm.nih.gov/30309915/)) — the finding that motivates keeping the axes separate — with GEP development in [Ayers et al., *JCI* 2017](https://pubmed.ncbi.nlm.nih.gov/28650338/), TMB-H alone insufficient across 5,621 metastatic breast cancers ([Sammons et al. 2023](https://pubmed.ncbi.nlm.nih.gov/37637072/)), and response heterogeneity *within* dMMR/MSI-H at 55.6% vs 32.8% in IMvigor210 ([Kim et al., *Cancers* 2025](https://pubmed.ncbi.nlm.nih.gov/41514531/)).
+
+### Updated
+
+- **Prioritize tumor neoantigens for a personalized cancer vaccine** — cross-linked to the new checkpoint-blockade recipe (the ICI-eligibility read, where TMB summarizes the neoantigen supply this recipe enumerates).
+- **Annotate tumor somatic variants with clinical actionability evidence** — cross-linked to the new checkpoint-blockade recipe as the immunotherapy-eligibility read of the same tumor profile.
+
+### Flagged
+
+- None.
+
+### Verified (no changes)
+
+- `recipe_recheck: no` this slot — aging-recipe verification skipped; the run went to discovery in the Immunology and Microbiology focus area.
+
+## 2026-08-01
+
 Directed pass on **Immunology and Microbiology**. Two recipes shipped, both closing previously-uncovered GA bioSkills immunoinformatics skills.
 
 ### Added

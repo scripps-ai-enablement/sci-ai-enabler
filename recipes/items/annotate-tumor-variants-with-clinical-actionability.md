@@ -94,6 +94,7 @@ No head-to-head benchmark of this *Claude+CIViC* assembly versus a manual CIViC 
 - [Interpret a clinical variant from a natural-language query](interpret-clinical-variant.html) — the germline pathogenicity counterpart.
 - [Match a patient to clinical trials](match-patient-to-clinical-trials.html) — downstream of the actionable-variant shortlist.
 - [Detect somatic CNVs from tumor sequencing](detect-somatic-cnvs-from-tumor-sequencing.html) — the copy-number side of the same tumor profile.
+- [Predict checkpoint-blockade response for a tumor from its biomarker profile](predict-checkpoint-blockade-response-for-a-tumor.html) — the immunotherapy-eligibility read of the same tumor profile.
 - [Reproducible, provenance-tracked AI analysis](../../guide/advanced/reproducibility.html) — the committed-artifact pattern this recipe follows.
 
 ## Sources
