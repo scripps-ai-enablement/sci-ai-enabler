@@ -6,7 +6,7 @@ tool_type: MCP server
 supplier: Sage Bionetworks
 availability: GA
 tool_categories: [All]
-last_verified: 2026-05-20
+last_verified: 2026-08-01
 verification: works
 verified_on: 2026-07-20
 verification_note: "synapse plugin dir confirmed in the anthropics/life-sciences marketplace repo and endpoint is on Sage's mcp.synapse.org; functional connect is OAuth/account-gated so verified via primary source not a live call"

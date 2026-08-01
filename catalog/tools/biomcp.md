@@ -6,7 +6,7 @@ tool_type: MCP server
 supplier: GenomOncology
 availability: GA
 tool_categories: [All]
-last_verified: 2026-05-19
+last_verified: 2026-08-01
 verification: degraded
 verified_on: 2026-07-20
 verification_note: "launch command was biomcp run (not a real subcommand) — corrected to canonical biomcp serve, verified against the biomcp.org MCP-server reference; biomcp mcp is the docs' legacy alias"

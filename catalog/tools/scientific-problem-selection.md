@@ -6,7 +6,7 @@ tool_type: Claude Skill
 supplier: Anthropic
 availability: GA
 tool_categories: [All]
-last_verified: 2026-05-20
+last_verified: 2026-08-01
 verification: works
 verified_on: 2026-07-20
 security: caution

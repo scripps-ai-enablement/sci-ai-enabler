@@ -13,6 +13,22 @@ Reverse-chronological log of changes to the [catalog]({{ '/catalog/' | relative_
 
 Older entries live in [CHANGELOG_ARCHIVE.md](CHANGELOG_ARCHIVE.md).
 
+## 2026-08-01
+
+### Added
+- **XTB MCP Server** (Categories: Chemistry) — MIT MCP server that builds, validates, and explains `xtb` semi-empirical quantum-chemistry input decks (GFN0/GFN1/GFN2/GFN-FF) across 10 tools covering optimizations, frequencies, scans, metadynamics, ONIOM QM/MM, and spectroscopy setups ([PhelanShao/xtb-mcp-server](https://github.com/PhelanShao/xtb-mcp-server))
+- **Materials Project MCP Server** (Categories: General-Purpose Utilities) — MIT server in the `mcp.science` collection giving Claude 7 tools over the Materials Project crystal-structure database: formula search, CIF/POSCAR export, supercell and moiré-bilayer construction; launched with `uvx mcp-science materials-project` ([pathintegral-institute/mcp.science](https://github.com/pathintegral-institute/mcp.science))
+
+### Updated
+- **UniProt MCP Server** — `Pricing` corrected from "Free / OSS (MIT)" to "Free to use" with an inline `**Unverified —**` on redistribution: the committed `LICENSE` is a restrictive non-commercial grant while `package.json` and the README claim MIT. Notes now tell readers the server is fine to run (thin read-only client over the public UniProt REST API) but should not be vendored or redistributed until upstream resolves the conflict ([Augmented-Nature/UniProt-MCP-Server](https://github.com/Augmented-Nature/UniProt-MCP-Server))
+- **BioMCP** — re-verified live: MIT, `biomcp-cli` on PyPI, `biomcp serve` launch command confirmed against [biomcp.org](https://biomcp.org/)
+
+### Flagged
+- **UniProt MCP Server** — self-contradictory upstream license (restrictive non-commercial `LICENSE` vs. MIT in `package.json`/README); last upstream push 2025-12-21
+
+### Verified (no changes)
+- 4 entries re-verified — Synapse.org Connector and scientific-problem-selection re-confirmed present in the `anthropics/life-sciences` marketplace manifest; all 21 plugins in that manifest re-checked and already catalogued.
+
 ## 2026-07-27 (user request #74)
 
 Immediate-fulfillment run for @goodb's recipe-block chain (#74): the recipes curator blocked a QUINT-replacement implant-localization recipe on two uncatalogued components, `brainglobe-atlasapi` and `DeepSlice`. Both were verified as real, actively-maintained, and cleanly-licensed — but neither is catalogable: each is a **bare PyPI library with no Claude-installable Skill / MCP / plugin / connector**, the same out-of-scope bar applied to raw RDKit/Scanpy. Verified licenses banked for the moment a wrapper surfaces; recorded under Deferred. No page shipped.

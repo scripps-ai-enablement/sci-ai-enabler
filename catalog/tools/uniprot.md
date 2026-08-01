@@ -6,7 +6,8 @@ tool_type: MCP server
 supplier: Augmented Nature
 availability: GA
 tool_categories: [Immunology and Microbiology, Integrative Structural and Computational Biology, Molecular and Cellular Biology, Drug Repurposing and Discovery]
-last_verified: 2026-05-20
+last_verified: 2026-08-01
+flagged: "upstream license is self-contradictory — committed LICENSE is a restrictive non-commercial grant while package.json and the README claim MIT, as of 2026-08-01"
 claude_science: true
 verification: works
 verified_on: 2026-07-29
@@ -26,7 +27,7 @@ MCP wrapper over the UniProt REST API — the standard protein-annotation layer 
 | **Type** | MCP server |
 | **Supplier** | [Augmented Nature](https://github.com/Augmented-Nature/UniProt-MCP-Server) (community OSS) |
 | **Availability** | GA |
-| **Pricing** | Free / OSS (MIT) |
+| **Pricing** | Free to use — wraps the public UniProt REST API, no auth. **Unverified —** redistribution terms are contradictory upstream: the committed `LICENSE` file is a restrictive non-commercial grant while `package.json` and the README say MIT. |
 | **Capabilities** | Read-only |
 | **Verified** | works · 2026-07-29 |
 | **Security** | caution · 2026-07-29 — committed LICENSE is restrictive non-commercial while page/package.json claim MIT; ~7mo stale |
@@ -79,6 +80,8 @@ Docker alternative: `docker build -t uniprot-mcp-server . && docker run -i unipr
 **Claude Science:** This resource is offered inside Anthropic's **Claude Science** via the *Genes & Ontologies* featured connector. Its inclusion there is an independent signal of quality and trustworthiness for life-science research.
 
 stdio transport. No auth required — calls the public UniProt REST API. Complements ChEMBL (small molecules) and AlphaFold (3D) by covering the annotation layer.
+
+Upstream licensing is inconsistent (see **Pricing** above) and the last push was 2025-12-21. Running the server is unproblematic — it is a thin read-only client over a public API — but do not vendor or redistribute the code until the terms are clarified. The SciAgent-Skills packaging above (CC BY 4.0) is a cleanly-licensed alternative route to the same UniProt REST surface.
 
 ## Sources
 
