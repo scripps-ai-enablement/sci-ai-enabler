@@ -16,6 +16,18 @@ Older entries live in [CHANGELOG_ARCHIVE.md](CHANGELOG_ARCHIVE.md).
 ## 2026-08-01
 
 ### Added
+- **MetaPhlAn Profiling (bioSkills)** (Categories: Immunology and Microbiology) — MetaPhlAn 4 clade-specific marker profiling of shotgun metagenomes to species/SGB cell fractions, with `--index` pinning and unknown-fraction guidance ([SKILL.md](https://github.com/GPTomics/bioSkills/blob/main/metagenomics/metaphlan-profiling/SKILL.md))
+- **Functional Profiling (bioSkills)** (Categories: Immunology and Microbiology) — HUMAnN 3 tiered search for species-stratified gene-family and MetaCyc pathway abundances ([SKILL.md](https://github.com/GPTomics/bioSkills/blob/main/metagenomics/functional-profiling/SKILL.md))
+- **Strain Tracking (bioSkills)** (Categories: Immunology and Microbiology) — sub-species strain resolution and shared-strain testing with inStrain popANI, StrainPhlAn, MIDAS2, StrainGE and skani ([SKILL.md](https://github.com/GPTomics/bioSkills/blob/main/metagenomics/strain-tracking/SKILL.md))
+- **Immunogenicity Scoring (bioSkills)** (Categories: Immunology and Microbiology, Translational Medicine) — neoantigen/epitope ranking by likely T-cell response via NeoFox, PRIME2.0, BigMHC-IM and pVACtools tiering ([SKILL.md](https://github.com/GPTomics/bioSkills/blob/main/immunoinformatics/immunogenicity-scoring/SKILL.md))
+- **Differential Abundance (bioSkills)** (Categories: Immunology and Microbiology) — compositionally-aware microbiome differential-abundance testing with a required multi-tool consensus ([SKILL.md](https://github.com/GPTomics/bioSkills/blob/main/microbiome/differential-abundance/SKILL.md))
+
+### Verified (no changes)
+- Manifest sweep: 21 `anthropics/life-sciences` marketplace plugins re-confirmed present and already catalogued.
+
+## 2026-08-01
+
+### Added
 - **XTB MCP Server** (Categories: Chemistry) — MIT MCP server that builds, validates, and explains `xtb` semi-empirical quantum-chemistry input decks (GFN0/GFN1/GFN2/GFN-FF) across 10 tools covering optimizations, frequencies, scans, metadynamics, ONIOM QM/MM, and spectroscopy setups ([PhelanShao/xtb-mcp-server](https://github.com/PhelanShao/xtb-mcp-server))
 - **Materials Project MCP Server** (Categories: General-Purpose Utilities) — MIT server in the `mcp.science` collection giving Claude 7 tools over the Materials Project crystal-structure database: formula search, CIF/POSCAR export, supercell and moiré-bilayer construction; launched with `uvx mcp-science materials-project` ([pathintegral-institute/mcp.science](https://github.com/pathintegral-institute/mcp.science))
 
