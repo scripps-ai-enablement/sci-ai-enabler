@@ -6,6 +6,22 @@ nav_exclude: true
 # AI scientist updates archive
 
 Older entries rotated out of [COSCIENTIST_CHANGELOG.md](COSCIENTIST_CHANGELOG.md). Newest first, same format.
+## 2026-06-07
+
+### Added
+- **SAGA** (Lifecycle: Multi-stage) — Scientific Autonomous Goal-evolving Agent, a multi-institution collaboration (Cornell, Ohio State, Yale, Simon Fraser, EPFL, UC Berkeley, Northeastern, Broad Institute, MIT, Deep Principle, Georgia Tech, and others) whose distinctive contribution is **automating objective-function design** — evolving *what to optimize for* rather than treating objectives as fixed inputs. A **bi-level architecture** pairs an **outer loop** of four LLM agents — a **Planner** that proposes new objectives from the goal and current progress, an **Implementer** that compiles objectives into executable scoring functions (e.g., RDKit-based scorers), an **Optimizer** that searches candidate hypotheses under the current objectives, and an **Analyzer** that diagnoses optimization failure modes — with an **inner loop** that runs any optimization strategy (genetic algorithms, RL search) to evolve candidates. It runs in **co-pilot**, **semi-pilot**, and **autopilot** modes. Demonstrated across five design domains (antibiotics, nanobodies, functional DNA sequences, inorganic materials, chemical-process flowsheets) with genuine wet-lab validation: a **structurally novel antibiotic hit** (Tanimoto distance >0.7 from all known antibiotics) with experimentally confirmed activity against *E. coli* and no human cytotoxicity, and **three de novo PD-L1 nanobody binders** (K_D 300–400 nM) where the autonomously evolved composite scorer separated binders from non-binders (p = 0.03) but no single in-silico metric did. Open source under MIT ([source](https://arxiv.org/abs/2512.21782)).
+
+### Updated
+- **`autonomous-science/summary.md`** — appended the SAGA source citation; re-verified every synthesis claim against the current grouping and bumped `synthesis_reviewed` to 2026-06-07. SAGA fits the existing General/multi-domain and wet-lab-evidence patterns (an objective-evolving cousin of DKPL) and reinforces but does not tip any superlative, so no synthesis prose was rewritten.
+- **`autonomous-science/curator-state.md`** — added SAGA at the top of `Recently surfaced` (trimming AgentPLM to keep the window at five) and removed the now-promoted SAGA entry from `Deferred — next-run priority`.
+- **`sources/manifest.json`** — SAGA entry (DOI 10.48550/arXiv.2512.21782) added by Phase A.
+
+### Flagged
+_None._
+
+### Verified (no changes)
+- All pre-existing system pages remain inside the 30-day re-verification window; no spot-checks required this run.
+
 ## 2026-06-06
 
 ### Added

@@ -1,0 +1,846 @@
+AIMS: An uncertainty-aware AI experimentalist for quantum matter
+Siyuan Qiu1,∗ , Philip D. Suh1,∗ , Nhat Huy Tran5 , Xirui Wang7,9 , Heonjoon Park8 ,
+Kutay Akin1 , Kevin K. S. Multani1,7,9 , Seungwon Jung2,3 , Wenkai Cai2 , Xinyu Liu2,10 ,
+Ziyan Zhu6 , Chunjing Jia5 , Zhantao Chen4,11 , Zhixun Shen1,7,8,9,† , and Zhurun Ji2,9,†
+1
+
+Department of Physics, Stanford University, Stanford, CA 94305, USA
+Department of Physics, Massachusetts Institute of Technology, Cambridge, MA 02139, USA
+3
+Department of Materials Science and Engineering,
+Massachusetts Institute of Technology, Cambridge, MA 02139, USA
+4
+Walker Department of Mechanical Engineering,
+The University of Texas at Austin, Austin, TX 78712, USA
+5
+Department of Physics, University of Florida, Gainesville, FL 32611, USA
+6
+Department of Physics, Boston College, Chestnut Hill, MA 02467, USA
+7
+Department of Applied Physics, Stanford University, Stanford, CA 94305, USA
+8
+Geballe Laboratory for Advanced Materials, Stanford University, Stanford, CA 94305, USA
+9
+Stanford Institute for Materials and Energy Sciences,
+SLAC National Accelerator Laboratory, Menlo Park, CA 94025, USA
+10
+Department of Physics, New York University, New York, NY 10003, USA
+11
+Texas Materials Institute, The University of Texas at Austin, Austin, TX 78712, USA
+∗
+These authors contributed equally to this work. and
+†
+Correspondence: zxshen@stanford.edu, zhurun@mit.edu
+
+arXiv:2607.16544v1 [cond-mat.str-el] 17 Jul 2026
+
+2
+
+Autonomous scientific agents are beginning to
+accelerate discovery, but most demonstrations
+operate in digital or highly structured settings
+where the objects, actions, and objectives are
+largely predefined. Quantum materials experiments pose a harder problem where uncertainties involve: the instrument state can drift, the
+useful signal may occupy only rare regions of an
+inhomogeneous sample, and the physical mechanism is often under-determined. Here we introduce the AI agent for Inference and Measurement in Science (AIMS), an uncertainty-aware
+closed-loop AI experimentalist for cryogenic microwave impedance microscopy that converts uncertainty into experimental action. AIMS links
+three nested loops: navigation under uncertain
+perception, measurement selection under sample inhomogeneity, and scale-resolved mechanism
+attribution under ambiguous physics. In navigation, it relocates the sample after cryogenic
+displacement, flags unreliable position estimates,
+and invokes recovery strategies, significantly reducing sample-locating time. In measurement,
+it maps twist angle distribution and generalized
+Wigner crystal score of twisted bilayer MoSe2 to
+identify regions with the strongest correlated response. In discovery, AIMS asks not whether
+melting is simply classical or quantum, but how
+the competition of Coulomb repulsion, hopping,
+and other energy scales shapes the observed hierarchy. By testing the classical limit, varying hopping and Coulomb scales, and preserving sample morphology as a secondary testable
+variable, AIMS prioritizes a quantum-fluctuation-
+
+renormalized origin of the anomalously robust
+ν = 1/2 crystal. AIMS demonstrates uncertaintyaware experimental agency for quantum matter
+with perception recovery, measurement choice,
+and energy-scale-resolved mechanism attribution
+in one closed loop.
+
+INTRODUCTION
+
+AI-powered systems are beginning to automate scientific research across domains [1] — from chemical synthesis [2–5] and materials optimization [6] to self-driving
+laboratories [7–10]. Built on reasoning-capable large language models that plan, use tools and iterate [11, 12],
+such agents increasingly act on scientific instruments as
+well — autonomously fabricating and assembling twodimensional materials devices [13–15], executing geneediting experiments [16], operating advanced instruments
+that adapt on the job [17], and running multistage experiments at large-scale facilities [18, 19]. Yet most operate
+where the inputs are digital or highly structured, the action space is predefined, and success is judged against a
+fixed objective, leaving open a harder question: whether
+an AI agent can work inside a physical experiment where
+observations are noisy, useful measurements are sparse,
+and the scientific interpretation itself remains uncertain.
+Quantum materials experiments expose this challenge
+sharply. A cryogenic scanning probe experiment is not
+only slow or technically demanding; it is uncertain at every level. The probe may not be where it is expected
+to be after cooldown, the relevant electronic phase may
+occupy only a small region of a spatially inhomogeneous
+device [20–25], and even with high-quality data, the mi-
+
+2
+croscopic mechanism may remain under-determined, because classical, quantum and disorder-related explanations produce overlapping signatures [26–30]. The relevant benchmark here is therefore not autonomy alone,
+but uncertainty-aware experimental agency: whether the
+agent recognizes unreliable perceptions, changes its measurement plan when the sample is disordered, and preserves competing mechanisms when the data cannot yet
+select a single explanation.
+Microwave impedance microscopy (MIM) [31–35] provides a stringent test of this standard. Cryogenic MIM
+has revealed local electronic structure in quantum Hall,
+quantum spin Hall, quantum anomalous Hall and fractional Chern systems [33, 34, 36, 37], but its power comes
+with the same obstacles that frustrate autonomy in many
+physical laboratories. Thermal contraction can displace
+the tip by hundreds of microns, local disorder and twistangle variation obscure the best measurement region, and
+the interpretation of correlated insulating states demands
+comparison across energy scales, models and structural
+perturbations. A useful agent for this setting must therefore do more than automate scanning: it must convert
+uncertainty into the next physical or analytical action.
+Here we introduce AIMS, a closed-loop large-languagemodel (LLM) agent that operates a cryogenic MIM platform end to end. Rather than pursuing autonomy as an
+end in itself, AIMS is designed to make uncertainty actionable: three nested loops carry the experiment from
+measurement preparation, through data accumulation,
+to physical conclusion, each recognizing its dominant uncertainty and converting it into the next measurement or
+calculation. The result is an uncertainty-aware AI experimentalist for quantum matter — autonomous where the
+task is well posed, collaborative where scientific judgment
+is high-stakes, and explicit about the evidence needed to
+reduce remaining ambiguity.
+
+AIMS: AN UNCERTAINTY-AWARE AI
+EXPERIMENTALIST
+
+As detailed in Figure 1, AIMS confronts the three
+uncertainties that pervade a MIM experiment — Where
+am I? Where should I measure? What physics explains
+the data? — each converted into the next concrete action
+by a dedicated loop.
+The navigation loop confronts uncertainty in perception of tip position. Prompted to locate the sample,
+AIMS scans through MCP server [38] encoded instrument control and predicts the tip position by automated
+localization, moving and re-scanning until the tip reaches
+the target, keeping human involvement minimal with explicit self-reasoning and reliable failure handling tools.
+The measurement loop confronts uncertainty in the inhomogeneous distribution of correlated states. A largearea scan swept across gating voltage leads to isolation of
+
+strongly correlated regions; grid spectroscopy then maps
+local properties such as twist angle and disorder, steering
+AIMS toward low-disorder, high-contrast sites with scoring of each site by the quality of its correlated features.
+Uncertainty about sample quality is thereby converted
+into a ranked landscape that pins down the optimal measurement position, with researchers free to cross-check
+the agent’s choice.
+The discovery loop confronts uncertainty in interpretation, where classical and quantum mechanisms produce overlapping signatures that no single measurement
+can disentangle. Rather than forcing a binary verdict,
+AIMS treats interpretation as an evidence-updating process. Guided by prompts encoding the analysis workflow,
+it reviews its database of experimental data, literature
+and tools, and ranks both researcher-seeded and selfgenerated hypotheses by data-derived evidence rather
+than committing prematurely to one model. When the
+available evidence is insufficient, AIMS identifies the specific gap, proposes the follow-up calculation or measurement most likely to resolve it, and incorporates the resulting evidence into an updated mechanism ranking. Researchers provide the guiding question, initial hypotheses, and experimental safeguards, while AIMS expands
+the hypothesis space, ranks competing mechanisms, specifies follow-up tests, and updates the physical attribution.
+Across all three loops, performance was evaluated
+against independent controls rather than successful task
+completion alone. Navigation was repeated from different initial positions and on the actual cryogenic device; measurement selection was cross-checked using an
+independent image metric and a denser human-defined
+grid; and mechanism attribution compared matched classical and quantum forward models and was challenged by
+beyond-mean-field calculations and registered structural
+measurements. The resulting analyses were further evaluated blindly against human reports. The supplied inputs, autonomous decisions, uncertainty triggers, human
+interventions, and success criteria are summarized in SI
+Table S2.
+
+LOCATING SAMPLE UNDER UNCERTAIN
+PERCEPTION OF POSITION
+
+To benchmark AIMS-driven closed-loop navigation, we
+first tested it on a patterned SiO2 /Si marker chip with
+densely distributed triangular marks encoding directional
+information toward the sample. Rather than place an actual sample, we defined successful navigation as bringing
+the tip within 150 µm of the chip center, where sample
+would usually reside, and initiated each test by displacing
+the tip ∼500 µm in a random direction, comparable to
+the offset typical after a cooldown. Following the closedloop workflow, AIMS drove the tip to within 150 µm of
+the center in six scans (Figure 2(d)). The stark con-
+
+3
+ductivity contrast between the Au markers and the insulating substrate renders the markers clearly visible in the
+MIM-Im channel, enabling position prediction by particle filter and template matching [39–41] with the optical
+image, which outperforms convolutional neural network
+(CNN) method [42] in accuracy.
+Even with careful marker design, disturbances under
+practical measurement conditions can still corrupt individual predictions. For example, the predicted position
+for Scans 3 is visibly inaccurate as a result of poor image quality (Figure 2(e)). Crucially, AIMS recognizes
+this unreliable prediction through its large uncertainty
+and flags it in its output, correctly explaining that the
+tip retracted on encountering surface debris during both
+scans (SI Figure S10). AIMS thus not only initializes
+the navigation loop but also diagnoses the origin of experimental failures as feedback.
+Such defects are endemic to two dimensional devices
+and persistently degrade SPM image quality. AIMS
+was therefore equipped with recovery strategies — rescanning at increased tip lift, or Gaussian process (GP)
+reconstruction[43–45] of a higher-resolution image with
+enhanced contrast (Figure 2(f )) — that it can invoke
+autonomously when uncertainty is elevated. The application of GP regression on Scan 3, for instance, brought
+the prediction back to the correct quadrant and sharply
+suppressed the uncertainty. Compared to human-driven
+navigation with scripted code for instrumentation control, we found the AIMS-driven workflow reduced total
+navigation time from ∼10 hours to ∼4 hours, owing principally to fewer required scans under more confident position estimation and a more progressive movement policy.
+We further validated the workflow from different initial positions (SI Figure S1) and after cooldown to
+cryogenic temperature on a real device (SI Figure S2),
+where AIMS autonomously invoked GP regression to
+avert false predictions caused by low image quality.
+AIMS thus functions not as a passive measurement tool
+but as an active closed-loop problem solver that reasons
+over uncertainty and adapts its strategy to practical experimental challenges.
+
+MEASURING CORRELATED STATES UNDER
+SAMPLE INHOMOGENEITY
+
+After the sample location is identified, the measurement loop confronts a different uncertainty: which experimental conditions, across a large parameter space —
+position, gating voltage, magnetic field, temperature and
+other degrees of freedom — will expose the physics of
+interest. To explore this, we fabricated a twisted bilayer
+MoSe2 device (Methods), targeting a 4◦ twist angle, previously reported to exhibit Mott insulating state at integer filling ν = 1 and generalized Wigner crystal (GWC)
+states at fractional fillings [46]. However, because trans-
+
+fer uncertainties and substrate-induced strain can drive
+the experimental twist angle substantially from target
+and introduce spatial non-uniformity, the productive region must be surveyed rather than presumed.
+By looping between data acquisition and analysis,
+AIMS progressively narrowed the optimized measurement region from micron scale to a few candidate points,
+as illustrated in Figure 3(a). AIMS began with a large
+scale 3 µm × 3 µm MIM scan while sweeping bottom gate
+voltage, focusing on the Mott state. The smaller region
+of stronger correlated response is then extracted by calculating the cumulative pixel-to-pixel difference between
+each pair of MIM-Im images acquired at adjacent gate
+voltages, where the appearance of correlated insulating
+state leads to suppression of local conductivity, as in Figure 3(b-c). As an independent check by human decision, a simultaneous pixel-wise comparison using structural similarity index (SSIM) is performed, which shows
+a well-overlapped correlated region (SI Figure S3(d)),
+supporting AIMS’s choice. The SSIM method was subsequently added to AIMS as an additional MCP tool for
+correlated region identification.
+Within the selected region, AIMS set up a grid spectroscopy measurement(Figure 3(e)) and revealed clear
+spatial variation with shifting correlated dip positions
+that signal substantial twist angle disorder. Assigning the most prominent dip to the ν = 1 Mott state,
+AIMS produced an in-situ twist angle disorder map
+(Figure 3(f )), showing an average twist angle θ =
+3.13◦ ± 0.22◦ .
+Beyond mapping where twist angle inhomogeneity lies,
+AIMS pins down the best measurement position by scoring the quality of the correlated features measured at
+each grid point — weighing the number of fractional
+states, the depth of each dip, the measurement noise,
+and the deviation from the predicted fractional fillings
+(Figure 3(g)), turning a subjective site choice into a
+reproducible ranking. On this basis, AIMS selected the
+point at row 3, column 9 (star in Figure 3(f )), which
+resolves a series of fractional GWC states at ν= 1/3,
+1/2, and 2/3, alongside the ν = 1 Mott insulator and
+ν = 2 band insulator. (Figure 3(h)). The independent human benchmark investigates a larger grid area
+(SI Figure S4(b-f )), partially overlapping AIMS’s region and taken under more finely tuned tip conditions,
+but still converged on a best position within ∼200 nm
+of AIMS’s choice, further corroborating its choice without human intervention. Overall, the measurement loop
+demonstrates an improvement in resolving uncertainties
+in measurement position of real sample automatically,
+combining the mapped twist angle disorder with a quantitative ranking of correlated feature quality, and feeds
+both back to researchers who remain free to verify the
+outcome.
+
+4
+RESOLVING GENERALIZED WIGNER
+CRYSTAL MELTING MECHANISMS UNDER
+AMBIGUOUS INTERPRETATION
+
+The melting of generalized Wigner crystals [46–50]
+presents an intriguing physical problem. In twisted
+MoSe2 , the fractional states at ν = 1/3, 1/2, and 2/3
+arise from the same moiré system, yet their thermal stability differs sharply. Temperature-dependent MIM spectroscopy shows that the ν = 1/3 and 2/3 states melt near
+17 K, while the ν = 1/2 stripe remains robust throughout the accessible range, establishing a melting hierarchy
+Tm (ν = 1/2) > Tm (ν = 1/3) ≃ Tm (ν = 2/3). The extrapolated value Tm (ν = 1/2) = 30.5 ± 6.0 K is treated
+as censored evidence, since the feature remains finite at
+the 20 K measurement ceiling, but the hierarchy itself
+is directly established (Figure 4(b)). The central question is therefore why the half-filled stripe resists thermal
+melting far more than its neighbors.
+Experimental interpretation commonly proceeds by
+settling on the single model that best matches the data,
+but this can leave several questions entangled: a model
+may capture the defining trend while remaining quantitatively incomplete; a residual may reflect missing physics
+rather than a competing mechanism; and sample heterogeneity may control one observable without causing
+the primary phenomenon. A binary classical-or-quantum
+verdict does not, by itself, distinguish these possibilities.
+We thus built the discovery loop of AIMS to make
+this interpretive process itself closed-loop (Figure 4(a)).
+Starting from a scientific question and researcher-seeded
+hypotheses, AIMS generates additional explanations
+from model residuals, measurement limitations, and sample heterogeneity, then separately evaluates support for
+each physical mechanism, the possibility of an alternative
+mechanism or hidden variable, and the quantitative closure of the current model. Each unresolved uncertainty is
+converted into a specific action—calculation, characterization, calibration, or measurement—and the resulting
+evidence is incorporated into a new inference pass. Here,
+researchers supplied two initial hypotheses, classical thermal and quantum-fluctuation-influenced melting, which
+AIMS independently expanded with twist-domain inhomogeneity, the MIM dip depth as an imperfect proxy for
+thermodynamic melting, and beyond-mean-field physics
+as open mechanisms.
+AIMS’s first pass established that classical model alone
+cannot produce the observed hierarchy. Across the explored dielectric-parameter space, a hopping-free (t =
+0) Monte Carlo (MC) model consistently predicted the
+ν = 1/2 state to be the least robust, opposite to experiment (Figure 4(c)). On the contrary, a finitehopping (t ̸= 0) Hartree–Fock (HF) model reproduced
+the ν = 1/2-dominant ordering under identical priors
+and likelihoods, with parameter attribution identifying
+Coulomb repulsion and hopping as leading controls of
+
+the calculated melting scales (Figure 4(d)). The data
+therefore favored a quantum-fluctuation origin.
+Crucially, AIMS did not treat the first-pass model
+ranking as a final verdict. The favored mean-field explanation retained high model-closure uncertainty Uclosure ,
+particularly for the over-stablized ν=2/3 melting scale.
+In addition, the measured twist-angle variation raised a
+structural uncertainty: local morphology might drive the
+melting hierarchy or might instead control only the spatial strength of the correlated response. These two uncertainties led to two actions: exact diagonalization (ED)
+and finite-temperature Lanczos method (FTLM) calculations to test the mechanism beyond mean field, and an
+AFM measurement registered to the MIM data to test
+the structural hypothesis. The first inference pass thus
+generated not only a leading explanation, but also the
+evidence required to challenge and refine it.
+The ED/FTLM follow-up strengthened the quantum
+mechanism assignment and revealed the microscopic origin of the hierarchy. Increasing hopping keeps ν = 1/2
+the most robust state while further suppressing the stability of ν = 1/3 and 2/3 (Figure 4(e)), agreeing with
+experiment and thus reducing Uclosure . Hopping lowers
+the melting scale of the ν = 1/3 and 2/3 crystal, consistent with quantum fluctuations assisting thermal disordering. At ν = 1/2, however, the same kinetic term
+strongly raises the melting scale, from approximately 5
+K near the small-hopping limit to approximately 30 K
+at the physical hopping. The exceptional thermal stability of the ν = 1/2 stripe is thus not simply inherited
+from stronger classical charge order but enabled by electron hopping. The results therefore show that quantum
+motion can act in opposite directions on the competing
+charge configurations.
+The registered AFM measurement resolved the structural uncertainty. Registered topography and twist angle
+analysis showed two twist domains separated by a topographic fold (SI Figure S7(a)). The temperature-series
+point lies in a homogeneous high-twist domain, so twist
+disorder does not account for the measured melting hierarchy. Instead, the fold controls a different observable:
+the spatial strength of correlated features, which correlates directly with distance from the fold (Figure 4(f )).
+Thus, local morphology organizes where correlated states
+are strongest, but does not replace the intrinsic mechanism of the fractional melting hierarchy, allowing AIMS
+consequently reassigned the structural hypothesis as a
+secondary mechanism.
+In the second inference pass, AIMS incorporated both
+follow-ups into the same mechanism-ranking framework,
+further favoring quantum-fluctuation-influenced melting
+as the primary mechanism for the fractional hierarchy with reduced Uclosure while assigning twist disorder
+and other alternatives a secondary role (Figure 4(g)).
+The resulting picture assigns distinct roles to the relevant processes: interactions provide the basis for charge
+
+5
+crystallization; quantum kinetics reconstructs the fillingdependent thermal hierarchy; and morphology controls
+where GWC responses are strongest. This closes the discovery loop. AIMS transforms an initially binary question into a quantitative account by expanding the hypothesis space, separating distinct uncertainties, generating the evidence needed to resolve them, and updating
+the interpretation when that evidence arrives. The resulting account reveals quantum-enabled thermal stability at half filling while preserving the remaining understabilized ν = 2/3 state predicted by ED/FTLM and
+morphology-dependent spatial response as targets for further investigation. In a blind evaluation using the same
+dataset and tools, independent condensed-matter physicists scored the resulting AIMS reports comparably to
+the strongest human analyses (Figure 4(h)).
+
+DISCUSSION AND OUTLOOK
+
+In conclusion, AIMS demonstrates an uncertaintyaware closed-loop agency in a cryogenic scanning probe
+quantum materials experiment, coupling perception recovery, adaptive measurement selection, and mechanism
+attribution in one complete experimental workflow. The
+navigation loop frees researchers from redundant but
+mandatory steps of the experiment. Moreover, the adoption of agent intelligence and reasoning capability allows
+it to recover from experimental failures and operate robustly under uncertainties. The measurement loop on
+the twisted MoSe2 sample further manifests the use of
+AIMS to unveil hidden physical inhomogeneities, such as
+twist angle disorder, and optimizes the experimental parameters based on quantitative correlated feature evaluation to improve the efficiency and quality of experiments.
+Building on these data, the discovery loop explores classical and quantum hypotheses of Wigner-crystal melting,
+uncovering a quantum-fluctuation-renormalized picture
+of the anomalously robust ν = 1/2 crystal with solid
+evidence-backed inference process and proposed future
+experiments closing the three nested loops.
+Several limitations temper these results and define the
+work that remains. The demonstration of AIMS centers on a single cryogenic instrument and material system. Although the loop architecture is modality-agnostic
+by design, where new capabilities enter simply as additional tools within the same stateful server, the generalization across the wider scanning probe family and
+samples exhibiting different correlated behaviors awaits
+experimental test. Furthermore, the parameter-space exploration focuses only on position, without full investigation on gate voltage, magnetic field, and temperature
+yet. Lastly, the current discovery loop still depends on
+curated tools, literature, and human-seeded questions,
+and the mechanism attribution remains probabilistic and
+evidence-ranked, not a final microscopic theory. We an-
+
+ticipate that coupling the discovery loop more tightly to
+versatile theory, allowing the agent to pose its own scientific questions and orchestrate measurements across successive cooldowns, would finally close the remaining gap
+toward genuinely self-driving condensed matter physics
+discovery beyond uncertainties.
+More broadly, AIMS points to a different criterion
+for evaluating scientific agents in quantum matter. Full
+autonomy is not, by itself, the relevant benchmark for
+a cryogenic experiment in which perception can fail,
+the sample is intrinsically inhomogeneous, and microscopic interpretation remains under-determined. The
+more meaningful standard is uncertainty-aware evidence
+generation: whether the agent recognizes when its own
+position estimate is unreliable, adapts its measurement
+plan when the sample is disordered, and preserves competing mechanisms when the data cannot yet select one.
+In this experiment, uncertain perception triggered recovery, sample inhomogeneity triggered adaptive measurement selection, and ambiguous interpretation triggered targeted theoretical and structural follow-ups —
+converting uncertainty at the instrument, sample, and
+mechanism levels into concrete scientific action. This
+standard also bridges experiment and theory: experimentalists confront drift, defects and sparse signal, while
+theorists confront competing models and uncertain energy scales, and AIMS connects both in one loop, turning experimental uncertainty into better measurements
+and theoretical ambiguity into explicit, testable hypotheses. Within this architecture, graded human involvement
+makes AIMS trustworthy — autonomous where the task
+is well posed, collaborative where scientific judgment is
+high-stakes, and explicit about the measurements needed
+to reduce remaining ambiguity. Such behavior distinguishes an AI experimentalist from a scripted automation
+pipeline and offers a practical framework for AI-assisted
+discovery in physical laboratories.
+
+METHODS
+
+AIMS implementation The navigation and measurement loops of AIMS were built on Claude Opus 4.5,
+accessed through LibreChat using application programming interface (API) access, with instrument control and
+data analysis capabilities exposed as tools through a
+Model Context Protocol (MCP) server. Representative
+MCP tools are summarized in SI Table 3. The model
+was used with its default configuration, except a long
+timeout of 300000 s to prevent timeout-induced interruptions during scanning. Internet access was disabled
+to prevent the agent from taking unnecessary or uncontrolled coding actions that could interfere with the experiment, while preserving its ability to identify and handle
+experimental uncertainties. The agent was prompted to
+continue whenever a loop was interrupted, for example
+
+6
+running out of API token credits.
+Each run was initialized with a task prompt that specified the essential run-specific information, including the
+working directory, parameters for scanning, dimensions
+of templates, and other experimental settings, following
+similar operation logic of human-driven measurements.
+The intrinsic uncertainties of the two loops were autonomously identified by AIMS without being explicitly
+highlighted in the prompt, although possible mitigation
+strategies were included to guide AIMS in overcoming
+these difficulties. Two prompts for the navigation and
+measurement loops are shown in the Supplementary Information as examples.
+The discovery loop of AIMS was constructed on Claude
+Opus 4.8, accessed via the Claude Desktop interface with
+full Internet access, reflecting the higher level of freedom in programming beyond simply calling the provided
+MCP tools. All agent-directed computation was executed locally on a single CPU-only workstation (Intel
+Xeon-class processor, Sapphire Rapids, Family 6 Model
+143; 12 physical cores / 24 logical threads; 68 GB RAM)
+running Windows 11 (AMD64) with Python 3.12.7; no
+GPU was used. The prompt is separated into two parts
+with different focuses. The physics prior prompt includes
+the documentation for each MCP tool, data and literature, together with details of the fabrication parameters
+of the device, helping AIMS to gain a more comprehensive understanding of the database. On the other hand,
+the Bayesian inference prompt instructs AIMS to address
+the mechanism attribution as a calibrated, updateable
+inference procedure rather than a qualitative judgment
+with scalable posterior probabilities and Bayes factors
+produced by code. Whenever a mechanism remains incomplete or sensitive to assumptions, AIMS must convert
+the residual uncertainty into concrete proposed evidence
+and directly test any invoked hidden variable, so that
+each pass closes by specifying the follow-up measurement
+or calculation that would most sharpen the conclusion.
+Navigation prompt and algorithms. The navigation prompt specified all required MCP tools and parameters: 500 nm tip lift, 53 µm × 53 µm scan size
+with 128 pixels×40 pixels, a 1636 pixels×1088 pixels optical image as the template, and termination criterion as
+150 µm from chip center. To prevent the tip from straying outside the marker region after an inaccurate prediction, the maximum displacement between consecutive
+scans was limited to 100 µm. For Scan 3, GP reconstruction improved resolution from 128 pixels×40 pixels
+to 128 pixels×160 pixels.
+Three algorithms were compared on the same set of
+scan images, with an ”accurate” prediction defined as
+one lying in the same quadrant as the ground truth —
+sufficient to direct the subsequent move toward the sample. The convolutional neural network was fastest at inference but least accurate: it was trained on 5000 random 256 × 256 optical patches, each labeled by the ar-
+
+row angle implied by the patch center relative to the
+map center (θ = atan2(y, x)), for 30 epochs. It generalized poorly to actual scan images owing to differing noise levels, and training directly on scan data is
+impractical given the acquisition time per image. The
+NCC particle filter and the modern particle filter both
+treat localization as template matching on the optical image, with each particle proposing a map position whose
+cropped, rescaled patch is scored against the scan. The
+NCC method used 1000 particles over 10 iterations with
+single-metric scoring and minimal preprocessing beyond
+grayscale conversion, taking the final prediction from the
+dominant particle cluster (DBSCAN mode). The modern
+particle filter used a more robust pipeline: the reference
+image was preprocessed by row detrending, high-pass filtering, and gradient-based structural features; particles
+were initialized near promising locations from a coarse
+template-correlation step, then refined with a larger set
+(7500 particles, 25 iterations), each scored by a weighted
+combination of zero-mean NCC on high-pass patches, an
+unsigned gradient-orientation (HOG-like) term, and optional gradient-magnitude NCC, with a structure mask
+down-weighting flat regions. Because total navigation
+time is dominated by scanning rather than inference, we
+selected the modern particle filter to minimize wrong predictions and thereby save time overall.
+Evaluation of twist angle and GWC score. Before
+analysis, AIMS applied a third-order polynomial Savitzky–Golay filter with window size = 15 to smooth the
+target MIM spectrum to suppress high frequency noise.
+The most robust ν = 1 and ν = 2 features were first identified by assuming a sample twist angle range from 2◦ to
+4◦ and searching the corresponding bottom gate voltage
+range. The local twist angle, filling factor and bottom
+gate voltage are connected via
+s√
+3a2 ε0 εr
+(Vbg − VCNP )
+(1)
+θ≈
+2ν ed
+where a is the lattice constant of MoSe2 , ν is the filling
+factor, ε0 is the vacuum permittivity, εr is the hBN permittivity, e is the unit charge, Vbg is the gating voltage at
+ν and VCNP is the gating voltage at the charge neutrality
+point (CNP). The expression holds for all single-gated
+hexagonal twisted heterostructures (including graphene
+and other TMDs) in the small-angle limit, and can be
+extended to additional gating layers. The hBN thickness
+was supplied from AFM measurement; the lattice constant, unit charge, vacuum permittivity and hBN permittivity were retrieved by AIMS and were consistent with
+accepted values. VCNP was obtained by interpolating the
+linear Vbg − ν relation to ν = 0, leaving θ identifiable
+from Vbg at a single assigned filling factor.
+Candidate dips were then identified as minima of the
+smoothed trace and, independently, as inflection features
+in its first derivative, the latter being essential for in-
+
+7
+compressible states that manifest as steps rather than
+isolated minima. A feature was retained only if its depth
+relative to a baseline defined by its flanking shoulders exceeded a significance threshold of twice the local noise,
+ensuring that only statistically meaningful features entered the analysis. The global CNP was determined by
+the average of 2V (ν = 1) − V (ν = 2) from an ensemble
+
+of curves with highest confidence in the ν = 1 and 2 dip
+extraction. The twist angle map at each grid point is
+then evaluated by this global CNP and local V (ν = 1).
+To score the GWC states of each spectrum, AIMS focuses on the filling range ν ∈ [0.10, 0.90], and the score
+is assigned based on
+
+
+bd + w2 depth
+\ − w3 noise
+\
+[ − w4 fillDev
+Si = Nd + (1 − ε) minmax w1 N
+
+cd is the
+where ϵ = 0.001 is the dominance margin, N
+\ is the added depth of all
+number of GWC dips, depth
+[
+GWC dips, noise is the noise level of MIM spectrum,
+\ is the deviation from the expected fractional fillfillDev
+ings ν = 1/3, 1/2 and 2/3, and w1,2,3,4 are the corresponding weights of each term with w1,3,4 = 1 and
+w2 = 0.3. An independent Nd term is added to ensure a
+position with more GWC states observed always receives
+a higher score.
+Melting temperature extraction. For each spectrum, Savitzky–Golay filtering locates the ν = 1/3, 1/2
+and 2/3 states, and the temperature dependence of each
+dip depth serves as the melting diagnostic. Depth is referenced to a linear baseline fitted only to the dip-free shoulders (outer 28% of each window edge), with the dip region excluded; when a state melts, the spectrum smooths
+and the shoulder-anchored line coincides with the central
+trace, so depth falls to ∼ 0, while the shoulder constraint
+prevents the baseline from bending into the dip and reporting spurious depth. Each depth is normalized by
+the difference between the 98th and 2nd percentiles of
+the smoothed spectrum to remove gain and offset variation. Tm is defined as the temperature at which depth
+falls to 10% of its maximum by linear interpolation. For
+ν = 1/2, which retains ∼48% of its maximum depth at 20
+K, Tm is obtained by extrapolation with a shared power
+law O(T ) = A(1 − T /Tc )β , with β ≈ 0.7 fixed by the
+in-range states.
+Sample design and fabrication. To encode directional information, we design lateral triangular Au markers whose acute angle always points toward the sample
+position. The markers cover a circular region 2 mm in
+diameter centered on the sample, spanning 48 distinct
+directions in total. Marker density increases toward the
+sample, providing a qualitative indication of relative distance to the target. Marker size was chosen so that
+multiple markers fall within a single scan frame. We
+additionally elongated the shorter side of the marker,
+which reduces the risk of recognizing the marker in the
+opposite orientation — a failure mode frequently encountered with our earlier narrower designs. We use standard
+electron beam lithography on poly(methyl methacrylate)
+
+(2)
+
+(PMMA) to pattern the markers on the 285nm SiO2 /Si
+chip used for the sample locating test and deposit with
+Ti/Au (5/25 nm) by electron beam evaporation.
+We exfoliate hexagonal boron nitride (hBN), graphite,
+and molybdenum diselenide (MoSe2 ) flakes on O2 plasma
+cleaned SiO2 /Si chip, and characterize the used flakes
+with optical microscopy and AFM. We adopt the dry
+transfer method for assembling the twisted MoSe2 heterostructure. We prepare the standard transfer stamp
+with 6.5% polycarbonate (PC) film on dome-shaped
+polydimethylsiloxane (PDMS). The first transfer is completed with a 15nm hBN pickup followed by graphite
+pickup, and final release onto a SiO2 /Si chip with prepatterned Ti/Au (5/45 nm) markers and larger contacts.
+The PC film is washed off with remover PG, acetone and
+2-propanol. The sample electrodes are then patterned
+and deposited with Ti/Pt (1/4 nm). The second transfer is completed in a glovebox with the monolayer MoSe2
+flake separated into two with an AFM tip and picked up
+sequentially after picking up a 6nm hBN. The stack is
+then melted down onto the previous hBN-graphite stack
+with sample electrodes. A final metal deposition is done
+with Ti/Au (5/45 nm) to make the electrodes for graphite
+and connections to outer electrodes. The twisted MoSe2
+region is cleaned with contact mode AFM to remove the
+bubbles.
+MIM measurements.
+Microwave impedance microscopy (MIM) measurements are performed in a Janis 3 He cryostat equipped with a 12 T superconducting
+magnet and customized scanning setup. The MIM probe
+is composed of an etched tungsten tip with 50 nm apex
+mounted on a quartz tuning fork, which enabled topographic feedback. The tip is maintained around 10-30
+nm away from the sample surface during the measurement.
+The control of gating voltage, scanning, and tip movement is achieved with Nanonis SPM controller (SPECS
+Group, RC5). The scanners and positioners are assembled and controlled with commercial piezoelectric
+actuators and piezo positioning controller (Attocube,
+ANC300).
+The microwave frequency is set to 1GHz with input
+
+8
+power about 0.2 µW using a signal generator (Agilent,
+E8257D), and no magnetic field is applied for the discussed measurements. To reduce the Schottky barrier
+between Pt contact and twisted MoSe2 , we apply 750
+nm light using a supercontinuum laser (NKT Photonics,
+FIU-20), with wavelength selected by a monochromator
+(Princeton Instruments, Acton SP 2300).
+Open-Source Software AIMS acknowledges the following open-source resources: the Model Context Protocol Python SDK (FastMCP), LibreChat, Starlette,
+Uvicorn, Pydantic, NumPy, SciPy, pandas, Matplotlib,
+scikit-learn, scikit-image, OpenCV, Pillow, pySPM,
+PyVISA (with the pyvisa-py backend), pylablib, NanonisTCP, and PyYAML.
+
+ACKNOWLEDGEMENTS
+
+We thank the help from K. Lei and L. Garcia in reviewing the manuscript.
+We acknowledge the support of Panofsky fellowship at
+SLAC national accelerator laboratory, and start up fund
+from Boston College. The works at the Stanford Institute for Materials and Energy Sciences are supported by
+the U.S. Department of Energy, Office of Science, Office of Basic Energy Sciences, Division of Materials Sciences and Engineering, under Contract No. DE-AC0276SF00515. The works at University of Florida are supported by the U.S. Department of Energy, Office of Science, Office of Basic Energy Sciences, Under Contract
+No. DE-SC0022216.
+
+COMPETING INTERESTS
+
+The authors declare no competing interests.
+
+ADDITIONAL INFORMATION
+
+Correspondence and requests for materials should be
+addressed to the corresponding author.
+
+DATA AND CODE AVAILABILITY
+
+All data and code used in this study are available from
+the corresponding authors upon request.
+
+REFERENCES
+[1] Wang, H. et al. Scientific discovery in the age of artificial
+intelligence. Nature 620, 47–60 (2023).
+[2] Boiko, D. A., MacKnight, R., Kline, B. & Gomes, G. Autonomous chemical research with large language models.
+Nature 624, 570–578 (2023).
+
+[3] Bran, A. M. et al. Augmenting large language models with chemistry tools. Nat. Mach. Intell. 6, 525–535
+(2024).
+[4] Dai, T. et al. Autonomous mobile robots for exploratory
+synthetic chemistry. Nature 635, 890–897 (2024).
+[5] Ramos, M. C., Collison, C. J. & White, A. D. A review of large language models and autonomous agents in
+chemistry. Chem. Sci. 16, 2514–2572 (2025).
+[6] Ni, Z. et al. MatPilot: an LLM-enabled AI materials
+scientist under the framework of human-machine collaboration. Preprint at https://doi.org/10.48550/arXiv.
+2411.08063 (2024).
+[7] MacLeod, B. P. et al. Self-driving laboratory for accelerated discovery of thin-film materials. Sci. Adv. 6,
+eaaz8867 (2020).
+[8] Szymanski, N. J. et al. An autonomous laboratory for
+the accelerated synthesis of inorganic materials. Nature
+624, 86–91 (2023).
+[9] Tom, G. et al. Self-driving laboratories for chemistry and
+materials science. Chem. Rev. 124, 9633–9732 (2024).
+[10] Zhang, Z. et al. A multimodal robotic platform for multielement electrocatalyst discovery. Nature 647, 390–396
+(2025).
+[11] Wei, J. et al. Chain-of-thought prompting elicits reasoning in large language models. Adv. Neural Inf. Process.
+Syst. 35, 24824–24837 (2022).
+[12] Yao, S. et al. ReAct: synergizing reasoning and acting in
+language models. In Proc. 11th International Conference
+on Learning Representations (ICLR) (2023).
+[13] Shi, L. et al. Qumus: realization of an embodied AI
+quantum material experimentalist. Preprint at https:
+//doi.org/10.48550/arXiv.2605.18407 (2026).
+[14] Li, X. et al. An AI-driven robotic system for twodimensional hetero-assemblies. Preprint at https://doi.
+org/10.48550/arXiv.2605.20420 (2026).
+[15] Yang, J. et al. Zero-shot autonomous microscopy for
+scalable and intelligent characterization of 2D materials.
+ACS Nano 19, 35493–35502 (2025).
+[16] Qu, Y. et al. CRISPR-GPT for agentic automation of
+gene-editing experiments. Nat. Biomed. Eng. 10, 245–
+258 (2026).
+[17] Vriza, A., Prince, M. H., Zhou, T., Chan, H. &
+Cherukara, M. J. Operating advanced scientific instruments with AI agents that learn on the job. npj Comput.
+Mater. 12, 160 (2026).
+[18] Hellert, T., Bertwistle, D., Leemann, S. C., Šulc, A. &
+Venturini, M. Agentic artificial intelligence for multistage
+physics experiments at a large-scale user facility particle
+accelerator. Phys. Rev. Res. 8, L012017 (2026).
+[19] Chen, Z. et al. An agentic artificially intelligent X-ray
+scientist (2025).
+[20] Uri, A. et al. Mapping the twist-angle disorder and Landau levels in magic-angle graphene. Nature 581, 47–52
+(2020).
+[21] Kazmierczak, N. P. et al. Strain fields in twisted bilayer
+graphene. Nat. Mater. 20, 956–963 (2021).
+[22] Li, Q. et al. Evolution of the flat band and the role
+of lattice relaxations in twisted bilayer graphene. Nat.
+Mater. 23, 1070–1076 (2024).
+[23] Hoke, J. C. et al. Imaging supermoiré relaxation in helical
+trilayer graphene. Nat. Mater. 25, 775–781 (2026).
+[24] Sung, J. et al.
+Broken mirror symmetry in excitonic response of reconstructed domains in twisted
+MoSe2 /MoSe2 bilayers. Nat. Nanotechnol. 15, 750–754
+
+9
+(2020).
+[25] Shabani, S. et al. Deep moiré potentials in twisted transition metal dichalcogenide bilayers. Nat. Phys. 17, 720–
+725 (2021).
+[26] Shayegan, M. Wigner crystals in flat band 2D electron
+systems. Nat. Rev. Phys. 4, 212–213 (2022).
+[27] Matty, M. & Kim, E.-A. Melting of generalized Wigner
+crystals in transition metal dichalcogenide heterobilayer
+moiré systems. Nat. Commun. 13, 7098 (2022).
+[28] Zhou, Y., Sheng, D. N. & Kim, E.-A. Quantum melting of
+generalized Wigner crystals in transition metal dichalcogenide moiré systems. Phys. Rev. Lett. 133, 156501
+(2024).
+[29] Nuckolls, K. P. & Yazdani, A. A microscopic perspective
+on moiré materials. Nat. Rev. Mater. 9, 460–480 (2024).
+[30] Kumar, A., Sherif, S., Elser, V. & Changlani, H. J. Melting temperature shifts from quantum fluctuations in generalized Wigner crystals. Preprint at https://doi.org/
+10.48550/arXiv.2604.19870 (2026).
+[31] Lai, K. et al. Mesoscopic percolating resistance network
+in a strained manganite thin film. Science 329, 190–193
+(2010).
+[32] Ma, E. Y. et al. Mobile metallic domain walls in an
+all-in-all-out magnetic insulator. Science 350, 538–541
+(2015).
+[33] Cui, Y.-T. et al. Unconventional correlation between
+quantum Hall transport quantization and bulk state filling in gated graphene devices. Phys. Rev. Lett. 117,
+186601 (2016).
+[34] Allen, M. et al. Visualization of an axion insulating state
+at the transition between 2 chiral quantum anomalous
+Hall states. Proc. Natl Acad. Sci. USA 116, 14511–14515
+(2019).
+[35] Barber, M. E., Ma, E. Y. & Shen, Z.-X. Microwave
+impedance microscopy and its application to quantum
+materials. Nat. Rev. Phys. 4, 61–74 (2021).
+[36] Shi, Y. et al. Imaging quantum spin Hall edges in monolayer wte2 . Sci. Adv. 5, eaat8799 (2019).
+[37] Ji, Z. et al. Local probe of bulk and edge states in a
+fractional Chern insulator. Nature 635, 578–583 (2024).
+[38] Model Context Protocol.
+Model context protocol specification. https://modelcontextprotocol.io/
+specification/2025-11-25 (2025). Version 2025-11-25.
+[39] Arulampalam, M. S., Maskell, S., Gordon, N. & Clapp,
+T. A tutorial on particle filters for online nonlinear/nonGaussian Bayesian tracking. IEEE Trans. Signal Process.
+50, 174–188 (2002).
+[40] Lewis, J. P. Fast normalized cross-correlation. In Proc.
+Vision Interface, 120–123 (1995).
+
+[41] Dalal, N. & Triggs, B. Histograms of oriented gradients
+for human detection. In Proc. IEEE Conference on Computer Vision and Pattern Recognition (CVPR), vol. 1,
+886–893 (IEEE, 2005).
+[42] Krizhevsky, A., Sutskever, I. & Hinton, G. E. ImageNet
+classification with deep convolutional neural networks. In
+Adv. Neural Inf. Process. Syst., vol. 25 (2012).
+[43] Kelley, K. P. et al. Fast scanning probe microscopy
+via machine learning: non-rectangular scans with compressed sensing and Gaussian process optimization.
+Small 16, 2002878 (2020).
+[44] Ziatdinov, M. et al. Imaging mechanism for hyperspectral
+scanning probe microscopy via Gaussian process modelling. npj Comput. Mater. 6, 21 (2020).
+[45] Fu, M. et al. Accelerated nano-optical imaging through
+sparse sampling. Nano Lett. 24, 2149–2156 (2024).
+[46] Zong, Q.-J. et al. Quantum melting of generalized electron crystal in twisted bilayer MoSe2. Nat. Commun. 16,
+4058 (2025).
+[47] Regan, E. C. et al. Mott and generalized Wigner crystal
+states in WSe2/WS2 moiré superlattices. Nature 579,
+359–363 (2020).
+[48] Xu, Y. et al. Correlated insulating states at fractional fillings of moiré superlattices. Nature 587, 214–218 (2020).
+[49] Huang, X. et al. Correlated insulating states at fractional
+fillings of the WS2 /WSe2 moiré lattice. Nat. Phys. 17,
+715–719 (2021).
+[50] Yang, D. et al. Correlated insulating states in slow Dirac
+fermions on a honeycomb moiré superlattice. Preprint at
+https://doi.org/10.48550/arXiv.2504.17970 (2025).
+[51] Huang, X. et al. Measurements of correlated insulator
+gaps in a transition-metal dichalcogenide moiré superlattice. Nano Lett. 25, 9214–9220 (2025).
+[52] Ji, Z. et al. Harnessing excitons at the nanoscale–
+photoelectrical platform for quantitative sensing and
+imaging.
+Preprint at https://doi.org/10.48550/
+arXiv.2311.04211 (2023).
+[53] Li, H. et al. Imaging two-dimensional generalized Wigner
+crystals. Nature 597, 650–654 (2021).
+[54] Wang, T. et al. Probing the edge states of Chern insulators using microwave impedance microscopy. Phys. Rev.
+B 108, 235432 (2023).
+[55] Spivak, B. & Kivelson, S. A. Phases intermediate between a two-dimensional electron liquid and Wigner crystal. Phys. Rev. B 70, 155114 (2004).
+[56] Kumar, A., Lewandowski, C. & Changlani, H. J. Origin and stability of generalized Wigner crystallinity in
+triangular moiré systems. npj Quantum Mater. 10, 95
+(2025).
+
+10
+
+FIG. 1. AIMS turns three generic experimental uncertainties into action through three nested loops. AIMS
+converts uncertainty at three stages of a cryogenic MIM experiment into targeted actions. A human researcher initiates a
+task prompt through large language model interface, after which AIMS calls the requisite instrument control and real-time
+data analysis tools from the MCP server as each loop proceeds. In the navigation loop, it acquires MIM images, estimates
+the tip position and confidence, moves toward the sample, and invokes recovery procedures when localization is unreliable.
+In the measurement loop, large-area gate-dependent imaging and grid spectroscopy map sample inhomogeneity and rank
+candidate sites according to twist angle, disorder, and correlated-feature quality, guiding the experiment toward the most
+informative position. In the discovery loop, researchers provide the scientific question and initial seed hypotheses, while AIMS
+generates additional physical, hidden-variable, and measurement-artifact hypotheses and ranks the surviving candidates against
+the available evidence. When the evidence is insufficient, AIMS identifies the limiting gap, performs targeted theoretical
+calculations, or guides registered follow-up measurements. The new evidence is returned to the same inference framework,
+allowing AIMS to update both the mechanism ranking and the role of each hypothesis. The arrows and components in blue
+denote the internal agent stream. The orange arrows denote researcher input, physical execution, and optional oversight.
+
+11
+
+FIG. 2. AIMS locates the sample under cryogenic drift and recovers from unreliable position estimates. (a)
+Optical image of the marker chip. The white squares in numerical order mark the predicted positions of MIM scans taken
+at each step. The black square marks the predicted position of Scan 3 after GP regression reconstruction. The yellow and
+orange circles highlight 150 µm and 400 µm from the pattern’s center respectively. The inset shows the design geometry of
+the lateral triangular arrow marker. (b) & (c) Optical image of the tip with respect to the marker pattern at initial position
+after approaching (Scan 1) and final position after the sample locating process ends (Scan 6) respectively. (d) MIM-Im signal
+for each scan. The scan frame for each image is 53 µm × 53 µm. The change of background color in scan 3 and 5 are caused
+by the retraction of tip after touching
+defects on the chip, which dramatically reduce the MIM signal. (e) Predicted positions
+p
+and effective uncertainty σeff = σx2 + σy2 for each scan image in (d) based on the template image. The reliability of prediction
+is determined by comparing σeff to the 53 µm scan size. The initial highly uncertain prediction for Scan 3 triggers recovery
+process of AIMS, leading to enhanced prediction with GP regression reconstruction of the same scanning image. (f) Top image
+shows the GP regression reconstructed Scan 3 image with 4 times better resolution. Bottom image shows a demonstration of
+GP regression reconstruction on a scanning image with 4 rows of data. The 4 rows of data are separated by N empty rows
+and proceeded with GP regression to fill the empty rows with reconstructed data, leading to 4(N + 1) rows of data and hence
+enhanced resolution. (g) Total time spent in sample navigation for human equipped with scripted codes-driven and AIMSdriven experiment, including scanning, tip movements, and position prediction. The top right inset shows the accuracy and
+time spent for modern particle filter (PF) method, normalized cross correlation (NCC) particle filter method, and convolutional
+neural network (CNN) method in predicting the position of one scanning image.
+
+12
+
+FIG. 3. AIMS selects measurement sites in a disordered twisted MoSe2 device and resolves fractional generalized
+Wigner crystal states. (a) Schematic of AIMS-driven measurement loop. The process iterates between data acquisition and
+analysis, progressively narrowing the region of interest from a large scan area to a smaller grid and ultimately to the single
+optimal measurement point, thereby improving experimental efficiency. Red and blue arrows in the remaining panels denote the
+acquisition-to-analysis and analysis-to-acquisition directions, respectively. The orange dashed lines coupled to human represents
+the optional checks that human researcher can perform. (b) MIM-Im scan on the twisted MoSe2 sample region. The green
+dashed line marks the edge of the bottom graphite gate. The orange rectangle marks the scan region in (c) taken by AIMS. (c)
+Cumulative difference map on a smaller region in twisted MoSe2 calculated from MIM-Im scan taken by AIMS at bottom gate
+voltage from 2.5 to 3.5 V. The yellow rectangle marks the agent determined best region for grid measurement. (d) MIM-Im
+scan on the same region in (c). The dots represent the measurement positions of point spectroscopy in (e) with corresponding
+color, and the color of dot border represents the twist angle extracted in (f). The blue star marks the agent determined position
+with strongest fractional correlated features. (e) MIM grid spectroscopy taken by AIMS at the dotted positions in (d) with
+respect to bottom gate voltages. The color from blue to red represents position from left to right. Row 1 matches the top most
+row in (d). The measurement at right most column is largely screened by the contact, and is thus more noisy and plotted with
+reduced opacity. (f) Twist angle distribution map of the grid in (d) derived by AIMS. The local twist angle is extracted with
+the MCP server based on the charge neutrality point and the most prominent ν = 1 feature. (g) GWC score map of the grid
+in (d) evaluated by AIMS. The score is determined based on number of fractional correlated features, depth of features, noise,
+and consistency with expected fractional filling. (h) MIM point spectroscopy taken by AIMS at the blue star position. The
+spectrum is smoothed by a Savitzky–Golay filter with window size = 15 and polydeg = 3. The filling factors in purple are
+assigned with both human and agent inputs.
+
+13
+
+FIG. 4. A closed AIMS discovery loop traces the anomalous stability of the half-filled generalized Wigner
+crystal to quantum fluctuations. (a) Discovery workflow of AIMS. A curated database of literature [30, 35, 46, 49–56] and
+experimental data, together with data analysis tools, workflows and rules as MIM discovery skills, is supplied to AIMS prior
+to each run. A scientific question is posed by human to AIMS as prompt alongside the physics priors and hypotheses (H1 –
+H2). With these information, AIMS adds its new hypotheses (H3 – H5), performs the first pass of analysis and score each
+hypothesis with Bayesian inference. To improve the credibility of its judgment, AIMS identifies the unresolved evidence gaps
+and proposes follow-up theoretical and experimental tests. The suggested test results are reanalyzed by AIMS as the second
+pass, which updates the ranking of hypotheses with enhanced confidence. (b) The normalized GWC dip depth for filling factors
+ν = 1/3, 1/2 and 2/3 from 9 to 20 K. The black dashed line denotes the 10% threshold. The colored dashed lines are fits to the
+corresponding GWC dip depth as a function of temperature. The shaded areas indicate the uncertainties in the extracted Tm
+for each filling. (c) Tm obtained from classical Monte Carlo simulations for several choices of the relative permittivity εr and
+ε⊥ , compared with experimental Tm from (b). (d) Importance of each energy scale in determining Tm across all GWC states,
+simulated based on the Hartree-Fock model with Bayesian optimized parameters εr = 14.2 and ε⊥ = 6.0. The inset shows the
+corresponding Tm for each filling. (e) Tm of each GWC state as a function of t/(εr V ), where t is the hopping amplitude and V
+the Coulomb repulsion, obtained from exact diagonalization and finite-temperature Lanczos method at εr = 3 and ε⊥ = 6.0.
+(f) The correlation between integrated GWC strength of the grid measurement and the distance to observed fold. The Pearson
+coefficient is fitted to be −0.41 ± 0.07 with p-value 0.025. (g) Evolution of melting mechanism posterior with respect to the
+addition of new evidence in each pass. The quantum-fluctuation driven mechanism overwhelms other mechanisms with all
+evidence from pass 1 and 2. Alternatives represents a weighted average of mechanism hypotheses H3 to H5. Uclosure represents
+the model-closure uncertainty in the AIMS framework. The inset shows the optimized Tm from MC, HF, ED/FTLM models
+compared to the experimental Tm for each filling. (h) Blind scores (out of 50) assigned by three condensed-matter physicists
+to GWC melting analysis reports composed by the agent versus by humans from the same experimental dataset.
+
+

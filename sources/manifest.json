@@ -594,6 +594,51 @@
       "downloaded": "2026-07-18",
       "txt_sidecar": "2603.00612.txt",
       "note": "CoDHy. Hannover Medical School (PLRI/CAIMed) + Sanford Burnham Prebys (Younis, Basak, Chavez, Ahmadi). Human-in-the-loop AI co-scientist for biomarker-guided cancer drug-combination hypothesis generation; Graph-RAG over a task-specific KG (Neo4j) with Node2Vec embeddings + Llama-3.1-8B validation/ranking agents. Benchmark-only (7 oncology scenarios). Code: github.com/baksho/CoDHy."
+    },
+    {
+      "doi": "10.48550/arXiv.2607.16544",
+      "filename": "2607.16544.pdf",
+      "title": "AIMS: An uncertainty-aware AI experimentalist for quantum matter",
+      "source_url": "https://arxiv.org/abs/2607.16544",
+      "downloaded": "2026-08-01",
+      "txt_sidecar": "2607.16544.txt",
+      "note": "Stanford (Shen, Ji) + MIT, UT Austin, U. Florida, Boston College, SIMES/SLAC. Uncertainty-aware closed-loop AI experimentalist driving a cryogenic microwave impedance microscope on twisted bilayer MoSe2; three nested loops (navigation under uncertain perception, measurement selection under sample inhomogeneity, scale-resolved mechanism attribution). Real instrument, real quantum-matter samples."
+    },
+    {
+      "doi": "10.48550/arXiv.2607.25865",
+      "filename": "2607.25865.pdf",
+      "title": "OmniQEC: discovering practical quantum error-correcting codes by an AI scientist",
+      "source_url": "https://arxiv.org/abs/2607.25865",
+      "downloaded": "2026-08-01",
+      "txt_sidecar": "2607.25865.txt",
+      "note": "NTU Singapore (Yan, Du) + Tokyo Univ. Agriculture & Technology, Zhejiang Univ. Technology, CityU Hong Kong, Hon Hai (Foxconn) Research. LLM orchestrator coordinating code generation, code-level screening, syndrome-extraction synthesis, and decoder-based circuit evaluation; self-evolving reasoning with slow-fast synergistic search. Discovered qLDPC codes outperforming BB [[72,12,6]] and [[144,12,12]] baselines under matched physical-qubit budgets."
+    },
+    {
+      "doi": "10.48550/arXiv.2607.25175",
+      "filename": "2607.25175.pdf",
+      "title": "Agentic AI-enabled discovery across large-scale sleep physiology (AI Sleep Co-Scientist)",
+      "source_url": "https://arxiv.org/abs/2607.25175",
+      "downloaded": "2026-08-01",
+      "txt_sidecar": "2607.25175.txt",
+      "note": "Stanford (Thapa, Mignot, Zou) + DTU, Danish Center for Sleep Medicine, WashU, Together AI. Expert-guided environment with specialist agents for hypothesis development, signal preprocessing, and statistical analysis over ~124,000 polysomnography recordings / >50 TB across four cohorts; each result linked to executable code. Findings include diminished sleep network coupling associated with incident Parkinson's (HR 1.48) and Alzheimer's (HR 1.38)."
+    },
+    {
+      "doi": "10.48550/arXiv.2607.11084",
+      "filename": "2607.11084.pdf",
+      "title": "NVAITC AI Scientist (NAIS): A Governed End-to-End Research System - A Hypertension GWAS Case Study",
+      "source_url": "https://arxiv.org/abs/2607.11084",
+      "downloaded": "2026-08-01",
+      "txt_sidecar": "2607.11084.txt",
+      "note": "NVIDIA AI Technology Center + China Medical University Hospital (Taichung), RIKEN IMS. Governed agentic research system integrating proposal review, execution planning, governed computational routing, reproducible workflow orchestration, evidence generation, and scientist-in-the-loop oversight under an aggregate-only data policy. Validated on a hypertension GWAS with hospital-linked genotype/EHR data from 286,422 individuals; reproduced FGF5, ATP2B1, CNNM2, FTO, GRB14 loci."
+    },
+    {
+      "doi": "10.48550/arXiv.2607.25045",
+      "filename": "2607.25045.pdf",
+      "title": "CogEEGAgent: Toward Autonomous Cognitive EEG Analysis with Grounded Execution and Selection-Aware Verification",
+      "source_url": "https://arxiv.org/abs/2607.25045",
+      "downloaded": "2026-08-01",
+      "txt_sidecar": "2607.25045.txt",
+      "note": "Tohoku University (Hou, Yamada) + Texas A&M, WPI. Cognitive-EEG analysis agent grounded in MNE-Python; scientific harness separates semantic from scientific authority so the LLM proposes registered analyses while deterministic components validate typed contracts, gate confirmation-set access, and authorize evidence-bound release. Evaluated on a prespecified routing benchmark and an outcome-blind, externally model-authored campaign. Code: github.com/dengzhe-hou/CogEEGAgent."
     }
   ]
 }

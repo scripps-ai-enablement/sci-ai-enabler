@@ -11,6 +11,24 @@ Reverse-chronological log of changes to the [AI scientists tracker]({{ '/autonom
 
 Older entries live in [COSCIENTIST_CHANGELOG_ARCHIVE.md](COSCIENTIST_CHANGELOG_ARCHIVE.md).
 
+## 2026-08-01
+
+### Added
+- **AIMS** (Lifecycle: Multi-stage) — Stanford/SIMES uncertainty-aware AI experimentalist that operates a cryogenic microwave impedance microscope end to end on twisted bilayer MoSe2, cutting sample-navigation time from ~10 h to ~4 h and prioritizing a quantum-fluctuation-renormalized origin for the robust ν = 1/2 crystal ([arXiv:2607.16544](https://arxiv.org/abs/2607.16544))
+- **AI Sleep Co-Scientist** (Lifecycle: Multi-stage) — Stanford expert-guided agent environment over ~124,000 polysomnography recordings, binding each result to executable code; incident Parkinson's HR 1.48 and Alzheimer's HR 1.38 from diminished network-level sleep coupling ([arXiv:2607.25175](https://arxiv.org/abs/2607.25175))
+- **NAIS (NVAITC AI Scientist)** (Lifecycle: Multi-stage, Writing) — NVIDIA governed end-to-end research system keeping protected data inside institutional boundaries; agent-orchestrated hypertension GWAS on 286,422 individuals reproduced FGF5, ATP2B1, CNNM2, FTO, and GRB14 ([arXiv:2607.11084](https://arxiv.org/abs/2607.11084))
+- **OmniQEC** (Lifecycle: Multi-stage) — NTU Singapore LLM-orchestrated quantum-error-correction discovery agent optimizing circuit-level logical error rate; beat the BB [[72,12,6]] and [[144,12,12]] codes at complete-implementation budgets of 98 and 240 physical qubits ([arXiv:2607.25865](https://arxiv.org/abs/2607.25865))
+- **CogEEGAgent** (Lifecycle: Analysis) — Tohoku University cognitive-EEG agent separating LLM semantic authority from deterministic scientific authority; 39/40 routing accuracy vs 33 for a matched deterministic router, and held-out confirmation cut the null false-positive rate by 11.6 points to 4.9% ([arXiv:2607.25045](https://arxiv.org/abs/2607.25045))
+
+### Updated
+- **Landscape synthesis** — added AIMS to the embodied physical-sciences exemplars and noted that the verifiability turn has spread beyond the ML cluster (CogEEGAgent's held-out confirmation, NAIS's governed data broker); `synthesis_reviewed` bumped to 2026-08-01.
+
+### Flagged
+- _None._
+
+### Verified (no changes)
+- Aging-entry re-verification remains blocked in Phase B (no web tools); the 55-entry link/repo backlog stays logged under `Deferred — next-run priority` and `last_verified` was not bumped for those pages.
+
 ## 2026-07-25
 
 No substantive updates — Phase A surfaced no new in-scope systems. Synthesis re-checked against the current grouping (`synthesis_reviewed` 2026-07-18, within the 30-day cadence; no systems added or removed) — all superlatives still hold, no refresh needed. The link/repo re-verification backlog (55+ entries past the 30-day window) remains deferred to Phase A, which alone has the web/MCP tools to confirm link liveness.
@@ -167,20 +185,4 @@ _None._
 
 ### Verified (no changes)
 - All pre-existing system pages remain inside the 30-day re-verification window (oldest `last_verified` is 2026-05-20); no spot-checks required this run.
-
-## 2026-06-07
-
-### Added
-- **SAGA** (Lifecycle: Multi-stage) — Scientific Autonomous Goal-evolving Agent, a multi-institution collaboration (Cornell, Ohio State, Yale, Simon Fraser, EPFL, UC Berkeley, Northeastern, Broad Institute, MIT, Deep Principle, Georgia Tech, and others) whose distinctive contribution is **automating objective-function design** — evolving *what to optimize for* rather than treating objectives as fixed inputs. A **bi-level architecture** pairs an **outer loop** of four LLM agents — a **Planner** that proposes new objectives from the goal and current progress, an **Implementer** that compiles objectives into executable scoring functions (e.g., RDKit-based scorers), an **Optimizer** that searches candidate hypotheses under the current objectives, and an **Analyzer** that diagnoses optimization failure modes — with an **inner loop** that runs any optimization strategy (genetic algorithms, RL search) to evolve candidates. It runs in **co-pilot**, **semi-pilot**, and **autopilot** modes. Demonstrated across five design domains (antibiotics, nanobodies, functional DNA sequences, inorganic materials, chemical-process flowsheets) with genuine wet-lab validation: a **structurally novel antibiotic hit** (Tanimoto distance >0.7 from all known antibiotics) with experimentally confirmed activity against *E. coli* and no human cytotoxicity, and **three de novo PD-L1 nanobody binders** (K_D 300–400 nM) where the autonomously evolved composite scorer separated binders from non-binders (p = 0.03) but no single in-silico metric did. Open source under MIT ([source](https://arxiv.org/abs/2512.21782)).
-
-### Updated
-- **`autonomous-science/summary.md`** — appended the SAGA source citation; re-verified every synthesis claim against the current grouping and bumped `synthesis_reviewed` to 2026-06-07. SAGA fits the existing General/multi-domain and wet-lab-evidence patterns (an objective-evolving cousin of DKPL) and reinforces but does not tip any superlative, so no synthesis prose was rewritten.
-- **`autonomous-science/curator-state.md`** — added SAGA at the top of `Recently surfaced` (trimming AgentPLM to keep the window at five) and removed the now-promoted SAGA entry from `Deferred — next-run priority`.
-- **`sources/manifest.json`** — SAGA entry (DOI 10.48550/arXiv.2512.21782) added by Phase A.
-
-### Flagged
-_None._
-
-### Verified (no changes)
-- All pre-existing system pages remain inside the 30-day re-verification window; no spot-checks required this run.
 
