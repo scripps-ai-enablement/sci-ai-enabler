@@ -13,6 +13,23 @@ Reverse-chronological log of changes to the [recipes cookbook]({{ '/recipes/' | 
 
 Older entries live in [RECIPES_CHANGELOG_ARCHIVE.md](RECIPES_CHANGELOG_ARCHIVE.md).
 
+## 2026-08-01
+
+Directed pass on **Immunology and Microbiology**. Two recipes shipped, both closing previously-uncovered GA bioSkills immunoinformatics skills.
+
+### Added
+
+- **Prioritize tumor neoantigens for a personalized cancer vaccine** (Problem class: Experimental design; Evidence: Validated) — rung-2 recipe on the [Neoantigen Prediction skill](https://scripps-ai-enablement.github.io/sci-ai-enabler/catalog/tools/neoantigen-prediction.html). Takes a VEP-annotated somatic VCF, four-digit HLA genotype, and tumor expression through pVACseq/pVACfuse, then applies the filters that actually decide the shortlist — cancer cell fraction, transcript expression, agretopicity, reference-proteome similarity, and HLA loss-of-heterozygosity (routed to a separate `rejected_loh.tsv` rather than silently dropped) — into a tiered `neoantigens.tsv` with per-exclusion reason strings and a pinned `provenance.json`. Keeps the pVACview/IGV manual review as a mandatory step. Validated by clinical use: [ImmunoNX](https://pubmed.ncbi.nlm.nih.gov/41415611/) has supported 185+ patients across 11 trials (322 → 78 candidates on HCC1395), and a [pVACtools-designed TNBC DNA vaccine](https://pubmed.ncbi.nlm.nih.gov/39538331/) induced neoantigen-specific T-cell responses in 14/18 patients.
+- **Annotate TCR antigen specificity by clustering and database lookup** (Problem class: Data analysis; Evidence: Validated) — rung-2 recipe on the [TCR-Epitope Binding skill](https://scripps-ai-enablement.github.io/sci-ai-enabler/catalog/tools/tcr-epitope-binding.html). Clusters CDR3 sequences within a cohort with tcrdist3 *and* GLIPH2 (kept as separate columns, because no single clusterer dominates), matches VDJdb/IEDB/McPAS-TCR with confidence filtering, and propagates hits to clusters only as candidate annotations with a supporting-member fraction. Explicit that supervised per-pair prediction on unseen epitopes is not defensible. Grounded in a [nine-method benchmark over 190,670 TCRs and 2,313 epitopes](https://pubmed.ncbi.nlm.nih.gov/41267899/) and in GLIPH2 antigen discoveries in [lung cancer](https://pubmed.ncbi.nlm.nih.gov/33691136/) and [tuberculosis](https://pubmed.ncbi.nlm.nih.gov/32341563/).
+
+### Updated
+
+- **Analyze a single-cell TCR repertoire alongside gene expression** — added a **See also** link to the new TCR-specificity recipe, which now covers the antigen-annotation handoff the page previously described only as a next step.
+
+### Verified (no changes)
+
+- No aging-recipe recheck this slot (`recipe_recheck: no`).
+
 ## 2026-07-27 (user request #74)
 
 ### Added

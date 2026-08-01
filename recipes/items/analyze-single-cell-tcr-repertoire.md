@@ -102,6 +102,7 @@ No head-to-head benchmark of the *agent-driven skill* versus a hand-written scir
 - [Annotate cell types in a single-cell dataset](annotate-cell-types-in-single-cell-data.html) — label the transcriptional clusters before overlaying clonality.
 - [Reconstruct B-cell clonal lineages from AIRR-seq](reconstruct-bcr-clonal-lineages.html) — the B-cell, lineage-tree counterpart.
 - [TCR-Epitope Binding (bioSkills)](../../catalog/tools/tcr-epitope-binding.html) — downstream antigen-specificity clustering and database lookup on the expanded clonotypes.
+- [Annotate TCR antigen specificity by clustering and database lookup](annotate-tcr-specificity-by-clustering.html) — the downstream recipe that drives that skill on this recipe's expanded clonotypes.
 
 ## Sources
 
