@@ -15,6 +15,19 @@ Older entries live in [RECIPES_CHANGELOG_ARCHIVE.md](RECIPES_CHANGELOG_ARCHIVE.m
 
 ## 2026-08-01
 
+Directed pass on **Molecular and Cellular Biology**. Two GA bioSkills single-cell skills were catalogued but had no recipe; both now do. Aging-recipe verification was skipped this slot (`recipe_recheck: no`).
+
+### Added
+
+- **[Analyze a Perturb-seq CRISPR screen for perturbation effects](recipes/items/analyze-perturb-seq-crispr-screen.html)** — Data analysis · One skill or MCP · `Proposed` · Fully open · Workstation with GPU. Rung-2 recipe on the [Perturb-seq Analysis skill](catalog/tools/perturb-seq.html): mixture-model posterior guide assignment with the flat threshold demoted to a disagreement check, Mixscape escaper classification that reports a high escaper fraction as low editing efficiency rather than as a null result, and calibrated testing at the replication unit that actually exists — the transfection, not the cell. Per-cell `rank_genes_groups` is explicitly forbidden as the primary test, because low-MOI association testing produces excess false positives from sparsity, confounding and model misspecification ([Barry et al., *Genome Biol* 2024](https://doi.org/10.1186/s13059-024-03254-2)). Effect sizes come from E-distance in a single fixed PCA embedding reused across all perturbations ([Peidli et al., *Nat Methods* 2024](https://doi.org/10.1038/s41592-023-02144-y)), and any perturbation-prediction model must clear an additive baseline first — five foundation models plus two other deep-learning models failed to ([Ahlmann-Eltze et al., *Nat Methods* 2025](https://doi.org/10.1038/s41592-025-02772-6)).
+- **[Build a clonal lineage tree from CRISPR scar recorders](recipes/items/build-clonal-lineage-tree-from-crispr-scars.html)** — Data analysis · One skill or MCP · `Proposed` · Fully open · Workstation with GPU. Rung-2 recipe on the [Lineage Tracing skill](catalog/tools/lineage-tracing.html), built around the fact that a single-solver tree looks authoritative and carries no indication of how much signal was behind it. The assay is declared up front because a static barcode groups clones but licenses no branching order; the filter log is treated as part of the result rather than as a diagnostic, since the upstream pipeline itself changes relative method performance ([Dai & Molloy 2026](https://doi.org/10.1177/15578666251386082)); state frequencies serve as the homoplasy early warning; and three solvers are kept as separate Newick outputs with pairwise Robinson–Foulds and triplets-correct agreement instead of one "best" tree ([Jones et al., *Genome Biol* 2020](https://doi.org/10.1186/s13059-020-02000-8)). CoSpar supplies clonal fate bias, with scVelo/CellRank disagreement recorded rather than resolved ([Wang et al., *Nat Biotechnol* 2022](https://doi.org/10.1038/s41587-022-01209-1)). Provenance records the Cassiopeia **commit SHA**, because 2.0+ installs from a git ref and there is no version to pin.
+
+### Notes
+
+- Proteomics remains the largest Molecular and Cellular Biology hole — MaxQuant and PRIDE are catalogued and uncovered, and the leg is likely rung 3. Filed as the first pick for the next slot, along with the open question of whether doublet detection and Harmony should become recipes or become steps inside the existing QC and integration recipes.
+
+## 2026-08-01
+
 Directed pass on **Integrative Structural and Computational Biology**. Two of the 51 ISCB-tagged catalog tools that no recipe had yet reached — the bioSkills structural-biology pair — now have pages, filling the two steps that sit *in front of* every structure-based drug-design workflow the cookbook already covers: is this structure trustworthy, and where on it do I aim?
 
 ### Added
