@@ -136,6 +136,8 @@ A peer-reviewed benchmark of "Claude + AlphaFold MCP triage" vs a hand-built not
 - [AlphaFold MCP Server](../../catalog/tools/alphafold.html)
 - [PDB MCP Server](../../catalog/tools/pdb.html)
 - [UniProt MCP Server](../../catalog/tools/uniprot.html)
+- [Detect and rank druggable pockets on a protein structure](detect-and-rank-druggable-pockets.html) — produces the pocket residue list step 3 asks you to supply.
+- [Vet a PDB structure before you build on it](vet-a-pdb-structure-before-reusing-it.html) — the experimental-structure counterpart when step 4 sends you to the PDB.
 - [Build a target dossier from gene name to structure to cancer dependency](build-target-dossier.html) — broader target-context dossier; this recipe is the focused structure-quality triage that the dossier defers to when "is this model docking-ready" is the question.
 - [Estimate pharmacokinetic properties of a small molecule](estimate-pk-properties.html) — the small-molecule companion when the structure is in hand and the next question is the compound side.
 
