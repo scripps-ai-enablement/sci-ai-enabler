@@ -13,6 +13,23 @@ Reverse-chronological log of changes to the [guide]({{ '/guide/' | relative_url 
 
 Older entries live in [GUIDE_CHANGELOG_ARCHIVE.md](GUIDE_CHANGELOG_ARCHIVE.md).
 
+## 2026-08-01
+
+### Added
+- **[Claude surfaces] Computer use (Research Preview)** — desktop screen-control shared by Claude Cowork and the Claude Code Desktop app, launched 2026-03-23 but missing from the guide; a genuine discoverability gap ([Anthropic help center](https://support.claude.com/en/articles/14128542-let-claude-use-your-computer-in-cowork), verified 2026-08-01). Also mentioned on `claude-code.md`, `claude-cowork.md`, and `claude-desktop.md`.
+- **[Claude surfaces] Dispatch** — mobile-to-desktop task handoff (QR-pair phone with Claude Desktop), also launched 2026-03-23 and previously undocumented ([Anthropic blog](https://claude.com/blog/dispatch-and-computer-use), [help center](https://support.claude.com/en/articles/13947068-assign-tasks-from-anywhere-in-claude-cowork)).
+
+### Updated
+- **[MCP servers] MCP 2026-07-28 spec** — noted the protocol's move to a stateless request/response core, hardened OAuth/OIDC, and versioned Apps/Tasks extensions; no install-command impact ([Anthropic blog](https://claude.com/blog/bringing-mcp-2026-07-28-to-claude), [MCP spec blog](https://blog.modelcontextprotocol.io/posts/2026-07-28/), published 2026-07-28).
+- **[Connectors] Directory size** — refreshed the stale "over 200 connectors" figure to Anthropic's 2026-07-28 count of 950+ MCP servers in the directory.
+- **[Claude Cowork] Web/mobile beta** — added the 2026-07-07 expansion of Cowork to `claude.ai` and iOS/Android (Max-first, background execution, cross-device continuity), which had shipped but wasn't reflected on the page ([Anthropic blog](https://claude.com/blog/cowork-web-mobile)).
+- **[Claude Tag] Migration deadline** — replaced the vague "30-day window" with the concrete August 3, 2026 auto-migration cutover, plus the org-vs-individual billing split (channel work bills the org, DMs bill the user), confirmed against Anthropic's help center.
+
+### Verified (no changes)
+- Claude Code install command, launch surfaces, and changelog (through v2.1.220, 2026-07-25) — no beginner-relevant changes since last run.
+- Claude API model guidance (Opus 5, Sonnet 5, Fable 5) — already current, re-verified against this week's news.
+- Skills, Plugins, Marketplaces, Decision tree, Hooks, Slash commands, Routines, Authentication — spot-checked, no stale claims found this run.
+
 ## 2026-07-25
 
 ### Updated
@@ -252,21 +269,4 @@ No substantive updates — 17 pages spot-checked, all current.
 - **Advisor tool (API)** — newly noted. If it reaches GA or becomes a beginner-facing surface, reconsider a brief mention in `surfaces/claude-api.md`.
 - **Promote `security-guidance` to its own page** — carried over. Not done: the schema fixes the file set, so it stays documented inside `plugins.md` unless a human expands the topic list.
 - **Claude Mythos / critical-infrastructure expansion** — carried over; corporate/infra news, not a beginner component-model change.
-
-## 2026-06-07
-
-No substantive updates — 17 pages spot-checked, all current.
-
-### Verified (no changes)
-- claude-surfaces.md, surfaces/claude-code.md — install command (`curl -fsSL https://claude.ai/install.sh | bash`) re-verified via WebSearch against `claude.com/product/claude-code`; native installer canonical, npm still prints the deprecation banner, `winget install Anthropic.ClaudeCode` / `brew install --cask claude-code` unchanged. v2.1.166–v2.1.168 (June 6–7) are bug fixes plus a `fallbackModel` setting (up to three fallback models when the primary is overloaded) — below the beginner threshold. `/code-review` vs `/simplify` split re-confirmed current against [Code review docs](https://code.claude.com/docs/en/code-review): `/code-review` is bug-hunting (fixes only with `--fix`), `/simplify` is cleanup-only and auto-applies. Channels, Dynamic Workflows (`ultracode`), Claude Security, MCP tunnels, routines, sandboxing all current.
-- surfaces/claude-ai.md, surfaces/claude-desktop.md, surfaces/claude-cowork.md, surfaces/claude-api.md — unchanged. Opus 4.8 default/effort ladder unchanged.
-- skills.md, mcp-servers.md, plugins.md, marketplaces.md, connectors.md, decision-tree.md — unchanged.
-- advanced/hooks.md, advanced/slash-commands.md, advanced/routines.md, advanced/authentication.md — unchanged.
-
-### Flagged for review
-- WebFetch remained unavailable this run (404 on `claude-3-5-haiku-20241022`, same regression as prior runs). All verification went through WebSearch summaries of `claude.com/product/claude-code`, `code.claude.com/docs/en/changelog`, `code.claude.com/docs/en/code-review`, `github.com/anthropics/claude-code/releases`, `anthropic.com/news`, `releasebot.io/updates/anthropic`, and `claudeupdates.dev`. A human should spot-check the product landing page and changelog directly.
-- **`claude -p` / Agent SDK billing split lands 2026-06-15** — carried over; still future as of this run. Re-verify after the date that `surfaces/claude-code.md` and `surfaces/claude-api.md` describe the live behavior, not the pre-launch announcement.
-- **Sonnet 4 / Opus 4 retirement 2026-06-15 9am PT** — carried over; re-verify `surfaces/claude-api.md` after the date.
-- **Promote `security-guidance` to its own page** — carried over. Not done: the schema fixes the file set, so it stays documented inside `plugins.md` unless the topic list is expanded by a human.
-- **Claude Mythos / Project Glasswing public release** — carried over; June 2/3 expansion is critical-infrastructure cohort + corporate news, not a beginner component-model change.
 

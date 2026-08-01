@@ -14,6 +14,8 @@ An MCP server exposes tools, resources, and prompts over the Model Context Proto
 
 You install one MCP server per data source — PubMed, ClinicalTrials.gov, your filesystem, your issue tracker — and Claude picks tools from it as needed.
 
+The protocol itself just had its biggest revision yet: the **MCP 2026-07-28 spec** drops the old stateful session handshake for a stateless request/response core (servers can now run on plain serverless infrastructure), hardens auth to OAuth 2.1/OIDC, and moves optional capabilities like interactive UIs (MCP Apps) and long-running jobs (Tasks) into versioned extensions instead of the core spec. Anthropic is rolling support out across Claude products now; none of the commands below change.
+
 ## When to use it
 
 - You need Claude to query a database or API (PubMed, ChEMBL, your internal services).
@@ -55,6 +57,7 @@ Inside a session, run `/mcp` to see status and trigger OAuth login for servers t
 - [Authentication](advanced/authentication.md)
 - [MCP reference for Claude Code](https://code.claude.com/docs/en/mcp) — canonical docs
 - [Model Context Protocol spec](https://modelcontextprotocol.io/)
+- [The 2026-07-28 Specification](https://blog.modelcontextprotocol.io/posts/2026-07-28/) — the new stateless spec
 - Catalog example: [PubMed MCP](../catalog/translational-medicine.md)
 
 ## Sources
@@ -65,4 +68,6 @@ Inside a session, run `/mcp` to see status and trigger OAuth login for servers t
 - [New in Claude Managed Agents: self-hosted sandboxes and MCP tunnels](https://claude.com/blog/claude-managed-agents-updates) — Anthropic blog; published 2026-05-19 — MCP tunnels (Research Preview), `cloudflared`-based.
 - [Anthropic Introduces MCP Tunnels for Private Agent Access to Internal Systems](https://www.infoq.com/news/2026/05/claude-mcp-tunnels/) — InfoQ; published 2026-05-19.
 - [MCP tunnels (API docs)](https://platform.claude.com/docs/en/agents-and-tools/mcp-tunnels/overview) — Anthropic docs; verified 2026-05-20.
-- [Channels reference](https://code.claude.com/docs/en/channels-reference) — Anthropic docs; verified 2026-06-03 (this run) — MCP push-mode via `claude --channels`, allowlisted plugins, Team / Enterprise admin gating.
+- [Channels reference](https://code.claude.com/docs/en/channels-reference) — Anthropic docs; verified 2026-06-03 — MCP push-mode via `claude --channels`, allowlisted plugins, Team / Enterprise admin gating.
+- [MCP 2026-07-28 spec: stateless core, coming to Claude](https://claude.com/blog/bringing-mcp-2026-07-28-to-claude) — Anthropic blog; published 2026-07-28; verified 2026-08-01 (this run) — stateless core, OAuth/OIDC hardening, MCP Apps + Tasks as versioned extensions, rollout across Claude products.
+- [The 2026-07-28 Specification](https://blog.modelcontextprotocol.io/posts/2026-07-28/) — Model Context Protocol blog; published 2026-07-28; verified 2026-08-01 (this run) — canonical spec changelog.

@@ -13,7 +13,7 @@ nav_order: 7
 
 Claude Tag brings Claude into Slack as a collaborative team member. You invite Claude into a channel and mention `@Claude` with a request; Claude breaks the task into stages and executes them using the tools and data sources it's been granted. Because one Claude instance serves the entire channel, everyone can watch progress and jump into the same shared thread — it's a multiplayer surface rather than a private 1:1 chat.
 
-Claude remembers relevant information from the channels it's in, so context carries across requests, and tasks run asynchronously — you delegate and keep working while Claude follows up on unresolved items when proactive updates are enabled. It runs on Opus 4.8 and replaces the earlier Claude in Slack app.
+Claude remembers relevant information from the channels it's in, so context carries across requests, and tasks run asynchronously — you delegate and keep working while Claude follows up on unresolved items when proactive updates are enabled. It runs on Opus 4.8 and replaces the earlier Claude in Slack app. Billing follows where the work happens: tagging Claude in a channel bills your organization, while a direct message with Claude bills your own individual account.
 
 ## When to use it
 
@@ -27,7 +27,7 @@ Claude remembers relevant information from the channels it's in, so context carr
 - Available in beta for **Claude Enterprise and Team** customers (launched 2026-06-23).
 - An admin connects Claude Tag to the Slack workspace, grants Claude access to specific tools and data, and sets monthly spending limits (organization-wide and per-channel).
 - Test in a private channel first, then invite Claude into the channels where you want it.
-- Admins already running the older Claude in Slack app have a 30-day window to migrate to Claude Tag.
+- Admins already running the older Claude in Slack app have until **August 3, 2026** to migrate — Anthropic auto-migrates any remaining workspaces to Claude Tag on that date whether or not an admin has configured it, so migrate deliberately before then rather than inheriting default settings.
 
 ## Common pitfalls
 
@@ -45,3 +45,4 @@ Claude remembers relevant information from the channels it's in, so context carr
 ## Sources
 
 - [Introducing Claude Tag](https://www.anthropic.com/news/introducing-claude-tag) — Anthropic news; published 2026-06-23 — Slack `@Claude` mention, multiplayer per-channel model, channel memory, asynchronous tasks and proactive updates, Opus 4.8, Enterprise/Team beta, admin tool/data scoping, org- and channel-level spending limits, per-channel Claude identities, replaces Claude in Slack with a 30-day migration window.
+- [What is Claude Tag?](https://support.claude.com/en/articles/15594475-what-is-claude-tag) — Anthropic help center; verified 2026-08-01 (this run) — confirms August 3, 2026 auto-migration cutover from Claude in Slack, org billing for channel work vs. individual billing for DMs, Team/Enterprise beta.

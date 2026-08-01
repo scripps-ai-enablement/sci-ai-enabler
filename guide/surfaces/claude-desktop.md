@@ -13,7 +13,7 @@ nav_order: 2
 
 Claude Desktop is the native counterpart to `claude.ai`. It shares your account, Projects, and history, and renders the same chat interface. Its differentiator is **local MCP**: you can register MCP servers that run on your machine and expose local files, databases, or scripts to Claude. Connectors enabled in Claude.ai also work here.
 
-Claude Cowork — the sandboxed desktop agent for non-coding work — runs **inside** Claude Desktop, but is a separate experience from the chat. See [Claude Cowork](claude-cowork.html).
+Claude Cowork — the desktop agent for non-coding work — runs **inside** Claude Desktop, but is a separate experience from the chat. See [Claude Cowork](claude-cowork.html). The app also has a Settings → General **computer use** toggle (Research Preview, Pro/Max only) that lets Claude click and type on your screen from within Cowork or the Claude Code Desktop app — see [cross-cutting features](../claude-surfaces.html#cross-cutting-features).
 
 ## When to use it
 
@@ -60,3 +60,4 @@ Claude Cowork — the sandboxed desktop agent for non-coding work — runs **ins
 - [Claude Desktop download page](https://claude.ai/download) — Anthropic; verified 2026-05-21 (this run).
 - [Model Context Protocol introduction](https://modelcontextprotocol.io/introduction) — MCP spec; verified 2026-05-21.
 - [Use Connectors to extend Claude's capabilities](https://support.claude.com/en/articles/11176164-use-connectors-to-extend-claude-s-capabilities) — Anthropic help center; verified 2026-05-21.
+- [Let Claude use your computer in Cowork](https://support.claude.com/en/articles/14128542-let-claude-use-your-computer-in-cowork) — Anthropic help center; verified 2026-08-01 (this run) — Settings → General toggle, Pro/Max only, macOS + Windows.

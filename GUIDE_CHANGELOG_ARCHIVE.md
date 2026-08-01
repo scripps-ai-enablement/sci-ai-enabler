@@ -6,6 +6,23 @@ nav_exclude: true
 # Guide updates archive
 
 Older entries rotated out of [GUIDE_CHANGELOG.md](GUIDE_CHANGELOG.md). Newest first, same format.
+## 2026-06-07
+
+No substantive updates — 17 pages spot-checked, all current.
+
+### Verified (no changes)
+- claude-surfaces.md, surfaces/claude-code.md — install command (`curl -fsSL https://claude.ai/install.sh | bash`) re-verified via WebSearch against `claude.com/product/claude-code`; native installer canonical, npm still prints the deprecation banner, `winget install Anthropic.ClaudeCode` / `brew install --cask claude-code` unchanged. v2.1.166–v2.1.168 (June 6–7) are bug fixes plus a `fallbackModel` setting (up to three fallback models when the primary is overloaded) — below the beginner threshold. `/code-review` vs `/simplify` split re-confirmed current against [Code review docs](https://code.claude.com/docs/en/code-review): `/code-review` is bug-hunting (fixes only with `--fix`), `/simplify` is cleanup-only and auto-applies. Channels, Dynamic Workflows (`ultracode`), Claude Security, MCP tunnels, routines, sandboxing all current.
+- surfaces/claude-ai.md, surfaces/claude-desktop.md, surfaces/claude-cowork.md, surfaces/claude-api.md — unchanged. Opus 4.8 default/effort ladder unchanged.
+- skills.md, mcp-servers.md, plugins.md, marketplaces.md, connectors.md, decision-tree.md — unchanged.
+- advanced/hooks.md, advanced/slash-commands.md, advanced/routines.md, advanced/authentication.md — unchanged.
+
+### Flagged for review
+- WebFetch remained unavailable this run (404 on `claude-3-5-haiku-20241022`, same regression as prior runs). All verification went through WebSearch summaries of `claude.com/product/claude-code`, `code.claude.com/docs/en/changelog`, `code.claude.com/docs/en/code-review`, `github.com/anthropics/claude-code/releases`, `anthropic.com/news`, `releasebot.io/updates/anthropic`, and `claudeupdates.dev`. A human should spot-check the product landing page and changelog directly.
+- **`claude -p` / Agent SDK billing split lands 2026-06-15** — carried over; still future as of this run. Re-verify after the date that `surfaces/claude-code.md` and `surfaces/claude-api.md` describe the live behavior, not the pre-launch announcement.
+- **Sonnet 4 / Opus 4 retirement 2026-06-15 9am PT** — carried over; re-verify `surfaces/claude-api.md` after the date.
+- **Promote `security-guidance` to its own page** — carried over. Not done: the schema fixes the file set, so it stays documented inside `plugins.md` unless the topic list is expanded by a human.
+- **Claude Mythos / Project Glasswing public release** — carried over; June 2/3 expansion is critical-infrastructure cohort + corporate news, not a beginner component-model change.
+
 ## 2026-06-06
 
 ### Updated
