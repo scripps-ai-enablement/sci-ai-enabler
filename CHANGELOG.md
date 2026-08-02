@@ -16,6 +16,24 @@ Older entries live in [CHANGELOG_ARCHIVE.md](CHANGELOG_ARCHIVE.md).
 ## 2026-08-02
 
 ### Added
+- **OMOPHub MCP Server** (Categories: Translational Medicine) — 11 tools over the OHDSI OMOP standardized vocabularies (SNOMED CT, ICD-10, RxNorm, LOINC, 100+ others): concept search, semantic search, cross-vocabulary mapping, hierarchy traversal, and FHIR coding resolution, without a local ATHENA load. MIT, npm `@omophub/omophub-mcp` 1.5.3, Node ≥ 20, free API key required ([source](https://github.com/OMOPHub/omophub-mcp))
+- **pyomop** (Categories: Translational Medicine) — Python OMOP CDM toolkit that ships an MCP server: 8 tools for CDM schema inspection, validated SQL execution, and loading the OHDSI Eunomia demo dataset across SQLite/PostgreSQL/MySQL. GPL-3.0, PyPI 6.4.0, Python 3.11+ ([source](https://github.com/dermatologist/pyomop))
+- **Adaptive Designs (bioSkills)** (Categories: Translational Medicine) — plans group-sequential (O'Brien–Fleming/Pocock/Lan–DeMets), sample-size re-estimation (Friede–Kieser, Cui–Hung–Wang, Mehta–Pocock promising zone), seamless Phase 2/3, enrichment and RAR trials with `rpact`/`gsDesign`, against FDA 2019 adaptive-designs and 2022 master-protocols guidance plus the ICH E20 Step 2b draft ([source](https://github.com/GPTomics/bioSkills/blob/main/clinical-biostatistics/adaptive-designs/SKILL.md))
+- **Missing Data Sensitivity (bioSkills)** (Categories: Translational Medicine) — ICH E9(R1) estimand-first missing-data workflow: MMRM with Kenward–Roger via `mmrm`, reference-based MI (J2R/CR/CIR/LMCF) via `rbmi`, Permutt tipping-point analysis, pattern-mixture restrictions, and Rubin's-vs-frequentist variance reconciliation ([source](https://github.com/GPTomics/bioSkills/blob/main/clinical-biostatistics/missing-data-sensitivity/SKILL.md))
+- **Trial Reporting (bioSkills)** (Categories: Translational Medicine) — CONSORT 2025 / SPIRIT 2025 / ICH E9(R1)-conformant statistical reporting: estimand attributes, ITT/FAS/PP/Safety populations, `tableone` Table 1 with SMD > 0.1 imbalance flagging, MMRM primary analysis, and Bretz–Maurer graphical multiplicity via `gMCP` ([source](https://github.com/GPTomics/bioSkills/blob/main/clinical-biostatistics/trial-reporting/SKILL.md))
+
+### Updated
+- No existing entries changed. Link/pricing recheck was not scheduled for this slot (`link_recheck: no`).
+
+### Flagged
+- No new flags this run.
+
+### Verified (no changes)
+- All 21 plugins in the `anthropics/life-sciences` marketplace manifest re-confirmed present and already catalogued.
+
+## 2026-08-02
+
+### Added
 - **DeepLabCut (Claude Skill)** (Categories: Neuroscience) — markerless animal pose estimation: 9-stage project pipeline, SuperAnimal zero-shot models, multi-animal and 3D tracking ([SKILL.md](https://github.com/HaoxuanLiTHUAI/awesome_cognitive_and_neuroscience_skills/blob/master/skills/deeplabcut/SKILL.md))
 - **Calcium Imaging Analysis Guide (Claude Skill)** (Categories: Neuroscience) — motion correction, CNMF/CNMF-E/Cellpose ROI extraction, neuropil correction, dF/F and spike inference with stated QC thresholds ([SKILL.md](https://github.com/HaoxuanLiTHUAI/awesome_cognitive_and_neuroscience_skills/blob/master/skills/calcium-imaging-analysis-guide/SKILL.md))
 - **Drift-Diffusion Model (Claude Skill)** (Categories: Neuroscience) — selecting, fitting and validating DDMs of two-choice RT data with EZ-diffusion, fast-dm, PyDDM or HDDM ([SKILL.md](https://github.com/HaoxuanLiTHUAI/awesome_cognitive_and_neuroscience_skills/blob/master/skills/drift-diffusion-model/SKILL.md))
