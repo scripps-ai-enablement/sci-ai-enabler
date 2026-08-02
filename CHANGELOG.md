@@ -13,6 +13,26 @@ Reverse-chronological log of changes to the [catalog]({{ '/catalog/' | relative_
 
 Older entries live in [CHANGELOG_ARCHIVE.md](CHANGELOG_ARCHIVE.md).
 
+## 2026-08-02
+
+### Added
+- **DeepLabCut (Claude Skill)** (Categories: Neuroscience) — markerless animal pose estimation: 9-stage project pipeline, SuperAnimal zero-shot models, multi-animal and 3D tracking ([SKILL.md](https://github.com/HaoxuanLiTHUAI/awesome_cognitive_and_neuroscience_skills/blob/master/skills/deeplabcut/SKILL.md))
+- **Calcium Imaging Analysis Guide (Claude Skill)** (Categories: Neuroscience) — motion correction, CNMF/CNMF-E/Cellpose ROI extraction, neuropil correction, dF/F and spike inference with stated QC thresholds ([SKILL.md](https://github.com/HaoxuanLiTHUAI/awesome_cognitive_and_neuroscience_skills/blob/master/skills/calcium-imaging-analysis-guide/SKILL.md))
+- **Drift-Diffusion Model (Claude Skill)** (Categories: Neuroscience) — selecting, fitting and validating DDMs of two-choice RT data with EZ-diffusion, fast-dm, PyDDM or HDDM ([SKILL.md](https://github.com/HaoxuanLiTHUAI/awesome_cognitive_and_neuroscience_skills/blob/master/skills/drift-diffusion-model/SKILL.md))
+- **Optogenetics Protocol Designer (Claude Skill)** (Categories: Neuroscience) — opsin, wavelength, irradiance, pulse-protocol, fiber and control-condition selection for circuit manipulation experiments ([SKILL.md](https://github.com/HaoxuanLiTHUAI/awesome_cognitive_and_neuroscience_skills/blob/master/skills/optogenetics-protocol-designer/SKILL.md))
+- **Signal Detection Analysis (Claude Skill)** (Categories: Neuroscience) — d′, criterion, β and c′ with the log-linear extreme-value correction and non-parametric alternatives ([SKILL.md](https://github.com/HaoxuanLiTHUAI/awesome_cognitive_and_neuroscience_skills/blob/master/skills/signal-detection-analysis/SKILL.md))
+
+### Updated
+- **`HaoxuanLiTHUAI/awesome_cognitive_and_neuroscience_skills`** — audit completed (deferred since 2026-07-12): repo-level MIT, default branch `master` (not `main`), Claude Code plugin marketplace install confirmed, 50 skill directories of which ~10 are meta. Every skill carries `review_status: ai-generated`, so all five new pages lead their Notes with a bolded verify-before-use caveat; most skills require the collection's `research-literacy` skill, which the single-skill install snippets now copy alongside.
+- **HED-MCP** (deferred candidate) — re-checked: PyPI `hed-mcp` still returns 404, so it remains not installable.
+- **NWB / NeuroConv MCP gap** — reconfirmed absent; recorded a name-collision warning that `mcp.science`'s `nemad` server is a materials database, not neuroscience.
+
+### Flagged
+- No new flags this run.
+
+### Verified (no changes)
+- All 21 plugins in `anthropics/life-sciences/.claude-plugin/marketplace.json` re-confirmed present and already catalogued (`link_recheck: no` this slot, so no per-page link/pricing recheck was run).
+
 ## 2026-08-01
 
 ### Added
@@ -321,53 +341,4 @@ Neuroscience directed pass plus a manifest sweep. The `anthropics/life-sciences`
 ### Verified (no changes)
 - Manifest sweep of `anthropics/life-sciences` (19 plugins) + `claude-plugins-official` + MCP Registry — no new in-scope entries.
 - NeuroForge's other three skills (MNE-Python, Nilearn, SpikeInterface) already covered by `mne-eeg-tool.md` / `nilearn-tool.md` / `spikeinterface-electrophysiology.md` — no duplicate created.
-
-## 2026-07-11 (Molecular and Cellular Biology slot)
-
-Molecular and Cellular Biology directed pass plus a manifest sweep. The `anthropics/life-sciences` (`.claude-plugin/marketplace.json`) and `claude-plugins-official` marketplaces were re-fetched and diffed — no new in-scope plugins (all 19 entries already catalogued). The directed pass ran the Ensembl / Geneformer / Bioconductor / CRISPR / single-cell seed queries: a single-install multi-database aggregator MCP (GWAS-MCP) surfaced as genuinely new; no dedicated Geneformer/scGPT single-cell-foundation-model wrapper exists yet (gap noted for future runs).
-
-### Added
-- **GWAS-MCP** (Categories: Drug Repurposing and Discovery, Molecular and Cellular Biology, Translational Medicine) — single-install MCP server bundling 30+ tools across 14 biological databases (UniProt, Ensembl, ClinVar, GWAS Catalog, GTEx, STRING, InterPro, AlphaFold, PDB, KEGG, Open Targets, PharmGKB, OMIM) for a variant-to-target research workflow. GA, MIT, PyPI `gwas-mcp` v1.0.2. ([`zaeyasa/gwas-mcp`](https://github.com/zaeyasa/gwas-mcp))
-
-### Verified (no changes)
-- Manifest sweep of `anthropics/life-sciences` (19 plugins) + MCP Registry — no new in-scope entries.
-- `ensembl.md` — Augmented-Nature Ensembl variant already noted as alternative implementation; no change.
-
-## 2026-07-11 (Integrative Structural and Computational Biology slot)
-
-Integrative Structural and Computational Biology directed pass plus a manifest sweep. The `anthropics/life-sciences` (`.claude-plugin/marketplace.json`) and `claude-plugins-official` marketplaces were re-fetched and diffed — no new in-scope plugins (all entries, including `boltz`, already catalogued). The directed pass ran the GROMACS/MD and RCSB PDB seed queries: the RCSB PDB MCP surface (incl. `cyanheads/protein-mcp-server`) is already covered by `pdb.md`, but a Docker-packaged GROMACS MD-runner MCP surfaced that closes the long-tracked standalone-GROMACS gap.
-
-### Added
-- **GROMACS MCP Server** (Categories: Integrative Structural and Computational Biology) — Docker-based MCP server bundling GROMACS 2025.4, exposing six tools to run/monitor MD simulations and batch trajectory analysis from Claude with async job tracking. First followable GROMACS MD-runner MCP catalogued. Alpha; license marked `Unverified —` (no upstream LICENSE) and flagged. ([`MacromNex/gromacs_mcp`](https://github.com/MacromNex/gromacs_mcp))
-
-### Flagged
-- **GROMACS MCP Server** — no upstream LICENSE file (GitHub license field null); README's "LGPL (GROMACS)" is GROMACS's license, not the wrapper's. Catalogued with pricing `Unverified —` inline; revisit once a wrapper license is declared.
-
-### Verified (no changes)
-- Manifest sweep of `anthropics/life-sciences` + `claude-plugins-official` — no new in-scope entries.
-- `pdb.md` — RCSB PDB MCP surface (official `rcsb-mcp` + cyanheads/Augmented-Nature/QuentinCody community servers) confirmed still current for the directed pass.
-
-## 2026-07-11 (Immunology and Microbiology slot)
-
-Immunology and Microbiology directed pass plus a manifest sweep. The `anthropics/life-sciences` (`.claude-plugin/marketplace.json`) and `claude-plugins-official` marketplaces were re-fetched and diffed — no new in-scope plugins (all entries already catalogued). The directed pass ran the IEDB epitope / antibody-design / metagenomics / BCR-TCR AIRR-seq seed queries: no standalone IEDB or antibody-design MCP wrapper exists yet, but the `GPTomics/bioSkills` collection (MIT; 561 skills across 63 root-level category directories) surfaced as a rich, cleanly-licensed source of immunology/microbiology skills. Five genuinely-new skills were catalogued under the per-run soft cap; the full collection is deferred for a one-time batch ingest.
-
-### Added
-- **Epitope Prediction (bioSkills)** (Categories: Immunology and Microbiology) — Claude Code skill predicting B-cell and T-cell epitopes for vaccine/epitope-mapping work with BepiPred-3.0, DiscoTope-3.0, the IEDB tools, and NetMHCpan/MHCflurry presentation predictors. Closes the long-tracked IEDB/epitope gap. MIT. ([`immunoinformatics/epitope-prediction/SKILL.md`](https://github.com/GPTomics/bioSkills/blob/main/immunoinformatics/epitope-prediction/SKILL.md))
-- **MHC Binding Prediction (bioSkills)** (Categories: Immunology and Microbiology) — Claude Code skill scoring peptide–MHC class I binding and natural presentation with MHCflurry, NetMHCpan-4.1, and MixMHCpred to nominate CD8 T-cell epitopes/neoantigens. MIT. ([`immunoinformatics/mhc-binding-prediction/SKILL.md`](https://github.com/GPTomics/bioSkills/blob/main/immunoinformatics/mhc-binding-prediction/SKILL.md))
-- **Immcantation BCR Analysis (bioSkills)** (Categories: Immunology and Microbiology) — Claude Code skill reconstructing B-cell clonal families, quantifying somatic hypermutation/selection, and building antibody lineage trees from AIRR-seq data with the Immcantation R suite (alakazam/shazam/scoper/dowser/tigger). Closes the BCR/AIRR-seq gap. MIT. ([`tcr-bcr-analysis/immcantation-analysis/SKILL.md`](https://github.com/GPTomics/bioSkills/blob/main/tcr-bcr-analysis/immcantation-analysis/SKILL.md))
-- **Kraken2 Metagenomic Classification (bioSkills)** (Categories: Immunology and Microbiology) — Claude Code skill classifying shotgun metagenomic reads with Kraken2 minimizer/LCA matching then re-estimating abundance with Bracken. MIT. ([`metagenomics/kraken-classification/SKILL.md`](https://github.com/GPTomics/bioSkills/blob/main/metagenomics/kraken-classification/SKILL.md))
-- **AMR / Resistome Detection (bioSkills)** (Categories: Immunology and Microbiology) — Claude Code skill profiling the antimicrobial-resistance gene content of shotgun metagenomes with RGI, AMR++/MEGARes, deepARG, GROOT, and AMRFinderPlus/ABRicate. Closes the metagenomics/AMR gap. MIT. ([`metagenomics/amr-detection/SKILL.md`](https://github.com/GPTomics/bioSkills/blob/main/metagenomics/amr-detection/SKILL.md))
-
-### Verified (no changes)
-- Manifest sweep of `anthropics/life-sciences` + `claude-plugins-official` — no new in-scope entries.
-
-## 2026-07-11 (Chemistry slot)
-
-Chemistry directed pass plus a manifest sweep. The `anthropics/life-sciences` (`.claude-plugin/marketplace.json`) and `claude-plugins-official` marketplaces were re-fetched and diffed — no new in-scope plugins (all entries already catalogued). The directed pass ran the RDKit / retrosynthesis / ChEMBL seed queries: existing RDKit (TandemAI MCP, K-Dense skill), PubChem, ChEMBL, and ChemCP entries already cover the surface; one genuinely-new, verified RDKit tool surfaced.
-
-### Added
-- **RDKit Agent** (Categories: Chemistry, Drug Repurposing and Discovery) — agent-first cheminformatics CLI / Node library / MCP server / Claude skill powered by RDKit **WASM** (no Python runtime, Node ≥ 16). 20+ tools including SMILES validation/repair, notation conversion, descriptors, Tanimoto similarity, reaction SMIRKS application, atom mapping, and SVG/PNG rendering. MIT, npm `rdkit-agent` v0.1.1. Distinct from the Python-based TandemAI RDKit MCP and K-Dense RDKit skill already catalogued. ([`scottmreed/rdkit-agent`](https://github.com/scottmreed/rdkit-agent), [npm](https://registry.npmjs.org/rdkit-agent))
-
-### Verified (no changes)
-- Manifest sweep of `anthropics/life-sciences` + `claude-plugins-official` — no new in-scope entries.
 
