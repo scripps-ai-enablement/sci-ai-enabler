@@ -96,6 +96,7 @@ Proposed. No documented attempt of this specific Claude-driven ToolUniverse Drug
 
 - [Drug Synergy (ToolUniverse Claude Skill)](../../catalog/tools/tooluniverse-drug-synergy.html)
 - [ToolUniverse (MCP server)](../../catalog/tools/tooluniverse.html)
+- [Fit a dose-response curve and report a defensible IC50](fit-dose-response-curve-to-ic50.html) — upstream: the single-agent potency values this recipe consumes.
 - [Profile a compound's polypharmacology](profile-compound-polypharmacology.html) — single-compound multi-target view.
 - [Scan a disease for drug-repurposing candidates](scan-drug-repurposing-candidates.html) — upstream: where a combination hypothesis comes from.
 

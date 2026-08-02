@@ -135,6 +135,7 @@ No peer-reviewed head-to-head benchmark of "Claude + MedChem skill" against a ha
 - [RDKit Cheminformatics Skill](../../catalog/tools/rdkit-skill.html)
 - [Scan approved drugs for repurposing candidates against a disease](scan-drug-repurposing-candidates.html) — upstream step that produces the candidate list this recipe triages.
 - [Predict ADMET properties for a compound series with an ML predictor](predict-admet-properties-for-a-compound-series.html) — downstream ML-prediction step for the survivors of this rule-based triage.
+- [Source purchasable compounds for a hit list](source-purchasable-compounds-for-a-hit-list.html) — downstream: which survivors you can actually buy, at what purity and lead time.
 
 ## Sources
 
