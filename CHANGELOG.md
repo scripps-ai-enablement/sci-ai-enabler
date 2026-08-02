@@ -16,6 +16,22 @@ Older entries live in [CHANGELOG_ARCHIVE.md](CHANGELOG_ARCHIVE.md).
 ## 2026-08-02
 
 ### Added
+- **ADMET Prediction (ToolUniverse Claude Skill)** (Categories: Chemistry, Drug Repurposing and Discovery) — five-phase ADMET profiling that pairs ADMET-AI/SwissADME predictions with experimental PubChemTox data and grades every finding T1–T3, so readers can tell a measurement from a model output ([SKILL.md](https://github.com/mims-harvard/ToolUniverse/blob/main/skills/tooluniverse-admet-prediction/SKILL.md))
+- **Dose-Response Analysis (ToolUniverse Claude Skill)** (Categories: Chemistry, Drug Repurposing and Discovery, Molecular and Cellular Biology) — 4PL/Hill curve fitting for IC50/EC50 with explicit fit-quality gatekeeping (r² ≥ 0.95 to endorse a potency comparison; biphasic data rejected outright) ([SKILL.md](https://github.com/mims-harvard/ToolUniverse/blob/main/skills/tooluniverse-dose-response/SKILL.md))
+- **Cell Line Profiling (ToolUniverse Claude Skill)** (Categories: Drug Repurposing and Discovery, Molecular and Cellular Biology, Translational Medicine) — ranks cancer cell lines for an experiment across Cellosaurus identity checks, DepMap dependencies, COSMIC/CCLE mutations, and PharmacoDB drug sensitivity ([SKILL.md](https://github.com/mims-harvard/ToolUniverse/blob/main/skills/tooluniverse-cell-line-profiling/SKILL.md))
+- **Chemical Sourcing (ToolUniverse Claude Skill)** (Categories: Chemistry, Drug Repurposing and Discovery) — vendor search across ZINC, Enamine, eMolecules, and Mcule with purity floors, per-mg price normalization, and a Tanimoto ≥ 0.7 purchasable-analog fallback ([SKILL.md](https://github.com/mims-harvard/ToolUniverse/blob/main/skills/tooluniverse-chemical-sourcing/SKILL.md))
+
+### Deferred
+- **Cicatriiz/healthcare-mcp-public** (MIT) — one server bundling FDA, PubMed, medRxiv, clinical trials, ICD-10, and DICOM metadata; deferred because five of those surfaces are already catalogued discretely and the repo has not been pushed since 2025-08-16.
+- **cyanheads/pubchem-mcp-server** — should be folded into the existing PubChem entry as an alternative install path rather than duplicated, once its license and registration snippet are confirmed.
+- **FDB MedProof MCP** — commercial medication-decision-support server (GA 2026-04); no public enable path or pricing published.
+
+### Verified (no changes)
+- `anthropics/life-sciences` marketplace re-swept — all 21 plugins already catalogued; no new entries.
+
+## 2026-08-02
+
+### Added
 - **OMOPHub MCP Server** (Categories: Translational Medicine) — 11 tools over the OHDSI OMOP standardized vocabularies (SNOMED CT, ICD-10, RxNorm, LOINC, 100+ others): concept search, semantic search, cross-vocabulary mapping, hierarchy traversal, and FHIR coding resolution, without a local ATHENA load. MIT, npm `@omophub/omophub-mcp` 1.5.3, Node ≥ 20, free API key required ([source](https://github.com/OMOPHub/omophub-mcp))
 - **pyomop** (Categories: Translational Medicine) — Python OMOP CDM toolkit that ships an MCP server: 8 tools for CDM schema inspection, validated SQL execution, and loading the OHDSI Eunomia demo dataset across SQLite/PostgreSQL/MySQL. GPL-3.0, PyPI 6.4.0, Python 3.11+ ([source](https://github.com/dermatologist/pyomop))
 - **Adaptive Designs (bioSkills)** (Categories: Translational Medicine) — plans group-sequential (O'Brien–Fleming/Pocock/Lan–DeMets), sample-size re-estimation (Friede–Kieser, Cui–Hung–Wang, Mehta–Pocock promising zone), seamless Phase 2/3, enrichment and RAR trials with `rpact`/`gsDesign`, against FDA 2019 adaptive-designs and 2022 master-protocols guidance plus the ICH E20 Step 2b draft ([source](https://github.com/GPTomics/bioSkills/blob/main/clinical-biostatistics/adaptive-designs/SKILL.md))
