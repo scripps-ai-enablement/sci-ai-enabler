@@ -6,6 +6,73 @@ nav_exclude: true
 # Recipes updates archive
 
 Older entries rotated out of [RECIPES_CHANGELOG.md](RECIPES_CHANGELOG.md). Newest first, same format.
+## 2026-07-11 (Molecular and Cellular Biology directed pass)
+
+### Added
+
+- **Quantify bulk RNA-seq FASTQ into a gene-level counts matrix** (Problem class: Data analysis; Evidence: Proposed) — rung-3 toolbelt: [fastp](catalog/tools/fastp-fastq-preprocessing.html) trim → [Salmon](catalog/tools/salmon-rna-quantification.html) decoy-aware quasi-mapping (`--gcBias --seqBias --validateMappings`) → tximport gene-level aggregation via `tx2gene` → committed `quantify_rnaseq.py` + pinned `requirements.txt` + fastp JSON QC + `counts.csv`/`coldata.csv` + `provenance.json` (transcriptome release, index flags, FASTQ sha256, tool versions, run date, model id). Fills the FASTQ→counts gap the [bulk RNA-seq DE recipe](recipes/items/run-bulk-rnaseq-differential-expression.html) assumed away, now cross-linked as its downstream companion; alignment-based alternative noted via [STAR](catalog/tools/star-rna-seq-aligner.html)+[featureCounts](catalog/tools/featurecounts-rna-counting.html). `Proposed` — grounded on Salmon bias/decoy-aware benchmarks ([Patro et al., *Nat. Methods* 2017](https://doi.org/10.1038/nmeth.4197); [Srivastava et al., *Genome Biol.* 2020](https://doi.org/10.1186/s13059-020-02151-8)) and tximport aggregation ([Soneson et al., *F1000Res* 2015](https://doi.org/10.12688/f1000research.7563.2)); the agent-orchestrated chain is not separately benchmarked. `Fully open`; `Laptop`.
+
+### Updated
+
+- **Run bulk RNA-seq differential expression from a counts matrix** — added upstream cross-link to the new FASTQ→counts recipe in **See also**.
+
+### Verified (no changes)
+
+- 2 recipes spot-checked (profile-chipseq-atacseq-signal-around-features, call-peaks-and-motifs-from-chipseq-atacseq), all current — linked deepTools/MACS3/HOMER catalog pages resolve and are unflagged, source repos and DOIs load; `last_verified` bumped to 2026-07-11.
+
+## 2026-07-11 (Integrative Structural and Computational Biology directed pass)
+
+### Added
+
+- **Predict a protein–protein complex to map the binding interface** (Problem class: Hypothesis generation; Evidence: Reported) — rung-2 [Boltz plugin](catalog/tools/boltz.html) recipe: two partner FASTA sequences → `boltz-structure-and-binding` multi-chain co-folding (wide sampling) → local 5 Å inter-chain contact recomputation → committed `.claude/commands/predict-ppi-interface.md` + `interface_from_boltz.py` + pinned env + `interface.csv` (consensus interface residues) + `provenance.json` (plugin version, boltz-api job ids/date, model id, input sha256). General non-antibody PPI counterpart to the [antibody–antigen complex recipe](recipes/items/predict-antibody-antigen-complex.html); closes the long-deferred "AlphaFold-Multimer complex interface" candidate now that Boltz is catalogued. `Reported` — Boltz-2 matches AF3 on PDB 2024–2025 complexes ([Passaro et al., *bioRxiv* 2025](https://www.biorxiv.org/content/10.1101/2025.06.14.659707v1)); AF-Multimer/AF3 are field-standard multimer baselines ([Hou et al., *Nat. Commun.* 2025](https://pubmed.ncbi.nlm.nih.gov/41261173/)); the Claude-plugin assembly is not separately benchmarked. `Subscription required` (hosted Boltz API); `Laptop`.
+
+### Updated
+
+- **Score point mutations for functional impact with a protein language model** — `last_verified` bumped to 2026-07-11; ESM/gget catalog pages resolve and are unflagged, sources still current.
+- **Predict gene-knockout phenotypes with flux balance analysis** — `last_verified` bumped to 2026-07-11; COBRApy catalog page and Biomni system page resolve and are unflagged, sources still current.
+
+### Verified (no changes)
+
+- 2 additional recipes (ESM variant scoring, FBA knockout) spot-checked with the two above; linked catalog/system pages resolve.
+
+## 2026-07-11 (Immunology and Microbiology directed pass)
+
+### Added
+
+- **Scan a protein for candidate CD8 T-cell epitopes** (Problem class: Experimental design; Evidence: Validated) — rung-2 [MHC Binding Prediction skill](catalog/tools/mhc-binding-prediction.html) recipe: antigen FASTA + HLA class I alleles → tile to 8–11-mers → MHCflurry (+optional NetMHCpan-4.1/MixMHCpred) presentation + `%Rank` scoring → committed `scan_epitopes.py` + pinned env + `epitopes.csv` + `provenance.json` (predictor versions/model release, allele list, input sha256, run date, model id). Cookbook's first MHC-I epitope recipe. `Validated` — NetMHCpan/MHCflurry captured >half of major epitopes in the top 277 of 767,788 candidates in a proteome-wide benchmark ([Paul et al., *PLoS Comput. Biol.* 2020](https://pubmed.ncbi.nlm.nih.gov/32453790/)); SOTA reconfirmed 2026 ([Mecklenbräuker et al., *Mol. Cell. Proteomics*](https://pubmed.ncbi.nlm.nih.gov/41903651/)). `Fully open`; `Laptop`.
+- **Reconstruct B-cell clonal lineages from AIRR-seq** (Problem class: Data analysis; Evidence: Reported) — rung-2 [Immcantation BCR Analysis skill](catalog/tools/immcantation-analysis.html) recipe: AIRR rearrangement table → shazam data-derived clonal threshold → scoper clonal families → SHM/BASELINe selection → dowser germline-rooted lineage trees → committed `bcr_lineages.R` + pinned Immcantation env + `clones.tsv`/trees + `provenance.json` (package versions, IMGT germline release, derived threshold, input sha256, run date, model id). Cookbook's first BCR clonal-analysis recipe. `Reported` — Immcantation is the documented AIRR-seq clonal-analysis standard with an active supporting methods literature ([Abdollahi et al., *BMC Bioinformatics* 2023](https://pubmed.ncbi.nlm.nih.gov/36849917/); [Zhang et al., *Front. Immunol.* 2022](https://pubmed.ncbi.nlm.nih.gov/36618367/)); the agent-orchestrated assembly is not separately benchmarked. `Fully open`; `Laptop`.
+
+### Updated
+
+- **Scan a therapeutic antibody for glycosylation sites** — `last_verified` bumped to 2026-07-11; Glycoengineering/gget/Adaptyv catalog pages resolve and are unflagged, sources still current.
+- **Infer cell-cell communication from single-cell RNA-seq** — `last_verified` bumped to 2026-07-11; LIANA-MCP catalog page resolves and is unflagged, sources still current.
+
+### Flagged
+
+- None.
+
+### Verified (no changes)
+
+- 2 recipes spot-checked (antibody-glycosylation, cell-cell communication), all current.
+
+## 2026-07-11 (Chemistry directed pass)
+
+### Added
+
+- **Prepare the correct protonation state of a ligand before docking** (Problem class: Experimental design; Evidence: Proposed) — rung-2 [Rowan skill](catalog/tools/rowan.html) recipe: ligand SMILES → optional local [Datamol](catalog/tools/datamol.html) standardization → Rowan `submit_macropka_workflow` (pH 0–14) → dominant microspecies at pH 7.4 + governing macro-pKa → committed `prepare_protonation.py` + pinned env + `prepared_ligands.csv` + `provenance.json` (Rowan skill/workflow ids, pH, run date, input/output sha256, model id). Fills the ligand-prep gap upstream of the [DiffDock docking](recipes/items/dock-ligand-library-with-diffdock.html), [affinity-ranking](recipes/items/rank-compound-library-by-predicted-affinity.html), and [GROMACS MD](recipes/items/set-up-protein-md-simulation-in-gromacs.html) recipes, distinguished from the pH-blind standardization in the [enumerate-analogs recipe](recipes/items/enumerate-analogs-around-a-lead.html). `Proposed` — grounded on Rowan's documented pKa/macro-pKa workflows and the established impact of protonation/tautomeric state on docking enrichment ([Kim et al., *J. Comput. Aided Mol. Des.* 2013](https://doi.org/10.1007/s10822-013-9643-9)); the agent-orchestrated prep assembly is not separately benchmarked. `Fully open` (free Rowan tier; cloud submission — data-residency caveat); `Laptop`.
+
+### Updated
+
+- **Analyze an existing MD trajectory for stability, flexibility, and contacts** — `last_verified` bumped to 2026-07-11; linked MDAnalysis/MDTraj catalog pages resolve and are unflagged, sources still current.
+
+### Flagged
+
+- None.
+
+### Verified (no changes)
+
+- 1 recipe spot-checked (MD-trajectory analysis), current.
+
 ## 2026-07-05 (Drug Repurposing and Discovery directed pass)
 
 ### Added

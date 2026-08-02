@@ -13,6 +13,29 @@ Reverse-chronological log of changes to the [recipes cookbook]({{ '/recipes/' | 
 
 Older entries live in [RECIPES_CHANGELOG_ARCHIVE.md](RECIPES_CHANGELOG_ARCHIVE.md).
 
+## 2026-08-02
+
+Neuroscience directed pass. Two new recipes, both closing previously-uncovered GA skills in the largest catalog section (96 Neuroscience-tagged tools, 12 recipes touching the area before today). Both cover the animal-experiment layer the cookbook had skipped: the behavior the neural data gets regressed against, and the imaging route to a population-activity matrix.
+
+### Added
+
+- **Track animal pose in behavioral video** (Problem class: Data analysis; Evidence: Proposed) — rung-2 [DeepLabCut skill](https://scripps-ai-enablement.github.io/sci-ai-enabler/catalog/tools/deeplabcut.html) recipe. The ordering is the point: run a **SuperAnimal zero-shot probe with a labeled preview video first** and skip the labeling project entirely if it tracks cleanly — SuperAnimal covers 45+ species with no new labels and is 10–100× more data-efficient than transfer learning when fine-tuned ([Ye et al., *Nat. Commun.* 2024](https://doi.org/10.1038/s41467-024-48792-2)). If labeling is needed, label for *diversity* across animals, lighting and camera position rather than volume: 25%-participant models held up for adult joint angles but failed on clinical parameters and toddlers where 75% models reached good-to-excellent agreement against Vicon ([Verhoeven et al., *J. Biomech.* 2025](https://doi.org/10.1016/j.jbiomech.2025.112708)). Output is a committed `run_pose.py` emitting a keypoint table whose low-likelihood frames are **NaN, never interpolated**, a `pose_qc.csv` (% frames masked, longest masked run per bodypart), kinematics in mm, and a `provenance.json` recording the model snapshot and test error. Accuracy ceiling is documented — 0.228 cm median error, 2.0% of range of motion, against XROMM ([Moore et al., *J. Exp. Biol.* 2022](https://doi.org/10.1242/jeb.243998)). `Fully open`, `Workstation with GPU`.
+- **Extract neuronal traces from a calcium imaging movie** (Problem class: Data analysis; Evidence: Proposed) — rung-2 [Calcium Imaging Analysis Guide skill](https://scripps-ai-enablement.github.io/sci-ai-enabler/catalog/tools/calcium-imaging-analysis-guide.html) recipe. Every rule in the skill branches on the preparation, so the recipe makes you declare it first (CNMF-E for one-photon/miniscope where out-of-focus background dominates, CNMF/sparse-NMF/Cellpose for two-photon; non-rigid for awake behaving, rigid for anesthetized). Neuropil subtraction goes **before** dF/F, not after; ROI footprints get inspected over the mean/max projection **before** the trace heatmap, because segmentation failures are obvious there and invisible downstream; `rejected_rois.csv` carries a reason string per rejection and is treated as part of the result. Deconvolution is a separate, optional, differently-named output labelled an estimated firing rate — the distinction that ground-truth work makes concrete: CASCADE, trained on >35 h from 298 neurons, infers *absolute* rates and beats model-based algorithms ([Rupprecht et al., *Nat. Neurosci.* 2021](https://doi.org/10.1038/s41593-021-00895-5)). Component evidence anchored on CaImAn's near-human ROI detection against multi-labeler annotations on nine two-photon datasets ([Giovannucci et al., *eLife* 2019](https://doi.org/10.7554/eLife.38173)). `Fully open` with a copyleft note (Suite2p GPL-3.0, CaImAn GPL-2.0, conda-only), `Workstation with GPU` where RAM and NVMe are the real limits.
+
+Both are `Proposed` rather than `Reported`: no documented attempt at driving either skill on a real dataset is known, and both skills' text is AI-generated and not expert-reviewed. Each recipe says so and tells the reader which numbers to re-derive — for the calcium page, the neuropil coefficient specifically, since it shifts every correlation in the dataset.
+
+### Updated
+
+- _None._
+
+### Flagged
+
+- _None._
+
+### Verified (no changes)
+
+- No recheck this slot (`recipe_recheck: no`) — the full run went to the directed pass.
+
 ## 2026-08-01
 
 Directed pass on **Molecular and Cellular Biology**. Two GA bioSkills single-cell skills were catalogued but had no recipe; both now do. Aging-recipe verification was skipped this slot (`recipe_recheck: no`).
@@ -271,71 +294,4 @@ Directed pass on **Immunology and Microbiology**. Two recipes shipped, both clos
 ### Verified (no changes)
 
 - 2 neuroscience recipes spot-checked, `last_verified` bumped to 2026-07-12: [Discover NWB recordings on DANDI](recipes/items/discover-nwb-recordings-on-dandi.html) (linked catalog tools + source DOIs resolve) and [Compute HRV from an ECG recording](recipes/items/compute-hrv-from-ecg-recording.html) (NeuroKit2 skill link current).
-
-## 2026-07-11 (Molecular and Cellular Biology directed pass)
-
-### Added
-
-- **Quantify bulk RNA-seq FASTQ into a gene-level counts matrix** (Problem class: Data analysis; Evidence: Proposed) — rung-3 toolbelt: [fastp](catalog/tools/fastp-fastq-preprocessing.html) trim → [Salmon](catalog/tools/salmon-rna-quantification.html) decoy-aware quasi-mapping (`--gcBias --seqBias --validateMappings`) → tximport gene-level aggregation via `tx2gene` → committed `quantify_rnaseq.py` + pinned `requirements.txt` + fastp JSON QC + `counts.csv`/`coldata.csv` + `provenance.json` (transcriptome release, index flags, FASTQ sha256, tool versions, run date, model id). Fills the FASTQ→counts gap the [bulk RNA-seq DE recipe](recipes/items/run-bulk-rnaseq-differential-expression.html) assumed away, now cross-linked as its downstream companion; alignment-based alternative noted via [STAR](catalog/tools/star-rna-seq-aligner.html)+[featureCounts](catalog/tools/featurecounts-rna-counting.html). `Proposed` — grounded on Salmon bias/decoy-aware benchmarks ([Patro et al., *Nat. Methods* 2017](https://doi.org/10.1038/nmeth.4197); [Srivastava et al., *Genome Biol.* 2020](https://doi.org/10.1186/s13059-020-02151-8)) and tximport aggregation ([Soneson et al., *F1000Res* 2015](https://doi.org/10.12688/f1000research.7563.2)); the agent-orchestrated chain is not separately benchmarked. `Fully open`; `Laptop`.
-
-### Updated
-
-- **Run bulk RNA-seq differential expression from a counts matrix** — added upstream cross-link to the new FASTQ→counts recipe in **See also**.
-
-### Verified (no changes)
-
-- 2 recipes spot-checked (profile-chipseq-atacseq-signal-around-features, call-peaks-and-motifs-from-chipseq-atacseq), all current — linked deepTools/MACS3/HOMER catalog pages resolve and are unflagged, source repos and DOIs load; `last_verified` bumped to 2026-07-11.
-
-## 2026-07-11 (Integrative Structural and Computational Biology directed pass)
-
-### Added
-
-- **Predict a protein–protein complex to map the binding interface** (Problem class: Hypothesis generation; Evidence: Reported) — rung-2 [Boltz plugin](catalog/tools/boltz.html) recipe: two partner FASTA sequences → `boltz-structure-and-binding` multi-chain co-folding (wide sampling) → local 5 Å inter-chain contact recomputation → committed `.claude/commands/predict-ppi-interface.md` + `interface_from_boltz.py` + pinned env + `interface.csv` (consensus interface residues) + `provenance.json` (plugin version, boltz-api job ids/date, model id, input sha256). General non-antibody PPI counterpart to the [antibody–antigen complex recipe](recipes/items/predict-antibody-antigen-complex.html); closes the long-deferred "AlphaFold-Multimer complex interface" candidate now that Boltz is catalogued. `Reported` — Boltz-2 matches AF3 on PDB 2024–2025 complexes ([Passaro et al., *bioRxiv* 2025](https://www.biorxiv.org/content/10.1101/2025.06.14.659707v1)); AF-Multimer/AF3 are field-standard multimer baselines ([Hou et al., *Nat. Commun.* 2025](https://pubmed.ncbi.nlm.nih.gov/41261173/)); the Claude-plugin assembly is not separately benchmarked. `Subscription required` (hosted Boltz API); `Laptop`.
-
-### Updated
-
-- **Score point mutations for functional impact with a protein language model** — `last_verified` bumped to 2026-07-11; ESM/gget catalog pages resolve and are unflagged, sources still current.
-- **Predict gene-knockout phenotypes with flux balance analysis** — `last_verified` bumped to 2026-07-11; COBRApy catalog page and Biomni system page resolve and are unflagged, sources still current.
-
-### Verified (no changes)
-
-- 2 additional recipes (ESM variant scoring, FBA knockout) spot-checked with the two above; linked catalog/system pages resolve.
-
-## 2026-07-11 (Immunology and Microbiology directed pass)
-
-### Added
-
-- **Scan a protein for candidate CD8 T-cell epitopes** (Problem class: Experimental design; Evidence: Validated) — rung-2 [MHC Binding Prediction skill](catalog/tools/mhc-binding-prediction.html) recipe: antigen FASTA + HLA class I alleles → tile to 8–11-mers → MHCflurry (+optional NetMHCpan-4.1/MixMHCpred) presentation + `%Rank` scoring → committed `scan_epitopes.py` + pinned env + `epitopes.csv` + `provenance.json` (predictor versions/model release, allele list, input sha256, run date, model id). Cookbook's first MHC-I epitope recipe. `Validated` — NetMHCpan/MHCflurry captured >half of major epitopes in the top 277 of 767,788 candidates in a proteome-wide benchmark ([Paul et al., *PLoS Comput. Biol.* 2020](https://pubmed.ncbi.nlm.nih.gov/32453790/)); SOTA reconfirmed 2026 ([Mecklenbräuker et al., *Mol. Cell. Proteomics*](https://pubmed.ncbi.nlm.nih.gov/41903651/)). `Fully open`; `Laptop`.
-- **Reconstruct B-cell clonal lineages from AIRR-seq** (Problem class: Data analysis; Evidence: Reported) — rung-2 [Immcantation BCR Analysis skill](catalog/tools/immcantation-analysis.html) recipe: AIRR rearrangement table → shazam data-derived clonal threshold → scoper clonal families → SHM/BASELINe selection → dowser germline-rooted lineage trees → committed `bcr_lineages.R` + pinned Immcantation env + `clones.tsv`/trees + `provenance.json` (package versions, IMGT germline release, derived threshold, input sha256, run date, model id). Cookbook's first BCR clonal-analysis recipe. `Reported` — Immcantation is the documented AIRR-seq clonal-analysis standard with an active supporting methods literature ([Abdollahi et al., *BMC Bioinformatics* 2023](https://pubmed.ncbi.nlm.nih.gov/36849917/); [Zhang et al., *Front. Immunol.* 2022](https://pubmed.ncbi.nlm.nih.gov/36618367/)); the agent-orchestrated assembly is not separately benchmarked. `Fully open`; `Laptop`.
-
-### Updated
-
-- **Scan a therapeutic antibody for glycosylation sites** — `last_verified` bumped to 2026-07-11; Glycoengineering/gget/Adaptyv catalog pages resolve and are unflagged, sources still current.
-- **Infer cell-cell communication from single-cell RNA-seq** — `last_verified` bumped to 2026-07-11; LIANA-MCP catalog page resolves and is unflagged, sources still current.
-
-### Flagged
-
-- None.
-
-### Verified (no changes)
-
-- 2 recipes spot-checked (antibody-glycosylation, cell-cell communication), all current.
-
-## 2026-07-11 (Chemistry directed pass)
-
-### Added
-
-- **Prepare the correct protonation state of a ligand before docking** (Problem class: Experimental design; Evidence: Proposed) — rung-2 [Rowan skill](catalog/tools/rowan.html) recipe: ligand SMILES → optional local [Datamol](catalog/tools/datamol.html) standardization → Rowan `submit_macropka_workflow` (pH 0–14) → dominant microspecies at pH 7.4 + governing macro-pKa → committed `prepare_protonation.py` + pinned env + `prepared_ligands.csv` + `provenance.json` (Rowan skill/workflow ids, pH, run date, input/output sha256, model id). Fills the ligand-prep gap upstream of the [DiffDock docking](recipes/items/dock-ligand-library-with-diffdock.html), [affinity-ranking](recipes/items/rank-compound-library-by-predicted-affinity.html), and [GROMACS MD](recipes/items/set-up-protein-md-simulation-in-gromacs.html) recipes, distinguished from the pH-blind standardization in the [enumerate-analogs recipe](recipes/items/enumerate-analogs-around-a-lead.html). `Proposed` — grounded on Rowan's documented pKa/macro-pKa workflows and the established impact of protonation/tautomeric state on docking enrichment ([Kim et al., *J. Comput. Aided Mol. Des.* 2013](https://doi.org/10.1007/s10822-013-9643-9)); the agent-orchestrated prep assembly is not separately benchmarked. `Fully open` (free Rowan tier; cloud submission — data-residency caveat); `Laptop`.
-
-### Updated
-
-- **Analyze an existing MD trajectory for stability, flexibility, and contacts** — `last_verified` bumped to 2026-07-11; linked MDAnalysis/MDTraj catalog pages resolve and are unflagged, sources still current.
-
-### Flagged
-
-- None.
-
-### Verified (no changes)
-
-- 1 recipe spot-checked (MD-trajectory analysis), current.
 
