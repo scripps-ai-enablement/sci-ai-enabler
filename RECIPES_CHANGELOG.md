@@ -15,6 +15,25 @@ Older entries live in [RECIPES_CHANGELOG_ARCHIVE.md](RECIPES_CHANGELOG_ARCHIVE.m
 
 ## 2026-08-02
 
+### Added
+
+- **Handle missing endpoint data in a confirmatory trial** (Problem class: Data analysis; Evidence: Proposed) — opens the clinical-biostatistics leg of the cookbook, which was empty: protocol *design* was covered, primary-endpoint *analysis* was not. Rung 2 on the [Missing Data Sensitivity skill](https://scripps-ai-enablement.github.io/sci-ai-enabler/catalog/tools/missing-data-sensitivity.html). The value is ordering: estimand written down before any method is chosen (a strategy named per intercurrent event, since discontinuation and rescue usually need different ones), Little's MCAR test reported but explicitly barred from licensing MAR, MMRM in R `mmrm` with Kenward–Roger df rather than `statsmodels.mixedlm` (which has no such correction and is not confirmatory), the `rbmi` reference-based family run together rather than one pick, both Rubin's and frequentist variances side by side, and the tipping point in residual-SD units. Provenance carries the RNG seed — multiple imputation is stochastic, and the sensitivity table is the one a reviewer will try to reproduce. Grounded in [White, Joseph & Best 2020](https://doi.org/10.1080/10543406.2019.1684308) (JR/CR/CIR as a causal model whose varied assumption *is* the tipping point), [Cro, Carpenter & Kenward 2019](https://doi.org/10.1111/rssa.12423) (information anchoring), [Cro et al. 2020](https://doi.org/10.1002/sim.8569), and [von Hippel](https://doi.org/10.1177/0049124117747303) (required imputations grow quadratically with FMI, not linearly).
+- **Define a phenotype cohort in an OMOP CDM database** (Problem class: Data analysis; Evidence: Proposed) — first recipe to touch the OMOP/OHDSI leg, pairing the [OMOPHub MCP server](https://scripps-ai-enablement.github.io/sci-ai-enabler/catalog/tools/omophub-mcp.html) with [pyomop](https://scripps-ai-enablement.github.io/sci-ai-enabler/catalog/tools/pyomop.html) at rung 3. Neither alone works: without a vocabulary service the model supplies concept ids from memory and a wrong-but-plausible id produces a query that runs cleanly and returns the wrong cohort; without a database client you have a concept set and nobody to count. The recipe pins the vocabulary release first, forbids stating a `concept_id` not retrieved from the server, keeps `include_descendants` as a per-concept decision, commits the codes you *excluded* as well as those you kept, runs `check_sql` before `run_sql` against a read-only role, and demands an attrition table rather than a count. Evidence: [Kashyap et al., *JAMIA* 2020](https://doi.org/10.1093/jamia/ocaa032) — OHDSI phenotype classifiers degraded across sites (recall −0.08 domestically, −0.18 internationally), concluding the definition should travel rather than the fitted artifact; [EHRSQL](https://arxiv.org/abs/2301.07695) and its [2024 shared task](https://arxiv.org/abs/2405.06673) — confident answers to unsupported questions are the deployment-critical failure in EHR text-to-SQL, hence execution-based verification.
+
+### Updated
+
+- **Recipes curator state** — banked three Translational Medicine follow-ups: cross-ancestry association lookup across the FinnGen / BioBank Japan / eQTL Catalogue connectors (with a caveat to settle first — Claude Science connectors have no addressable MCP URL, so a recipe built only on them cannot produce the committed artifact the reproducibility rule requires), an adaptive-trial-design page, and a CONSORT trial-report page that must justify itself against the new missing-data recipe before it is written.
+
+### Flagged
+
+- None.
+
+### Verified (no changes)
+
+- No aging-recipe recheck this slot (`recipe_recheck: no`); the run went to discovery.
+
+## 2026-08-02
+
 Neuroscience directed pass. Two new recipes, both closing previously-uncovered GA skills in the largest catalog section (96 Neuroscience-tagged tools, 12 recipes touching the area before today). Both cover the animal-experiment layer the cookbook had skipped: the behavior the neural data gets regressed against, and the imaging route to a population-activity matrix.
 
 ### Added
