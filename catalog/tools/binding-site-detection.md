@@ -8,6 +8,12 @@ availability: GA
 tool_categories: [Drug Repurposing and Discovery, Integrative Structural and Computational Biology]
 last_verified: 2026-08-01
 summary: "Find and rank druggable pockets on an apo protein with fpocket, P2Rank, CASTp and DoGSiteScorer — including cryptic pockets over an MD ensemble"
+verification: works
+verified_on: 2026-08-03
+reviewed_on: 2026-08-03
+security: cleared
+security_on: 2026-08-03
+security_note: "GPTomics/bioSkills root LICENSE confirmed MIT this run, not archived, 1.1k stars, skill dir current"
 ---
 
 # Binding Site Detection (bioSkills)
@@ -21,6 +27,8 @@ A Claude Code skill that detects putative ligand-binding pockets de novo on a st
 | **Availability** | GA — part of the bioSkills collection |
 | **Pricing** | Free / OSS (MIT) — fpocket, P2Rank and mdpocket are separately installed OSS; CASTp and DoGSiteScorer are free academic web services |
 | **Capabilities** | Read/Write — Claude runs the skill's workflow locally (Bash/Python) and can call the two web servers, not as an MCP tool |
+| **Verified** | works · 2026-08-03 |
+| **Security** | cleared · 2026-08-03 — GPTomics/bioSkills MIT confirmed, provenance matches, no advisories |
 
 ## How to install
 

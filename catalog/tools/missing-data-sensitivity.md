@@ -8,6 +8,12 @@ availability: GA
 tool_categories: [Translational Medicine]
 last_verified: 2026-08-02
 summary: "Run regulatory-grade missing-data analyses for confirmatory trials — MMRM, reference-based multiple imputation, tipping-point and pattern-mixture sensitivity"
+verification: works
+verified_on: 2026-08-03
+reviewed_on: 2026-08-03
+security: cleared
+security_on: 2026-08-03
+security_note: "GPTomics/bioSkills root LICENSE confirmed MIT this run, not archived, 1.1k stars, skill dir current"
 ---
 
 # Missing Data Sensitivity (bioSkills)
@@ -21,6 +27,8 @@ A Claude Code skill for handling missing endpoint data in confirmatory clinical 
 | **Availability** | GA — part of the bioSkills collection |
 | **Pricing** | Free / OSS (MIT) — the R packages it drives (`mmrm` and `rbmi`, Apache-2.0; `mice` and `mitools`, GPL-2) and the Python ones (`scikit-learn`, `statsmodels`, `numpy`, `pandas`, BSD-3) are separately installed OSS |
 | **Capabilities** | Read/Write — Claude runs the skill's workflow locally (R and Python), not as an MCP tool |
+| **Verified** | works · 2026-08-03 |
+| **Security** | cleared · 2026-08-03 — GPTomics/bioSkills MIT confirmed, provenance matches, no advisories |
 
 ## How to install
 

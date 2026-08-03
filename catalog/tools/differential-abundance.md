@@ -8,6 +8,12 @@ availability: GA
 tool_categories: [Immunology and Microbiology]
 last_verified: 2026-08-01
 summary: "Test which microbiome taxa differ between groups using compositionally-aware methods (ALDEx2, ANCOM-BC2, MaAsLin, LinDA, ZicoSeq) and report a multi-tool consensus"
+verification: works
+verified_on: 2026-08-03
+reviewed_on: 2026-08-03
+security: cleared
+security_on: 2026-08-03
+security_note: "GPTomics/bioSkills root LICENSE confirmed MIT this run, not archived, 1.1k stars, skill dir current"
 ---
 
 # Differential Abundance (bioSkills)
@@ -21,6 +27,8 @@ A Claude Code skill that tests which individual taxa differ between groups in an
 | **Availability** | GA — part of the bioSkills collection |
 | **Pricing** | Free / OSS (MIT) — phyloseq, ALDEx2, ANCOMBC, MaAsLin, LinDA, ZicoSeq, LEfSe and QIIME2 are separately installed OSS |
 | **Capabilities** | Read/Write — Claude runs the skill's workflow locally (R), not as an MCP tool |
+| **Verified** | works · 2026-08-03 |
+| **Security** | cleared · 2026-08-03 — GPTomics/bioSkills MIT confirmed, provenance matches, no advisories |
 
 ## How to install
 

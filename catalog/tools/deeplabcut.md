@@ -8,6 +8,12 @@ availability: GA
 tool_categories: [Neuroscience]
 last_verified: 2026-08-02
 summary: "Run markerless animal pose estimation with DeepLabCut — project setup, keypoint labeling, training, SuperAnimal models, and 2D/3D behavioral tracking"
+verification: works
+verified_on: 2026-08-03
+reviewed_on: 2026-08-03
+security: cleared
+security_on: 2026-08-03
+security_note: "Repo transferred HaoxuanLiTHUAI to org NeuroAIHub (README still documents the old owner path, which redirects live), MIT, 34 stars"
 ---
 
 # DeepLabCut (Claude Skill)
@@ -21,6 +27,8 @@ Walks Claude through a full markerless animal pose-estimation project in DeepLab
 | **Availability** | GA — one of ~40 research skills in the collection (last upstream push 2026-07-13) |
 | **Pricing** | Free / OSS (MIT) |
 | **Capabilities** | Read/Write — Claude writes and runs DeepLabCut Python locally (Bash); not an MCP tool |
+| **Verified** | works · 2026-08-03 |
+| **Security** | cleared · 2026-08-03 — MIT confirmed, repo transferred to NeuroAIHub org (old path still redirects), no advisories |
 
 ## How to install
 

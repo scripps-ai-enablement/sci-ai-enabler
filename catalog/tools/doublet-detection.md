@@ -8,6 +8,12 @@ availability: GA
 tool_categories: [Molecular and Cellular Biology]
 last_verified: 2026-08-01
 summary: "Flag and remove droplets containing two or more cells in single-cell RNA-seq using scDblFinder, Scrublet and DoubletFinder before clustering"
+verification: works
+verified_on: 2026-08-03
+reviewed_on: 2026-08-03
+security: cleared
+security_on: 2026-08-03
+security_note: "GPTomics/bioSkills root LICENSE confirmed MIT this run, not archived, 1.1k stars, skill dir current"
 ---
 
 # Doublet Detection (bioSkills)
@@ -21,6 +27,8 @@ A Claude Code skill that identifies multi-cell droplets in single-cell RNA-seq b
 | **Availability** | GA — part of the bioSkills collection |
 | **Pricing** | Free / OSS (MIT) — scDblFinder, Scrublet, DoubletFinder, Seurat and scanpy are separately installed OSS |
 | **Capabilities** | Read/Write — Claude runs the skill's workflow locally (R/Python), not as an MCP tool |
+| **Verified** | works · 2026-08-03 |
+| **Security** | cleared · 2026-08-03 — GPTomics/bioSkills MIT confirmed, provenance matches, no advisories |
 
 ## How to install
 

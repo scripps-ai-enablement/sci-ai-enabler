@@ -8,6 +8,12 @@ availability: GA
 tool_categories: [General-Purpose Utilities]
 last_verified: 2026-08-01
 summary: MCP server for querying Materials Project crystal structures by formula, exporting CIF/POSCAR, and building supercells and moiré bilayers.
+verification: works
+verified_on: 2026-08-03
+reviewed_on: 2026-08-03
+security: cleared
+security_on: 2026-08-03
+security_note: "mcp.science MIT, not archived, 146 stars; PyPI mcp-science 0.1.7 confirms uvx mcp-science materials-project launch pattern; no advisories"
 ---
 
 # Materials Project MCP Server
@@ -21,6 +27,8 @@ MCP server that lets Claude search the [Materials Project](https://next-gen.mate
 | **Availability** | GA |
 | **Pricing** | Free / OSS (MIT); a free Materials Project account is required for the API key |
 | **Capabilities** | Read/Write — reads the database, writes structure files and plots locally |
+| **Verified** | works · 2026-08-03 |
+| **Security** | cleared · 2026-08-03 — mcp.science MIT confirmed, launch command matches PyPI mcp-science 0.1.7, no advisories |
 
 Launch directly with `uvx` (no clone needed — `uvx` installs and runs the collection package in one step):
 

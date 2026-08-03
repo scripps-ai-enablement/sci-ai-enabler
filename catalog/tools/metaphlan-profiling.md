@@ -8,6 +8,12 @@ availability: GA
 tool_categories: [Immunology and Microbiology]
 last_verified: 2026-08-01
 summary: "Profile shotgun metagenomes to species/SGB relative abundance with MetaPhlAn 4 clade-specific markers, with cell-fraction vs read-fraction and index-pinning guidance"
+verification: works
+verified_on: 2026-08-03
+reviewed_on: 2026-08-03
+security: cleared
+security_on: 2026-08-03
+security_note: "GPTomics/bioSkills root LICENSE confirmed MIT this run, not archived, 1.1k stars, skill dir current"
 ---
 
 # MetaPhlAn Profiling (bioSkills)
@@ -21,6 +27,8 @@ A Claude Code skill that profiles shotgun metagenomes to species and species-lev
 | **Availability** | GA — part of the bioSkills collection |
 | **Pricing** | Free / OSS (MIT) — MetaPhlAn, Bowtie2, minimap2 and the marker database are separately installed OSS |
 | **Capabilities** | Read/Write — Claude runs the skill's workflow locally (Bash/Python), not as an MCP tool |
+| **Verified** | works · 2026-08-03 |
+| **Security** | cleared · 2026-08-03 — GPTomics/bioSkills MIT confirmed, provenance matches, no advisories |
 
 ## How to install
 

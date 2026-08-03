@@ -8,6 +8,12 @@ availability: GA
 tool_categories: [Molecular and Cellular Biology, Translational Medicine]
 last_verified: 2026-08-01
 summary: "Infer chromosome-scale copy-number alterations from tumor scRNA-seq to separate malignant from normal cells and call subclones with inferCNV, copyKAT, Numbat and SCEVAN"
+verification: works
+verified_on: 2026-08-03
+reviewed_on: 2026-08-03
+security: cleared
+security_on: 2026-08-03
+security_note: "GPTomics/bioSkills root LICENSE confirmed MIT this run, not archived, 1.1k stars, skill dir current"
 ---
 
 # CNV Inference (bioSkills)
@@ -21,6 +27,8 @@ A Claude Code skill that infers large-scale copy-number alterations from tumor s
 | **Availability** | GA — part of the bioSkills collection |
 | **Pricing** | Free / OSS (MIT) — inferCNV, copyKAT, Numbat and SCEVAN are separately installed OSS with their own licenses |
 | **Capabilities** | Read/Write — Claude runs the skill's workflow locally (R), not as an MCP tool |
+| **Verified** | works · 2026-08-03 |
+| **Security** | cleared · 2026-08-03 — GPTomics/bioSkills MIT confirmed, provenance matches, no advisories |
 
 ## How to install
 

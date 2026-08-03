@@ -8,6 +8,12 @@ availability: GA
 tool_categories: [Translational Medicine]
 last_verified: 2026-08-02
 summary: "Plan group-sequential, sample-size re-estimation, seamless Phase 2/3 and enrichment trials with rpact/gsDesign, against FDA and ICH E20 adaptive-design guidance"
+verification: works
+verified_on: 2026-08-03
+reviewed_on: 2026-08-03
+security: cleared
+security_on: 2026-08-03
+security_note: "GPTomics/bioSkills root LICENSE confirmed MIT this run, not archived, 1.1k stars, skill dir current"
 ---
 
 # Adaptive Designs (bioSkills)
@@ -21,6 +27,8 @@ A Claude Code skill for planning adaptive clinical trials — interim analyses, 
 | **Availability** | GA — part of the bioSkills collection |
 | **Pricing** | Free / OSS (MIT) — `rpact`, `gsDesign`, `gsDesign2`, `adaptr`, `simtrial`, `BOIN`, `dfcrm`, `trialr` and `escalation` are separately installed OSS R packages. The commercial alternatives the skill names (FACTS, East/EastHorizon, ADDPLAN) are licensed products and are not installed. |
 | **Capabilities** | Read/Write — Claude runs the skill's workflow locally (R), not as an MCP tool |
+| **Verified** | works · 2026-08-03 |
+| **Security** | cleared · 2026-08-03 — GPTomics/bioSkills MIT confirmed, provenance matches, no advisories |
 
 ## How to install
 

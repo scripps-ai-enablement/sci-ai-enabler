@@ -8,6 +8,12 @@ availability: GA
 tool_categories: [Molecular and Cellular Biology]
 last_verified: 2026-08-01
 summary: "Reconstruct single-cell lineage trees from CRISPR scars, expressed barcodes or mtDNA mutations using Cassiopeia, Startle and CoSpar"
+verification: works
+verified_on: 2026-08-03
+reviewed_on: 2026-08-03
+security: cleared
+security_on: 2026-08-03
+security_note: "GPTomics/bioSkills MIT confirmed; smoke pip-installed the stale cassiopeia-lineage 1.0.4 the page itself warns not to use"
 ---
 
 # Lineage Tracing (bioSkills)
@@ -21,6 +27,8 @@ A Claude Code skill that builds clonal phylogenies from single-cell lineage reco
 | **Availability** | GA — part of the bioSkills collection |
 | **Pricing** | Free / OSS (MIT) — Cassiopeia, CoSpar, Startle and scanpy are separately installed OSS |
 | **Capabilities** | Read/Write — Claude runs the skill's workflow locally (Python), not as an MCP tool |
+| **Verified** | works · 2026-08-03 |
+| **Security** | cleared · 2026-08-03 — GPTomics/bioSkills MIT confirmed, provenance matches, no advisories |
 
 ## How to install
 

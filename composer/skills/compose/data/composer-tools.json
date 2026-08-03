@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "generated": "2026-07-30",
-  "count": 459,
+  "generated": "2026-08-03",
+  "count": 490,
   "tools": [
     {
       "slug": "10x-genomics-cloud",
@@ -63,6 +63,23 @@
         "sMRI"
       ],
       "path": "catalog/tools/abide-skill.md"
+    },
+    {
+      "slug": "adaptive-designs",
+      "title": "Adaptive Designs (bioSkills)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-08-02",
+      "claude_science": false,
+      "summary": "\"Plan group-sequential, sample-size re-estimation, seamless Phase 2/3 and enrichment trials with rpact/gsDesign, against FDA and ICH E20 adaptive-design guidance\"",
+      "keywords": [
+        "FDA",
+        "ICH"
+      ],
+      "path": "catalog/tools/adaptive-designs.md"
     },
     {
       "slug": "adaptyv",
@@ -697,6 +714,24 @@
       "path": "catalog/tools/bids.md"
     },
     {
+      "slug": "binding-site-detection",
+      "title": "Binding Site Detection (bioSkills)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Drug Repurposing and Discovery",
+        "Integrative Structural and Computational Biology"
+      ],
+      "last_verified": "2026-08-01",
+      "claude_science": false,
+      "summary": "\"Find and rank druggable pockets on an apo protein with fpocket, P2Rank, CASTp and DoGSiteScorer — including cryptic pockets over an MD ensemble\"",
+      "keywords": [
+        "CASTp",
+        "DoGSiteScorer"
+      ],
+      "path": "catalog/tools/binding-site-detection.md"
+    },
+    {
       "slug": "bindingdb",
       "title": "BindingDB (Claude Science Connector)",
       "tool_type": "Claude.ai Connector",
@@ -794,7 +829,7 @@
       "tool_categories": [
         "All"
       ],
-      "last_verified": "2026-05-19",
+      "last_verified": "2026-08-01",
       "claude_science": false,
       "summary": "Unified biomedical lookup across PubMed, ClinicalTrials.gov, MyVariant, and OpenFDA.",
       "keywords": [
@@ -1100,6 +1135,23 @@
         "WGS"
       ],
       "path": "catalog/tools/bwa-mem2-dna-aligner.md"
+    },
+    {
+      "slug": "calcium-imaging-analysis-guide",
+      "title": "Calcium Imaging Analysis Guide (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-08-02",
+      "claude_science": false,
+      "summary": "\"Decide motion correction, ROI extraction, neuropil correction, dF/F and spike inference for two-photon and miniscope calcium imaging\"",
+      "keywords": [
+        "ROI",
+        "ROI-extraction"
+      ],
+      "path": "catalog/tools/calcium-imaging-analysis-guide.md"
     },
     {
       "slug": "camcan-skill",
@@ -1709,6 +1761,29 @@
       "path": "catalog/tools/cms-datagov-mcp.md"
     },
     {
+      "slug": "cnv-inference",
+      "title": "CNV Inference (bioSkills)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology",
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-08-01",
+      "claude_science": false,
+      "summary": "\"Infer chromosome-scale copy-number alterations from tumor scRNA-seq to separate malignant from normal cells and call subclones with inferCNV, copyKAT, Numbat and SCEVAN\"",
+      "keywords": [
+        "CNV",
+        "copyKAT",
+        "DNA",
+        "inferCNV",
+        "RNA-seq",
+        "SCEVAN",
+        "scRNA-seq"
+      ],
+      "path": "catalog/tools/cnv-inference.md"
+    },
+    {
       "slug": "cnvkit-copy-number",
       "title": "CNVkit (Claude Skill)",
       "tool_type": "Claude Skill",
@@ -2126,6 +2201,20 @@
       "path": "catalog/tools/deepchem.md"
     },
     {
+      "slug": "deeplabcut",
+      "title": "DeepLabCut (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-08-02",
+      "claude_science": false,
+      "summary": "\"Run markerless animal pose estimation with DeepLabCut — project setup, keypoint labeling, training, SuperAnimal models, and 2D/3D behavioral tracking\"",
+      "keywords": [],
+      "path": "catalog/tools/deeplabcut.md"
+    },
+    {
       "slug": "deeptools",
       "title": "deepTools (Claude Skill)",
       "tool_type": "Claude Skill",
@@ -2241,6 +2330,24 @@
       "path": "catalog/tools/diffdock.md"
     },
     {
+      "slug": "differential-abundance",
+      "title": "Differential Abundance (bioSkills)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Immunology and Microbiology"
+      ],
+      "last_verified": "2026-08-01",
+      "claude_science": false,
+      "summary": "\"Test which microbiome taxa differ between groups using compositionally-aware methods (ALDEx2, ANCOM-BC2, MaAsLin, LinDA, ZicoSeq) and report a multi-tool consensus\"",
+      "keywords": [
+        "ALDEx2",
+        "ANCOM-BC2",
+        "LinDA"
+      ],
+      "path": "catalog/tools/differential-abundance.md"
+    },
+    {
       "slug": "dipy-tool",
       "title": "DIPY (Claude Skill)",
       "tool_type": "Claude Skill",
@@ -2319,6 +2426,42 @@
         "PDFs"
       ],
       "path": "catalog/tools/docx.md"
+    },
+    {
+      "slug": "doublet-detection",
+      "title": "Doublet Detection (bioSkills)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-08-01",
+      "claude_science": false,
+      "summary": "\"Flag and remove droplets containing two or more cells in single-cell RNA-seq using scDblFinder, Scrublet and DoubletFinder before clustering\"",
+      "keywords": [
+        "RNA-seq"
+      ],
+      "path": "catalog/tools/doublet-detection.md"
+    },
+    {
+      "slug": "drift-diffusion-model",
+      "title": "Drift-Diffusion Model (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-08-02",
+      "claude_science": false,
+      "summary": "\"Select, fit and validate drift-diffusion models of two-choice reaction-time data using HDDM, PyDDM, fast-dm or EZ-diffusion\"",
+      "keywords": [
+        "DDM",
+        "Drift-Diffusion",
+        "EZ-diffusion",
+        "HDDM",
+        "PyDDM"
+      ],
+      "path": "catalog/tools/drift-diffusion-model.md"
     },
     {
       "slug": "drug-pipeline-mcp",
@@ -3039,6 +3182,22 @@
         "MRI"
       ],
       "path": "catalog/tools/fsl-tool.md"
+    },
+    {
+      "slug": "functional-profiling",
+      "title": "Functional Profiling (bioSkills)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Immunology and Microbiology"
+      ],
+      "last_verified": "2026-08-01",
+      "claude_science": false,
+      "summary": "\"Profile metagenome functional potential with HUMAnN 3 tiered search, producing species-stratified gene-family and MetaCyc pathway abundances with normalization guidance\"",
+      "keywords": [
+        "HUMAnN"
+      ],
+      "path": "catalog/tools/functional-profiling.md"
     },
     {
       "slug": "gatk-variant-calling",
@@ -3911,6 +4070,25 @@
       "path": "catalog/tools/immcantation-analysis.md"
     },
     {
+      "slug": "immunogenicity-scoring",
+      "title": "Immunogenicity Scoring (bioSkills)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Immunology and Microbiology",
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-08-01",
+      "claude_science": false,
+      "summary": "\"Rank neoantigen and epitope candidates by likely T-cell response using NeoFox features, PRIME2.0, BigMHC-IM, the fitness model and pVACtools tiering\"",
+      "keywords": [
+        "BigMHC-IM",
+        "PRIME2",
+        "pVACtools"
+      ],
+      "path": "catalog/tools/immunogenicity-scoring.md"
+    },
+    {
       "slug": "indication-dossier",
       "title": "Indication Dossier (Claude Skill)",
       "tool_type": "Claude Skill",
@@ -4000,6 +4178,23 @@
         "Molecular-interaction"
       ],
       "path": "catalog/tools/intact.md"
+    },
+    {
+      "slug": "interface-analysis",
+      "title": "Interface Analysis (bioSkills)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Immunology and Microbiology",
+        "Integrative Structural and Computational Biology"
+      ],
+      "last_verified": "2026-08-01",
+      "claude_science": false,
+      "summary": "\"Map protein-protein and protein-ligand interfaces with Bio.PDB — contact residues, buried surface area, and telling a real interface from crystal packing\"",
+      "keywords": [
+        "PDB"
+      ],
+      "path": "catalog/tools/interface-analysis.md"
     },
     {
       "slug": "interpro-database",
@@ -4341,6 +4536,23 @@
       "path": "catalog/tools/ligandmpnn.md"
     },
     {
+      "slug": "lineage-tracing",
+      "title": "Lineage Tracing (bioSkills)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-08-01",
+      "claude_science": false,
+      "summary": "\"Reconstruct single-cell lineage trees from CRISPR scars, expressed barcodes or mtDNA mutations using Cassiopeia, Startle and CoSpar\"",
+      "keywords": [
+        "CRISPR",
+        "mtDNA"
+      ],
+      "path": "catalog/tools/lineage-tracing.md"
+    },
+    {
       "slug": "liteparse",
       "title": "LiteParse (Claude Skill)",
       "tool_type": "Claude Skill",
@@ -4450,6 +4662,23 @@
         "LC-MS"
       ],
       "path": "catalog/tools/matchms.md"
+    },
+    {
+      "slug": "materials-project-mcp",
+      "title": "Materials Project MCP Server",
+      "tool_type": "MCP server",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-08-01",
+      "claude_science": false,
+      "summary": "MCP server for querying Materials Project crystal structures by formula, exporting CIF/POSCAR, and building supercells and moiré bilayers.",
+      "keywords": [
+        "CIF",
+        "POSCAR"
+      ],
+      "path": "catalog/tools/materials-project-mcp.md"
     },
     {
       "slug": "matlab",
@@ -4672,6 +4901,22 @@
       "path": "catalog/tools/metabolomics-workbench-database.md"
     },
     {
+      "slug": "metaphlan-profiling",
+      "title": "MetaPhlAn Profiling (bioSkills)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Immunology and Microbiology"
+      ],
+      "last_verified": "2026-08-01",
+      "claude_science": false,
+      "summary": "\"Profile shotgun metagenomes to species/SGB relative abundance with MetaPhlAn 4 clade-specific markers, with cell-fraction vs read-fraction and index-pinning guidance\"",
+      "keywords": [
+        "SGB"
+      ],
+      "path": "catalog/tools/metaphlan-profiling.md"
+    },
+    {
       "slug": "mgnify",
       "title": "MGnify (Claude Science Connector)",
       "tool_type": "Claude.ai Connector",
@@ -4726,6 +4971,22 @@
         "NetMHCIIpan-4"
       ],
       "path": "catalog/tools/mhc-class-ii-prediction.md"
+    },
+    {
+      "slug": "missing-data-sensitivity",
+      "title": "Missing Data Sensitivity (bioSkills)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-08-02",
+      "claude_science": false,
+      "summary": "\"Run regulatory-grade missing-data analyses for confirmatory trials — MMRM, reference-based multiple imputation, tipping-point and pattern-mixture sensitivity\"",
+      "keywords": [
+        "MMRM"
+      ],
+      "path": "catalog/tools/missing-data-sensitivity.md"
     },
     {
       "slug": "mixcr-analysis",
@@ -5411,6 +5672,28 @@
       "path": "catalog/tools/omics-analysis-guide.md"
     },
     {
+      "slug": "omophub-mcp",
+      "title": "OMOPHub MCP Server",
+      "tool_type": "MCP server",
+      "availability": "GA",
+      "tool_categories": [
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-08-02",
+      "claude_science": false,
+      "summary": "\"Search, map and navigate 10M+ OHDSI OMOP vocabulary concepts (SNOMED CT, ICD-10, RxNorm, LOINC) from Claude without loading ATHENA locally\"",
+      "keywords": [
+        "ATHENA",
+        "ICD-10",
+        "LOINC",
+        "OHDSI",
+        "OMOP",
+        "OMOPHub",
+        "SNOMED"
+      ],
+      "path": "catalog/tools/omophub-mcp.md"
+    },
+    {
       "slug": "ontology-lookup-service",
       "title": "Ontology Lookup Service (OLS) MCP Server",
       "tool_type": "MCP server",
@@ -5672,6 +5955,20 @@
       "path": "catalog/tools/optimize-for-gpu.md"
     },
     {
+      "slug": "optogenetics-protocol-designer",
+      "title": "Optogenetics Protocol Designer (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-08-02",
+      "claude_science": false,
+      "summary": "\"Choose opsins, wavelengths, pulse protocols, fiber specifications and control conditions for optogenetic excitation or inhibition experiments\"",
+      "keywords": [],
+      "path": "catalog/tools/optogenetics-protocol-designer.md"
+    },
+    {
       "slug": "owkin",
       "title": "Owkin Pathology Explorer Connector",
       "tool_type": "Claude.ai Connector",
@@ -5886,6 +6183,25 @@
         "VQE"
       ],
       "path": "catalog/tools/pennylane.md"
+    },
+    {
+      "slug": "perturb-seq",
+      "title": "Perturb-seq Analysis (bioSkills)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-08-01",
+      "claude_science": false,
+      "summary": "\"Analyze single-cell CRISPR screens with Pertpy, Mixscape escaper removal, SCEPTRE calibrated testing and E-distance effect sizes\"",
+      "keywords": [
+        "CRISPR",
+        "CROP-seq",
+        "Perturb-seq",
+        "SCEPTRE"
+      ],
+      "path": "catalog/tools/perturb-seq.md"
     },
     {
       "slug": "pet-skill",
@@ -6561,6 +6877,29 @@
       "path": "catalog/tools/pynibs.md"
     },
     {
+      "slug": "pyomop",
+      "title": "pyomop",
+      "tool_type": "MCP server",
+      "availability": "GA",
+      "tool_categories": [
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-08-02",
+      "claude_science": false,
+      "summary": "\"Python OMOP CDM toolkit that ships an MCP server, letting Claude inspect and run SQL against an OHDSI CDM database on SQLite, PostgreSQL or MySQL\"",
+      "keywords": [
+        "CDM",
+        "MySQL",
+        "OHDSI",
+        "OMOP",
+        "PostgreSQL",
+        "SQL",
+        "SQLAlchemy",
+        "SQLite"
+      ],
+      "path": "catalog/tools/pyomop.md"
+    },
+    {
       "slug": "pyopenms",
       "title": "pyOpenMS (Claude Skill)",
       "tool_type": "Claude Skill",
@@ -6996,6 +7335,22 @@
       "path": "catalog/tools/roary-pangenome.md"
     },
     {
+      "slug": "rosetta-mcp-server",
+      "title": "Rosetta MCP Server",
+      "tool_type": "MCP server",
+      "availability": "GA",
+      "tool_categories": [
+        "Integrative Structural and Computational Biology"
+      ],
+      "last_verified": "2026-08-01",
+      "claude_science": false,
+      "summary": "\"MCP server for Rosetta, PyRosetta and Biotite — run and validate RosettaScripts, score structures, translate protocols between the three APIs\"",
+      "keywords": [
+        "XML"
+      ],
+      "path": "catalog/tools/rosetta-mcp-server.md"
+    },
+    {
       "slug": "rowan",
       "title": "Rowan",
       "tool_type": "Claude Skill, MCP server",
@@ -7118,6 +7473,28 @@
       "path": "catalog/tools/scanpy.md"
     },
     {
+      "slug": "scatac-analysis",
+      "title": "scATAC Analysis (bioSkills)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-08-01",
+      "claude_science": false,
+      "summary": "\"Process single-cell ATAC-seq with Signac, ArchR or SnapATAC2 — fragment QC, TF-IDF/LSI, consensus peaks and chromVAR motif deviations\"",
+      "keywords": [
+        "ATAC-seq",
+        "chromVAR",
+        "IDF",
+        "LSI",
+        "scATAC",
+        "SnapATAC2",
+        "TF-IDF"
+      ],
+      "path": "catalog/tools/scatac-analysis.md"
+    },
+    {
       "slug": "scgpt",
       "title": "scGPT (Claude Skill)",
       "tool_type": "Claude Skill",
@@ -7206,7 +7583,7 @@
       "tool_categories": [
         "All"
       ],
-      "last_verified": "2026-05-20",
+      "last_verified": "2026-08-01",
       "claude_science": false,
       "summary": "Structured framework for research project ideation, risk assessment, and troubleshooting, based on Fischbach & Walsh (Cell 2024).",
       "keywords": [],
@@ -7541,6 +7918,20 @@
         "XGBoost"
       ],
       "path": "catalog/tools/shap.md"
+    },
+    {
+      "slug": "signal-detection-analysis",
+      "title": "Signal Detection Analysis (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-08-02",
+      "claude_science": false,
+      "summary": "\"Apply signal detection theory to behavioral data — d-prime, criterion, beta, extreme-value correction and non-parametric alternatives\"",
+      "keywords": [],
+      "path": "catalog/tools/signal-detection-analysis.md"
     },
     {
       "slug": "simpleitk-image-registration",
@@ -7880,6 +8271,25 @@
       "path": "catalog/tools/statsmodels.md"
     },
     {
+      "slug": "strain-tracking",
+      "title": "Strain Tracking (bioSkills)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Immunology and Microbiology"
+      ],
+      "last_verified": "2026-08-01",
+      "claude_science": false,
+      "summary": "\"Resolve and compare bacterial strains below species level from shotgun metagenomes using inStrain popANI, StrainPhlAn, MIDAS2, StrainGE and skani/fastANI\"",
+      "keywords": [
+        "fastANI",
+        "MIDAS2",
+        "popANI",
+        "StrainGE"
+      ],
+      "path": "catalog/tools/strain-tracking.md"
+    },
+    {
       "slug": "string-database-ppi",
       "title": "STRING (Claude Skill)",
       "tool_type": "Claude Skill",
@@ -7900,6 +8310,42 @@
         "STRING"
       ],
       "path": "catalog/tools/string-database-ppi.md"
+    },
+    {
+      "slug": "structure-preparation",
+      "title": "Structure Preparation (bioSkills)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Integrative Structural and Computational Biology"
+      ],
+      "last_verified": "2026-08-01",
+      "claude_science": false,
+      "summary": "\"Make a deposited or predicted structure docking- or MD-ready with PDBFixer, reduce, PROPKA and PDB2PQR — hydrogens, tautomers, missing atoms, short loops\"",
+      "keywords": [
+        "MD-ready",
+        "PDB2PQR",
+        "PDBFixer",
+        "PROPKA"
+      ],
+      "path": "catalog/tools/structure-preparation.md"
+    },
+    {
+      "slug": "structure-validation",
+      "title": "Structure Validation (bioSkills)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Integrative Structural and Computational Biology"
+      ],
+      "last_verified": "2026-08-01",
+      "claude_science": false,
+      "summary": "\"Decide whether a structure or region is reliable enough to build on — resolution, R-free gap, B-factors, MolProbity geometry, and pLDDT/PAE for predicted models\"",
+      "keywords": [
+        "PAE",
+        "pLDDT"
+      ],
+      "path": "catalog/tools/structure-validation.md"
     },
     {
       "slug": "svm",
@@ -7940,7 +8386,7 @@
       "tool_categories": [
         "All"
       ],
-      "last_verified": "2026-05-20",
+      "last_verified": "2026-08-01",
       "claude_science": false,
       "summary": "Discovery and metadata retrieval across Synapse-hosted biomedical datasets and consortium projects.",
       "keywords": [
@@ -8054,6 +8500,24 @@
       "path": "catalog/tools/timesfm-forecasting.md"
     },
     {
+      "slug": "tooluniverse-admet-prediction",
+      "title": "ADMET Prediction (ToolUniverse Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Chemistry",
+        "Drug Repurposing and Discovery"
+      ],
+      "last_verified": "2026-08-02",
+      "claude_science": false,
+      "summary": "ToolUniverse agent skill that profiles a compound's absorption, distribution, metabolism, excretion, and toxicity into a graded pass/warn/fail scorecard.",
+      "keywords": [
+        "ADMET",
+        "SMILES"
+      ],
+      "path": "catalog/tools/tooluniverse-admet-prediction.md"
+    },
+    {
       "slug": "tooluniverse-adverse-event-detection",
       "title": "Adverse Event Detection (ToolUniverse Claude Skill)",
       "tool_type": "Claude Skill",
@@ -8148,6 +8612,25 @@
       "path": "catalog/tools/tooluniverse-cancer-variant-interpretation.md"
     },
     {
+      "slug": "tooluniverse-cell-line-profiling",
+      "title": "Cell Line Profiling (ToolUniverse Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Drug Repurposing and Discovery",
+        "Molecular and Cellular Biology",
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-08-02",
+      "claude_science": false,
+      "summary": "ToolUniverse agent skill that ranks cancer cell lines for an experiment by cross-referencing DepMap, Cellosaurus, COSMIC, and PharmacoDB.",
+      "keywords": [
+        "COSMIC",
+        "PharmacoDB"
+      ],
+      "path": "catalog/tools/tooluniverse-cell-line-profiling.md"
+    },
+    {
       "slug": "tooluniverse-chemical-safety",
       "title": "Chemical Safety (ToolUniverse Claude Skill)",
       "tool_type": "Claude Skill",
@@ -8168,6 +8651,41 @@
         "IARC"
       ],
       "path": "catalog/tools/tooluniverse-chemical-safety.md"
+    },
+    {
+      "slug": "tooluniverse-chemical-sourcing",
+      "title": "Chemical Sourcing (ToolUniverse Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Chemistry",
+        "Drug Repurposing and Discovery"
+      ],
+      "last_verified": "2026-08-02",
+      "claude_science": false,
+      "summary": "ToolUniverse agent skill that finds commercial suppliers for a compound across ZINC, Enamine, eMolecules, and Mcule, with purchasable-analog fallback.",
+      "keywords": [
+        "ZINC"
+      ],
+      "path": "catalog/tools/tooluniverse-chemical-sourcing.md"
+    },
+    {
+      "slug": "tooluniverse-dose-response",
+      "title": "Dose-Response Analysis (ToolUniverse Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Chemistry",
+        "Drug Repurposing and Discovery",
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-08-02",
+      "claude_science": false,
+      "summary": "ToolUniverse agent skill that fits four-parameter logistic curves to concentration-response data, returning IC50/EC50, Hill slope, Emax, and fit quality.",
+      "keywords": [
+        "Dose-Response"
+      ],
+      "path": "catalog/tools/tooluniverse-dose-response.md"
     },
     {
       "slug": "tooluniverse-drug-drug-interaction",
@@ -8505,6 +9023,25 @@
       "path": "catalog/tools/treatment-plans.md"
     },
     {
+      "slug": "trial-reporting",
+      "title": "Trial Reporting (bioSkills)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-08-02",
+      "claude_science": false,
+      "summary": "\"Produce CONSORT 2025 / ICH E9(R1)-conformant trial statistical reports: estimands, analysis populations, Table 1, MMRM, and multiplicity control\"",
+      "keywords": [
+        "CONSORT",
+        "CONSORT-conformant",
+        "ICH",
+        "MMRM"
+      ],
+      "path": "catalog/tools/trial-reporting.md"
+    },
+    {
       "slug": "ucla-cnp-skill",
       "title": "UCLA CNP Pipeline (Claude Skill)",
       "tool_type": "Claude Skill",
@@ -8645,7 +9182,7 @@
         "Molecular and Cellular Biology",
         "Drug Repurposing and Discovery"
       ],
-      "last_verified": "2026-05-20",
+      "last_verified": "2026-08-01",
       "claude_science": true,
       "summary": "MCP server giving Claude 26 tools over the UniProt REST API for protein search, domains, orthologs, PTMs, pathways, and multi-format export.",
       "keywords": [
@@ -8839,6 +9376,23 @@
         "XLSX"
       ],
       "path": "catalog/tools/xlsx.md"
+    },
+    {
+      "slug": "xtb-mcp-server",
+      "title": "XTB MCP Server",
+      "tool_type": "MCP server",
+      "availability": "Beta",
+      "tool_categories": [
+        "Chemistry"
+      ],
+      "last_verified": "2026-08-01",
+      "claude_science": false,
+      "summary": "MCP server that builds, validates, and explains xtb semi-empirical quantum-chemistry input decks for optimizations, frequencies, MD, and spectroscopy.",
+      "keywords": [
+        "Grimme-group",
+        "XTB"
+      ],
+      "path": "catalog/tools/xtb-mcp-server.md"
     },
     {
       "slug": "zarr-python",

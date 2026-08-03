@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "generated": "2026-07-30",
+  "generated": "2026-08-03",
   "counts": {
-    "tools": 459,
-    "recipes": 97
+    "tools": 490,
+    "recipes": 110
   },
   "tools_file": "composer-tools.json",
   "recipes": [
@@ -33,6 +33,28 @@
         "RMSF"
       ],
       "path": "recipes/items/analyze-md-trajectory-with-mdanalysis.md"
+    },
+    {
+      "slug": "analyze-perturb-seq-crispr-screen",
+      "title": "Analyze a Perturb-seq CRISPR screen for perturbation effects",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Molecular and Cellular Biology"
+      ],
+      "evidence_level": "Proposed",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Workstation with GPU",
+      "last_verified": "2026-08-01",
+      "summary": "Use the Perturb-seq Analysis skill to assign guides, remove escapers, test with a calibrated method, and rank perturbations by E-distance.",
+      "keywords": [
+        "CRISPR",
+        "CROP-seq",
+        "Perturb-seq",
+        "RNA-seq",
+        "sgRNA"
+      ],
+      "path": "recipes/items/analyze-perturb-seq-crispr-screen.md"
     },
     {
       "slug": "analyze-sar-of-a-compound-series",
@@ -144,6 +166,31 @@
       "path": "recipes/items/annotate-cell-types-in-single-cell-data.md"
     },
     {
+      "slug": "annotate-tcr-specificity-by-clustering",
+      "title": "Annotate TCR antigen specificity by clustering and database lookup",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Immunology and Microbiology"
+      ],
+      "evidence_level": "Validated",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-08-01",
+      "summary": "Use the TCR-Epitope Binding skill to group CDR3 sequences into shared-specificity clusters and match them against VDJdb, IEDB, and McPAS-TCR.",
+      "keywords": [
+        "CDR3",
+        "IEDB",
+        "McPAS-TCR",
+        "TCR",
+        "TCR-Epitope",
+        "TCRs",
+        "VDJ",
+        "VDJdb"
+      ],
+      "path": "recipes/items/annotate-tcr-specificity-by-clustering.md"
+    },
+    {
       "slug": "annotate-tumor-variants-with-clinical-actionability",
       "title": "Annotate tumor somatic variants with clinical actionability evidence",
       "problem_class": "Knowledge synthesis",
@@ -245,6 +292,26 @@
         "TDC"
       ],
       "path": "recipes/items/benchmark-admet-property-with-pytdc.md"
+    },
+    {
+      "slug": "build-clonal-lineage-tree-from-crispr-scars",
+      "title": "Build a clonal lineage tree from CRISPR scar recorders",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Molecular and Cellular Biology"
+      ],
+      "evidence_level": "Proposed",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Workstation with GPU",
+      "last_verified": "2026-08-01",
+      "summary": "Use the Lineage Tracing skill to turn recorder reads into a character matrix, reconstruct trees with several solvers, and check topology robustness before interpreting.",
+      "keywords": [
+        "CRISPR",
+        "LARRY",
+        "mtDNA"
+      ],
+      "path": "recipes/items/build-clonal-lineage-tree-from-crispr-scars.md"
     },
     {
       "slug": "build-functional-connectivity-matrix-from-fmri",
@@ -511,6 +578,31 @@
       "path": "recipes/items/convert-instrument-data-to-allotrope-asm.md"
     },
     {
+      "slug": "define-a-phenotype-cohort-in-an-omop-database",
+      "title": "Define a phenotype cohort in an OMOP CDM database",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Translational Medicine"
+      ],
+      "evidence_level": "Proposed",
+      "complexity": "Multi-tool harness",
+      "availability": "Institutional access",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-08-02",
+      "summary": "Build a frozen OMOP concept set with OMOPHub, then count and characterise the cohort in your CDM with pyomop, emitting a portable attrition table.",
+      "keywords": [
+        "CDM",
+        "ICD-10",
+        "OHDSI",
+        "OMOP",
+        "OMOPHub",
+        "SGLT2",
+        "SNOMED",
+        "SQL"
+      ],
+      "path": "recipes/items/define-a-phenotype-cohort-in-an-omop-database.md"
+    },
+    {
       "slug": "design-crispr-sgrnas-for-a-gene-knockout",
       "title": "Design CRISPR sgRNAs for a gene knockout",
       "problem_class": "Experimental design",
@@ -558,6 +650,23 @@
         "RMSD"
       ],
       "path": "recipes/items/design-sequences-for-a-protein-backbone.md"
+    },
+    {
+      "slug": "detect-and-rank-druggable-pockets",
+      "title": "Detect and rank druggable pockets on a protein structure",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Integrative Structural and Computational Biology",
+        "Drug Repurposing and Discovery"
+      ],
+      "evidence_level": "Proposed",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-08-01",
+      "summary": "Enumerate surface cavities on an apo structure with fpocket, rank them for ligandability with P2Rank, and emit a docking box — one Claude Skill.",
+      "keywords": [],
+      "path": "recipes/items/detect-and-rank-druggable-pockets.md"
     },
     {
       "slug": "detect-somatic-cnvs-from-tumor-sequencing",
@@ -725,6 +834,27 @@
       "path": "recipes/items/estimate-pk-properties.md"
     },
     {
+      "slug": "extract-calcium-traces-from-two-photon-video",
+      "title": "Extract neuronal traces from a calcium imaging movie",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Neuroscience"
+      ],
+      "evidence_level": "Proposed",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Workstation with GPU",
+      "last_verified": "2026-08-02",
+      "summary": "Use the Calcium Imaging Analysis Guide skill to pick motion correction, ROI extraction, neuropil correction and dF/F for two-photon or miniscope data, captured as a re-runnable script.",
+      "keywords": [
+        "CNMF",
+        "ROI",
+        "ROI-extraction",
+        "ROIs"
+      ],
+      "path": "recipes/items/extract-calcium-traces-from-two-photon-video.md"
+    },
+    {
       "slug": "extract-event-related-potentials-from-eeg",
       "title": "Extract event-related potentials from EEG epochs",
       "problem_class": "Data analysis",
@@ -830,6 +960,27 @@
       "path": "recipes/items/find-selective-cancer-dependencies-with-depmap.md"
     },
     {
+      "slug": "fit-dose-response-curve-to-ic50",
+      "title": "Fit a dose-response curve and report a defensible IC50",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Chemistry",
+        "Drug Repurposing and Discovery",
+        "Molecular and Cellular Biology"
+      ],
+      "evidence_level": "Proposed",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-08-02",
+      "summary": "Drive the ToolUniverse Dose-Response skill to fit 4PL curves to plate-assay data, gate them on fit quality, and emit IC50 with AUC and per-replicate spread.",
+      "keywords": [
+        "AUC",
+        "Dose-Response"
+      ],
+      "path": "recipes/items/fit-dose-response-curve-to-ic50.md"
+    },
+    {
       "slug": "fit-survival-model-to-clinical-outcomes",
       "title": "Fit a survival model to censored clinical outcomes",
       "problem_class": "Data analysis",
@@ -872,6 +1023,27 @@
         "Swanson-style"
       ],
       "path": "recipes/items/generate-cross-corpus-drug-repurposing-hypotheses.md"
+    },
+    {
+      "slug": "handle-missing-endpoint-data-in-a-trial",
+      "title": "Handle missing endpoint data in a confirmatory trial",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Translational Medicine"
+      ],
+      "evidence_level": "Proposed",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-08-02",
+      "summary": "Use the Missing Data Sensitivity skill to fix an estimand, run MMRM as primary, and build a reference-based and tipping-point sensitivity package.",
+      "keywords": [
+        "ICH",
+        "LOCF",
+        "MAR",
+        "MMRM"
+      ],
+      "path": "recipes/items/handle-missing-endpoint-data-in-a-trial.md"
     },
     {
       "slug": "harmonize-clinical-terms-to-standard-codes",
@@ -1323,6 +1495,37 @@
       "path": "recipes/items/predict-antibody-antigen-complex.md"
     },
     {
+      "slug": "predict-checkpoint-blockade-response-for-a-tumor",
+      "title": "Predict checkpoint-blockade response for a tumor from its biomarker profile",
+      "problem_class": "Knowledge synthesis",
+      "subject_areas": [
+        "Immunology and Microbiology",
+        "Translational Medicine",
+        "Drug Repurposing and Discovery"
+      ],
+      "evidence_level": "Proposed",
+      "complexity": "One skill or MCP",
+      "availability": "Institutional access",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-08-01",
+      "summary": "Use the ToolUniverse Immunotherapy Response Prediction skill to integrate TMB, MSI, PD-L1, HLA, and immune expression into an evidence-graded ICI response score.",
+      "keywords": [
+        "HLA",
+        "ICI",
+        "IHC",
+        "JAK1",
+        "JAK2",
+        "MMR",
+        "MSI",
+        "MSI-high",
+        "PD-L1",
+        "RNA",
+        "TMB",
+        "TMB-high"
+      ],
+      "path": "recipes/items/predict-checkpoint-blockade-response-for-a-tumor.md"
+    },
+    {
       "slug": "predict-gene-knockout-phenotypes-with-fba",
       "title": "Predict gene-knockout phenotypes with flux balance analysis",
       "problem_class": "Data analysis",
@@ -1480,6 +1683,29 @@
         "MONDO"
       ],
       "path": "recipes/items/prioritize-targets-within-a-disease.md"
+    },
+    {
+      "slug": "prioritize-tumor-neoantigens-for-a-vaccine",
+      "title": "Prioritize tumor neoantigens for a personalized cancer vaccine",
+      "problem_class": "Experimental design",
+      "subject_areas": [
+        "Immunology and Microbiology",
+        "Translational Medicine",
+        "Drug Repurposing and Discovery"
+      ],
+      "evidence_level": "Validated",
+      "complexity": "One skill or MCP",
+      "availability": "Institutional access",
+      "compute_requirements": "Workstation with GPU",
+      "last_verified": "2026-08-01",
+      "summary": "Use the Neoantigen Prediction skill to turn a patient's somatic variants, HLA type, and tumor RNA into a filtered, tiered neoantigen shortlist for vaccine design.",
+      "keywords": [
+        "HLA",
+        "RNA",
+        "RNA-seq",
+        "VCF"
+      ],
+      "path": "recipes/items/prioritize-tumor-neoantigens-for-a-vaccine.md"
     },
     {
       "slug": "profile-cancer-cohort-genomics-with-cbioportal",
@@ -2053,6 +2279,25 @@
       "path": "recipes/items/sort-spikes-from-neuropixels-recording.md"
     },
     {
+      "slug": "source-purchasable-compounds-for-a-hit-list",
+      "title": "Source purchasable compounds for a hit list",
+      "problem_class": "Knowledge synthesis",
+      "subject_areas": [
+        "Chemistry",
+        "Drug Repurposing and Discovery"
+      ],
+      "evidence_level": "Proposed",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-08-02",
+      "summary": "Drive the ToolUniverse Chemical Sourcing skill to turn a shortlist of SMILES into a per-listing procurement table with purity, lead time, and analog fallbacks.",
+      "keywords": [
+        "SMILES"
+      ],
+      "path": "recipes/items/source-purchasable-compounds-for-a-hit-list.md"
+    },
+    {
       "slug": "superpose-two-protein-structures",
       "title": "Superpose two protein structures and quantify where they differ",
       "problem_class": "Data analysis",
@@ -2089,6 +2334,22 @@
         "WSIs"
       ],
       "path": "recipes/items/tile-and-normalize-whole-slide-image.md"
+    },
+    {
+      "slug": "track-animal-pose-in-behavioral-video",
+      "title": "Track animal pose in behavioral video",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Neuroscience"
+      ],
+      "evidence_level": "Proposed",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Workstation with GPU",
+      "last_verified": "2026-08-02",
+      "summary": "Use the DeepLabCut skill in Claude Code to go from behavioral video to a filtered, quality-controlled keypoint table with kinematics and provenance recorded.",
+      "keywords": [],
+      "path": "recipes/items/track-animal-pose-in-behavioral-video.md"
     },
     {
       "slug": "track-particles-and-measure-diffusion",
@@ -2215,6 +2476,24 @@
         "NO-GO"
       ],
       "path": "recipes/items/validate-a-drug-target-with-a-go-no-go-score.md"
+    },
+    {
+      "slug": "vet-a-pdb-structure-before-reusing-it",
+      "title": "Vet a PDB structure before you build on it",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Integrative Structural and Computational Biology"
+      ],
+      "evidence_level": "Proposed",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-08-01",
+      "summary": "Judge whether a deposited structure — or one specific loop or side chain in it — is reliable enough to dock against, measure, or build a mechanism on.",
+      "keywords": [
+        "PDB"
+      ],
+      "path": "recipes/items/vet-a-pdb-structure-before-reusing-it.md"
     }
   ]
 }

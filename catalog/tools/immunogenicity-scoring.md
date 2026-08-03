@@ -8,6 +8,12 @@ availability: GA
 tool_categories: [Immunology and Microbiology, Translational Medicine]
 last_verified: 2026-08-01
 summary: "Rank neoantigen and epitope candidates by likely T-cell response using NeoFox features, PRIME2.0, BigMHC-IM, the fitness model and pVACtools tiering"
+verification: works
+verified_on: 2026-08-03
+reviewed_on: 2026-08-03
+security: caution
+security_on: 2026-08-03
+security_note: "GPTomics/bioSkills MIT/provenance clear but MixMHCpred/PRIME are academic-use-only per their own authors, same pattern as mixcr-analysis"
 ---
 
 # Immunogenicity Scoring (bioSkills)
@@ -21,6 +27,8 @@ A Claude Code skill that prioritizes neoantigen and epitope candidates by the li
 | **Availability** | GA — part of the bioSkills collection |
 | **Pricing** | Free / OSS (MIT) — NeoFox, PRIME2.0, BigMHC-IM, MixMHCpred and pVACtools are separately installed and carry their own (in some cases academic-only) terms |
 | **Capabilities** | Read/Write — Claude runs the skill's workflow locally (Python), not as an MCP tool |
+| **Verified** | works · 2026-08-03 |
+| **Security** | caution · 2026-08-03 — skill MIT/clean, but bundled MixMHCpred/PRIME predictors are academic-use-only |
 
 ## How to install
 

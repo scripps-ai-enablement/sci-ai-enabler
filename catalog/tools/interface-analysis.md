@@ -8,6 +8,12 @@ availability: GA
 tool_categories: [Immunology and Microbiology, Integrative Structural and Computational Biology]
 last_verified: 2026-08-01
 summary: "Map protein-protein and protein-ligand interfaces with Bio.PDB — contact residues, buried surface area, and telling a real interface from crystal packing"
+verification: works
+verified_on: 2026-08-03
+reviewed_on: 2026-08-03
+security: cleared
+security_on: 2026-08-03
+security_note: "GPTomics/bioSkills root LICENSE confirmed MIT this run, not archived, 1.1k stars, skill dir current"
 ---
 
 # Interface Analysis (bioSkills)
@@ -21,6 +27,8 @@ A Claude Code skill that maps protein–protein and protein–ligand interfaces:
 | **Availability** | GA — part of the bioSkills collection |
 | **Pricing** | Free / OSS (MIT) — Biopython, NumPy and the optional FreeSASA are separately installed OSS; PDBePISA is a free EBI web service |
 | **Capabilities** | Read/Write — Claude runs the skill's workflow locally (Bash/Python), not as an MCP tool |
+| **Verified** | works · 2026-08-03 |
+| **Security** | cleared · 2026-08-03 — GPTomics/bioSkills MIT confirmed, provenance matches, no advisories |
 
 ## How to install
 

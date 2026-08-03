@@ -8,6 +8,12 @@ availability: GA
 tool_categories: [Neuroscience]
 last_verified: 2026-08-02
 summary: "Decide motion correction, ROI extraction, neuropil correction, dF/F and spike inference for two-photon and miniscope calcium imaging"
+verification: works
+verified_on: 2026-08-03
+reviewed_on: 2026-08-03
+security: cleared
+security_on: 2026-08-03
+security_note: "Repo transferred HaoxuanLiTHUAI to org NeuroAIHub (README still documents the old owner path, which redirects live), MIT, 34 stars"
 ---
 
 # Calcium Imaging Analysis Guide (Claude Skill)
@@ -21,6 +27,8 @@ Gives Claude the decision logic for a calcium-imaging pipeline — which motion-
 | **Availability** | GA — one of ~40 research skills in the collection (last upstream push 2026-07-13) |
 | **Pricing** | Free / OSS (MIT) |
 | **Capabilities** | Read/Write — methodology guidance; Claude writes and runs the analysis code locally |
+| **Verified** | works · 2026-08-03 |
+| **Security** | cleared · 2026-08-03 — MIT confirmed, repo transferred to NeuroAIHub org (old path still redirects), no advisories |
 
 ## How to install
 

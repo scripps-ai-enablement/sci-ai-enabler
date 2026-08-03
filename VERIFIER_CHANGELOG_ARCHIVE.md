@@ -6,6 +6,38 @@ nav_exclude: true
 # Verification updates archive
 
 Older entries rotated out of [VERIFIER_CHANGELOG.md](VERIFIER_CHANGELOG.md). Newest first, same format.
+## 2026-07-20 (worklist maintenance batch #3 — same 25 pages rechecked, zero drift)
+
+The selector re-served the identical worklist (`10x-genomics-cloud` → `autodock-vina-docking`, 25
+pages) a **third** time — the whole catalog is uniformly dated 2026-07-20, so verified_on-oldest ties
+resolve to the same slug ordering every run. Rechecked top-to-bottom against fresh source fetches:
+**all 25 confirmed unchanged, no fixes.**
+
+### Verified (rechecked, unchanged)
+- NeuroClaw `CUHK-AIM-Group/NeuroClaw` MIT/not-archived/pushed 2026-07-14/75-star → abcd/abide/
+  adhd200/adni/aibl/aomic/asl works/cleared.
+- K-Dense `K-Dense-AI/scientific-agent-skills` MIT/not-archived/pushed 2026-07-20/31.3k-star +
+  this-run smoke pass (aeon/anndata/arboreto/astropy) → adaptyv works/caution; aeon/anndata/arboreto/
+  astropy works/cleared.
+- SciAgent `jaechang-hits/SciAgent-Skills` NOASSERTION-classifier-but-CC-BY-4.0-root/pushed
+  2026-06-15/278-star → archs4-database + autodock-vina-docking works/cleared.
+- `google-deepmind/alphafold` Apache-2.0/pushed 2026-04-22/14.7k-star → alphafold2 works/cleared;
+  `google-deepmind/science-skills` Apache-2.0/pushed 2026-07-07/2469-star → alphagenome degraded/
+  cleared (signup-gated API preview).
+- `GPTomics/bioSkills` MIT/pushed 2026-07-18/1042-star → amr-detection works/cleared.
+- `Augmented-Nature/AlphaFold-MCP-Server` NOASSERTION/pushed 2025-12-21/35-star + `BioStudies-MCP-
+  Server` NOASSERTION/pushed 2025-12-21/2-star → alphafold + arrayexpress works/caution.
+- PyPI `arxiv-mcp-server` 0.5.1 Apache-2.0 → arxiv works/cleared; `aind-data-mcp` 0.4.5 MIT →
+  aind-data works/cleared.
+- `MCPmed/allenbrain-mcp` no-LICENSE/pushed 2026-04-01/3-star → allenbrain degraded/caution.
+- antibody-registry (Anthropic Research Resources connector) works/cleared; adisinsight +
+  10x-genomics-cloud degraded (subscription/paid gated).
+
+### Note for the maintainer
+Confirmed selector loop: `select_verify_targets.py`'s stable tie-break re-serves the same 25 pages
+indefinitely on a uniformly-dated catalog, so the other ~420 pages never rotate into a worklist. Add
+a secondary tie-break (e.g. hash slug against run date) or advance `verified_on` on rechecked pages.
+
 ## 2026-07-20 (worklist maintenance batch #2 — same 25 pages rechecked)
 
 The selector re-served the identical worklist (`10x-genomics-cloud` → `autodock-vina-docking`, 25
