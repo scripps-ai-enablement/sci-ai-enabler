@@ -53,13 +53,19 @@ jobs:
           git config user.name "composer-index[bot]"
           git config user.email "composer-index@users.noreply.github.com"
 
-          if [ -z "$(git status --porcelain index/ composer/skills/compose/data/)" ]; then
+          # Every path build_index.py writes must be listed here. A missing one
+          # is left unstaged after the commit below, and `git pull --rebase`
+          # then refuses to run ("cannot pull with rebase: You have unstaged
+          # changes"), failing the job after the index was built correctly.
+          OUTPUTS="index/ composer/skills/compose/data/ _data/dependencies.json"
+
+          if [ -z "$(git status --porcelain -- $OUTPUTS)" ]; then
             echo "No index changes this run."
             exit 0
           fi
 
           DATE=$(date -u +%Y-%m-%d)
-          git add index/ composer/skills/compose/data/
+          git add -- $OUTPUTS
           git commit -m "Rebuild Composer index ${DATE}"
           # Rebase onto anything that landed during this run (the curators push throughout
           # the morning); retry the rebase+push a few times under contention.
