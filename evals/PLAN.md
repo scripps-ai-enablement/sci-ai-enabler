@@ -93,6 +93,21 @@ of all 70 so extending later is one flag.
 **Done when:** `evals/prompts.jsonl` has 10 rows (pilot) or 70 (full), the leak check
 passes on all of them, and they read as fair questions.
 
+**Also require self-contained questions.** Learned the hard way: three of the first ten
+generated questions referred to an input they never included ("I only have its SMILES
+string", "given a paragraph naming the drug"). In a headless session there is nobody to
+answer a follow-up, so Claude replies "please paste your SMILES" in one turn and the run
+yields no signal at all — in both arms. Two defences, both now in place:
+
+- the generator requires a concrete example inline (a real gene symbol, an actual SMILES
+  string, a named indication) rather than "my compound";
+- `ab_run.py` appends `SINGLE_SHOT_SUFFIX` — identical text in both arms — telling the
+  model to assume a reasonable input, state the assumption, and answer anyway.
+
+Regenerate any prompt that would make a reader ask "what is your X?". Judge that from the
+prompt text alone, never from how the arms performed on it — the latter is selecting
+prompts on the outcome.
+
 ### Pilot set (10 recipes)
 
 Chosen to span the range of `complexity` and `problem_class` rather than to maximize the
@@ -147,20 +162,22 @@ evals/out/<prompt-id>/<with|without>/<rep>/stream.jsonl
 evals/out/<prompt-id>/<with|without>/<rep>/answer.md
 ```
 
-Budget:
+Budget — **measured**, from 6 real smoke-test runs on `claude-sonnet-5`:
 
-| Scope | Sessions | Rough cost on `claude-sonnet-5` |
+| Scope | Sessions | Cost |
 |---|---|---|
-| Smoke test (`--limit 2 --reps 1`) | 4 | well under $1 |
-| **Pilot (10 recipes × 2 arms × 3 reps)** | **60** | **~$6–20** |
-| Full (70 recipes × 2 arms × 3 reps) | 420 | ~$40–150 |
+| Smoke test (`--limit 2 --reps 1`) | 4 | $2.52 measured |
+| **Pilot (10 recipes × 2 arms × 3 reps)** | **60** | **~$45 projected** |
+| Full (70 recipes × 2 arms × 3 reps) | 420 | ~$315 projected |
 
-Those figures are extrapolated from four small Sonnet probes at ~$0.10–0.17 each. Real
-compose runs read index files and do more work, so treat the ranges as an order of
-magnitude, not a quote — the smoke test gives the real per-run number, and the pilot
-confirms it before any decision about the full sweep.
+Per-run average is **~$0.75**, with a wide spread: $0.07 for a one-turn clarifying
+question up to $1.46 for a full compose run that reads the index and fans out to
+WebSearch. An earlier draft of this plan estimated $0.10–0.30/run by extrapolating from
+trivial one-line probes; that was **3–7× too low**, because a real compose run does far
+more work than a probe. Use the measured figure.
 
-Run the smoke test first regardless.
+Run the smoke test first regardless — it is the only way to get a real per-run number
+before committing to a sweep.
 
 **Done when:** `evals/out/` is populated for all 10 pilot recipes and
 `used_compose_skill` is true in essentially every with-plugin run.

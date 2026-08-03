@@ -1,0 +1,5 @@
+# Raw per-run output: 60+ directories of stream-json transcripts. Kept on disk so
+# scoring can be re-run for free, but too bulky and machine-specific to commit.
+# The committed artifacts are prompts.jsonl (the test set) and the scored outputs
+# below, which are what a reader needs to check the result.
+out/
