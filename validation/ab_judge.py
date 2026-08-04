@@ -17,9 +17,9 @@ Three protections, all of which matter:
 Verdicts come back through --json-schema, so they tally without parsing prose.
 
 Usage:
-    python3 evals/ab_judge.py                 # judge rep 1 of every prompt
-    python3 evals/ab_judge.py --rep 2
-    python3 evals/ab_judge.py --model claude-opus-5     # re-check with a stronger judge
+    python3 validation/ab_judge.py                 # judge rep 1 of every prompt
+    python3 validation/ab_judge.py --rep 2
+    python3 validation/ab_judge.py --model claude-opus-5     # re-check with a stronger judge
 """
 from __future__ import annotations
 
@@ -160,12 +160,12 @@ def judge_pair(row: dict, out: Path, rep: int, model: str, scratch: Path) -> dic
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--prompts", type=Path, default=REPO / "evals" / "prompts.jsonl")
-    ap.add_argument("--out", type=Path, default=REPO / "evals" / "out")
+    ap.add_argument("--prompts", type=Path, default=REPO / "validation" / "prompts.jsonl")
+    ap.add_argument("--out", type=Path, default=REPO / "validation" / "out")
     ap.add_argument("--rep", type=int, default=1, help="which repetition to judge")
     ap.add_argument("--model", default=MODEL)
     ap.add_argument("--jobs", type=int, default=4)
-    ap.add_argument("--csv", type=Path, default=REPO / "evals" / "judge.csv")
+    ap.add_argument("--csv", type=Path, default=REPO / "validation" / "judge.csv")
     args = ap.parse_args()
 
     rows = [json.loads(l) for l in args.prompts.read_text().splitlines() if l.strip()]

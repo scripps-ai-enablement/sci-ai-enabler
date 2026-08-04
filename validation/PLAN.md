@@ -78,7 +78,7 @@ would return "no difference."
    the entire experiment.
 5. Skim all 70 by hand. This is the one manual pass worth doing.
 
-Write to `evals/prompts.jsonl`, one row per recipe: `id`, `question`, `tools` (from
+Write to `validation/prompts.jsonl`, one row per recipe: `id`, `question`, `tools` (from
 step 3), plus `problem_class`, `complexity`, `evidence_level` copied from the
 frontmatter — results get sliced by those in Step 4.
 
@@ -90,7 +90,7 @@ commands. That exclusion doesn't apply here: the question is generated from the
 For the pilot, generate questions for the 10 pilot recipes only. Keep the script capable
 of all 70 so extending later is one flag.
 
-**Done when:** `evals/prompts.jsonl` has 10 rows (pilot) or 70 (full), the leak check
+**Done when:** `validation/prompts.jsonl` has 10 rows (pilot) or 70 (full), the leak check
 passes on all of them, and they read as fair questions.
 
 **Also require self-contained questions.** Learned the hard way: three of the first ten
@@ -158,8 +158,8 @@ commands. Three properties it must have:
 Layout:
 
 ```
-evals/out/<prompt-id>/<with|without>/<rep>/stream.jsonl
-evals/out/<prompt-id>/<with|without>/<rep>/answer.md
+validation/out/<prompt-id>/<with|without>/<rep>/stream.jsonl
+validation/out/<prompt-id>/<with|without>/<rep>/answer.md
 ```
 
 Budget — **measured**, from 6 real smoke-test runs on `claude-sonnet-5`:
@@ -179,7 +179,7 @@ more work than a probe. Use the measured figure.
 Run the smoke test first regardless — it is the only way to get a real per-run number
 before committing to a sweep.
 
-**Done when:** `evals/out/` is populated for all 10 pilot recipes and
+**Done when:** `validation/out/` is populated for all 10 pilot recipes and
 `used_compose_skill` is true in essentially every with-plugin run.
 
 ---
@@ -305,10 +305,10 @@ Phase 2/3 protocol", "manuscript prep" — those stay with 3b. How many recipes 
 bucket is an output of Step 3c.1, not something to estimate in advance.
 
 **Keep the answer file where the run can't read it.** Both arms run from `/tmp` with no
-repo access, so committing ground truth under `evals/` is safe as designed — but adding
+repo access, so committing ground truth under `validation/` is safe as designed — but adding
 `--add-dir` to a run would let it read its own answer key.
 
-**Done when:** `evals/results.csv` has one row per prompt with the counts and the judge
+**Done when:** `validation/results.csv` has one row per prompt with the counts and the judge
 verdict.
 
 ---

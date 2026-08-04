@@ -15,12 +15,12 @@ regenerated, up to --max-attempts times. That check is what protects the whole
 experiment, so it is not optional.
 
 Usage:
-    python3 evals/make_prompts.py                      # the 10 pilot recipes
-    python3 evals/make_prompts.py --all                # all 70
-    python3 evals/make_prompts.py --only build-target-dossier
-    python3 evals/make_prompts.py --check              # re-run leak check on existing file
+    python3 validation/make_prompts.py                      # the 10 pilot recipes
+    python3 validation/make_prompts.py --all                # all 70
+    python3 validation/make_prompts.py --only build-target-dossier
+    python3 validation/make_prompts.py --check              # re-run leak check on existing file
 
-See evals/PLAN.md for the full design.
+See validation/PLAN.md for the full design.
 """
 from __future__ import annotations
 
@@ -37,7 +37,7 @@ INDEX = REPO / "composer" / "skills" / "compose" / "data" / "composer-index.json
 TOOLS = REPO / "composer" / "skills" / "compose" / "data" / "composer-tools.json"
 MODEL = "claude-sonnet-5"
 
-# The 10-recipe pilot, per evals/PLAN.md. Spans complexity and problem_class rather
+# The 10-recipe pilot, per validation/PLAN.md. Spans complexity and problem_class rather
 # than maximizing the expected effect -- a pilot stacked with multi-tool recipes would
 # inflate the effect size and be useless for sizing the full run.
 PILOT = [
@@ -190,7 +190,7 @@ def generate(slug: str, tool_meta: dict, facets: dict, scratch: Path,
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--out", type=Path, default=REPO / "evals" / "prompts.jsonl")
+    ap.add_argument("--out", type=Path, default=REPO / "validation" / "prompts.jsonl")
     ap.add_argument("--all", action="store_true", help="all 70 recipes, not just the pilot")
     ap.add_argument("--only", action="append", help="specific slug(s); repeatable")
     ap.add_argument("--max-attempts", type=int, default=4)

@@ -1,25 +1,16 @@
 # Composer plugin: does it help? — pilot results
 
-**Date:** 2026-08-03 · **Model:** Sonnet 5 · **Scope:** 10 recipes, 60 conversations, $51.73
-
----
 
 ## What we did
 
-We set up a test that asks Claude the same science question twice — once with the composer
+Set up a test that asks Claude the same science question twice — once with the composer
 plugin turned on, once with it off — and then compares the two answers.
 
 The questions come from the recipes themselves, rewritten to sound like a scientist asking
-for help, with every tool name stripped out. (If the question said "use Open Targets and
-UniProt," both sides would score the same and the test would be meaningless.) An automatic
-check rejects any question that still names a tool the recipe recommends.
+for help, with every tool name stripped out. An automatic check rejects any question that still names a tool the recipe recommends.
 
-We ran 10 recipes, three times per side, so the results aren't just luck. 60 conversations
-in total, $51.73.
+Ran 10 recipes, three times per side
 
-Everything is reusable: re-testing the next version of the plugin is one command.
-
----
 
 ## The good news
 
@@ -33,17 +24,10 @@ designed to do, and it is not a small difference.
 actually recommends: the plugin got 60% of them, plain Claude 34%. The plugin did better on
 5 of the 10 questions and worse on none.
 
-**It doesn't invent fake tools.** Neither side did, so this is a tie — but it is worth
-knowing that nothing is being made up.
-
 **The gap is biggest where it should be.** On the harder questions needing four or five
 tools stitched together, the plugin got 67% versus 26%. On simple one-tool questions plain
 Claude was nearly as good.
 
-**It didn't over-recommend.** One recipe's correct answer is "you don't need any special
-tool for this." The plugin correctly did not push a toolkit at it.
-
----
 
 ## The bad news
 
@@ -153,37 +137,11 @@ show those answers are better than what Claude comes up with on its own.
 
 ---
 
-## Two corrections we made along the way
-
-Worth stating up front so the numbers above hold up:
-
-- **Our first cost estimate was 3–7× too low.** It was extrapolated from trivial one-line
-  test questions. The real figure is about $0.75 per conversation.
-- **Our first "invented tools" measurement was wrong.** It reported around 4 fabrications
-  per answer. On inspection it was counting spreadsheet column names, filenames, and real
-  software simply missing from our catalog. After the fix: neither side invents anything.
-
----
-
-## Files
-
-| File | What it is |
-|---|---|
-| `evals/PLAN.md` | the method, and every pitfall we hit |
-| `evals/prompts.jsonl` | the 10 questions we tested, with the expected tools |
-| `evals/make_prompts.py` | writes the questions, checks none leak a tool name |
-| `evals/ab_run.py` | runs each question with and without the plugin |
-| `evals/ab_score.py` | counts the results |
-| `evals/ab_judge.py` | the blind side-by-side comparison |
-| `evals/summary.md` | the full scored numbers |
-| `evals/results.csv` | one row per conversation |
-| `evals/judge.csv` | the side-by-side verdicts |
-
 To re-run the whole thing against a new version of the plugin:
 
 ```bash
-python3 evals/make_prompts.py       # only needed if the recipes changed
-python3 evals/ab_run.py --reps 3
-python3 evals/ab_score.py
-python3 evals/ab_judge.py
+python3 validation/make_prompts.py       # only needed if the recipes changed
+python3 validation/ab_run.py --reps 3
+python3 validation/ab_score.py
+python3 validation/ab_judge.py
 ```

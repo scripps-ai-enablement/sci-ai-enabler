@@ -6,7 +6,7 @@ constant: same model, same cwd layout, same permission allowlist. Both run from 
 throwaway scratch directory so neither can see this repo's .claude/skills (150 skills)
 or its CLAUDE.md.
 
-Four flag behaviours were verified by experiment and matter here (see evals/PLAN.md):
+Four flag behaviours were verified by experiment and matter here (see validation/PLAN.md):
 
   1. ``claude -p`` loads no plugins by default -- without --setting-sources/--plugin-dir
      both arms would secretly be the same bare Claude.
@@ -20,10 +20,10 @@ Output is raw and per-run, because scoring is deliberately separate from running
 will change how you count things several times, and re-scoring must be free.
 
 Usage:
-    python3 evals/ab_run.py --limit 2 --reps 1        # smoke test
-    python3 evals/ab_run.py                           # the pilot (10 x 2 x 3)
-    python3 evals/ab_run.py --jobs 6                   # more parallelism
-    python3 evals/ab_run.py --dry-run                  # print the commands only
+    python3 validation/ab_run.py --limit 2 --reps 1        # smoke test
+    python3 validation/ab_run.py                           # the pilot (10 x 2 x 3)
+    python3 validation/ab_run.py --jobs 6                   # more parallelism
+    python3 validation/ab_run.py --dry-run                  # print the commands only
 """
 from __future__ import annotations
 
@@ -203,8 +203,8 @@ def run_one(row: dict, arm: str, rep: int, outdir: Path, model: str,
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--prompts", type=Path, default=REPO / "evals" / "prompts.jsonl")
-    ap.add_argument("--out", type=Path, default=REPO / "evals" / "out")
+    ap.add_argument("--prompts", type=Path, default=REPO / "validation" / "prompts.jsonl")
+    ap.add_argument("--out", type=Path, default=REPO / "validation" / "out")
     ap.add_argument("--reps", type=int, default=3)
     ap.add_argument("--limit", type=int, help="only the first N prompts")
     ap.add_argument("--only", action="append", help="specific prompt id(s); repeatable")

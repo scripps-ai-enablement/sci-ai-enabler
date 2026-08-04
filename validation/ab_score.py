@@ -6,17 +6,17 @@ checkable by anyone: 378 real components in composer-tools.json, 70 recipes and 
 systems in composer-index.json, and each prompt's own answer key (the catalog tools its
 recipe links to).
 
-Reads evals/out/<id>/<arm>/<rep>/ and writes:
-    evals/results.csv      one row per run
-    evals/by_prompt.csv    one row per prompt, reps averaged, both arms side by side
-    evals/summary.md       the readable comparison
+Reads validation/out/<id>/<arm>/<rep>/ and writes:
+    validation/results.csv      one row per run
+    validation/by_prompt.csv    one row per prompt, reps averaged, both arms side by side
+    validation/summary.md       the readable comparison
 
 Scoring is separate from running on purpose: expect to change how things are counted and
 re-run this several times. It costs nothing.
 
 Usage:
-    python3 evals/ab_score.py
-    python3 evals/ab_score.py --show-unknown     # list the invented-looking names
+    python3 validation/ab_score.py
+    python3 validation/ab_score.py --show-unknown     # list the invented-looking names
 """
 from __future__ import annotations
 
@@ -207,9 +207,9 @@ def mean(xs):
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--prompts", type=Path, default=REPO / "evals" / "prompts.jsonl")
-    ap.add_argument("--out", type=Path, default=REPO / "evals" / "out")
-    ap.add_argument("--evals", type=Path, default=REPO / "evals")
+    ap.add_argument("--prompts", type=Path, default=REPO / "validation" / "prompts.jsonl")
+    ap.add_argument("--out", type=Path, default=REPO / "validation" / "out")
+    ap.add_argument("--report-dir", type=Path, default=REPO / "validation")
     ap.add_argument("--show-unknown", action="store_true")
     args = ap.parse_args()
 
@@ -230,7 +230,7 @@ def main() -> int:
         return 1
 
     fields = [k for k in runs[0] if not k.startswith("_")] + ["_key_hit_slugs", "_unknown"]
-    with (args.evals / "results.csv").open("w", newline="") as f:
+    with (args.report_dir / "results.csv").open("w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=fields)
         w.writeheader()
         w.writerows(runs)
@@ -264,7 +264,7 @@ def main() -> int:
         prompt_rows.append(rec)
 
     pfields = list(prompt_rows[0].keys())
-    with (args.evals / "by_prompt.csv").open("w", newline="") as f:
+    with (args.report_dir / "by_prompt.csv").open("w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=pfields)
         w.writeheader()
         w.writerows(prompt_rows)
@@ -362,10 +362,10 @@ def main() -> int:
              "that happens to name the right tool still scores.")
     L.append(f"- n={len(prompt_rows)} prompts. Report the rows, not a confidence interval.")
 
-    (args.evals / "summary.md").write_text("\n".join(L) + "\n")
+    (args.report_dir / "summary.md").write_text("\n".join(L) + "\n")
 
     print("\n".join(L[:40]))
-    print(f"\nwrote results.csv, by_prompt.csv, summary.md to {args.evals}")
+    print(f"\nwrote results.csv, by_prompt.csv, summary.md to {args.report_dir}")
 
     if args.show_unknown:
         print("\n--- unknown (possibly invented) components ---")
