@@ -1,0 +1,1524 @@
+{
+  "summary": {
+    "total": 70,
+    "passed": 57,
+    "failed": 13,
+    "recipes_with_blocked_links": 53
+  },
+  "recipes": [
+    {
+      "slug": "analyze-md-trajectory-with-mdanalysis",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/analyze-md-trajectory-with-mdanalysis.html",
+      "passed": true,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 7,
+      "broken_links": [],
+      "blocked_links": [
+        {
+          "href": "https://onlinelibrary.wiley.com/doi/full/10.1002/jcc.21787",
+          "url": "https://onlinelibrary.wiley.com/doi/full/10.1002/jcc.21787",
+          "kind": "external",
+          "detail": "HTTP 403"
+        }
+      ]
+    },
+    {
+      "slug": "annotate-a-bacterial-genome",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/annotate-a-bacterial-genome.html",
+      "passed": true,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 3,
+      "broken_links": [],
+      "blocked_links": [
+        {
+          "href": "https://doi.org/10.1099/mgen.0.000685",
+          "url": "https://doi.org/10.1099/mgen.0.000685",
+          "kind": "external",
+          "detail": "HTTP 403"
+        }
+      ]
+    },
+    {
+      "slug": "annotate-and-verify-a-plasmid-construct",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/annotate-and-verify-a-plasmid-construct.html",
+      "passed": true,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 2,
+      "broken_links": [],
+      "blocked_links": [
+        {
+          "href": "https://doi.org/10.1093/nar/gkab374",
+          "url": "https://doi.org/10.1093/nar/gkab374",
+          "kind": "external",
+          "detail": "HTTP 403"
+        }
+      ]
+    },
+    {
+      "slug": "annotate-cell-types-in-single-cell-data",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/annotate-cell-types-in-single-cell-data.html",
+      "passed": true,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 3,
+      "broken_links": [],
+      "blocked_links": [
+        {
+          "href": "https://www.science.org/doi/10.1126/science.abl5197",
+          "url": "https://www.science.org/doi/10.1126/science.abl5197",
+          "kind": "external",
+          "detail": "HTTP 403"
+        }
+      ]
+    },
+    {
+      "slug": "assemble-cancer-imaging-cohort-from-idc",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/assemble-cancer-imaging-cohort-from-idc.html",
+      "passed": true,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 4,
+      "broken_links": [],
+      "blocked_links": [
+        {
+          "href": "https://doi.org/10.1148/rg.230180",
+          "url": "https://doi.org/10.1148/rg.230180",
+          "kind": "external",
+          "detail": "HTTP 403"
+        },
+        {
+          "href": "https://doi.org/10.1158/0008-5472.CAN-21-0950",
+          "url": "https://doi.org/10.1158/0008-5472.CAN-21-0950",
+          "kind": "external",
+          "detail": "HTTP 403"
+        }
+      ]
+    },
+    {
+      "slug": "assemble-reference-atlas-from-cellxgene-census",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/assemble-reference-atlas-from-cellxgene-census.html",
+      "passed": false,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 7,
+      "broken_links": [
+        {
+          "href": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/cellxgene-census/SKILL.md",
+          "url": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/cellxgene-census/SKILL.md",
+          "kind": "external",
+          "detail": "HTTP 404"
+        }
+      ],
+      "blocked_links": []
+    },
+    {
+      "slug": "benchmark-admet-property-with-pytdc",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/benchmark-admet-property-with-pytdc.html",
+      "passed": true,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 8,
+      "broken_links": [],
+      "blocked_links": []
+    },
+    {
+      "slug": "build-pharmacogenomic-dosing-report",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/build-pharmacogenomic-dosing-report.html",
+      "passed": true,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 4,
+      "broken_links": [],
+      "blocked_links": [
+        {
+          "href": "https://doi.org/10.1002/cpt.911",
+          "url": "https://doi.org/10.1002/cpt.911",
+          "kind": "external",
+          "detail": "HTTP 403"
+        },
+        {
+          "href": "https://doi.org/10.1097/MPG.0000000000003082",
+          "url": "https://doi.org/10.1097/MPG.0000000000003082",
+          "kind": "external",
+          "detail": "HTTP 403"
+        }
+      ]
+    },
+    {
+      "slug": "build-phylogenetic-tree-from-sequences",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/build-phylogenetic-tree-from-sequences.html",
+      "passed": true,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 6,
+      "broken_links": [],
+      "blocked_links": [
+        {
+          "href": "https://doi.org/10.1093/molbev/mst010",
+          "url": "https://doi.org/10.1093/molbev/mst010",
+          "kind": "external",
+          "detail": "HTTP 403"
+        },
+        {
+          "href": "https://doi.org/10.1093/molbev/msaa015",
+          "url": "https://doi.org/10.1093/molbev/msaa015",
+          "kind": "external",
+          "detail": "HTTP 403"
+        },
+        {
+          "href": "https://doi.org/10.1093/molbev/msx281",
+          "url": "https://doi.org/10.1093/molbev/msx281",
+          "kind": "external",
+          "detail": "HTTP 403"
+        },
+        {
+          "href": "https://doi.org/10.1101/2025.05.30.656746",
+          "url": "https://doi.org/10.1101/2025.05.30.656746",
+          "kind": "external",
+          "detail": "HTTP 403"
+        }
+      ]
+    },
+    {
+      "slug": "build-target-dossier",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/build-target-dossier.html",
+      "passed": true,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 7,
+      "broken_links": [],
+      "blocked_links": [
+        {
+          "href": "https://doi.org/10.1101/2025.05.30.656746",
+          "url": "https://doi.org/10.1101/2025.05.30.656746",
+          "kind": "external",
+          "detail": "HTTP 403"
+        },
+        {
+          "href": "https://pubmed.ncbi.nlm.nih.gov/30971826/",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/30971826/",
+          "kind": "external",
+          "detail": "HTTP 403"
+        },
+        {
+          "href": "https://pubmed.ncbi.nlm.nih.gov/34349281/",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/34349281/",
+          "kind": "external",
+          "detail": "HTTP 403"
+        }
+      ]
+    },
+    {
+      "slug": "call-peaks-and-motifs-from-chipseq-atacseq",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/call-peaks-and-motifs-from-chipseq-atacseq.html",
+      "passed": true,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 3,
+      "broken_links": [],
+      "blocked_links": []
+    },
+    {
+      "slug": "compute-16s-microbiome-diversity",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/compute-16s-microbiome-diversity.html",
+      "passed": false,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 5,
+      "broken_links": [
+        {
+          "href": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/scikit-bio/SKILL.md",
+          "url": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/scikit-bio/SKILL.md",
+          "kind": "external",
+          "detail": "HTTP 404"
+        }
+      ],
+      "blocked_links": [
+        {
+          "href": "https://doi.org/10.1101/2025.05.30.656746",
+          "url": "https://doi.org/10.1101/2025.05.30.656746",
+          "kind": "external",
+          "detail": "HTTP 403"
+        }
+      ]
+    },
+    {
+      "slug": "compute-bacterial-pangenome-from-assemblies",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/compute-bacterial-pangenome-from-assemblies.html",
+      "passed": true,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 4,
+      "broken_links": [],
+      "blocked_links": [
+        {
+          "href": "https://doi.org/10.1093/bioinformatics/btv421",
+          "url": "https://doi.org/10.1093/bioinformatics/btv421",
+          "kind": "external",
+          "detail": "HTTP 403"
+        },
+        {
+          "href": "https://doi.org/10.1099/mgen.0.000685",
+          "url": "https://doi.org/10.1099/mgen.0.000685",
+          "kind": "external",
+          "detail": "HTTP 403"
+        }
+      ]
+    },
+    {
+      "slug": "compute-hrv-from-ecg-recording",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/compute-hrv-from-ecg-recording.html",
+      "passed": false,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 6,
+      "broken_links": [
+        {
+          "href": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/neurokit2/SKILL.md",
+          "url": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/neurokit2/SKILL.md",
+          "kind": "external",
+          "detail": "HTTP 404"
+        }
+      ],
+      "blocked_links": [
+        {
+          "href": "https://doi.org/10.3390/s21123998",
+          "url": "https://doi.org/10.3390/s21123998",
+          "kind": "external",
+          "detail": "HTTP 403"
+        }
+      ]
+    },
+    {
+      "slug": "convert-instrument-data-to-allotrope-asm",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/convert-instrument-data-to-allotrope-asm.html",
+      "passed": false,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 8,
+      "broken_links": [
+        {
+          "href": "https://www.allotrope.org/asm",
+          "url": "https://www.allotrope.org/asm",
+          "kind": "external",
+          "detail": "HTTP 404"
+        },
+        {
+          "href": "https://claude.com/resources/tutorials/getting-started-with-claude-for-life-sciences",
+          "url": "https://claude.com/resources/tutorials/getting-started-with-claude-for-life-sciences",
+          "kind": "external",
+          "detail": "HTTP 404"
+        },
+        {
+          "href": "https://playbooks.com/skills/anthropics/life-sciences/instrument-data-to-allotrope",
+          "url": "https://playbooks.com/skills/anthropics/life-sciences/instrument-data-to-allotrope",
+          "kind": "external",
+          "detail": "HTTP 502"
+        }
+      ],
+      "blocked_links": []
+    },
+    {
+      "slug": "design-crispr-sgrnas-for-a-gene-knockout",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/design-crispr-sgrnas-for-a-gene-knockout.html",
+      "passed": true,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 3,
+      "broken_links": [],
+      "blocked_links": []
+    },
+    {
+      "slug": "detect-somatic-cnvs-from-tumor-sequencing",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/detect-somatic-cnvs-from-tumor-sequencing.html",
+      "passed": true,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 4,
+      "broken_links": [],
+      "blocked_links": []
+    },
+    {
+      "slug": "discover-nwb-recordings-on-dandi",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/discover-nwb-recordings-on-dandi.html",
+      "passed": true,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 6,
+      "broken_links": [],
+      "blocked_links": []
+    },
+    {
+      "slug": "dock-ligand-library-with-diffdock",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/dock-ligand-library-with-diffdock.html",
+      "passed": false,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 9,
+      "broken_links": [
+        {
+          "href": "https://github.com/K-Dense-AI/claude-scientific-skills/blob/main/scientific-skills/diffdock/SKILL.md",
+          "url": "https://github.com/K-Dense-AI/claude-scientific-skills/blob/main/scientific-skills/diffdock/SKILL.md",
+          "kind": "external",
+          "detail": "HTTP 404"
+        },
+        {
+          "href": "https://github.com/gcorso/DiffDock`",
+          "url": "https://github.com/gcorso/DiffDock`",
+          "kind": "external",
+          "detail": "HTTP 404"
+        }
+      ],
+      "blocked_links": [
+        {
+          "href": "https://doi.org/10.1039/D3SC04185A",
+          "url": "https://doi.org/10.1039/D3SC04185A",
+          "kind": "external",
+          "detail": "HTTP 403"
+        },
+        {
+          "href": "https://doi.org/10.1021/acs.jcim.3c00601",
+          "url": "https://doi.org/10.1021/acs.jcim.3c00601",
+          "kind": "external",
+          "detail": "HTTP 403"
+        }
+      ]
+    },
+    {
+      "slug": "draft-phase23-clinical-trial-protocol",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/draft-phase23-clinical-trial-protocol.html",
+      "passed": true,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 7,
+      "broken_links": [],
+      "blocked_links": [
+        {
+          "href": "https://journals.sagepub.com/home/ctj",
+          "url": "https://journals.sagepub.com/home/ctj",
+          "kind": "external",
+          "detail": "HTTP 403"
+        },
+        {
+          "href": "https://ascpt.onlinelibrary.wiley.com/journal/15326535",
+          "url": "https://ascpt.onlinelibrary.wiley.com/journal/15326535",
+          "kind": "external",
+          "detail": "HTTP 403"
+        }
+      ]
+    },
+    {
+      "slug": "enumerate-analogs-around-a-lead",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/enumerate-analogs-around-a-lead.html",
+      "passed": true,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 6,
+      "broken_links": [],
+      "blocked_links": [
+        {
+          "href": "https://doi.org/10.1021/ci100050t",
+          "url": "https://doi.org/10.1021/ci100050t",
+          "kind": "external",
+          "detail": "HTTP 403"
+        },
+        {
+          "href": "https://doi.org/10.1021/jm200452d",
+          "url": "https://doi.org/10.1021/jm200452d",
+          "kind": "external",
+          "detail": "HTTP 403"
+        }
+      ]
+    },
+    {
+      "slug": "estimate-pk-properties",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/estimate-pk-properties.html",
+      "passed": true,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 7,
+      "broken_links": [],
+      "blocked_links": [
+        {
+          "href": "https://doi.org/10.1021/jm901137j",
+          "url": "https://doi.org/10.1021/jm901137j",
+          "kind": "external",
+          "detail": "HTTP 403"
+        },
+        {
+          "href": "https://doi.org/10.1002/cmdc.200700139",
+          "url": "https://doi.org/10.1002/cmdc.200700139",
+          "kind": "external",
+          "detail": "HTTP 403"
+        },
+        {
+          "href": "https://doi.org/10.1021/jm020017n",
+          "url": "https://doi.org/10.1021/jm020017n",
+          "kind": "external",
+          "detail": "HTTP 403"
+        }
+      ]
+    },
+    {
+      "slug": "extract-structured-data-from-clinical-notes",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/extract-structured-data-from-clinical-notes.html",
+      "passed": true,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 3,
+      "broken_links": [],
+      "blocked_links": [
+        {
+          "href": "https://pubmed.ncbi.nlm.nih.gov/42361337/",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/42361337/",
+          "kind": "external",
+          "detail": "HTTP 403"
+        },
+        {
+          "href": "https://pubmed.ncbi.nlm.nih.gov/39903072/",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/39903072/",
+          "kind": "external",
+          "detail": "HTTP 403"
+        },
+        {
+          "href": "https://pubmed.ncbi.nlm.nih.gov/30862607/",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/30862607/",
+          "kind": "external",
+          "detail": "HTTP 403"
+        }
+      ]
+    },
+    {
+      "slug": "filter-virtual-screening-hits",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/filter-virtual-screening-hits.html",
+      "passed": false,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 8,
+      "broken_links": [
+        {
+          "href": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/medchem/SKILL.md",
+          "url": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/medchem/SKILL.md",
+          "kind": "external",
+          "detail": "HTTP 404"
+        },
+        {
+          "href": "https://medchem.datamol.io/",
+          "url": "https://medchem.datamol.io/",
+          "kind": "external",
+          "detail": "error: ConnectionError"
+        }
+      ],
+      "blocked_links": [
+        {
+          "href": "https://doi.org/10.1021/jm901137j",
+          "url": "https://doi.org/10.1021/jm901137j",
+          "kind": "external",
+          "detail": "HTTP 403"
+        },
+        {
+          "href": "https://doi.org/10.1002/cmdc.200700139",
+          "url": "https://doi.org/10.1002/cmdc.200700139",
+          "kind": "external",
+          "detail": "HTTP 403"
+        },
+        {
+          "href": "https://doi.org/10.1021/jm020017n",
+          "url": "https://doi.org/10.1021/jm020017n",
+          "kind": "external",
+          "detail": "HTTP 403"
+        },
+        {
+          "href": "https://pubmed.ncbi.nlm.nih.gov/35775847/",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/35775847/",
+          "kind": "external",
+          "detail": "HTTP 403"
+        }
+      ]
+    },
+    {
+      "slug": "find-selective-cancer-dependencies-with-depmap",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/find-selective-cancer-dependencies-with-depmap.html",
+      "passed": true,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 5,
+      "broken_links": [],
+      "blocked_links": [
+        {
+          "href": "https://doi.org/10.1158/0008-5472.CAN-23-3560",
+          "url": "https://doi.org/10.1158/0008-5472.CAN-23-3560",
+          "kind": "external",
+          "detail": "HTTP 403"
+        }
+      ]
+    },
+    {
+      "slug": "fit-survival-model-to-clinical-outcomes",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/fit-survival-model-to-clinical-outcomes.html",
+      "passed": false,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 4,
+      "broken_links": [
+        {
+          "href": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/scikit-survival/SKILL.md",
+          "url": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/scikit-survival/SKILL.md",
+          "kind": "external",
+          "detail": "HTTP 404"
+        }
+      ],
+      "blocked_links": [
+        {
+          "href": "https://doi.org/10.1097/MD.0000000000048757",
+          "url": "https://doi.org/10.1097/MD.0000000000048757",
+          "kind": "external",
+          "detail": "HTTP 403"
+        }
+      ]
+    },
+    {
+      "slug": "harmonize-clinical-terms-to-standard-codes",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/harmonize-clinical-terms-to-standard-codes.html",
+      "passed": true,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 3,
+      "broken_links": [],
+      "blocked_links": [
+        {
+          "href": "https://www.npmjs.com/package/medical-terminologies-mcp",
+          "url": "https://www.npmjs.com/package/medical-terminologies-mcp",
+          "kind": "external",
+          "detail": "HTTP 403"
+        }
+      ]
+    },
+    {
+      "slug": "identify-bacterial-isolate-from-16s-sequence",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/identify-bacterial-isolate-from-16s-sequence.html",
+      "passed": true,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 3,
+      "broken_links": [],
+      "blocked_links": [
+        {
+          "href": "https://doi.org/10.1099/ijs.0.059774-0",
+          "url": "https://doi.org/10.1099/ijs.0.059774-0",
+          "kind": "external",
+          "detail": "HTTP 403"
+        }
+      ]
+    },
+    {
+      "slug": "identify-unknown-compound-from-msms-spectrum",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/identify-unknown-compound-from-msms-spectrum.html",
+      "passed": true,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 4,
+      "broken_links": [],
+      "blocked_links": [
+        {
+          "href": "https://doi.org/10.1093/bioinformatics/btaf081",
+          "url": "https://doi.org/10.1093/bioinformatics/btaf081",
+          "kind": "external",
+          "detail": "HTTP 403"
+        },
+        {
+          "href": "https://doi.org/10.1021/acs.analchem.5c02047",
+          "url": "https://doi.org/10.1021/acs.analchem.5c02047",
+          "kind": "external",
+          "detail": "HTTP 403"
+        }
+      ]
+    },
+    {
+      "slug": "infer-cell-cell-communication-from-scrnaseq",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/infer-cell-cell-communication-from-scrnaseq.html",
+      "passed": true,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 4,
+      "broken_links": [],
+      "blocked_links": [
+        {
+          "href": "https://doi.org/10.3390/biom13081211",
+          "url": "https://doi.org/10.3390/biom13081211",
+          "kind": "external",
+          "detail": "HTTP 403"
+        }
+      ]
+    },
+    {
+      "slug": "infer-gene-regulatory-network-from-scrnaseq",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/infer-gene-regulatory-network-from-scrnaseq.html",
+      "passed": false,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 8,
+      "broken_links": [
+        {
+          "href": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/arboreto/SKILL.md",
+          "url": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/arboreto/SKILL.md",
+          "kind": "external",
+          "detail": "HTTP 404"
+        }
+      ],
+      "blocked_links": [
+        {
+          "href": "https://doi.org/10.1093/bioinformatics/bty916",
+          "url": "https://doi.org/10.1093/bioinformatics/bty916",
+          "kind": "external",
+          "detail": "HTTP 403"
+        }
+      ]
+    },
+    {
+      "slug": "infer-protein-function-from-structure",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/infer-protein-function-from-structure.html",
+      "passed": true,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 4,
+      "broken_links": [],
+      "blocked_links": [
+        {
+          "href": "https://doi.org/10.1093/nar/gkad1011",
+          "url": "https://doi.org/10.1093/nar/gkad1011",
+          "kind": "external",
+          "detail": "HTTP 403"
+        }
+      ]
+    },
+    {
+      "slug": "infer-tf-and-pathway-activities-from-expression",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/infer-tf-and-pathway-activities-from-expression.html",
+      "passed": true,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 5,
+      "broken_links": [],
+      "blocked_links": [
+        {
+          "href": "https://doi.org/10.1093/bioadv/vbac016",
+          "url": "https://doi.org/10.1093/bioadv/vbac016",
+          "kind": "external",
+          "detail": "HTTP 403"
+        },
+        {
+          "href": "https://doi.org/10.1093/nar/gkad841",
+          "url": "https://doi.org/10.1093/nar/gkad841",
+          "kind": "external",
+          "detail": "HTTP 403"
+        }
+      ]
+    },
+    {
+      "slug": "integrate-single-cell-datasets",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/integrate-single-cell-datasets.html",
+      "passed": true,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 4,
+      "broken_links": [],
+      "blocked_links": [
+        {
+          "href": "https://doi.org/10.1101/2024.12.09.627450",
+          "url": "https://doi.org/10.1101/2024.12.09.627450",
+          "kind": "external",
+          "detail": "HTTP 403"
+        }
+      ]
+    },
+    {
+      "slug": "interpret-clinical-variant",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/interpret-clinical-variant.html",
+      "passed": true,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 3,
+      "broken_links": [],
+      "blocked_links": [
+        {
+          "href": "https://www.biorxiv.org/content/10.1101/2025.11.26.690887v1",
+          "url": "https://www.biorxiv.org/content/10.1101/2025.11.26.690887v1",
+          "kind": "external",
+          "detail": "HTTP 403"
+        }
+      ]
+    },
+    {
+      "slug": "map-disease-to-genes-and-pathways",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/map-disease-to-genes-and-pathways.html",
+      "passed": false,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 6,
+      "broken_links": [
+        {
+          "href": "https://pachterlab.github.io/gget/en/enrichr.html",
+          "url": "https://pachterlab.github.io/gget/en/enrichr.html",
+          "kind": "external",
+          "detail": "HTTP 404"
+        },
+        {
+          "href": "https://api.platform.opentargets.org/api/v4/graphql`",
+          "url": "https://api.platform.opentargets.org/api/v4/graphql`",
+          "kind": "external",
+          "detail": "HTTP 404"
+        }
+      ],
+      "blocked_links": [
+        {
+          "href": "https://doi.org/10.1093/nar/gkae1128",
+          "url": "https://doi.org/10.1093/nar/gkae1128",
+          "kind": "external",
+          "detail": "HTTP 403"
+        }
+      ]
+    },
+    {
+      "slug": "match-patient-to-clinical-trials",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/match-patient-to-clinical-trials.html",
+      "passed": true,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 6,
+      "broken_links": [],
+      "blocked_links": []
+    },
+    {
+      "slug": "organize-raw-dicom-to-bids-layout",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/organize-raw-dicom-to-bids-layout.html",
+      "passed": true,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 7,
+      "broken_links": [],
+      "blocked_links": [
+        {
+          "href": "https://doi.org/10.1162/imag_a_00103",
+          "url": "https://doi.org/10.1162/imag_a_00103",
+          "kind": "external",
+          "detail": "HTTP 403"
+        }
+      ]
+    },
+    {
+      "slug": "parse-fcs-flow-cytometry-files",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/parse-fcs-flow-cytometry-files.html",
+      "passed": false,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 5,
+      "broken_links": [
+        {
+          "href": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/flowio/SKILL.md",
+          "url": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/flowio/SKILL.md",
+          "kind": "external",
+          "detail": "HTTP 404"
+        }
+      ],
+      "blocked_links": [
+        {
+          "href": "https://pubmed.ncbi.nlm.nih.gov/?term=PMC13053331",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/?term=PMC13053331",
+          "kind": "external",
+          "detail": "HTTP 403"
+        }
+      ]
+    },
+    {
+      "slug": "predict-antibody-antigen-complex",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/predict-antibody-antigen-complex.html",
+      "passed": true,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 5,
+      "broken_links": [],
+      "blocked_links": [
+        {
+          "href": "https://doi.org/10.1002/pro.70655",
+          "url": "https://doi.org/10.1002/pro.70655",
+          "kind": "external",
+          "detail": "HTTP 403"
+        },
+        {
+          "href": "https://doi.org/10.1093/bib/bbag137",
+          "url": "https://doi.org/10.1093/bib/bbag137",
+          "kind": "external",
+          "detail": "HTTP 403"
+        },
+        {
+          "href": "https://pubmed.ncbi.nlm.nih.gov/42252708/",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/42252708/",
+          "kind": "external",
+          "detail": "HTTP 403"
+        },
+        {
+          "href": "https://pubmed.ncbi.nlm.nih.gov/41903187/",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/41903187/",
+          "kind": "external",
+          "detail": "HTTP 403"
+        }
+      ]
+    },
+    {
+      "slug": "predict-gene-knockout-phenotypes-with-fba",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/predict-gene-knockout-phenotypes-with-fba.html",
+      "passed": true,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 3,
+      "broken_links": [],
+      "blocked_links": []
+    },
+    {
+      "slug": "predict-hospital-readmission-from-ehr",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/predict-hospital-readmission-from-ehr.html",
+      "passed": true,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 4,
+      "broken_links": [],
+      "blocked_links": [
+        {
+          "href": "https://dl.acm.org/doi/10.1145/3580305.3599178",
+          "url": "https://dl.acm.org/doi/10.1145/3580305.3599178",
+          "kind": "external",
+          "detail": "HTTP 403"
+        }
+      ]
+    },
+    {
+      "slug": "predict-noncoding-variant-regulatory-effects",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/predict-noncoding-variant-regulatory-effects.html",
+      "passed": true,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 6,
+      "broken_links": [],
+      "blocked_links": [
+        {
+          "href": "https://www.biorxiv.org/content/10.1101/2025.06.25.661532v1",
+          "url": "https://www.biorxiv.org/content/10.1101/2025.06.25.661532v1",
+          "kind": "external",
+          "detail": "HTTP 403"
+        }
+      ]
+    },
+    {
+      "slug": "predict-rna-secondary-structure-and-accessibility",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/predict-rna-secondary-structure-and-accessibility.html",
+      "passed": true,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 4,
+      "broken_links": [],
+      "blocked_links": [
+        {
+          "href": "https://pubmed.ncbi.nlm.nih.gov/25577387/",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/25577387/",
+          "kind": "external",
+          "detail": "HTTP 403"
+        },
+        {
+          "href": "https://pubmed.ncbi.nlm.nih.gov/24136595/",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/24136595/",
+          "kind": "external",
+          "detail": "HTTP 403"
+        }
+      ]
+    },
+    {
+      "slug": "prioritize-targets-within-a-disease",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/prioritize-targets-within-a-disease.html",
+      "passed": false,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 10,
+      "broken_links": [
+        {
+          "href": "https://platform-docs.opentargets.org/target-prioritisation",
+          "url": "https://platform-docs.opentargets.org/target-prioritisation",
+          "kind": "external",
+          "detail": "HTTP 404"
+        },
+        {
+          "href": "https://mcp.platform.opentargets.org/mcp`",
+          "url": "https://mcp.platform.opentargets.org/mcp`",
+          "kind": "external",
+          "detail": "HTTP 404"
+        },
+        {
+          "href": "https://api.platform.opentargets.org/api/v4/graphql`",
+          "url": "https://api.platform.opentargets.org/api/v4/graphql`",
+          "kind": "external",
+          "detail": "HTTP 404"
+        }
+      ],
+      "blocked_links": [
+        {
+          "href": "https://doi.org/10.1093/nar/gkae1128",
+          "url": "https://doi.org/10.1093/nar/gkae1128",
+          "kind": "external",
+          "detail": "HTTP 403"
+        },
+        {
+          "href": "https://doi.org/10.1101/2025.06.13.659527",
+          "url": "https://doi.org/10.1101/2025.06.13.659527",
+          "kind": "external",
+          "detail": "HTTP 403"
+        }
+      ]
+    },
+    {
+      "slug": "profile-cancer-cohort-genomics-with-cbioportal",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/profile-cancer-cohort-genomics-with-cbioportal.html",
+      "passed": true,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 6,
+      "broken_links": [],
+      "blocked_links": [
+        {
+          "href": "https://pubmed.ncbi.nlm.nih.gov/40860720/",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/40860720/",
+          "kind": "external",
+          "detail": "HTTP 403"
+        },
+        {
+          "href": "https://pubmed.ncbi.nlm.nih.gov/40940961/",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/40940961/",
+          "kind": "external",
+          "detail": "HTTP 403"
+        },
+        {
+          "href": "https://pubmed.ncbi.nlm.nih.gov/40723258/",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/40723258/",
+          "kind": "external",
+          "detail": "HTTP 403"
+        }
+      ]
+    },
+    {
+      "slug": "profile-chipseq-atacseq-signal-around-features",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/profile-chipseq-atacseq-signal-around-features.html",
+      "passed": true,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 2,
+      "broken_links": [],
+      "blocked_links": [
+        {
+          "href": "https://doi.org/10.1093/nar/gkw257",
+          "url": "https://doi.org/10.1093/nar/gkw257",
+          "kind": "external",
+          "detail": "HTTP 403"
+        }
+      ]
+    },
+    {
+      "slug": "profile-compound-polypharmacology",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/profile-compound-polypharmacology.html",
+      "passed": true,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 4,
+      "broken_links": [],
+      "blocked_links": [
+        {
+          "href": "https://doi.org/10.1093/nar/gky1075",
+          "url": "https://doi.org/10.1093/nar/gky1075",
+          "kind": "external",
+          "detail": "HTTP 403"
+        }
+      ]
+    },
+    {
+      "slug": "qc-single-cell-rna-seq",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/qc-single-cell-rna-seq.html",
+      "passed": true,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 3,
+      "broken_links": [],
+      "blocked_links": []
+    },
+    {
+      "slug": "rank-compound-library-by-predicted-affinity",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/rank-compound-library-by-predicted-affinity.html",
+      "passed": true,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 4,
+      "broken_links": [],
+      "blocked_links": [
+        {
+          "href": "https://doi.org/10.1101/2025.06.14.659707",
+          "url": "https://doi.org/10.1101/2025.06.14.659707",
+          "kind": "external",
+          "detail": "HTTP 403"
+        },
+        {
+          "href": "https://www.biorxiv.org/content/10.1101/2025.06.14.659707v1",
+          "url": "https://www.biorxiv.org/content/10.1101/2025.06.14.659707v1",
+          "kind": "external",
+          "detail": "HTTP 403"
+        }
+      ]
+    },
+    {
+      "slug": "register-longitudinal-medical-scans",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/register-longitudinal-medical-scans.html",
+      "passed": true,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 4,
+      "broken_links": [],
+      "blocked_links": []
+    },
+    {
+      "slug": "run-bulk-rnaseq-differential-expression",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/run-bulk-rnaseq-differential-expression.html",
+      "passed": false,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 3,
+      "broken_links": [
+        {
+          "href": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/pydeseq2/SKILL.md",
+          "url": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/pydeseq2/SKILL.md",
+          "kind": "external",
+          "detail": "HTTP 404"
+        }
+      ],
+      "blocked_links": []
+    },
+    {
+      "slug": "run-functional-enrichment-on-a-gene-list",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/run-functional-enrichment-on-a-gene-list.html",
+      "passed": false,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 12,
+      "broken_links": [
+        {
+          "href": "https://pachterlab.github.io/gget/en/enrichr.html",
+          "url": "https://pachterlab.github.io/gget/en/enrichr.html",
+          "kind": "external",
+          "detail": "HTTP 404"
+        },
+        {
+          "href": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/gget/SKILL.md",
+          "url": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/gget/SKILL.md",
+          "kind": "external",
+          "detail": "HTTP 404"
+        }
+      ],
+      "blocked_links": [
+        {
+          "href": "https://pubmed.ncbi.nlm.nih.gov/40721871/",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/40721871/",
+          "kind": "external",
+          "detail": "HTTP 403"
+        },
+        {
+          "href": "https://doi.org/10.1101/2024.11.11.621189",
+          "url": "https://doi.org/10.1101/2024.11.11.621189",
+          "kind": "external",
+          "detail": "HTTP 403"
+        }
+      ]
+    },
+    {
+      "slug": "run-gwas-on-case-control-genotypes",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/run-gwas-on-case-control-genotypes.html",
+      "passed": true,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 2,
+      "broken_links": [],
+      "blocked_links": [
+        {
+          "href": "https://doi.org/10.1186/s13742-015-0047-8",
+          "url": "https://doi.org/10.1186/s13742-015-0047-8",
+          "kind": "external",
+          "detail": "HTTP 403"
+        },
+        {
+          "href": "https://doi.org/10.1002/mpr.1608",
+          "url": "https://doi.org/10.1002/mpr.1608",
+          "kind": "external",
+          "detail": "HTTP 403"
+        }
+      ]
+    },
+    {
+      "slug": "scan-adverse-events-for-drug-safety-signal",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/scan-adverse-events-for-drug-safety-signal.html",
+      "passed": true,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 2,
+      "broken_links": [],
+      "blocked_links": []
+    },
+    {
+      "slug": "scan-antibody-glycosylation-sites",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/scan-antibody-glycosylation-sites.html",
+      "passed": true,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 4,
+      "broken_links": [],
+      "blocked_links": [
+        {
+          "href": "https://doi.org/10.1080/19420862.2026.2657099",
+          "url": "https://doi.org/10.1080/19420862.2026.2657099",
+          "kind": "external",
+          "detail": "HTTP 403"
+        },
+        {
+          "href": "https://doi.org/10.1002/bit.28616",
+          "url": "https://doi.org/10.1002/bit.28616",
+          "kind": "external",
+          "detail": "HTTP 403"
+        }
+      ]
+    },
+    {
+      "slug": "scan-drug-repurposing-candidates",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/scan-drug-repurposing-candidates.html",
+      "passed": true,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 7,
+      "broken_links": [],
+      "blocked_links": [
+        {
+          "href": "https://www.biorxiv.org/content/10.1101/2025.06.13.659527v1",
+          "url": "https://www.biorxiv.org/content/10.1101/2025.06.13.659527v1",
+          "kind": "external",
+          "detail": "HTTP 403"
+        },
+        {
+          "href": "https://doi.org/10.1101/2025.05.30.656746",
+          "url": "https://doi.org/10.1101/2025.05.30.656746",
+          "kind": "external",
+          "detail": "HTTP 403"
+        }
+      ]
+    },
+    {
+      "slug": "score-drug-combination-synergy",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/score-drug-combination-synergy.html",
+      "passed": true,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 3,
+      "broken_links": [],
+      "blocked_links": [
+        {
+          "href": "https://doi.org/10.1093/nar/gkac382",
+          "url": "https://doi.org/10.1093/nar/gkac382",
+          "kind": "external",
+          "detail": "HTTP 403"
+        }
+      ]
+    },
+    {
+      "slug": "score-protein-variants-with-esm",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/score-protein-variants-with-esm.html",
+      "passed": true,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 6,
+      "broken_links": [],
+      "blocked_links": [
+        {
+          "href": "https://www.biorxiv.org/content/10.1101/2021.07.09.450648v1.full",
+          "url": "https://www.biorxiv.org/content/10.1101/2021.07.09.450648v1.full",
+          "kind": "external",
+          "detail": "HTTP 403"
+        },
+        {
+          "href": "https://www.biorxiv.org/content/10.1101/2023.12.12.571273v1.full",
+          "url": "https://www.biorxiv.org/content/10.1101/2023.12.12.571273v1.full",
+          "kind": "external",
+          "detail": "HTTP 403"
+        },
+        {
+          "href": "https://doi.org/10.1101/2025.11.04.686550",
+          "url": "https://doi.org/10.1101/2025.11.04.686550",
+          "kind": "external",
+          "detail": "HTTP 403"
+        }
+      ]
+    },
+    {
+      "slug": "screen-genome-for-resistance-and-virulence-genes",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/screen-genome-for-resistance-and-virulence-genes.html",
+      "passed": true,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 6,
+      "broken_links": [],
+      "blocked_links": [
+        {
+          "href": "https://doi.org/10.1099/mgen.0.000531",
+          "url": "https://doi.org/10.1099/mgen.0.000531",
+          "kind": "external",
+          "detail": "HTTP 403"
+        },
+        {
+          "href": "https://doi.org/10.1093/nar/gkac920",
+          "url": "https://doi.org/10.1093/nar/gkac920",
+          "kind": "external",
+          "detail": "HTTP 403"
+        },
+        {
+          "href": "https://doi.org/10.1093/nar/gkab1107",
+          "url": "https://doi.org/10.1093/nar/gkab1107",
+          "kind": "external",
+          "detail": "HTTP 403"
+        }
+      ]
+    },
+    {
+      "slug": "screen-polypharmacy-for-drug-interactions",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/screen-polypharmacy-for-drug-interactions.html",
+      "passed": true,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 4,
+      "broken_links": [],
+      "blocked_links": [
+        {
+          "href": "https://doi.org/10.1093/nar/gkab880",
+          "url": "https://doi.org/10.1093/nar/gkab880",
+          "kind": "external",
+          "detail": "HTTP 403"
+        },
+        {
+          "href": "https://pubmed.ncbi.nlm.nih.gov/41425735/",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/41425735/",
+          "kind": "external",
+          "detail": "HTTP 403"
+        }
+      ]
+    },
+    {
+      "slug": "segment-and-quantify-cells-in-microscopy",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/segment-and-quantify-cells-in-microscopy.html",
+      "passed": true,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 4,
+      "broken_links": [],
+      "blocked_links": [
+        {
+          "href": "https://doi.org/10.1242/bio.060555",
+          "url": "https://doi.org/10.1242/bio.060555",
+          "kind": "external",
+          "detail": "HTTP 403"
+        }
+      ]
+    },
+    {
+      "slug": "segment-organ-or-tumor-in-medical-image",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/segment-organ-or-tumor-in-medical-image.html",
+      "passed": true,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 4,
+      "broken_links": [],
+      "blocked_links": []
+    },
+    {
+      "slug": "set-up-protein-md-simulation-in-gromacs",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/set-up-protein-md-simulation-in-gromacs.html",
+      "passed": true,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 8,
+      "broken_links": [],
+      "blocked_links": []
+    },
+    {
+      "slug": "sort-spikes-from-neuropixels-recording",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/sort-spikes-from-neuropixels-recording.html",
+      "passed": true,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 3,
+      "broken_links": [],
+      "blocked_links": [
+        {
+          "href": "https://doi.org/10.1101/2025.02.11.637754",
+          "url": "https://doi.org/10.1101/2025.02.11.637754",
+          "kind": "external",
+          "detail": "HTTP 403"
+        }
+      ]
+    },
+    {
+      "slug": "superpose-two-protein-structures",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/superpose-two-protein-structures.html",
+      "passed": true,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 4,
+      "broken_links": [],
+      "blocked_links": [
+        {
+          "href": "https://doi.org/10.1093/protein/11.9.739",
+          "url": "https://doi.org/10.1093/protein/11.9.739",
+          "kind": "external",
+          "detail": "HTTP 403"
+        }
+      ]
+    },
+    {
+      "slug": "tile-and-normalize-whole-slide-image",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/tile-and-normalize-whole-slide-image.html",
+      "passed": true,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 3,
+      "broken_links": [],
+      "blocked_links": []
+    },
+    {
+      "slug": "triage-alphafold-model-for-docking",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/triage-alphafold-model-for-docking.html",
+      "passed": true,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 7,
+      "broken_links": [],
+      "blocked_links": [
+        {
+          "href": "https://doi.org/10.1093/nar/gkab1061",
+          "url": "https://doi.org/10.1093/nar/gkab1061",
+          "kind": "external",
+          "detail": "HTTP 403"
+        },
+        {
+          "href": "https://doi.org/10.1093/nar/gkad1011",
+          "url": "https://doi.org/10.1093/nar/gkad1011",
+          "kind": "external",
+          "detail": "HTTP 403"
+        },
+        {
+          "href": "https://doi.org/10.1021/acs.jcim.3c00601",
+          "url": "https://doi.org/10.1021/acs.jcim.3c00601",
+          "kind": "external",
+          "detail": "HTTP 403"
+        }
+      ]
+    },
+    {
+      "slug": "triage-new-preprints",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/triage-new-preprints.html",
+      "passed": true,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 3,
+      "broken_links": [],
+      "blocked_links": []
+    },
+    {
+      "slug": "validate-a-drug-target-with-a-go-no-go-score",
+      "url": "https://scripps-ai-enablement.github.io/sci-ai-enabler/recipes/items/validate-a-drug-target-with-a-go-no-go-score.html",
+      "passed": true,
+      "fetch_ok": true,
+      "fetch_detail": "",
+      "missing_fields": [],
+      "links_checked": 5,
+      "broken_links": [],
+      "blocked_links": [
+        {
+          "href": "https://doi.org/10.1093/nar/gkac1046",
+          "url": "https://doi.org/10.1093/nar/gkac1046",
+          "kind": "external",
+          "detail": "HTTP 403"
+        }
+      ]
+    }
+  ]
+}

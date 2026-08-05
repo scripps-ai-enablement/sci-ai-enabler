@@ -1,49 +1,59 @@
 {
-  "run_date": "2026-07-22T18:25:28+00:00",
-  "model_id": "claude-opus-4-8",
-  "recipe": "glyco_variants (LOG/GOG glycosylation-impact classification)",
-  "input_variant_file": {
-    "path": "variants.csv",
-    "sha256": "5c088fc2a5975a000bb610e77972f5691d36bc9a8abfc00d3a4816dbd219d616"
-  },
-  "data_sources": {
-    "glygen": {
-      "role": "canonical protein, glycosites/sequons, tissue expression (Bgee)",
-      "data_version": "2.11.1",
-      "data_release_date": "2026-05-04",
-      "mcp_endpoint": "https://mcp.glygen.org/mcp",
-      "rest_api_base": "https://api.glygen.org",
-      "source_bcos": [
-        "https://data.glygen.org/GLY_001534",
-        "https://data.glygen.org/GLY_001537"
-      ]
-    },
-    "uniprot": {
-      "role": "signal-peptide length (mature->precursor offset for frame reconciliation)",
-      "rest_api_base": "https://rest.uniprot.org"
-    },
-    "biomcp": {
-      "role": "ClinVar significance + AlphaMissense pathogenicity join",
-      "version": "biomcp 0.8.25 (git a6694289, build 2026-07-08T18:13:32-04:00)",
-      "mcp_transport": "stdio (`biomcp mcp`) / CLI `biomcp get variant ... predictions`",
-      "federator": "MyVariant.info"
+  "run_date": "2026-07-22T19:03:33+00:00",
+  "model_id": "claude-opus-4-8[1m]",
+  "input_file": "/Users/eshav/Documents/sci-ai-enabler/variants.csv",
+  "input_sha256": "5c088fc2a5975a000bb610e77972f5691d36bc9a8abfc00d3a4816dbd219d616",
+  "glygen": {
+    "release_version": "2.11.1",
+    "rest_endpoint": "https://api.glygen.org",
+    "mcp_endpoint": "https://mcp.glygen.org/mcp",
+    "tools": [
+      "get_protein_summary",
+      "get_site_summary (per-site)",
+      "expression_tissue (Bgee/HPA)",
+      "expression_disease (BioXpress)"
+    ],
+    "source_bcos": {
+      "GLY_001534": "https://data.glygen.org/GLY_001534",
+      "GLY_001537": "https://data.glygen.org/GLY_001537"
     }
   },
-  "snapshots": {
-    "clinvar": {
-      "served_by": "MyVariant.info",
-      "version": "2025-05",
-      "myvariant_build_date": "2025-06-24T16:27:25.889841-07:00"
-    },
-    "alphamissense": {
-      "served_by": "MyVariant.info",
-      "via": "dbNSFP 4.8a",
-      "myvariant_build_date": "2025-06-24T16:27:25.889841-07:00",
-      "note": "requested through the BioMCP `predictions` (expanded) view; not present in the default getter view"
-    }
+  "biomcp": {
+    "version": "biomcp 0.8.25 (git a6694289, build 2026-07-08T18:13:32-04:00)",
+    "tools": [
+      "variant_searcher (search variant)",
+      "variant_getter (get variant)"
+    ],
+    "sections_requested": [
+      "clinvar",
+      "predictions"
+    ]
   },
-  "outputs": {
-    "candidates_csv": "glyco_candidates.csv",
-    "biocompute_object": "bco.json"
+  "clinvar": {
+    "source": "ClinVar via BioMCP/MyVariant.info",
+    "snapshot": "retrieved live on 2026-07-22T19:03:33+00:00 (MyVariant.info current release)"
+  },
+  "alphamissense": {
+    "source": "AlphaMissense (Cheng et al., Science 2023; GRCh38) via BioMCP/MyVariant.info",
+    "snapshot": "retrieved live on 2026-07-22T19:03:33+00:00"
+  },
+  "uniprot": {
+    "rest_endpoint": "https://rest.uniprot.org/uniprotkb",
+    "use": "signal-peptide length for frame math"
+  },
+  "environment": {
+    "python": "3.12.1",
+    "platform": "darwin",
+    "jsonschema": "4.22.0"
+  },
+  "ieee2791_schema": "https://w3id.org/ieee/ieee-2791-schema/2791object.json",
+  "bco": {
+    "file": "glyco_bco.json",
+    "ieee2791_validation": {
+      "valid": true,
+      "errors": [],
+      "schema": "https://w3id.org/ieee/ieee-2791-schema/2791object.json",
+      "validated_on": "2026-07-22T19:03:41+00:00"
+    }
   }
 }

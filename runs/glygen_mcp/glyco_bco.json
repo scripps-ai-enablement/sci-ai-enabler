@@ -1,0 +1,309 @@
+{
+  "object_id": "urn:glyco-variants:bco:5c088fc2a5975a00",
+  "spec_version": "https://w3id.org/ieee/ieee-2791-schema/2791object.json",
+  "etag": "91ad601b9b72902a918ddcd1d2643028c09673feecbada94b7d88f5bd8161447",
+  "provenance_domain": {
+    "name": "glyco-variant classification",
+    "version": "1.0.0",
+    "created": "2026-07-22T19:17:33+00:00",
+    "modified": "2026-07-22T19:17:33+00:00",
+    "license": "https://creativecommons.org/licenses/by/4.0/",
+    "contributors": [
+      {
+        "name": "glyco_variants.py",
+        "contribution": [
+          "createdWith"
+        ],
+        "affiliation": "sci-ai-enabler"
+      },
+      {
+        "name": "claude-opus-4-8[1m]",
+        "contribution": [
+          "authoredBy"
+        ],
+        "affiliation": "Anthropic Claude Code"
+      }
+    ]
+  },
+  "usability_domain": [
+    "Classify missense variants by their effect on protein N-/O-glycosylation (loss LOG, gain GOG, or none), after reconciling input residue numbering with GlyGen canonical numbering.",
+    "Prioritize glyco-impacting variants by AlphaMissense pathogenicity and ClinVar clinical significance for downstream review."
+  ],
+  "description_domain": {
+    "keywords": [
+      "glycosylation",
+      "N-X-S/T sequon",
+      "variant effect",
+      "GlyGen",
+      "ClinVar",
+      "AlphaMissense",
+      "numbering harmonization"
+    ],
+    "xref": [
+      {
+        "namespace": "uniprot",
+        "name": "UniProtKB",
+        "ids": [
+          "P01008",
+          "P38484"
+        ],
+        "access_time": "2026-07-22T19:17:33+00:00"
+      }
+    ],
+    "pipeline_steps": [
+      {
+        "step_number": 1,
+        "name": "Resolve GlyGen protein + glycosites",
+        "description": "GlyGen [mcp]: get_protein_summary (canonical AC), get_protein_sequence, get_protein_glycosylation_sites, and per-site get_site_summary; expression via GlyGen REST supplement.",
+        "input_list": [
+          {
+            "uri": "https://mcp.glygen.org/mcp"
+          }
+        ],
+        "output_list": [
+          {
+            "uri": "urn:glyco-variants:canonical_protein"
+          }
+        ]
+      },
+      {
+        "step_number": 2,
+        "name": "Harmonize numbering",
+        "description": "Reconcile input residue position to canonical frame by WT-residue match; require a unique frame or log as unmapped.",
+        "input_list": [
+          {
+            "uri": "https://rest.uniprot.org/uniprotkb/"
+          }
+        ],
+        "output_list": [
+          {
+            "uri": "urn:glyco-variants:canonical_position"
+          }
+        ]
+      },
+      {
+        "step_number": 3,
+        "name": "Classify LOG/GOG/none",
+        "description": "LOG if a known N-X-S/T sequon or annotated O-glycosite residue is removed; GOG if a new N-X-S/T sequon is created within +/-2; else none.",
+        "input_list": [
+          {
+            "uri": "urn:glyco-variants:canonical_position"
+          }
+        ],
+        "output_list": [
+          {
+            "uri": "urn:glyco-variants:class"
+          }
+        ]
+      },
+      {
+        "step_number": 4,
+        "name": "Join ClinVar + AlphaMissense via BioMCP",
+        "description": "variant search, then variant get with explicit clinvar + predictions sections (AlphaMissense is in predictions).",
+        "input_list": [
+          {
+            "uri": "https://biomcp.org/"
+          }
+        ],
+        "output_list": [
+          {
+            "uri": "urn:glyco-variants:clinical_annotation"
+          }
+        ]
+      },
+      {
+        "step_number": 5,
+        "name": "Expression sanity-check",
+        "description": "GlyGen Bgee/HPA tissue + BioXpress disease expression; missing tissue evidence demotes rank, never drops the candidate.",
+        "input_list": [
+          {
+            "uri": "https://api.glygen.org/protein/detail/"
+          }
+        ],
+        "output_list": [
+          {
+            "uri": "urn:glyco-variants:expression_flag"
+          }
+        ]
+      },
+      {
+        "step_number": 6,
+        "name": "Rank + emit candidates",
+        "description": "Rank LOG/GOG above none (unmapped last), demote missing-expression, then AlphaMissense then ClinVar; write glyco_candidates.csv.",
+        "input_list": [
+          {
+            "uri": "urn:glyco-variants:clinical_annotation"
+          }
+        ],
+        "output_list": [
+          {
+            "uri": "file://glyco_candidates.csv"
+          }
+        ]
+      }
+    ]
+  },
+  "execution_domain": {
+    "script": [
+      {
+        "uri": {
+          "uri": "file:///Users/eshav/Documents/sci-ai-enabler/glyco_variants.py"
+        }
+      }
+    ],
+    "script_driver": "python3",
+    "software_prerequisites": [
+      {
+        "name": "python",
+        "version": "3.12.1",
+        "uri": {
+          "uri": "https://www.python.org/"
+        }
+      },
+      {
+        "name": "biomcp-python",
+        "version": "biomcp 0.8.25 (git a6694289, build 2026-07-08T18:13:32-04:00)",
+        "uri": {
+          "uri": "https://pypi.org/project/biomcp-python/"
+        }
+      },
+      {
+        "name": "mcp",
+        "version": "1.28.1",
+        "uri": {
+          "uri": "https://pypi.org/project/mcp/"
+        }
+      },
+      {
+        "name": "jsonschema",
+        "version": "4.22.0",
+        "uri": {
+          "uri": "https://pypi.org/project/jsonschema/"
+        }
+      }
+    ],
+    "external_data_endpoints": [
+      {
+        "name": "GlyGen MCP endpoint",
+        "url": "https://mcp.glygen.org/mcp"
+      },
+      {
+        "name": "GlyGen REST API (expression supplement)",
+        "url": "https://api.glygen.org"
+      },
+      {
+        "name": "UniProt REST API",
+        "url": "https://rest.uniprot.org/uniprotkb"
+      },
+      {
+        "name": "BioMCP (ClinVar/AlphaMissense via MyVariant.info)",
+        "url": "https://biomcp.org/"
+      }
+    ],
+    "environment_variables": {
+      "MODEL_ID": "claude-opus-4-8[1m]"
+    }
+  },
+  "parametric_domain": [
+    {
+      "param": "sequon_rule",
+      "value": "N-X-S/T, X != P",
+      "step": "3"
+    },
+    {
+      "param": "gog_window",
+      "value": "+/-2 residues around mutation",
+      "step": "3"
+    },
+    {
+      "param": "frame_candidates",
+      "value": "offset 0 (canonical); offset +signal_peptide (mature)",
+      "step": "2"
+    },
+    {
+      "param": "frame_acceptance",
+      "value": "exactly one WT-matching canonical frame",
+      "step": "2"
+    },
+    {
+      "param": "alphamissense_section",
+      "value": "predictions (requested explicitly)",
+      "step": "4"
+    }
+  ],
+  "io_domain": {
+    "input_subdomain": [
+      {
+        "uri": {
+          "filename": "variants.csv",
+          "uri": "file:///Users/eshav/Documents/sci-ai-enabler/variants.csv",
+          "sha1_checksum": "7d3389d69c97c1b23a35f0542b7313a009c6a524",
+          "access_time": "2026-07-22T19:17:33+00:00"
+        }
+      },
+      {
+        "uri": {
+          "filename": "GLY_001534",
+          "uri": "https://data.glygen.org/GLY_001534",
+          "access_time": "2026-07-22T19:17:33+00:00"
+        }
+      },
+      {
+        "uri": {
+          "filename": "GLY_001537",
+          "uri": "https://data.glygen.org/GLY_001537",
+          "access_time": "2026-07-22T19:17:33+00:00"
+        }
+      },
+      {
+        "uri": {
+          "filename": "GlyGen [mcp] protein summary/sequence/sites",
+          "uri": "https://mcp.glygen.org/mcp",
+          "access_time": "2026-07-22T19:17:33+00:00"
+        }
+      },
+      {
+        "uri": {
+          "filename": "GlyGen expression (REST supplement)",
+          "uri": "https://api.glygen.org/protein/detail/",
+          "access_time": "2026-07-22T19:17:33+00:00"
+        }
+      },
+      {
+        "uri": {
+          "filename": "BioMCP variant search + get (ClinVar/AlphaMissense)",
+          "uri": "https://biomcp.org/",
+          "access_time": "2026-07-22T19:17:33+00:00"
+        }
+      }
+    ],
+    "output_subdomain": [
+      {
+        "mediatype": "text/csv",
+        "uri": {
+          "filename": "glyco_candidates.csv",
+          "uri": "file://glyco_candidates.csv",
+          "access_time": "2026-07-22T19:17:33+00:00"
+        }
+      },
+      {
+        "mediatype": "application/json",
+        "uri": {
+          "filename": "provenance.json",
+          "uri": "file://provenance.json",
+          "access_time": "2026-07-22T19:17:33+00:00"
+        }
+      }
+    ]
+  },
+  "error_domain": {
+    "empirical_error": {
+      "clinvar_alphamissense_source": "Values are passed through verbatim from BioMCP (MyVariant.info); no local re-computation. 'not_found' means no ClinVar/gnomAD record for the harmonized change."
+    },
+    "algorithmic_error": {
+      "scope_missense_only": "Only single-residue missense substitutions are classified; indels, frameshifts, splice and non-coding variants are out of scope.",
+      "unmapped_guard": "Variants whose WT residue matches zero or >1 candidate numbering frames are logged as 'unmapped' and NOT classified, to avoid assigning a glyco effect under the wrong frame.",
+      "sequon_annotation_basis": "LOG relies on GlyGen-annotated sites (reported/predicted); novel unannotated sequons are handled via sequence-level N-X-S/T checks."
+    }
+  }
+}

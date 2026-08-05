@@ -1,0 +1,13 @@
+GlyGen release 2.11.1 | BioMCP biomcp 0.8.25 (git a6694289, build 2026-07-08T18:13:32-04:00)
+  P01008 N135S -> SERPINC1 N167S [mature(offset=+32)] class=LOG clinvar=not_provided AM=0.1171 expr=expressed
+  P38484 T168N -> IFNGR2 T168N [canonical(offset=0)] class=GOG clinvar=Pathogenic AM=0.0855 expr=expressed
+  P01008 P305H -> SERPINC1 P305H [canonical(offset=0)] class=none clinvar=Likely benign AM=0.4503 expr=expressed
+
+BCO IEEE-2791 validation: PASS
+
+Expression sanity-check (GlyGen 2.11.1, Bgee/HPA + BioXpress; snapshot = GlyGen release):
+   P01008 SERPINC1: expressed — tissue[Bgee]: Liver=HIGH, Adult mammalian kidney=MEDIUM, Uterus=MEDIUM | disease[BioXpress]: Prostate cancer [DO disease name] (up); Urinary bladder cancer [DO disease name] (up); Breast cancer [DO disease name] (up)
+   P38484 IFNGR2: expressed — tissue[Bgee]: Adult mammalian kidney=HIGH, Oral cavity=HIGH, Stomach=HIGH | disease[BioXpress]: Prostate cancer [DO disease name] (up); Urinary bladder cancer [DO disease name] (up); Lung cancer [DO disease name] (up)
+   P01008 SERPINC1: expressed — tissue[Bgee]: Liver=HIGH, Adult mammalian kidney=MEDIUM, Uterus=MEDIUM | disease[BioXpress]: Prostate cancer [DO disease name] (up); Urinary bladder cancer [DO disease name] (up); Breast cancer [DO disease name] (up)
+
+Wrote: ./glyco_candidates.csv, provenance.json, requirements.txt, glyco_bco.json

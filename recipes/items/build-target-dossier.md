@@ -9,7 +9,7 @@ evidence_level: Proposed
 complexity: Multi-tool harness
 availability: Fully open
 compute_requirements: Laptop
-last_verified: 2026-06-14
+last_verified: 2026-07-08
 summary: Combine the Open Targets plugin, UniProt MCP, AlphaFold MCP, and the DepMap skill to produce a one-page dossier on a candidate gene — disease evidence, protein annotation, predicted structure, and cancer-cell-line essentiality.
 ---
 
@@ -102,7 +102,7 @@ Proposed. No published end-to-end benchmark of this exact four-component assembl
 - [Open Targets Platform MCP (official blog post)](https://blog.opentargets.org/official-open-targets-mcp/) — published 2026-04 release 2026.03.1; verified 2026-05-21 (this run).
 - [`Augmented-Nature/UniProt-MCP-Server`](https://github.com/Augmented-Nature/UniProt-MCP-Server) — verified 2026-05-21 (this run).
 - [`Augmented-Nature/AlphaFold-MCP-Server`](https://github.com/Augmented-Nature/AlphaFold-MCP-Server) — verified 2026-05-21 (this run).
-- [DepMap skill (`SKILL.md`)](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/depmap/SKILL.md) — last updated 2025–2026; verified 2026-05-21 (this run).
+- [DepMap skill (`SKILL.md`)](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/depmap/SKILL.md) — last updated 2025–2026; verified 2026-07-08 (this run).
 - [Huang et al., "Biomni: A General-Purpose Biomedical AI Agent," *bioRxiv*](https://doi.org/10.1101/2025.05.30.656746) — published 2025-05; closest analogous benchmark.
 
 ---

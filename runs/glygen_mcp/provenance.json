@@ -1,0 +1,75 @@
+{
+  "run_date": "2026-07-22T19:17:33+00:00",
+  "model_id": "claude-opus-4-8[1m]",
+  "input_file": "/Users/eshav/Documents/sci-ai-enabler/variants.csv",
+  "input_sha256": "5c088fc2a5975a000bb610e77972f5691d36bc9a8abfc00d3a4816dbd219d616",
+  "glygen": {
+    "backend": "mcp",
+    "release_version": "2.11.1",
+    "release_info": [
+      {
+        "component": "data",
+        "release_date": "2026-05-04 23:11:19 EDT-0400",
+        "version": "2.11.1"
+      },
+      {
+        "component": "api",
+        "release_date": "2026-05-04 23:11:06 EDT-0400",
+        "version": "2.11"
+      }
+    ],
+    "mcp_endpoint": "https://mcp.glygen.org/mcp",
+    "rest_endpoint": "https://api.glygen.org",
+    "mcp_tools": [
+      "get_release_info",
+      "get_protein_summary",
+      "get_protein_sequence",
+      "get_protein_glycosylation_sites",
+      "get_site_summary"
+    ],
+    "expression_source": "GlyGen REST /protein/detail (expression_tissue=Bgee/HPA, expression_disease=BioXpress) \u2014 GlyGen exposes no expression MCP tool",
+    "source_bcos": {
+      "GLY_001534": "https://data.glygen.org/GLY_001534",
+      "GLY_001537": "https://data.glygen.org/GLY_001537"
+    }
+  },
+  "biomcp": {
+    "version": "biomcp 0.8.25 (git a6694289, build 2026-07-08T18:13:32-04:00)",
+    "tools": [
+      "variant_searcher (search variant)",
+      "variant_getter (get variant)"
+    ],
+    "sections_requested": [
+      "clinvar",
+      "predictions"
+    ]
+  },
+  "clinvar": {
+    "source": "ClinVar via BioMCP/MyVariant.info",
+    "snapshot": "retrieved live on 2026-07-22T19:17:33+00:00 (MyVariant.info current release)"
+  },
+  "alphamissense": {
+    "source": "AlphaMissense (Cheng et al., Science 2023; GRCh38) via BioMCP/MyVariant.info",
+    "snapshot": "retrieved live on 2026-07-22T19:17:33+00:00"
+  },
+  "uniprot": {
+    "rest_endpoint": "https://rest.uniprot.org/uniprotkb",
+    "use": "signal-peptide length for frame math"
+  },
+  "environment": {
+    "python": "3.12.1",
+    "platform": "darwin",
+    "jsonschema": "4.22.0",
+    "mcp": "1.28.1"
+  },
+  "ieee2791_schema": "https://w3id.org/ieee/ieee-2791-schema/2791object.json",
+  "bco": {
+    "file": "glyco_bco.json",
+    "ieee2791_validation": {
+      "valid": true,
+      "errors": [],
+      "schema": "https://w3id.org/ieee/ieee-2791-schema/2791object.json",
+      "validated_on": "2026-07-22T19:17:53+00:00"
+    }
+  }
+}

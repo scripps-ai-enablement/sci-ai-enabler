@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -s \"https://api.glygen.org/protein/detail/P01008-1/\")",
+      "Bash(python3 -c ' *)",
+      "Bash(curl -s \"https://rest.uniprot.org/uniprotkb/P01008.json\")",
+      "Bash(curl -s \"https://rest.ensembl.org/vep/human/hgvs/NP_005525.1:p.Thr168Asn?content-type=application/json&AlphaMissense=1\")",
+      "Bash(curl -s \"https://rest.ensembl.org/vep/human/hgvs/NP_000479.1:p.Pro305His?content-type=application/json&AlphaMissense=1\")",
+      "Bash(curl -s \"https://rest.uniprot.org/uniprotkb/P38484.json\")",
+      "Bash(echo \"exit=$?\")",
+      "Bash(python3 *)"
+    ]
+  }
+}

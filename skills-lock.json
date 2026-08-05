@@ -1,0 +1,905 @@
+{
+  "version": 1,
+  "skills": {
+    "create-tooluniverse-skill": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/create-tooluniverse-skill/SKILL.md",
+      "computedHash": "a5622d9d2f1e20e75c62b27e07b6d0c50ffeb4ebc470a0c18e38e63b618a1d60"
+    },
+    "devtu-auto-discover-apis": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/devtu-auto-discover-apis/SKILL.md",
+      "computedHash": "c55f2852184d427317d2d1dfaf4cb85327c2fe376d1a3c57b8efc7a47dd9ce3f"
+    },
+    "devtu-benchmark-harness": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/devtu-benchmark-harness/SKILL.md",
+      "computedHash": "acc58677d08756ea2b2a3e414f3f30ba17cde93ab19e0f48988ce0ba15466370"
+    },
+    "devtu-code-optimization": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/devtu-code-optimization/SKILL.md",
+      "computedHash": "a7610120f4ec69b0d878f8df864b242e3556901c97b911a89ce71d1e46e04972"
+    },
+    "devtu-create-tool": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/devtu-create-tool/SKILL.md",
+      "computedHash": "0daef08f54db67100637c4ef2717d1e0092826f61f385f8d5609da086177774d"
+    },
+    "devtu-docs-quality": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/devtu-docs-quality/SKILL.md",
+      "computedHash": "465d0bde1fbcd152a9056392102114dd1e85bb91a39fd65f15bf7324b600ed29"
+    },
+    "devtu-fix-tool": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/devtu-fix-tool/SKILL.md",
+      "computedHash": "5d44e34e95d9aa037fe8d9fdf4664ba7f2f627c3cc4f0655bb0c772c696ea95f"
+    },
+    "devtu-github": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/devtu-github/SKILL.md",
+      "computedHash": "232bfedcfce00782468090ee4af559406265635b8772500021dc955e97cb526a"
+    },
+    "devtu-optimize-descriptions": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/devtu-optimize-descriptions/SKILL.md",
+      "computedHash": "a40fc6a2fad591869dd6eb4473de98b8a4d6cddf3ebf7eaaacd3ce525f7190ba"
+    },
+    "devtu-optimize-skills": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/devtu-optimize-skills/SKILL.md",
+      "computedHash": "c3f485206fb79162996b8997104de80197988bea4ba30c435565daefce5717c5"
+    },
+    "devtu-self-evolve": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/devtu-self-evolve/SKILL.md",
+      "computedHash": "b52b0ed16fb03a150664dd2f63295757e3b27c437aa11993ee27aad0879a9c5c"
+    },
+    "setup-tooluniverse": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/setup-tooluniverse/SKILL.md",
+      "computedHash": "114657f4fb8c4d4e04a68319d2d663d88b59d3f3a3fbfc5935f2d3860cbbb6e4"
+    },
+    "tooluniverse": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse/SKILL.md",
+      "computedHash": "6940d12719d1edb42049cf127801fb02c91074df21557ec3f7c0a34ef0186809"
+    },
+    "tooluniverse-acmg-variant-classification": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-acmg-variant-classification/SKILL.md",
+      "computedHash": "b734ed8b48f5c5c476d7d50660de1145f7d2bb8af42bd95630c768d04e75cbd0"
+    },
+    "tooluniverse-admet-prediction": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-admet-prediction/SKILL.md",
+      "computedHash": "1d30f591de2a088a5d06ee499b89172853489f43398a5e2ba3ff8ba123e366f9"
+    },
+    "tooluniverse-adverse-event-detection": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-adverse-event-detection/SKILL.md",
+      "computedHash": "8c417697b6a319db7309581e408dd1da8e55c76ff24f4c632d4d03ddd869d895"
+    },
+    "tooluniverse-adverse-outcome-pathway": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-adverse-outcome-pathway/SKILL.md",
+      "computedHash": "7db6d476025da5da895b9abc9eacb83f59ebf9fd55a037e180a6e2893e40c6c3"
+    },
+    "tooluniverse-aging-senescence": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-aging-senescence/SKILL.md",
+      "computedHash": "979f5cb98b7dcf6fd874fe89f39bb9250e28b9d21019f1dbf1b741d06caba315"
+    },
+    "tooluniverse-antibody-engineering": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-antibody-engineering/SKILL.md",
+      "computedHash": "cf4628f24d64af0555ef50ed605ba54f28eebc4524f859a34770f9f0b69fbd58"
+    },
+    "tooluniverse-antigravity-plugin": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-antigravity-plugin/SKILL.md",
+      "computedHash": "5e75fbe0d26e3afb6c1972f8255ed6dbb48203b9890110ad881e51c3da9f2a50"
+    },
+    "tooluniverse-binder-discovery": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-binder-discovery/SKILL.md",
+      "computedHash": "4c301134eea9c049c59ffdad1a22b13979d03218ec16c3c160215dd7a4f05bfa"
+    },
+    "tooluniverse-biomedical-fact-lookup": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-biomedical-fact-lookup/SKILL.md",
+      "computedHash": "3a16f63ab07595994f579339d8854289180d83ec11df47e381a0899a36999e34"
+    },
+    "tooluniverse-cancer-classification": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-cancer-classification/SKILL.md",
+      "computedHash": "18840a54eda620578f05a431c4a651d4662e21ab39afbcaca040910ae51c6b76"
+    },
+    "tooluniverse-cancer-genomics-tcga": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-cancer-genomics-tcga/SKILL.md",
+      "computedHash": "9afd7cc75ee1cf36a5b339045d57f3268a18ac4a6826e57af3f7fe10e5ef5490"
+    },
+    "tooluniverse-cancer-variant-interpretation": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-cancer-variant-interpretation/SKILL.md",
+      "computedHash": "81c73fa7629479c7fc2207c30a6da0934fec6f6acb39ba15f2dd5baeb9c28415"
+    },
+    "tooluniverse-cell-line-profiling": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-cell-line-profiling/SKILL.md",
+      "computedHash": "253bee78fbacd913bc88c85a51e0466f4b53f13382fea9f3f0a4163409558686"
+    },
+    "tooluniverse-chemical-compound-retrieval": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-chemical-compound-retrieval/SKILL.md",
+      "computedHash": "105b820425ea8c5d2c32ea81b9b965b3544c07a46ab53e9dae82b45b7d210d4b"
+    },
+    "tooluniverse-chemical-safety": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-chemical-safety/SKILL.md",
+      "computedHash": "26fe12cc2b2d77e63b5e4ae1fae6d00f5fd746dcff126e328588d4821dab02e9"
+    },
+    "tooluniverse-chemical-sourcing": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-chemical-sourcing/SKILL.md",
+      "computedHash": "29e30d3fb850fbf51e8d10b971394eea5e85d439e22a7ec6c7024b8bc2672051"
+    },
+    "tooluniverse-claude-code-plugin": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-claude-code-plugin/SKILL.md",
+      "computedHash": "b074c3fd01798fbc6b113d883d153240a5e685b23ad6914d261f76d4f2629e49"
+    },
+    "tooluniverse-clinical-data-integration": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-clinical-data-integration/SKILL.md",
+      "computedHash": "ca5dc3aca12b5b8eaae35e52720d2071d3451addb193f4689f7ea369aaf09c35"
+    },
+    "tooluniverse-clinical-guidelines": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-clinical-guidelines/SKILL.md",
+      "computedHash": "c4547ff7b3539c44e2d2c97b9aab639419fd20b442c554dcce1f9da26c726889"
+    },
+    "tooluniverse-clinical-risk-scoring": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-clinical-risk-scoring/SKILL.md",
+      "computedHash": "7cf5278fc23197c1ae8d2b65efac0b69768089d7d10b9f6a196bd2723effc5b5"
+    },
+    "tooluniverse-clinical-trial-design": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-clinical-trial-design/SKILL.md",
+      "computedHash": "86166b6abbb8272797f380b931fff8425343acf5f90aff75a7bf176f95a7a668"
+    },
+    "tooluniverse-clinical-trial-matching": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-clinical-trial-matching/SKILL.md",
+      "computedHash": "bb964af4885b74c46905d12776e950258598ae0829951f01210bad4282e5686b"
+    },
+    "tooluniverse-codex-plugin": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-codex-plugin/SKILL.md",
+      "computedHash": "05d46f4a2be0d163b0db0bea3c099026e69d738fb9e36ba41bc4126df494ff12"
+    },
+    "tooluniverse-comparative-genomics": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-comparative-genomics/SKILL.md",
+      "computedHash": "26e9aae29f5eda9084b283f27c0fff71ad4c3b3075e9613815a1cb2cf447490f"
+    },
+    "tooluniverse-computational-biophysics": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-computational-biophysics/SKILL.md",
+      "computedHash": "d3bb9fbef92047b047a1233ec175c0d09367ff0192c97bd12c11ba3d737a4a43"
+    },
+    "tooluniverse-crispr-screen-analysis": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-crispr-screen-analysis/SKILL.md",
+      "computedHash": "2a654f130a1e7c05a3c6f9ee8b975b1b2456879a228bc63a685b023eab9908b0"
+    },
+    "tooluniverse-cs-setup": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-cs-setup/SKILL.md",
+      "computedHash": "994c45e381ef1e4cef6479c43b3accff7a5754537e9c29859a6e84a8b279bf7a"
+    },
+    "tooluniverse-custom-tool": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-custom-tool/SKILL.md",
+      "computedHash": "a64fc7d92683850092adbb6a0acee0eff4a654cf853299c4ca4c8e6f1b110528"
+    },
+    "tooluniverse-data-integration-analysis": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-data-integration-analysis/SKILL.md",
+      "computedHash": "f18ed973fe0776f065baebcf48c315065076f7b853dda7b5bbc14ae6ff7c904f"
+    },
+    "tooluniverse-data-wrangling": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-data-wrangling/SKILL.md",
+      "computedHash": "b988bd2741d7b9ae6022fa4e1bf034d6a31d828f61e62069a0bf5458fb83e2de"
+    },
+    "tooluniverse-dataset-discovery": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-dataset-discovery/SKILL.md",
+      "computedHash": "3c882a53a76a78a09c33a8065f091257dfa3ae6a0e5f4e1fc41b671d19f647fe"
+    },
+    "tooluniverse-diagnostic-test-evaluation": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-diagnostic-test-evaluation/SKILL.md",
+      "computedHash": "4c2370be2f7c21ea4a3fbcca277b094f9cb1650eb1dd4c16d508879c1e7a2d28"
+    },
+    "tooluniverse-disease-research": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-disease-research/SKILL.md",
+      "computedHash": "3f7e005dfc8d87096eaaee96c88d58df97ae8f65c64ab6c2c324941b62574f9a"
+    },
+    "tooluniverse-dose-response": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-dose-response/SKILL.md",
+      "computedHash": "1b424c040933b699e46fbb66e7c95e3a9d058f0e5f000bc1614d3ad1e0456588"
+    },
+    "tooluniverse-drug-drug-interaction": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-drug-drug-interaction/SKILL.md",
+      "computedHash": "8f898685a5c87b555b4a46f95b14426b1db2426fa2abae00950ef34be976e751"
+    },
+    "tooluniverse-drug-mechanism-research": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-drug-mechanism-research/SKILL.md",
+      "computedHash": "788bba5bf9c689a056d56e4b8eb7645d1881cadb385e4eca1a37b37d253fbd6f"
+    },
+    "tooluniverse-drug-regulatory": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-drug-regulatory/SKILL.md",
+      "computedHash": "50efab796bf5160b92577ae4fa3702f51195c55583a2b5e08a81111699a07844"
+    },
+    "tooluniverse-drug-repurposing": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-drug-repurposing/SKILL.md",
+      "computedHash": "90e2e378e90bda84e23ab4b5a7d4b3f7c12abb394354e11c842f848bdc4eeec4"
+    },
+    "tooluniverse-drug-research": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-drug-research/SKILL.md",
+      "computedHash": "c722f2359e7b1bea558ee63f2369d001e2c743a7849b3704f14804556a5aa8ef"
+    },
+    "tooluniverse-drug-synergy": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-drug-synergy/SKILL.md",
+      "computedHash": "95eabc8db3a3acf6fcd5fb1314bfa57841f0fbe60900eea742fc74aefb78622e"
+    },
+    "tooluniverse-drug-target-validation": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-drug-target-validation/SKILL.md",
+      "computedHash": "47b55b745ef483498fab3db7384f5057dda111913950a963a94dec291b8ea14a"
+    },
+    "tooluniverse-ecology-biodiversity": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-ecology-biodiversity/SKILL.md",
+      "computedHash": "3f97dfba735450a4619da45383e633a9c871b9c8249b435fe4a79991833a3de8"
+    },
+    "tooluniverse-electron-microscopy": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-electron-microscopy/SKILL.md",
+      "computedHash": "17cd2b93069c702f08f89a478c9ba7fc37a25c2aed96dfb8c48c436f7bea12ea"
+    },
+    "tooluniverse-enzyme-kinetics": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-enzyme-kinetics/SKILL.md",
+      "computedHash": "5aa05a6d6cb976d947b5075e3bd55fb6e6bfeb266af79752d2c2445c4829741d"
+    },
+    "tooluniverse-epidemiological-analysis": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-epidemiological-analysis/SKILL.md",
+      "computedHash": "533c529b4d3c165bb0025657a1aa550c94d0e29dc7cb9b1037f7b057cdb90b91"
+    },
+    "tooluniverse-epigenomics": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-epigenomics/SKILL.md",
+      "computedHash": "0caaa6414f4eeaa88ae794104f24d515edbd010dec12ba876f582a057f407c5b"
+    },
+    "tooluniverse-epigenomics-chromatin": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-epigenomics-chromatin/SKILL.md",
+      "computedHash": "4ce7688d4cdbb93a0edb5327e84a88c5266725d6e2fd700d6756cdda0592c680"
+    },
+    "tooluniverse-expression-data-retrieval": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-expression-data-retrieval/SKILL.md",
+      "computedHash": "2f767713ea3af128bd1cd6ee9f6bb680f0dde4cfa57f713ca2695aa14c91872f"
+    },
+    "tooluniverse-functional-genomics-screens": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-functional-genomics-screens/SKILL.md",
+      "computedHash": "35df442dbfb7f6892e38d10e7a032c7d93c2061a3b26379eed35d87a84a13a15"
+    },
+    "tooluniverse-gene-disease-association": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-gene-disease-association/SKILL.md",
+      "computedHash": "1cb77ea48783b297739f750f4a368510fb039e49242bb2a71c1deb70e507c16b"
+    },
+    "tooluniverse-gene-enrichment": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-gene-enrichment/SKILL.md",
+      "computedHash": "4f0cfe7571967dc1a0fab717b7941293ff45ab1a3bf78cfaade40d2d7da490e7"
+    },
+    "tooluniverse-gene-regulatory-networks": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-gene-regulatory-networks/SKILL.md",
+      "computedHash": "1191ee5fb6041690b3917b02ce4b8e713d0876412e6ae7557a1329847c07d7cd"
+    },
+    "tooluniverse-gpcr-structural-pharmacology": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-gpcr-structural-pharmacology/SKILL.md",
+      "computedHash": "8b1bcd81c38694f4c4e46929c55ad8070b6e3934b04859a2e3d4a8d1d1f71671"
+    },
+    "tooluniverse-gwas-drug-discovery": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-gwas-drug-discovery/SKILL.md",
+      "computedHash": "f61b04e1edffed2a56db332305063aff73e8949b7362af61a5975af3a5036b64"
+    },
+    "tooluniverse-gwas-finemapping": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-gwas-finemapping/SKILL.md",
+      "computedHash": "03ef15270527c1760518f04a21678534142a2985b8ffb9eca88fb9e026707a3c"
+    },
+    "tooluniverse-gwas-snp-interpretation": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-gwas-snp-interpretation/SKILL.md",
+      "computedHash": "688ec47b9db3c39e5a37cd37a06a2b8834b8f751ef522641cc17da8ed1516bbe"
+    },
+    "tooluniverse-gwas-study-explorer": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-gwas-study-explorer/SKILL.md",
+      "computedHash": "83acc35bbf253bd78276092c11c96804c696abd369916ad8c646528b84ab6de6"
+    },
+    "tooluniverse-gwas-trait-to-gene": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-gwas-trait-to-gene/SKILL.md",
+      "computedHash": "cbfe284616e9cf8485a920a2923da99d0723f2106ef7cf96b3c2195a3c729aad"
+    },
+    "tooluniverse-hla-immunogenomics": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-hla-immunogenomics/SKILL.md",
+      "computedHash": "b3605b486bafcc276a592a83d57d5213fc86adb7c63f573cb4750cf95f34fb20"
+    },
+    "tooluniverse-image-analysis": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-image-analysis/SKILL.md",
+      "computedHash": "0bf377c72b7fec881f2f467031a671d34f51ae5b9305a523b675f93ba43d2006"
+    },
+    "tooluniverse-immune-repertoire-analysis": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-immune-repertoire-analysis/SKILL.md",
+      "computedHash": "b6d4d2cea331c623039f59138bcae98d980a5ccf61ceac9f0e9bf3a43f30a77f"
+    },
+    "tooluniverse-immunology": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-immunology/SKILL.md",
+      "computedHash": "a552915dee368e94bb9e09d48682d3bf725be5cc3b701488578fe5a4edca6b97"
+    },
+    "tooluniverse-immunotherapy-response-prediction": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-immunotherapy-response-prediction/SKILL.md",
+      "computedHash": "031bf1484fe7dca3ba2a94df7580b8b54bef6bc3e7bfc9453c33a1073b47e122"
+    },
+    "tooluniverse-infectious-disease": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-infectious-disease/SKILL.md",
+      "computedHash": "5ed273691bb55f7b2a6c86f788fbf1d00b91a6044529cad8f8d493107ce5117b"
+    },
+    "tooluniverse-inorganic-physical-chemistry": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-inorganic-physical-chemistry/SKILL.md",
+      "computedHash": "9c09e6504ef3f59c41116a9cdecf501d49f960e042d3874526b31833edf5af38"
+    },
+    "tooluniverse-install-skills": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-install-skills/SKILL.md",
+      "computedHash": "c1e99a4d0588e9ee7b1f0b3f5d33e8b197e36d8a4a8c3b61499f50d23743d95d"
+    },
+    "tooluniverse-kegg-disease-drug": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-kegg-disease-drug/SKILL.md",
+      "computedHash": "feef5572cb96042ca01904bd5f8675ee7eb0240c47d968f73c7f44971e158965"
+    },
+    "tooluniverse-lipidomics": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-lipidomics/SKILL.md",
+      "computedHash": "169fad8675bd5f18bad01ab770fbbcc561c25c4229f7f473e7a31c75980dc6bf"
+    },
+    "tooluniverse-literature-deep-research": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-literature-deep-research/SKILL.md",
+      "computedHash": "6c63d1ad3c6df935f2bc462fa50b4d78cb226e1a697018199f46288d3542074e"
+    },
+    "tooluniverse-mendelian-randomization": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-mendelian-randomization/SKILL.md",
+      "computedHash": "1c9527bd126d2fb9f582d58c79541bda1b7453dd70065bf6a449b989fc20ecb4"
+    },
+    "tooluniverse-meta-analysis": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-meta-analysis/SKILL.md",
+      "computedHash": "a4e6d9489f59cbc2a2d33a1fa49e05d7a7856be6e86d1729ab5915de299ca46e"
+    },
+    "tooluniverse-metabolomics": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-metabolomics/SKILL.md",
+      "computedHash": "947689382e8fb05782648b67c747066ec98cb03d7abcc766bc373ddeedcdd267"
+    },
+    "tooluniverse-metabolomics-analysis": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-metabolomics-analysis/SKILL.md",
+      "computedHash": "8ab9c2d9c7ee6a6ae6f574e89bd8678e2c3433cb1c3dc41e9afca5c26039ff72"
+    },
+    "tooluniverse-metabolomics-pathway": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-metabolomics-pathway/SKILL.md",
+      "computedHash": "a1e97d6a1543ec48090a68f31c0ef50cc9bd48e5ef93c4ac212f2711c972416d"
+    },
+    "tooluniverse-metagenomics-analysis": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-metagenomics-analysis/SKILL.md",
+      "computedHash": "69efdb1c54b8f6f18e1e9e63dc359bcb409a1b85854cb9110d47e9d606d2c930"
+    },
+    "tooluniverse-microbial-genome-characterization": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-microbial-genome-characterization/SKILL.md",
+      "computedHash": "48655cc2812c3f485c67d7c73c3e2584cfce0652c861644f31b89d9055b8b9c2"
+    },
+    "tooluniverse-microbiome-research": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-microbiome-research/SKILL.md",
+      "computedHash": "60d2e0e8789cc4632afde5c78c580d00098febbd670e132588748fb555e6e70b"
+    },
+    "tooluniverse-model-organism-genetics": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-model-organism-genetics/SKILL.md",
+      "computedHash": "9fae9c5224391cb849d7fac4b3db9426e43dc63e8b2924a4810d1dd638f6d505"
+    },
+    "tooluniverse-molecular-cloning": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-molecular-cloning/SKILL.md",
+      "computedHash": "d8ddefcea718ebc3aae7eb4b5d8a89eab40689e49dec2b6e85b11114bfeadd3a"
+    },
+    "tooluniverse-multi-omics-integration": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-multi-omics-integration/SKILL.md",
+      "computedHash": "d9c22c153ac8d2b1abc8d8715f212624804e5bbd26704bbfe102b6ea3e78e216"
+    },
+    "tooluniverse-multiomic-disease-characterization": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-multiomic-disease-characterization/SKILL.md",
+      "computedHash": "7af85b68c64db673d4163081ad601d7cca36888660b0899ed75d09d547ce9348"
+    },
+    "tooluniverse-natural-product-dereplication": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-natural-product-dereplication/SKILL.md",
+      "computedHash": "9ae609633f54d2764034ced7de3f78930786a1c82e8625c4d9e171354832ef7a"
+    },
+    "tooluniverse-network-pharmacology": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-network-pharmacology/SKILL.md",
+      "computedHash": "254d10c4fe963f16b382a82cb77936a09d3150f2fa46a2f5c1e3ace8601fb1f6"
+    },
+    "tooluniverse-neuroscience": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-neuroscience/SKILL.md",
+      "computedHash": "4f74433fdda19951158d6a3bbc394e9748ffb2751bb1edb87e6616c32c6f93c3"
+    },
+    "tooluniverse-noncoding-rna": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-noncoding-rna/SKILL.md",
+      "computedHash": "535c98ff60089ec34df06f4b4df5df87c66991443f950bb1903eb5e2062eb69c"
+    },
+    "tooluniverse-organic-chemistry": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-organic-chemistry/SKILL.md",
+      "computedHash": "b85bd9bbae7f11e5261dc8099c688bd601f8b9650709b63a1fdbcd5b214c6a9c"
+    },
+    "tooluniverse-pathway-disease-genetics": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-pathway-disease-genetics/SKILL.md",
+      "computedHash": "38dfce3b817ea80ffcb5b6105b93e340d1bdb11ec5fe3c843cc2ba726fd5a8e3"
+    },
+    "tooluniverse-peptide-target-deorphanization": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-peptide-target-deorphanization/SKILL.md",
+      "computedHash": "8f6c2fdda2e6858a6c018adbccd53df2e4b61e70d9f016e5233f3e322bf44b8e"
+    },
+    "tooluniverse-pharmacogenomics": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-pharmacogenomics/SKILL.md",
+      "computedHash": "bd9612ae5bdaa16e0505f179711dbbe2c41de6b87e98f9fdc652548f679bce03"
+    },
+    "tooluniverse-pharmacokinetics": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-pharmacokinetics/SKILL.md",
+      "computedHash": "c5dc74ab127959ad137cf086342e310cb4b852a4bd18284ddec2a070ecbed200"
+    },
+    "tooluniverse-pharmacovigilance": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-pharmacovigilance/SKILL.md",
+      "computedHash": "d89ad936211294096dcaf32a5a755642205e888ba7579b371ec9a9c6182acd04"
+    },
+    "tooluniverse-phylogenetics": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-phylogenetics/SKILL.md",
+      "computedHash": "3aaf45f923ca851de49a3f1ee4ace3e1ae93a39c506dac91fee634d0067322ac"
+    },
+    "tooluniverse-plant-genomics": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-plant-genomics/SKILL.md",
+      "computedHash": "8f7fa091a1436275906ac55fdb6923ce4a238eec521702a3d3572bf4b79cf0c9"
+    },
+    "tooluniverse-polygenic-risk-score": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-polygenic-risk-score/SKILL.md",
+      "computedHash": "745a91a403663b3c7eddaea49880df2e25a20d4732309058f53023d555bf1092"
+    },
+    "tooluniverse-population-genetics": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-population-genetics/SKILL.md",
+      "computedHash": "fe28a885a4ac4e42d441d74e90861918a030f235d2e68f7d2561ed1da0cda428"
+    },
+    "tooluniverse-population-genetics-1000genomes": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-population-genetics-1000genomes/SKILL.md",
+      "computedHash": "4a4141f6bdfe1edab929709fb0bb120712e82fdf74ae08178791c7dc7ce9681b"
+    },
+    "tooluniverse-precision-medicine-stratification": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-precision-medicine-stratification/SKILL.md",
+      "computedHash": "ce237431a3b21848417df39f45fa7dc0b6bc7612568d99cc164ccab8f53144e8"
+    },
+    "tooluniverse-precision-oncology": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-precision-oncology/SKILL.md",
+      "computedHash": "d10b2c605b1b6154ef363d9099eae648ecbe13a3139bd642b9f8cef643d066d4"
+    },
+    "tooluniverse-primer-design": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-primer-design/SKILL.md",
+      "computedHash": "80aba9017ccaa0f70b11e9164164e09109791f6b792fc22491e778dadd2b2001"
+    },
+    "tooluniverse-product-safety-surveillance": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-product-safety-surveillance/SKILL.md",
+      "computedHash": "5d96110d308bde0c84c05f012ee7b47aab1971bba822e4e20aa768a8874b901a"
+    },
+    "tooluniverse-protein-interactions": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-protein-interactions/SKILL.md",
+      "computedHash": "4a1d2ecd93d982b71d3efec68b8f91a631687cfec144c6cc74f5be8520f5b620"
+    },
+    "tooluniverse-protein-lof-mechanism": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-protein-lof-mechanism/SKILL.md",
+      "computedHash": "f6c2fe7417017636055965aec381178cf38efbc05e6514406b290f63382fc164"
+    },
+    "tooluniverse-protein-modification-analysis": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-protein-modification-analysis/SKILL.md",
+      "computedHash": "074db2e51dc10db1c90af46e53f2f2d6f496e1e9ab156d7fab1ec6a96a7c08df"
+    },
+    "tooluniverse-protein-sae-variant-interpretation": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-protein-sae-variant-interpretation/SKILL.md",
+      "computedHash": "0936b61fb7c68bd0064d50ab1057ecdb9db4904844fe06e99e0f65391cd3cb64"
+    },
+    "tooluniverse-protein-structural-annotation-pdb": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-protein-structural-annotation-pdb/SKILL.md",
+      "computedHash": "1302511310aa2f65078e4fda3bf8950a4080fab4a12f8cddafc1ec73bb1b4949"
+    },
+    "tooluniverse-protein-structure-prediction": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-protein-structure-prediction/SKILL.md",
+      "computedHash": "0458c5254c08d6569aa39c9d2946a8d149f82068ba6a9328b3bf48c3afa63e5c"
+    },
+    "tooluniverse-protein-structure-retrieval": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-protein-structure-retrieval/SKILL.md",
+      "computedHash": "ac0135587f0b37932085b17a62a8273a990a0fe534925033a1ec52892e884345"
+    },
+    "tooluniverse-protein-therapeutic-design": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-protein-therapeutic-design/SKILL.md",
+      "computedHash": "71f7f7e304c6f3e8a2158feefb38ed9b4278d174a1b6a1ee7201d2ef19186177"
+    },
+    "tooluniverse-proteomics-analysis": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-proteomics-analysis/SKILL.md",
+      "computedHash": "70b68583a9cd08e7b63204a1197ee88eb5be53c0f93f0d43d5c7e38b7bc9e105"
+    },
+    "tooluniverse-proteomics-data-retrieval": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-proteomics-data-retrieval/SKILL.md",
+      "computedHash": "3bf3ab3dd489dc6d45dd64c98a6e473f7d1a0ee4edc78ab54ac8852f52ef3311"
+    },
+    "tooluniverse-rare-disease-diagnosis": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-rare-disease-diagnosis/SKILL.md",
+      "computedHash": "092dccd955f45acd9d84a665e2844c5667a352bc301fea34e57a302b2b06ffa6"
+    },
+    "tooluniverse-rare-disease-genomics": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-rare-disease-genomics/SKILL.md",
+      "computedHash": "aaa631c635dc7be92b1cc504123907d8f5eb52696b05e5419a3ac627eef2272b"
+    },
+    "tooluniverse-regulatory-genomics": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-regulatory-genomics/SKILL.md",
+      "computedHash": "e583b17a13edaa868090ca3746dc065e493ef243fa653e7e1bce046e0719124e"
+    },
+    "tooluniverse-regulatory-variant-analysis": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-regulatory-variant-analysis/SKILL.md",
+      "computedHash": "61d4954c678821443c09c2907ee3dcd7d0771ccd84b42085a9f4a851f3fad3b8"
+    },
+    "tooluniverse-residue-functional-mechanism-interpretation": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-residue-functional-mechanism-interpretation/SKILL.md",
+      "computedHash": "77044cd3f42affdc87515dbd5e7633bacda6c8980c72024b36875639b38ed04e"
+    },
+    "tooluniverse-rnaseq-deseq2": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-rnaseq-deseq2/SKILL.md",
+      "computedHash": "518eafe4363b789c06711625c4e5566c546fd05568f185af8035795d5a8d984c"
+    },
+    "tooluniverse-sdk": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-sdk/SKILL.md",
+      "computedHash": "0878f68945b5f86212b7e12cf724cd3d4a246b7fe72e903053c58b8b030c2ccb"
+    },
+    "tooluniverse-self-review": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-self-review/SKILL.md",
+      "computedHash": "c0e1c0eb60c13c873ae5aaff5e2ffc57730278bb936f885153ff32c2cc1433a2"
+    },
+    "tooluniverse-sequence-analysis": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-sequence-analysis/SKILL.md",
+      "computedHash": "63528c0fc369d2c3b27c04ce5ff9bca7e88121e8a09d805e95cc58e658b444b4"
+    },
+    "tooluniverse-sequence-retrieval": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-sequence-retrieval/SKILL.md",
+      "computedHash": "c6c1cee8cbde58baefc5dee053937f31a5f502dd31d8263bd69a052d3c32fdda"
+    },
+    "tooluniverse-single-cell": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-single-cell/SKILL.md",
+      "computedHash": "422cecc1d65bd311353654818ad498a7611898eb3ca397e3235a3ec12ecce240"
+    },
+    "tooluniverse-small-molecule-discovery": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-small-molecule-discovery/SKILL.md",
+      "computedHash": "f9afcf9e75968545d742d22cd8ab2be1c7a7678dbaedd14ed4875bb5f3ae3fdd"
+    },
+    "tooluniverse-spatial-omics-analysis": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-spatial-omics-analysis/SKILL.md",
+      "computedHash": "03631c58d77286e45455d89637526b3f2d8d7a03175c2345b42d3d23f3ebc401"
+    },
+    "tooluniverse-spatial-transcriptomics": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-spatial-transcriptomics/SKILL.md",
+      "computedHash": "662003d481f615e5b1e3cb305ac91638d7843c8329794db2454c58070e8b922e"
+    },
+    "tooluniverse-statistical-modeling": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-statistical-modeling/SKILL.md",
+      "computedHash": "567ef35a5bf51f0315820a80d9f8a6e20c6892a810930d5350e01c2b87c21373"
+    },
+    "tooluniverse-stem-cell-organoid": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-stem-cell-organoid/SKILL.md",
+      "computedHash": "e8e469ae5fdf626c66c2606825bcfb02142d37c6eb8cb18529e4450705886325"
+    },
+    "tooluniverse-structural-proteomics": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-structural-proteomics/SKILL.md",
+      "computedHash": "e2adffbf618f9777512483f6c1de3cc3fb019f240962a6c717da1d134fffa9f6"
+    },
+    "tooluniverse-structural-variant-analysis": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-structural-variant-analysis/SKILL.md",
+      "computedHash": "11067e5a06700447cda9f3e1060cecd92d6cad5722350bf672188c058a269224"
+    },
+    "tooluniverse-systems-biology": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-systems-biology/SKILL.md",
+      "computedHash": "c310109669eb62218aef0db3e84133cb7e8164f9734d99a52c9f39dae2c360c1"
+    },
+    "tooluniverse-target-research": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-target-research/SKILL.md",
+      "computedHash": "9211866718a53514a93225bd0fbba0782daac4dbff88f4de7f868a9564520d20"
+    },
+    "tooluniverse-toxicology": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-toxicology/SKILL.md",
+      "computedHash": "b411142121f2f7b2d715d89799d9b3b07ab813d431f6e35e7ce14d055e146dee"
+    },
+    "tooluniverse-vaccine-design": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-vaccine-design/SKILL.md",
+      "computedHash": "edb7f5da9d27acd722afec61e4a645f9168e37b1a781294f4238666ac896df56"
+    },
+    "tooluniverse-variant-analysis": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-variant-analysis/SKILL.md",
+      "computedHash": "82b4b4d2ef9662cad9bad0cc602fa705683f475068b3cec8ba8287267bb35c91"
+    },
+    "tooluniverse-variant-functional-annotation": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-variant-functional-annotation/SKILL.md",
+      "computedHash": "e50c360c17303f966c80f6e3492b4c7b8f9b51a86818fe17bc80cf933e30f4c9"
+    },
+    "tooluniverse-variant-interpretation": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-variant-interpretation/SKILL.md",
+      "computedHash": "5da14c0fb25e0bb1e71198949d049d74f24821b3638ee1db5fa1a3435fcca029"
+    },
+    "tooluniverse-variant-predictor-dms-validation": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-variant-predictor-dms-validation/SKILL.md",
+      "computedHash": "2bd8d7500c4a267f87755826b150d8b61b4e4f34a59e430cfd0427a66a68a0d8"
+    },
+    "tooluniverse-variant-to-mechanism": {
+      "source": "mims-harvard/ToolUniverse",
+      "sourceType": "github",
+      "skillPath": "skills/tooluniverse-variant-to-mechanism/SKILL.md",
+      "computedHash": "49bc9b77dbdfb40471cdacd1c3c98f6c68e6e0d0315fb28bf521f75e4ad35abd"
+    }
+  }
+}

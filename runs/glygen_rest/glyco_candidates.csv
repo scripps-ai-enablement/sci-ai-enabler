@@ -1,0 +1,4 @@
+uniprot,site,class,glygen_evidence,clinvar_significance,alphamissense,rank
+P01008,N167,LOG,removes N of annotated N-linked sequon N167 [predicted; 0 glycan(s) reported],not_provided,0.117 (Benign),1
+P38484,T168,GOG,creates N-X-S/T sequon at N168 (N-S-T); not a pre-existing GlyGen site,Pathogenic (0 star),0.086 (Benign),2
+P01008,P305,none,no sequon gained/lost; nearest annotated glycosite Asn224 (81 aa away),Likely benign (3 star),0.450 (A),3
