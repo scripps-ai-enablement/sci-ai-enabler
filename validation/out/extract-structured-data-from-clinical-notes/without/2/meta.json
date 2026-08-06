@@ -1,0 +1,33 @@
+{
+  "id": "extract-structured-data-from-clinical-notes",
+  "arm": "without",
+  "rep": 2,
+  "model": "claude-sonnet-5",
+  "cmd": [
+    "claude",
+    "-p",
+    "--model",
+    "claude-sonnet-5",
+    "--strict-mcp-config",
+    "--setting-sources",
+    "project",
+    "--output-format",
+    "stream-json",
+    "--verbose",
+    "--allowedTools",
+    "Read,Glob,Grep,WebSearch,WebFetch,Bash(ls *),Bash(cat *),Bash(head *),Bash(tail *),Bash(find *),Bash(wc *),Bash(grep *),Bash(file *),Bash(echo *)"
+  ],
+  "returncode": 0,
+  "wall_s": 199.0,
+  "cost_usd": 0.46721055,
+  "num_turns": 3,
+  "duration_ms": 192607,
+  "is_error": false,
+  "subtype": "success",
+  "tool_calls": [
+    "Bash",
+    "Write"
+  ],
+  "skills_invoked": [],
+  "answer_chars": 18641
+}
