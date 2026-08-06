@@ -13,6 +13,29 @@ on-demand run that produces changes prepends a dated block; the top block is mir
 
 Older entries live in [VERIFIER_CHANGELOG_ARCHIVE.md](VERIFIER_CHANGELOG_ARCHIVE.md).
 
+## 2026-08-06
+
+### Verified
+- Worked the injected 15-page adjudication digest: `omophub-mcp`, `optogenetics-protocol-designer`, `perturb-seq`, `pyomop`, `rosetta-mcp-server`, `scatac-analysis`, `signal-detection-analysis`, `strain-tracking`, `structure-preparation`, `structure-validation`, `tooluniverse-admet-prediction`, `tooluniverse-cell-line-profiling`, `tooluniverse-chemical-sourcing`, `tooluniverse-dose-response`, `trial-reporting`.
+- `perturb-seq`, `scatac-analysis`, `strain-tracking`, `trial-reporting` (GPTomics bioSkills) — works/cleared, fresh root LICENSE fetch confirms MIT.
+- `tooluniverse-admet-prediction`, `tooluniverse-cell-line-profiling`, `tooluniverse-chemical-sourcing`, `tooluniverse-dose-response` (ToolUniverse) — works/cleared, confirmed against `mims-harvard/ToolUniverse` Apache-2.0.
+- `optogenetics-protocol-designer`, `signal-detection-analysis` (awesome_cognitive_and_neuroscience_skills) — works/cleared; the `repo-renamed` flag on both confirmed as a legitimate GitHub org transfer to NeuroAIHub, not a typosquat.
+- `rosetta-mcp-server` — works/caution; install/launch commands confirmed unchanged against the README.
+
+### Fixed
+- `pyomop` — the documented `pyomop-mcp-server` console-script entry point boot-errored in this run's smoke test (`No such file or directory`) despite a clean `pip install pyomop`. Replaced the install/registration blocks (Verify-it-starts, Claude Code stdio, Claude Desktop config) with the working `pyomop --mcp-server` subcommand form. Graded degraded pending a clean reboot confirmation next run.
+
+### Flagged
+- `structure-preparation`, `structure-validation` (GPTomics bioSkills) — security caution: bundled Phenix/CCTBX tooling (`reduce`, `phenix.molprobity`, `phenix.process_predicted_model`) is free for academic use only, same pattern as `mixcr-analysis`.
+- `rosetta-mcp-server` — security caution: `license-absent` flag confirmed accurate, no `LICENSE` file committed upstream, MIT asserted only in README/package.json prose.
+- `omophub-mcp` — verification degraded: auth-gated (requires a signed-up `OMOPHUB_API_KEY`), so functionally unverifiable without an account.
+- `pyomop` — verification degraded pending a clean-reboot recheck of `pyomop --mcp-server` next run.
+- One further flagged page from this run's digest was over the 15-page review budget and was intentionally left untouched; it leads the next worklist.
+
+### Security
+- `pyomop` — `license-absent` flag resolved: fetched the repository `LICENSE` directly from the `develop` branch (the actual GitHub default branch) and confirmed GPL-3.0 verbatim, matching the GitHub API license field. Regraded security cleared.
+- `signal-detection-analysis` — `osv-advisory` flag traced to three old scipy GHSA IDs, all fixed-by-or-withdrawn before the pinned scipy 1.18.0; no live advisory applies. Regraded security cleared.
+
 ## 2026-08-03
 
 ### Verified
@@ -333,39 +356,4 @@ the pointer never advances. Rechecked top-to-bottom against fresh source fetches
 
 ### Security
 - No provenance/license/advisory changes across the 25 anchors this run.
-
-## 2026-07-20 (worklist maintenance batch #4 — same 25 pages rechecked, zero drift)
-
-The selector re-served the identical worklist (`10x-genomics-cloud` → `autodock-vina-docking`, 25
-pages) a **fourth** consecutive time. The catalog is uniformly dated 2026-07-20, so the
-verified_on-oldest tie-break in `select_verify_targets.py` returns the same 25 slugs every run and
-the pointer never advances. Rechecked top-to-bottom against fresh source fetches this run:
-**all 25 confirmed unchanged, no fixes.**
-
-### Verified (rechecked, unchanged)
-- NeuroClaw `CUHK-AIM-Group/NeuroClaw` MIT/not-archived/pushed 2026-07-14/75-star → abcd/abide/
-  adhd200/adni/aibl/aomic/asl works/cleared.
-- K-Dense `K-Dense-AI/scientific-agent-skills` MIT/not-archived/pushed 2026-07-20/31.3k-star +
-  this-run smoke pass (aeon/anndata/arboreto/astropy) → adaptyv works/caution; aeon/anndata/arboreto/
-  astropy works/cleared.
-- DeepMind `google-deepmind/science-skills` Apache-2.0/pushed 2026-07-07/2469-star → alphagenome
-  degraded/cleared (not in life-sciences marketplace; signup-gated preview).
-- `google-deepmind/alphafold` Apache-2.0/pushed 2026-04-22/14.7k-star → alphafold2 works/cleared.
-- `GPTomics/bioSkills` MIT/pushed 2026-07-18/1042-star → amr-detection works/cleared.
-- `Augmented-Nature/AlphaFold-MCP-Server` + `BioStudies-MCP-Server` both NOASSERTION/pushed
-  2025-12-21 → alphafold + arrayexpress works/caution.
-- SciAgent `jaechang-hits/SciAgent-Skills` NOASSERTION-classifier-but-CC-BY-4.0-root/pushed
-  2026-06-15/278-star → archs4-database + autodock-vina-docking works/cleared.
-- PyPI `arxiv-mcp-server` 0.5.1 Apache-2.0 + `aind-data-mcp` 0.4.5 MIT → arxiv/aind-data works/cleared.
-- `MCPmed/allenbrain-mcp` no-LICENSE/pushed 2026-04-01/3-star → allenbrain degraded/caution.
-- `anthropics/life-sciences` marketplace.json still lists `adisinsight` (Springer Nature) +
-  `10x-genomics` → both degraded (subscription/paid gated). antibody-registry Anthropic connector
-  unchanged (works/cleared).
-
-### Flagged (maintainer)
-- Selector loop confirmed a fourth time: the workflow keeps serving only these 25 pages while
-  reporting a "complete" count, so ~420 catalog pages go unrechecked. The verifier cannot break the
-  loop itself (must not bump `verified_on` past the run date; all pages already carry it). Needs a
-  secondary tie-break in `select_verify_targets.py` (e.g. round-robin hash of slug against run
-  date/commit) or a rotating cursor in the workflow.
 

@@ -7,6 +7,13 @@ supplier: GPTomics bioSkills
 availability: GA
 tool_categories: [Immunology and Microbiology]
 last_verified: 2026-08-01
+verification: works
+verified_on: 2026-08-06
+reviewed_on: 2026-08-06
+verification_note: "GPTomics/bioSkills repo and metagenomics/strain-tracking dir confirmed live this run, install instructions match the current upstream layout"
+security: cleared
+security_on: 2026-08-06
+security_note: "GPTomics/bioSkills root LICENSE fetched this run confirms MIT verbatim, dependencies are standard OSS (inStrain/StrainPhlAn/MIDAS2/StrainGE/metaSNV/dRep/Bowtie2/skani) with no OSV advisories and no credential requirements"
 summary: "Resolve and compare bacterial strains below species level from shotgun metagenomes using inStrain popANI, StrainPhlAn, MIDAS2, StrainGE and skani/fastANI"
 ---
 
@@ -21,6 +28,8 @@ A Claude Code skill that resolves sub-species bacterial strains from shotgun met
 | **Availability** | GA — part of the bioSkills collection |
 | **Pricing** | Free / OSS (MIT) — inStrain, StrainPhlAn, MIDAS2, StrainGE, metaSNV, dRep, Bowtie2 and skani are separately installed OSS |
 | **Capabilities** | Read/Write — Claude runs the skill's workflow locally (Bash/Python), not as an MCP tool |
+| **Verified** | works · 2026-08-06 |
+| **Security** | cleared · 2026-08-06 — GPTomics/bioSkills MIT, standard OSS deps, no advisories |
 
 ## How to install
 

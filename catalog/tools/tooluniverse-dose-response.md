@@ -7,6 +7,13 @@ supplier: Zitnik Lab (Harvard Medical School)
 availability: GA
 tool_categories: [Chemistry, Drug Repurposing and Discovery, Molecular and Cellular Biology]
 last_verified: 2026-08-02
+verification: works
+verified_on: 2026-08-06
+reviewed_on: 2026-08-06
+verification_note: "mims-harvard/ToolUniverse repo and skills/tooluniverse-dose-response dir confirmed live this run, install instructions match the current upstream layout"
+security: cleared
+security_on: 2026-08-06
+security_note: "mims-harvard/ToolUniverse Apache-2.0, purely local curve-fitting computation with no external API calls, no credential requirements, no OSV advisories"
 summary: ToolUniverse agent skill that fits four-parameter logistic curves to concentration-response data, returning IC50/EC50, Hill slope, Emax, and fit quality.
 ---
 
@@ -21,6 +28,8 @@ A ToolUniverse agent skill that fits the four-parameter logistic (Hill) model to
 | **Availability** | GA — part of the ToolUniverse skills collection (`skills/tooluniverse-dose-response/`) |
 | **Pricing** | Free / OSS (Apache-2.0); computation is local to the ToolUniverse server — no external API required |
 | **Capabilities** | Read-only — drives ToolUniverse tool calls; no data writes |
+| **Verified** | works · 2026-08-06 |
+| **Security** | cleared · 2026-08-06 — ToolUniverse Apache-2.0, purely local computation, no external calls |
 
 ## How to install
 

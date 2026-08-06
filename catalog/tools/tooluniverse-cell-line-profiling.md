@@ -7,6 +7,13 @@ supplier: Zitnik Lab (Harvard Medical School)
 availability: GA
 tool_categories: [Drug Repurposing and Discovery, Molecular and Cellular Biology, Translational Medicine]
 last_verified: 2026-08-02
+verification: works
+verified_on: 2026-08-06
+reviewed_on: 2026-08-06
+verification_note: "mims-harvard/ToolUniverse repo and skills/tooluniverse-cell-line-profiling dir confirmed live this run, install instructions match the current upstream layout"
+security: cleared
+security_on: 2026-08-06
+security_note: "mims-harvard/ToolUniverse Apache-2.0, wraps public DepMap/Cellosaurus/COSMIC/PharmacoDB read-only APIs, no credential requirements, no OSV advisories"
 summary: ToolUniverse agent skill that ranks cancer cell lines for an experiment by cross-referencing DepMap, Cellosaurus, COSMIC, and PharmacoDB.
 ---
 
@@ -21,6 +28,8 @@ A ToolUniverse agent skill that answers "which cancer cell line should I use to 
 | **Availability** | GA — part of the ToolUniverse skills collection (`skills/tooluniverse-cell-line-profiling/`) |
 | **Pricing** | Free / OSS (Apache-2.0); wraps public resources (DepMap, Cellosaurus, COSMIC, cBioPortal CCLE, Human Protein Atlas, CellMarker, PharmacoDB, SYNERGxDB) |
 | **Capabilities** | Read-only — drives ToolUniverse tool calls; no data writes |
+| **Verified** | works · 2026-08-06 |
+| **Security** | cleared · 2026-08-06 — ToolUniverse Apache-2.0, public read-only APIs, no credentials |
 
 ## How to install
 

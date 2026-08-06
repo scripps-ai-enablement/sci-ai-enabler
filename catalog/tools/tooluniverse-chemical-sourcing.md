@@ -7,6 +7,13 @@ supplier: Zitnik Lab (Harvard Medical School)
 availability: GA
 tool_categories: [Chemistry, Drug Repurposing and Discovery]
 last_verified: 2026-08-02
+verification: works
+verified_on: 2026-08-06
+reviewed_on: 2026-08-06
+verification_note: "mims-harvard/ToolUniverse repo and skills/tooluniverse-chemical-sourcing dir confirmed live this run, install instructions match the current upstream layout"
+security: cleared
+security_on: 2026-08-06
+security_note: "mims-harvard/ToolUniverse Apache-2.0, wraps public PubChem/ChEMBL/ZINC/Enamine/eMolecules/Mcule read-only catalogs, places no orders, no credential requirements, no OSV advisories"
 summary: ToolUniverse agent skill that finds commercial suppliers for a compound across ZINC, Enamine, eMolecules, and Mcule, with purchasable-analog fallback.
 ---
 
@@ -21,6 +28,8 @@ A ToolUniverse agent skill that answers "where can I buy this compound, and at w
 | **Availability** | GA — part of the ToolUniverse skills collection (`skills/tooluniverse-chemical-sourcing/`) |
 | **Pricing** | Free / OSS (Apache-2.0); wraps public and vendor catalogs (PubChem, ChEMBL, ZINC, Enamine, eMolecules, Mcule) |
 | **Capabilities** | Read-only — searches catalogs and compares listings; places no orders |
+| **Verified** | works · 2026-08-06 |
+| **Security** | cleared · 2026-08-06 — ToolUniverse Apache-2.0, public read-only catalogs, no credentials |
 
 ## How to install
 

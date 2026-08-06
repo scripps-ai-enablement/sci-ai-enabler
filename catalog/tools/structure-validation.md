@@ -7,6 +7,13 @@ supplier: GPTomics bioSkills
 availability: GA
 tool_categories: [Integrative Structural and Computational Biology]
 last_verified: 2026-08-01
+verification: works
+verified_on: 2026-08-06
+reviewed_on: 2026-08-06
+verification_note: "GPTomics/bioSkills repo and structural-biology/structure-validation dir confirmed live this run, install instructions match the current upstream layout"
+security: caution
+security_on: 2026-08-06
+security_note: "GPTomics/bioSkills root LICENSE fetched this run confirms MIT verbatim, but the skill drives phenix.molprobity and phenix.process_predicted_model, free for academic use only under Phenix's own licence, same pattern as mixcr-analysis"
 summary: "Decide whether a structure or region is reliable enough to build on — resolution, R-free gap, B-factors, MolProbity geometry, and pLDDT/PAE for predicted models"
 ---
 
@@ -21,6 +28,8 @@ A Claude Code skill that judges whether a macromolecular model — or one specif
 | **Availability** | GA — part of the bioSkills collection |
 | **Pricing** | Free / OSS (MIT) — Biopython, Phenix/MolProbity and DSSP are separately installed (Phenix is free for academic use under its own licence) |
 | **Capabilities** | Read/Write — Claude runs the skill's workflow locally (Bash/Python), not as an MCP tool |
+| **Verified** | works · 2026-08-06 |
+| **Security** | caution · 2026-08-06 — GPTomics/bioSkills MIT, but bundled phenix.molprobity is academic-use-only |
 
 ## How to install
 

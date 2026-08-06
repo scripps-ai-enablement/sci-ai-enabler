@@ -7,6 +7,13 @@ supplier: Zitnik Lab (Harvard Medical School)
 availability: GA
 tool_categories: [Chemistry, Drug Repurposing and Discovery]
 last_verified: 2026-08-02
+verification: works
+verified_on: 2026-08-06
+reviewed_on: 2026-08-06
+verification_note: "mims-harvard/ToolUniverse repo and skills/tooluniverse-admet-prediction dir confirmed live this run, install instructions match the current upstream layout"
+security: cleared
+security_on: 2026-08-06
+security_note: "mims-harvard/ToolUniverse Apache-2.0, wraps public PubChem/ChEMBL/ADMET-AI/SwissADME read-only APIs, no credential requirements, no OSV advisories"
 summary: ToolUniverse agent skill that profiles a compound's absorption, distribution, metabolism, excretion, and toxicity into a graded pass/warn/fail scorecard.
 ---
 
@@ -21,6 +28,8 @@ A ToolUniverse agent skill that turns a drug name or SMILES into a structured AD
 | **Availability** | GA — part of the ToolUniverse skills collection (`skills/tooluniverse-admet-prediction/`) |
 | **Pricing** | Free / OSS (Apache-2.0); wraps public services (PubChem, PubChemTox, ChEMBL, ADMET-AI, SwissADME) |
 | **Capabilities** | Read-only — drives ToolUniverse tool calls; no data writes |
+| **Verified** | works · 2026-08-06 |
+| **Security** | cleared · 2026-08-06 — ToolUniverse Apache-2.0, public read-only APIs, no credentials |
 
 ## How to install
 

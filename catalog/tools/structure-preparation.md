@@ -7,6 +7,13 @@ supplier: GPTomics bioSkills
 availability: GA
 tool_categories: [Integrative Structural and Computational Biology]
 last_verified: 2026-08-01
+verification: works
+verified_on: 2026-08-06
+reviewed_on: 2026-08-06
+verification_note: "GPTomics/bioSkills repo and structural-biology/structure-preparation dir confirmed live this run, install instructions match the current upstream layout"
+security: caution
+security_on: 2026-08-06
+security_note: "GPTomics/bioSkills root LICENSE fetched this run confirms MIT verbatim, but the skill drives reduce/Reduce2 which ships with CCTBX/Phenix, free for academic use only under its own licence, same pattern as mixcr-analysis"
 summary: "Make a deposited or predicted structure docking- or MD-ready with PDBFixer, reduce, PROPKA and PDB2PQR — hydrogens, tautomers, missing atoms, short loops"
 ---
 
@@ -21,6 +28,8 @@ A Claude Code skill that turns a deposited or predicted structure into one you c
 | **Availability** | GA — part of the bioSkills collection |
 | **Pricing** | Free / OSS (MIT) — PDBFixer, OpenMM, PROPKA 3 and PDB2PQR are separately installed OSS; `reduce`/Reduce2 ships with CCTBX/Phenix (free for academic use under its own licence) |
 | **Capabilities** | Read/Write — Claude runs the skill's workflow locally (Bash/Python) and writes prepared structure files, not as an MCP tool |
+| **Verified** | works · 2026-08-06 |
+| **Security** | caution · 2026-08-06 — GPTomics/bioSkills MIT, but bundled reduce/Reduce2 ships with Phenix, academic-use-only licence |
 
 ## How to install
 

@@ -7,6 +7,13 @@ supplier: GPTomics bioSkills
 availability: GA
 tool_categories: [Translational Medicine]
 last_verified: 2026-08-02
+verification: works
+verified_on: 2026-08-06
+reviewed_on: 2026-08-06
+verification_note: "GPTomics/bioSkills repo and clinical-biostatistics/trial-reporting dir confirmed live this run, install instructions match the current upstream layout"
+security: cleared
+security_on: 2026-08-06
+security_note: "GPTomics/bioSkills root LICENSE fetched this run confirms MIT verbatim, dependencies are standard Python/R statistics packages with no OSV advisories and no credential requirements"
 summary: "Produce CONSORT 2025 / ICH E9(R1)-conformant trial statistical reports: estimands, analysis populations, Table 1, MMRM, and multiplicity control"
 ---
 
@@ -21,6 +28,8 @@ A Claude Code skill that takes a clinical trial from estimand definition through
 | **Availability** | GA — part of the bioSkills collection |
 | **Pricing** | Free / OSS (MIT) — the Python (`pandas`, `numpy`, `statsmodels`, `scikit-learn`, `tableone`, `rpy2`) and R (`mmrm`, `rbmi`, `gMCP`, `RBesT`, `mice`, `miceforest`) packages are separately installed OSS |
 | **Capabilities** | Read/Write — Claude runs the skill's workflow locally (Python, with R via `rpy2` for confirmatory steps), not as an MCP tool |
+| **Verified** | works · 2026-08-06 |
+| **Security** | cleared · 2026-08-06 — GPTomics/bioSkills MIT, standard OSS deps, no advisories |
 
 ## How to install
 

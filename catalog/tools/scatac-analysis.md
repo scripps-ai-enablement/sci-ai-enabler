@@ -7,6 +7,13 @@ supplier: GPTomics bioSkills
 availability: GA
 tool_categories: [Molecular and Cellular Biology]
 last_verified: 2026-08-01
+verification: works
+verified_on: 2026-08-06
+reviewed_on: 2026-08-06
+verification_note: "GPTomics/bioSkills repo and single-cell/scatac-analysis dir confirmed live this run, install instructions match the current upstream layout"
+security: cleared
+security_on: 2026-08-06
+security_note: "GPTomics/bioSkills root LICENSE fetched this run confirms MIT verbatim, dependencies are standard OSS (Signac/Seurat/ArchR/SnapATAC2/chromVAR/AMULET/TOBIAS) with no OSV advisories and no credential requirements"
 summary: "Process single-cell ATAC-seq with Signac, ArchR or SnapATAC2 — fragment QC, TF-IDF/LSI, consensus peaks and chromVAR motif deviations"
 ---
 
@@ -21,6 +28,8 @@ A Claude Code skill for single-cell ATAC-seq that covers fragment QC through con
 | **Availability** | GA — part of the bioSkills collection |
 | **Pricing** | Free / OSS (MIT) — Signac, Seurat, ArchR, SnapATAC2, chromVAR, AMULET and TOBIAS are separately installed OSS |
 | **Capabilities** | Read/Write — Claude runs the skill's workflow locally (R/Python), not as an MCP tool |
+| **Verified** | works · 2026-08-06 |
+| **Security** | cleared · 2026-08-06 — GPTomics/bioSkills MIT, standard OSS deps, no advisories |
 
 ## How to install
 

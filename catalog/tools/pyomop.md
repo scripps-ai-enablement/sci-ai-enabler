@@ -7,6 +7,13 @@ supplier: Bell Eapen
 availability: GA
 tool_categories: [Translational Medicine]
 last_verified: 2026-08-02
+verification: degraded
+verified_on: 2026-08-06
+reviewed_on: 2026-08-06
+verification_note: "documented pyomop-mcp-server entry point boot-errored in this run's smoke test (No such file or directory); fixed the install and registration blocks to the working pyomop --mcp-server subcommand and graded degraded pending a clean reboot next run"
+security: cleared
+security_on: 2026-08-06
+security_note: "GPL-3.0 confirmed by fetching the repository LICENSE directly this run, matching the GitHub license field; resolved the prior license-absent flag"
 summary: "Python OMOP CDM toolkit that ships an MCP server, letting Claude inspect and run SQL against an OHDSI CDM database on SQLite, PostgreSQL or MySQL"
 ---
 
@@ -21,6 +28,8 @@ A Python package for working with OHDSI OMOP Common Data Model databases that sh
 | **Availability** | GA — PyPI `pyomop` 6.4.0; repo last pushed 2026-07-28 |
 | **Pricing** | Free / OSS — **GPL-3.0** per the GitHub license field. Copyleft: redistributing a derived pipeline carries obligations. |
 | **Capabilities** | Read/Write — SQL execution plus CDM schema creation, against a database you point it at |
+| **Verified** | degraded · 2026-08-06 — pyomop-mcp-server boot-errored in smoke test; fixed to the working pyomop --mcp-server form |
+| **Security** | cleared · 2026-08-06 — GPL-3.0 confirmed via direct LICENSE fetch, copyleft only |
 
 ## How to install
 
@@ -33,24 +42,24 @@ Requires **Python 3.11+** (`requires_python: >=3.11,<4.0`). Install the package 
   Add `pip install "pyomop[llm]"` for the LangChain-backed plain-text query path, or `pip install "pyomop[http]"` if you want the HTTP transport.
 - **Verify it starts** (one-shot check — Ctrl-C once it boots; Claude Code and Claude Desktop launch the process themselves over stdio):
   ```
-  pyomop-mcp-server
+  pyomop --mcp-server
   ```
 - **Claude Code** — stdio:
   ```
-  claude mcp add --transport stdio pyomop -- pyomop-mcp-server
+  claude mcp add --transport stdio pyomop -- pyomop --mcp-server
   ```
 - **Claude Desktop** — add to `claude_desktop_config.json`:
   ```json
   {
     "mcpServers": {
       "pyomop": {
-        "command": "pyomop-mcp-server",
-        "args": []
+        "command": "pyomop",
+        "args": ["--mcp-server"]
       }
     }
   }
   ```
-  (The upstream README's snippet uses a top-level `"servers"` key and `uv run pyomop --mcp-server`; Claude Desktop expects `"mcpServers"`, and the console script above avoids depending on `uv` being installed. `pyomop --mcp-server` is an equivalent entry point if you prefer it.)
+  (A clean-install smoke test this run found the previously-documented `pyomop-mcp-server` console script absent from `PATH` after `pip install pyomop`, even though the package and its `mcp` dependency installed cleanly — so this page now points at the `pyomop --mcp-server` subcommand, which is the form the upstream README itself uses via `uv run pyomop --mcp-server`.)
 - **HTTP transport** (optional; a long-lived service you must keep running in another terminal):
   ```
   pyomop-mcp-server-http --host 0.0.0.0 --port 8000
@@ -74,7 +83,7 @@ Backends: SQLite, PostgreSQL, MySQL. The package also converts result sets to pa
 
 The MCP server covers CDM data access; it does not bundle the OMOP vocabularies. Upstream suggests pairing it with a vocabulary service when Athena vocabularies are not loaded locally — see [OMOPHub MCP Server](omophub-mcp.html).
 
-**Unverified —** the PyPI metadata leaves `license_expression` empty; the GPL-3.0 classification is read from the GitHub repository license field rather than a rendered LICENSE file.
+**GPL-3.0 confirmed** by fetching the repository's `LICENSE` file directly from the `develop` branch (the repo's default) this run — the PyPI metadata still leaves `license_expression` empty, but the rendered file matches the GitHub license field verbatim.
 
 ## Sources
 

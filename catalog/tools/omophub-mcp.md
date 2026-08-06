@@ -7,6 +7,13 @@ supplier: OMOPHub
 availability: GA
 tool_categories: [Translational Medicine]
 last_verified: 2026-08-02
+verification: degraded
+verified_on: 2026-08-06
+reviewed_on: 2026-08-06
+verification_note: "install and registration commands confirmed against the upstream README this run (npx -y @omophub/omophub-mcp, OMOPHUB_API_KEY required); auth-gated so the server itself could not be smoke-tested without an account"
+security: cleared
+security_on: 2026-08-06
+security_note: "provenance matches OMOPHub/omophub-mcp, MIT license confirmed in README, no OSV or GitHub advisories found for the npm package"
 summary: "Search, map and navigate 10M+ OHDSI OMOP vocabulary concepts (SNOMED CT, ICD-10, RxNorm, LOINC) from Claude without loading ATHENA locally"
 ---
 
@@ -21,6 +28,8 @@ An MCP server that puts the OHDSI OMOP standardized vocabularies — SNOMED CT, 
 | **Availability** | GA — npm `@omophub/omophub-mcp` 1.5.3; repo last pushed 2026-07-28 |
 | **Pricing** | Free / OSS (MIT) for the server. The backing API at `api.omophub.com` requires a free account and an API key; **Unverified —** the README documents an upgrade path for higher rate limits at `dashboard.omophub.com/billing` but does not state the free-tier limits or paid prices. |
 | **Capabilities** | Read-only — vocabulary search, concept lookup, mapping and hierarchy traversal |
+| **Verified** | degraded · 2026-08-06 — auth-gated (requires an OMOPHUB_API_KEY signup), so functionally unverifiable without an account; launch command confirmed current |
+| **Security** | cleared · 2026-08-06 — provenance matches OMOPHub/omophub-mcp, MIT, no advisories |
 
 ## How to install
 

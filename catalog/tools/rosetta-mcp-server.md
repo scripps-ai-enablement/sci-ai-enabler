@@ -7,6 +7,13 @@ supplier: Ariel Ben-Sasson (community OSS)
 availability: GA
 tool_categories: [Integrative Structural and Computational Biology]
 last_verified: 2026-08-01
+verification: works
+verified_on: 2026-08-06
+reviewed_on: 2026-08-06
+verification_note: "README fetched this run confirms the Cursor/Claude config's rosetta-mcp-server stdio command matches the page verbatim; the liveness prefetch's launch_cmd field was pulled from the separate PyRosetta-install code block, not the actual MCP registration command"
+security: caution
+security_on: 2026-08-06
+security_note: "no LICENSE file found in Arielbs/rosetta-mcp-server on direct fetch this run, confirming the license-absent flag; MIT is asserted only in README prose and package.json. Rosetta/PyRosetta itself needs a separate non-commercial academic license"
 summary: "MCP server for Rosetta, PyRosetta and Biotite — run and validate RosettaScripts, score structures, translate protocols between the three APIs"
 ---
 
@@ -21,6 +28,8 @@ An MCP server that gives Claude working knowledge of the Rosetta protein-modelin
 | **Availability** | GA — npm `rosetta-mcp-server` 1.3.1; last upstream push 2026-04-05; written up by [RosettaCommons](https://rosettacommons.org/2025/10/20/rosetta-cursor-simplifying-protein-design-with-ai-assistance/) 2025-10-20 |
 | **Pricing** | Free / OSS — MIT per the npm package manifest (**Unverified —** no `LICENSE` file is committed to the GitHub repo, so redistribution terms are declared only in `package.json`). Rosetta and PyRosetta themselves require a separate licence from the University of Washington (free for non-commercial academic use). |
 | **Capabilities** | Read/Write — reads and writes structure/XML files, executes local Rosetta and PyRosetta runs |
+| **Verified** | works · 2026-08-06 — install/launch commands confirmed against the upstream README |
+| **Security** | caution · 2026-08-06 — no LICENSE file committed, MIT asserted only in prose; Rosetta/PyRosetta need their own academic license |
 
 ## How to install
 

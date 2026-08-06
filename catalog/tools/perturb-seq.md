@@ -7,6 +7,13 @@ supplier: GPTomics bioSkills
 availability: GA
 tool_categories: [Molecular and Cellular Biology]
 last_verified: 2026-08-01
+verification: works
+verified_on: 2026-08-06
+reviewed_on: 2026-08-06
+verification_note: "GPTomics/bioSkills repo and single-cell/perturb-seq dir confirmed live this run, install instructions match the current upstream layout"
+security: cleared
+security_on: 2026-08-06
+security_note: "GPTomics/bioSkills root LICENSE fetched this run confirms MIT verbatim, dependencies are standard OSS (Pertpy/scanpy/SCEPTRE/Seurat/scMAGeCK/DESeq2/edgeR) with no OSV advisories and no credential requirements"
 summary: "Analyze single-cell CRISPR screens with Pertpy, Mixscape escaper removal, SCEPTRE calibrated testing and E-distance effect sizes"
 ---
 
@@ -21,6 +28,8 @@ A Claude Code skill for single-cell CRISPR screens (Perturb-seq / CROP-seq) that
 | **Availability** | GA — part of the bioSkills collection |
 | **Pricing** | Free / OSS (MIT) — Pertpy, scanpy, SCEPTRE, Seurat, scMAGeCK, DESeq2 and edgeR are separately installed OSS |
 | **Capabilities** | Read/Write — Claude runs the skill's workflow locally (Python/R), not as an MCP tool |
+| **Verified** | works · 2026-08-06 |
+| **Security** | cleared · 2026-08-06 — GPTomics/bioSkills MIT, standard OSS deps, no advisories |
 
 ## How to install
 

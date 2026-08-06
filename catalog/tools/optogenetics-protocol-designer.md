@@ -7,6 +7,13 @@ supplier: Awesome Cognitive and Neuroscience Skills
 availability: GA
 tool_categories: [Neuroscience]
 last_verified: 2026-08-02
+verification: works
+verified_on: 2026-08-06
+reviewed_on: 2026-08-06
+verification_note: "HaoxuanLiTHUAI/awesome_cognitive_and_neuroscience_skills repo and skills/optogenetics-protocol-designer dir confirmed live this run despite the repo-renamed flag"
+security: cleared
+security_on: 2026-08-06
+security_note: "confirmed this run the repo now resolves under the NeuroAIHub org, a legitimate GitHub transfer not a typosquat; MIT unchanged, read-only guidance skill with no credential requests"
 summary: "Choose opsins, wavelengths, pulse protocols, fiber specifications and control conditions for optogenetic excitation or inhibition experiments"
 ---
 
@@ -21,6 +28,8 @@ Helps Claude specify an optogenetics experiment end to end — which opsin match
 | **Availability** | GA — one of ~40 research skills in the collection (last upstream push 2026-07-13) |
 | **Pricing** | Free / OSS (MIT) |
 | **Capabilities** | Read-only — experimental-design guidance; no software is executed |
+| **Verified** | works · 2026-08-06 |
+| **Security** | cleared · 2026-08-06 — legitimate NeuroAIHub repo transfer confirmed, MIT, no credential requests |
 
 ## How to install
 

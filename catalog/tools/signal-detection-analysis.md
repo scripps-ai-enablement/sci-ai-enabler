@@ -7,6 +7,13 @@ supplier: Awesome Cognitive and Neuroscience Skills
 availability: GA
 tool_categories: [Neuroscience]
 last_verified: 2026-08-02
+verification: works
+verified_on: 2026-08-06
+reviewed_on: 2026-08-06
+verification_note: "HaoxuanLiTHUAI/awesome_cognitive_and_neuroscience_skills repo and skills/signal-detection-analysis dir confirmed live this run despite the repo-renamed flag"
+security: cleared
+security_on: 2026-08-06
+security_note: "same NeuroAIHub repo transfer confirmed legitimate as sibling skills in this collection; the osv-advisory flag traced this run to three old scipy GHSA IDs, all fixed by or withdrawn before the pinned scipy 1.18.0, so no live advisory applies"
 summary: "Apply signal detection theory to behavioral data — d-prime, criterion, beta, extreme-value correction and non-parametric alternatives"
 ---
 
@@ -21,6 +28,8 @@ Separates sensitivity from response bias in two-alternative behavioral data, wit
 | **Availability** | GA — one of ~40 research skills in the collection (last upstream push 2026-07-13) |
 | **Pricing** | Free / OSS (MIT) |
 | **Capabilities** | Read/Write — methodology guidance; Claude writes and runs the computation locally |
+| **Verified** | works · 2026-08-06 |
+| **Security** | cleared · 2026-08-06 — legitimate NeuroAIHub repo transfer confirmed; osv-advisory flag traced to old/withdrawn scipy GHSA IDs, not applicable to the pinned 1.18.0 |
 
 ## How to install
 
