@@ -10,7 +10,7 @@ nav_order: 5
 
 ## What it is
 
-A marketplace is a `marketplace.json` index — usually in a GitHub repo — listing plugins available for `/plugin install`. Once you register a marketplace, its plugins are discoverable in the `/plugin` browser and addressable as `<plugin-name>@<marketplace-name>`. Sources can be GitHub `owner/repo`, any Git URL, a local directory, or a direct URL to a hosted `marketplace.json`.
+A marketplace is a `marketplace.json` index — usually in a GitHub repo — listing plugins available for `/plugin install`. Once you register a marketplace, its plugins are discoverable in the `/plugin` browser and addressable as `<plugin-name>@<marketplace-name>`. You add the marketplace itself from GitHub `owner/repo`, any Git URL, a local directory, or a direct URL to a hosted `marketplace.json`. Inside that file, an individual plugin entry can point to a GitHub repo, a git URL (including a monorepo subdirectory), an npm package, or — new in v2.1.224 (2026-08-07) — a zip file over plain HTTPS with an optional SHA-256 pin. You install any of these the same way; the source type only matters to whoever authored the marketplace.
 
 Anthropic ships the `claude-plugins-official` marketplace pre-registered — it's available the first time you open Claude Code. Other Anthropic-managed marketplaces (community, life-sciences, knowledge-work) and any third-party marketplace must be added explicitly. On the Claude.ai side, the unified Directory at `claude.ai/directory` surfaces Plugins alongside Skills and Connectors — separate from the Claude Code marketplace mechanism described here.
 
@@ -74,3 +74,5 @@ List, remove, or update with `/plugin marketplace list`, `/plugin marketplace re
 - [Agents for financial services](https://www.anthropic.com/news/finance-agents) — Anthropic news; published 2026-05-05 — 10 finance agent templates shipped as plugins for Cowork and Claude Code.
 - [`anthropics/financial-services`](https://github.com/anthropics/financial-services) — verified 2026-05-27 (this run) — `claude-for-financial-services` marketplace; install `financial-analysis` first (provides shared MCP connectors).
 - [Install financial services plugins for Cowork](https://support.claude.com/en/articles/13851150-install-financial-services-plugins-for-cowork) — Anthropic help center; verified 2026-05-27 — Cowork install path (Customize → Add marketplace from GitHub).
+- [Create and distribute a plugin marketplace](https://code.claude.com/docs/en/plugin-marketplaces) — Anthropic docs; verified 2026-08-08 (this run) — marketplace-entry source kinds (relative path, `github`, git URL, `git-subdir`, `npm`, and the new `archive` zip-over-HTTPS source with optional `sha256` pin).
+- [Claude Code changelog (v2.1.224, 2026-08-07)](https://code.claude.com/docs/en/changelog) — Anthropic docs; verified 2026-08-08 (this run) — added the `archive` plugin source type.

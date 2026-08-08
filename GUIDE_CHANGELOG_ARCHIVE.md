@@ -6,6 +6,25 @@ nav_exclude: true
 # Guide updates archive
 
 Older entries rotated out of [GUIDE_CHANGELOG.md](GUIDE_CHANGELOG.md). Newest first, same format.
+## 2026-06-08
+
+No substantive updates — 17 pages spot-checked, all current.
+
+### Verified (no changes)
+- claude-surfaces.md, surfaces/claude-code.md — install command (`curl -fsSL https://claude.ai/install.sh | bash`) re-verified via WebSearch against `claude.com/product/claude-code`: native installer canonical and recommended; Windows `irm https://claude.ai/install.ps1 | iex` / `winget install Anthropic.ClaudeCode`, `brew install --cask claude-code` (stable) / `claude-code@latest`, and npm-with-deprecation-banner all unchanged. Latest documented Claude Code release is v2.1.168 (June 7); v2.1.165–v2.1.168 are dominated by bug fixes plus the `fallbackModel` setting and cross-session-messaging hardening — below the beginner threshold. `/code-review` (bug-hunting) vs `/simplify` (cleanup-only) split, Channels, Dynamic Workflows (`ultracode`), Claude Security, MCP tunnels, routines, and per-surface sandboxing all current.
+- surfaces/claude-api.md — Opus 4.8 default + low/medium/high/xhigh/max effort ladder confirmed unchanged. The new **advisor tool** (public beta, `advisor-tool-2026-03-01` header; pairs an Opus advisor with a Sonnet/Haiku executor inside one API call) was assessed and deliberately omitted: it is an advanced developer cost-optimization tool-use pattern, not a beginner component-model concept, and lives outside this page's orientation scope and word budget.
+- surfaces/claude-ai.md, surfaces/claude-desktop.md, surfaces/claude-cowork.md — unchanged.
+- skills.md, mcp-servers.md, plugins.md, marketplaces.md, connectors.md, decision-tree.md — unchanged.
+- advanced/hooks.md, advanced/slash-commands.md, advanced/routines.md, advanced/authentication.md — unchanged.
+
+### Flagged for review
+- WebFetch remained unavailable this run (404 on `claude-3-5-haiku-20241022`, same regression as prior runs). All verification went through WebSearch summaries of `claude.com/product/claude-code`, `code.claude.com/docs/en/changelog`, `github.com/anthropics/claude-code/releases`, `releasebot.io/updates/anthropic`, `anthropic.com/news`, and `support.claude.com` release notes. A human should spot-check the product landing page and changelog directly.
+- **`claude -p` / Agent SDK billing split lands 2026-06-15** — carried over; still future as of today (2026-06-08). Re-verify after the date that `surfaces/claude-code.md` and `surfaces/claude-api.md` describe live behavior, not the pre-launch announcement. (Eligible users reportedly receive the credit-claim email around 2026-06-08, but the billing split itself is still 06-15.)
+- **Sonnet 4 / Opus 4 retirement 2026-06-15 9am PT** — carried over; re-verify `surfaces/claude-api.md` after the date.
+- **Advisor tool (API)** — newly noted. If it reaches GA or becomes a beginner-facing surface, reconsider a brief mention in `surfaces/claude-api.md`.
+- **Promote `security-guidance` to its own page** — carried over. Not done: the schema fixes the file set, so it stays documented inside `plugins.md` unless a human expands the topic list.
+- **Claude Mythos / critical-infrastructure expansion** — carried over; corporate/infra news, not a beginner component-model change.
+
 ## 2026-06-07
 
 No substantive updates — 17 pages spot-checked, all current.

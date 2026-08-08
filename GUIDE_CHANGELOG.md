@@ -13,6 +13,31 @@ Reverse-chronological log of changes to the [guide]({{ '/guide/' | relative_url 
 
 Older entries live in [GUIDE_CHANGELOG_ARCHIVE.md](GUIDE_CHANGELOG_ARCHIVE.md).
 
+## 2026-08-08
+
+### Added
+- **[Claude surfaces, surfaces/claude-code] Self-hosted environments (Team/Enterprise).** `claude self-hosted-runner` (v2.1.224, 2026-08-07) turns your own machine or container into a place Claude Code web, mobile, and desktop sessions can run, instead of Anthropic's cloud VMs — a genuine discoverability item since it changes where a session actually executes. Added as a cross-cutting bullet on `claude-surfaces.md` and a short mention on `surfaces/claude-code.md`. Grounded in the [Claude Code changelog](https://code.claude.com/docs/en/changelog), v2.1.224, fetched this run.
+- **[Claude surfaces, surfaces/claude-code] Cross-session messaging.** Same release added `SendMessage`/`ListAgents` so background sessions on different machines (macOS/Linux only) can message each other and discover reachable agents. Extended the existing "Background sessions" cross-cutting bullet and the Claude Code web/background paragraph rather than creating a new entry, since it's an extension of an already-documented feature.
+- **[advanced/hooks] `DirectoryAdded` hook event (v2.1.222, 2026-08-04).** Fires after `/add-dir` or the SDK's `register_repo_root` control request registers a new working directory mid-session. Added to the events list.
+
+### Updated
+- **[marketplaces] New `archive` plugin source type.** A `marketplace.json` plugin entry can now point to a zip file over plain HTTPS with an optional SHA-256 pin (v2.1.224, 2026-08-07), alongside the existing GitHub/git/git-subdir/npm source kinds. Clarified that this is an authoring-time detail — end users still run `/plugin install <name>@<marketplace>` the same way regardless of source type. Grounded in [Create and distribute a plugin marketplace](https://code.claude.com/docs/en/plugin-marketplaces) (re-fetched this run, now documents the `archive` source) and the v2.1.224 changelog.
+- **[advanced/slash-commands] Corrected subagent concurrency/depth defaults and removed a stale per-session cap.** The page previously said "up to 10 parallel" and "5 levels deep" with a 200-subagent-per-session cap (`CLAUDE_CODE_MAX_SUBAGENTS_PER_SESSION`). The canonical [Subagents reference](https://code.claude.com/docs/en/subagents) (fetched this run) gives different current defaults: 20 concurrent (`CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS`) and 3 levels of nesting depth (`CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH`, which the doc says moved 5 → 1 → 3 across recent releases) — and states there is no limit on total subagents spawned over a session's lifetime. The per-session cap was removed in v2.1.224 (2026-08-07) per the changelog. Rewrote the paragraph and Sources to match the canonical doc, which we treat as authoritative over the page's prior figures.
+
+### Verified (no changes)
+- Claude Code install command and launch surfaces (`claude.com/product/claude-code`, re-fetched) — unchanged.
+- Claude API model guidance (Opus 5, Sonnet 5, Fable 5) — no new model launches this week; Opus 5 fast-mode plan-tiering details ($10/$50 per Mtok, Max/premium-seat only, capped at 50% of weekly limits since 2026-07-20) surfaced via search but are a research-preview power-user detail below this page's beginner threshold — not added, see Flagged for review.
+- Connectors directory — could not confirm an updated total count this run (source page truncated); left the existing "950+" figure in place.
+- Skills, Plugins, Decision tree, Connectors, Routines, Authentication, Claude.ai, Claude Desktop, Claude Cowork, Claude Science, Claude Tag, Claude API — spot-checked, no stale claims found this run. Cowork web/mobile confirmed still in beta (Max-first rollout continuing), matching current page text.
+- v2.1.221 (Focus view chat-menu toggle) and v2.1.222–223 (permission/sandbox security hardening, session-wide WebSearch cap, MCP auto-background) reviewed and judged below the beginner threshold for this guide, consistent with prior runs' treatment of similar internal hardening changes.
+
+### Flagged for review
+- **Opus 5 fast mode plan-tiering** — Max/premium Team-Enterprise seats only, capped at 50% of weekly usage, $10/$50 per Mtok, Claude API only (not Bedrock/Vertex/Foundry). Still research preview; reconsider a one-line pitfall on `surfaces/claude-api.md` if it reaches GA.
+- **Subagent spawn-cap history is inconsistent across sources.** Secondary trackers (X/changelog aggregators) describe the 200-subagent-per-session cap as newly *added* in v2.1.223 (2026-08-05) rather than dating to v2.1.212 as previously recorded in this guide's changelog; the canonical Subagents reference doesn't date the addition, only the v2.1.224 removal. We trust the canonical doc for current state (no cap) and note the discrepancy rather than resolve it.
+- **Claude for Government (beta)** and **org-level inference hooks / DLP for Enterprise** — surfaced in this week's news roundup; both are enterprise/compliance-admin features, not beginner component-model concepts, so omitted by scope, consistent with prior exclusions of similar admin-only tooling.
+- **Agent SDK billing split** — carried over; still paused per the help-center notice as of last verification. Re-check next run.
+- Carried over from 2026-08-01: Mythos 5 GA restricted to approved orgs; promote `security-guidance` to its own page only if a human expands the fixed topic list.
+
 ## 2026-08-01
 
 ### Added
@@ -250,23 +275,4 @@ Older entries live in [GUIDE_CHANGELOG_ARCHIVE.md](GUIDE_CHANGELOG_ARCHIVE.md).
 - **Sonnet 4 / Opus 4 retirement 2026-06-15 9am PT** — carried over; re-verify `surfaces/claude-api.md` after the date that the IDs now error.
 - **Advisor tool (API)** — carried over; still an advanced developer cost-optimization pattern, omitted by scope.
 - **Promote `security-guidance` to its own page** — carried over; schema fixes the file set, stays inside `plugins.md` unless a human expands the topic list.
-
-## 2026-06-08
-
-No substantive updates — 17 pages spot-checked, all current.
-
-### Verified (no changes)
-- claude-surfaces.md, surfaces/claude-code.md — install command (`curl -fsSL https://claude.ai/install.sh | bash`) re-verified via WebSearch against `claude.com/product/claude-code`: native installer canonical and recommended; Windows `irm https://claude.ai/install.ps1 | iex` / `winget install Anthropic.ClaudeCode`, `brew install --cask claude-code` (stable) / `claude-code@latest`, and npm-with-deprecation-banner all unchanged. Latest documented Claude Code release is v2.1.168 (June 7); v2.1.165–v2.1.168 are dominated by bug fixes plus the `fallbackModel` setting and cross-session-messaging hardening — below the beginner threshold. `/code-review` (bug-hunting) vs `/simplify` (cleanup-only) split, Channels, Dynamic Workflows (`ultracode`), Claude Security, MCP tunnels, routines, and per-surface sandboxing all current.
-- surfaces/claude-api.md — Opus 4.8 default + low/medium/high/xhigh/max effort ladder confirmed unchanged. The new **advisor tool** (public beta, `advisor-tool-2026-03-01` header; pairs an Opus advisor with a Sonnet/Haiku executor inside one API call) was assessed and deliberately omitted: it is an advanced developer cost-optimization tool-use pattern, not a beginner component-model concept, and lives outside this page's orientation scope and word budget.
-- surfaces/claude-ai.md, surfaces/claude-desktop.md, surfaces/claude-cowork.md — unchanged.
-- skills.md, mcp-servers.md, plugins.md, marketplaces.md, connectors.md, decision-tree.md — unchanged.
-- advanced/hooks.md, advanced/slash-commands.md, advanced/routines.md, advanced/authentication.md — unchanged.
-
-### Flagged for review
-- WebFetch remained unavailable this run (404 on `claude-3-5-haiku-20241022`, same regression as prior runs). All verification went through WebSearch summaries of `claude.com/product/claude-code`, `code.claude.com/docs/en/changelog`, `github.com/anthropics/claude-code/releases`, `releasebot.io/updates/anthropic`, `anthropic.com/news`, and `support.claude.com` release notes. A human should spot-check the product landing page and changelog directly.
-- **`claude -p` / Agent SDK billing split lands 2026-06-15** — carried over; still future as of today (2026-06-08). Re-verify after the date that `surfaces/claude-code.md` and `surfaces/claude-api.md` describe live behavior, not the pre-launch announcement. (Eligible users reportedly receive the credit-claim email around 2026-06-08, but the billing split itself is still 06-15.)
-- **Sonnet 4 / Opus 4 retirement 2026-06-15 9am PT** — carried over; re-verify `surfaces/claude-api.md` after the date.
-- **Advisor tool (API)** — newly noted. If it reaches GA or becomes a beginner-facing surface, reconsider a brief mention in `surfaces/claude-api.md`.
-- **Promote `security-guidance` to its own page** — carried over. Not done: the schema fixes the file set, so it stays documented inside `plugins.md` unless a human expands the topic list.
-- **Claude Mythos / critical-infrastructure expansion** — carried over; corporate/infra news, not a beginner component-model change.
 
