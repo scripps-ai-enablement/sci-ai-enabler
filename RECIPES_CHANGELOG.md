@@ -15,6 +15,21 @@ Older entries live in [RECIPES_CHANGELOG_ARCHIVE.md](RECIPES_CHANGELOG_ARCHIVE.m
 
 ## 2026-08-08
 
+### Added
+- **Test which immune populations differ between groups in a cytometry cohort** (Problem class: Data analysis; Evidence: Proposed) — rung-3 chain of three bioSkills cytometry skills, opening a leg where all five catalogued cytometry skills were uncovered and the only existing recipe was deliberately I/O-only. The recipe's job is closing three failures that all produce publishable-looking tables: pseudoreplication (closed mechanically by emitting a committed per-sample-per-cluster `counts.csv` and testing that, since methods ignoring biological-replicate variation ["can discover hundreds of differentially expressed genes in the absence of biological differences"](https://pubmed.ncbi.nlm.nih.gov/34584091/)), compositional artifact (every DA hit re-checked and labelled `compositional_confirmed`/`compositional_suspect`), and conflating abundance with state (two tables, never merged). Testing engine grounded in [diffcyt](https://pubmed.ncbi.nlm.nih.gov/31098416/).
+- **Find which taxa differ between microbiome groups** (Problem class: Data analysis; Evidence: Proposed) — rung-2 Differential Abundance skill recipe completing the microbiome leg: the existing diversity recipe answered "do the communities differ" and nothing answered "which taxon". Runs ≥2 compositionally-aware methods on one filtered table and tiers the output `high_confidence` (intersection) vs `exploratory`, which is the explicit recommendation of the benchmark showing 14 methods across 38 datasets ["identified drastically different numbers and sets of significant ASVs"](https://pubmed.ncbi.nlm.nih.gov/35039521/), with hit counts tracking sample size and sequencing depth rather than biology. Declares the prevalence filter as a recorded parameter, refuses DESeq2/edgeR on compositional data, and records the taxonomy reference release.
+
+### Updated
+- _None._
+
+### Flagged
+- _None._
+
+### Verified (no changes)
+- 0 recipes re-verified — `recipe_recheck: no` for this slot, so the run went to discovery. The 2026-07-04 recheck backlog (seven recipes) remains queued in `Deferred`.
+
+## 2026-08-08
+
 Chemistry-focused pass. Two new recipes, both opening legs of the cookbook that had no coverage at all.
 
 ### Added
