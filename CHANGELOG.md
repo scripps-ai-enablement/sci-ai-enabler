@@ -16,6 +16,18 @@ Older entries live in [CHANGELOG_ARCHIVE.md](CHANGELOG_ARCHIVE.md).
 ## 2026-08-08
 
 ### Added
+- **TAD Detection (bioSkills)** (Categories: Molecular and Cellular Biology) — first 3D-genome entry in the catalog: cooltools diamond-window insulation scores, valley-prominence boundary strength, and the multi-scale window sweep ([SKILL.md](https://github.com/GPTomics/bioSkills/blob/main/hi-c-analysis/tad-detection/SKILL.md))
+- **Chromatin Loop Calling (bioSkills)** (Categories: Molecular and Cellular Biology) — cooltools `dots` / chromosight / Mustache loop calling with the depth fork that routes shallow maps to aggregate peak analysis instead ([SKILL.md](https://github.com/GPTomics/bioSkills/blob/main/hi-c-analysis/loop-calling/SKILL.md))
+- **A/B Compartment Analysis (bioSkills)** (Categories: Molecular and Cellular Biology) — per-chromosome-arm eigendecomposition with GC phasing so the active-compartment sign is not arbitrary ([SKILL.md](https://github.com/GPTomics/bioSkills/blob/main/hi-c-analysis/compartment-analysis/SKILL.md))
+- **Hashtag Demultiplexing (bioSkills)** (Categories: Molecular and Cellular Biology) — HTO / MULTI-seq / CellPlex sample assignment and cross-sample doublet calling across HTODemux, MULTIseqDemux, hashsolo, demuxEM and demuxmix ([SKILL.md](https://github.com/GPTomics/bioSkills/blob/main/single-cell/hashing-demultiplexing/SKILL.md))
+- **Metabolite Cell Communication (bioSkills)** (Categories: Molecular and Cellular Biology) — MEBOCOST enzyme-to-sensor scoring with scFEA / Compass / NeuronChat routing and explicit limits on the double inference involved ([SKILL.md](https://github.com/GPTomics/bioSkills/blob/main/single-cell/metabolite-communication/SKILL.md))
+
+### Verified (no changes)
+- `anthropics/life-sciences` marketplace manifest re-read — all listed plugins already catalogued, no new entries.
+
+## 2026-08-08
+
+### Added
 - **Covariation Analysis (bioSkills)** (Categories: Integrative Structural and Computational Biology, Molecular and Cellular Biology) — R-scape test of whether a proposed RNA secondary structure has evolutionary support, with the statistical-power check that makes a negative result meaningful; `bioconda::rscape` 2.0.4.a confirmed as the install path ([SKILL.md](https://github.com/GPTomics/bioSkills/blob/main/rna-structure/covariation-analysis/SKILL.md))
 - **ncRNA Search (bioSkills)** (Categories: Integrative Structural and Computational Biology, Molecular and Cellular Biology) — Infernal covariance-model search against Rfam with clan de-overlapping and GA/TC/NC threshold guidance; `bioconda::infernal` 1.1.5 confirmed ([SKILL.md](https://github.com/GPTomics/bioSkills/blob/main/rna-structure/ncrna-search/SKILL.md))
 - **RNA Structure Probing (bioSkills)** (Categories: Integrative Structural and Computational Biology, Molecular and Cellular Biology) — SHAPE-MaP/DMS-MaPseq processing with ShapeMapper2 into normalized reactivities used as soft folding restraints ([SKILL.md](https://github.com/GPTomics/bioSkills/blob/main/rna-structure/structure-probing/SKILL.md))
