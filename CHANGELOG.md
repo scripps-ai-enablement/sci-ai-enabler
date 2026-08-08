@@ -16,6 +16,23 @@ Older entries live in [CHANGELOG_ARCHIVE.md](CHANGELOG_ARCHIVE.md).
 ## 2026-08-08
 
 ### Added
+- **Covariation Analysis (bioSkills)** (Categories: Integrative Structural and Computational Biology, Molecular and Cellular Biology) — R-scape test of whether a proposed RNA secondary structure has evolutionary support, with the statistical-power check that makes a negative result meaningful; `bioconda::rscape` 2.0.4.a confirmed as the install path ([SKILL.md](https://github.com/GPTomics/bioSkills/blob/main/rna-structure/covariation-analysis/SKILL.md))
+- **ncRNA Search (bioSkills)** (Categories: Integrative Structural and Computational Biology, Molecular and Cellular Biology) — Infernal covariance-model search against Rfam with clan de-overlapping and GA/TC/NC threshold guidance; `bioconda::infernal` 1.1.5 confirmed ([SKILL.md](https://github.com/GPTomics/bioSkills/blob/main/rna-structure/ncrna-search/SKILL.md))
+- **RNA Structure Probing (bioSkills)** (Categories: Integrative Structural and Computational Biology, Molecular and Cellular Biology) — SHAPE-MaP/DMS-MaPseq processing with ShapeMapper2 into normalized reactivities used as soft folding restraints ([SKILL.md](https://github.com/GPTomics/bioSkills/blob/main/rna-structure/structure-probing/SKILL.md))
+- **Geometric Analysis (bioSkills)** (Categories: Integrative Structural and Computational Biology) — Bio.PDB measurement layer for static structures: distances, dihedrals, superposition/RMSD, radius of gyration, SASA ([SKILL.md](https://github.com/GPTomics/bioSkills/blob/main/structural-biology/geometric-analysis/SKILL.md))
+
+### Updated
+- No existing entries changed (`link_recheck: no` this slot).
+
+### Flagged
+- None.
+
+### Verified (no changes)
+- `anthropics/life-sciences` marketplace manifest re-read; all listed plugins already catalogued, no new entries.
+
+## 2026-08-08
+
+### Added
 - **Compensation and Transformation (bioSkills)** (Categories: Immunology and Microbiology, Molecular and Cellular Biology) — spillover compensation vs spectral unmixing, then logicle/arcsinh transforms in the correct order; arcsinh cofactor 5 for CyTOF vs ~150 for fluorescence ([SKILL.md](https://github.com/GPTomics/bioSkills/blob/main/flow-cytometry/compensation-transformation/SKILL.md))
 - **Cytometry QC (bioSkills)** (Categories: Immunology and Microbiology, Molecular and Cellular Biology) — margin removal, flowAI/PeacoQC/flowCut time-based anomaly cleaning, CyTOF `Event_length` and dead-cell checks, batch outlier flagging ([SKILL.md](https://github.com/GPTomics/bioSkills/blob/main/flow-cytometry/cytometry-qc/SKILL.md))
 - **Gating Analysis (bioSkills)** (Categories: Immunology and Microbiology, Molecular and Cellular Biology) — scripted hierarchical `GatingSet`s, openCyto templates, flowDensity thresholds, FlowJo round-trip via CytoML, FMO-not-isotype boundary rule ([SKILL.md](https://github.com/GPTomics/bioSkills/blob/main/flow-cytometry/gating-analysis/SKILL.md))
