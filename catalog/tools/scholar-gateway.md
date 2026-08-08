@@ -6,7 +6,7 @@ tool_type: MCP server
 supplier: Wiley
 availability: Beta
 tool_categories: [All]
-last_verified: 2026-05-20
+last_verified: 2026-08-08
 verification: works
 verified_on: 2026-07-20
 verification_note: "wiley-scholar-gateway plugin dir confirmed in the anthropics/life-sciences marketplace repo; functional connect is OAuth/account-gated so verified via primary-source marketplace not a live call"

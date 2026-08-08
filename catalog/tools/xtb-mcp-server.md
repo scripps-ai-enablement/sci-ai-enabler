@@ -80,7 +80,7 @@ stdio transport. The server's job is **input preparation and validation** — th
 
 The README's license statement appears only in its Chinese section ("本项目采用 MIT 许可证" — this project uses the MIT License).
 
-For a full agentic compchem stack rather than input generation, see [ChemGraph](https://github.com/argonne-lcf/ChemGraph) (Argonne, ships an MCP server over ASE/TBLite/NWChem/ORCA/MACE) — not yet catalogued pending license and tool-list confirmation.
+To actually run the calculations rather than prepare their inputs, see [ChemGraph](chemgraph.html) (Argonne, an MCP server that drives ASE against TBLite/xTB, NWChem, ORCA, and MACE).
 
 ## Sources
 

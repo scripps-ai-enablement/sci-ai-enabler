@@ -6,7 +6,7 @@ tool_type: Claude Code Plugin
 supplier: Springer Nature
 availability: GA
 tool_categories: [Drug Repurposing and Discovery, Translational Medicine]
-last_verified: 2026-05-20
+last_verified: 2026-08-08
 verification: degraded
 verified_on: 2026-07-29
 verification_note: "install path resolves (adisinsight plugin in anthropics/life-sciences marketplace, endpoint adisinsight-mcp.springer.com) but needs an AdisInsight subscription so it is functionally unverifiable"

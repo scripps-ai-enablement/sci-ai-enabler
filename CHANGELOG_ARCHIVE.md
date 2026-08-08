@@ -6,6 +6,80 @@ nav_exclude: true
 # Catalog updates archive
 
 Older entries rotated out of [CHANGELOG.md](CHANGELOG.md). Newest first, same format.
+## 2026-07-17 (manual bulk addition)
+
+Out-of-cycle manual import from a user request (@goodb): Anthropic's [Claude Science](https://claude.com/docs/claude-science/connectors-and-skills) **20 Featured connectors + 17 Research skills**, catalogued at source-level granularity (each connector decomposed into its underlying data sources). Introduced a searchable **Claude Science marker** — a `claude_science: true` front-matter flag that `scripts/build_index.py` turns into a `"Claude Science"` composer keyword, plus a bolded **Claude Science:** trust callout under each entry's Notes. **69 entries now carry the marker** (35 new + 34 annotated). Merged as [#56](https://github.com/scripps-ai-enablement/sci-ai-enabler/pull/56). Claude Science has since been added to the standing discovery sources in `AGENT.md` so future runs sweep it automatically.
+
+### Added
+- **12 Claude Science research skills** (upstream OSS repos documented for local runs; most are Claude-Science-only): **AlphaFold2**, **Chai-1**, **ESMFold**, **OpenFold3** (structure prediction; Categories: Integrative Structural and Computational Biology, Drug Repurposing and Discovery ± Molecular and Cellular Biology); **ProteinMPNN**, **LigandMPNN**, **SolubleMPNN** (protein sequence design; Integrative Structural and Computational Biology, Drug Repurposing and Discovery); **Borzoi**, **Evo 2** (sequence/genome models; Molecular and Cellular Biology); **scGPT** (single-cell foundation model; Immunology and Microbiology, Molecular and Cellular Biology); **Indication Dossier** (agent workflow; Drug Repurposing and Discovery, Translational Medicine); **Morning** (General-Purpose Utilities). ([Claude Science](https://claude.com/docs/claude-science/connectors-and-skills))
+- **6 connector data sources with community/official MCP servers** — **cBioPortal** ([`cBioPortal/cbioportal-mcp`](https://github.com/cBioPortal/cbioportal-mcp)), **MyGene.info** (BioThings, [`longevity-genie/biothings-mcp`](https://github.com/longevity-genie/biothings-mcp)), **Gene Ontology** ([`Augmented-Nature/GeneOntology-MCP-Server`](https://github.com/Augmented-Nature/GeneOntology-MCP-Server)), **Ontology Lookup Service (OLS)** ([`seandavi/ols-mcp-server`](https://github.com/seandavi/ols-mcp-server)), **arXiv** ([`blazickjp/arxiv-mcp-server`](https://github.com/blazickjp/arxiv-mcp-server)), **ArrayExpress / BioStudies** ([`Augmented-Nature/BioStudies-MCP-Server`](https://github.com/Augmented-Nature/BioStudies-MCP-Server)). All install paths built and verified.
+- **17 connector data sources as Claude.ai Connector entries** (Anthropic-hosted in Claude Science; each documents the provider's public API for outside-Claude-Science access): **Complex Portal**, **IntAct**, **ChEBI**, **Rhea**, **BindingDB**, **BioMart**, **ClinGen**, **CIViC**, **eQTL Catalogue**, **FinnGen**, **BioBank Japan**, **Ketcher** (EPAM sketcher), **Antibody Registry**, **Rfam**, **MGnify**, **MetaboLights**, **CELLxGENE CellGuide**.
+
+### Updated
+- **Claude Science marker added to 34 existing entries** (provenance annotation — no `last_verified` bump): `pdb`, `pdbe`, `alphafold`, `emdb-database`, `gnomad-database`, `clinvar-database`, `dbsnp-database`, `zinc-database`, `pubchem`, `openfda`, `fda-database`, `gtex-database`, `uniprot`, `reactome-database`, `ensembl`, `ucsc-genome-browser`, `gwas-database`, `openalex-database`, `geo-database`, `pride-database`, `interpro-database`, `string-database-ppi`, `encode-database`, `jaspar-database`, `unibind-database`, `research-grants`, `cellxgene-census`, `open-targets`, `human-protein-atlas`, `boltz`, `diffdock`, `esm`, `literature-review`, `scvi-tools`.
+- **Open Targets Plugin** — the official MCP endpoint remains flagged (fails `initialize`); added the **verified-working** community [`Augmented-Nature/OpenTargets-MCP-Server`](https://github.com/Augmented-Nature/OpenTargets-MCP-Server) as an install path + workaround (built, passed the stdio handshake, 6 tools, live BRAF data on 2026-07-17). `last_verified` bumped to 2026-07-17.
+
+## 2026-07-15 (Chemistry slot)
+
+Chemistry directed pass plus a manifest sweep, and processed one open user request. The `anthropics/life-sciences` marketplace was re-fetched (21 plugin directories) and diffed against the catalog — all entries already covered. The Chemistry seed queries (RDKit / retrosynthesis / ChEMBL / PubChem MCP) surfaced only tools already catalogued (`rdkit-mcp` = `tandemai-inc/rdkit-mcp-server`; `rdkit-agent`, `chemcp`, `pubchem`, `chembl` all present; the Augmented-Nature ChEMBL variant stays deferred; no OSS retrosynthesis MCP wrapper has shipped) — no new Chemistry entry warranted.
+
+### Added
+- **GlyGen MCP Server** (Categories: All) — first-party remote MCP server over GlyGen's integrated glycan / glycoprotein / biomarker / disease knowledgebase; five read-only summary tools (`get_protein_summary`, `get_site_summary`, `get_glycan_summary`, `get_biomarker_summary`, `get_disease_summary`). Install via Claude.ai custom connector, `claude mcp add --transport http`, or Claude Desktop `mcp-remote` proxy at `https://mcp.glygen.org/mcp`. Beta; pricing Unverified (no upstream LICENSE). Surfaced from user request [#48](https://github.com/scripps-ai-enablement/sci-ai-enabler/issues/48). ([`glygener/glygen-mcp-server`](https://github.com/glygener/glygen-mcp-server), [GlyGen](https://www.glygen.org/))
+
+### Flagged
+- **GlyGen MCP Server** — `glygener/glygen-mcp-server` declares no LICENSE (GitHub license field null); pricing marked `Unverified —` inline rather than asserting Free / OSS.
+
+### Updated
+- **ChEMBL Connector** — re-verified against the `anthropics/life-sciences` marketplace (still listed); `last_verified` bumped 2026-05-30 → 2026-07-15.
+
+### Verified (no changes)
+- `anthropics/life-sciences` marketplace re-diffed against the catalog; all 21 plugin directories already covered.
+
+## 2026-07-12 (Drug Repurposing and Discovery slot)
+
+Drug Repurposing and Discovery directed pass plus a manifest sweep. The `anthropics/life-sciences` (`.claude-plugin/marketplace.json`) and `claude-plugins-official` marketplaces were re-fetched and diffed — no new life-science plugins. The directed pass drew from the deferred **ToolUniverse sibling agent skills** queue (`mims-harvard/ToolUniverse/skills/`, Apache-2.0, 150+ skills sharing the `npx skills add mims-harvard/ToolUniverse` install path): four genuinely new drug-discovery / oncology / safety workflows were verified against their `SKILL.md` files and catalogued.
+
+### Added
+- **Cancer Variant Interpretation (ToolUniverse Claude Skill)** (Categories: Drug Repurposing and Discovery, Molecular and Cellular Biology, Translational Medicine) — eight-phase somatic-mutation interpretation (CIViC/OncoKB tiers, cBioPortal prevalence, OpenTargets/ChEMBL/DrugBank therapies, resistance mechanisms, ClinicalTrials.gov matching) producing an evidence-graded precision-oncology report. GA, Free / OSS. ([`skills/tooluniverse-cancer-variant-interpretation/SKILL.md`](https://github.com/mims-harvard/ToolUniverse/blob/main/skills/tooluniverse-cancer-variant-interpretation/SKILL.md))
+- **Adverse Event Detection (ToolUniverse Claude Skill)** (Categories: Drug Repurposing and Discovery, Translational Medicine) — nine-phase pharmacovigilance signal detection over openFDA FAERS with disproportionality statistics (PRR/ROR/IC, 95% CIs) and a 0–100 Safety Signal Score. GA, Free / OSS. ([`skills/tooluniverse-adverse-event-detection/SKILL.md`](https://github.com/mims-harvard/ToolUniverse/blob/main/skills/tooluniverse-adverse-event-detection/SKILL.md))
+- **Immunotherapy Response Prediction (ToolUniverse Claude Skill)** (Categories: Drug Repurposing and Discovery, Immunology and Microbiology, Translational Medicine) — eleven-phase ICI response scoring integrating TMB, MSI, PD-L1, HLA, and immune gene expression into a 0–100 evidence-graded score. GA, Free / OSS. ([`skills/tooluniverse-immunotherapy-response-prediction/SKILL.md`](https://github.com/mims-harvard/ToolUniverse/blob/main/skills/tooluniverse-immunotherapy-response-prediction/SKILL.md))
+- **Adverse Outcome Pathway (ToolUniverse Claude Skill)** (Categories: Chemistry, Drug Repurposing and Discovery) — four-phase chemical hazard assessment mapping compounds to AOPs via AOPWiki, GHS/IARC classification, LD50 data, and CTD toxicogenomics. GA, Free / OSS. ([`skills/tooluniverse-adverse-outcome-pathway/SKILL.md`](https://github.com/mims-harvard/ToolUniverse/blob/main/skills/tooluniverse-adverse-outcome-pathway/SKILL.md))
+
+### Verified (no changes)
+- `anthropics/life-sciences` + `claude-plugins-official` marketplaces re-diffed against the catalog; all entries already covered.
+
+## 2026-07-12 (Translational Medicine slot)
+
+Translational Medicine directed pass plus a manifest sweep. The `anthropics/life-sciences` (`.claude-plugin/marketplace.json`, 19 entries) and `claude-plugins-official` marketplaces were re-fetched and diffed — no new life-science plugins. The directed pass ran the FHIR / OpenFDA / ClinicalTrials.gov / regulatory-submission seed queries: the FHIR MCP surface (wso2, Momentum, LangCare) is already covered (`fhir-wso2.md`, `fhir-momentum.md`), but the Anthropic-official `anthropics/healthcare` repo has **consolidated** — the former standalone plugins are now deprecated in favor of a single `healthcare@healthcare` plugin that bundles 10 skills + 7 connected MCPs, three of whose skills are genuinely new to the catalog.
+
+### Added
+- **Fraud Detection (Anthropic Healthcare Plugin)** (Categories: Translational Medicine) — Claude skill screening Medicare/Medicaid claims for fraud, waste, and abuse via a three-tier deterministic-detection → model-adjudication → synthesis pipeline over a DuckDB claims corpus (NCCI MUE / OIG LEIE / CMS enrollment / PFS rulesets), with a "citation-or-zero" audit gate producing ranked SIU referrals. GA, Free / OSS. ([`anthropics/healthcare`](https://github.com/anthropics/healthcare), [`skills/fraud-detection/SKILL.md`](https://github.com/anthropics/healthcare/blob/main/plugins/healthcare/skills/fraud-detection/SKILL.md))
+- **Procedure Coding (Anthropic Healthcare Plugin)** (Categories: Translational Medicine) — Claude skill converting a clinical encounter's documentation into claim-ready CPT and HCPCS Level II procedure codes (E/M, procedures, labs, imaging, drugs/devices), excluding planned-but-unperformed, bundled, and Category II codes. GA, Free / OSS. ([`anthropics/healthcare`](https://github.com/anthropics/healthcare), [`skills/procedure-coding/SKILL.md`](https://github.com/anthropics/healthcare/blob/main/plugins/healthcare/skills/procedure-coding/SKILL.md))
+- **Clinical Note Extract (Anthropic Healthcare Plugin)** (Categories: Translational Medicine) — Claude skill extracting structured, validated records from unstructured clinical notes with span-level provenance, explicit `null_reason` handling, and deterministic validation — for auditable chart abstraction and registry building. GA, Free / OSS. ([`anthropics/healthcare`](https://github.com/anthropics/healthcare), [`skills/clinical-note-extract/SKILL.md`](https://github.com/anthropics/healthcare/blob/main/plugins/healthcare/skills/clinical-note-extract/SKILL.md))
+
+### Updated
+- **prior-auth-review** — install snippet now points at the consolidated `healthcare@healthcare` plugin (standalone `prior-auth-review@healthcare` deprecated upstream); skill invoked as `/healthcare:prior-auth`. `last_verified` bumped to 2026-07-12.
+- **ICD-10 Codes MCP** — install now shows `healthcare@healthcare` plus the literal hosted HTTP endpoint (`https://hcls.mcp.claude.com/icd10_codes/mcp`), a direct `claude mcp add --transport http` form, and a Claude Desktop `mcp-remote` proxy snippet. `last_verified` bumped to 2026-07-12.
+
+### Flagged
+- **`anthropics/healthcare` standalone plugins** — `clinical-trial-protocol`, `prior-auth-review`, `fhir-developer`, `cms-coverage`, `npi-registry`, `pubmed`, `icd10-codes` are all marked "Deprecated — install healthcare@healthcare instead" upstream. `prior-auth-review.md` and `icd-10-codes.md` updated this run; `clinical-trial-protocol.md` / `fhir-developer.md` / `cms-coverage.md` / `npi-registry.md` / the `pubmed.md` Anthropic path queued for a future pass.
+
+### Verified (no changes)
+- Manifest sweep of `anthropics/life-sciences` (19 plugins) + `claude-plugins-official` + MCP Registry — no new in-scope entries.
+- FHIR MCP surface (`fhir-wso2.md`, `fhir-momentum.md`) and OpenFDA / ClinicalTrials.gov coverage confirmed current for the directed pass.
+
+## 2026-07-12 (Neuroscience slot)
+
+Neuroscience directed pass plus a manifest sweep. The `anthropics/life-sciences` (`.claude-plugin/marketplace.json`, 19 entries) and `claude-plugins-official` marketplaces were re-fetched and diffed — no new in-scope plugins (all already catalogued; `boltz` unchanged). The directed pass ran the NWB/DANDI and EEG/fMRI seed queries: DANDI/Allen/NWB MCP surfaces are already covered (`neurosift`, `allenbrain`, `bci-mcp`), but the `InternScience/Awesome-Scientific-Skills` meta-list surfaced `HughYau/neuroforge-skills` (MIT, 5 skills over Brian2 / MNE-Python / Nilearn / SpikeInterface / pyNIBS). Two of the five are genuinely new to the catalog.
+
+### Added
+- **Brian2** (Categories: Neuroscience) — Claude Skill for building spiking neural network simulations with Brian2: equation-based `NeuronGroup` neuron models, `Synapses` with STDP-style plasticity, Poisson/`TimedArray` inputs, spike/state/rate monitors, Python vs. `cpp_standalone` execution, and multicompartment `SpatialNeuron` morphology. GA, MIT. ([`HughYau/neuroforge-skills`](https://github.com/HughYau/neuroforge-skills), [`skills/brian2/SKILL.md`](https://github.com/HughYau/neuroforge-skills/blob/main/skills/brian2/SKILL.md))
+- **pyNIBS** (Categories: Neuroscience) — Claude Skill for TMS / non-invasive brain stimulation analysis with pyNIBS: subject/session and mesh/ROI HDF5 I/O, coil-placement and multichannel-current optimization, nonlinear MEP-to-E-field regression mapping, and experiment-import/QC utilities (SimNIBS integration). GA, MIT. ([`HughYau/neuroforge-skills`](https://github.com/HughYau/neuroforge-skills), [`skills/pynibs/SKILL.md`](https://github.com/HughYau/neuroforge-skills/blob/main/skills/pynibs/SKILL.md))
+
+### Verified (no changes)
+- Manifest sweep of `anthropics/life-sciences` (19 plugins) + `claude-plugins-official` + MCP Registry — no new in-scope entries.
+- NeuroForge's other three skills (MNE-Python, Nilearn, SpikeInterface) already covered by `mne-eeg-tool.md` / `nilearn-tool.md` / `spikeinterface-electrophysiology.md` — no duplicate created.
+
 ## 2026-07-11 (Molecular and Cellular Biology slot)
 
 Molecular and Cellular Biology directed pass plus a manifest sweep. The `anthropics/life-sciences` (`.claude-plugin/marketplace.json`) and `claude-plugins-official` marketplaces were re-fetched and diffed — no new in-scope plugins (all 19 entries already catalogued). The directed pass ran the Ensembl / Geneformer / Bioconductor / CRISPR / single-cell seed queries: a single-install multi-database aggregator MCP (GWAS-MCP) surfaced as genuinely new; no dedicated Geneformer/scGPT single-cell-foundation-model wrapper exists yet (gap noted for future runs).

@@ -6,7 +6,7 @@ tool_type: MCP server
 supplier: BioContextAI
 availability: GA
 tool_categories: [All]
-last_verified: 2026-05-20
+last_verified: 2026-08-08
 verification: works
 verified_on: 2026-07-20
 security: cleared
@@ -53,9 +53,15 @@ Then register it as an MCP server (Claude Code launches the process itself — d
     }
   }
   ```
-- **Docker (HTTP)** — start the container, then register the HTTP endpoint:
+- **Docker (HTTP)** — no image is published to a registry, so you must build it from a clone first. The container is a long-lived service: leave it running in its own terminal.
   ```
+  git clone https://github.com/biocontext-ai/knowledgebase-mcp
+  cd knowledgebase-mcp
+  docker build -t biocontext_kb:latest .
   docker run -p 127.0.0.1:8000:8000 biocontext_kb:latest
+  ```
+  Then, in a second terminal:
+  ```
   claude mcp add --transport http biocontext_kb http://127.0.0.1:8000/mcp
   ```
 - **Remote test endpoint** (no install):
@@ -81,6 +87,8 @@ Unified access to:
 ## Notes
 
 stdio (dev) and HTTP/uvicorn (prod) transports. No auth for the server itself, but it respects upstream rate limits. IEDB is not yet integrated.
+
+The hosted `biocontext-kb.fastmcp.app` endpoint is published by the project for testing only and is subject to fair use — self-host for anything you depend on.
 
 ## Sources
 
