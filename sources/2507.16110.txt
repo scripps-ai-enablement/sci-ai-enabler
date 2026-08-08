@@ -1,0 +1,1729 @@
+Expert-Guided LLM Reasoning for Battery Discovery: From AI-Driven
+Hypothesis to Synthesis and Characterization
+Shengchao Liu1 *, Hannan Xu2* , Yan Ai1* ,
+
+Huanxin Li2,3 † , Yoshua Bengio1,4,5 † , Hongyu Guo6,7 †
+
+1 Université de Montréal, Canada
+2 University of Oxford, UK
+3 University College London, UK
+
+arXiv:2507.16110v1 [cs.AI] 21 Jul 2025
+
+4 Mila - Québec AI Institute, Canada
+5 CIFAR AI Chair, Canada
+6 University of Ottawa, Canada
+7 National Research Council Canada
+
+Abstract
+Large language models (LLMs) leverage chain-of-thought (CoT) techniques to tackle complex
+problems, representing a transformative breakthrough in artificial intelligence (AI). However,
+their reasoning capabilities have primarily been demonstrated in solving math and coding problems, leaving their potential for domain-specific applications—such as battery discovery—largely
+unexplored. Inspired by the idea that reasoning mirrors a form of guided search, we introduce
+ChatBattery, a novel agentic framework that integrates domain knowledge to steer LLMs toward more effective reasoning in materials design. Using ChatBattery, we successfully identify,
+synthesize, and characterize three novel lithium-ion battery cathode materials, which achieve
+practical capacity improvements of 28.8%, 25.2%, and 18.5%, respectively, over the widely used
+cathode material, LiNi0.8 Mn0.1 Co0.1 O2 (NMC811). Beyond this discovery, ChatBattery paves
+a new path by showing a successful LLM-driven and reasoning-based platform for battery
+materials invention. This complete AI-driven cycle—from design to synthesis to characterization—demonstrates the transformative potential of AI-driven reasoning in revolutionizing
+materials discovery.
+
+1
+
+Introduction
+
+Artificial intelligence (AI) has recently sparked a new wave of problem-solving paradigms, driving transformative advancements across various scientific fields. This surge in AI applications is unlocking unprecedented productivity in scientific discovery, with notable breakthroughs in areas such as protein structure
+prediction [1] and weather forecasting [2]. These innovations demonstrate AI’s potential to not only deepen
+our understanding of complex systems but also accelerate the discovery process in areas once constrained
+by traditional methods, unlocking new frontiers in research and innovation. However, the application of AI
+in materials design—especially in harnessing the reasoning capabilities of large language models (LLMs)
+for developing battery materials to tackle critical open-ended challenges like climate change—has remained
+relatively underexplored.
+AI for Battery Materials Discovery. The accelerating global energy transition, which is driven by electric
+vehicles and large-scale energy storage, demands next-generation lithium-ion batteries with significantly
+* Equal contribution.
+† Corresponding authors. Email: hongyu.guo@uottawa.ca, yoshua.bengio@mila.quebec, huanxin.li@ucl.ac.uk
+
+1
+
+ChatBattery
+
+Figure 1: Overview of the ChatBattery pipeline. It includes two main phases, i.e., Exploration (left) and Exploitation
+(right), eight sequential stages (rounded rectangles), and seven specialized agents (legend at bottom).
+higher energy density. Battery materials discovery is a complex and multidisciplinary endeavor that requires the integration of computational modeling, materials synthesis, and experimental characterization.
+Traditional methods often rely on time-consuming trial-and-error approaches, limiting the pace of innovation. Recent advancements in AI have empowered approaches for knowledge-driven hypothesis generation for materials. For instance, AI has been utilized to screen over 32 million candidates to discover
+new materials with the potential for better batteries [3]. AI has also demonstrated its capability for the
+autonomous optimization of non-aqueous Li-ion battery electrolytes, successfully identifying several fastcharging formulations [4]. These AI-driven efforts for material discovery mainly fall into two categories:
+(1) Utilize physics-inspired geometric models for energy prediction [5], which can be further combined
+for material molecule dynamics simulation [6]; (2) Utilize large language models (LLMs) as agents for experimental automation [7]. However, the reasoning capability of LLMs for material design has not been
+thoroughly explored.
+Large Reasoning Model for Scientific Discovery. Reasoning in Large Language Models (LLMs), including
+the Large Reasoning Models (LRMs), has emerged as a transformative advancement in artificial intelligence [8, 9]. Inspired by human reasoning processes, these models facilitate the identification of novel
+ideas and solutions. Notable examples include OpenAI’s o1/o3-mini [10], DeepSeek’s R1 [11], Grok3 Reasoning, and Gemini Flash Thinking [12], all of which have demonstrated exceptional capabilities in logical
+inference and problem-solving. Integrating reasoning capabilities is crucial for accelerating scientific discoveries, as it enables efficient search mechanisms at the heart of hypothesis generation and testing, reducing reliance on traditional trial-and-error methodologies [13–16]. However, in domain-specific applications
+like battery materials discovery, current models often fall short, producing incomplete or unreliable reasoning traces. Additionally, while methods such as supervised fine-tuning (SFT) [8] and low-rank adaptation
+(LoRA) [17] can help adapt LRMs for more effective reasoning, they typically rely on access to reasoning
+trace datasets—which can be limited in availability and costly to curate in specialized domains like battery
+materials. Reinforcement learning-based approaches for enhancing LLM reasoning also tend to demand
+substantial computational resources during training.
+To address the aforementioned challenges, in this paper, we introduce ChatBattery, an expert-guided approach to leverage LLM reasoning capabilities for battery materials discovery. ChatBattery aims to correctly
+and sufficiently reason out promising hypotheses for the discovery of new materials. By incorporating expert knowledge directly into the reasoning process, we ensure that the hypotheses generated by large language models (LLMs) are both scientifically valid and relevant, reducing the risk of errors and enhancing
+the effectiveness of the discovery process. This expert-guided reasoning provides a critical layer of oversight, ensuring that the AI’s reasoning behaviors and traces are effective and grounded in domain knowledge. To showcase the benefits of ChatBattery, we have leveraged ChatBattery to effectively identify, syn-
+
+2
+
+ChatBattery
+
+Figure 2: Instantiation of ChatBattery. (a) Illustrates two cycles of Phase 1 in ChatBattery, from stage 1 to stage 4;
+Cycle 2 builds upon Cycle 1’s output and demonstrates the use of the Retrieval Agent. (b) Depicts stages 5 and 6 of
+Phase 2, where top candidate materials are progressively identified, evaluated, and selected (from left to right).
+
+thesize, and characterize three novel lithium-ion battery cathode materials 1 : LiNi0.7 Mn0.05 Co0.05 Si0.1 Mg0.1 O2
+(NMC-SiMg), LiNi0.65 Mn0.1 Co0.1 Si0.1 Ca0.05 O2 (NMC-SiCa), and LiNi0.65 Mn0.1 Co0.1 Mg0.1 B0.05 O2 (NMC-MgB),
+derived from the widely used lithium battery cathode LiNi0.8 Mn0.1 Co0.1 O2 (NMC811). Compared to NMC811,
+which has a specific capacity of about 135 mAh/g, the three candidates show reversible capacities of 174,
+169, and 160 mAh/g by the third cycle. These represent improvements of 28.8%, 25.2%, and 18.5%, respectively.
+Our Contributions. In this work, we introduce ChatBattery, a novel expert-guided LLM reasoning platform
+for battery materials discovery, as illustrated in Figure 1. Notably, (1) ChatBattery adopts the reasoning capabilities of large language models (LLMs) by integrating reasoning guidance from domain experts into
+multiple agents to effectively tackle complex battery materials design challenges. (2) Using ChatBattery,
+we effectively identified, synthesized, and characterized three novel lithium-ion battery cathode materials,
+achieving meaningful real-world capacity improvements over the widely used NMC811 cathode.
+To the best of our knowledge, ChatBattery represents the first successful real-world implementation of
+LLM-driven battery materials design encompassing the full design-to-synthesis-to-characterization cycle.
+ChatBattery’s AI-driven approach enables a rapid discovery and optimization process, significantly reducing the time required for experimental screening and validation.
+1 Cathodes play a critical role in lithium-ion batteries, largely determining key performance metrics such as voltage and energy
+density.
+
+3
+
+ChatBattery
+
+2
+
+ChatBattery Platform
+
+ChatBattery is an AI-driven material optimization platform structured into two synergistic phases: exploration and exploitation. Together, these phases encompass eight sequential stages, orchestrated by seven
+specialized agents. The full workflow is illustrated in Figure 1 and detailed next.
+
+2.1
+
+Exploration and Exploitation
+
+Phase 1 Exploration. This phase focuses on extensively exploring potential optimization candidates by
+searching across the chemical space. It includes the following four stages.
+• Stage 1 Problem Conceptualization. The process begins with identifying and framing a scientific
+question or challenge to be addressed.
+• Stage 2 Hypothesis Generation. At this stage, a potential solution or explanation is proposed. This
+hypothesis serves as a foundational framework for subsequent exploration.
+• Stage 3 Hypothesis Feasibility Evaluation. This stage aims to evaluate whether the hypothesis, or
+a closely related one, has been previously reported in the literature and to assess its plausibility and
+viability for continued stages.
+• Stage 4 Hypothesis Testing. This stage involves applying computational methods as surrogate functions to evaluate whether the hypothesis is supported by simulated evidence.
+These four stages are repeated recursively until, for example, 100 candidates are generated, enabling a
+systematic exploration of a wide range of possibilities.
+Phase 2 Exploitation. Phase 1 involves exploring a broad range of potential options, whereas the subsequent exploitation phase aims to refine the search by eliminating unlikely candidates and concentrating on
+the most promising ones. It encompasses the following four stages.
+• Stage 5 Hypothesis Deduplication. After the exploration phase, we obtain a list of candidate materials. This stage filters out redundant materials by a domain agent.
+• Stage 6: Hypothesis Ranking. All remaining candidates are ranked based on a composite score that
+incorporates three key factors: total charge, structural complexity, and predicted voltage. At each
+filtering stage, only the top candidates are selected to proceed to the next stage.
+• Stage 7: Computational Validation. DFT calculations are conducted to evaluate the stability and
+properties of the top-ranked cathode candidates in silico.
+• Stage 8: Wet-lab Validation. In the final stage, selected candidates are synthesized and tested through
+wet-lab experiments to validate their real-world performance.
+
+2.2
+
+Supportive Agents
+
+As shown in Figure 1, seven agents are communicating with each other to support the key stages in the
+ChatBattery platform. We provide a brief description in the main article below. Please check the Methods
+and Materials Section [18] for more details.
+• LLM agent plays two key roles in ChatBattery. (1) At stage 2, it generates optimized cathode material candidates by modifying input formulas according to specified constraints (e.g., capacity > 300
+mAh/g and allowed elements). (2) At stage 6, it assists in qualitatively ranking the cathode candidates based on factors such as their thermodynamic stability.
+• Search agent filters out cathode compounds that already exist by querying domain-specific databases.
+• Decision agent evaluates whether an optimized cathode candidate is valid by checking if its theoretical capacity exceeds that of the input compound. If not, it invokes the retrieval agent to provide
+domain-specific feedback.
+• Retrieval agent retrieves a similar but valid compound from a database to guide further iterations
+when a generated cathode material is invalid.
+4
+
+ChatBattery
+
+• Rank agent evaluates cathode candidates using a hierarchical ranking tree that incorporates multiple
+factors. It prioritizes key criteria such as total charge, preparation complexity, and voltage to identify
+the most promising candidates for further validation.
+• Domain agent provides domain-specific computations and functions to support other agents, including (1) Enabling exact and range-based matching for the search agent. (2) Computing capacity using
+a formula based on Li count and molecular weight for the decision and retrieval agent. (3) Measuring
+the similarity between chemical formulas based on element counts and predefined weights for the
+retrieval agent. (4) Ranking the generated batteries based on various pre-defined factors.
+• Human agent provides expert judgment and oversight at critical stages of the ChatBattery, including
+the prompt design in problem conceptualization and wet-lab verification.
+
+3
+
+Cathode Material Discovery with ChatBattery
+
+To highlight the significance of our ChatBattery framework, we focus on optimizing a high-nickel lithium
+nickel manganese cobalt oxide (NMC) cathode material, NMC811.
+NMC811 (LiNi0.8 Mn0.1 Co0.1 O2 ) is one of the most promising next-generation cathode materials and has
+been successfully commercialized, particularly in electric vehicles and large-scale energy storage systems [19,
+20]. It offers high energy density and reduced cobalt dependency. However, challenges remain, including
+structural instability, limited cycling stability, and suboptimal capacity. To address these issues, we aim to
+use NMC811 optimization as the target task and test it with the ChatBattery platform.
+We provide, in Section 3.1 and Section 3.2, an overview of the eight stages involved in NMC811 optimization. In addition, we offer detailed and extended discussions on the final two stages, namely computational
+and wet-lab verifications, in Section 3.3 and Section 3.4, respectively.
+
+3.1
+
+ChatBattery for NMC811 Optimization, Phase 1 – Exploration
+
+The first phase of ChatBattery for NMC811 optimization is exploration. In this phase, we input the NMC811
+material, using text prompts, into the ChatBattery platform, which then conducts an extensive search for a
+wide range of potential optimization outcomes.
+Cycles and Rounds. The entire optimization process is structured into cycles, with each cycle comprising
+multiple rounds, and each round spanning Stages 1 to Stage 4. (1) Within a single cycle, rounds are executed
+iteratively until a list of k valid candidate batteries is obtained. This set of rounds constitutes one complete
+cycle. (2) After each cycle, the resulting k candidates can serve as inputs for the next cycle. Thus, if each
+cycle generates k candidates and the process runs for C cycles, the total number of candidates produced is
+kC . This entire exploration process can be repeated N times, resulting in a total of N × kC candidates. In
+our experiment, we set k = 5, C = 2, and N = 4, yielding 100 candidate cathode materials. These 100
+candidates are then passed to the exploitation phase, as described in Section 3.2. We illustrate this process
+in Figure 2 and detail it next.
+Stage 1 Problem Conceptualization. At this stage, human experts, acting as the Human Agent, design
+prompts for the LLM to optimize the properties of NMC811. The objective is to enhance theoretical capacity while maintaining material stability by incorporating new elements and adjusting the ratios of existing
+ones in NMC811. To account for synthesis cost and safety, the LLM is instructed to prioritize elements from
+the carbon group, alkaline earth metals, and transition metals, while avoiding radioactive elements. There
+are roughly three cases for prompt design: the prompt at the initial round of the initial cycle, the prompt at
+the initial round of the latter cycles, and the prompts at the latter rounds. Please check 5, namely Methods
+and Materials, for the detailed prompt design.
+Stage 2 Hypothesis Generation. The resulting prompts from Stage 1 above are then fed into an LLM agent
+by ChatBattery to perform the optimization task. In our main experiment, we use GPT-3.5 as the LLM
+agent. Given that we set k = 5, the LLM agent generates five novel cathode material candidates, which are
+5
+
+3.2
+
+ChatBattery for NMC811 Optimization, Phase 2 – Exploitation
+
+ChatBattery
+
+then passed on to the next stage.
+Stage 3: Hypothesis Feasibility Validation. This stage evaluates whether the optimized cathode materials have been previously reported. To do so, we leverage two databases (the Inorganic Crystal Structure
+Database (ICSD) [21] and the Materials Project [22]) and employ a Search Agent for automated verification.
+Details of this process are provided in the Methods and Materials section 5. If a generated material is found
+in either database, it will be flagged in Stage 4 and considered during prompt design (see 5) in Stage 1 of
+the subsequent optimization round.
+Stage 4: Hypothesis Testing. This stage assesses the quality of the optimized materials by evaluating their
+theoretical capacities, as determined by a Domain Agent. If the optimized compound exhibits a lower
+capacity than NMC811, the Decision Agent flags it as invalid and forwards it to the Retrieval Agent, which
+searches for a similar compound with higher capacity. This domain feedback is then incorporated into the
+prompt design (see 5) for Stage 1 in the next round. If all k optimized samples are valid, the current round
+is considered complete; otherwise, the process returns to Stage 1 to start the next round of optimization.
+The resulting candidates from this exploration phase are then passed into the exploitation phase of the
+ChatBattery pipeline, which will be discussed in detail next.
+
+3.2
+
+ChatBattery for NMC811 Optimization, Phase 2 – Exploitation
+
+The second phase in ChatBattery for NMC811 optimization is exploitation. After exploring a wide range of
+potential valid candidates in the first phase, this phase focuses on selecting the most promising candidates
+with the highest confidence. It concludes with a final wet-lab experiment, where the selected candidates
+are synthesized and characterized. In detail, this phase comprises the following four stages.
+Stage 5 Hypothesis Deduplication. After Phase 1 of the NMC811 optimization pipeline, we have 100 candidate materials. In this stage, we apply a range match to remove duplicate compounds from the generated
+list. As a result, 89 unique materials remain after the deduplication process.
+Stage 6: Hypothesis Ranking. In this stage, the 89 candidate cathode materials are ranked according to
+three properties: total charge, preparation complexity, and total voltage. The most promising optimized
+materials, based on the ranking results, are then fed into the subsequent steps.
+The first metric is the total charge. It refers to the calculation of the net charge of the 89 generated compounds. The valences of Li, Mn, Co, Ni, and O are set to match those in NMC811 to ensure consistency
+and comparability in theoretical capacity and voltage. For other elements, their highest common oxidation
+states are used, excluding elements that exist primarily in various acid salt forms (Table 3). This is not a rigorous formal charge calculation but rather an approximation based on oxidation-state heuristics. The initial
+calculation identifies 11 compounds with a total charge of zero (Table S3). However, since transition metals
+often exhibit variable oxidation states and valence deviations can occur during experimental synthesis, we
+broaden the selection criteria. We rank all 89 candidates by the absolute value of their total charge and
+select the 29 with the smallest values, i.e., those with values between -0.1e and 0.1e.
+The second metric is the preparation complexity. It refers to the number of different elements present in a
+compound, as not every reactant can be a single substance in the synthesis process. In general, a larger
+number of element types indicates a more complex synthesis route. Based on this metric, 9 candidates with
+more than seven elements are excluded, and the 20 with the lowest preparation complexity are selected.
+The last metric is the voltage, also known as the electric potential difference. It is the measure of the electric
+potential energy per unit charge between two points in an electric circuit. The precise calculation of voltage
+requires molecular dynamics (MD) simulation. Because of the immense computational cost of MD simulation, we use an LLM agent as a proxy to assess the voltage of the 20 filtered cathode materials from the
+last step. More concretely, instead of exact voltage calculation, an LLM is employed to perform qualitative
+voltage pairwise comparisons of materials, leveraging its reasoning abilities (prompts and other details
+are in the Methods and Materials Section, namely 5). The results are then processed using a merge sort
+to determine the ranking. We note that, upon expert review of all comparison documents and their asso6
+
+3.3
+
+Computational Verification
+
+ChatBattery
+
+Table 1: DFT total energy. For each supercell size, up to 1000 structures were sampled.
+Candidate Formula
+
+Supercell Size
+
+Supercell Formula
+
+Avg Total Energy (eV)
+
+LiNi0.7 Mn0.05 Co0.05 Si0.1 Mg0.1 O2
+
+2x2x2
+2x2x1
+
+Li24Mg3Mn1Co1Si2Ni17O48
+Li12Mg1Mn1Co1Si1Ni8O24
+
+-502.5511±0.3916
+-255.9692±0.2775
+
+LiNi0.65 Mn0.1 Co0.1 Mg0.1 B0.05 O2
+
+2x2x2
+2x2x1
+
+Li24Mg2Mn3Co2Ni16B1O48
+Li13Mg1Mn1Co1Ni7B1O24
+
+-506.3595±0.4430
+-251.0930±0.4422
+
+LiNi0.65 Mn0.1 Co0.1 Si0.1 Ca0.05 O2
+
+2x2x2
+2x2x1
+
+Li24Ca1Mn2Co2Si3Ni16O48
+Li13Ca1Mn1Co1Si1Ni7O24
+
+-515.4147±0.2862
+-252.4021±0.4643
+
+ciated reasoning traces, we find the modeling’s reasoning to be reliable, though not exhaustive; notably,
+the LLM assessment reflects the influence of each element on the compound’s voltage, particularly highlighting the role of nickel—higher nickel content generally correlates with a higher voltage [23]. Based on
+the final ranking, the top 3 out of 20 optimized cathode materials are selected for the subsequent stages:
+LiNi0.7 Mn0.05 Co0.05 Si0.1 Mg0.1 O2 , LiNi0.65 Mn0.1 Co0.1 Mg0.1 B0.05 O2 , LiNi0.65 Mn0.1 Co0.1 Si0.1 Ca0.05 O2 . We denote them as NMC-SiMg, NMC-MgB, and NMC-SiCa, respectively.
+Stage 7 Computational Verification. At this stage, we employed density functional theory (DFT) calculations to assess the validity of the three selected materials. More details are discussed in Section 3.3.
+Stage 8 Wet-lab Verification. The most compelling evidence for the effectiveness of using ChatBattery
+in NMC811 optimization is the successful synthesis of the optimized materials. We have synthesized the
+optimized candidates, with further details provided in Section 3.4.
+
+3.3
+
+Computational Verification
+
+Initial Positions. The three initial CIF documents of NMC-SiMg, NMC-MgB, and NMC-SiCa are prepared
+based on NMC811 (Collection Code: 60827), downloaded from the ICSD dataset [21]. The three CIF documents contain the following elements: Li, Mn, Co, Ni, Si, Mg, O; Li, Mn, Co, Ni, Mg, B, O; and Li, Mn, Co,
+Ni, Si, Ca, O, respectively. All three materials share the same space group: R-3m (Space Group No. 166).
+The introduced elements, Si, Mg, B, and Ca, partially substitute the original elements Mn, Co, Ni, or Li
+at the (0, 0, 0) site. This setting is because NMC811 has a layered structure in which the transition metal
+cations, Ni, Mn, and Co, occupy specific sites within the crystal lattice. The (0, 0, 0) site corresponds to
+the metal cation site in the lattice, as specified in the original NMC811 CIF document. The introduced
+elements have ability to maintain or slightly modify the structural integrity of the NMC811 lattice, and are
+chemically compatible with the existing transition metal cations in the structure. The occupancies of these
+introduced elements are adjusted accordingly to achieve full occupation of the site (occupancy sum = 1),
+since maintaining a fully occupied site is crucial for preserving the structural integrity of the lattice and
+preventing defects that could compromise material stability. Furthermore, using the formula ratios of these
+cations to set site occupancies ensures that the crystal structure accurately reflects the composition of the
+material.
+The full CIF files are presented in the supplementary materials and have also been uploaded to the ICSD
+database.
+Partial Occupancy. As observed from their formulas, all three candidates identified above are materials
+with partial occupancy, placing them in the category of disordered crystals. Site mixing in disordered
+materials presents two key challenges for property computation. First, standard methods such as density
+functional theory (DFT) require fully specified atomic positions, making it difficult to apply them directly.
+Second, unlike ordered crystals, disordered structures permit multiple occupancy possibilities at the same
+lattice sites, leading to an exponentially large number of potential configurations.
+Supercells for DFT Calculation. To address the aforementioned challenges, we adopt a widely used strat7
+
+3.4
+
+Wet-Lab Experimental Synthesis and Characterization
+
+ChatBattery
+
+egy among domain experts: expanding partially occupied candidate structures into larger supercells with
+fully occupied configurations and then sampling possible atomic configurations. For this purpose, we use
+the Supercell package [24]. This supercell expansion transforms partially occupied structures into fully occupied configurations, making them suitable for DFT calculations. Specifically, we generate two supercell
+configurations: 2×2×2 and 2×2×1, sampling up to 1000 structures for each size. This supercell expansion,
+however, results in a new issue. That is, the large atomic size of these supercell configurations, combined
+with the need for extensive sampling, makes direct evaluation using conventional methods such as ab initio
+molecular dynamics (AIMD) or density functional theory (DFT) with VASP computationally prohibitive.
+To address this problem, we employ machine learning surrogate models to predict the energies and forces
+of the sampled supercell structures.
+While several foundation models have been developed for small molecules and materials [25–30], we employ MACE-MP [31] to evaluate the supercell structures derived from the top three candidates identified
+by the ChatBattery pipeline. MACE-MP was selected due to its high accuracy in modeling interatomic interactions in periodic systems, its ability to generalize across different material classes, and its competitive
+performance on both force and energy prediction benchmarks. Its efficiency and reliability make it especially suitable for evaluating large, disordered supercells where traditional DFT becomes computationally
+prohibitive.
+Computational Results. For each candidate material, we compute the total energy of each of the sampled
+supercells using MACE-MP and report the averaged total energy for each supercell size. The results are
+summarized in Table 1.
+The results in Table 1 show that all three candidate formulas exhibit negative total energies, indicating
+that they are energetically favorable overall. This suggests that these compositions are thermodynamically
+stable enough to exist in principle, providing a strong starting point for further experimental synthesis and
+characterization, as will be discussed next in Section 3.4. We note that while negative total energy alone
+does not guarantee synthesizability or long-term phase stability, it is a necessary condition that supports
+the feasibility of these candidate materials.
+
+3.4
+
+Wet-Lab Experimental Synthesis and Characterization
+
+The three candidate cathode materials predicted by ChatBattery, namely NMC-SiMg, NMC-SiCa, and
+NMC-MgB, were successfully synthesized. The first material prepared was NMC-SiMg, with the synthesis
+procedure of all the NMC811-derived samples detailed in Appendix C.
+The crystal structure of NMC-SiMg, shown as a representative example in Figure 3a, exhibits a typical
+layered architecture analogous to that of conventional NMC cathodes, with partial substitution of the transition metal sites by Si and Mg dopants. The top-view projection of the structure (Figure 3b) confirms the
+retention of a rhombohedral symmetry with the same space group (R-3m, No. 166) as NMC811. The XRD
+pattern in Figure 3c further supports this structural similarity, matching the PDF No. 88-1605. However,
+a notable difference is observed in the preferred orientation, with the dominant diffraction peak shifting
+from the (003) plane, commonly seen in NMC811, to the (104) plane, indicative of a more disordered structure [32]. The inset in Figure 3c presents an optical image of NMC-SiMg, revealing a characteristic fine
+black powder typical of LIB cathode materials.
+Additionally, minor unidentified impurity phases are detected, as evidenced by weak diffraction peaks
+near 2θ = 22°, 28°, and 30°, which are absent in standard NMC811. The presence of these impurities is
+reasonable, considering this represents the first successful synthesis of the NMC-SiMg cathode guided by
+LLMs predictions. Such impurities may have been introduced at various stages of the synthesis process
+and can likely be minimized through further optimization of the fabrication protocol.
+Following the successful synthesis of NMC-SiMg, the other two materials were also synthesized using
+the same procedure, as detailed in Appendix C. SEM images of NMC-SiMg, NMC-SiCa, and NMC-MgB
+(Figure 3d–f) reveal that all three materials exhibit a rhombohedral particle morphology with sizes ranging
+from 500 to 800 nm. Notably, NMC-SiMg and NMC-MgB display slightly rougher surface textures, whereas
+8
+
+3.4
+
+Wet-Lab Experimental Synthesis and Characterization
+
+ChatBattery
+
+Figure 3: Visualization of Structural and Electrochemical Characterization for NMC-Si/Mg/Ca/B Composites. (a)
+The side view and (b) the top view of crystal structure for NMC-SiMg, NMC-SiCa, and NMC-MgB; (c) XRD pattern for
+NMC-SiMg; (d) SEM image of NMC-SiMg; (e) SEM image of NMC-SiCa; (f) SEM image of NMC-MgB; The first 3 cycle
+charge discharge profiles for (g) NMC-SiMg, (h) NMC-SiCa, and (i) NMC-MgB.
+NMC-SiCa shows a smoother surface, suggesting a comparatively higher degree of crystallinity.
+The electrochemical performance of these materials is shown in the charge–discharge profiles in Figure 3g–i,
+measured within a voltage window of 2.6–4.3 V. All three candidates exhibit stable cycling behavior with
+an average discharge voltage of approximately 3.85 V, significantly higher than that of conventional LIB
+cathode materials (typically 3.4–3.7 V) [33, 34]. This enhanced voltage is consistent with the reasoning
+outputs generated by ChatBattery. Relative to the baseline NMC811, which delivered a specific capacity of
+around 135 mAh/g under identical testing conditions, the predicted candidates, NMC-SiMg, NMC-SiCa,
+and NMC-MgB, demonstrated superior reversible capacities of 174, 169, and 160 mAh/g, respectively, by
+the third cycle. These represent improvements of 28.8%, 25.2%, and 18.5%, respectively, highlighting the
+potential of LLM-guided design in advancing cathode material performance (Table 2).
+
+9
+
+ChatBattery
+
+Table 2: The comparison of NMC811 and the three novel cathode materials.
+Structure
+Theoretical Capacity (mAh/g)
+Available Capacity (mAh/g)
+
+4
+
+NMC811
+
+NMC-SiMg
+
+NMC-SiCa
+
+NMC-MgB
+
+Layered
+275.50
+135
+
+Layered
+294.66
+174
+
+Layered
+287.29
+169
+
+Layered
+293.08
+160
+
+Discussion and Outlook
+
+LLMs are poised to dramatically accelerate the discovery of novel battery materials by enabling rapid hypothesis generation and exploration of vast chemical design spaces. In this study, we introduced ChatBattery, an expert-guided framework that integrates domain-specific knowledge into the reasoning process
+of LLMs. This approach bridges the gap between the general-purpose capabilities of LLMs and the nuanced requirements of materials science, enabling more accurate, relevant, and experimentally actionable
+predictions.
+By embedding expert reasoning into the generative pipeline, ChatBattery ensures that proposed materials are not only chemically plausible but also aligned with physical and electrochemical constraints critical to battery performance. We validated the efficacy of this framework through the discovery, synthesis,
+and electrochemical evaluation of three novel lithium-ion cathode materials: NMC-SiMg, NMC-SiCa, and
+NMC-MgB. All three candidates significantly outperformed the state-of-the-art NMC811 in terms of practical specific capacity, with improvements of 28.8%, 25.2%, and 18.5%, respectively. Furthermore, these
+materials demonstrate enhanced voltage profiles and superior cycling stability, highlighting the practical
+relevance of ChatBattery’s predictions.
+A key feature of ChatBattery is its ability to provide transparent and rational explanations for its generated choices, effectively mirroring expert reasoning. This interpretability not only fosters confidence in
+the proposed candidates but also facilitates iterative refinement in collaboration with human scientists.
+Notably, the entire discovery pipeline—from initial hypothesis generation to material synthesis and performance validation—was completed within a few months, a process that typically spans several years using
+conventional experimental workflows. This rapid turnaround underscores the transformative potential of
+LLM-augmented discovery pipelines in accelerating the pace of scientific innovation.
+While the results demonstrate the utility of ChatBattery in advancing battery materials research, the current
+system does exhibit limitations. Despite the generation of chemically novel candidates, most predicted
+materials remain structurally and compositionally close to known classes. This suggests that ChatBattery,
+in its present form, is more adept at optimizing within known paradigms than at generating fundamentally
+new chemistries. As such, expert input remains essential to expand the system’s exploration boundaries
+and push beyond conventional chemical spaces. Importantly, this interplay between AI-driven generation
+and human-guided refinement also creates unexpected opportunities, as demonstrated in the refinement
+of AI-suggested materials into even more advanced cathode compositions. However, advances anticipated
+with future reasoning AIs are likely to provide greater exploration and creativity. A good example of this
+direction is the use of amortized inference methods such as GFlowNets that are focused on rich exploration
+of the space of possibilities [35–38].
+Beyond the AI-Predicted Candidates. Among the three successful candidates generated by ChatBattery,
+NMC-SiMg emerged as the most promising, demonstrating strong performance across multiple evaluation metrics. Building upon this foundation, domain experts further refined the material through targeted
+wet-lab experimentation, resulting in the development of a more advanced cathode: Li-rich-NMC-SiMg.
+Notably, this new material achieved a 34% practical capacity improvement over NMC811, marking a significant step forward in lithium-ion battery performance. Although Li-rich-NMC-SiMg was not directly
+predicted by the AI model, its discovery underscores the powerful synergy between AI-guided design and
+expert-driven innovation. Full details of its synthesis and characterization are provided in [39, 40].
+Looking forward, the modular and domain-agnostic design of ChatBattery renders it applicable well be-
+
+10
+
+ChatBattery
+
+yond battery research. Its core methodology—combining LLMs with expert-in-the-loop reasoning—can be
+readily adapted to other materials domains, including catalysts, semiconductors, and structural materials.
+Moreover, its integration into biology and environmental science holds the promise of accelerating discovery in diverse fields where complex, multivariate systems require both broad search capacity and deep
+domain insight.
+In conclusion, ChatBattery represents a compelling advancement in AI-assisted scientific discovery. It exemplifies how human-AI collaboration can overcome current limitations of generative models and achieve
+accelerated, high-quality outcomes in materials research. As the framework matures, further developments
+aimed at enhancing its creative autonomy and domain adaptability will be crucial to unlocking its full potential as an AI co-scientist across disciplines.
+
+11
+
+ChatBattery
+
+5
+
+Methods and Materials
+
+5.1
+
+LLM Agent and Human Agent in Prompt Design
+
+Stage 1 Problem Conceptualization. In the main article, we mentioned that there are three cases for the
+prompt design, each corresponding to the process at different rounds and cycles. The modified phrases are
+highlighted in bold.
+1. Initial round of initial cycle. The prompt is:
+Prompt for Initial Round of the Initial Cycle
+We have a Li cathode material {PLACEHOLDER}. Can you optimize it to develop new cathode materials
+with higher capacity and improved stability?
+You can introduce new elements from the following groups: carbon group, alkaline earth metals group,
+and transition elements, excluding radioactive elements; and incorporate new elements directly into the
+chemical formula, rather than listing them separately; and give the ratio of each element; and adjust the
+ratio of existing elements.
+My requirements are proposing five optimized battery formulations, listing them in bullet points (in
+asterisk *, not - or number or any other symbol), ensuring each formula is chemically valid and realistic
+for battery applications, and providing reasoning for each modification.
+
+Here, “{PLACEHOLDER}” is the placeholder for the input formula of the cathode materials.
+2. Subsequent rounds (initial & subsequent cycle). In the first round (Stage 1 to 4), the LLM agent may
+generate invalid results, marked by our ChatBattery platform. Therefore, we conduct multiple rounds
+of ChatBattery optimization until all k valid optimized cathode materials are successfully identified.
+Given that the theoretical capacity of a cathode material is negatively correlated with its molecular
+weight, the prompt not only adjusts the element ratios of previously optimized materials and introduces new candidates but also directs the replacement of newly added elements with alternatives of
+lower atomic mass. The prompt for Stage 1 in the subsequent round is as follows:
+Prompt for Subsequent Rounds (Initial & Subsequent Cycles)
+You generated some existing or invalid battery compositions that need to be replaced with valid ones
+(one for each).
+These batteries have been discovered before:
+* {PLACEHOLDER}
+* {PLACEHOLDER}
+...
+These invalid batteries are:
+* {PLACEHOLDER} (a retrieved similar and correct battery is {PLACEHOLDER})
+* {PLACEHOLDER} (a retrieved similar and correct battery is {PLACEHOLDER})
+...
+When replacing the invalid or existing compositions, you can replace the newly added elements with
+elements of lower atomic mass; and adjust the ratio of existing elements; and introduce new elements.
+The new compositions must be stable and have a higher capacity. The final outputs should include newly
+generated valid compositions, skip the retrieved batteries, and be listed in bullet points (in asterisk *, not
+- or number or any other symbol).
+
+3. Initial round of the subsequent cycles. In the initial optimization cycle, one input material formula
+yields k output formulas. These outputs can then be iteratively optimized in subsequent cycles, with
+the prompt modified accordingly. Notably, incorporating elements from the same group does not significantly improve material properties, as their similar valence electron configurations lead to chemically similar bonds. Therefore, in the second cycle, elements from the same group as those already
+present in the first-cycle input are excluded. For example, if the initial input compound includes an
+element from the carbon group, the prompt will be modified as follows:
+
+12
+
+5.2
+
+Search Agent
+
+ChatBattery
+
+Prompt for Initial Round of the Subsequent Cycles
+We have a Li cathode material {PLACEHOLDER}. Can you optimize it to develop new cathode materials
+with higher capacity and improved stability?
+You can introduce new elements from the following groups: carbon group, alkaline earth metals group,
+and transition elements, excluding radioactive elements; and incorporate new elements directly into the
+chemical formula, rather than listing them separately; and give the ratio of each element; and adjust the
+ratio of existing elements.
+You can introduce new elements from the following groups: alkaline earth metals group, and transition elements, excluding radioactive elements; and incorporate new elements directly into the chemical
+formula, rather than listing them separately; and give the ratio of each element; and adjust the ratio of
+existing elements.
+My requirements are proposing five optimized battery formulations, listing them in bullet points (in asterisk *, not - or number or any other symbol), ensuring each formula is chemically valid and realistic for
+battery applications, and providing reasoning for each modification.
+
+These prompts are then fed into a large language model (LLM) for material optimization. Specifically, we
+use GPT-3.5 with a frequency penalty of 0.2 and a temperature of 1. The goal is to generate k = 5 optimized
+batteries, each representing a distinct hypothesis in our context.
+Stage 6 Hypothesis Ranking. We also consider using the LLM agent at Stage 6 for hypothesis ranking. The
+objective is to incorporate multiple factors into the ranking process, as detailed below. For factors such as
+voltage, which are difficult to estimate using surrogate functions, the LLM agent provides an alternative
+means of assigning ranking scores. The prompt for using LLM as the voltage surrogate for ranking is as
+follows:
+Prompt Voltage Ranking
+Could you compare the two Li cathode materials, PLACEHOLDER and PLACEHOLDER, and identify which
+one has a higher voltage vs. Li+/Li (V)?
+List the better one in the last line, marked by ’*’.
+
+We use GPT-o4 to provide detailed reasoning information. It is important to note that hallucinations remain
+an inherent limitation of large language models at this stage. Therefore, additional verification is conducted
+in later stages: DFT calculation in stage 7 and wet lab synthesis in stage 8.
+Notably, in our ChatBattery platform, we also enable users to adjust and modify the prompt based on their
+domain knowledge. Please check the website in the GitHub repository for more details.
+
+5.2
+
+Search Agent
+
+We incorporate the searching agent to filter out generated cathode materials that already exist. For a candidate material xoutput and a retrieval database D. If the searching agent finds xoutput in D, then we will reject
+this candidate compound. Here, we consider two databases, as detailed below.
+Materials Project API. The first searching agent queries the Materials Project (marked as DMP ) via its Application Programming Interface (API) calls to determine whether the generated cathode material xoutput
+already exists in the database [22].
+ICSD API. The second searching agent interacts with the Inorganic Crystal Structure Database (ICSD)
+(marked as DMP ) to check whether the generated compound xoutput is already present [21]. In this case,
+we have manually downloaded the ICSD data, 10,096 lithium materials with chemical formulas, and use
+the domain agent to perform a range match (will be discussed in detail later) instead of an exact match.
+
+13
+
+5.3
+
+Decision Agent
+
+5.3
+
+Decision Agent
+
+ChatBattery
+
+The Decision Agent aims to provide a verdict on whether the output candidate generated by ChatBattery
+has an improved theoretical capacity compared to the given input material.
+In the proposed ChatBattery, the battery’s theoretical capacity is used as the primary criterion for determining the validity of an optimization. Specifically, given an input cathode material xinput and an output
+candidate xoutput , the decision is defined as follows:
+(
+True, if Capacityxoutput > Capacityxinput
+(1)
+decide( xinput , xoutput ) =
+False, otherwise.
+That is, True here indicates that the theoretical capacity of the output candidate generated by ChatBattery
+is improved compared to that of the input material.
+The theoretical capacity function is provided by the domain agent, as will be introduced below.
+
+5.4
+
+Retrieval Agent
+
+The Retrieval Agent aims to retrieve materials for the invalid compounds generated. The retrieved materials are required to have a higher theoretical capacity compared to the input materials and a chemical
+formula similar to that of the invalid compounds, allowing the LLM agent to reason more effectively and
+generate better informed results.
+By following the decision agent, if the answer of decide( xinput , xoutput ) is True, then we can take this optimized cathode material xoutput as the valid output.
+Otherwise, decide( xinput , xoutput ) is False, then we conduct the retrieval with the domain feedback paradigm
+[13]. We use the retrieval agent to retrieve the demonstration information. We search through the retrieval
+database, which contains lithium-based compounds downloaded from ICSD, and find a retrieved compound xretrieved such that it has the lowest distance (i.e., highest similarity) with the optimized compound
+xoutput yet with the correct decision result w.r.t. input compound xinput :
+
+xretrieved = minxretrieved d( xinput , xretrieved ) ∧ decide( xinput , xretrieved ) ,
+(2)
+where d(·) denotes the distance function, as will be discussed in the domain agent section below. The
+retrieved compounds will be used to update the prompt in the next round, as discussed in the LLM agent
+section above. This aims to provide improved context for the LLM agent.
+
+5.5
+
+Rank Agent
+
+The Rank Agent aims at iteratively ranking and selecting the most promising candidates for the next stages
+of the ChatBattery pipeline.
+In the NMC811 optimization, 89 unique candidates remain after deduplication in Stage 5. In Stage 6, these
+candidates are ranked based on three prioritized criteria: total charge, preparation complexity, and voltage.
+Following this order, we construct a ranking tree: first selecting the top 29 candidates by total charge, then
+narrowing down to the top 20 based on preparation complexity, and finally selecting the top 3 based on
+voltage. These top 3 candidates proceed to Stage 7 for computational verification.
+
+5.6
+
+Domain Agent
+
+In the ChatBattery platform, the domain agent encapsulates various domain-specific functions to support
+the operations of other agents, as detailed below.
+14
+
+5.6
+
+Domain Agent
+
+ChatBattery
+
+Stage 3 Exact Match for Search Agent. This is the exact search to find if the candidate cathode material has
+been reported in the Material Project:
+Searching( xoutput , DMP ) = True
+
+iff ∃ xMP ∈ DMP
+
+s.t. xoutput = xMP .
+
+(3)
+
+Stage 3 Range Match for Search Agent. This is set to filter out generated compounds that, although not
+identical to reported materials, contain the same chemical elements with a similar ratio of each element
+composition. The range search means we check if the ratio of each element from two cathode material
+formulas (one is the candidate cathode material xoutput , and the other one is from the ICSD database xICSD )
+can match with a threshold τ = 0.1:
+Match( xoutput , DICSD ) = True
+s.t.
+
+iff ∃ xICSD ∈ DICSD
+abs(CE,xoutput − CE,xICSD )
+max(CE,xoutput , CE,xICSD )
+
+≤ τ, ∀ E ∈ { xoutput , xICSD },
+
+(4)
+
+where abs(·) is the absolute function, E is the element belongs to either xoutput or xICSD , and CE,x is the
+count of element E in molecule x.
+Stage 4 Theoretical Capacity Function for Decision Agent and Retrieval Agent. For the lithium-ion battery, we assume all lithium ions in the material participate in the electrochemical reaction. Therefore, for
+molecule x, we consider this surrogate function for theoretical capacity calculation, which is defined as
+Capacityx =
+
+n·F
+,
+3.6 · M
+
+(5)
+
+where n is count of Li in x, F = 96, 500C/mol is Faraday’s constant and M is the summation of molecular
+weight for x [41].
+Stage 4 Distance Function for Retrieval Agent. This function is designed to identify chemical formulas
+from our retrieval dataset of lithium-based cathode materials. The goal is to find compounds with chemical
+formulations similar to the invalid compounds in terms of their chemical element composition. Chemically
+similar compounds with higher theoretical capacity can serve as valuable references to assist LLMs in generating valid cathode materials. To facilitate the retrieval of such similar chemical formulas, we developed
+a distance function that quantifies the similarity between two molecules, a and b, based on element counts.
+To construct the function, we define the element counts across seven levels within the material formulas,
+along with their corresponding weights.
+• C1 , x is defined as the count of #(Li) in molecule x. The primary focus of our retrieval dataset is
+lithium-based cathode materials. Therefore, Li is a fundamental element, and nearly all retrieved
+compounds inherently contain lithium. As a result, the weighting coefficient associated with C1 , x
+(α) should be set relatively low to avoid excessive penalization when comparing lithium-containing
+compounds.
+• C2 , x is defined as the count of #(Mn, Co, Ni) in molecule x. Mn, Co, and Ni are the transition metals
+cations in NMC811. Since these transition metals are integral to the NMC811 structure, any significant variation in their counts between compounds can indicate a substantial difference in material
+properties. Thus, its weighting coefficient (β) should be set relatively high to reflect their critical role.
+• C3 , x is defined as the count of #(Fe, Cu, Zn, V, Cr, Ti, Mo) in molecule x. These elements represent
+typical cations, all of which are alternative transition metals commonly used in cathode materials.
+Distinguishing between these cations is important for accurately categorizing and retrieving relevant
+cathode materials. Therefore, its weighting coefficient (γ) should be assigned a moderate value, similar to C5 , x.
+• C4 , x is defined as the count of #(O, P, F, S, Cl, Br, I) in molecule x. The chemical and electrochemical
+properties of cathode materials are heavily influenced by their anionic composition, especially in
+terms of oxygen content and other functional groups, so the weighting coefficient (δ) should be set as
+a significantly high value to effectively differentiate between compounds.
+
+15
+
+5.6
+
+Domain Agent
+
+ChatBattery
+
+• C5 , x is defined as the count of #(Mg, Al, Si, B, Zr, C, Be, Ca, Na, K, Sn, Sr) in molecule x. These
+elements are other typical cations, most of which belong to the alkali metals group, alkaline earth
+metals group, boron group, and carbon group. Due to their frequent use in cathode compounds,
+distinguishing these cations is essential for precise classification of cathode compounds. Therefore,
+the weighting coefficient (ϵ) should be set to a moderate value, comparable to that of C3 , x.
+• C6 , x is defined as the count of any other elements in molecule x. These elements are less common in
+cathode materials, so the weighting coefficient (ζ) should be set to the lowest value.
+• Cspecies , x is defined as the count of element types in molecule x. Diverse elemental composition can
+significantly impact the electrochemical properties and the suitability of cathode materials. Therefore,
+its weighting coefficient (η) should be significantly high to penalize large differences in elemental
+diversity.
+After testing various combinations of different weights for the seven levels, the weighting coefficients (α, β,
+γ, δ, ϵ, ζ, η) that produce stable and reasonable retrieval results are set to the values of 3, 7, 5, 10, 5, 1, and
+10, respectively. The final distance between molecule a and molecule b is defined as:
+d( a, b) = 3 ∗ C1,a − C1,b + 7 ∗ C2,a − C2,b + 5 ∗ C3,a − C3,b + 10 ∗ C4,a − C4,b +
+5 ∗ C5,a − C5,b + 1 ∗ C6,a − C6,b + 10 ∗ Cspecies,a − Cspecies,b .
+
+(6)
+
+The smaller the value of d, the closer the two formulas become.
+Stage 5 Range Match for Deduplication. We apply range matching, as discussed previously, to eliminate
+duplicate hypotheses. After Phase 1 exploration, we obtain 100 candidate materials. We then scan through
+the list, and for any pair of candidates xi and x j with indices 1 ≤ i < j ≤ 100, if they are considered a match,
+i.e.,
+abs(CE,xi − CE,x j )
+≤ τ, ∀ E ∈ { xi , x j },
+(7)
+max(CE,xi , CE,xi )
+then we remove the duplicated candidate x j .
+Stage 6 Total Charge Calculation for Ranking. This total charge calculation is designed to ensure consistency and comparability in theoretical capacity and voltage between NMC811 and the generated candidates. The total charge of the native compound is zero, and the same elements in various compounds may
+exhibit different valence states. The valence states of the constituent elements determine various properties
+of the compound, such as theoretical capacity and voltage.
+Therefore, to ensure a fair comparison between the theoretical capacities and voltages of the generated
+compounds and NMC811, the valence states of the elements present in the generated compounds that also
+exist in NMC811 should be identical to those in NMC811. Specifically, the valence states in NMC811 are
+assigned as integers, and achieve overall charge neutrality, with Li, Mn, Co, Ni, and O set to +1, +3, +3, +3,
+and –2, respectively. For elements not present in NMC811, their valence states are set to the highest oxidation state achievable under non-acidic salt conditions to reflect the theoretical upper bound of redox activity
+each element can contribute. Notably, the valence values of these elements are not precise formal charges
+derived from DFT calculations, but instead represent approximations based on oxidation state heuristics.
+We estimate the total charge of each molecule x based on oxidation states as:
+Total Chargex = CE,x ∗ VE , ∀ E ∈ { x },
+
+(8)
+
+where VE is the valence values of element E. We list the valence values in Table 3.
+After calculating the total charge for each compound, we use this metric as the first criterion for ranking the
+generated cathode materials. While 11 compounds have a total charge of exactly zero, we account for the
+variability in oxidation states—particularly among transition metals—and the possible valence deviations
+during experimental synthesis. To reflect this, we prioritize compounds whose total charges are closer to
+zero. Specifically, we rank all candidates based on the absolute value of their total charge and select the top
+29 compounds with charges closest to zero for subsequent evaluation of preparation complexity.
+
+16
+
+5.6
+
+Domain Agent
+
+ChatBattery
+
+Table 3: The valence values of elements.
+Elements
+
+Valence Values
+
+C
+Sn
+Mg
+Ba
+V
+Fe
+Cu
+Zr
+O
+B
+
+4
+4
+2
+2
+3
+3
+2
+4
+-2
+3
+
+Elements
+
+Valence Values
+
+Si
+Pb
+Ca
+Sc
+Cr
+Co
+Zn
+Y
+Na
+Al
+
+4
+4
+2
+3
+3
+3
+2
+3
+1
+3
+
+Elements
+Ge
+Be
+Sr
+Ti
+Mn
+Ni
+Mo
+Li
+K
+Ga
+
+Valence Values
+4
+2
+2
+4
+3
+3
+6
+1
+1
+3
+
+Data Availability
+The data is available on this HuggingFace link.
+
+Code Availability
+The code is available on this GitHub repository link. Notably, we use the Flask package to provide a website
+as the user interface system for stages 1 to 4, which is more convenient for domain scientists. Please check
+the repository for more details.
+
+Acknowledgment
+This project was funded by a National Research Council Canada (NRC) collaborative R&D grant (AI4Dcore-132). Y.B. acknowledges funding from NRC AI4D, CIFAR and CIFAR AI Chair. H.L. acknowledges the
+Postdoctoral Fellowship Program (Grant No. PC2022020) and the use of the University of Oxford Advanced
+Research Computing (ARC) facility for resources in carrying out this work (10.5281/zenodo.22558). H.L.
+and H.X. gratefully thank University of Oxford for providing access to the Inorganic Crystal Structure
+Database (ICSD).
+
+Author Contribution Statement
+The discussion of ideas and paper writing was contributed to by everyone. The code implementation and
+platform design were contributed by S.L. and Y.A. The experiment running for stages 1 to 8, hyperparameter selection, and the domain insights were contributed by H.X., H.L., and H.G. Y.B. and H.G. led and
+managed the overall project.
+
+17
+
+REFERENCES
+
+ChatBattery
+
+References
+1.
+
+Jumper, J., Evans, R., Pritzel, A., et al. Highly accurate protein structure prediction with AlphaFold. Nature 596,
+583–589. https://www.nature.com/articles/s41586-021-03819-2 (2021).
+
+2.
+
+Lam, R., Ravuri, S., Brock, A., et al. Probabilistic weather forecasting with machine learning. Nature 620, 480–486.
+https://www.nature.com/articles/s41586-024-08252-9 (2024).
+
+3.
+
+Chen, C., Nguyen, D. T., Lee, S. J., Baker, N. A., Karakoti, A. S., Lauw, L., Owen, C., Mueller, K. T., Bilodeau, B. A.,
+Murugesan, V. & Troyer, M. Accelerating Computational Materials Discovery with Machine Learning and Cloud
+High-Performance Computing: from Large-Scale Screening to Experimental Validation. Journal of the American
+Chemical Society 146, 20009–20018. ISSN: 1520-5126. http://dx.doi.org/10.1021/jacs.4c03849 (July 2024).
+
+4.
+
+Dave, A., Mitchell, J., Burke, S., Lin, H., Whitacre, J. & Viswanathan, V. Autonomous optimization of non-aqueous
+Li-ion battery electrolytes via robotic experimentation and machine learning coupling. Nature Communication 13.
+ISSN: 2041-1723. http://dx.doi.org/10.1038/s41467-022-32938-1 (Sept. 2022).
+
+5.
+
+Liu, S., Du, W., Li, Y., Li, Z., Zheng, Z., Duan, C., Ma, Z., Yaghi, O., Anandkumar, A., Borgs, C., et al. SymmetryInformed Geometric Representation for Molecules, Proteins, and Crystalline Materials. arXiv preprint arXiv:2306.09375
+(2023).
+
+6.
+
+Merchant, A., Batzner, S., Schoenholz, S. S., Aykol, M., Cheon, G. & Cubuk, E. D. Scaling deep learning for materials discovery. Nature 624, 80–85 (2023).
+
+7.
+
+Boiko, D. A., MacKnight, R., Kline, B. & Gomes, G. Autonomous chemical research with large language models.
+Nature 624, 570–578 (2023).
+
+8.
+
+Brown, T., Mann, B., Ryder, N., Subbiah, M., Kaplan, J. D., Dhariwal, P., Neelakantan, A., Shyam, P., Sastry, G.,
+Askell, A., Agarwal, S., Herbert-Voss, A., Krueger, G., Henighan, T., Child, R., Ramesh, A., Ziegler, D., Wu, J., Winter, C., Hesse, C., Chen, M., Sigler, E., Litwin, M., Gray, S., Chess, B., Clark, J., Berner, C., McCandlish, S., Radford,
+A., Sutskever, I. & Amodei, D. Language Models are Few-Shot Learners in Advances in Neural Information Processing
+Systems (eds Larochelle, H., Ranzato, M., Hadsell, R., Balcan, M. & Lin, H.) 33 (Curran Associates, Inc., 2020), 1877–
+1901. https://proceedings.neurips.cc/paper_files/paper/2020/file/1457c0d6bfcb4967418bfb8ac142f64aPaper.pdf.
+
+9.
+
+Wei, J., Bosma, M., Huang, T., Wang, X., Wainwright, M., Luan, Y., Liang, P., Hovy, E., Xu, W.-t., Narang, S., et al.
+Chain of Thought Prompting Elicits Reasoning in Large Language Models. arXiv preprint arXiv:2201.11903 (2022).
+
+10.
+
+OpenAI. OpenAI o3-mini System Card 2025. https://cdn.openai.com/o3-mini-system-card-feb10.pdf.
+
+11.
+
+DeepSeek-AI & etc., D. G. DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning 2025.
+arXiv: 2501.12948 [cs.CL]. https://arxiv.org/abs/2501.12948.
+
+12.
+
+Google DeepMind. Gemini 2.0 Flash Thinking https : / / deepmind . google / technologies / gemini / flash thinking/. Accessed: 2025-02-19. 2025.
+
+13.
+
+Liu, S., Wang, J., Yang, Y., Wang, C., Liu, L., Guo, H. & Xiao, C. Conversational Drug Editing Using Retrieval and
+Domain Feedback. https://openreview.net/forum?id=yRrPfKyJQ2 (2024).
+
+14.
+
+Gottweis, J., Weng, W.-H., Daryin, A., Tu, T., Palepu, A., Sirkovic, P., Myaskovsky, A., Weissenberger, F., Rong, K.,
+Tanno, R., et al. Towards an AI co-scientist. arXiv preprint arXiv:2502.18864 (2025).
+
+15.
+
+Liu, S., Nie, W., Wang, C., Lu, J., Qiao, Z., Liu, L., Tang, J., Xiao, C. & Anandkumar, A. Multi-modal molecule
+structure–text model for text-based retrieval and editing. Nature Machine Intelligence 5, 1447–1457 (2023).
+
+16.
+
+Liu, S., Li, Y., Li, Z., Gitter, A., Zhu, Y., Lu, J., Xu, Z., Nie, W., Ramanathan, A., Xiao*, C., Tang*, J., Guo*, H. &
+Anandkumar, A. A Text-guided Protein Design Framework. Nature Machine Intelligence, 1–12 (2025).
+
+17.
+
+Hu, E. J., Shen, S., Lee, R., Wallace, E., Wei, J., Wainwright, M. & Narang, S. LoRA: Low-Rank Adaptation of Large
+Language Models. arXiv preprint arXiv:2106.09685 (2021).
+
+18.
+
+Materials and methods are available as supplementary material.
+
+19.
+
+Saaid, F. I., Kasim, M. F., Winie, T., Elong, K. A., Azahidi, A., Basri, N. D., Yaakob, M. K., Mastuli, M. S., Shaffee,
+S. N. A., Zolkiffly, M. Z., et al. Ni-rich lithium nickel manganese cobalt oxide cathode materials: A review on the
+synthesis methods and their electrochemical performances. Heliyon 10 (2024).
+
+20.
+
+Son, S.-B., Robertson, D., Tsai, Y., Trask, S., Dunlop, A. & Bloom, I. Systematic study of the cathode compositional
+dependency of cross-talk behavior in Li-ion battery. Journal of The Electrochemical Society 167, 160508 (2020).
+
+21.
+
+Zagorac, D., Müller, H., Ruehl, S., Zagorac, J. & Rehme, S. Recent developments in the Inorganic Crystal Structure
+Database: theoretical crystal structure data and related features. Journal of applied crystallography 52, 918–925 (2019).
+
+18
+
+REFERENCES
+
+ChatBattery
+
+22.
+
+Jain, A., Ong, S. P., Hautier, G., Chen, W., Richards, W. D., Dacek, S., Cholia, S., Gunter, D., Skinner, D., Ceder, G.,
+et al. Commentary: The Materials Project: A materials genome approach to accelerating materials innovation. APL
+materials 1 (2013).
+
+23.
+
+Oliveira Filho, H. R., Zanin, H., Monteiro, R. S., Barbosa, M. H. & Teófilo, R. F. High-nickel cathodes for lithiumion batteries: From synthesis to electricity. Journal of Energy Storage 82, 110536 (2024).
+
+24.
+
+Okhotnikov, K., Charpentier, T. & Cadars, S. Supercell program: A combinatorial structure-generation approach
+for the local-level modeling of atomic substitutions and partial occupancies in crystals. Journal of Cheminformatics
+8 (Mar. 2016).
+
+25.
+
+Choudhary, K. & DeCost, B. Atomistic Line Graph Neural Network for improved materials property predictions.
+npj Computational Materials 7, 1–8 (2021).
+
+26.
+
+Mishin, Y. Machine-learning interatomic potentials for materials science. Acta Materialia 214, 116980. ISSN: 13596454. http://dx.doi.org/10.1016/j.actamat.2021.116980 (Aug. 2021).
+
+27.
+
+Zhang, L., Han, J., Wang, H., Car, R. & E, W. Deep Potential Molecular Dynamics: A Scalable Model with the
+Accuracy of Quantum Mechanics. Physical Review Letters 120. ISSN: 1079-7114. http://dx.doi.org/10.1103/
+PhysRevLett.120.143001 (Apr. 2018).
+
+28.
+
+Zuo, Y., Chen, C., Li, X., Deng, Z., Chen, Y., Behler, J., Csányi, G., Shapeev, A. V., Thompson, A. P., Wood, M. A. &
+Ong, S. P. Performance and Cost Assessment of Machine Learning Interatomic Potentials. The Journal of Physical
+Chemistry A 124, 731–745. ISSN: 1520-5215. http://dx.doi.org/10.1021/acs.jpca.9b08723 (Jan. 2020).
+
+29.
+
+Chen, C. & Ong, S. P. A universal graph deep learning interatomic potential for the periodic table. Nature Computational Science 2, 718–728. ISSN: 2662-8457. http://dx.doi.org/10.1038/s43588-022-00349-3 (Nov. 2022).
+
+30.
+
+Deng, B., Zhong, P., Jun, K., Riebesell, J., Han, K., Bartel, C. J. & Ceder, G. CHGNet as a pretrained universal neural
+network potential for charge-informed atomistic modelling. Nature Machine Intelligence, 1–11 (2023).
+
+31.
+
+Batatia, I., Benner, P., Chiang, Y., Elena, A. M., Kovács, D. P., Riebesell, J., Advincula, X. R., Asta, M., Avaylon, M.,
+Baldwin, W. J., et al. A foundation model for atomistic materials chemistry. arXiv preprint arXiv:2401.00096 (2023).
+
+32.
+
+Pender, J. P., Jha, G., Youn, D. H., Ziegler, J. M., Andoni, I., Choi, E. J., Heller, A., Dunn, B. S., Weiss, P. S., Penner,
+R. M., et al. Electrode degradation in lithium-ion batteries. ACS nano 14, 1243–1295 (2020).
+
+33.
+
+Mizushima, K., Jones, P. C., Wiseman, P. J. & Goodenough, J. B. LixCoO2 (0< x<-1): A new cathode material for
+batteries of high energy density. Materials Research Bulletin 15, 783–789 (1980).
+
+34.
+
+Yuan, L.-X., Wang, Z.-H., Zhang, W.-X., Hu, X.-L., Chen, J.-T., Huang, Y.-H. & Goodenough, J. B. Development
+and challenges of LiFePO 4 cathode material for lithium-ion batteries. Energy & Environmental Science 4, 269–284
+(2011).
+
+35.
+
+Bengio, E., Jain, M., Korablyov, M., Precup, D. & Bengio, Y. Flow network based generative models for noniterative diverse candidate generation. Advances in Neural Information Processing Systems 34, 27381–27394 (2021).
+
+36.
+
+Jain, M., Bengio, E., Hernandez-Garcia, A., Rector-Brooks, J., Dossou, B. F., Ekbote, C. A., Fu, J., Zhang, T., Kilgour,
+M., Zhang, D., et al. Biological sequence design with gflownets in International Conference on Machine Learning (2022),
+9786–9801.
+
+37.
+
+Jain, M., Deleu, T., Hartford, J., Liu, C.-H., Hernandez-Garcia, A. & Bengio, Y. Gflownets for ai-driven scientific
+discovery. Digital Discovery 2, 557–577 (2023).
+
+38.
+
+Hu, E. J., Jain, M., Elmoznino, E., Kaddar, Y., Lajoie, G., Bengio, Y. & Malkin, N. Amortizing intractable inference
+in large language models. ICLR (2024).
+
+39.
+
+Characterization of Li-rich-NMC-SiMg is available as supplementary material.
+
+40.
+
+Synthesis of NMC-SiMg, NMC-SiCa, NMC-MgB, and Li-rich-NMC-SiMg is available as supplementary material.
+
+41.
+
+Li, L. & Hou, J. Capacity detection of electric vehicle lithium-ion batteries based on X-ray computed tomography.
+RSC advances 8, 25325–25333 (2018).
+
+42.
+
+Song, W., Pérez-Osorio, M. A., Chen, J., Ding, Z., Marie, J.-J., Juelsholt, M., House, R. A., Bruce, P. G. & Nellist,
+P. D. Visualization of Tetrahedral Li in the Alkali Layers of Li-Rich Layered Metal Oxides. Journal of the American
+Chemical Society 146, 23814–23824 (2024).
+
+43.
+
+Wijareni, A. S., Widiyandari, H., Purwanto, A., Arif, A. F. & Mubarok, M. Z. Morphology and particle size of a
+synthesized NMC 811 cathode precursor with mixed hydroxide precipitate and nickel sulfate as nickel sources
+and comparison of their electrochemical performances in an NMC 811 lithium-ion battery. Energies 15, 5794 (2022).
+
+19
+
+REFERENCES
+
+ChatBattery
+
+44.
+
+Ahsan, Z., Cai, Z., Wang, S., Moin, M., Wang, H., Liu, D., Ma, Y., Song, G. & Wen, C. Recent development of
+phosphate based polyanion cathode materials for sodium-ion batteries. Advanced Energy Materials 14, 2400373
+(2024).
+
+45.
+
+Kang, S., Wang, C., Chen, J., Meng, T. & Jiaqiang, E. Progress on solvo/hydrothermal synthesis and optimization
+of the cathode materials of lithium-ion battery. Journal of Energy Storage 67, 107515 (2023).
+
+46.
+
+Ghiyasiyan-Arani, M. & Salavati-Niasari, M. Effect of Li2CoMn3O8 nanostructures synthesized by a combustion
+method on montmorillonite K10 as a potential hydrogen storage material. The Journal of Physical Chemistry C 122,
+16498–16509 (2018).
+
+47.
+
+Meshram, P., Virolainen, S. & Sainio, T. Solvent extraction for separation of 99.9% pure cobalt and recovery of Li,
+Ni, Fe, Cu, Al from Spent LIBs. Metals 12, 1056 (2022).
+
+48.
+
+Li, H., Ma, S., Cai, H., Zhou, H., Huang, Z., Hou, Z., Wu, J., Yang, W., Yi, H., Fu, C., et al. Ultra-thin Fe3C nanosheets
+promote the adsorption and conversion of polysulfides in lithium-sulfur batteries. Energy storage materials 18, 338–
+348 (2019).
+
+49.
+
+Li, H., Ma, S., Li, J., Liu, F., Zhou, H., Huang, Z., Jiao, S. & Kuang, Y. Altering the reaction mechanism to eliminate
+the shuttle effect in lithium-sulfur batteries. Energy Storage Materials 26, 203–212 (2020).
+
+50.
+
+Li, H., Gong, Y., Zhou, H., Li, J., Yang, K., Mao, B., Zhang, J., Shi, Y., Deng, J., Mao, M., et al. Ampere-hour-scale
+soft-package potassium-ion hybrid capacitors enabling 6-minute fast-charging. Nature communications 14, 6407
+(2023).
+
+20
+
+ChatBattery
+
+A
+
+Experimental Details for NMC811 Optimization
+
+The following tables summarize key stages in the exploitation phase of NMC811 optimization.
+• Table S1 presents the 20 cathode materials after the first cycle and 100 cathode materials after the
+second cycle.
+• Table S2 presents the list of 11 duplicate cathode materials with range match.
+• Table S3 presents the list of 29 cathode materials ranked by the absolute total charge.
+• Table S4 presents the list of 20 cathode materials ranked by preparation complexity.
+• Table S5 presents the list of 3 cathode materials ranked by the LLM-surrogated voltage.
+Supplementary Table S1: The list of 20 optimized cathode materials after the first cycle and 100 optimized cathode
+materials after the second cycle.
+Cathodes List of 1st Cycle of Opt.
+
+Cathodes List of 2nd Cycle of Opt.
+
+LiNi0.3Mn0.1Co0.1Si0.5O2
+
+LiNi0.23Mn0.11Co0.11Si0.36Mg0.19O2
+LiNi0.24Mn0.11Co0.11Si0.38Mg0.16O2
+LiNi0.26Mn0.11Co0.11Si0.41Mg0.11O2
+LiNi0.23Mn0.13Co0.13Si0.40Mg0.11O2
+LiNi0.25Mn0.1Co0.1Si0.45Mg0.1O2
+LiNi0.25Mn0.1Co0.1Mg0.15V0.3O2
+LiNi0.2Mn0.1Co0.1Mg0.2V0.3O2
+LiNi0.4Mn0.1Co0.1Mg0.15Al0.25O2
+LiNi0.35Mn0.15Fe0.1Mg0.2O2
+LiNi0.4Mn0.15Co0.05Mg0.15Si0.25O2
+LiNi0.25Mn0.2Co0.1Ca0.3Al0.15O2
+LiNi0.3Mn0.1Co0.1Ca0.3Al0.2O2
+LiNi0.25Mn0.15Co0.2Si0.4O2
+LiNi0.35Mn0.15Co0.15Al0.35O2
+LiNi0.3Mn0.1Co0.1Ca0.3Si0.2O2
+LiNi0.6Mn0.15Co0.1Ca0.1Ti0.05O2
+LiNi0.55Mn0.15Co0.1Ca0.1Ti0.05Si0.05O2
+LiNi0.5Mn0.15Co0.1Ca0.1Ti0.05Si0.05C0.05O2
+LiNi0.45Mn0.15Co0.1Ca0.1Ti0.05Si0.05C0.1O2
+LiNi0.4Mn0.15Co0.1Ca0.1Ti0.05Si0.05C0.2O2
+LiNi0.4Mn0.05Co0.05Si0.15Ca0.35O2
+LiNi0.5Mn0.05Co0.05Si0.15Ca0.25O2
+LiNi0.6Mn0.05Co0.05Si0.15Ca0.15O2
+LiNi0.7Mn0.05Co0.05Si0.1Mg0.1O2
+LiNi0.65Mn0.05Co0.05Si0.15Ca0.1O2
+LiNi0.4Mn0.1Co0.1Ca0.2Sc0.2O2
+LiNi0.6Mn0.1Co0.1Ca0.1Ti0.1O2
+LiNi0.55Mn0.1Co0.1Ca0.15Al0.1O2
+LiNi0.6Mn0.1Co0.1Ca0.1Si0.1O2
+LiNi0.45Mn0.1Co0.1Ca0.2B0.15O2
+LiNi0.5Mn0.1Co0.1Si0.1Ca0.1O2
+LiNi0.6Mn0.1Co0.1Si0.1Ca0.1O2
+LiNi0.6Mn0.1Co0.1Si0.1Ti0.1O2
+LiNi0.6Mn0.1Co0.1Si0.1Mg0.1O2
+LiNi0.65Mn0.1Co0.1Si0.1Ca0.05O2
+Li1.22Mn0.38Co0.14Ni0.26Ca0.02O2
+Li1.22Mn0.38Co0.14Ni0.26Sr0.02O2
+Li1.22Mn0.38Co0.14Ni0.26Zn0.02O2
+
+LiNi0.5Mn0.1Co0.1Mg0.2O2
+
+LiNi0.4Mn0.1Co0.1Ca0.4O2
+
+LiNi0.65Mn0.15Co0.1Ca0.1O2
+
+LiNi0.75Mn0.05Co0.05Si0.15O2
+
+LiNi0.65Mn0.1Co0.1Ca0.15O2
+
+LiNi0.7Mn0.1Co0.1Si0.1O2
+
+LiNi0.3Mn0.1Co0.1Si0.3O2
+
+21
+
+ChatBattery
+
+Cathodes List of 1st Cycle of Opt.
+
+LiNi0.5Mn0.1Co0.1Al0.1O2
+
+LiNi0.4Mn0.1Co0.1Mg0.2O2
+
+LiNi0.7Mn0.1Co0.1Ti0.1O2
+
+LiNi0.7Mn0.1Co0.1Ti0.1O2
+
+LiNi0.7Mn0.1Co0.1Ti0.1O2
+
+LiNi0.7Mn0.1Co0.1Ti0.1O2
+
+LiNi0.6Mn0.1Co0.1Zr0.1O2
+
+LiNi0.6Mn0.1Co0.1Zr0.1O2
+
+LiNi0.6Mn0.1Co0.1Al0.1O2
+
+LiNi0.6Mn0.1Co0.1Al0.1O2
+
+Cathodes List of 2nd Cycle of Opt.
+Li1.22Mn0.38Co0.14Ni0.26Ba0.02O2
+Li1.22Mn0.38Co0.14Ni0.26Mg0.02O2
+LiNi0.4Mn0.1Co0.1Al0.1Ti0.1O2
+LiNi0.45Mn0.1Co0.1Al0.1Ca0.05O2
+LiNi0.4Mn0.1Co0.1Al0.1Mg0.1O2
+LiNi0.35Mn0.1Co0.1Al0.1Si0.15O2
+LiNi0.3Mn0.1Co0.1Al0.1B0.2O2
+LiNi0.3Mn0.1Co0.1Mg0.2Al0.1O2
+LiNi0.3Mn0.1Co0.1Mg0.2Ti0.1O2
+LiNi0.3Mn0.1Co0.1Mg0.2Fe0.1O2
+LiNi0.25Mn0.1Co0.1Mg0.2Cr0.15O2
+LiNi0.3Mn0.1Co0.1Mg0.2Si0.1O2
+LiNi0.6Mn0.1Co0.1Ti0.1Fe0.1O2
+LiNi0.5Mn0.1Co0.1Ti0.1Fe0.1Al0.1O2
+LiNi0.4Mn0.1Co0.1Ti0.1Fe0.1Al0.1Si0.1O2
+LiNi0.3Mn0.1Co0.1Ti0.1Fe0.1Al0.1Si0.1Mg0.1O2
+LiNi0.2Mn0.1Co0.1Ti0.1Fe0.1Al0.1Si0.1Mg0.1Zn0.1O2
+LiNi0.5Mn0.1Co0.1Ti0.1Fe0.1Ca0.1O2
+LiNi0.5Mn0.1Co0.1Ti0.1Fe0.1Mg0.1O2
+LiNi0.4Mn0.1Co0.1Ti0.1Fe0.1Si0.05O2
+LiNi0.3Mn0.1Co0.1Ti0.1Fe0.1B0.05O2
+LiNi0.2Mn0.1Co0.1Ti0.1Fe0.1C0.05O2
+LiNi0.6Mn0.1Co0.1Ti0.1Mg0.1O2
+LiNi0.65Mn0.1Co0.1Ti0.1Al0.05O2
+LiNi0.55Mn0.1Co0.1Ti0.1Ca0.15O2
+LiNi0.6Mn0.1Co0.1Ti0.1Si0.1O2
+LiNi0.5Mn0.1Co0.1Ti0.1B0.3O2
+LiNi0.6Mn0.1Co0.1Ti0.1Mg0.1O2
+LiNi0.65Mn0.1Co0.1Ti0.1Al0.05O2
+LiNi0.55Mn0.1Co0.1Ti0.1Ca0.15O2
+LiNi0.6Mn0.1Co0.1Ti0.1Si0.1O2
+LiNi0.5Mn0.1Co0.1Ti0.1B0.3O2
+LiNi0.15Mn0.1Co0.1Zr0.1Ti0.55O2
+LiNi0.25Mn0.15Co0.15Zr0.1Ca0.35O2
+LiNi0.4Mn0.15Co0.15Zr0.1Al0.2O2
+LiNi0.4Mn0.1Co0.1Zr0.1Al0.3O2
+LiNi0.35Mn0.15Co0.15Zr0.1Si0.25O2
+LiNi0.1Mn0.1Co0.1Zr0.1Ti0.6O2
+LiNi0.4Mn0.1Co0.1Zr0.1Mg0.3O2
+LiNi0.3Mn0.1Co0.1Zr0.1Ca0.4O2
+LiNi0.4Mn0.1Co0.1Zr0.1Si0.3O2
+LiNi0.5Mn0.1Co0.1Zr0.1Al0.2O2
+LiNi0.25Mn0.2Co0.2Al0.1Si0.25O2
+LiNi0.3Mn0.1Co0.1Al0.1Ca0.3O2
+LiNi0.4Mn0.1Co0.1Al0.1Si0.3O2
+LiNi0.35Mn0.15Co0.15Al0.1Ca0.2O2
+LiNi0.35Mn0.15Co0.15Al0.1Si0.25O2
+LiNi0.3Mn0.1Co0.1Al0.1V0.1Sr0.1O2
+LiNi0.4Mn0.1Co0.1Al0.1Ti0.1C0.1O2
+LiNi0.4Mn0.1Co0.1Al0.1Fe0.1Mg0.1O2
+LiNi0.3Mn0.1Co0.1Al0.1Ti0.1C0.1O2
+LiNi0.4Mn0.1Co0.1Al0.1Ti0.1C0.2O2
+
+22
+
+ChatBattery
+
+Cathodes List of 1st Cycle of Opt.
+
+Cathodes List of 2nd Cycle of Opt.
+
+LiNi0.8Mn0.05Co0.05Mg0.05O2
+
+LiNi0.7Mn0.03Co0.03Mg0.03Sn0.01O2
+LiNi0.7Mn0.05Co0.05Mg0.05Ti0.05O2
+LiNi0.75Mn0.03Co0.03Mg0.03Al0.06O2
+LiNi0.6Mn0.1Co0.1Mg0.1Si0.1O2
+LiNi0.65Mn0.07Co0.07Mg0.07Zr0.04O2
+LiNi0.75Mn0.05Co0.05Mg0.05Y0.03O2
+LiNi0.7Mn0.05Co0.05Mg0.05Ti0.05O2
+LiNi0.75Mn0.05Co0.05Mg0.05Al0.05O2
+LiNi0.6Mn0.1Co0.1Mg0.1Si0.1O2
+LiNi0.65Mn0.1Co0.1Mg0.1B0.05O2
+
+LiNi0.8Mn0.05Co0.05Mg0.05O2
+
+23
+
+ChatBattery
+Supplementary Table S2: List of 11 duplicated cathode materials after the range match.
+Cathode Materials List
+LiNi0.25Mn0.1Co0.1Si0.45Mg0.1O2
+LiNi0.6Mn0.1Co0.1Si0.1Mg0.1O2
+LiNi0.6Mn0.1Co0.1Ca0.1Si0.1O2
+LiNi0.6Mn0.1Co0.1Ti0.1Si0.1O2
+LiNi0.7Mn0.05Co0.05Mg0.05Ti0.05O2
+LiNi0.6Mn0.1Co0.1Mg0.1Si0.1O2
+LiNi0.6Mn0.1Co0.1Ti0.1Mg0.1O2
+LiNi0.65Mn0.1Co0.1Ti0.1Al0.05O2
+LiNi0.55Mn0.1Co0.1Ti0.1Ca0.15O2
+LiNi0.6Mn0.1Co0.1Ti0.1Si0.1O2
+LiNi0.5Mn0.1Co0.1Ti0.1B0.3O2
+
+24
+
+ChatBattery
+
+Supplementary Table S3: List of 29 cathode materials ranked by the absolute total charges, ranging from –0.1e to
+0.1e.
+
+Cathode Materials List
+
+Total Charge (e)
+
+LiNi0.35Mn0.15Co0.15Al0.35O2
+LiNi0.5Mn0.1Co0.1Ti0.1Fe0.1Ca0.1O2
+LiNi0.5Mn0.1Co0.1Ti0.1Fe0.1Mg0.1O2
+LiNi0.6Mn0.1Co0.1Mg0.1Si0.1O2
+LiNi0.6Mn0.1Co0.1Si0.1Ca0.1O2
+LiNi0.6Mn0.1Co0.1Ca0.1Ti0.1O2
+LiNi0.6Mn0.1Co0.1Ti0.1Mg0.1O2
+LiNi0.2Mn0.1Co0.1Ti0.1Fe0.1Al0.1Si0.1Mg0.1Zn0.1O2
+LiNi0.6Mn0.05Co0.05Si0.15Ca0.15O2
+LiNi0.7Mn0.05Co0.05Si0.1Mg0.1O2
+LiNi0.55Mn0.15Co0.1Ca0.1Ti0.05Si0.05O2
+LiNi0.6Mn0.15Co0.1Ca0.1Ti0.05O2
+LiNi0.65Mn0.1Co0.1Si0.1Ca0.05O2
+LiNi0.55Mn0.1Co0.1Ti0.1Ca0.15O2
+LiNi0.65Mn0.05Co0.05Si0.15Ca0.1O2
+LiNi0.5Mn0.15Co0.1Ca0.1Ti0.05Si0.05C0.05O2
+LiNi0.4Mn0.1Co0.1Zr0.1Al0.3O2
+LiNi0.6Mn0.1Co0.1Ti0.1Fe0.1O2
+LiNi0.5Mn0.1Co0.1Ti0.1Fe0.1Al0.1O2
+LiNi0.4Mn0.15Co0.05Mg0.15Si0.25O2
+LiNi0.65Mn0.1Co0.1Ti0.1Al0.05O2
+LiNi0.65Mn0.1Co0.1Mg0.1B0.05O2
+LiNi0.5Mn0.1Co0.1Zr0.1Al0.2O2
+LiNi0.3Mn0.1Co0.1Ca0.3Si0.2O2
+LiNi0.5Mn0.05Co0.05Si0.15Ca0.25O2
+LiNi0.3Mn0.1Co0.1Ti0.1Fe0.1Al0.1Si0.1Mg0.1O2
+LiNi0.4Mn0.15Co0.15Zr0.1Al0.2O2
+LiNi0.4Mn0.1Co0.1Al0.1Ti0.1C0.1O2
+LiNi0.45Mn0.15Co0.1Ca0.1Ti0.05Si0.05C0.1O2
+
+25
+
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+4.440892098500626e-16
+-4.440892098500626e-16
+-4.440892098500626e-16
+6.661338147750939e-16
+-0.04999999999999982
+0.04999999999999982
+-0.050000000000000044
+0.050000000000000266
+0.05000000000000071
+0.09999999999999964
+0.09999999999999964
+0.09999999999999964
+0.09999999999999964
+0.09999999999999964
+-0.09999999999999964
+0.09999999999999964
+-0.09999999999999987
+-0.10000000000000009
+0.10000000000000031
+0.10000000000000053
+-0.10000000000000053
+0.10000000000000098
+
+ChatBattery
+
+Supplementary Table S4: List of 20 cathode materials ranked by preparation complexity.
+Cathode Materials List
+
+Preparation Complexity
+
+LiNi0.35Mn0.15Co0.15Al0.35O2
+LiNi0.6Mn0.1Co0.1Mg0.1Si0.1O2
+LiNi0.6Mn0.1Co0.1Si0.1Ca0.1O2
+LiNi0.6Mn0.1Co0.1Ca0.1Ti0.1O2
+LiNi0.6Mn0.1Co0.1Ti0.1Mg0.1O2
+LiNi0.6Mn0.05Co0.05Si0.15Ca0.15O2
+LiNi0.7Mn0.05Co0.05Si0.1Mg0.1O2
+LiNi0.6Mn0.15Co0.1Ca0.1Ti0.05O2
+LiNi0.65Mn0.1Co0.1Si0.1Ca0.05O2
+LiNi0.55Mn0.1Co0.1Ti0.1Ca0.15O2
+LiNi0.65Mn0.05Co0.05Si0.15Ca0.1O2
+LiNi0.4Mn0.1Co0.1Zr0.1Al0.3O2
+LiNi0.6Mn0.1Co0.1Ti0.1Fe0.1O2
+LiNi0.4Mn0.15Co0.05Mg0.15Si0.25O2
+LiNi0.65Mn0.1Co0.1Ti0.1Al0.05O2
+LiNi0.65Mn0.1Co0.1Mg0.1B0.05O2
+LiNi0.5Mn0.1Co0.1Zr0.1Al0.2O2
+LiNi0.3Mn0.1Co0.1Ca0.3Si0.2O2
+LiNi0.5Mn0.05Co0.05Si0.15Ca0.25O2
+LiNi0.4Mn0.15Co0.15Zr0.1Al0.2O2
+
+6
+7
+7
+7
+7
+7
+7
+7
+7
+7
+7
+7
+7
+7
+7
+7
+7
+7
+7
+7
+
+Supplementary Table S5: List of 3 cathode materials ranked by voltage surrogate.
+Cathode Materials List
+
+Voltage Ranking Index
+
+LiNi0.7Mn0.05Co0.05Si0.1Mg0.1O2
+LiNi0.65Mn0.1Co0.1Mg0.1B0.05O2
+LiNi0.65Mn0.1Co0.1Si0.1Ca0.05O2
+
+26
+
+1
+2
+3
+
+ChatBattery
+
+B
+
+The Characterization of Li-rich-NMC-SiMg
+
+We chose NMC-SiMg for further optimization based on domain knowledge and prior experimental insights. The NMC-SiMg cathode was further optimized by increasing the lithium content within the crystal
+lattice, yielding a Li-rich variant, Li-rich-NMC-SiMg, designed to achieve higher capacity. This material
+was motivated in part by previous studies on Li-rich layered oxides, such as Li1.2 Ni0.13 Mn0.54 Co0.13 O2 [42].
+Li-rich layered oxides revealed the formation of molecular oxygen (O2 ) trapped within transition metal
+vacancies, a phenomenon associated with structural instability. The incorporation of Si and Mg is hypothesized to mitigate this issue by forming strong bonds with oxygen, thereby stabilizing the Li-rich framework.
+Consequently, Li-rich-NMC-SiMg was synthesized by increasing the lithium stoichiometry to 1.2 using the
+same synthetic methodology of the NMC811-derived samples.
+Li-rich-NMC-SiMg exhibits enhanced electrochemical performance, achieving an initial discharge capacity
+over 200 mAh/g and a reversible capacity of 181 mAh/g by the third cycle, with an Initial Coulombic
+Efficiency (ICE) of up to 83%. Compared to NMC811, this represents a 34% improvement over NMC811
+under identical conditions, and surpasses conventional cathode materials with typical capacities of 120–150
+mAh/g.
+The SEM images of NMC811 and Li-rich-NMC-SiMg are shown in Figure S1a and b, respectively. NMC811
+exhibits a typical spherical morphology, which is commonly found in current commercial cathode materials
+for lithium-ion batteries [43]. In contrast, Li-rich-NMC-SiMg displays uniform and interconnected primary
+particles, with no obvious formation of secondary particles. This unique morphology of Li-rich-NMC-SiMg
+presents a trade-off: while it enhances lithium-ion transport and capacity, it also affects the formation of the
+solid electrolyte interphase (SEI) and lowers the initial coulombic efficiency (ICE). Further optimization of
+the Li-rich-NMC-SiMg morphology could help balance the improvement in capacity with better ICE performance [44, 45]. The optical image of Li-rich-NMC-SiMg, shown in Figure S1c, reveals a typical fine
+powder state, suggesting that it could be used to form an ideal ink with appropriate viscosity and rheological properties for subsequent coating processes, which are crucial for battery fabrication. The XRD patterns
+of Li-rich-NMC-SiMg, presented in Figure S1d, show sharp peaks across various synthesis temperatures,
+indicating the material’s tendency to form a crystalline structure. The space group is Fd-3m [227], which is
+similar to that of Li-rich materials such as Li2 CoMn3 O8 (PDF No. 48-0261) [46, 47]. In comparison, NMC811
+exhibits a layered rhombohedral structure with lithium ions located within the layers (space group: R-3m
+[166]), as shown in the rendered image in Figure S1e. On the other hand, Li-rich-NMC-SiMg adopts a cubic
+layered arrangement with lithium (yellow spheres) occupying the corners (space group: Fd-3m [227]), as
+illustrated in Figure S1f. The differences in crystal structures indicate a transition from a layered structure
+to a cubic one with the addition of Si and Mg elements in Li-rich-NMC-SiMg. To evaluate the electrochemical performance, NMC811 and Li-rich-NMC-SiMg were assembled into standard coin cells (2032 type).
+For a more meaningful comparison of reversible capacity, the charge-discharge profiles at the third cycle
+for both NMC811 and Li-rich-NMC-SiMg are shown in Figure S1g. Both materials exhibit a Coulombic
+efficiency (CE) approaching 100%, indicating fully reversible capacity. Notably, Li-rich-NMC-SiMg demonstrates a capacity of 181 mAh/g, which is 34% higher than that of NMC811 (135 mAh/g), confirming that
+the addition of Si and Mg elements improves the electrochemical performance of lithium-ion batteries as
+a cathode material, driven by the changes in morphology and crystal structure. The enhanced capacity
+arises from the increased availability of active lithium ions, as the crystal structure of Li-rich-NMC-SiMg
+resembles that of Li-rich cathode materials. Furthermore, the addition of Si and Mg enhances conductivity,
+lithium-ion diffusion, and structural integrity, while also reducing oxygen release and degradation.
+In addition, the charge-discharge profiles for the first three cycles of the Li-rich-NMC-SiMg, NMC811, and
+NMC-Mg electrodes are presented in Figures S2 to S4, respectively. The results demonstrate that the Lirich-NMC-SiMg electrode exhibits significantly higher capacity and enhanced stability compared to the
+NMC811 and NMC-Mg electrodes. These roots for performance improvements are consistent with the results from previous ChatBattery reasoning, which is expected to predict new materials regarding electrodes,
+electrolytes, and additives in extensive battery systems [48–50].
+SEM analysis further highlights the nanoscale microstructural differences between NMC811 and Li-rich-
+
+27
+
+ChatBattery
+
+NMC-SiMg. As shown in Figure S5, NMC811 exhibits a spherical morphology composed of secondary
+particles, with particle sizes ranging from 5 to 15 µm (Figure S5a). These spherical particles are densely
+packed with numerous layered primary nanocrystallites (Figure S5c). This structure contributes to improved tap density and structural stability, while also facilitating uniform lithium-ion diffusion within the
+electrode. In contrast, Li-rich-NMC-SiMg displays a prominent flake-like layered structure composed of
+secondary particles (Figure S5b), and its high-resolution image reveals layered primary particles, similar to
+those observed in NMC811 (Figure S5d).
+Based on these observations, it is reasonable to speculate that the structural differences may result in distinct electrochemical behaviors. The spherical morphology of NMC811 promotes advanced packing density, whereas the flake-like layered structure of Li-rich-NMC-SiMg may provide higher surface area and
+shortened Li+ diffusion pathways, potentially leading to higher capacity.
+We are currently conducting long-term cycle life testing of Li-rich-NMC-SiMg to further assess its commercial potential.
+
+Supplementary Figure S1: (a) The SEM image of NMC811 and (b) Li-rich-NMC-SiMg; (c) the optical image of
+final product NMC-SiMg; (d) the XRD patterns of Li-rich-NMC-SiMg produced at different temperatures; (e) the
+visual images of NMC (Li (yellow spheres), transition metals (green octahedra for Ni, Mn, Co), and oxygen (red
+spheres)) with space group R-3m and (f) the Li-rich-NMC-SiMg (the image highlights lithium (yellow spheres),
+transition metals (Ni, Mn, Co in green octahedra), silicon (blue spheres), magnesium (purple spheres), and oxygen
+(red spheres) within a repeating cubic framework) with space group Fd-3m; (g) the reversible capacities (3rd cycle)
+of NMC and Li-rich-NMC-SiMg.
+
+28
+
+ChatBattery
+
+Supplementary Figure S2: The charge-discharge profiles of Li-rich-NMC-SiMg electrode for the first 3 cycles.
+
+Supplementary Figure S3: The charge-discharge profiles of NMC811 electrode for the first 3 cycles.
+
+29
+
+ChatBattery
+
+Supplementary Figure S4: The charge-discharge profiles of NMC-Mg electrode for the first 3 cycles.
+
+30
+
+ChatBattery
+
+Supplementary Figure S5: The SEM images of (a) low resolution for NMC811, and (b) Li-rich-NMC-SiMg, and
+high resolution for (c) NMC811 and (d) Li-rich-NMC-SiMg.
+
+31
+
+ChatBattery
+
+C
+
+Synthesis of NMC-SiMg, NMC-SiCa, NMC-MgB, and Li-rich-NMCSiMg
+
+All the NMC811-derived samples were synthesized based on output data following the procedure detailed
+in the Supplementary Materials section. The synthesis process of the representative, NMC-SiMg candidate,
+is illustrated in Figure S6, which presents a step-by-step progression from precursor to the final NMC-SiMg
+product through optical imaging. The NMC-SiMg precursor, obtained via a sol-gel approach, exhibits a
+grey color (Figure S6a). Following heat treatment at 500 °C, it transitions to a deeper grey (Figure S6b). The
+heat-treatment setup is depicted in Figure S6c, while the final product, obtained after thermal processing
+at 900 °C, appears as a deep black powder (Figure S6d). The SEM image (Figure S6e) reveals nanoparticles
+at the nanoscale, and XRD patterns (Figure S6f) indicate that while NMC-SiMg retains a similar crystal
+structure to NMC811, slight deviations are observed (Figure S6g), which will be discussed in detail below.
+The NMC-SiMg ink (Figure S6h), formulated by mixing PVDF and conductive carbon in NMP, exhibits
+optimal viscosity for coating. Consequently, the coated NMC-SiMg electrode, with a thickness exceeding
+100 µm, demonstrated strong adhesion to aluminum foil, making it well-suited for industrial lithium-ion
+battery applications.
+The appropriate proportions of precursors, including metal ion acetates (Mn, Co, Ni), magnesium nitrate
+(Mg(NO3 )2 ), or calcium nitrate (Ca(NO3 )2 ) lithium hydroxide (LiOH), and silicic acid (H2 SiO3 ), or boric
+acid (H3 BO3 ), were dissolved in deionized water following the stoichiometric ratio, with magnesium and
+lithium salts in 5% excess. Citric acid was used as a chelating agent, maintaining a molar ratio of metal ions
+to citric acid at 1:1.2. The mixture underwent ultrasonic mixing until fully dissolved. The reaction was then
+sealed and maintained at 55 °C for 12 hours before being evaporated to a brown-green gel at 80 °C in an oil
+bath. The resulting gel was treated at 180 °C for 10 hours under ventilation to form a solid, which was then
+ground into powder. For heat treatment, the powder was preheated in a tube furnace at 500 °C for 5 hours,
+followed by calcination at 900 °C for 20 hours in an air atmosphere to obtain the final product.
+
+C.1
+
+Synthesis of NMC811
+
+The NMC811 was prepared using a similar standard protocol to that of NMC-SiMg, except without the
+addition of magnesium nitrate (Mg(NO3 )2 ), calcium nitrate (Ca(NO3 )2 ), boric acid (H3 BO3 ), and silicic acid
+(H2 SiO3 ). The final product, NMC811, which has a lower lithium stoichiometric ratio and lacks magnesium
+and silicon, was used for comparison.
+
+C.2
+
+Electrode ink and Coin Cells making
+
+The NMC-SiMg ink was prepared using a standard protocol. First, polyvinylidene fluoride (PVDF, SigmaAldrich, 99%) was dissolved in NMP at 60 °C. Then, NMC-SiMg, conductive carbon (Super P), and PVDF
+were dispersed in NMP at a mass ratio of 8:1:1 under continuous stirring with a magnetic stirrer (Camlab)
+at 60 °C for two hours. After thorough incorporation and mixing of the active NMC-SiMg material, the
+resulting slurry was coated onto aluminum foil (MSE Supplies) at a wet gap thickness of 30 µm and dried
+at 60 °C for approximately 30 minutes. Once dried, the electrodes were cut into 14 mm circular discs and
+assembled into coin cells within an inert glove box environment using standard coin cell casings (MTI,
+Al-Clad CR2032).
+For all the coin cells, Celgard 2000 separators, lithium chips (MTI; thickness: 0.6 mm, diameter: 16 mm,
+purity: 99%), a single wave spring (MTI, Al-Clad stainless steel for CR2032/CR2016 casings), two stainless
+steel spacers (MTI; 15.8 × 1.0 mm), and 60 µL of electrolyte were used. All the procedures were conducted
+in the glovebox filled with Ar, with O2 and H2O contend less than 0.1 ppm.
+
+32
+
+C.3
+
+Physicochemical Properties
+
+ChatBattery
+
+c
+
+a
+
+Precursor
+
+Thermal treatment
+
+e
+
+d
+
+b
+
+Product@500°C
+
+f
+
+Product@900°C
+
+g
+
+NMC-SiMg Ink
+
+h
+
+Electrode: thickness > 100 μm
+
+Supplementary Figure S6: (a) The optical image of precusor of NMC-SiMg; (b) the product after heat-treatmemt
+@ 500 °C; (c) the thermal treatment process of NMC-SiMg production; (d) the final product of NMC-SiMg after heattreatmemt @ 900 °C; (e) the typical SEM image of NMC-SiMg; (f) the XRD patterns of NMC811 and NMC-SiMg;
+(g) the NMC-SiMg ink for coating; (h) the NMC-SiMg electrode on Al foil with a thickness larger than 100 micro
+meters.
+
+C.3
+
+Physicochemical Properties
+
+To assess the stability of NMC-SiMg in various common solvents, 1 g of the material was immersed in NMP
+solutions for 24 h, followed by complete solvent evaporation. The samples were then sealed with Kapton
+tape inside a glove box to prevent exposure to air. X-ray diffraction (XRD, Stoe STADI-P) was performed on
+the powder samples (sealed with Kapton tape) using Mo Kα radiation (λ = 0.0709 nm), with data collected
+over a 2θ range of 10–80°.
+
+C.4
+
+Electrochemical Testing
+
+Electrochemical characterizations were performed on coin cells to assess their performance under various
+conditions. All the electrochemical characterization was performed using a BioLogic battery test system
+(BCS-805, BioLogic). Cell cycling was conducted within a voltage range of 2.6–4.3 V, with an initial cycle
+at 0.1C (1C = 300 mA g−1 ). Potentiostatic EIS measurements were performed using a Gamry potentiostat
+(Interface 1010E), with a frequency range of 0.1–1.0 × 106 Hz and a voltage perturbation of 5 mV.
+
+33
+
+

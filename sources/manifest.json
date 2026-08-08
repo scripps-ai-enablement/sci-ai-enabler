@@ -639,6 +639,51 @@
       "downloaded": "2026-08-01",
       "txt_sidecar": "2607.25045.txt",
       "note": "Tohoku University (Hou, Yamada) + Texas A&M, WPI. Cognitive-EEG analysis agent grounded in MNE-Python; scientific harness separates semantic from scientific authority so the LLM proposes registered analyses while deterministic components validate typed contracts, gate confirmation-set access, and authorize evidence-bound release. Evaluated on a prespecified routing benchmark and an outcome-blind, externally model-authored campaign. Code: github.com/dengzhe-hou/CogEEGAgent."
+    },
+    {
+      "doi": "10.48550/arXiv.2507.16110",
+      "filename": "2507.16110.pdf",
+      "title": "Expert-Guided LLM Reasoning for Battery Discovery: From AI-Driven Hypothesis to Synthesis and Characterization (ChatBattery)",
+      "source_url": "https://arxiv.org/abs/2507.16110",
+      "downloaded": "2026-08-08",
+      "txt_sidecar": "2507.16110.txt",
+      "note": "Universite de Montreal / Mila (Liu, Ai, Bengio) + Oxford, UCL, University of Ottawa, NRC Canada. arXiv v1 2025-07-21. Agentic framework that integrates domain knowledge to steer LLM chain-of-thought reasoning in materials design. Complete design-to-synthesis-to-characterization cycle: identified, synthesized, and characterized three novel lithium-ion cathode materials with practical capacity improvements of 28.8%, 25.2%, and 18.5% over LiNi0.8Mn0.1Co0.1O2 (NMC811)."
+    },
+    {
+      "doi": "10.48550/arXiv.2411.06029",
+      "filename": "2411.06029.pdf",
+      "title": "Validation of an LLM-based Multi-Agent Framework for Protein Engineering in Dry Lab and Wet Lab (TourSynbio-Agent)",
+      "source_url": "https://arxiv.org/abs/2411.06029",
+      "downloaded": "2026-08-08",
+      "txt_sidecar": "2411.06029.txt",
+      "note": "Toursun Synbio (Shanghai) + City University of Hong Kong, Shanghai Jiao Tong University, Johns Hopkins. arXiv v1 2024-11-09. Couples the protein-specialized multimodal LLM TourSynbio-7B with domain-specific deep learning models for computational and experimental protein engineering. Five case studies: three dry-lab (mutation prediction, protein folding, protein design) and two wet-lab validations engineering P450 proteins with up to 70% improved selectivity for steroid 19-hydroxylation and reductases with 3.7x enhanced catalytic efficiency for alcohol conversion."
+    },
+    {
+      "doi": "10.48550/arXiv.2512.13930",
+      "filename": "2512.13930.pdf",
+      "title": "Hierarchical Multi-agent Large Language Model Reasoning for Autonomous Functional Materials Discovery (MASTER)",
+      "source_url": "https://arxiv.org/abs/2512.13930",
+      "downloaded": "2026-08-08",
+      "txt_sidecar": "2512.13930.txt",
+      "note": "Los Alamos National Laboratory Theoretical Division (Matanovic, Holby, Kort-Kamp) + University of Connecticut (Rothfarb, Davis, Li). arXiv v1 2025-12-15, cond-mat.mtrl-sci. Materials Agents for Simulation and Theory in Electronic-structure Reasoning: an active learning framework where LLMs autonomously design, execute, and interpret atomistic simulations, translating natural language into density functional theory workflows. Hierarchy of reasoning strategies (single-agent baseline plus peer review, triage-ranking, triage-forms). Across CO adsorption on Cu-surface transition-metal adatoms and on M-N-C catalysts, reasoning-driven exploration reduces required atomistic simulations by up to 90% relative to trial-and-error selection."
+    },
+    {
+      "doi": "10.48550/arXiv.2605.22662",
+      "filename": "2605.22662.pdf",
+      "title": "Claw AI Lab: An Autonomous Multi-Agent Research Team",
+      "source_url": "https://arxiv.org/abs/2605.22662",
+      "downloaded": "2026-08-08",
+      "txt_sidecar": "2605.22662.txt",
+      "note": "Nanyang Technological University (Wu, Lin) + A*STAR, Moxin Technology, NUIST, Tsinghua, USTC. arXiv v1 2026-05-21. Lab-native autonomous research platform that advances automated research from a hidden prompt-to-paper pipeline into an interactive AI laboratory: users instantiate a full research team from one prompt with customizable roles, collaborative workflows, real-time monitoring, artifact inspection, and rollback/resume through a unified dashboard; research modes for exploration, multi-agent discussion, and reproduction. Claw-Code Harness connects local codebases, datasets, and checkpoints to runnable experiments and feeds execution artifacts back into the research loop. Internal evaluation on five AI research case studies using AutoResearchClaw as baseline; preferred by AI expert judges on idea novelty, experiment completeness, and paper presentation quality. Code: github.com/Claw-AI-Lab/Claw-AI-Lab."
+    },
+    {
+      "doi": "10.48550/arXiv.2510.11661",
+      "filename": "2510.11661.pdf",
+      "title": "SR-Scientist: Scientific Equation Discovery With Agentic AI",
+      "source_url": "https://arxiv.org/abs/2510.11661",
+      "downloaded": "2026-08-08",
+      "txt_sidecar": "2510.11661.txt",
+      "note": "Shanghai Jiao Tong University + Shanghai Innovation Institute + GAIR (Xia, Sun, Liu). arXiv v2 2026-02-17; published as a conference paper at ICLR 2026. Elevates the LLM from a simple equation proposer inside a genetic-programming search to an autonomous agent that writes code to analyze data, implements the equation as code, submits it for evaluation, and optimizes based on experimental feedback, using a code interpreter wrapped as data-analysis and equation-evaluation tools over a long horizon with minimal human-defined pipelines. Outperforms baselines by an absolute 6-35% on datasets covering four science disciplines; also reports robustness to noise, out-of-domain generalization, symbolic accuracy, and an end-to-end reinforcement learning framework."
     }
   ]
 }

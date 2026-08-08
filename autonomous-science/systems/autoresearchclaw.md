@@ -56,7 +56,7 @@ Introduces **ARC-Bench**, a 25-topic ML benchmark with a 20-topic scientific-dom
 
 ## Other references
 
-_None yet._
+- [Wu, Chen, Tan et al., "Claw AI Lab: An Autonomous Multi-Agent Research Team," arXiv:2605.22662](https://arxiv.org/abs/2605.22662) — uses AutoResearchClaw as its evaluation baseline.
 
 ## Code
 

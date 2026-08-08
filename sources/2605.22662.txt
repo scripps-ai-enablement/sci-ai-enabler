@@ -1,0 +1,507 @@
+C LAW AI L AB : A N AUTONOMOUS M ULTI -AGENT R E SEARCH T EAM
+Fan Wu1,*
+
+Cheng Chen1,2,*
+
+Zhenshan Tan4,*
+
+5
+
+1
+
+Dingcheng Gao
+
+Lanyun Zhu
+
+3,†
+
+†
+
+Tianrun Chen
+1
+
+NTU
+
+Deheng Ye
+2
+
+A*STAR
+*
+
+3
+
+3
+
+Taiyu Zhang3
+6
+
+Qi Zhu
+
+Yi Tan
+
+3
+
+Deyi Ji
+
+Xinzhen Xu1
+
+Yanyu Qian1
+1
+
+Guosheng Lin
+
+2,†
+
+Fayao Liu
+
+Moxin Technology Co., LTD
+
+Equal contribution
+
+†
+
+4
+
+NUIST
+
+5
+
+THU
+
+6
+
+USTC
+
+Corresponding authors
+
+arXiv:2605.22662v1 [cs.AI] 21 May 2026
+
+https://github.com/Claw-AI-Lab/Claw-AI-Lab
+
+A BSTRACT
+We present Claw AI Lab, a lab-native autonomous research platform that advances
+automated research from a hidden prompt-to-paper pipeline into an interactive
+AI laboratory. Rather than centering the system around a single agent or a fixed
+serial workflow, we allow users to instantiate a full research team from one prompt,
+with customizable roles, collaborative workflows, real-time monitoring, artifact
+inspection, and rollback/resume control through a unified dashboard. The platform
+also supports distinct research modes for exploration, multi-agent discussion,
+and reproduction, making autonomous research substantially more steerable and
+laboratory-like in practice. A key practical contribution of Claw AI Lab lies in its
+Claw-Code Harness, which connects local codebases, datasets, and checkpoints to
+runnable experiments and feeds execution artifacts back into the research loop. As
+a result, the harness improves not only execution integration, but also experimental
+completion and result integrity: experiments are easier to inspect, iterate on, and
+faithfully transfer into final papers, reducing common failure modes such as partial
+runs and malformed result reporting. In our internal evaluation on five AI research
+case studies, using AutoResearchClaw as the baseline, Claw AI Lab is consistently
+preferred by AI expert judges on idea novelty, experiment completeness, and paper
+presentation quality. We view Claw AI Lab as an early step toward a new paradigm:
+autonomous research as usable, interactive, and reliability-aware scientific
+infrastructure.
+
+1
+
+I NTRODUCTION
+
+Recent progress in large language models has made autonomous research increasingly plausible.
+Prior systems such as AutoResearchClaw (Liu et al., 2026), autoresearch (Karpathy, 2026), and
+other end-to-end research agents have demonstrated the feasibility of largely automated research
+workflows, in which a topic can be pushed from idea development toward experiments, analysis, and
+paper writing with limited human intervention (Lu et al., 2024; Yamada et al., 2025; Schmidgall et al.,
+2025). At the same time, recent work has expanded this space beyond one-shot paper generation,
+exploring multi-agent scientific collaboration, hypothesis generation, and more interactive forms
+of science automation (Gottweis et al., 2025; Ghareeb et al., 2025; Li et al., 2025). Claw AI Lab
+takes a different step forward: instead of treating autonomous research primarily as automated paper
+production, it reframes it as the operation of an interactive AI laboratory.
+This framing is central to the design of Claw AI Lab. The system is designed as a lab-native multiagent research platform that enables users to create a full AI research lab from a single prompt, with
+customizable roles, collaborative workflows, and human intervention. Its interface centers the user
+experience around a unified dashboard with real-time event streams, multi-project monitoring, artifact
+inspection, and one-click rollback. Claw AI Lab also supports three distinct research modes—Explore,
+Discussion, and Reproduce—which move the system beyond a hidden serial pipeline and toward
+a more visible, collaborative, and controllable research environment. In this sense, Claw AI Lab is
+1
+
+Idea Layer
+Generate and refine
+research ideas.
+
+Multi-Agent Discussion
+
+Diverse perspectives
+
+Propose Ideas
+
+Concensus Idea
+
+Generate candidates
+
+Align and select
+
+Plan
+
+Agent
+
+Refine Plan
+
+Finalize Plan
+
+Decompose ideas into
+concrete plans.
+
+Tasks & milestones
+
+Assign & planning
+
+Review & update
+
+Ready to code
+
+Coding Layer
+
+Tools Call
+
+Agent
+
+Coding
+
+Finalize Codes
+
+Constructing context
+
+Read & Understand
+
+Test & update
+
+Ready to execute
+
+Planning Layer
+
+Good enough ?
+
+No
+Implement, debug, and
+leverage tools.
+
+No
+
+Experiment Layer
+Run experiments, and
+analyze results
+
+Writing Layer
+Write, visualize, and polish
+the paper.
+
+Bug free ?
+
+Run on Server
+
+Results
+
+Compute & storage
+
+Metric & logs
+
+Yes
+
+Yes
+Iterate
+Adjust & rerun
+
+Outline
+
+Figures
+
+Draft
+
+Review
+
+Paper
+
+Structure paper
+
+Visualize results
+
+Write content
+
+Improve
+
+Final manuscript
+
+Figure 1: Overview of Claw AI Lab. The system organizes automatic research into five connected
+layers: idea, planning, coding, experimentation, and writing layers. Each layer uses specialized
+agents and validation loops, while feedback can flow across layers to revise earlier decisions when
+needed.
+
+closer in spirit to interactive and continual science systems than to a purely offline paper-generation
+pipeline (Schmidgall et al., 2025; Gottweis et al., 2025; Li et al., 2025).
+This laboratory perspective is important because real research is not a one-shot generation task. It
+is interactive, iterative, role-specialized, and artifact-heavy. Accordingly, Claw AI Lab is designed
+to make autonomous research more usable in practice: users can launch projects, monitor agents,
+inspect intermediate artifacts, and intervene throughout the research process rather than only at the
+beginning or the end. In this sense, our contribution is not simply stronger automation, but a stronger
+systems abstraction for autonomous research—one that treats research as a persistent and inspectable
+process rather than a black-box pipeline.
+A key practical advantage of Claw AI Lab lies in how it handles experimental execution and result
+consolidation. Recent systems show that coding agents can already run useful research loops over real
+training code and evaluation metrics (Karpathy, 2026; Zheng et al., 2025). Our platform introduces
+Claw-Code Harness (UltraWorkers, 2026) as a core component that reads local codebases, datasets,
+and checkpoints, writes runnable code, and supports the production of complete research deliverables,
+including papers, code, figures, and experiment logs. This design gives the harness a broader role
+than that of a simple execution wrapper: it becomes the interface that links local research assets to
+runnable experiments and connects experiment outputs back to the broader research workflow. As a
+result, the harness strengthens the continuity between implementation, execution, and reporting.
+This point is especially important for experimental completion. In autonomous research, a common
+failure mode is that experiments run only partially, intermediate outputs remain difficult to inspect, or
+final reports contain result tables that do not faithfully reflect the actual execution outputs. Recent
+benchmarks suggest that multi-step research execution, replication, and evidence tracking remain
+significantly more difficult than surface-level generation alone might suggest (Starace et al., 2025;
+Dong et al., 2026). Claw AI Lab is designed explicitly against this gap. By embedding the harness
+inside a dashboard-native, artifact-centered workflow, Claw AI Lab makes experimental outputs
+more visible, easier to trace, and easier to propagate into final reports. Put differently, the harness
+improves not only whether experiments can run, but whether they are carried through to complete,
+inspectable, and correctly reflected research artifacts. This is a central practical reason why Claw
+improves research completion quality in comparison to a purely pipeline-centric view of autonomous
+research.
+2
+
+Taken together, Claw AI Lab points toward a broader direction for the field. The future of autonomous
+research may not lie in ever longer hidden pipelines alone, but in interactive, inspectable, and
+reliability-aware AI laboratory systems. From this perspective, the contribution of Claw is not only a
+stronger platform, but a stronger framing for what autonomous research should become: not merely
+the automation of paper writing, but the construction of usable scientific infrastructure.
+
+2
+
+M ETHODOLOGY
+
+We present Claw AI Lab, a hierarchical multi-agent framework that automates the end-to-end
+research process by decomposing it into five structured layers: Idea, Planning, Coding, Experiment,
+and Writing. As illustrated in the main workflow, our system mimics real-world research practices by
+combining role specialization, iterative refinement, and cross-stage feedback into a unified closed-loop
+pipeline.
+Overview. Unlike prior pipeline-based research agents that operate in a linear fashion (Liu et al.,
+2026; Lu et al., 2024), Claw AI Lab adopts a pyramid-style architecture, where high-level concepts
+are progressively transformed into executable artifacts. Each layer is handled by dedicated agents
+with distinct responsibilities, while intermediate outputs are continuously refined through validation
+loops. This design follows the broader move toward role-specialized research agents and interactive
+science automation (Schmidgall et al., 2025; Gottweis et al., 2025; Li et al., 2025). It enables both
+global coordination and local optimization, ensuring that early-stage decisions remain aligned with
+downstream execution.
+Idea Layer. The process begins with a multi-agent discussion phase, where multiple agents collaboratively explore the problem space. Instead of relying on a single perspective, the system encourages
+diverse perspectives through parallel idea proposals, followed by structured debate and refinement. A
+consensus mechanism then selects and consolidates the most promising direction. This discussiondriven design improves robustness and diversity, and better reflects how real research ideas are formed
+through collaboration rather than isolated generation.
+Planning Layer. Given the selected idea, the system decomposes it into a structured plan consisting
+of tasks, dependencies, and milestones. A planning agent iteratively refines this plan through a
+validation loop (“Good Enough?”), where incomplete or ambiguous components are revised before
+execution. Crucially, planning is not a one-shot process. Instead, it supports adaptive refinement,
+allowing updates based on feedback from downstream stages (e.g., coding failures or experimental
+results). This ensures that the plan remains feasible and aligned with practical constraints.
+Coding Layer. The Coding Layer turns an approved experiment plan into runnable research code.
+Centered on the Claw-Code Harness (UltraWorkers, 2026), it uses an agentic coding loop where
+the model can inspect local codebases, datasets, and checkpoints, then write, run, debug, and refine
+experiment files through controlled tools, including bash, read file, write file, edit file, glob search,
+and grep search. The harness further improves experimental reliability by executing each task in a
+sandboxed workspace and injecting a read-only Python controller for time-budget enforcement, metric
+reporting, result finalization, and NaN/Inf detection. It also performs smoke tests and anti-fabrication
+checks to detect fake metrics, placeholder code, or mock implementations.
+Experiment Layer. Once the implementation is finalized, the system deploys experiments on
+computational resources and collects metrics and logs. The experiment layer operates as an iterative
+optimization loop, where results are analyzed to guide subsequent adjustments. Importantly, feedback
+is propagated not only within the experiment stage but also across layers. For example, unexpected
+results may trigger updates in the planning stage, while repeated failures may lead to revisiting
+the original idea. This cross-layer feedback enables continuous improvement and prevents error
+accumulation.
+Writing Layer. The final stage transforms experimental outcomes into structured research outputs.
+The system generates an outline, produces visualizations, drafts the manuscript, and performs
+iterative review and refinement. By integrating writing into the same pipeline, Claw AI Lab ensures
+3
+
+ChatGPT
+
+Paper
+Paper 1
+Paper 2
+Paper 3
+
+Gemini
+
+Avg. Gain
+
+AutoResearchClaw
+
+Claw AI Lab
+
+AutoResearchClaw
+
+Claw AI Lab
+
+62/100
+49/100
+62/100
+
+77/100
+71/100
+73/100
+
+68/100
+64/100
+73/100
+
+86/100
+73/100
+95/100
+
++16.5
++15.5
++16.5
+
+Table 1: Quantitative results on the three research papers of Topics 1–3 scored by different evaluators
+in terms of six dimensions.
+Evaluator
+
+AutoResearchClaw
+
+Claw AI Lab
+
+Gain
+
+ChatGPT
+Gemini
+
+66/100
+80/100
+
+73/100
+83/100
+
++7.0
++3.0
+
+Average
+
+73.0/100
+
+78.0/100
+
++5.0
+
+Table 2: Quantitative result on the reproduction report of Topic 4.
+consistency between experimental results and reported findings, reducing the gap between execution
+and documentation.
+
+3
+
+E XPERIMENTS
+
+3.1
+
+E XPERIMENTAL S ETUP
+
+Claw AI Lab is run in fully autonomous project mode. It uses GPT-5.4 as both the main model
+and the coding model, Gemini-3-Pro-Image-Preview as the figure-generation model for paper illustrations, and Qwen3.5-Plus/Qwen-Plus as fallback models. AutoResearchClaw uses GPT-5.4
+as the main model, Gemini-2.5-Pro-Flash-Image as the image model, and GPT-4o/GPT-4o-mini as
+fallback models. We compare our method with AutoResearchClaw on four diverse topics. Topics 1–3
+are research topics, while Topic 4 is a reproduction topic. The four topics are: (1) “Quantifying
+Hallucination in Generated Video Models”, (2) “LIAR Dataset-Based Fake News Classification
+Solution”, (3) “A Q-Learning Approach for Student Performance Improvement Using Public Educational Data”, and (4) “Reproducing and Analyzing PhyCustom (Wu et al., 2025) on Flux (Labs,
+2024).” Each generated paper is reviewed by two LLM evaluators, ChatGPT 5.4 Thinking and
+Gemini 3.1 Pro, across six dimensions, including technical depth&reproducibility, structure&section
+flow, novelty&contributions, clarity&terminology, logical argumentation and citations&evidence
+support. Each review is conducted in a fresh conversation window to reduce context carry-over.
+Research papers use the same academic review prompt, while the reproduction paper uses a separate
+reproduction-oriented prompt.
+3.2
+
+E XPERIMENTAL R ESULTS
+
+Tables 1 and 2 summarize the quantitative comparison between Claw AI Lab and AutoResearchClaw
+across four topics and two evaluators. As shown in Table 1, Claw AI Lab achieves consistent
+gains across Topics 1–3, with average improvements ranging from +15.5 to +16.5 points. For
+the reproduction topic, Table 2 shows that the average score increases from 73.0/100 to 78.0/100,
+corresponding to a 5.0-point improvement. Both ChatGPT and Gemini evaluators consistently
+assign higher scores to Claw AI Lab than to AutoResearchClaw across all topics, indicating that
+the improvement is stable across different evaluation protocols. Furthermore, Figure 2 provides
+a fine-grained comparison on six dimensions. Overall, Claw AI Lab exhibits a more competitive
+and balanced performance across most cases. These results suggest that Claw AI Lab benefits from
+our more reliable and efficient Claw-Code harness, which enables more trustworthy experimental
+execution and provides stronger empirical support for the generated papers, thereby leading to more
+stable improvements in overall paper quality.
+
+4
+
+(a) Paper 1 scored by Gemini
+
+(b) Paper 1 scored by ChatGPT
+
+(c) Paper 2 scored by Gemini
+
+(d) Paper 2 scored by ChatGPT
+
+(e) Paper 3 scored by Gemini
+
+(f) Paper 3 scored by ChatGPT
+
+(g) Paper 4 scored by Gemini
+
+(h) Paper 4 scored by ChatGPT
+
+Figure 2: Detailed comparison for four paper pairs scored by Gemini and ChatGPT, respectively.
+Each panel compares Claw AI Lab with AutoResearchClaw on six dimensions.
+
+5
+
+R EFERENCES
+Xuan Dong, Huanyang Zheng, Tianhao Niu, Zhe Han, Pengzhan Li, Bofei Liu, Zhengyang Liu,
+Guancheng Li, Qingfu Zhu, and Wanxiang Che. Epibench: Benchmarking multi-turn research
+workflows for multimodal agents. arXiv preprint arXiv:2604.05557, 2026.
+Ali Essam Ghareeb, Benjamin Chang, Ludovico Mitchener, Angela Yiu, Caralyn J. Szostkiewicz,
+Jon M. Laurent, Muhammed T. Razzak, Andrew D. White, Michaela M. Hinks, and Samuel G.
+Rodriques. Robin: A multi-agent system for automating scientific discovery. arXiv preprint
+arXiv:2505.13400, 2025.
+Juraj Gottweis, Wei-Hung Weng, Alexander Daryin, Tao Tu, Anil Palepu, Petar Sirkovic, Artiom
+Myaskovsky, Felix Weissenberger, Keran Rong, Ryutaro Tanno, et al. Towards an ai co-scientist.
+arXiv preprint arXiv:2502.18864, 2025.
+Andrej Karpathy.
+autoresearch.
+
+autoresearch, 2026.
+
+URL https://github.com/karpathy/
+
+Black Forest Labs. Flux. https://github.com/black-forest-labs/flux, 2024.
+Ed Li, Junyu Ren, Xintian Pan, Cat Yan, Chuanhao Li, Dirk Bergemann, and Zhuoran Yang. Build
+your personalized research group: A multiagent framework for continual and interactive science
+automation. arXiv preprint arXiv:2510.15624, 2025.
+Jiaqi Liu, Peng Xia, Siwei Han, Shi Qiu, Letian Zhang, Guiming Chen, Haoqin Tu, Xinyu Yang,
+Jiawei Zhou, Hongtu Zhu, Yun Li, Jiaheng Zhang, Yuyin Zhou, Zeyu Zheng, Cihang Xie, Mingyu
+Ding, and Huaxiu Yao. Autoresearchclaw: Fully autonomous research from idea to paper, 2026.
+URL https://github.com/aiming-lab/AutoResearchClaw.
+Chris Lu, Cong Lu, Robert Tjarko Lange, Jakob N. Foerster, Jeff Clune, and David Ha. The ai scientist:
+Towards fully automated open-ended scientific discovery. arXiv preprint arXiv:2408.06292, 2024.
+Samuel Schmidgall, Yusheng Su, Ze Wang, Ximeng Sun, Jialian Wu, Xiaodong Yu, Jiang Liu,
+Michael Moor, Zicheng Liu, and Emad Barsoum. Agent laboratory: Using llm agents as research
+assistants. In Findings of the Association for Computational Linguistics: EMNLP 2025, pp.
+5977–6043, 2025.
+Giulio Starace, Oliver Jaffe, Dane Sherburn, James Aung, Jun Shern Chan, Leon Maksin, Rachel
+Dias, Evan Mays, Benjamin Kinsella, Wyatt Thompson, Johannes Heidecke, Amelia Glaese, and
+Tejal Patwardhan. Paperbench: Evaluating ai’s ability to replicate ai research. In Proceedings of
+the 42nd International Conference on Machine Learning, volume 267 of Proceedings of Machine
+Learning Research, pp. 56843–56873, 2025.
+UltraWorkers. Claw Code. https://github.com/ultraworkers/claw-code, 2026.
+Public Rust implementation of the claw CLI agent harness. Accessed: 2026-05-18.
+Fan Wu, Cheng Chen, Zhoujie Fu, Jiacheng Wei, Yi Xu, Deheng Ye, and Guosheng Lin. Phycustom: Towards realistic physical customization in text-to-image generation. arXiv preprint
+arXiv:2512.02794, 2025.
+Yutaro Yamada, Robert Tjarko Lange, Cong Lu, Shengran Hu, Chris Lu, Jakob Foerster, Jeff Clune,
+and David Ha. The ai scientist-v2: Workshop-level automated scientific discovery via agentic tree
+search. arXiv preprint arXiv:2504.08066, 2025.
+Yuxiang Zheng, Dayuan Fu, Xiangkun Hu, Xiaojie Cai, Lyumanshan Ye, Pengrui Lu, and Pengfei
+Liu. Deepresearcher: Scaling deep research via reinforcement learning in real-world environments.
+In Proceedings of the 2025 Conference on Empirical Methods in Natural Language Processing,
+pp. 414–431, 2025.
+
+6
+
+

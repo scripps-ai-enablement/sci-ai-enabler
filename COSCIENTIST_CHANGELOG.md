@@ -11,6 +11,25 @@ Reverse-chronological log of changes to the [AI scientists tracker]({{ '/autonom
 
 Older entries live in [COSCIENTIST_CHANGELOG_ARCHIVE.md](COSCIENTIST_CHANGELOG_ARCHIVE.md).
 
+## 2026-08-08
+
+### Added
+- **ChatBattery** (Lifecycle: Multi-stage) — Mila / Université de Montréal with Oxford, UCL, Ottawa and NRC Canada; expert-guided LLM reasoning over eight stages and seven agents carried three novel cathodes from hypothesis through DFT to synthesis and coin-cell testing, at 174/169/160 mAh/g versus NMC811's ~135 ([arXiv:2507.16110](https://arxiv.org/abs/2507.16110))
+- **Claw AI Lab** (Lifecycle: Multi-stage, Writing) — NTU Singapore with A*STAR, Moxin, NUIST, Tsinghua and USTC; instantiates a full multi-agent research team from one prompt with dashboard monitoring, artifact inspection and rollback, and a Claw-Code Harness that wires local codebases and checkpoints into runnable experiments ([arXiv:2605.22662](https://arxiv.org/abs/2605.22662))
+- **MASTER** (Lifecycle: Multi-stage) — Los Alamos National Laboratory Theoretical Division with University of Connecticut; hierarchical LLM agents design, execute and interpret DFT in an active-learning loop, cutting required atomistic simulations by up to 90% ([arXiv:2512.13930](https://arxiv.org/abs/2512.13930))
+- **SR-Scientist** (Lifecycle: Multi-stage) — SJTU / Shanghai Innovation Institute / GAIR, ICLR 2026; promotes the LLM from equation proposer to an agent that writes analysis code and iterates on evaluation feedback, beating baselines by an absolute 6–35% on LSR-Synth ([arXiv:2510.11661](https://arxiv.org/abs/2510.11661))
+- **TourSynbio-Agent** (Lifecycle: Multi-stage) — Toursun Synbio Shanghai with CityU Hong Kong, SJTU and Johns Hopkins; protein-specialized LLM routing to ESM-1v / ESMFold / AntiFold agents, with P450 variants at 70% improved 19-hydroxylation selectivity and reductases at 3.7× conversion ([arXiv:2411.06029](https://arxiv.org/abs/2411.06029))
+
+### Updated
+- **AutoResearchClaw** — added Claw AI Lab (arXiv:2605.22662) to Other references; it uses AutoResearchClaw as its evaluation baseline.
+- **Landscape** — ChatBattery added to the chemistry-and-materials exemplars and SR-Scientist to the symbolic-discovery tail; synthesis re-verified against the current grouping and `synthesis_reviewed` bumped to 2026-08-08.
+
+### Flagged
+- _None._
+
+### Verified (no changes)
+- Synthesis claims re-checked against the regrouped index table; no superlative required correction. The 55-entry link/repo re-verification backlog remains open — Phase B has no web tools, so `last_verified` was not bumped on those pages.
+
 ## 2026-08-01
 
 ### Added
@@ -163,22 +182,6 @@ _None._
 - **`autonomous-science/summary.md`** — added the LabOS primary-paper link to Sources. LabOS fits the existing "Biology & medicine carry the strongest evidence" and embodied-systems patterns and tips no superlative; `synthesis_reviewed` was refreshed yesterday (2026-06-08, within the 30-day window), so no synthesis prose was rewritten.
 - **`autonomous-science/curator-state.md`** — added LabOS at the top of `Recently surfaced` (trimming CatDT to keep the window at five).
 - **`sources/manifest.json`** — LabOS (DOI 10.48550/arXiv.2510.14861) entry added by Phase A.
-
-### Flagged
-_None._
-
-### Verified (no changes)
-- All pre-existing system pages remain inside the 30-day re-verification window (oldest `last_verified` is 2026-05-20); no spot-checks required this run.
-
-## 2026-06-08
-
-### Added
-- **Ax-Prover** (Lifecycle: Analysis) — Axiomatic AI (with ICFO, MIT, ICREA) multi-agent framework that equips general-purpose LLMs (Claude Sonnet 4/4.5) with Lean theorem-proving tools via the Model Context Protocol, generating formally verified proofs across mathematics and quantum physics either autonomously or in collaboration with domain experts. A role-specialized **Orchestrator / Prover / Verifier** loop sketches proofs, formalizes each step into Lean `have` statements, and machine-checks them with `lean-lsp-mcp` tools (goal inspection, Mathlib search via Loogle/Leansearch, diagnostics) — sidestepping the over-specialization and Mathlib-version brittleness of distilled prover models. Benchmarked at pass@1 against frontier-LLM and specialized-prover baselines: **top open-source model and third overall on PutnamBench (14%, 92/660 problems)**, **96% on the authors' new QuantumTheorems benchmark** (vs. 61% DeepSeek-Prover, 57% Kimina) and **64% on AbstractAlgebra**, plus two cryptography case studies (matrix branch-number definition; QKD entropy bound) formalized with domain experts. Open source ([source](https://arxiv.org/abs/2510.12787)).
-
-### Updated
-- **`autonomous-science/summary.md`** — added Ax-Prover to the "long tail of single-domain pioneers" mathematics exemplars (formal Lean proving alongside AI co-mathematician); re-verified every synthesis claim against the current grouping and bumped `synthesis_reviewed` to 2026-06-08. Ax-Prover fits the existing Math & symbolic pattern and tips no superlative, so no synthesis prose was rewritten.
-- **`autonomous-science/curator-state.md`** — added Ax-Prover at the top of `Recently surfaced` (trimming CategoryScienceClaw to keep the window at five); recorded **Numina-Lean-Agent** (arXiv:2601.14027) under `Deferred — next-run priority` as a scope-edge pure theorem prover.
-- **`sources/manifest.json`** — Ax-Prover (DOI 10.48550/arXiv.2510.12787) and the deferred Numina-Lean-Agent (DOI 10.48550/arXiv.2601.14027) entries added by Phase A.
 
 ### Flagged
 _None._

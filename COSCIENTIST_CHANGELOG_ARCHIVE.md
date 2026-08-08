@@ -6,6 +6,22 @@ nav_exclude: true
 # AI scientist updates archive
 
 Older entries rotated out of [COSCIENTIST_CHANGELOG.md](COSCIENTIST_CHANGELOG.md). Newest first, same format.
+## 2026-06-08
+
+### Added
+- **Ax-Prover** (Lifecycle: Analysis) — Axiomatic AI (with ICFO, MIT, ICREA) multi-agent framework that equips general-purpose LLMs (Claude Sonnet 4/4.5) with Lean theorem-proving tools via the Model Context Protocol, generating formally verified proofs across mathematics and quantum physics either autonomously or in collaboration with domain experts. A role-specialized **Orchestrator / Prover / Verifier** loop sketches proofs, formalizes each step into Lean `have` statements, and machine-checks them with `lean-lsp-mcp` tools (goal inspection, Mathlib search via Loogle/Leansearch, diagnostics) — sidestepping the over-specialization and Mathlib-version brittleness of distilled prover models. Benchmarked at pass@1 against frontier-LLM and specialized-prover baselines: **top open-source model and third overall on PutnamBench (14%, 92/660 problems)**, **96% on the authors' new QuantumTheorems benchmark** (vs. 61% DeepSeek-Prover, 57% Kimina) and **64% on AbstractAlgebra**, plus two cryptography case studies (matrix branch-number definition; QKD entropy bound) formalized with domain experts. Open source ([source](https://arxiv.org/abs/2510.12787)).
+
+### Updated
+- **`autonomous-science/summary.md`** — added Ax-Prover to the "long tail of single-domain pioneers" mathematics exemplars (formal Lean proving alongside AI co-mathematician); re-verified every synthesis claim against the current grouping and bumped `synthesis_reviewed` to 2026-06-08. Ax-Prover fits the existing Math & symbolic pattern and tips no superlative, so no synthesis prose was rewritten.
+- **`autonomous-science/curator-state.md`** — added Ax-Prover at the top of `Recently surfaced` (trimming CategoryScienceClaw to keep the window at five); recorded **Numina-Lean-Agent** (arXiv:2601.14027) under `Deferred — next-run priority` as a scope-edge pure theorem prover.
+- **`sources/manifest.json`** — Ax-Prover (DOI 10.48550/arXiv.2510.12787) and the deferred Numina-Lean-Agent (DOI 10.48550/arXiv.2601.14027) entries added by Phase A.
+
+### Flagged
+_None._
+
+### Verified (no changes)
+- All pre-existing system pages remain inside the 30-day re-verification window (oldest `last_verified` is 2026-05-20); no spot-checks required this run.
+
 ## 2026-06-07
 
 ### Added

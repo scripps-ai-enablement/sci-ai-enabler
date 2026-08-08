@@ -1,0 +1,420 @@
+Validation of an LLM-based Multi-Agent
+Framework for Protein Engineering in Dry Lab and
+Wet Lab
+Zan Chen1 , Yungeng Liu1,2 , Yu Guang Wang1,3 , Yiqing Shen1,4,*
+1
+
+Toursun Synbio, Shanghai, China
+City University of Hong Kong, Hong Kong, China
+3
+Shanghai Jiao Tong University, Shanghai, China
+4
+Johns Hopkins University, Baltimore, USA
+*
+Corresponding authors. (Email: yiqingshen1@gmail.com)
+
+arXiv:2411.06029v1 [q-bio.QM] 9 Nov 2024
+
+2
+
+Abstract—Recent advancements in Large Language Models
+(LLMs) have enhanced efficiency across various domains, including protein engineering, where they offer promising opportunities
+for dry lab and wet lab experiment workflow automation.
+Previous work, namely TourSynbio-Agent, integrates a proteinspecialized multimodal LLM (i.e. TourSynbio-7B) with domainspecific deep learning (DL) models to streamline both computational and experimental protein engineering tasks. While
+initial validation demonstrated TourSynbio-7B’s fundamental
+protein property understanding, the practical effectiveness of the
+complete TourSynbio-Agent framework in real-world applications remained unexplored. This study presents a comprehensive
+validation of TourSynbio-Agent through five diverse case studies
+spanning both computational (dry lab) and experimental (wet
+lab) protein engineering. In three computational case studies,
+we evaluate the TourSynbio-Agent’s capabilities in mutation
+prediction, protein folding, and protein design. Additionally, two
+wet-lab validations demonstrate TourSynbio-Agent’s practical
+utility: engineering P450 proteins with up to 70% improved
+selectivity for steroid 19-hydroxylation, and developing reductases
+with 3.7× enhanced catalytic efficiency for alcohol conversion.
+Our findings from the five case studies establish that TourSynbioAgent can effectively automate complex protein engineering
+workflows through an intuitive conversational interface, potentially accelerating scientific discovery in protein engineering.
+Index Terms—Large Language Models (LLMs), Multimodal
+LLM, Agents, Protein Engineering, Deep Learning
+
+I. I NTRODUCTION
+Deep learning (DL) has improved the performance and
+efficiency in protein engineering [1], [2], such as AlphaFold
+[3], [4] and RoseTTAFold [5], [6] achieving much progress in
+protein structure prediction. However, the widespread adoption
+of these DL models to real-world protein engineering workflow remains limited due to their technical complexity, requiring substantial expertise in both protein science and DL for
+effective implementation [7]. Large Language Models (LLMs)
+have emerged as promising solutions for interpreting proteinrelated information, with specialized models like Prot2Text [8]
+and ProteinBERT [9] demonstrating capabilities in processing
+protein sequences and structures. Yet, these protein-specific
+LLMs have primarily served analytical functions, lacking the
+
+ability to autonomously execute complete protein engineering
+workflows.
+To address this limitation, TourSynbio-Agent was recently
+introduced [10] (Fig. 1), featuring an innovative multiagent architecture that combines TourSynbio-7B, a proteinspecialized multimodal LLM, with domain-specific DL models. TourSynbio-7B’s distinctive capability lies in processing
+protein sequences directly as natural language, eliminating the
+need for complex external protein encoders. This streamlined
+approach, coupled with the TourSynbio-Agent’s multi-agent
+design, enables the automated execution of diverse protein
+engineering tasks through specialized agents.
+While initial benchmarking through ProteinLMBench [11]
+demonstrated TourSynbio-7B’s fundamental capabilities in
+protein property analysis, the practical utility of the complete TourSynbio-Agent framework in real-world applications remained unexplored. This study addresses this gap
+through five comprehensive case studies spanning both computational (dry lab) and experimental (wet lab) validations.
+We first present three computational case studies validating
+TourSynbio-Agent’s ability to handle diverse protein engineering tasks through natural language interactions, including
+mutation prediction, protein folding, and protein design. To
+demonstrate real-world applicability, we then conducted two
+wet-lab case studies: engineering P450 proteins with up to
+70% improved selectivity for steroid 19-hydroxylation, and
+developing reductases achieving 3.7× enhanced conversion
+rates for alcohol compounds.
+The major contributions of this work are two-fold. Firstly,
+we conduct three dry lab case studies to validate TourSynbioAgent’s capabilities across fundamental protein engineering
+tasks. Secondly, we demonstrate the TourSynbio-Agent’s effectiveness through two wet-lab-validated case studies. Together, these results represent the first systematic validation of
+an LLM-based agent system in real-world protein engineering
+applications.
+
+Fig. 1. Overview of the TourSynbio-Agent framework for automating protein engineering tasks.
+
+II. D RY L AB C ASE S TUDY D ESIGN
+To validate TourSynbio-Agent’s capabilities across fundamental protein engineering domains, we designed three dry lab
+case studies demonstrating the framework’s ability to automate
+complex workflows through natural language interactions.
+A. Case Study I: Mutation Effect Prediction
+Mutation effect prediction is an important component of
+protein engineering that assesses the functional impact of
+amino acid substitutions [12]. This computational approach
+guides rational protein design across multiple applications,
+including therapeutic development, enzyme engineering, and
+the analysis of disease-associated mutations. TourSynbioAgent streamlines this process by accepting natural language
+queries (e.g., “predict the effects of mutations in this protein
+sequence”) along with protein sequence data in CSV format.
+Upon receiving these inputs, TourSynbio-7B activates a specialized mutation prediction agent that leverages the ESM1v model [13]. The TourSynbio-Agent generates comprehensive outputs including quantitative activity score predictions
+and qualitative interpretations of mutation effects, enabling
+researchers to efficiently identify and prioritize promising
+protein variants.
+
+B. Case Study II: Protein Folding
+The second case study evaluates TourSynbio-Agent’s capability to predict three-dimensional protein structures from
+amino acid sequences. Users initiate the workflow by submitting a protein sequence alongside a natural language
+query (e.g., “Please predict the structure of the sequence”).
+TourSynbio-7B processes this input and activates the protein folding agent, which employs ESMfold [14] to generate
+structural predictions. The predicted structures are visualized
+through PyMOL [15] and presented to users via an interactive
+chat interface, with downloadable structure files available for
+further analysis.
+C. Case Study III: Protein Design
+The third case study explores protein design, a more sophisticated task requiring concurrent optimization of structural
+features and model parameters. Users provide design specifications (such as antibody-small molecule interactions) along
+with structural templates in PDB or CIF format following
+IMGT standards [16]. TourSynbio-7B processes these inputs
+and delegates the task to a specialized protein design agent.
+This agent orchestrates a two-step process: first optimizing
+hyperparameters and processing structural inputs, then utilizing the AntiFold [17] module to generate designs that
+
+Fig. 2. Workflow of the TourSynbio-Agent mutation prediction pipeline. The process consists of three main stages: (1) Input specification, where users provide
+the protein sequence and upload a CSV file containing mutation information; (2) Model configuration, where ESM-1v is selected and parameters including
+mutation column offset and scoring strategy are defined; and (3) Results generation, displaying predicted activity scores for each mutant in a downloadable
+format. The interface shows the successful prediction of multiple H24 variants, with H24M demonstrating the highest predicted activity score.
+
+meet specified constraints. The framework returns complete
+protein designs optimized for the intended application, whether
+experimental validation or therapeutic development.
+III. D RY L AB C ASE S TUDY R ESULTS
+We evaluated TourSynbio-Agent’s performance across three
+fundamental protein engineering tasks: mutation prediction,
+protein folding, and protein design. For each case study,
+we present detailed analyses of the framework’s capabilities,
+including input processing, computational predictions, and
+result interpretation.
+A. Experimental Process I: Mutation Prediction
+We validated TourSynbio-Agent’s ability to predict mutation
+effects on protein activity, an important capability for protein
+engineering applications such as therapeutic development and
+enzyme optimization. The study workflow, illustrated in Fig. 2,
+consists of three distinct stages: input specification, model
+configuration, and results analysis. The prediction pipeline
+requires two primary inputs: (1) the wild-type protein sequence, which in this case study was ”HPETLVKVKDAEDQLGARVGYIELDLNSGKILESFRPEERFMMSTFKV...” and (2) a
+structured dataset in CSV format containing a library of single
+and/or multiple point mutations derived from the original
+sequence. The mutation information was specified in the
+“mutant” column of the input file, with an offset parameter
+of 24 to correctly align mutation positions with the protein
+
+sequence. Using the TourSynbio-7B interface, we configured
+the mutation prediction agent to utilize ESM-1v, a protein
+language model specifically trained for mutation effect prediction. The scoring strategy was set to “wt-marginals” to
+compute the relative impact of mutations compared to the
+wild-type sequence. This configuration enables the ESM-1v
+to analyze how each mutation affects protein stability and
+function relative to the original sequence. The ESM-1v then
+evaluated each variant in the mutation library, generating
+activity scores that quantify the predicted functional impact.
+Our analysis focused on mutations at position H24, examining multiple variants including H24E (-1.40009), H24D (0.80439), H24G (-1.69883), and H24M (7.84565). Among
+these variants, H24M exhibited the highest activity score of
+7.84565, suggesting an enhancement in protein performance
+compared to the wild-type sequence. The output, provided
+in a downloadable format, includes detailed scores for each
+mutation variant, enabling researchers to prioritize promising
+mutations for experimental validation. This computational
+screening approach demonstrates how LLMs can accelerate the
+protein engineering cycle by identifying high-potential variants
+before laboratory testing.
+B. Experimental Process II: Protein Folding
+This study evaluated TourSynbio-Agent’s capability to predict protein three-dimensional structures through an automated pipeline. The experimental workflow, illustrated in
+
+Fig. 3. Workflow of the TourSynbio-Agent’s protein structure prediction pipeline. The process comprises three key stages: (1) Initial setup, where users
+input the protein sequence and select the ESMfold prediction agent; (2) Sequence confirmation and model execution, showing the input protein sequence and
+the ESMfold processing interface; and (3) Results visualization, displaying both the predicted 3D structure in cartoon representation and atomic coordinates
+in PDB format. The interface reports a pLDDT confidence score of 78.7073%, indicating high prediction reliability. The predicted structure shows a mixed
+α/β fold topology with well-defined secondary structure elements, and the coordinate section demonstrates the detailed atomic-level output generated by the
+model.
+
+Fig. 3, demonstrates the seamless integration of state-of-theart structure prediction methods into an accessible framework.
+The prediction pipeline begins with sequence input through
+TourSynbio-Agent’s conversational interface. In this case
+study, we analyzed a protein sequence starting with ”MGSDKIHHHHHHHMHKMTVRQERLKSIVRILER...”, which was
+directly input through the conversational interface. Upon
+sequence submission, TourSynbio-7B activated its ESMfold
+Agent, a specialized model that performs end-to-end atomiclevel structure prediction without requiring multiple sequence
+alignments or template structures. The ESMfold generates both
+atomic coordinates and confidence metrics. For our test sequence, the ESMfold achieved a pLDDT (Predicted Local Distance Difference Test) score of 78.7073%, indicating substantial confidence in the predicted structure’s accuracy. The output
+is presented in two complementary formats: (1) a detailed PDB
+file containing atomic coordinates (exemplified in the figure by
+entries such as ”ATOM 1 N MET A 1 -3.556 -27.669 -43.580
+1.00 43.90 N”), and (2) an interactive visualization interface
+showing the predicted structure in cartoon representation. The
+structural model reveals a mixed α/β fold topology with welldefined secondary structure elements, allowing immediate
+visual assessment of key structural features. This automated
+structure prediction pipeline streamlines what has traditionally
+been a complex and computationally intensive process. The
+
+combination of high-confidence predictions, detailed atomic
+coordinates, and instant visualization capabilities demonstrates
+TourSynbio-Agent’s potential to accelerate structure-based research workflows in both academic and industrial settings.
+C. Experimental Process III: Protein Design
+This experiment leveraged TourSynbio-Agent’s capabilities to explore sequence variations in an antibody structure
+(PDB ID: 6y1l) while maintaining its structural integrity and
+functional properties. The workflow, illustrated in Fig. 4,
+demonstrates the integration of Antifold’s inverse folding
+capabilities into a systematic antibody design pipeline. The
+study process began with the specification of input parameters
+through TourSynbio-Agent’s conversational interface. Users
+input the PDB code “6y1l” and can optionally specify structural components including heavy chain, light chain, antigen
+chain, and nanobody chain identifiers. The sampling parameters were configured with a temperature of 0.5 and specific
+complementarity-determining regions (CDRs) targeted for design. Upon parameter confirmation, TourSynbio-7B activated
+the Antifold Agent to perform structure-based sequence calculations. The framework generated comprehensive results in
+two complementary formats. The first output, provided in CSV
+format, delivered a detailed residue-level analysis containing
+position-specific data including chain identifiers (e.g., H, L),
+
+Fig. 4. Workflow of TourSynbio-Agent’s antibody design pipeline using Antifold. The process consists of three stages: (1) Initial configuration, where users
+select the model and specify the PDB input (6y1l); (2) Parameter specification, showing input fields for structural components (heavy chain, light chain,
+antigen chain, nanobody chain) and sampling parameters (temperature of 0.5, CDR regions); and (3) Results presentation, displaying both a tabular output
+with structural scores and generated antibody sequences in FASTA format. The conversational interface allows for precise control over the sampling process
+while maintaining ease of use. The output panel shows multiple sampled sequences with their associated scores, demonstrating the model’s ability to generate
+structurally consistent antibody variants.
+
+original and predicted residue identities, and structural metrics
+such as per-residue perplexity. The analysis revealed varying
+structural compatibility scores across different positions, with
+chain H positions showing scores ranging from -4.9317 to
+-16.7651, providing quantitative insights into the structural
+impact of mutations. The second output format presented
+sequence sampling results in FASTA format, preserving the
+original antibody sequence as a reference while generating
+multiple design variants. Each variant was accompanied by
+detailed scoring metrics, with the exemplar design achieving
+a global score of 1.0470, indicating strong structural consistency. The framework evaluated specific CDR regions and
+provided additional metrics including a sequence recovery rate
+of 0.9682 and a mutation count of 14, enabling researchers to
+assess both local and global impacts of the designed variations.
+This study demonstrates TourSynbio-Agent’s capability to
+handle sophisticated protein engineering tasks. The framework
+efficiently generates both detailed residue-level predictions and
+complete sequence variants, providing researchers with quantitative metrics to evaluate structural stability and functional
+potential.
+IV. W ET- LAB C ASE S TUDY
+To validate TourSynbio-Agent’s practical utility in realworld applications, we conducted two experimental case studies focusing on enzyme engineering. These studies demon-
+
+strate the framework’s ability to optimize enzyme properties
+through iterative computational prediction and experimental
+validation cycles.
+A. Wet-lab Study I: Enhancing Steroid Compound Selectivity
+Steroid compounds represent a crucial class of bioactive
+molecules that serve essential physiological functions, from
+maintaining cellular membrane integrity to acting as hormonal
+signaling molecules [18]. Their therapeutic applications span
+multiple medical domains, including cardiovascular [19] and
+cerebrovascular diseases [20]. This case study focused on engineering cytochrome P450 enzymes to enhance their selectivity
+for steroid 19-hydroxylation. While P450-catalyzed reactions
+typically generate multiple products, only one specific hydroxylation product possesses the desired therapeutic properties.
+Our objective was to achieve a 70% improvement in selective
+product formation while maintaining catalytic activity, which
+is a threshold requirement for industrial-scale implementation.
+1) Engineering Strategy and Implementation: The engineering process proceeded in two distinct phases. During
+the initial screening phase, TourSynbio-Agent generated 200
+single-site mutation candidates within two weeks, followed by
+a three-week experimental validation period to collect comprehensive activity and selectivity data. In the subsequent focused
+optimization phase, this experimental data was used to finetune the prediction models. TourSynbio-Agent then generated
+
+Fig. 5. The goal is to modify the P450 protein, which catalyzes the 19hydroxylation of steroid compounds, to increase its selectivity by 70% for
+the effective product, a crucial step for scaling up production efficiency.
+
+10 optimized variants containing up to five mutations each,
+which underwent detailed experimental characterization for
+both selectivity and activity.
+2) Results: The engineering campaign yielded outcomes
+that validated TourSynbio-Agent’s effectiveness in protein
+engineering, as shown in Fig. 5. The framework demonstrated
+strong predictive accuracy, achieving a correlation coefficient
+of 0.7 between computational predictions and experimental measurements. Most notably, the best-performing variant
+achieved the target 70% improvement in product selectivity
+while maintaining robust catalytic activity. These performance
+metrics met the stringent criteria for potential industrial implementation, highlighting TourSynbio-Agent’s capability to
+address complex biocatalysis optimization challenges.
+
+Fig. 6. Reductase catalysis of alcohol compounds.
+
+comprehensive experimental validation over a four-week period.
+2) Results: The reductase engineering campaign demonstrated both the predictive accuracy of TourSynbio-Agent and
+its ability to achieve substantial functional improvements.
+The framework’s predictions showed a strong correlation with
+experimental results, achieving a correlation coefficient of
+0.7 between computational predictions and measured activities. This validation confirms TourSynbio-Agent’s reliability
+in identifying beneficial mutations for enzyme optimization.
+Among the designed variants, the most successful candidate
+exhibited a 3.7× enhancement in catalytic conversion rate
+compared to the wild-type enzyme. This improvement in
+catalytic efficiency translates directly to practical benefits:
+increased product yields, reduced reaction times, and more
+efficient utilization of raw materials.
+V. C ONCLUSION AND D ISCUSSION
+
+B. Wet-lab Study II: Assisting customers in enhancing the
+catalytic conversion rate of enzymes
+Steroid hormones and their synthetic derivatives represent
+an important segment of the pharmaceutical industry, with
+applications spanning reproductive health, metabolic disorders,
+inflammatory conditions, and immunological diseases [21].
+Key compounds in this category include progesterone, testosterone, estradiol, cortisol, and aldosterone, along with various
+synthetic progestogens. The growing prevalence of age-related
+and lifestyle diseases has driven increasing demand for these
+therapeutic agents, necessitating more efficient production
+methods [22], [23]. This case study focused on optimizing
+reductase enzymes to enhance their catalytic efficiency in
+alcohol compound synthesis. Improving catalytic conversion
+rates directly impacts manufacturing productivity and economic viability by maximizing product formation within fixed
+reaction timeframes. The engineering objective was to increase
+the enzyme’s catalytic efficiency while maintaining product
+specificity as shown in Fig. 6.
+1) Engineering Approach: The optimization process began with a dataset comprising the wild-type reductase sequence and activity measurements for 29 single-point variants. TourSynbio-Agent analyzed this initial dataset to develop structure-function relationships and subsequently recommended 10 novel single-point mutations predicted to enhance
+catalytic performance. These engineered variants underwent
+
+This study presents a comprehensive validation of
+TourSynbio-Agent through five diverse case studies, demonstrating its effectiveness in automating complex protein engineering workflows. The three computational case studies
+showcase the TourSynbio-Agent’s ability to streamline traditionally complex tasks through an intuitive natural language
+interface. The successful wet-lab validations, particularly the
+engineering of P450 proteins with 70% improved selectivity and reductases with 3.7× enhanced catalytic efficiency,
+provide concrete evidence of TourSynbio-Agent’s practical
+utility in real-world applications. The integration of a proteinspecialized multimodal LLM with domain-specific agents
+enables TourSynbio-Agent to bridge the gap between computational predictions and experimental implementation. By
+providing researchers with actionable insights and automated
+workflow management, the framework reduces the technical
+barriers typically associated with advanced protein engineering
+techniques.
+Several directions emerge for future development. First,
+establishing standardized evaluation metrics specifically designed for LLM-based protein engineering frameworks would
+enable systematic comparison of different approaches and
+facilitate continued improvement. These metrics should assess
+both computational accuracy and practical utility in experimental settings. Second, expanding the TourSynbio-Agent’s
+knowledge base and integrated datasets would enhance its
+
+capabilities across a broader range of protein engineering
+applications, from therapeutic antibody design to industrial
+enzyme optimization. Finally, investigating the framework’s
+potential for autonomous experimental design and optimization could further accelerate the protein engineering cycle.
+R EFERENCES
+[1] W. Gao, S. P. Mahajan, J. Sulam, and J. J. Gray, “Deep learning in
+protein structural modeling and design,” Patterns, vol. 1, no. 9, 2020.
+[2] S. Biswas, G. Khimulya, E. C. Alley, K. M. Esvelt, and G. M. Church,
+“Low-n protein engineering with data-efficient deep learning,” Nature
+methods, vol. 18, no. 4, pp. 389–396, 2021.
+[3] J. Jumper, R. Evans, A. Pritzel, T. Green, M. Figurnov, O. Ronneberger,
+K. Tunyasuvunakool, R. Bates, A. Žı́dek, A. Potapenko et al., “Highly
+accurate protein structure prediction with alphafold,” nature, vol. 596,
+no. 7873, pp. 583–589, 2021.
+[4] R. Evans, M. O’Neill, A. Pritzel, N. Antropova, A. Senior, T. Green,
+A. Žı́dek, R. Bates, S. Blackwell, J. Yim et al., “Protein complex
+prediction with alphafold-multimer,” biorxiv, pp. 2021–10, 2021.
+[5] M. Baek, F. DiMaio, I. Anishchenko, J. Dauparas, S. Ovchinnikov,
+G. R. Lee, J. Wang, Q. Cong, L. N. Kinch, R. D. Schaeffer et al.,
+“Accurate prediction of protein structures and interactions using a threetrack neural network,” Science, vol. 373, no. 6557, pp. 871–876, 2021.
+[6] I. R. Humphreys, J. Pei, M. Baek, A. Krishnakumar, I. Anishchenko,
+S. Ovchinnikov, J. Zhang, T. J. Ness, S. Banjade, S. R. Bagde et al.,
+“Computed structures of core eukaryotic protein complexes,” Science,
+vol. 374, no. 6573, p. eabm4805, 2021.
+[7] Z. Lin, H. Akin, R. Rao, B. Hie, Z. Zhu, W. Lu, N. Smetanin, R. Verkuil,
+O. Kabeli, Y. Shmueli et al., “Evolutionary-scale prediction of atomiclevel protein structure with a language model,” Science, vol. 379, no.
+6637, pp. 1123–1130, 2023.
+[8] H. Abdine, M. Chatzianastasis, C. Bouyioukos, and M. Vazirgiannis,
+“Prot2text: Multimodal protein’s function generation with gnns and
+transformers,” in Proceedings of the AAAI Conference on Artificial
+Intelligence, vol. 38, no. 10, 2024, pp. 10 757–10 765.
+[9] N. Brandes, D. Ofer, Y. Peleg, N. Rappoport, and M. Linial, “Proteinbert:
+a universal deep-learning model of protein sequence and function,”
+Bioinformatics, vol. 38, no. 8, pp. 2102–2110, 2022.
+[10] Y. Shen, Z. Chen, M. Mamalakis, Y. Liu, T. Li, Y. Su, J. He, P. Liò,
+and Y. G. Wang, “Toursynbio: A multi-modal large model and agent
+framework to bridge text and protein sequences for protein engineering,”
+arXiv preprint arXiv:2408.15299, 2024.
+[11] Y. Shen, Z. Chen, M. Mamalakis, L. He, H. Xia, T. Li, Y. Su, J. He, and
+Y. G. Wang, “A fine-tuning dataset and benchmark for large language
+models for protein understanding,” arXiv preprint arXiv:2406.05540,
+2024.
+[12] T. A. Hopf, J. B. Ingraham, F. J. Poelwijk, C. P. Schärfe, M. Springer,
+C. Sander, and D. S. Marks, “Mutation effects predicted from sequence
+co-variation,” Nature biotechnology, vol. 35, no. 2, pp. 128–135, 2017.
+[13] J. Meier, R. Rao, R. Verkuil, J. Liu, T. Sercu, and A. Rives,
+“Language models enable zero-shot prediction of the effects of
+mutations on protein function,” bioRxiv, 2021. [Online]. Available:
+https://www.biorxiv.org/content/10.1101/2021.07.09.450648v1
+[14] Z. Lin, H. Akin, R. Rao, B. Hie, Z. Zhu, W. Lu, N. Smetanin, A. dos
+Santos Costa, M. Fazel-Zarandi, T. Sercu, S. Candido et al., “Language
+models of protein sequences at the scale of evolution enable accurate
+structure prediction,” bioRxiv, 2022.
+[15] W. L. DeLano et al., “Pymol: An open-source molecular graphics tool,”
+CCP4 Newsl. Protein Crystallogr, vol. 40, no. 1, pp. 82–92, 2002.
+[16] M.-P. Lefranc, V. Giudicelli, C. Ginestoux, J. Jabado-Michaloud,
+G. Folch, F. Bellahcene, Y. Wu, E. Gemrot, X. Brochet, J. Lane
+et al., “Imgt®, the international immunogenetics information system®,”
+Nucleic acids research, vol. 37, no. suppl 1, pp. D1006–D1012, 2009.
+[17] M. Høie, A. Hummer, T. Olsen, M. Nielsen, and C. Deane, “Antifold:
+Improved antibody structure design using inverse folding,” in NeurIPS
+2023 Generative AI and Biology (GenBio) Workshop, 2023.
+[18] M. A. Carson-Jurica, W. T. Schrader, and B. W. O’Malley, “Steroid
+receptor family: structure and functions,” Endocrine reviews, vol. 11,
+no. 2, pp. 201–220, 1990.
+[19] L. L. Demer, J. J. Hsu, and Y. Tintut, “Steroid hormone vitamin d:
+implications for cardiovascular disease,” Circulation research, vol. 122,
+no. 11, pp. 1576–1585, 2018.
+
+[20] K. A. Witt and K. E. Sandoval, “Steroids and the blood–brain barrier:
+therapeutic implications,” Advances in Pharmacology, vol. 71, pp. 361–
+390, 2014.
+[21] F. Holsboer and M. Ising, “Stress hormone regulation: biological role
+and translation into therapy,” Annual review of psychology, vol. 61, no. 1,
+pp. 81–109, 2010.
+[22] M. G. Fehlings, L. Tetreault, A. Nater, T. Choma, J. Harrop, T. Mroz,
+C. Santaguida, and J. S. Smith, “The aging of the global population:
+the changing epidemiology of disease and spinal disorders,” pp. S1–S5,
+2015.
+[23] J. S. Christiansen, P. F. Backeljauw, M. Bidlingmaier, B. M. Biller, M. C.
+Boguszewski, F. F. Casanueva, P. Chanson, P. Chatelain, C. S. Choong,
+D. R. Clemmons et al., “Growth hormone research society perspective
+on the development of long-acting growth hormone preparations,” European Journal of Endocrinology, vol. 174, no. 6, pp. C1–C8, 2016.
+
+

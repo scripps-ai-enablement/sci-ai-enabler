@@ -2,7 +2,7 @@
 title: Landscape
 parent: AI scientists
 nav_order: 1
-synthesis_reviewed: 2026-08-01
+synthesis_reviewed: 2026-08-08
 ---
 
 # The autonomous AI scientist landscape
@@ -15,11 +15,11 @@ An autonomous AI scientist is a named software system that takes meaningful init
 
 Across the {{ systems | size }} systems tracked here, a few cross-cutting patterns matter more than any single entry:
 
-- **Chemistry and materials are the most loop-closed.** These systems run genuine closed loops on physical hardware — CMU's Coscientist and MARS drive robotic synthesis, AMASE and MAD couple multiple characterization instruments to active-learning policies, and LEAP and CatDT pair domain-tuned models with wet-lab or microkinetic validation. This is where "autonomous" most fully means hands-on-the-apparatus.
+- **Chemistry and materials are the most loop-closed.** These systems run genuine closed loops on physical hardware — CMU's Coscientist and MARS drive robotic synthesis, AMASE and MAD couple multiple characterization instruments to active-learning policies, and LEAP, CatDT and ChatBattery pair domain-tuned models with wet-lab or microkinetic validation. This is where "autonomous" most fully means hands-on-the-apparatus.
 - **Biology and medicine carry the strongest evidence.** Wet-lab and clinical validation — Co-Scientist's in vitro oncology hits, Robin's confirmed dry-AMD drug candidates, SPARK's prospective pathology study across 18 cohorts, CRISPR-GPT's non-expert gene-editing case study, OriGene's agent-nominated cancer targets confirmed in patient-derived organoid models — set the highest evidence tier in the field.
 - **ML and scientific computing is a large, fast-moving cluster,** but mostly benchmark-validated rather than physically grounded. The recent design trend is architectural: self-improving systems that accumulate methodological memory across problems (GRAFT-ATHENA, EvoScientist, AutoSci, AutoScientists), and a turn toward *verifiability* — adversarial cross-model review (ARIS), evidence-chain auditing (ScientistOne), and numeric-registry gating (AutoResearchClaw).
 - **Physical sciences and embodied systems are the newest frontier,** moving AI past simulators onto real apparatus: Qumus fabricates 2D-material devices, AIMS drives a cryogenic scanning probe and converts positional and mechanistic uncertainty into its next measurement, the Qiushi engine runs a free-space optical platform, Dr.Sai operates inside the BESIII collider collaboration, and BioProVLA runs wet-lab robotics on an ~$800 rig.
-- **A long tail of single-domain pioneers** now spans mathematics (AI co-mathematician, Ax-Prover's formal Lean proving), symbolic equation discovery (MCI), spatial data science (NORA), plant science (Aleks), and scientific visualization (VIS Co-Scientist).
+- **A long tail of single-domain pioneers** now spans mathematics (AI co-mathematician, Ax-Prover's formal Lean proving), symbolic equation discovery (MCI, SR-Scientist), spatial data science (NORA), plant science (Aleks), and scientific visualization (VIS Co-Scientist).
 
 Evaluation is shifting from one-off demos toward **process-level scoring and verifiability audits**, and that turn is no longer confined to the ML cluster: CogEEGAgent withholds a confirmation set from its own EEG analysis agent, and NAIS keeps hospital genotype and EHR data behind a governed broker while the agent orchestrates the analysis. Several shared failure modes — reference hallucination, reproducibility, originality-versus-retrieval — remain open. See [Evaluation and open problems](evaluation.html).
 
@@ -127,3 +127,8 @@ Other systems being tracked for inclusion: **Virtual Lab** (Stanford / CZ Biohub
 - [Éltető, Daw, Stachenfeld, Miller, "ATLAS: Active Theory Learning for Automated Science," arXiv:2606.12386](https://arxiv.org/abs/2606.12386)
 - [Vriza, Prince, Zhou, Chan, Cherukara, "Operating advanced scientific instruments with AI agents that learn on the job" (CALMS), arXiv:2509.00098 / *npj Comput. Mater.* 12, 160 (2026)](https://arxiv.org/abs/2509.00098)
 - [Cao, Wang, Chen, Van Durme, Yuille, Clancy, "ARIA: A Causal-Aware Framework for Rescuing LLM Reasoning in Trustworthy Materials Discovery," KDD '26 / arXiv:2606.22375](https://doi.org/10.1145/3770855.3818954)
+- [Liu, Xu, Ai, Li, Bengio, Guo, "Expert-Guided LLM Reasoning for Battery Discovery" (ChatBattery), arXiv:2507.16110](https://arxiv.org/abs/2507.16110)
+- [Rothfarb et al., "Hierarchical Multi-agent Large Language Model Reasoning for Autonomous Functional Materials Discovery" (MASTER), arXiv:2512.13930](https://arxiv.org/abs/2512.13930)
+- [Xia, Sun, Liu, "SR-Scientist: Scientific Equation Discovery With Agentic AI," ICLR 2026 / arXiv:2510.11661](https://arxiv.org/abs/2510.11661)
+- [Wu, Chen, Tan et al., "Claw AI Lab: An Autonomous Multi-Agent Research Team," arXiv:2605.22662](https://arxiv.org/abs/2605.22662)
+- [Chen, Liu, Wang, Shen, "Validation of an LLM-based Multi-Agent Framework for Protein Engineering in Dry Lab and Wet Lab" (TourSynbio-Agent), arXiv:2411.06029](https://arxiv.org/abs/2411.06029)
