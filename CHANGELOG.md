@@ -16,6 +16,24 @@ Older entries live in [CHANGELOG_ARCHIVE.md](CHANGELOG_ARCHIVE.md).
 ## 2026-08-08
 
 ### Added
+- **Compensation and Transformation (bioSkills)** (Categories: Immunology and Microbiology, Molecular and Cellular Biology) — spillover compensation vs spectral unmixing, then logicle/arcsinh transforms in the correct order; arcsinh cofactor 5 for CyTOF vs ~150 for fluorescence ([SKILL.md](https://github.com/GPTomics/bioSkills/blob/main/flow-cytometry/compensation-transformation/SKILL.md))
+- **Cytometry QC (bioSkills)** (Categories: Immunology and Microbiology, Molecular and Cellular Biology) — margin removal, flowAI/PeacoQC/flowCut time-based anomaly cleaning, CyTOF `Event_length` and dead-cell checks, batch outlier flagging ([SKILL.md](https://github.com/GPTomics/bioSkills/blob/main/flow-cytometry/cytometry-qc/SKILL.md))
+- **Gating Analysis (bioSkills)** (Categories: Immunology and Microbiology, Molecular and Cellular Biology) — scripted hierarchical `GatingSet`s, openCyto templates, flowDensity thresholds, FlowJo round-trip via CytoML, FMO-not-isotype boundary rule ([SKILL.md](https://github.com/GPTomics/bioSkills/blob/main/flow-cytometry/gating-analysis/SKILL.md))
+- **Clustering and Phenotyping (bioSkills)** (Categories: Immunology and Microbiology, Molecular and Cellular Biology) — FlowSOM/PhenoGraph/CATALYST cell-type discovery with type-vs-state marker separation and display-only embeddings ([SKILL.md](https://github.com/GPTomics/bioSkills/blob/main/flow-cytometry/clustering-phenotyping/SKILL.md))
+- **Cytometry Differential Analysis (bioSkills)** (Categories: Immunology and Microbiology, Molecular and Cellular Biology) — diffcyt DA/DS testing with sample-as-unit aggregation, BH FDR, and compositional validation ([SKILL.md](https://github.com/GPTomics/bioSkills/blob/main/flow-cytometry/differential-analysis/SKILL.md))
+
+### Updated
+- Curator state — `GPTomics/bioSkills` queue: `flow-cytometry/` directory listing confirmed (8 skills) and recorded as near-exhausted; `microbiome/` listing confirmed (6 skills, 3 uncatalogued); `imaging-mass-cytometry/` recorded as still unmined and next in line.
+
+### Flagged
+- None.
+
+### Verified (no changes)
+- `anthropics/life-sciences` marketplace manifest re-read — all plugins already catalogued; no new entries. `link_recheck: no` this slot, so no per-entry link/pricing re-verification was performed.
+
+## 2026-08-08
+
+### Added
 - **ChemGraph** (Categories: Chemistry) — Argonne National Laboratory MCP server that runs real molecular simulations through ASE: `molecule_name_to_smiles`, `smiles_to_coordinate_file`, `run_ase`, `extract_output_json`, against xTB/TBLite, NWChem, ORCA, MACE, and UMA backends. Resolves the Chemistry candidate deferred 2026-08-01 — the repo is Apache-2.0 ([GitHub license API](https://api.github.com/repos/argonne-lcf/ChemGraph/license)), and reading [`server_utils.py`](https://github.com/argonne-lcf/ChemGraph/blob/main/src/chemgraph/mcp/server_utils.py) showed the server defaults to **stdio**, so a plain `claude mcp add --transport stdio` snippet works and the HTTP form is documented separately as a long-lived service ([`argonne-lcf/ChemGraph`](https://github.com/argonne-lcf/ChemGraph), [PyPI 0.6.0](https://pypi.org/project/chemgraph/))
 
 ### Updated
