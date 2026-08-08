@@ -13,6 +13,25 @@ Reverse-chronological log of changes to the [recipes cookbook]({{ '/recipes/' | 
 
 Older entries live in [RECIPES_CHANGELOG_ARCHIVE.md](RECIPES_CHANGELOG_ARCHIVE.md).
 
+## 2026-08-08
+
+Chemistry-focused pass. Two new recipes, both opening legs of the cookbook that had no coverage at all.
+
+### Added
+
+- **[Rank the conformers and tautomers of a small molecule with semi-empirical QM](recipes/items/rank-conformers-and-tautomers-with-xtb.html)** — *Data analysis · One skill or MCP · Proposed · Fully open · Laptop*. Every Chemistry recipe in the cookbook until now *consumed* a 3D structure; none produced one on energetic grounds. Rung 2 on the [ChemGraph MCP server](catalog/tools/chemgraph.html) (Argonne ALCF, Apache-2.0): enumerate tautomers before conformers with a pinned `rdkit==2026.3.5`, optimize with GFN2-xTB through ASE, and rank on Gibbs free energy at 298.15 K rather than electronic energy. A frequency job is mandatory, not optional — states with imaginary frequencies land in `rejected_states.csv` instead of the ranking, and ties inside ~1 kcal/mol are flagged `too_close_to_call` rather than silently ordered. Grounded in the [ChemGraph benchmark (arXiv:2506.06363)](https://arxiv.org/abs/2506.06363) and the [GFN2-xTB paper (PMID 30741547)](https://pubmed.ncbi.nlm.nih.gov/30741547/).
+- **[Triage a compound's toxicology and hazard profile before committing to it](recipes/items/triage-a-compound-toxicology-and-hazard-profile.html)** — *Knowledge synthesis · One skill or MCP · Proposed · Fully open · Laptop*. The cookbook could filter, source, dock, and ADMET-profile a hit list, but nothing asked what was already *known* about a compound's liabilities. Rung 2 on the [ToolUniverse Chemical Safety skill](catalog/tools/tooluniverse-chemical-safety.html), which fans out across CTD, PubChemTox, AOPWiki, ChEMBL, FDA, and DrugBank with T1–T4 evidence grading. The design rule that matters: a `coverage.csv` that distinguishes `queried_negative` from `queried_no_record`, so an absent record never reads as a clean bill of health. Structural alerts are reported as flags to explain, not grounds for rejection, following [Kenny 2017 on PAINS over-interpretation](https://pubmed.ncbi.nlm.nih.gov/29048168/); the ML-prediction complement is [ADMET-AI (PMID 38234753)](https://pubmed.ncbi.nlm.nih.gov/38234753/).
+
+### Changed
+
+- [Filter a virtual screening hit list](recipes/items/filter-virtual-screening-hits.html) and [Prepare the correct protonation state of a ligand before docking](recipes/items/prepare-protonation-states-for-docking.html) now link forward to the two new recipes as downstream and sibling steps.
+
+### Verified
+
+- [Dock a ligand library into a target structure with DiffDock](recipes/items/dock-ligand-library-with-diffdock.html) — all six linked catalog pages, both linked autonomous-science systems, and all three linked recipes resolve; the DiffDock catalog page is still GA / `verification: works` and not flagged; the ACL Anthology and arXiv citations resolve. `last_verified` bumped from 2026-07-04.
+
+The remaining seven recipes in the 2026-07-04 cohort were **not** rechecked this run — the batch link-checking tooling was unavailable, and per-page checking does not fit the run budget. The next recheck slot should start from that cohort: `screen-genome-for-resistance-and-virulence-genes`, `find-selective-cancer-dependencies-with-depmap`, `identify-bacterial-isolate-from-16s-sequence`, `organize-raw-dicom-to-bids-layout`, `build-phylogenetic-tree-from-sequences`, `integrate-single-cell-datasets`, `sort-spikes-from-neuropixels-recording`.
+
 ## 2026-08-02
 
 ### Added
@@ -288,45 +307,4 @@ Directed pass on **Immunology and Microbiology**. Two recipes shipped, both clos
 ### Updated
 
 - **Prioritize targets within a disease via Open Targets** — processed composition report [#55](https://github.com/scripps-ai-enablement/sci-ai-enabler/issues/55) (@goodb, `outcome=worked`); added an Alzheimer's-*prevention* field report (SORL1 lead via a prevention-tuned re-weighting of the pillar fields against MONDO_0004975) that reinforces the direct-GraphQL fallback when the hosted MCP is rate-limited; `last_verified` 2026-07-12 → 2026-07-18.
-
-## 2026-07-16 (Translational Medicine scope; user request #52)
-
-### Added
-
-- **Interpret variants that gain or lose glycosylation sites** (Problem class: Knowledge synthesis; Evidence: Reported) — answers user request [#52](https://github.com/scripps-ai-enablement/sci-ai-enabler/issues/52) from the GlyGen team. Rung-3 two-MCP toolbelt: [GlyGen MCP](catalog/tools/glygen.html) `get_protein_summary`/`get_site_summary` for glycosite ground truth → Swiss-Prot numbering harmonization (the Asn135↔Asn167 antithrombin trap) → LOG/GOG classification (N-X-S/T sequon destroy/create) → [BioMCP](catalog/tools/biomcp.html) `variant_searcher`/`variant_getter` for ClinVar + AlphaMissense joins (GlyGen's own variants come from EBI/BioMuta, so these add coverage) → expression sanity-check → committed `glyco_variants.py` + pinned `requirements.txt` + `glyco_candidates.csv` + `provenance.json` (GlyGen release + endpoint, BioMCP version, ClinVar/AlphaMissense snapshot dates, input sha256, run date, model id) + optional IEEE-2791 BioCompute Object. Cross-linked to [interpret-clinical-variant](recipes/items/interpret-clinical-variant.html) and [scan-antibody-glycosylation-sites](recipes/items/scan-antibody-glycosylation-sites.html). `Reported` — the GlyGen team documents this exact use case and ships a `variants.ipynb` reference notebook (SERPINC1 LOG / IFNGR2 GOG worked examples; [Mazumder et al., *Research Square* 2026-07-01](https://www.researchsquare.com/article/rs-9982242/v1); [glygener/colab-notebooks](https://github.com/glygener/colab-notebooks)); the Claude-driven GlyGen-MCP+BioMCP assembly is not separately benchmarked. `Fully open` (GlyGen MCP Beta, wrapper repo no-LICENSE caveat); `Laptop`.
-
-## 2026-07-12 (Drug Repurposing and Discovery directed pass)
-
-### Added
-
-- **Find drug-repurposing candidates by walking a biomedical knowledge graph** (Problem class: Knowledge synthesis; Evidence: Proposed) — rung-2 offline [PrimeKG skill](catalog/tools/primekg.html) recipe: resolve a disease node → `get_neighbors` for disease genes → one-hop `protein_protein` expansion → `drug_protein` candidate drugs → drop drugs already indicated for the disease → score by number of connecting genes (hop-weighted), captured as a committed `kg_repurpose.py` + pinned `requirements.txt` + `candidates.csv` + `provenance.json` (skill commit, PrimeKG data version, resolved node id, input sha256, run date, model id). Offline, no-license, graph-connectivity complement to the quantitative target-first [scan-drug-repurposing-candidates recipe](recipes/items/scan-drug-repurposing-candidates.html) (now cross-linked). `Proposed` — no documented attempt at the skill-driven graph-walk assembly; grounded on the same PrimeKG substrate that COMIC used to recover 21/30 recent FDA repurposing pairs (9.55% over SOTA; [Aamer et al., *BMC Bioinformatics* 2026](https://doi.org/10.1186/s12859-025-06337-4)) and CellAwareGNN reports AUPRC 0.826 on ([Zhang et al. 2026](https://pubmed.ncbi.nlm.nih.gov/42124589/)), with the honest caveat that the skill exposes neighbor lookups (interpretable heuristic), not a trained TxGNN-class predictor. `Fully open`; `Laptop`.
-
-### Updated
-
-- **Prioritize targets within a disease via Open Targets** — verified; `last_verified` 2026-06-20 → 2026-07-12 (linked catalog pages resolve and are unflagged; known-issue note on Open Targets MCP handshake still current).
-- **Scan approved drugs for repurposing candidates against a disease** — verified; `last_verified` 2026-06-28 → 2026-07-12; added **See also** cross-link to the new knowledge-graph repurposing recipe.
-
-## 2026-07-12 (Translational Medicine directed pass)
-
-### Added
-
-- **Triage GWAS lead SNPs to candidate drug targets** (Problem class: Knowledge synthesis; Evidence: Reported) — rung-2 [GWAS-MCP](catalog/tools/gwas-mcp.html) recipe: a version-controlled `leads.csv` of rsIDs → per-variant `get_variant_info`/`annotate_snps` consequence + nearest gene → `get_eqtl_data` eQTL-implicated gene(s) → `query_gwas_catalog` co-reported traits → `get_drug_targets`/`search_open_targets` tractability + clinical precedent, captured as a committed `triage_gwas_leads.py` + pinned `requirements.txt` + `targets_triage.csv` + `provenance.json` (gwas-mcp version, per-database snapshot dates, input sha256, run date, model id). Variant-first complement to the disease-first [prioritize-targets recipe](recipes/items/prioritize-targets-within-a-disease.html) and upstream of [build-target-dossier](recipes/items/build-target-dossier.html); scoped to the lookup-and-annotate layer (colocalization/MR flagged out of scope). `Reported` — reproduces the lookup layer of a quantitatively validated GWAS→target workflow ([Lessard et al., *BMC Genomics* 2024](https://pubmed.ncbi.nlm.nih.gov/39563277/): approved-target enrichment RR 2.58 vs 1.75 nearest-gene, >85% MR-directionality match), resting on the genetic-support premise ([Nelson et al., *Nat. Genet.* 2015](https://pubmed.ncbi.nlm.nih.gov/26121088/); [King et al., *PLoS Genet.* 2019](https://pubmed.ncbi.nlm.nih.gov/31830040/)); the Claude+GWAS-MCP assembly is not separately benchmarked. `Fully open`; `Laptop`.
-
-### Updated
-
-- **Build a target dossier** — added a 2026-06 known-issue note to the Open Targets install step (hosted MCP endpoint fails the `initialize` handshake with JSON-RPC `-32602`, [#43](https://github.com/scripps-ai-enablement/sci-ai-enabler/issues/43)) with the direct-GraphQL / ToolUniverse workaround; `last_verified` → 2026-07-12.
-
-### Verified (no changes)
-
-- 5 aging recipes spot-checked, all current (`last_verified` → 2026-07-12): draft-phase23-clinical-trial-protocol, screen-polypharmacy-for-drug-interactions, profile-cancer-cohort-genomics-with-cbioportal, run-gwas-on-case-control-genotypes, compute-bacterial-pangenome-from-assemblies. Every linked catalog page resolves; source URLs load.
-
-## 2026-07-12 (Neuroscience directed pass)
-
-### Added
-
-- **Extract event-related potentials from EEG epochs** (Problem class: Data analysis; Evidence: Reported) — rung-2 [MNE-Python (EEG) skill](catalog/tools/mne-eeg-tool.html) recipe: raw continuous EEG + event markers → montage/reference → band-pass + notch → ICA artifact removal → epoching → per-condition evoked averaging, captured as a committed `preprocess_erp.py` + pinned env + `*_ave.fif`/`erp_counts.csv` + `provenance.json` (MNE version, filter cutoffs, ICA method + dropped-component indices + seed, rejection threshold, per-condition kept/rejected counts, input sha256, run date, model id). Cookbook's first EEG-analysis recipe; sibling to the single-signal [HRV recipe](recipes/items/compute-hrv-from-ecg-recording.html), and can run on public EEG discovered via the [DANDI recipe](recipes/items/discover-nwb-recordings-on-dandi.html). `Reported` — MNE-Python is the field-standard M/EEG toolbox ([Gramfort et al., *Front. Neurosci.* 2013](https://doi.org/10.3389/fnins.2013.00267)) and the filter→ICA→epoch→average workflow is reused across recent reproducible-pipeline packages built on it ([EEG-Pype, *PLoS Comput. Biol.* 2026](https://doi.org/10.1371/journal.pcbi.1014043); [osl-ephys, *Front. Neurosci.* 2025](https://doi.org/10.3389/fnins.2025.1522675)); the agent-driven assembly is not separately benchmarked. `Fully open`; `Laptop`.
-
-### Verified (no changes)
-
-- 2 neuroscience recipes spot-checked, `last_verified` bumped to 2026-07-12: [Discover NWB recordings on DANDI](recipes/items/discover-nwb-recordings-on-dandi.html) (linked catalog tools + source DOIs resolve) and [Compute HRV from an ECG recording](recipes/items/compute-hrv-from-ecg-recording.html) (NeuroKit2 skill link current).
 

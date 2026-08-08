@@ -98,6 +98,7 @@ Proposed. No published benchmark of an LLM-driven Rowan protonation-prep workflo
 - [Dock a ligand library with DiffDock](dock-ligand-library-with-diffdock.html) — the downstream docking step this prepares ligands for.
 - [Rank a compound library by predicted binding affinity](rank-compound-library-by-predicted-affinity.html) — alternate downstream scoring step.
 - [Set up a protein MD simulation in GROMACS](set-up-protein-md-simulation-in-gromacs.html) — MD downstream that also needs correct ligand charges.
+- [Rank the conformers and tautomers of a small molecule with semi-empirical QM](rank-conformers-and-tautomers-with-xtb.html) — the local, laptop-side alternative when SMILES cannot leave your machine, and the way to pick a 3D starting geometry once the charge state is fixed.
 - [Reproducible, provenance-tracked AI analysis](../../guide/advanced/reproducibility.html) — the artifact + provenance pattern this recipe follows.
 
 ## Sources

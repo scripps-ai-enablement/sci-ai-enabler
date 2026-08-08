@@ -9,7 +9,7 @@ evidence_level: Proposed
 complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Workstation with GPU
-last_verified: 2026-07-04
+last_verified: 2026-08-08
 summary: Drive DiffDock from Claude Code to generate per-ligand binding poses against a PDB or AlphaFold target, filter by confidence, and emit a ranked pose set ready for MM/PBSA rescoring or visualization.
 ---
 
