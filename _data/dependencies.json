@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "generated": "2026-08-06",
-  "count": 3,
+  "generated": "2026-08-09",
+  "count": 4,
   "dependencies": [
     {
       "package": "DeepSlice",
@@ -44,6 +44,20 @@
       ],
       "verdict": "pass",
       "verdict_on": "2026-08-06"
+    },
+    {
+      "package": "rdkit",
+      "registry": "PyPI",
+      "pin": "2026.3.5",
+      "license": "BSD-3-Clause",
+      "import": "rdkit",
+      "source_url": "https://pypi.org/project/rdkit/",
+      "source_label": "rdkit on PyPI",
+      "recipes": [
+        "rank-conformers-and-tautomers-with-xtb"
+      ],
+      "verdict": "",
+      "verdict_on": ""
     }
   ]
 }

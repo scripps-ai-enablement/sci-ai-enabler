@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "generated": "2026-08-06",
+  "generated": "2026-08-09",
   "counts": {
-    "tools": 490,
-    "recipes": 110
+    "tools": 521,
+    "recipes": 121
   },
   "tools_file": "composer-tools.json",
   "recipes": [
@@ -453,6 +453,25 @@
       "path": "recipes/items/call-peaks-and-motifs-from-chipseq-atacseq.md"
     },
     {
+      "slug": "characterize-a-protein-protein-interface",
+      "title": "Characterize a protein–protein interface from a structure you already have",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Integrative Structural and Computational Biology",
+        "Molecular and Cellular Biology"
+      ],
+      "evidence_level": "Proposed",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-08-08",
+      "summary": "Use the Interface Analysis skill to get contact residues and buried surface area from a solved or predicted complex — and to decide whether the interface is real or crystal packing.",
+      "keywords": [
+        "PDB"
+      ],
+      "path": "recipes/items/characterize-a-protein-protein-interface.md"
+    },
+    {
       "slug": "compute-16s-microbiome-diversity",
       "title": "Compute 16S microbiome alpha/beta diversity from a BIOM table",
       "problem_class": "Data analysis",
@@ -578,6 +597,24 @@
       "path": "recipes/items/convert-instrument-data-to-allotrope-asm.md"
     },
     {
+      "slug": "decide-if-a-cluster-is-a-doublet-artifact",
+      "title": "Decide whether a suspicious cluster is a doublet artifact",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Molecular and Cellular Biology"
+      ],
+      "evidence_level": "Proposed",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-08-08",
+      "summary": "Use the bioSkills Doublet Detection skill plus two orthogonal checks to rule on whether an intermediate single-cell cluster is real or two cells in one droplet.",
+      "keywords": [
+        "UMAP"
+      ],
+      "path": "recipes/items/decide-if-a-cluster-is-a-doublet-artifact.md"
+    },
+    {
       "slug": "define-a-phenotype-cohort-in-an-omop-database",
       "title": "Define a phenotype cohort in an OMOP CDM database",
       "problem_class": "Data analysis",
@@ -601,6 +638,24 @@
         "SQL"
       ],
       "path": "recipes/items/define-a-phenotype-cohort-in-an-omop-database.md"
+    },
+    {
+      "slug": "design-a-group-sequential-trial-with-interim-looks",
+      "title": "Design a group-sequential trial with interim looks",
+      "problem_class": "Experimental design",
+      "subject_areas": [
+        "Translational Medicine"
+      ],
+      "evidence_level": "Proposed",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-08-09",
+      "summary": "Use the Adaptive Designs skill and rpact to fix boundaries, simulate operating characteristics, and pre-specify any sample-size re-estimation rule before enrolment.",
+      "keywords": [
+        "SSR"
+      ],
+      "path": "recipes/items/design-a-group-sequential-trial-with-interim-looks.md"
     },
     {
       "slug": "design-crispr-sgrnas-for-a-gene-knockout",
@@ -752,7 +807,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Workstation with GPU",
-      "last_verified": "2026-07-04",
+      "last_verified": "2026-08-08",
       "summary": "Drive DiffDock from Claude Code to generate per-ligand binding poses against a PDB or AlphaFold target, filter by confidence, and emit a ranked pose set ready for MM/PBSA rescoring or visualization.",
       "keywords": [
         "GNINA",
@@ -918,6 +973,25 @@
       "path": "recipes/items/filter-virtual-screening-hits.md"
     },
     {
+      "slug": "find-differentially-abundant-proteins-in-lfq-ms",
+      "title": "Find differentially abundant proteins in a label-free proteomics experiment",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Molecular and Cellular Biology"
+      ],
+      "evidence_level": "Proposed",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-08-08",
+      "summary": "Use the MaxQuant skill to take LFQ raw files to a filtered protein table and a differential-abundance list whose imputation sensitivity is reported, not hidden.",
+      "keywords": [
+        "FDR",
+        "LFQ"
+      ],
+      "path": "recipes/items/find-differentially-abundant-proteins-in-lfq-ms.md"
+    },
+    {
       "slug": "find-repurposing-candidates-in-a-knowledge-graph",
       "title": "Find drug-repurposing candidates by walking a biomedical knowledge graph",
       "problem_class": "Knowledge synthesis",
@@ -958,6 +1032,25 @@
         "SSX"
       ],
       "path": "recipes/items/find-selective-cancer-dependencies-with-depmap.md"
+    },
+    {
+      "slug": "find-taxa-differing-between-microbiome-groups",
+      "title": "Find which taxa differ between microbiome groups",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Immunology and Microbiology"
+      ],
+      "evidence_level": "Proposed",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-08-08",
+      "summary": "Use the bioSkills Differential Abundance skill to test an amplicon feature table with several compositionally-aware methods and report their consensus, not one tool's hit list.",
+      "keywords": [
+        "ASV",
+        "OTU"
+      ],
+      "path": "recipes/items/find-taxa-differing-between-microbiome-groups.md"
     },
     {
       "slug": "fit-dose-response-curve-to-ic50",
@@ -1378,6 +1471,24 @@
         "Clinical-trial"
       ],
       "path": "recipes/items/match-patient-to-clinical-trials.md"
+    },
+    {
+      "slug": "measure-cortical-thickness-across-a-cohort",
+      "title": "Measure cortical thickness and subcortical volumes across a cohort",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Neuroscience"
+      ],
+      "evidence_level": "Proposed",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "HPC or cloud cluster",
+      "last_verified": "2026-08-09",
+      "summary": "Drive FreeSurfer recon-all over a T1w cohort with one pinned version, Euler-number QC, and a morphometry table that carries its quality covariate.",
+      "keywords": [
+        "Euler-number"
+      ],
+      "path": "recipes/items/measure-cortical-thickness-across-a-cohort.md"
     },
     {
       "slug": "organize-raw-dicom-to-bids-layout",
@@ -1884,6 +1995,32 @@
       "path": "recipes/items/rank-compound-library-by-predicted-affinity.md"
     },
     {
+      "slug": "rank-conformers-and-tautomers-with-xtb",
+      "title": "Rank the conformers and tautomers of a small molecule with semi-empirical QM",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Chemistry",
+        "Integrative Structural and Computational Biology",
+        "Drug Repurposing and Discovery"
+      ],
+      "evidence_level": "Proposed",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-08-08",
+      "summary": "Drive the ChemGraph MCP server to optimize and free-energy-rank enumerated tautomers and conformers at GFN2-xTB, emitting a populations table instead of one guessed structure.",
+      "keywords": [
+        "ADMET",
+        "Boltzmann-population",
+        "BSD-3-Clause",
+        "GFN2-xTB",
+        "NMR",
+        "RDKit",
+        "SMILES"
+      ],
+      "path": "recipes/items/rank-conformers-and-tautomers-with-xtb.md"
+    },
+    {
       "slug": "reconstruct-bcr-clonal-lineages",
       "title": "Reconstruct B-cell clonal lineages from AIRR-seq",
       "problem_class": "Data analysis",
@@ -2317,6 +2454,45 @@
       "path": "recipes/items/superpose-two-protein-structures.md"
     },
     {
+      "slug": "test-cytometry-clusters-for-group-differences",
+      "title": "Test which immune populations differ between groups in a cytometry cohort",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Immunology and Microbiology"
+      ],
+      "evidence_level": "Proposed",
+      "complexity": "Multi-tool harness",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-08-08",
+      "summary": "Chain three bioSkills cytometry skills to compensate, cluster, and test a spectral-flow or CyTOF cohort for differential abundance and state without pseudoreplication.",
+      "keywords": [
+        "CyTOF",
+        "FCS",
+        "FDR-controlled"
+      ],
+      "path": "recipes/items/test-cytometry-clusters-for-group-differences.md"
+    },
+    {
+      "slug": "test-rna-structure-for-covariation-support",
+      "title": "Test whether a proposed RNA structure is actually conserved",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Integrative Structural and Computational Biology",
+        "Molecular and Cellular Biology"
+      ],
+      "evidence_level": "Proposed",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-08-08",
+      "summary": "Use the Covariation Analysis skill to test a proposed RNA secondary structure with R-scape, and to establish whether the alignment even has the power to reject it.",
+      "keywords": [
+        "RNA"
+      ],
+      "path": "recipes/items/test-rna-structure-for-covariation-support.md"
+    },
+    {
       "slug": "tile-and-normalize-whole-slide-image",
       "title": "Tile and stain-normalize a whole-slide image for ML",
       "problem_class": "Data analysis",
@@ -2334,6 +2510,26 @@
         "WSIs"
       ],
       "path": "recipes/items/tile-and-normalize-whole-slide-image.md"
+    },
+    {
+      "slug": "trace-adverse-outcome-pathway-for-a-toxicity",
+      "title": "Trace an adverse outcome pathway from a molecular initiating event to an organ finding",
+      "problem_class": "Knowledge synthesis",
+      "subject_areas": [
+        "Chemistry",
+        "Drug Repurposing and Discovery",
+        "Translational Medicine"
+      ],
+      "evidence_level": "Proposed",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-08-09",
+      "summary": "Drive the ToolUniverse Adverse Outcome Pathway skill to assemble candidate MIE-to-endpoint pathways for an observed toxicity, with weight of evidence recorded per link.",
+      "keywords": [
+        "MIE-to-endpoint"
+      ],
+      "path": "recipes/items/trace-adverse-outcome-pathway-for-a-toxicity.md"
     },
     {
       "slug": "track-animal-pose-in-behavioral-video",
@@ -2390,6 +2586,26 @@
         "QSAR"
       ],
       "path": "recipes/items/train-qsar-model-from-assay-data.md"
+    },
+    {
+      "slug": "triage-a-compound-toxicology-and-hazard-profile",
+      "title": "Triage a compound's toxicology and hazard profile before committing to it",
+      "problem_class": "Knowledge synthesis",
+      "subject_areas": [
+        "Chemistry",
+        "Drug Repurposing and Discovery",
+        "Translational Medicine"
+      ],
+      "evidence_level": "Proposed",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-08-08",
+      "summary": "Drive the ToolUniverse Chemical Safety skill to build a graded, source-attributed toxicology dossier per compound, distinguishing no-data from no-hazard.",
+      "keywords": [
+        "hERG"
+      ],
+      "path": "recipes/items/triage-a-compound-toxicology-and-hazard-profile.md"
     },
     {
       "slug": "triage-alphafold-model-for-docking",

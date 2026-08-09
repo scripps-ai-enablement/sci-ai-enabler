@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "generated": "2026-08-06",
-  "count": 490,
+  "generated": "2026-08-09",
+  "count": 521,
   "tools": [
     {
       "slug": "10x-genomics-cloud",
@@ -136,7 +136,7 @@
         "Drug Repurposing and Discovery",
         "Translational Medicine"
       ],
-      "last_verified": "2026-05-20",
+      "last_verified": "2026-08-08",
       "claude_science": false,
       "summary": "Springer Nature AdisInsight MCP plugin surfacing drug-development pipeline, clinical-trial, and deal intelligence to Claude for repurposing and competitive scouting.",
       "keywords": [
@@ -590,6 +590,26 @@
       "path": "catalog/tools/bakta-genome-annotation.md"
     },
     {
+      "slug": "bayesian-trials",
+      "title": "Bayesian Trials (bioSkills)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-08-09",
+      "claude_science": false,
+      "summary": "\"Design Bayesian dose-finding, basket and platform trials with RBesT MAP priors, BOIN/CRM escalation and EXNEX borrowing, against current FDA Bayesian guidance\"",
+      "keywords": [
+        "BOIN",
+        "CRM",
+        "EXNEX",
+        "FDA",
+        "MAP"
+      ],
+      "path": "catalog/tools/bayesian-trials.md"
+    },
+    {
       "slug": "bcftools-variant-manipulation",
       "title": "BCFtools (Claude Skill)",
       "tool_type": "Claude Skill",
@@ -793,7 +813,7 @@
       "tool_categories": [
         "All"
       ],
-      "last_verified": "2026-05-20",
+      "last_verified": "2026-08-08",
       "claude_science": false,
       "summary": "Read-only MCP that unifies 14+ biomedical databases (Antibody Registry, UniProt, STRING, AlphaFold, KEGG, Open Targets) for immune and protein-context queries.",
       "keywords": [
@@ -1216,6 +1236,30 @@
       "path": "catalog/tools/cbioportal.md"
     },
     {
+      "slug": "cdisc-data-handling",
+      "title": "CDISC Data Handling (bioSkills)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-08-09",
+      "claude_science": false,
+      "summary": "\"Read SDTM XPT files, derive ADaM datasets with traceability, apply TEAE conventions, and validate for FDA submission with Pinnacle 21 or CORE\"",
+      "keywords": [
+        "CDISC",
+        "CORE",
+        "CRF",
+        "Define-XML",
+        "FDA",
+        "SDTM",
+        "TEAE",
+        "XML",
+        "XPT"
+      ],
+      "path": "catalog/tools/cdisc-data-handling.md"
+    },
+    {
       "slug": "cdxml-toolkit",
       "title": "CDXML Toolkit",
       "tool_type": "MCP server",
@@ -1456,6 +1500,26 @@
         "TPSA"
       ],
       "path": "catalog/tools/chemcp.md"
+    },
+    {
+      "slug": "chemgraph",
+      "title": "ChemGraph",
+      "tool_type": "MCP server",
+      "availability": "Beta",
+      "tool_categories": [
+        "Chemistry"
+      ],
+      "last_verified": "2026-08-08",
+      "claude_science": false,
+      "summary": "Argonne MCP server that runs real molecular simulations through ASE — geometry optimization, energies, and frequencies via xTB, DFT, or ML potentials.",
+      "keywords": [
+        "ASE",
+        "ASE-driven",
+        "DFT",
+        "SMILES",
+        "xTB"
+      ],
+      "path": "catalog/tools/chemgraph.md"
     },
     {
       "slug": "chemlint",
@@ -1725,6 +1789,25 @@
       "path": "catalog/tools/clinvar-database.md"
     },
     {
+      "slug": "clustering-phenotyping",
+      "title": "Clustering and Phenotyping (bioSkills)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Immunology and Microbiology",
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-08-08",
+      "claude_science": false,
+      "summary": "\"Unsupervised cell-type discovery in high-dimensional cytometry with FlowSOM, PhenoGraph and CATALYST — type-vs-state markers, over-provision then metacluster, UMAP for display only\"",
+      "keywords": [
+        "CATALYST",
+        "FlowSOM",
+        "UMAP"
+      ],
+      "path": "catalog/tools/clustering-phenotyping.md"
+    },
+    {
       "slug": "cms-coverage",
       "title": "CMS Coverage MCP (Anthropic Healthcare)",
       "tool_type": "MCP server",
@@ -1876,6 +1959,39 @@
       "path": "catalog/tools/combraintf.md"
     },
     {
+      "slug": "compartment-analysis",
+      "title": "A/B Compartment Analysis (bioSkills)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-08-08",
+      "claude_science": false,
+      "summary": "\"Call A/B chromatin compartments from balanced Hi-C matrices with cooltools eigendecomposition, phased against GC or gene density so the A sign is not arbitrary\"",
+      "keywords": [
+        "Hi-C"
+      ],
+      "path": "catalog/tools/compartment-analysis.md"
+    },
+    {
+      "slug": "compensation-transformation",
+      "title": "Compensation and Transformation (bioSkills)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Immunology and Microbiology",
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-08-08",
+      "claude_science": false,
+      "summary": "\"Corrects fluorophore spillover or spectral overlap and applies logicle/arcsinh transforms — spillover-matrix estimation, AutoSpill, and cofactor choice for CyTOF vs fluorescence\"",
+      "keywords": [
+        "CyTOF"
+      ],
+      "path": "catalog/tools/compensation-transformation.md"
+    },
+    {
       "slug": "complex-portal",
       "title": "Complex Portal (Claude Science Connector)",
       "tool_type": "Claude.ai Connector",
@@ -1996,6 +2112,23 @@
       "path": "catalog/tools/cosmic-database.md"
     },
     {
+      "slug": "covariation-analysis",
+      "title": "Covariation Analysis (bioSkills)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Integrative Structural and Computational Biology",
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-08-08",
+      "claude_science": false,
+      "summary": "\"Test whether a proposed RNA secondary structure is actually supported by evolutionary covariation, using R-scape and an explicit statistical-power check\"",
+      "keywords": [
+        "RNA"
+      ],
+      "path": "catalog/tools/covariation-analysis.md"
+    },
+    {
       "slug": "covasyn",
       "title": "CovaSyn Chemistry MCP",
       "tool_type": "MCP server",
@@ -2013,6 +2146,42 @@
         "NMR"
       ],
       "path": "catalog/tools/covasyn.md"
+    },
+    {
+      "slug": "cytometry-differential-analysis",
+      "title": "Cytometry Differential Analysis (bioSkills)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Immunology and Microbiology",
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-08-08",
+      "claude_science": false,
+      "summary": "\"Tests cytometry clusters for differential abundance and differential state with diffcyt — sample-as-unit aggregation, design/contrast matrices, compositionality checks, BH FDR\"",
+      "keywords": [
+        "FDR"
+      ],
+      "path": "catalog/tools/cytometry-differential-analysis.md"
+    },
+    {
+      "slug": "cytometry-qc",
+      "title": "Cytometry QC (bioSkills)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Immunology and Microbiology",
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-08-08",
+      "claude_science": false,
+      "summary": "\"Cleans flow, spectral and mass cytometry acquisitions — margin removal, time-based anomaly detection with flowAI/PeacoQC/flowCut, dead-cell and CyTOF checks, batch outlier flagging\"",
+      "keywords": [
+        "CyTOF",
+        "flowAI",
+        "PeacoQC"
+      ],
+      "path": "catalog/tools/cytometry-qc.md"
     },
     {
       "slug": "dailymed-database",
@@ -2556,6 +2725,27 @@
       "path": "catalog/tools/eeg-skill.md"
     },
     {
+      "slug": "effect-measures",
+      "title": "Effect Measures (bioSkills)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-08-09",
+      "claude_science": false,
+      "summary": "\"Compute OR, RR, RD, HR and NNT with calibrated confidence intervals, and report marginal versus conditional estimands per FDA 2023 covariate-adjustment guidance\"",
+      "keywords": [
+        "FDA",
+        "GLM",
+        "MASS",
+        "MOVER",
+        "NNT",
+        "VGAM"
+      ],
+      "path": "catalog/tools/effect-measures.md"
+    },
+    {
       "slug": "embl-ebi-ols",
       "title": "EMBL-EBI OLS (Claude Skill)",
       "tool_type": "Claude Skill",
@@ -2890,6 +3080,25 @@
       "path": "catalog/tools/fda-database.md"
     },
     {
+      "slug": "fda-mcp",
+      "title": "FDA MCP Server (OpenPharma)",
+      "tool_type": "MCP server",
+      "availability": "Beta",
+      "tool_categories": [
+        "Drug Repurposing and Discovery",
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-08-09",
+      "claude_science": false,
+      "summary": "MIT MCP server over the FDA Orange Book, Purple Book, and openFDA — patent-cliff forecasting, therapeutic equivalents, and biosimilar interchangeability.",
+      "keywords": [
+        "FDA",
+        "MIT",
+        "openFDA"
+      ],
+      "path": "catalog/tools/fda-mcp.md"
+    },
+    {
       "slug": "featurecounts-rna-counting",
       "title": "featureCounts (Claude Skill)",
       "tool_type": "Claude Skill",
@@ -3200,6 +3409,23 @@
       "path": "catalog/tools/functional-profiling.md"
     },
     {
+      "slug": "gating-analysis",
+      "title": "Gating Analysis (bioSkills)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Immunology and Microbiology",
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-08-08",
+      "claude_science": false,
+      "summary": "\"Defines cytometry populations with manual or automated gates — hierarchical GatingSets, openCyto templates, flowDensity thresholds, and FlowJo round-tripping via CytoML\"",
+      "keywords": [
+        "CytoML"
+      ],
+      "path": "catalog/tools/gating-analysis.md"
+    },
+    {
       "slug": "gatk-variant-calling",
       "title": "GATK (Claude Skill)",
       "tool_type": "Claude Skill",
@@ -3336,6 +3562,27 @@
         "STAC"
       ],
       "path": "catalog/tools/geomaster.md"
+    },
+    {
+      "slug": "geometric-analysis",
+      "title": "Geometric Analysis (bioSkills)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Integrative Structural and Computational Biology"
+      ],
+      "last_verified": "2026-08-08",
+      "claude_science": false,
+      "summary": "\"Measure static protein structures with Bio.PDB — distances, dihedrals, superposition and RMSD, radius of gyration, and SASA — with the caveats stated\"",
+      "keywords": [
+        "PDB",
+        "PDBParser",
+        "QCPSuperimposer",
+        "RMSD",
+        "SASA",
+        "SVD"
+      ],
+      "path": "catalog/tools/geometric-analysis.md"
     },
     {
       "slug": "geopandas",
@@ -3665,6 +3912,23 @@
         "UMAP"
       ],
       "path": "catalog/tools/harmony-batch-correction.md"
+    },
+    {
+      "slug": "hashing-demultiplexing",
+      "title": "Hashtag Demultiplexing (bioSkills)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-08-08",
+      "claude_science": false,
+      "summary": "\"Assign pooled single-cell data back to sample of origin from HTO, MULTI-seq or CellPlex tags and call cross-sample doublets\"",
+      "keywords": [
+        "HTO",
+        "MULTI-seq"
+      ],
+      "path": "catalog/tools/hashing-demultiplexing.md"
     },
     {
       "slug": "hbn-skill",
@@ -4454,6 +4718,25 @@
       "path": "catalog/tools/latex-posters.md"
     },
     {
+      "slug": "lesion-symptom-mapping-guide",
+      "title": "Lesion-Symptom Mapping Guide (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience",
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-08-09",
+      "claude_science": false,
+      "summary": "\"Plan and run lesion-symptom mapping in patient cohorts — VLSM, multivariate SVR-LSM, disconnection and lesion network mapping\"",
+      "keywords": [
+        "Lesion-Symptom",
+        "SVR-LSM",
+        "VLSM"
+      ],
+      "path": "catalog/tools/lesion-symptom-mapping-guide.md"
+    },
+    {
       "slug": "lggnn",
       "title": "LG-GNN (Claude Skill)",
       "tool_type": "Claude Skill",
@@ -4589,6 +4872,23 @@
         "PDFs"
       ],
       "path": "catalog/tools/literature-review.md"
+    },
+    {
+      "slug": "loop-calling",
+      "title": "Chromatin Loop Calling (bioSkills)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-08-08",
+      "claude_science": false,
+      "summary": "\"Call focal chromatin loops from Hi-C or Micro-C maps with cooltools dots, chromosight and Mustache, and validate them with aggregate peak analysis\"",
+      "keywords": [
+        "Hi-C",
+        "Micro-C"
+      ],
+      "path": "catalog/tools/loop-calling.md"
     },
     {
       "slug": "macs3-peak-calling",
@@ -4881,6 +5181,26 @@
         "NMR"
       ],
       "path": "catalog/tools/metabolights.md"
+    },
+    {
+      "slug": "metabolite-communication",
+      "title": "Metabolite Cell Communication (bioSkills)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-08-08",
+      "claude_science": false,
+      "summary": "\"Infer metabolite-mediated cell-cell crosstalk from scRNA-seq by scoring enzyme-to-sensor pairs with MEBOCOST, with explicit limits on what the result supports\"",
+      "keywords": [
+        "GABA",
+        "MEBOCOST",
+        "RNA",
+        "scFEA",
+        "scRNA-seq"
+      ],
+      "path": "catalog/tools/metabolite-communication.md"
     },
     {
       "slug": "metabolomics-workbench-database",
@@ -5217,6 +5537,24 @@
       "path": "catalog/tools/mschallenge-skill.md"
     },
     {
+      "slug": "multiplicity-graphical",
+      "title": "Multiplicity and Graphical Procedures (bioSkills)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-08-09",
+      "claude_science": false,
+      "summary": "\"Build the multiplicity strategy for confirmatory trials — graphical Bretz-Maurer-Hommel procedures, gatekeeping and Holm/Hochberg/Hommel — with gMCP and FDA 2022 guidance\"",
+      "keywords": [
+        "Bretz-Maurer-Hommel",
+        "FDA",
+        "gMCP"
+      ],
+      "path": "catalog/tools/multiplicity-graphical.md"
+    },
+    {
       "slug": "multiqc-qc-reports",
       "title": "MultiQC (Claude Skill)",
       "tool_type": "Claude Skill",
@@ -5293,6 +5631,33 @@
       "path": "catalog/tools/napari-image-viewer.md"
     },
     {
+      "slug": "ncrna-search",
+      "title": "ncRNA Search (bioSkills)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Integrative Structural and Computational Biology",
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-08-08",
+      "claude_science": false,
+      "summary": "\"Find non-coding RNA homologs and assign Rfam families with Infernal covariance models, scoring sequence and secondary structure together\"",
+      "keywords": [
+        "De-overlap",
+        "HMM",
+        "miRDeep2",
+        "miRNAs",
+        "ncRNA",
+        "RNA",
+        "RNAmmer",
+        "rRNA",
+        "snoRNAs",
+        "tRNAs",
+        "tRNAscan-SE"
+      ],
+      "path": "catalog/tools/ncrna-search.md"
+    },
+    {
       "slug": "neoantigen-prediction",
       "title": "Neoantigen Prediction (bioSkills)",
       "tool_type": "Claude Skill",
@@ -5313,6 +5678,20 @@
       "path": "catalog/tools/neoantigen-prediction.md"
     },
     {
+      "slug": "netneurotools-guide",
+      "title": "NetNeuroTools Guide (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-08-09",
+      "claude_science": false,
+      "summary": "\"Network neuroscience with netneurotools — consensus connectomes, graph metrics, modularity, spatial autocorrelation-preserving null models and permutation statistics\"",
+      "keywords": [],
+      "path": "catalog/tools/netneurotools-guide.md"
+    },
+    {
       "slug": "networkx",
       "title": "NetworkX (Claude Skill)",
       "tool_type": "Claude Skill",
@@ -5325,6 +5704,25 @@
       "summary": "Comprehensive toolkit for creating, analyzing, and visualizing complex networks and graphs in Python.",
       "keywords": [],
       "path": "catalog/tools/networkx.md"
+    },
+    {
+      "slug": "neural-population-analysis-guide",
+      "title": "Neural Population Analysis Guide (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-08-09",
+      "claude_science": false,
+      "summary": "\"Choose and validate dimensionality-reduction methods for neural population recordings — PCA, GPFA, dPCA and jPCA — with principled dimensionality selection\"",
+      "keywords": [
+        "dPCA",
+        "GPFA",
+        "jPCA",
+        "PCA"
+      ],
+      "path": "catalog/tools/neural-population-analysis-guide.md"
     },
     {
       "slug": "neuroflow",
@@ -6047,6 +6445,20 @@
       "path": "catalog/tools/parallel-web.md"
     },
     {
+      "slug": "parameter-recovery-checker",
+      "title": "Parameter Recovery Checker (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-08-09",
+      "claude_science": false,
+      "summary": "\"Run parameter- and model-recovery simulations to check a cognitive model is identifiable before you interpret its fitted parameters\"",
+      "keywords": [],
+      "path": "catalog/tools/parameter-recovery-checker.md"
+    },
+    {
       "slug": "pathml",
       "title": "PathML (Claude Skill)",
       "tool_type": "Claude Skill",
@@ -6387,6 +6799,25 @@
       "path": "catalog/tools/popv-cell-annotation.md"
     },
     {
+      "slug": "power-and-sample-size",
+      "title": "Power and Sample Size (bioSkills)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-08-09",
+      "claude_science": false,
+      "summary": "\"Size superiority, non-inferiority and equivalence trials for continuous, binary and survival endpoints, with FDA M1/M2 margin logic and CONSORT-ready justification\"",
+      "keywords": [
+        "CONSORT",
+        "CONSORT-ready",
+        "FDA",
+        "SAP"
+      ],
+      "path": "catalog/tools/power-and-sample-size.md"
+    },
+    {
       "slug": "ppmi-skill",
       "title": "PPMI Pipeline (Claude Skill)",
       "tool_type": "Claude Skill",
@@ -6676,6 +7107,25 @@
         "High-performance"
       ],
       "path": "catalog/tools/pufferlib.md"
+    },
+    {
+      "slug": "pycortex-guide",
+      "title": "Pycortex Guide (Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-08-09",
+      "claude_science": false,
+      "summary": "\"Render fMRI data on cortical surfaces with pycortex — 2D flatmaps, interactive 3D WebGL viewers, volume-to-surface mapping and ROI management\"",
+      "keywords": [
+        "fMRI",
+        "fMRIPrep",
+        "ROI",
+        "WebGL"
+      ],
+      "path": "catalog/tools/pycortex-guide.md"
     },
     {
       "slug": "pydeseq2",
@@ -7534,7 +7984,7 @@
       "tool_categories": [
         "All"
       ],
-      "last_verified": "2026-05-20",
+      "last_verified": "2026-08-08",
       "claude_science": false,
       "summary": "Wiley remote connector for peer-reviewed scholarly content — 3M+ articles, 300+ Life Sciences journals.",
       "keywords": [
@@ -8331,6 +8781,25 @@
       "path": "catalog/tools/structure-preparation.md"
     },
     {
+      "slug": "structure-probing",
+      "title": "RNA Structure Probing (bioSkills)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Integrative Structural and Computational Biology",
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-08-08",
+      "claude_science": false,
+      "summary": "\"Turn SHAPE-MaP or DMS-MaPseq reads into per-nucleotide reactivity profiles with ShapeMapper2, then fold RNA with those reactivities as soft restraints\"",
+      "keywords": [
+        "DMS-MaPseq",
+        "RNA",
+        "SHAPE-MaP"
+      ],
+      "path": "catalog/tools/structure-probing.md"
+    },
+    {
       "slug": "structure-validation",
       "title": "Structure Validation (bioSkills)",
       "tool_type": "Claude Skill",
@@ -8346,6 +8815,25 @@
         "pLDDT"
       ],
       "path": "catalog/tools/structure-validation.md"
+    },
+    {
+      "slug": "subgroup-analysis",
+      "title": "Subgroup Analysis (bioSkills)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-08-09",
+      "claude_science": false,
+      "summary": "\"Run subgroup and heterogeneous-treatment-effect analyses — interaction tests, RERI, causal forests, Bayesian shrinkage — against the Sun BMJ and EMA 2019 credibility criteria\"",
+      "keywords": [
+        "BMJ",
+        "EMA",
+        "HTE",
+        "RERI"
+      ],
+      "path": "catalog/tools/subgroup-analysis.md"
     },
     {
       "slug": "svm",
@@ -8393,6 +8881,24 @@
         "Synapse-hosted"
       ],
       "path": "catalog/tools/synapse.md"
+    },
+    {
+      "slug": "tad-detection",
+      "title": "TAD Detection (bioSkills)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-08-08",
+      "claude_science": false,
+      "summary": "\"Call TAD boundaries from balanced Hi-C matrices with cooltools insulation scores, including the window sweep and boundary-strength ranking\"",
+      "keywords": [
+        "BED",
+        "Hi-C",
+        "TAD"
+      ],
+      "path": "catalog/tools/tad-detection.md"
     },
     {
       "slug": "taxonomy-assignment",
@@ -8670,6 +9176,43 @@
       "path": "catalog/tools/tooluniverse-chemical-sourcing.md"
     },
     {
+      "slug": "tooluniverse-clinical-trial-design",
+      "title": "Clinical Trial Design (ToolUniverse Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Drug Repurposing and Discovery",
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-08-09",
+      "claude_science": false,
+      "summary": "ToolUniverse agent skill that scores trial feasibility across endpoint, population, comparator, effect size, duration, and regulatory pathway using precedent trials.",
+      "keywords": [
+        "FDA",
+        "ORR",
+        "PFS"
+      ],
+      "path": "catalog/tools/tooluniverse-clinical-trial-design.md"
+    },
+    {
+      "slug": "tooluniverse-clinical-trial-matching",
+      "title": "Clinical Trial Matching (ToolUniverse Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Drug Repurposing and Discovery",
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-08-09",
+      "claude_science": false,
+      "summary": "ToolUniverse agent skill that turns a molecular profile into ranked trial matches across ClinicalTrials.gov, EU CTIS, and ISRCTN with evidence tiers.",
+      "keywords": [
+        "CTIS",
+        "ISRCTN"
+      ],
+      "path": "catalog/tools/tooluniverse-clinical-trial-matching.md"
+    },
+    {
       "slug": "tooluniverse-dose-response",
       "title": "Dose-Response Analysis (ToolUniverse Claude Skill)",
       "tool_type": "Claude Skill",
@@ -8704,6 +9247,44 @@
         "Drug-Drug"
       ],
       "path": "catalog/tools/tooluniverse-drug-drug-interaction.md"
+    },
+    {
+      "slug": "tooluniverse-drug-mechanism-research",
+      "title": "Drug Mechanism Research (ToolUniverse Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Drug Repurposing and Discovery",
+        "Molecular and Cellular Biology",
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-08-09",
+      "claude_science": false,
+      "summary": "ToolUniverse agent skill that traces a drug's mechanism from primary target through off-targets, pathways, FDA label, and pharmacogenomics.",
+      "keywords": [
+        "FDA"
+      ],
+      "path": "catalog/tools/tooluniverse-drug-mechanism-research.md"
+    },
+    {
+      "slug": "tooluniverse-drug-regulatory",
+      "title": "Drug Regulatory Research (ToolUniverse Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Drug Repurposing and Discovery",
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-08-09",
+      "claude_science": false,
+      "summary": "ToolUniverse agent skill for jurisdiction-aware approval status — UNII identity, ATC/EPC class, Orange Book patents and exclusivity, generic availability, label parsing.",
+      "keywords": [
+        "ATC",
+        "EPC",
+        "FDA",
+        "UNII"
+      ],
+      "path": "catalog/tools/tooluniverse-drug-regulatory.md"
     },
     {
       "slug": "tooluniverse-drug-research",
