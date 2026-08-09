@@ -15,6 +15,20 @@ Older entries live in [RECIPES_CHANGELOG_ARCHIVE.md](RECIPES_CHANGELOG_ARCHIVE.m
 
 ## 2026-08-09
 
+### Added
+- **Design a group-sequential trial with interim looks** (Problem class: Experimental design; Evidence: Proposed) — rung-2 [Adaptive Designs skill](https://scripps-ai-enablement.github.io/sci-ai-enabler/catalog/tools/adaptive-designs.html) recipe opening the design-stage leg of the clinical-trials chain, which previously jumped straight from protocol drafting to endpoint analysis. Built around three gates rather than the boundary arithmetic: a committed fixed-sample comparator before any interim look is added; operating characteristics simulated across an effect grid at a recorded seed, never at the design point; and sample-size re-estimation defaulting to *no* unless the simulation earns it — a standing presumption for time-to-event endpoints, where SSR lets interim curve-shape information enlarge the observed effect and raises the chance of recommending an ineffective therapy ([Freidlin & Korn 2017](https://doi.org/10.1177/1740774517724746)). Also encodes that the promising-zone rule triggers where the marginal power per patient is *not* greatest ([Jennison & Turnbull 2015](https://doi.org/10.1002/sim.6575)), that optimising conditional versus unconditional power yields different rules ([Mehta et al. 2022](https://doi.org/10.1002/sim.9339)), and the protocol-must-specify checklist from [Shih, Li & Wang 2016](https://doi.org/10.1016/j.cct.2015.12.007). `rpact` 4.4.0 (2026-03-04, LGPL-3) confirmed by fetch this run.
+
+### Updated
+- **Handle missing endpoint data in a confirmatory trial** — Alternatives now points at the new design-stage recipe instead of naming the Adaptive Designs skill without a followable path.
+
+### Flagged
+- _None._
+
+### Verified (no changes)
+- `recipe_recheck: no` this run — no aging-recipe verification pass. Seven recipes remain at `last_verified: 2026-07-04`; see the recheck backlog in curator state.
+
+## 2026-08-09
+
 Neuroscience focus day. The top-priority candidate turned out to be unbuildable — its only component is a flagged, 404-ing MCP server — so the run shipped the next pick instead and spent the remainder documenting the dead end properly.
 
 ### Added

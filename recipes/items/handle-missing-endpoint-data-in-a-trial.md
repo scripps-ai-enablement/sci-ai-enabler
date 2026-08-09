@@ -128,7 +128,7 @@ The skill contributes the ICH E9(R1) ordering and the Kenward–Roger guardrail;
 
 - **Plain Claude Code, no skill.** Reasonable if you are a trial statistician who already works estimand-first and knows the `rbmi` API — you lose little. Reach for the skill when the ordering discipline needs to survive across collaborators and runs, or when the missing-data package itself is the deliverable a regulator reads.
 - **[Trial Reporting skill](../../catalog/tools/trial-reporting.html).** Covers the same MMRM/`rbmi` machinery inside a wider CONSORT reporting workflow. Use it when the missing-data analysis is one section of a full trial report; use this recipe when the sensitivity package stands alone.
-- **[Adaptive Designs skill](../../catalog/tools/adaptive-designs.html).** Design-stage questions — interim analyses, sample-size re-estimation — belong there, not here. If you are still choosing the design, that is the earlier problem.
+- **[Adaptive Designs skill](../../catalog/tools/adaptive-designs.html).** Design-stage questions — interim analyses, sample-size re-estimation — belong there, not here. If you are still choosing the design, that is the earlier problem: see [Design a group-sequential trial with interim looks](design-a-group-sequential-trial-with-interim-looks.html).
 - **Doing this in Python.** Tempting for a Python-first group, and `scikit-learn`'s `IterativeImputer` (with `sample_posterior=True` and BayesianRidge) is fine for exploratory work. It is not a substitute for the confirmatory path: no Kenward–Roger correction in `statsmodels.mixedlm`, and no reference-based imputation implementation of `rbmi`'s standing. Keep Python for exploration and R for the analysis you will defend.
 
 ## See also
