@@ -6,6 +6,51 @@ nav_exclude: true
 # Catalog updates archive
 
 Older entries rotated out of [CHANGELOG.md](CHANGELOG.md). Newest first, same format.
+## 2026-07-18 (Molecular and Cellular Biology slot)
+
+Molecular and Cellular Biology directed pass plus a manifest sweep. The `anthropics/life-sciences` marketplace (`.claude-plugin/marketplace.json`, 19 entries) was re-fetched and diffed against the catalog — all entries already covered. Seed queries reconfirmed the Scanpy MCP family (`scanpy-mcp`/`scmcp`, already catalogued and cross-linked) and the Ensembl MCP surface. The RNA-seq/regulatory-genomics query surfaced one genuinely-new installable plugin.
+
+### Added
+- **ENCODE Toolkit** (Categories: Molecular and Cellular Biology) — AGPL-3.0 Claude Code plugin + MCP server (`ammawla/encode-toolkit`, PyPI v0.3.0) with 20 ENCODE Portal tools (search, batch download with MD5 verification, local experiment tracking) plus seven Nextflow reference pipelines (ChIP-seq, ATAC-seq, RNA-seq, WGBS, Hi-C, DNase-seq, CUT&RUN); distinct from the read-only ENCODE Claude Skill ([README](https://github.com/ammawla/encode-toolkit/blob/main/README.md), [PyPI](https://pypi.org/project/encode-toolkit/)).
+
+### Verified (no changes)
+- Manifest sweep confirmed no new `anthropics/life-sciences` plugins; Scanpy MCP family and stMCP (spatial-transcriptomics preprint — deferred, unverified repo/license) reconfirmed against existing coverage.
+
+## 2026-07-18 (Integrative Structural and Computational Biology slot)
+
+Integrative Structural and Computational Biology directed pass plus a manifest sweep. The `anthropics/life-sciences` and `anthropics/claude-plugins-official` marketplaces were re-fetched and diffed against the catalog — all entries already covered. Structural seed queries confirmed the RCSB PDB, AlphaFold/ESMFold, and PyMOL surfaces are already comprehensively catalogued (`pdb`, `alphafold`, `esmfold`, `pymol`, `molecule-mcp`), and that no cryo-EM (RELION/cryoSPARC) MCP or Skill exists yet (still deferred). The MD seed query surfaced one genuinely-new hosted computational-chemistry engine.
+
+### Added
+- **NovoMCP** (Categories: Chemistry, Drug Repurposing and Discovery, Integrative Structural and Computational Biology) — hosted computational-chemistry MCP from Quant NexusAI: free ADMET / molecular-profiling tier over a ~122M-compound layer plus a paid Novo Compute tier (GFN2-xTB QM, GPU GROMACS MD, AutoDock-GPU docking); research-preview access, proprietary SaaS ([NovoMCP docs](https://www.novomcp.com/docs/novo)).
+
+### Verified (no changes)
+- Manifest sweep confirmed no new life-sciences marketplace plugins; cryo-EM MCP/Skill and dedicated PDB/AlphaFold MCPs reconfirmed against existing coverage.
+
+## 2026-07-18 (Immunology and Microbiology slot)
+
+Immunology and Microbiology directed pass plus a manifest sweep. The `anthropics/life-sciences` and `anthropics/claude-plugins-official` marketplaces were re-fetched and diffed against the catalog — all entries already covered (the only life-science plugin in the official cross-domain marketplace is `boltz`, catalogued). Seed queries for a dedicated IEDB MCP and a metagenomics/microbiome MCP confirmed neither exists yet (still deferred). Five genuinely-new immunology / TCR-BCR skills were drawn from the deferred `GPTomics/bioSkills` queue (MIT license re-confirmed from the repo LICENSE this run).
+
+### Added
+- **Neoantigen Prediction (bioSkills)** (Categories: Drug Repurposing and Discovery, Immunology and Microbiology, Translational Medicine) — pVACtools tumor-to-candidate neoantigen pipeline centering clonality/CCF, HLA LOH, expression, and predicted→presented→immunogenic validation tiers ([`immunoinformatics/neoantigen-prediction`](https://github.com/GPTomics/bioSkills/blob/main/immunoinformatics/neoantigen-prediction/SKILL.md)).
+- **MHC Class II Prediction (bioSkills)** (Categories: Immunology and Microbiology) — CD4 T-cell epitope binding via NetMHCIIpan-4.3 + MixMHC2pred-2.0, with the class II reliability caveats ([`immunoinformatics/mhc-class-ii-prediction`](https://github.com/GPTomics/bioSkills/blob/main/immunoinformatics/mhc-class-ii-prediction/SKILL.md)).
+- **scirpy Analysis (bioSkills)** (Categories: Immunology and Microbiology) — single-cell paired TCR/BCR + gene-expression repertoire analysis on the scirpy AIRR awkward-array model ([`tcr-bcr-analysis/scirpy-analysis`](https://github.com/GPTomics/bioSkills/blob/main/tcr-bcr-analysis/scirpy-analysis/SKILL.md)).
+- **MiXCR Analysis (bioSkills)** (Categories: Immunology and Microbiology) — MiXCR 4.7+ V(D)J alignment + clonotype assembly with chemistry-matched presets and AIRR export (MiXCR needs its own free academic license) ([`tcr-bcr-analysis/mixcr-analysis`](https://github.com/GPTomics/bioSkills/blob/main/tcr-bcr-analysis/mixcr-analysis/SKILL.md)).
+- **TCR-Epitope Binding (bioSkills)** (Categories: Immunology and Microbiology) — TCR specificity via clustering (tcrdist3/GLIPH2/clusTCR/GIANA) + VDJdb/IEDB/McPAS-TCR lookup, with honest supervised-prediction caveats ([`immunoinformatics/tcr-epitope-binding`](https://github.com/GPTomics/bioSkills/blob/main/immunoinformatics/tcr-epitope-binding/SKILL.md)).
+
+### Verified (no changes)
+- Manifest sweep confirmed no new life-sciences marketplace plugins; dedicated IEDB / metagenomics MCP servers reconfirmed absent.
+
+## 2026-07-18 (Chemistry slot)
+
+Chemistry directed pass plus a manifest sweep, and processed one open user request (#50). The `anthropics/life-sciences` marketplace was re-fetched (21 plugin directories) and diffed against the catalog — all entries already covered (biorxiv / clinical-trials plugins remain flagged DOA). The Chemistry seed queries surfaced a strong single-install cheminformatics MCP; ChEMBL/PubChem candidates were already catalogued.
+
+### Added
+- **LabMate MCP** (Categories: Chemistry, Drug Repurposing and Discovery) — one-install stdio MCP with 81 tools (retrosynthesis, forward/ADMET/pKa/NMR prediction, 202 named reactions, reagent calculators, compound + literature lookup); MIT, PyPI `labmate-mcp` v7.3.1 ([`JonasRackl/labmate-mcp`](https://github.com/JonasRackl/labmate-mcp)).
+- **Proto-OKN MCP Server** (Categories: All) — natural-language access to 30+ NSF Proto-OKN scientific knowledge graphs (SPOKE biomedicine, BioBricks chemical safety, DREAM-KG, SAWGraph) via SPARQL, schema inspection, cross-graph bridging, and ChEBI/MONDO/GO ontology expansion; BSD-3, hosted connector; from user request [#50](https://github.com/scripps-ai-enablement/sci-ai-enabler/issues/50) ([`sbl-sdsc/mcp-proto-okn`](https://github.com/sbl-sdsc/mcp-proto-okn)).
+
+### Verified (no changes)
+- Chemistry-page entries spot-checked (`last_verified` all within 30 days); manifest sweep confirmed no new life-sciences marketplace plugins.
+
 ## 2026-07-17 (manual bulk addition)
 
 Out-of-cycle manual import from a user request (@goodb): Anthropic's [Claude Science](https://claude.com/docs/claude-science/connectors-and-skills) **20 Featured connectors + 17 Research skills**, catalogued at source-level granularity (each connector decomposed into its underlying data sources). Introduced a searchable **Claude Science marker** — a `claude_science: true` front-matter flag that `scripts/build_index.py` turns into a `"Claude Science"` composer keyword, plus a bolded **Claude Science:** trust callout under each entry's Notes. **69 entries now carry the marker** (35 new + 34 annotated). Merged as [#56](https://github.com/scripps-ai-enablement/sci-ai-enabler/pull/56). Claude Science has since been added to the standing discovery sources in `AGENT.md` so future runs sweep it automatically.
