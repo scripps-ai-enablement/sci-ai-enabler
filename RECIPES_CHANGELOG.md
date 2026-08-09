@@ -16,6 +16,20 @@ Older entries live in [RECIPES_CHANGELOG_ARCHIVE.md](RECIPES_CHANGELOG_ARCHIVE.m
 ## 2026-08-09
 
 ### Added
+- **Trace an adverse outcome pathway from a molecular initiating event to an organ finding** (Problem class: Knowledge synthesis; Evidence: Proposed) — rung-2 recipe on the [Adverse Outcome Pathway skill](../catalog/tools/tooluniverse-adverse-outcome-pathway.html), discharging the top Drug Repurposing and Discovery deferred item. Finding-keyed rather than compound-keyed: you arrive with an organ-level tox result and leave with candidate MIE-to-endpoint pathways, weight of evidence recorded per key-event relationship, and the one assay that discriminates between the survivors. Four gates carry the page — stressor absence made an explicit value rather than a blank (871 prototypical stressors across 595 AOPs, [AOP-Wiki metrics](https://aopwiki.org/metrics_summary), fetched this run), one row per key-event relationship with the weakest link reported rather than an average ([Holmer et al. 2024](https://doi.org/10.1016/j.reprotox.2024.108662)), OECD status recorded before the pathway content is read ([Tanabe et al. 2025](https://doi.org/10.1093/etojnl/vgaf173)), and CTD direct-curated split from inferred associations ([King et al. 2012](https://doi.org/10.1371/journal.pone.0046524)).
+
+### Updated
+- _None._
+
+### Flagged
+- _None._
+
+### Verified (no changes)
+- 0 recipes spot-checked — `recipe_recheck: no` for this slot; the 2026-07-04 recheck backlog carries forward.
+
+## 2026-08-09
+
+### Added
 - **Design a group-sequential trial with interim looks** (Problem class: Experimental design; Evidence: Proposed) — rung-2 [Adaptive Designs skill](https://scripps-ai-enablement.github.io/sci-ai-enabler/catalog/tools/adaptive-designs.html) recipe opening the design-stage leg of the clinical-trials chain, which previously jumped straight from protocol drafting to endpoint analysis. Built around three gates rather than the boundary arithmetic: a committed fixed-sample comparator before any interim look is added; operating characteristics simulated across an effect grid at a recorded seed, never at the design point; and sample-size re-estimation defaulting to *no* unless the simulation earns it — a standing presumption for time-to-event endpoints, where SSR lets interim curve-shape information enlarge the observed effect and raises the chance of recommending an ineffective therapy ([Freidlin & Korn 2017](https://doi.org/10.1177/1740774517724746)). Also encodes that the promising-zone rule triggers where the marginal power per patient is *not* greatest ([Jennison & Turnbull 2015](https://doi.org/10.1002/sim.6575)), that optimising conditional versus unconditional power yields different rules ([Mehta et al. 2022](https://doi.org/10.1002/sim.9339)), and the protocol-must-specify checklist from [Shih, Li & Wang 2016](https://doi.org/10.1016/j.cct.2015.12.007). `rpact` 4.4.0 (2026-03-04, LGPL-3) confirmed by fetch this run.
 
 ### Updated
