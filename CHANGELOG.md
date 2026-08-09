@@ -16,6 +16,25 @@ Older entries live in [CHANGELOG_ARCHIVE.md](CHANGELOG_ARCHIVE.md).
 ## 2026-08-09
 
 ### Added
+- **CDISC Data Handling (bioSkills)** (Categories: Translational Medicine) — the catalog's first CDISC SDTM/ADaM surface: XPT parsing with `pyreadstat` 1.2+, ADSL/BDS/OCCDS/ADTTE derivation with traceability, TEAE windows by modality (28–30 d small molecules, 60–90 d biologics, indefinite for cell/gene therapy), Define-XML 2.1, Pinnacle 21 and CDISC CORE validation ([SKILL.md](https://github.com/GPTomics/bioSkills/blob/main/clinical-biostatistics/cdisc-data-handling/SKILL.md))
+- **Power and Sample Size (bioSkills)** (Categories: Translational Medicine) — superiority / non-inferiority / equivalence sizing with the FDA 2016 M1/M2 double discount, Schoenfeld vs Lakatos under non-proportional hazards, Schuirmann TOST at 80–125%, written to CONSORT 2025 item 16a ([SKILL.md](https://github.com/GPTomics/bioSkills/blob/main/clinical-biostatistics/power-and-sample-size/SKILL.md))
+- **Bayesian Trials (bioSkills)** (Categories: Translational Medicine) — BOIN/CRM/EWOC dose-finding, RBesT MAP priors with robust mixtures, EXNEX basket designs and platform-trial patterns, against FDA Bayesian devices (2010) and drugs-draft (Jan 2026) guidance ([SKILL.md](https://github.com/GPTomics/bioSkills/blob/main/clinical-biostatistics/bayesian-trials/SKILL.md))
+- **Multiplicity and Graphical Procedures (bioSkills)** (Categories: Translational Medicine) — Bretz–Maurer–Hommel graphical procedures via `gMCP`, gatekeeping, and a Holm/Hochberg/Hommel decision tree with the PRDS check, anchored to the FDA Multiple Endpoints final guidance (Oct 2022) ([SKILL.md](https://github.com/GPTomics/bioSkills/blob/main/clinical-biostatistics/multiplicity-graphical/SKILL.md))
+- **Subgroup Analysis (bioSkills)** (Categories: Translational Medicine) — interaction testing, RERI, STEPP/SIDES/causal forests and Bayesian shrinkage, assessed against the Sun *BMJ* 2012 11-criterion checklist and EMA 2019 ([SKILL.md](https://github.com/GPTomics/bioSkills/blob/main/clinical-biostatistics/subgroup-analysis/SKILL.md))
+- **Effect Measures (bioSkills)** (Categories: Translational Medicine) — OR/RR/RD/HR/NNT with Wilson, Newcombe, MOVER, Miettinen–Nurminen, profile-likelihood and Bender intervals, plus marginal-vs-conditional estimands per the FDA 2023 covariate-adjustment guidance ([SKILL.md](https://github.com/GPTomics/bioSkills/blob/main/clinical-biostatistics/effect-measures/SKILL.md))
+
+### Updated
+- **Curator state** — the `GPTomics/bioSkills` `clinical-biostatistics/` category is now fully worked (9 of 12 catalogued, 3 declined on overlap with `scikit-survival.md` / `statsmodels.md`) and moves to diff-only maintenance.
+
+### Flagged
+- No new flags this run.
+
+### Verified (no changes)
+- Manifest sweep: `anthropics/life-sciences/.claude-plugin/marketplace.json` re-read; every plugin returned is already catalogued, no new entries.
+
+## 2026-08-09
+
+### Added
 - **Neural Population Analysis Guide (Claude Skill)** (Categories: Neuroscience) — the catalog's first population-geometry surface: PCA / GPFA / dPCA / jPCA selection with per-method neuron and trial minima, soft normalization at 5 spikes/s instead of z-scoring, and dimensionality chosen by parallel analysis or cross-validation rather than a variance rule ([SKILL.md](https://github.com/HaoxuanLiTHUAI/awesome_cognitive_and_neuroscience_skills/blob/master/skills/neural-population-analysis-guide/SKILL.md))
 - **Parameter Recovery Checker (Claude Skill)** (Categories: Neuroscience) — simulate-and-refit studies that test whether a cognitive model is identifiable before its fitted parameters are interpreted; recovery bands for *r*, bias, RMSE and Bayesian coverage, plus the |r| > 0.5 parameter-tradeoff cutoff and model-recovery confusion matrix ([SKILL.md](https://github.com/HaoxuanLiTHUAI/awesome_cognitive_and_neuroscience_skills/blob/master/skills/parameter-recovery-checker/SKILL.md))
 - **Lesion-Symptom Mapping Guide (Claude Skill)** (Categories: Neuroscience, Translational Medicine) — VLSM, multivariate SVR-LSM, disconnection and lesion network mapping in patient cohorts, with N-gated method routing, per-voxel lesion-overlap floors, cost-function masking and permutation FWE at 5,000+ permutations ([SKILL.md](https://github.com/HaoxuanLiTHUAI/awesome_cognitive_and_neuroscience_skills/blob/master/skills/lesion-symptom-mapping-guide/SKILL.md))
