@@ -81,11 +81,11 @@ DANDI hosts 400+ NWB neurophysiology datasets but the access path is hostile to 
 
 6. **Hand off to spike sorting.** When the local copies (or streaming reads) are ready, switch to the [Sort spikes from a Neuropixels recording](sort-spikes-from-neuropixels-recording.html) recipe to run preprocessing, drift correction, and Kilosort4 on each session.
 
-7. **(Optional) Extend the reach to OpenNeuro.** If your question spans modalities (e.g., "mouse Neuropixels *or* macaque ECoG"), install the [OpenNeuro MCP](../../catalog/tools/openneuro.html) alongside Neurosift Tools — OpenNeuro and DANDI are separate archives, and `openneuro_search` covers the MRI / MEG / EEG / iEEG / ECoG portion that DANDI does not.
+7. **(Cross-archive reach — currently unavailable.)** OpenNeuro and DANDI are separate archives, so a question spanning modalities ("mouse Neuropixels *or* macaque ECoG") needs both. The [OpenNeuro MCP](../../catalog/tools/openneuro.html) was the route, but its repo and hosted endpoint have returned 404 since 2026-07-20 and the catalog page is flagged with no working install path. Until a replacement is catalogued, search [openneuro.org](https://openneuro.org/) by hand and hand the dataset accessions back to Claude Code.
 
 ## Why this assembly
 
-Rung 3 — a small toolbelt of two cataloged components (Neurosift Tools MCP for discovery + introspection; neuropixels-analysis skill for downstream sorting) plus optionally the OpenNeuro MCP for cross-archive reach. Rung 1 (plain Claude Code) fails because the model cannot reach the live DANDI API or read remote NWB metadata without help. Rung 2 (Neurosift Tools MCP alone) gets you the candidate list and the file inspection, but a complete recipe needs the downstream sorting skill to be useful for the working scientist's actual goal. An autonomous-science system is overkill: discovery + inspection is a well-bounded retrieval task that the dedicated MCP handles cleanly.
+Rung 3 — a small toolbelt of two cataloged components (Neurosift Tools MCP for discovery + introspection; neuropixels-analysis skill for downstream sorting). Rung 1 (plain Claude Code) fails because the model cannot reach the live DANDI API or read remote NWB metadata without help. Rung 2 (Neurosift Tools MCP alone) gets you the candidate list and the file inspection, but a complete recipe needs the downstream sorting skill to be useful for the working scientist's actual goal. An autonomous-science system is overkill: discovery + inspection is a well-bounded retrieval task that the dedicated MCP handles cleanly.
 
 ## Availability
 

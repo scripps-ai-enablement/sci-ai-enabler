@@ -13,6 +13,22 @@ Reverse-chronological log of changes to the [recipes cookbook]({{ '/recipes/' | 
 
 Older entries live in [RECIPES_CHANGELOG_ARCHIVE.md](RECIPES_CHANGELOG_ARCHIVE.md).
 
+## 2026-08-09
+
+Neuroscience focus day. The top-priority candidate turned out to be unbuildable — its only component is a flagged, 404-ing MCP server — so the run shipped the next pick instead and spent the remainder documenting the dead end properly.
+
+### Added
+- **Measure cortical thickness and subcortical volumes across a cohort** (Problem class: Data analysis; Evidence: Proposed) — rung-2 [FreeSurfer skill](catalog/tools/freesurfer-tool.html) recipe opening the structural-MRI morphometry leg, which the Neuroscience section lacked entirely despite covering DTI, resting-state fMRI, EEG/ERP, calcium imaging, spike sorting and BIDS conversion. The `recon-all` invocation is the settled part; the page is built around the two failure modes that leave no trace in the output table. **One pinned FreeSurfer version for the whole cohort**, because 6–12 h/subject means cohorts get processed in waves across months, and regional estimates are not comparable across major versions — 8.8 ± 6.6% on volumes and 2.8 ± 1.3% on thickness between v5.0.0 and earlier releases, with workstation type and even the macOS point release worth about half as much again ([Gronenschild et al., *PLoS ONE* 2012](https://doi.org/10.1371/journal.pone.0038234)); cingulate thickness at ICC 0.37–0.61 across v5.3/6.0/7.1, and version differences in downstream statistical results ([Haddad et al., *Hum Brain Mapp* 2023](https://doi.org/10.1002/hbm.26147)). The counterweight is kept visible rather than suppressed — absolute shifts of 1.6–5.8% barely moved AD/MCI classification accuracy ([Chepkoech et al., *Hum Brain Mapp* 2016](https://doi.org/10.1002/hbm.23139)) — and reconciled: within-version stability is good, which is exactly why one version per cohort suffices and mixing versions across groups does not. Second, **the Euler number is gated on before any group comparison** (AUC 0.98–0.99 against expert "unusable" ratings, out-performing functional-timeseries proxies from the same session; quality both inflates and obscures age associations — [Rosen et al., *NeuroImage* 2018](https://doi.org/10.1016/j.neuroimage.2017.12.059)) with the threshold recorded as a literal chosen before group labels are seen — **and then carried into the model as a covariate anyway**, because thresholding attenuates but does not eliminate the effect and how you control for quality changes ABIDE case-control conclusions ([Bedford et al., *Imaging Neuroscience* 2023](https://doi.org/10.1162/imag_a_00022)). Thickness and surface area stay separate analyses; eTIV covaries volumes only. Tagged `HPC or cloud cluster` with the N-dependence spelled out (ten subjects fit a workstation overnight; sixty is an array job — and that duration is what creates the version-drift risk in the first place), and `Fully open` with the free-registration `license.txt` gate named up front. FreeSurfer 8.2.0 (March 2026) confirmed by fetch this run.
+
+### Updated
+- **Discover NWB recordings on DANDI and prepare them for sorting** — optional step 7 recommended installing the [OpenNeuro MCP](catalog/tools/openneuro.html), whose catalog page has been `verification: broken` since 2026-07-20 (repo and hosted endpoint both 404 across four consecutive runs, no fixable path). Step 7 now states the breakage and points readers at manual openneuro.org search; the "plus optionally the OpenNeuro MCP" clause was dropped from **Why this assembly** so the rung-3 justification rests only on the two working components. The core Neurosift + spike-sorting path is unaffected and `last_verified` was deliberately not bumped — this run was `recipe_recheck: no` and the rest of the page has not been re-verified.
+
+### Flagged
+- **Browse OpenNeuro for MRI/EEG/MEG datasets** (planned recipe, not written) — cancelled rather than written. It was the top Neuroscience pick going into the run and its only component does not exist. Filed as a Missing component: OpenNeuro is the primary public archive for MRI / MEG / EEG / iEEG / ECoG data and the catalogued Neurosift MCP reaches DANDI only, so the cookbook currently has **no followable path to discover a human neuroimaging dataset**. OpenNeuro's public GraphQL API is unauthenticated, so any maintained wrapper would unblock it.
+
+### Verified (no changes)
+- No aging-recipe recheck this run (`recipe_recheck: no`). The 2026-07-04 backlog of seven recipes remains queued for the next recheck slot.
+
 ## 2026-08-08
 
 Directed pass on **Molecular and Cellular Biology**. Two recipes, both rung 2, both discharging long-standing deferred items — one opening the cookbook's empty proteomics leg, one resolving a banked amend-vs-add question in favour of a new page.
@@ -305,49 +321,4 @@ Directed pass on **Immunology and Microbiology**. Two recipes shipped, both clos
 ### Verified (no changes)
 
 - 3 recipes spot-checked, all current, `last_verified` bumped to 2026-07-19: [triage-new-preprints](recipes/items/triage-new-preprints.html), [qc-single-cell-rna-seq](recipes/items/qc-single-cell-rna-seq.html), [map-disease-to-genes-and-pathways](recipes/items/map-disease-to-genes-and-pathways.html) — all linked catalog pages resolve and all source URLs still load.
-
-## 2026-07-18 (Molecular and Cellular Biology directed pass)
-
-### Added
-
-- **Integrate multi-omics layers into interpretable factors with MOFA+** (Problem class: Data analysis; Evidence: Proposed) — rung-2 [MOFA+ skill](catalog/tools/mofaplus-multi-omics.html) recipe: 2+ omics views on the same samples/cells ([muon](catalog/tools/muon-multiomics-singlecell.html)/MuData for single-cell multi-modal, AnnData dict for bulk) → per-view feature selection → build MOFA+ model → train (`mofapy2`, fixed factor count + seed) → per-factor per-view variance decomposition → factor–metadata association → top loadings per factor → committed `mofa_run.py` + pinned `requirements.txt` + `mofa_model.hdf5` + `variance_explained.csv`/`factor_metadata_assoc.csv`/`top_loadings_<view>.csv` + figure + `provenance.json` (mofapy2/muon versions, factor count + seed, per-view feature counts, input sha256s, run date, model id). Cross-modality factorization complement to the within-modality [scVI batch-integration recipe](recipes/items/integrate-single-cell-datasets.html); feeds the [functional-enrichment](recipes/items/run-functional-enrichment-on-a-gene-list.html) and [TF/pathway-activity](recipes/items/infer-tf-and-pathway-activities-from-expression.html) recipes (all cross-linked). `Proposed` — no documented Claude+MOFA+-skill attempt; grounded on the canonical method ([Argelaguet et al., *Genome Biology* 2020](https://doi.org/10.1186/s13059-020-02015-1)) and a current applied exemplar (12-factor MOFA+ decomposition of 667 TCGA gliomas validated across n=1685 without retraining; [Saleh et al., *Cancers* 2026](https://doi.org/10.3390/cancers18101652)). `Fully open`; `Laptop`.
-
-### Updated
-
-- **infer-gene-regulatory-network-from-scrnaseq** — fixed a broken feedback-footer URL (was pointing at the non-canonical `goodb.github.io`/`github.com/goodb` host; now `scripps-ai-enablement`); `last_verified` → 2026-07-18 (Arboreto/AnnData/Scanpy catalog pages resolve, method sources current).
-- **assemble-reference-atlas-from-cellxgene-census**, **compute-hrv-from-ecg-recording** — fixed the same broken feedback-footer host (`goodb` → `scripps-ai-enablement`); no other changes.
-
-### Verified (no changes)
-
-- 4 additional MCB recipes spot-checked (oldest-first), all current; `last_verified` bumped to 2026-07-18: **run-bulk-rnaseq-differential-expression** ([PyDESeq2](catalog/tools/pydeseq2.html)), **run-functional-enrichment-on-a-gene-list** ([gget](catalog/tools/gget.html)), **infer-tf-and-pathway-activities-from-expression** ([decoupler-MCP](catalog/tools/decoupler-mcp.html)), **annotate-cell-types-in-single-cell-data** ([CellTypist](catalog/tools/celltypist-cell-annotation.html)/[popV](catalog/tools/popv-cell-annotation.html)) — all linked catalog pages resolve, sources current.
-
-## 2026-07-18 (Integrative Structural and Computational Biology directed pass)
-
-### Added
-
-- **Design amino-acid sequences for a fixed protein backbone** (Problem class: Experimental design; Evidence: Reported) — rung-3 two-model toolbelt: [ProteinMPNN skill](catalog/tools/proteinmpnn.html) samples sequences for a target backbone `.pdb` (fixed catalytic/interface positions, temperature sweep) → [ESMFold skill](catalog/tools/esmfold.html) refolds every design → self-consistency gate (Cα-scRMSD < 2.0 Å AND mean pLDDT > 80) keeps only foldable candidates → ranked survivors → committed `.claude/commands/mpnn-design.md` + pinned skill envs + `designs/<name>_mpnn.fasta` + `results/<name>_selfconsistency.csv` + `provenance.json` (model/versions, sampling settings, cutoffs, backbone sha256, run date, model id). First recipe to compose the ProteinMPNN family; cross-links [LigandMPNN](catalog/tools/ligandmpnn.html)/[SolubleMPNN](catalog/tools/solublempnn.html) variants, [AlphaFold2](catalog/tools/alphafold2.html) as a stricter second gate, and the [score-protein-variants-with-esm](recipes/items/score-protein-variants-with-esm.html) sibling. `Reported` — ProteinMPNN is the validated field-standard inverse-folding model ([Dauparas et al., *Science* 2022](https://doi.org/10.1126/science.add2187)), the design→refold→filter self-consistency routine is standard practice ([Lin et al., *Science* 2023](https://doi.org/10.1126/science.ade2574)), and a ProteinMPNN redesign of a flavin-binding fluorescent protein was wet-lab confirmed ([Nikolaev et al., *Protein Sci.* 2024](https://pubmed.ncbi.nlm.nih.gov/38501498/)); the Claude-skill assembly is not separately benchmarked. `Fully open`; `Workstation with GPU`.
-
-### Verified (no changes)
-
-- 2 recipes spot-checked (oldest-first, ISCB-focused), all current; `last_verified` bumped to 2026-07-18: **predict-rna-secondary-structure-and-accessibility** ([ViennaRNA skill](catalog/tools/viennarna-structure-prediction.html) catalog page resolves; SciAgent-Skills repo live), **infer-protein-function-from-structure** ([Foldseek skill](catalog/tools/foldseek-structural-search.html) catalog page resolves; Foldseek Search web service still up).
-
-## 2026-07-18 (Immunology and Microbiology directed pass)
-
-### Added
-
-- **Analyze a single-cell TCR repertoire alongside gene expression** (Problem class: Data analysis; Evidence: Reported) — rung-2 [scirpy Analysis skill](catalog/tools/scirpy-analysis.html) recipe: 10x/AIRR single-cell VDJ + matching clustered `.h5ad` → `pp.index_chains` + barcode-matched modality pairing → `chain_qc` filtering of multichain doublets/orphan cells → exact-CDR3-nt clonotype definition (TCR-appropriate, not BCR distance clustering) → clonal expansion + per-cluster/per-condition diversity + repertoire overlap → clonality overlaid on the transcriptomic UMAP → committed `sc_tcr.py` + pinned `requirements.txt` + `clonotypes.csv` + diversity/overlap tables + figure + `provenance.json` (scirpy/scanpy/mudata versions, clonotype strategy + params, input sha256s, run date, model id). T-cell, transcriptome-integrated counterpart to the B-cell [reconstruct-bcr-clonal-lineages](recipes/items/reconstruct-bcr-clonal-lineages.html) recipe; downstream of [qc-single-cell-rna-seq](recipes/items/qc-single-cell-rna-seq.html) and [annotate-cell-types-in-single-cell-data](recipes/items/annotate-cell-types-in-single-cell-data.html) (all cross-linked). `Reported` — scirpy is the scverse-standard single-cell TCR tool with a published benchmark ([Sturm et al., *Bioinformatics* 2020](https://pubmed.ncbi.nlm.nih.gov/32614448/)) and the exact multi-modal workflow is a 2025 methods protocol ([Plattner, Sturm & Rieder, *Methods Cell Biol.* 2025](https://pubmed.ncbi.nlm.nih.gov/41106935/)); the agent-driven skill assembly is not separately benchmarked. `Fully open`; `Laptop`.
-
-### Verified (no changes)
-
-- 3 recipes spot-checked (oldest-first), all current; `last_verified` bumped to 2026-07-18: **assemble-reference-atlas-from-cellxgene-census** (Census `2025-11-08` LTS still current; all catalog links resolve), **annotate-a-bacterial-genome** (Bakta/Prokka catalog pages resolve; canonical sources stable).
-
-## 2026-07-18 (Chemistry directed pass; composition report #55)
-
-### Added
-
-- **Plan a synthetic route for a target molecule** (Problem class: Experimental design; Evidence: Reported) — rung-2 [CovaSyn MCP](catalog/tools/covasyn.html) recipe: target SMILES → optional [RDKit](catalog/tools/rdkit-skill.html)/[Datamol](catalog/tools/datamol.html) canonicalization → `covaplatform` retrosynthesis call (N routes, max depth) → per-step precursor + transform-class capture with buyable-leaf flags → route scoring (shorter, fully-buyable first) → committed `plan_route.py` + pinned `requirements.txt` + `routes.csv`/`route_summary.csv` + `provenance.json` (CovaSyn version, model/suite id, building-block catalog snapshot, request params, input sha256, run date, model id). Downstream make-check for [enumerate-analogs-around-a-lead](recipes/items/enumerate-analogs-around-a-lead.html) (cross-linked) and [filter-virtual-screening-hits](recipes/items/filter-virtual-screening-hits.html), with [ChemCrow](autonomous-science/systems/chemcrow.html) as the rung-4 execute-and-iterate alternative. `Reported` — agentic tool-grounded retrosynthesis is benchmarked near expert level ([LARC, Baker et al., *arXiv* 2508.11860, 2025](https://arxiv.org/abs/2508.11860): 72.9% on 48 constrained tasks; [ChemCrow, *Nat. Mach. Intell.* 2024](https://doi.org/10.1038/s42256-024-00832-8)); the exact Claude+CovaSyn pairing is not separately benchmarked. `Subscription required` (CovaSyn freemium, credit-metered, cloud SMILES submission); `Laptop`.
-
-### Updated
-
-- **Prioritize targets within a disease via Open Targets** — processed composition report [#55](https://github.com/scripps-ai-enablement/sci-ai-enabler/issues/55) (@goodb, `outcome=worked`); added an Alzheimer's-*prevention* field report (SORL1 lead via a prevention-tuned re-weighting of the pillar fields against MONDO_0004975) that reinforces the direct-GraphQL fallback when the hosted MCP is rate-limited; `last_verified` 2026-07-12 → 2026-07-18.
 

@@ -6,6 +6,51 @@ nav_exclude: true
 # Recipes updates archive
 
 Older entries rotated out of [RECIPES_CHANGELOG.md](RECIPES_CHANGELOG.md). Newest first, same format.
+## 2026-07-18 (Molecular and Cellular Biology directed pass)
+
+### Added
+
+- **Integrate multi-omics layers into interpretable factors with MOFA+** (Problem class: Data analysis; Evidence: Proposed) — rung-2 [MOFA+ skill](catalog/tools/mofaplus-multi-omics.html) recipe: 2+ omics views on the same samples/cells ([muon](catalog/tools/muon-multiomics-singlecell.html)/MuData for single-cell multi-modal, AnnData dict for bulk) → per-view feature selection → build MOFA+ model → train (`mofapy2`, fixed factor count + seed) → per-factor per-view variance decomposition → factor–metadata association → top loadings per factor → committed `mofa_run.py` + pinned `requirements.txt` + `mofa_model.hdf5` + `variance_explained.csv`/`factor_metadata_assoc.csv`/`top_loadings_<view>.csv` + figure + `provenance.json` (mofapy2/muon versions, factor count + seed, per-view feature counts, input sha256s, run date, model id). Cross-modality factorization complement to the within-modality [scVI batch-integration recipe](recipes/items/integrate-single-cell-datasets.html); feeds the [functional-enrichment](recipes/items/run-functional-enrichment-on-a-gene-list.html) and [TF/pathway-activity](recipes/items/infer-tf-and-pathway-activities-from-expression.html) recipes (all cross-linked). `Proposed` — no documented Claude+MOFA+-skill attempt; grounded on the canonical method ([Argelaguet et al., *Genome Biology* 2020](https://doi.org/10.1186/s13059-020-02015-1)) and a current applied exemplar (12-factor MOFA+ decomposition of 667 TCGA gliomas validated across n=1685 without retraining; [Saleh et al., *Cancers* 2026](https://doi.org/10.3390/cancers18101652)). `Fully open`; `Laptop`.
+
+### Updated
+
+- **infer-gene-regulatory-network-from-scrnaseq** — fixed a broken feedback-footer URL (was pointing at the non-canonical `goodb.github.io`/`github.com/goodb` host; now `scripps-ai-enablement`); `last_verified` → 2026-07-18 (Arboreto/AnnData/Scanpy catalog pages resolve, method sources current).
+- **assemble-reference-atlas-from-cellxgene-census**, **compute-hrv-from-ecg-recording** — fixed the same broken feedback-footer host (`goodb` → `scripps-ai-enablement`); no other changes.
+
+### Verified (no changes)
+
+- 4 additional MCB recipes spot-checked (oldest-first), all current; `last_verified` bumped to 2026-07-18: **run-bulk-rnaseq-differential-expression** ([PyDESeq2](catalog/tools/pydeseq2.html)), **run-functional-enrichment-on-a-gene-list** ([gget](catalog/tools/gget.html)), **infer-tf-and-pathway-activities-from-expression** ([decoupler-MCP](catalog/tools/decoupler-mcp.html)), **annotate-cell-types-in-single-cell-data** ([CellTypist](catalog/tools/celltypist-cell-annotation.html)/[popV](catalog/tools/popv-cell-annotation.html)) — all linked catalog pages resolve, sources current.
+
+## 2026-07-18 (Integrative Structural and Computational Biology directed pass)
+
+### Added
+
+- **Design amino-acid sequences for a fixed protein backbone** (Problem class: Experimental design; Evidence: Reported) — rung-3 two-model toolbelt: [ProteinMPNN skill](catalog/tools/proteinmpnn.html) samples sequences for a target backbone `.pdb` (fixed catalytic/interface positions, temperature sweep) → [ESMFold skill](catalog/tools/esmfold.html) refolds every design → self-consistency gate (Cα-scRMSD < 2.0 Å AND mean pLDDT > 80) keeps only foldable candidates → ranked survivors → committed `.claude/commands/mpnn-design.md` + pinned skill envs + `designs/<name>_mpnn.fasta` + `results/<name>_selfconsistency.csv` + `provenance.json` (model/versions, sampling settings, cutoffs, backbone sha256, run date, model id). First recipe to compose the ProteinMPNN family; cross-links [LigandMPNN](catalog/tools/ligandmpnn.html)/[SolubleMPNN](catalog/tools/solublempnn.html) variants, [AlphaFold2](catalog/tools/alphafold2.html) as a stricter second gate, and the [score-protein-variants-with-esm](recipes/items/score-protein-variants-with-esm.html) sibling. `Reported` — ProteinMPNN is the validated field-standard inverse-folding model ([Dauparas et al., *Science* 2022](https://doi.org/10.1126/science.add2187)), the design→refold→filter self-consistency routine is standard practice ([Lin et al., *Science* 2023](https://doi.org/10.1126/science.ade2574)), and a ProteinMPNN redesign of a flavin-binding fluorescent protein was wet-lab confirmed ([Nikolaev et al., *Protein Sci.* 2024](https://pubmed.ncbi.nlm.nih.gov/38501498/)); the Claude-skill assembly is not separately benchmarked. `Fully open`; `Workstation with GPU`.
+
+### Verified (no changes)
+
+- 2 recipes spot-checked (oldest-first, ISCB-focused), all current; `last_verified` bumped to 2026-07-18: **predict-rna-secondary-structure-and-accessibility** ([ViennaRNA skill](catalog/tools/viennarna-structure-prediction.html) catalog page resolves; SciAgent-Skills repo live), **infer-protein-function-from-structure** ([Foldseek skill](catalog/tools/foldseek-structural-search.html) catalog page resolves; Foldseek Search web service still up).
+
+## 2026-07-18 (Immunology and Microbiology directed pass)
+
+### Added
+
+- **Analyze a single-cell TCR repertoire alongside gene expression** (Problem class: Data analysis; Evidence: Reported) — rung-2 [scirpy Analysis skill](catalog/tools/scirpy-analysis.html) recipe: 10x/AIRR single-cell VDJ + matching clustered `.h5ad` → `pp.index_chains` + barcode-matched modality pairing → `chain_qc` filtering of multichain doublets/orphan cells → exact-CDR3-nt clonotype definition (TCR-appropriate, not BCR distance clustering) → clonal expansion + per-cluster/per-condition diversity + repertoire overlap → clonality overlaid on the transcriptomic UMAP → committed `sc_tcr.py` + pinned `requirements.txt` + `clonotypes.csv` + diversity/overlap tables + figure + `provenance.json` (scirpy/scanpy/mudata versions, clonotype strategy + params, input sha256s, run date, model id). T-cell, transcriptome-integrated counterpart to the B-cell [reconstruct-bcr-clonal-lineages](recipes/items/reconstruct-bcr-clonal-lineages.html) recipe; downstream of [qc-single-cell-rna-seq](recipes/items/qc-single-cell-rna-seq.html) and [annotate-cell-types-in-single-cell-data](recipes/items/annotate-cell-types-in-single-cell-data.html) (all cross-linked). `Reported` — scirpy is the scverse-standard single-cell TCR tool with a published benchmark ([Sturm et al., *Bioinformatics* 2020](https://pubmed.ncbi.nlm.nih.gov/32614448/)) and the exact multi-modal workflow is a 2025 methods protocol ([Plattner, Sturm & Rieder, *Methods Cell Biol.* 2025](https://pubmed.ncbi.nlm.nih.gov/41106935/)); the agent-driven skill assembly is not separately benchmarked. `Fully open`; `Laptop`.
+
+### Verified (no changes)
+
+- 3 recipes spot-checked (oldest-first), all current; `last_verified` bumped to 2026-07-18: **assemble-reference-atlas-from-cellxgene-census** (Census `2025-11-08` LTS still current; all catalog links resolve), **annotate-a-bacterial-genome** (Bakta/Prokka catalog pages resolve; canonical sources stable).
+
+## 2026-07-18 (Chemistry directed pass; composition report #55)
+
+### Added
+
+- **Plan a synthetic route for a target molecule** (Problem class: Experimental design; Evidence: Reported) — rung-2 [CovaSyn MCP](catalog/tools/covasyn.html) recipe: target SMILES → optional [RDKit](catalog/tools/rdkit-skill.html)/[Datamol](catalog/tools/datamol.html) canonicalization → `covaplatform` retrosynthesis call (N routes, max depth) → per-step precursor + transform-class capture with buyable-leaf flags → route scoring (shorter, fully-buyable first) → committed `plan_route.py` + pinned `requirements.txt` + `routes.csv`/`route_summary.csv` + `provenance.json` (CovaSyn version, model/suite id, building-block catalog snapshot, request params, input sha256, run date, model id). Downstream make-check for [enumerate-analogs-around-a-lead](recipes/items/enumerate-analogs-around-a-lead.html) (cross-linked) and [filter-virtual-screening-hits](recipes/items/filter-virtual-screening-hits.html), with [ChemCrow](autonomous-science/systems/chemcrow.html) as the rung-4 execute-and-iterate alternative. `Reported` — agentic tool-grounded retrosynthesis is benchmarked near expert level ([LARC, Baker et al., *arXiv* 2508.11860, 2025](https://arxiv.org/abs/2508.11860): 72.9% on 48 constrained tasks; [ChemCrow, *Nat. Mach. Intell.* 2024](https://doi.org/10.1038/s42256-024-00832-8)); the exact Claude+CovaSyn pairing is not separately benchmarked. `Subscription required` (CovaSyn freemium, credit-metered, cloud SMILES submission); `Laptop`.
+
+### Updated
+
+- **Prioritize targets within a disease via Open Targets** — processed composition report [#55](https://github.com/scripps-ai-enablement/sci-ai-enabler/issues/55) (@goodb, `outcome=worked`); added an Alzheimer's-*prevention* field report (SORL1 lead via a prevention-tuned re-weighting of the pillar fields against MONDO_0004975) that reinforces the direct-GraphQL fallback when the hosted MCP is rate-limited; `last_verified` 2026-07-12 → 2026-07-18.
+
 ## 2026-07-16 (Translational Medicine scope; user request #52)
 
 ### Added
