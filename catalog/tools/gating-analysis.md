@@ -8,6 +8,12 @@ availability: GA
 tool_categories: [Immunology and Microbiology, Molecular and Cellular Biology]
 last_verified: 2026-08-08
 summary: "Defines cytometry populations with manual or automated gates — hierarchical GatingSets, openCyto templates, flowDensity thresholds, and FlowJo round-tripping via CytoML"
+verification: works
+verified_on: 2026-08-10
+reviewed_on: 2026-08-10
+security: cleared
+security_on: 2026-08-10
+security_note: "GPTomics/bioSkills MIT root confirmed, provenance matches, bundled Bioconductor packages open source"
 ---
 
 # Gating Analysis (bioSkills)
@@ -21,6 +27,8 @@ A Claude Code skill that builds reproducible, scripted gating hierarchies for fl
 | **Availability** | GA — part of the bioSkills collection |
 | **Pricing** | Free / OSS (MIT) — flowWorkspace, openCyto, flowDensity, flowCore and CytoML are separately installed Bioconductor packages |
 | **Capabilities** | Read/Write — Claude runs the skill's R workflow locally, not as an MCP tool |
+| **Verified** | works · 2026-08-10 |
+| **Security** | cleared · 2026-08-10 — MIT, provenance matches, bundled Bioconductor packages open source |
 
 ## How to install
 

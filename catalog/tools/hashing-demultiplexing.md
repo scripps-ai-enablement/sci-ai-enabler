@@ -8,6 +8,12 @@ availability: GA
 tool_categories: [Molecular and Cellular Biology]
 last_verified: 2026-08-08
 summary: "Assign pooled single-cell data back to sample of origin from HTO, MULTI-seq or CellPlex tags and call cross-sample doublets"
+verification: works
+verified_on: 2026-08-10
+reviewed_on: 2026-08-10
+security: cleared
+security_on: 2026-08-10
+security_note: "GPTomics/bioSkills MIT root confirmed, provenance matches, bundled packages all open source"
 ---
 
 # Hashtag Demultiplexing (bioSkills)
@@ -21,6 +27,8 @@ A Claude Code skill for the step between a multiplexed 10x run and any per-sampl
 | **Availability** | GA — part of the bioSkills collection |
 | **Pricing** | Free / OSS (MIT) — Seurat, scanpy, pegasus, demuxmix and GMM-Demux are installed separately (all open source) |
 | **Capabilities** | Read/Write — Claude runs the skill's workflow locally (R/Python), not as an MCP tool |
+| **Verified** | works · 2026-08-10 |
+| **Security** | cleared · 2026-08-10 — MIT, provenance matches, bundled packages all open source |
 
 ## How to install
 

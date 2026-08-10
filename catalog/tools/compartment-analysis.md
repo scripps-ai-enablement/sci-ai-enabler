@@ -8,6 +8,12 @@ availability: GA
 tool_categories: [Molecular and Cellular Biology]
 last_verified: 2026-08-08
 summary: "Call A/B chromatin compartments from balanced Hi-C matrices with cooltools eigendecomposition, phased against GC or gene density so the A sign is not arbitrary"
+verification: works
+verified_on: 2026-08-10
+reviewed_on: 2026-08-10
+security: cleared
+security_on: 2026-08-10
+security_note: "GPTomics/bioSkills MIT root confirmed, provenance matches, cooltools open source"
 ---
 
 # A/B Compartment Analysis (bioSkills)
@@ -21,6 +27,8 @@ A Claude Code skill for the megabase-scale layer of genome organization: eigenve
 | **Availability** | GA — part of the bioSkills collection |
 | **Pricing** | Free / OSS (MIT) — cooltools is installed separately (open source) |
 | **Capabilities** | Read/Write — Claude runs the skill's workflow locally (Python), not as an MCP tool |
+| **Verified** | works · 2026-08-10 |
+| **Security** | cleared · 2026-08-10 — MIT, provenance matches, cooltools open source |
 
 ## How to install
 

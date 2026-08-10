@@ -8,6 +8,12 @@ availability: GA
 tool_categories: [Translational Medicine]
 last_verified: 2026-08-09
 summary: "Design Bayesian dose-finding, basket and platform trials with RBesT MAP priors, BOIN/CRM escalation and EXNEX borrowing, against current FDA Bayesian guidance"
+verification: works
+verified_on: 2026-08-10
+reviewed_on: 2026-08-10
+security: cleared
+security_on: 2026-08-10
+security_note: "GPTomics/bioSkills MIT root confirmed, provenance matches, bundled CRAN packages open source"
 ---
 
 # Bayesian Trials (bioSkills)
@@ -21,6 +27,8 @@ A Claude Code skill for designing Bayesian clinical trials — Phase I dose-find
 | **Availability** | GA — part of the bioSkills collection |
 | **Pricing** | Free / OSS (MIT) — `RBesT`, `OncoBayes2`, `BOIN`, `dfcrm`, `escalation`, `trialr`, `bayesDP`, `psborrow2`, `bhmbasket` and `c212` are separately installed OSS R packages, several of which compile against Stan. |
 | **Capabilities** | Read/Write — Claude runs the skill's workflow locally (R), not as an MCP tool |
+| **Verified** | works · 2026-08-10 |
+| **Security** | cleared · 2026-08-10 — MIT, provenance matches, bundled CRAN packages open source |
 
 ## How to install
 

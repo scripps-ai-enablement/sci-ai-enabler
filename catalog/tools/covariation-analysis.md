@@ -8,6 +8,12 @@ availability: GA
 tool_categories: [Integrative Structural and Computational Biology, Molecular and Cellular Biology]
 last_verified: 2026-08-08
 summary: "Test whether a proposed RNA secondary structure is actually supported by evolutionary covariation, using R-scape and an explicit statistical-power check"
+verification: works
+verified_on: 2026-08-10
+reviewed_on: 2026-08-10
+security: cleared
+security_on: 2026-08-10
+security_note: "GPTomics/bioSkills MIT root confirmed, provenance matches, R-scape confirmed GPLv3 (EddyRivasLab)"
 ---
 
 # Covariation Analysis (bioSkills)
@@ -21,6 +27,8 @@ A Claude Code skill that asks the question most RNA structure claims skip: does 
 | **Availability** | GA — part of the bioSkills collection |
 | **Pricing** | Free / OSS (MIT) — R-scape is installed separately (open source, Rivas Lab) |
 | **Capabilities** | Read/Write — Claude runs the skill's workflow locally (Bash/Python), not as an MCP tool |
+| **Verified** | works · 2026-08-10 |
+| **Security** | cleared · 2026-08-10 — MIT, provenance matches, R-scape GPLv3 |
 
 ## How to install
 

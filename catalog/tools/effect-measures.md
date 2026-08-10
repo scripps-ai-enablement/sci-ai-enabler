@@ -8,6 +8,12 @@ availability: GA
 tool_categories: [Translational Medicine]
 last_verified: 2026-08-09
 summary: "Compute OR, RR, RD, HR and NNT with calibrated confidence intervals, and report marginal versus conditional estimands per FDA 2023 covariate-adjustment guidance"
+verification: works
+verified_on: 2026-08-10
+reviewed_on: 2026-08-10
+security: cleared
+security_on: 2026-08-10
+security_note: "GPTomics/bioSkills MIT root confirmed, provenance matches, bundled Python/CRAN packages open source"
 ---
 
 # Effect Measures (bioSkills)
@@ -21,6 +27,8 @@ A Claude Code skill for reporting treatment effects correctly — choosing the m
 | **Availability** | GA — part of the bioSkills collection |
 | **Pricing** | Free / OSS (MIT) — `statsmodels`, `numpy`, `pandas`, `matplotlib`, `marginaleffects` (Python) and `marginaleffects`, `ratesci`, `exact2x2`, `riskCommunicator`, `RobinCar`, `MASS`, `VGAM` (R) are separately installed OSS. |
 | **Capabilities** | Read/Write — Claude runs the skill's workflow locally (Python primary, R for the specialised interval methods), not as an MCP tool |
+| **Verified** | works · 2026-08-10 |
+| **Security** | cleared · 2026-08-10 — MIT, provenance matches, bundled Python/CRAN packages open source |
 
 ## How to install
 

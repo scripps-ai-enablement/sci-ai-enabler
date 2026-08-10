@@ -8,6 +8,12 @@ availability: Beta
 tool_categories: [Drug Repurposing and Discovery, Translational Medicine]
 last_verified: 2026-08-09
 summary: MIT MCP server over the FDA Orange Book, Purple Book, and openFDA — patent-cliff forecasting, therapeutic equivalents, and biosimilar interchangeability.
+verification: works
+verified_on: 2026-08-10
+reviewed_on: 2026-08-10
+security: cleared
+security_on: 2026-08-10
+security_note: "openpharma-org/fda-mcp MIT confirmed this run, provenance matches OpenPharma (50+ repo coordinated org), no OSV/GHSA advisories"
 ---
 
 # FDA MCP Server (OpenPharma)
@@ -21,6 +27,8 @@ Community MCP server that puts the FDA **Orange Book** (small-molecule patents a
 | **Availability** | Beta — `package.json` declares v1.0.0, but **no npm package is published** (both `fda-mcp` and `@openpharma-org/fda-mcp-server` return 404 on the registry as of 2026-08-09), so installation is from source. Repo last pushed 2026-03-10 |
 | **Pricing** | Free / OSS (MIT, `LICENSE` in repo root). No API key required |
 | **Capabilities** | Read-only — queries public FDA datasets; downloads and caches Orange/Purple Book data locally |
+| **Verified** | works · 2026-08-10 |
+| **Security** | cleared · 2026-08-10 — MIT, provenance matches OpenPharma, no OSV/GHSA advisories |
 
 ## How to install
 

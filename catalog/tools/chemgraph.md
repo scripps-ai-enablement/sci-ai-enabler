@@ -8,6 +8,12 @@ availability: Beta
 tool_categories: [Chemistry]
 last_verified: 2026-08-08
 summary: Argonne MCP server that runs real molecular simulations through ASE — geometry optimization, energies, and frequencies via xTB, DFT, or ML potentials.
+verification: works
+verified_on: 2026-08-10
+reviewed_on: 2026-08-10
+security: cleared
+security_on: 2026-08-10
+security_note: "argonne-lcf/ChemGraph Apache-2.0 confirmed, provenance matches ALCF, launch command confirmed in README, no OSV/GHSA advisories"
 ---
 
 # ChemGraph
@@ -21,6 +27,8 @@ MCP server from Argonne National Laboratory that lets Claude set up **and actual
 | **Availability** | Beta — PyPI `chemgraph` 0.6.0, released 2026-07-19 |
 | **Pricing** | Free / OSS (Apache-2.0, confirmed via the GitHub license API). The wrapped engines carry their own terms — TBLite/xTB (LGPL-3.0) and NWChem (ECL-2.0) are free, ORCA is free for academic use after registration, Gaussian is commercial. |
 | **Capabilities** | Read/Write — executes calculations and writes coordinate and JSON result files to disk |
+| **Verified** | works · 2026-08-10 |
+| **Security** | cleared · 2026-08-10 — Apache-2.0, provenance matches ALCF, no OSV/GHSA advisories |
 
 ## How to install
 

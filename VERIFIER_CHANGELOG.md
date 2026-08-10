@@ -13,6 +13,28 @@ on-demand run that produces changes prepends a dated block; the top block is mir
 
 Older entries live in [VERIFIER_CHANGELOG_ARCHIVE.md](VERIFIER_CHANGELOG_ARCHIVE.md).
 
+## 2026-08-10
+
+### Verified
+- Worked the injected 15-page adjudication digest at this run's 15-page review budget: `bayesian-trials`, `cdisc-data-handling`, `chemgraph`, `clustering-phenotyping`, `compartment-analysis`, `compensation-transformation`, `covariation-analysis`, `cytometry-differential-analysis`, `cytometry-qc`, `effect-measures`, `fda-mcp`, `gating-analysis`, `geometric-analysis`, `hashing-demultiplexing`, `lesion-symptom-mapping-guide`. All first-time full stamps (never previously reviewed); all graded `works`.
+- 9 `GPTomics/bioSkills` pages confirmed against a fresh root LICENSE fetch (MIT verbatim) → works/cleared.
+- `chemgraph` (argonne-lcf) — Apache-2.0 confirmed via raw LICENSE fetch, provenance matches ALCF, `python -m chemgraph.mcp.mcp_tools` launch command confirmed verbatim in upstream README, no OSV/GHSA advisories.
+- `fda-mcp` (openpharma-org) — MIT confirmed via raw LICENSE fetch, provenance matches (OpenPharma confirmed as a real 50+-repo coordinated org), `node build/index.js` stdio launch already correctly documented on the page.
+- `lesion-symptom-mapping-guide` — `repo-renamed` flag confirmed a genuine GitHub org transfer `HaoxuanLiTHUAI` → `NeuroAIHub`, same pattern already established for sibling skills in this collection.
+- `covariation-analysis` — R-scape dependency confirmed GPLv3 (EddyRivasLab) this run.
+- `geometric-analysis` — DSSP dependency confirmed migrated to Boost Software License / BSD-2-Clause (no longer restrictive) this run.
+
+### Fixed
+- No page-content fixes were needed this run — all evidence gathered (GPTomics MIT root, chemgraph Apache-2.0, fda-mcp MIT, lesion-symptom-mapping-guide repo-renamed) confirmed the pages were already accurate.
+
+### Flagged
+- `cdisc-data-handling` added to the Flagged list: security `caution` — skill code MIT/clean and provenance confirmed, but CDISC standards require membership/licence for some deliverables and Pinnacle 21 Enterprise is commercial (free Community validator is more limited). Data/tool-license restriction only, same pattern as `kegg-pathway-analysis`. Verification `works`.
+- 17 further flagged pages were over this run's review budget and were intentionally left untouched — they should lead the next worklist.
+
+### Security
+- 14 of 15 pages graded `cleared`; 1 graded `caution` (`cdisc-data-handling`, data-use restriction only — see Flagged).
+- No new advisories found via WebSearch/GitHub security-advisories for `GPTomics/bioSkills`, `argonne-lcf/ChemGraph`, or `openpharma-org/fda-mcp`.
+
 ## 2026-08-06
 
 ### Verified
@@ -318,42 +340,4 @@ unchanged, no fixes.** Left the existing 2026-07-20 stamps in place (within cade
   1.5.7 MIT (bin → dist/index.js; launch `npx -y medical-terminologies-mcp`) → works/cleared.
 
 Sources: GitHub repos API, PyPI JSON, npm registry, Anthropic Claude Science doc.
-
-## 2026-07-20 (worklist maintenance batch #5 — same 25 pages rechecked, zero drift)
-
-The selector re-served the identical worklist (`10x-genomics-cloud` → `autodock-vina-docking`, 25
-pages) a **fifth** consecutive time. The catalog is uniformly dated 2026-07-20, so the
-verified_on-oldest tie-break in `select_verify_targets.py` returns the same 25 slugs every run and
-the pointer never advances. Rechecked top-to-bottom against fresh source fetches this run:
-**all 25 confirmed unchanged, no fixes.**
-
-### Verified (rechecked, unchanged)
-- NeuroClaw `CUHK-AIM-Group/NeuroClaw` MIT/not-archived/pushed 2026-07-14/75-star → abcd/abide/
-  adhd200/adni/aibl/aomic/asl works/cleared.
-- K-Dense `K-Dense-AI/scientific-agent-skills` MIT/not-archived/pushed 2026-07-20/31.3k-star +
-  this-run smoke pass (aeon/anndata/arboreto/astropy) → adaptyv works/caution; aeon/anndata/arboreto/
-  astropy works/cleared.
-- DeepMind `google-deepmind/science-skills` Apache-2.0/pushed 2026-07-07/2469-star → alphagenome
-  degraded/cleared (signup-gated preview).
-- `google-deepmind/alphafold` Apache-2.0/pushed 2026-04-22/14.7k-star → alphafold2 works/cleared.
-- `GPTomics/bioSkills` MIT/pushed 2026-07-18/1042-star → amr-detection works/cleared.
-- `Augmented-Nature/AlphaFold-MCP-Server` + `BioStudies-MCP-Server` both NOASSERTION/pushed
-  2025-12-21 → alphafold + arrayexpress works/caution.
-- SciAgent `jaechang-hits/SciAgent-Skills` NOASSERTION-classifier-but-CC-BY-4.0-root/pushed
-  2026-06-15/278-star → archs4-database + autodock-vina-docking works/cleared.
-- PyPI `arxiv-mcp-server` 0.5.1 Apache-2.0 + `aind-data-mcp` 0.4.5 MIT → arxiv/aind-data works/cleared.
-- `MCPmed/allenbrain-mcp` no-LICENSE/pushed 2026-04-01/3-star → allenbrain degraded/caution.
-- `anthropics/life-sciences` marketplace.json still lists `adisinsight` (Springer Nature) +
-  `10x-genomics` → both degraded (subscription/paid gated); antibody-registry connector works/cleared.
-
-### Fixed
-- None (zero drift).
-
-### Flagged
-- Selector loop persists (fifth identical batch). Maintainer action needed: add a secondary
-  tie-break to `select_verify_targets.py` or a rotating cursor in the workflow so runs serve
-  different windows — otherwise ~420 pages never get rechecked while the count shows "complete."
-
-### Security
-- No provenance/license/advisory changes across the 25 anchors this run.
 

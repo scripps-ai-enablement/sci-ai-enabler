@@ -8,6 +8,12 @@ availability: GA
 tool_categories: [Integrative Structural and Computational Biology]
 last_verified: 2026-08-08
 summary: "Measure static protein structures with Bio.PDB — distances, dihedrals, superposition and RMSD, radius of gyration, and SASA — with the caveats stated"
+verification: works
+verified_on: 2026-08-10
+reviewed_on: 2026-08-10
+security: cleared
+security_on: 2026-08-10
+security_note: "GPTomics/bioSkills MIT root confirmed, provenance matches, Biopython BSD and DSSP now Boost/BSD-2 (confirmed this run)"
 ---
 
 # Geometric Analysis (bioSkills)
@@ -21,6 +27,8 @@ A Claude Code skill for taking careful measurements on a static structure: how f
 | **Availability** | GA — part of the bioSkills collection |
 | **Pricing** | Free / OSS (MIT) — Biopython (BSD-style) and the DSSP binary are installed separately |
 | **Capabilities** | Read/Write — Claude runs the skill's workflow locally (Bash/Python), not as an MCP tool |
+| **Verified** | works · 2026-08-10 |
+| **Security** | cleared · 2026-08-10 — MIT, provenance matches, Biopython BSD, DSSP now Boost/BSD-2 |
 
 ## How to install
 

@@ -8,6 +8,12 @@ availability: GA
 tool_categories: [Neuroscience, Translational Medicine]
 last_verified: 2026-08-09
 summary: "Plan and run lesion-symptom mapping in patient cohorts — VLSM, multivariate SVR-LSM, disconnection and lesion network mapping"
+verification: works
+verified_on: 2026-08-10
+reviewed_on: 2026-08-10
+security: cleared
+security_on: 2026-08-10
+security_note: "repo-renamed flag confirmed genuine org transfer to NeuroAIHub this run, MIT, old URL still redirects live, same pattern as sibling skills"
 ---
 
 # Lesion-Symptom Mapping Guide (Claude Skill)
@@ -21,6 +27,8 @@ Guides Claude through inferring brain–behaviour relationships from patient les
 | **Availability** | GA — one of ~40 research skills in the collection |
 | **Pricing** | Free / OSS (MIT) |
 | **Capabilities** | Read/Write — methodology guidance; Claude writes and runs the analysis code locally |
+| **Verified** | works · 2026-08-10 |
+| **Security** | cleared · 2026-08-10 — MIT, org transferred to NeuroAIHub (confirmed), old URL still redirects |
 
 ## How to install
 

@@ -8,6 +8,12 @@ availability: GA
 tool_categories: [Translational Medicine]
 last_verified: 2026-08-09
 summary: "Read SDTM XPT files, derive ADaM datasets with traceability, apply TEAE conventions, and validate for FDA submission with Pinnacle 21 or CORE"
+verification: works
+verified_on: 2026-08-10
+reviewed_on: 2026-08-10
+security: caution
+security_on: 2026-08-10
+security_note: "GPTomics/bioSkills MIT skill code clean, but CDISC standards/Pinnacle 21 Enterprise are commercially licensed, data-use restriction only"
 ---
 
 # CDISC Data Handling (bioSkills)
@@ -21,6 +27,8 @@ A Claude Code skill for taking raw CDISC SDTM tabulation data through to analysi
 | **Availability** | GA — part of the bioSkills collection |
 | **Pricing** | Free / OSS (MIT) — `pyreadstat`, `pandas`, `numpy` and the R packages `admiral`, `metacore`, `metatools`, `xportr` are separately installed OSS. **CDISC standards themselves require a CDISC membership or licence for some deliverables**, and **Pinnacle 21 Enterprise is a commercial product** (the free Community validator is a separate, more limited tool). CDISC **CORE** is the open-source rules engine. |
 | **Capabilities** | Read/Write — Claude runs the skill's workflow locally (Python and R), not as an MCP tool |
+| **Verified** | works · 2026-08-10 |
+| **Security** | caution · 2026-08-10 — MIT skill code clean, CDISC/Pinnacle 21 Enterprise data-use restriction only |
 
 ## How to install
 
