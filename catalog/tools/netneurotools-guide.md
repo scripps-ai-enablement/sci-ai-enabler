@@ -8,6 +8,12 @@ availability: GA
 tool_categories: [Neuroscience]
 last_verified: 2026-08-09
 summary: "Network neuroscience with netneurotools — consensus connectomes, graph metrics, modularity, spatial autocorrelation-preserving null models and permutation statistics"
+verification: works
+verified_on: 2026-08-13
+reviewed_on: 2026-08-13
+security: cleared
+security_on: 2026-08-13
+security_note: "repo-renamed confirmed genuine org transfer to NeuroAIHub this run, MIT, no external credentials"
 ---
 
 # NetNeuroTools Guide (Claude Skill)
@@ -21,6 +27,8 @@ Guides Claude through connectome analysis with the Network Neuroscience Lab's `n
 | **Availability** | GA — one of ~40 research skills in the collection |
 | **Pricing** | Free / OSS (MIT) — `netneurotools` itself is BSD-3-Clause |
 | **Capabilities** | Read/Write — methodology guidance; Claude writes and runs the analysis code locally |
+| **Verified** | works · 2026-08-13 |
+| **Security** | cleared · 2026-08-13 — genuine org transfer to NeuroAIHub confirmed, MIT, no external credentials |
 
 ## How to install
 

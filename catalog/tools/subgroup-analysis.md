@@ -8,6 +8,12 @@ availability: GA
 tool_categories: [Translational Medicine]
 last_verified: 2026-08-09
 summary: "Run subgroup and heterogeneous-treatment-effect analyses — interaction tests, RERI, causal forests, Bayesian shrinkage — against the Sun BMJ and EMA 2019 credibility criteria"
+verification: works
+verified_on: 2026-08-13
+reviewed_on: 2026-08-13
+security: cleared
+security_on: 2026-08-13
+security_note: "GPTomics/bioSkills root LICENSE confirmed MIT this run, not archived, 1.2k stars, no external credentials"
 ---
 
 # Subgroup Analysis (bioSkills)
@@ -21,6 +27,8 @@ A Claude Code skill for analysing treatment effects across patient subgroups wit
 | **Availability** | GA — part of the bioSkills collection |
 | **Pricing** | Free / OSS (MIT) — `statsmodels`, `scipy`, `numpy`, `pandas`, `matplotlib`, `scikit-learn`, `econml` (Python) and `grf`, `policytree`, `causalToolbox`, `personalized`, `SIDES`/`rsides`, `stepp`, `gMCP`, `partykit`, `RBesT`, `brms` (R) are separately installed OSS. |
 | **Capabilities** | Read/Write — Claude runs the skill's workflow locally (Python and R), not as an MCP tool |
+| **Verified** | works · 2026-08-13 |
+| **Security** | cleared · 2026-08-13 — GPTomics/bioSkills MIT, no external credentials |
 
 ## How to install
 

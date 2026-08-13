@@ -8,6 +8,12 @@ availability: GA
 tool_categories: [Integrative Structural and Computational Biology, Molecular and Cellular Biology]
 last_verified: 2026-08-08
 summary: "Turn SHAPE-MaP or DMS-MaPseq reads into per-nucleotide reactivity profiles with ShapeMapper2, then fold RNA with those reactivities as soft restraints"
+verification: works
+verified_on: 2026-08-13
+reviewed_on: 2026-08-13
+security: cleared
+security_on: 2026-08-13
+security_note: "GPTomics/bioSkills root LICENSE confirmed MIT this run, not archived, 1.2k stars, no external credentials"
 ---
 
 # RNA Structure Probing (bioSkills)
@@ -21,6 +27,8 @@ A Claude Code skill for the experimental half of RNA structure work: processing 
 | **Availability** | GA — part of the bioSkills collection |
 | **Pricing** | Free / OSS (MIT) — ShapeMapper2 (Weeks Lab), ViennaRNA and SEISMIC-RNA are installed separately under their own licences |
 | **Capabilities** | Read/Write — Claude runs the skill's workflow locally (Bash/Python), not as an MCP tool |
+| **Verified** | works · 2026-08-13 |
+| **Security** | cleared · 2026-08-13 — GPTomics/bioSkills MIT, no external credentials |
 
 ## How to install
 

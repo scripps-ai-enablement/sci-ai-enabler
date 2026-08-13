@@ -8,6 +8,12 @@ availability: GA
 tool_categories: [Drug Repurposing and Discovery, Translational Medicine]
 last_verified: 2026-08-09
 summary: ToolUniverse agent skill that turns a molecular profile into ranked trial matches across ClinicalTrials.gov, EU CTIS, and ISRCTN with evidence tiers.
+verification: works
+verified_on: 2026-08-13
+reviewed_on: 2026-08-13
+security: cleared
+security_on: 2026-08-13
+security_note: "mims-harvard/ToolUniverse Apache-2.0 confirmed this run, read-only over public sources, no external credentials"
 ---
 
 # Clinical Trial Matching (ToolUniverse Claude Skill)
@@ -21,6 +27,8 @@ A ToolUniverse agent skill that takes a patient's molecular profile and clinical
 | **Availability** | GA — part of the ToolUniverse skills collection (`skills/tooluniverse-clinical-trial-matching/`) |
 | **Pricing** | Free / OSS (Apache-2.0); wraps public sources (ClinicalTrials.gov, EU CTIS, ISRCTN, CIViC, Open Targets, ChEMBL, DrugBank, MyGene, EFO/OLS, PharmGKB, FDA labels) |
 | **Capabilities** | Read-only — registry and knowledge-base queries; produces a shortlist, not a clinical decision |
+| **Verified** | works · 2026-08-13 |
+| **Security** | cleared · 2026-08-13 — mims-harvard/ToolUniverse Apache-2.0, read-only public sources |
 
 ## How to install
 

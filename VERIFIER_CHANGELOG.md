@@ -13,6 +13,23 @@ on-demand run that produces changes prepends a dated block; the top block is mir
 
 Older entries live in [VERIFIER_CHANGELOG_ARCHIVE.md](VERIFIER_CHANGELOG_ARCHIVE.md).
 
+## 2026-08-13
+
+### Verified
+- Stamped 15 previously-unreviewed catalog pages with full verification/security badges: `loop-calling`, `metabolite-communication`, `multiplicity-graphical`, `ncrna-search`, `netneurotools-guide`, `neural-population-analysis-guide`, `parameter-recovery-checker`, `power-and-sample-size`, `pycortex-guide`, `structure-probing`, `subgroup-analysis`, `tad-detection`, `tooluniverse-clinical-trial-design`, `tooluniverse-clinical-trial-matching`, `tooluniverse-drug-mechanism-research` — all graded `works`/`cleared`.
+- 8 `GPTomics/bioSkills` pages confirmed against a fresh root LICENSE fetch this run (MIT verbatim, 1.2k★, not archived): `loop-calling`, `metabolite-communication`, `multiplicity-graphical`, `ncrna-search`, `power-and-sample-size`, `structure-probing`, `subgroup-analysis`, `tad-detection`. None depend on external credentials.
+- 4 `HaoxuanLiTHUAI/awesome_cognitive_and_neuroscience_skills` pages (`netneurotools-guide`, `neural-population-analysis-guide`, `parameter-recovery-checker`, `pycortex-guide`) carried a `repo-renamed` flag; confirmed this run as the same genuine GitHub org transfer to `NeuroAIHub` already established for sibling skills in this collection (old owner URL still resolves and redirects to the new owner) — no page fix needed.
+- 3 ToolUniverse skill pages (`tooluniverse-clinical-trial-design`, `tooluniverse-clinical-trial-matching`, `tooluniverse-drug-mechanism-research`) confirmed against a fresh `mims-harvard/ToolUniverse` fetch this run (Apache-2.0, active, 1,624★); each is read-only over public sources (Open Targets, ClinicalTrials.gov, ChEMBL, KEGG, Reactome, STRING, DailyMed, PharmGKB, EU CTIS, ISRCTN, CIViC, MyGene, FDA/openFDA/FAERS, PubMed/Europe PMC) with no API-key/credential dependency, matching the pattern of the ~22 already-stamped ToolUniverse pages.
+
+### Fixed
+- None — all 15 pages resolved cleanly with no install-path, launch-command, or licence discrepancies.
+
+### Flagged
+- None new. Two additional pages in this run's digest were over the 15-page review budget and were intentionally left unstamped; they lead the next worklist.
+
+### Security
+- All 15 pages graded `cleared`: provenance matches supplier for every page, real permissive licenses (MIT ×12, Apache-2.0 ×3) confirmed by fresh fetch, no OSV/GHSA advisories surfaced, and no external-service credential requirements found in any of the three ToolUniverse skills reviewed.
+
 ## 2026-08-10
 
 ### Verified
@@ -310,34 +327,4 @@ already-stamped pages (all 2026-07-20, within cadence). One real drift found on 
 - `magland/neurosift-mcps` no-LICENSE/pushed 2025-11-03/1★ → `neurosift` works/caution (unchanged).
 - Anthropic first-party: `nextflow-development` (life-sciences), `npi-registry` (healthcare) works —
   unchanged.
-
-## 2026-07-22 (worklist maintenance — selector loop broken, new window served, zero drift)
-
-The selector finally **advanced past the stuck 25-page window**: this run's worklist was a fresh,
-different slice (`ketcher` → `medical-terminologies-mcp`, 25 pages) — the same-date rotation the
-maintainer added to `select_verify_targets.py`/the workflow is working. All 25 were already stamped
-2026-07-20; rechecked top-to-bottom against fresh source fetches this run. **All 25 confirmed
-unchanged, no fixes.** Left the existing 2026-07-20 stamps in place (within cadence, clean recheck).
-
-### Verified (rechecked, unchanged)
-- `epam/ketcher` Apache-2.0/not-archived/pushed 2026-07-22/845-star + Anthropic Claude Science
-  connectors-and-skills doc → ketcher works/cleared.
-- `CUHK-AIM-Group/NeuroClaw` MIT/not-archived/pushed 2026-07-14/76-star → kmeans + lggnn works/cleared.
-- `GPTomics/bioSkills` MIT/not-archived/pushed 2026-07-18/1053-star → kraken-classification works/cleared.
-- `K-Dense-AI/scientific-agent-skills` MIT/not-archived/pushed 2026-07-21/31.5k-star → lamindb,
-  liteparse, literature-review, markdown-mermaid-writing, markitdown, matchms, matlab, matplotlib,
-  medchem works/cleared; labarchive-integration + latchbio-integration + latex-posters works/caution
-  (skill license unstated on page / external ELN-cloud credentials).
-- `jaechang-hits/SciAgent-Skills` NOASSERTION-classifier-but-CC-BY-4.0-root/not-archived/pushed
-  2026-06-15/279-star → libsbml-network-modeling, macs3-peak-calling, maxquant-proteomics,
-  mdanalysis-trajectory, mdtraj-trajectory-analysis works/cleared.
-- `dauparas/LigandMPNN` MIT/not-archived/pushed 2025-02-06/606-star + Claude Science skill → ligandmpnn works/cleared.
-- `JonasRackl/labmate-mcp` MIT/2-star + PyPI `labmate-mcp` 7.3.1 MIT (launch `labmate-mcp` binary,
-  no subcommand) → labmate-mcp works/caution (single-maintainer + optional third-party API keys).
-- `scmcphub/liana-mcp` no-LICENSE/pushed 2025-06-27/1-star + PyPI `liana-mcp` 0.4.0 (launch
-  `liana-mcp run` confirmed correct per scmcphub) → liana-mcp works/caution (unmaintained since 2025-06).
-- `SidneyBissoli/medical-terminologies-mcp` MIT/pushed 2026-07-20/7-star + npm `medical-terminologies-mcp`
-  1.5.7 MIT (bin → dist/index.js; launch `npx -y medical-terminologies-mcp`) → works/cleared.
-
-Sources: GitHub repos API, PyPI JSON, npm registry, Anthropic Claude Science doc.
 

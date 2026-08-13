@@ -8,6 +8,12 @@ availability: GA
 tool_categories: [Neuroscience]
 last_verified: 2026-08-09
 summary: "Render fMRI data on cortical surfaces with pycortex — 2D flatmaps, interactive 3D WebGL viewers, volume-to-surface mapping and ROI management"
+verification: works
+verified_on: 2026-08-13
+reviewed_on: 2026-08-13
+security: cleared
+security_on: 2026-08-13
+security_note: "repo-renamed confirmed genuine org transfer to NeuroAIHub this run, MIT, no external credentials"
 ---
 
 # Pycortex Guide (Claude Skill)
@@ -21,6 +27,8 @@ Guides Claude through cortical surface visualization of fMRI data with pycortex 
 | **Availability** | GA — one of ~40 research skills in the collection |
 | **Pricing** | Free / OSS (MIT) — pycortex itself is BSD-2-Clause |
 | **Capabilities** | Read/Write — methodology guidance; Claude writes and runs the visualization code locally |
+| **Verified** | works · 2026-08-13 |
+| **Security** | cleared · 2026-08-13 — genuine org transfer to NeuroAIHub confirmed, MIT, no external credentials |
 
 ## How to install
 

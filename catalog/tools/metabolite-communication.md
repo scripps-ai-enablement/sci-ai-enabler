@@ -8,6 +8,12 @@ availability: GA
 tool_categories: [Molecular and Cellular Biology]
 last_verified: 2026-08-08
 summary: "Infer metabolite-mediated cell-cell crosstalk from scRNA-seq by scoring enzyme-to-sensor pairs with MEBOCOST, with explicit limits on what the result supports"
+verification: works
+verified_on: 2026-08-13
+reviewed_on: 2026-08-13
+security: cleared
+security_on: 2026-08-13
+security_note: "GPTomics/bioSkills root LICENSE confirmed MIT this run, not archived, 1.2k stars, no external credentials"
 ---
 
 # Metabolite Cell Communication (bioSkills)
@@ -21,6 +27,8 @@ A Claude Code skill for the metabolic layer of cell–cell communication: scorin
 | **Availability** | GA — part of the bioSkills collection |
 | **Pricing** | Free / OSS (MIT) — MEBOCOST and the alternative back-ends are installed separately (all open source) |
 | **Capabilities** | Read/Write — Claude runs the skill's workflow locally (Python), not as an MCP tool |
+| **Verified** | works · 2026-08-13 |
+| **Security** | cleared · 2026-08-13 — GPTomics/bioSkills MIT, no external credentials |
 
 ## How to install
 

@@ -8,6 +8,12 @@ availability: GA
 tool_categories: [Translational Medicine]
 last_verified: 2026-08-09
 summary: "Build the multiplicity strategy for confirmatory trials — graphical Bretz-Maurer-Hommel procedures, gatekeeping and Holm/Hochberg/Hommel — with gMCP and FDA 2022 guidance"
+verification: works
+verified_on: 2026-08-13
+reviewed_on: 2026-08-13
+security: cleared
+security_on: 2026-08-13
+security_note: "GPTomics/bioSkills root LICENSE confirmed MIT this run, not archived, 1.2k stars, no external credentials"
 ---
 
 # Multiplicity and Graphical Procedures (bioSkills)
@@ -21,6 +27,8 @@ A Claude Code skill for designing the multiplicity strategy of a confirmatory tr
 | **Availability** | GA — part of the bioSkills collection |
 | **Pricing** | Free / OSS (MIT) — `gMCP`, `graphicalMCP`, `gatekeeping`, `multcomp`, `multxpert` (R) and `statsmodels` (Python) are separately installed OSS. |
 | **Capabilities** | Read/Write — Claude runs the skill's workflow locally (R, with a Python fallback), not as an MCP tool |
+| **Verified** | works · 2026-08-13 |
+| **Security** | cleared · 2026-08-13 — GPTomics/bioSkills MIT, no external credentials |
 
 ## How to install
 

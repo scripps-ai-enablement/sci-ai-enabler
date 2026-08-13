@@ -8,6 +8,12 @@ availability: GA
 tool_categories: [Neuroscience]
 last_verified: 2026-08-09
 summary: "Run parameter- and model-recovery simulations to check a cognitive model is identifiable before you interpret its fitted parameters"
+verification: works
+verified_on: 2026-08-13
+reviewed_on: 2026-08-13
+security: cleared
+security_on: 2026-08-13
+security_note: "repo-renamed confirmed genuine org transfer to NeuroAIHub this run, MIT, no external credentials"
 ---
 
 # Parameter Recovery Checker (Claude Skill)
@@ -21,6 +27,8 @@ Guides Claude through a simulate-and-refit study that answers a question most mo
 | **Availability** | GA — one of ~40 research skills in the collection |
 | **Pricing** | Free / OSS (MIT) |
 | **Capabilities** | Read/Write — methodology guidance; Claude writes and runs the simulation and fitting code locally |
+| **Verified** | works · 2026-08-13 |
+| **Security** | cleared · 2026-08-13 — genuine org transfer to NeuroAIHub confirmed, MIT, no external credentials |
 
 ## How to install
 

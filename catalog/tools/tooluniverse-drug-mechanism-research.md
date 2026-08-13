@@ -8,6 +8,12 @@ availability: GA
 tool_categories: [Drug Repurposing and Discovery, Molecular and Cellular Biology, Translational Medicine]
 last_verified: 2026-08-09
 summary: ToolUniverse agent skill that traces a drug's mechanism from primary target through off-targets, pathways, FDA label, and pharmacogenomics.
+verification: works
+verified_on: 2026-08-13
+reviewed_on: 2026-08-13
+security: cleared
+security_on: 2026-08-13
+security_note: "mims-harvard/ToolUniverse Apache-2.0 confirmed this run, read-only over public sources, no external credentials"
 ---
 
 # Drug Mechanism Research (ToolUniverse Claude Skill)
@@ -21,6 +27,8 @@ A ToolUniverse agent skill that answers "how does this drug actually work?" — 
 | **Availability** | GA — part of the ToolUniverse skills collection (`skills/tooluniverse-drug-mechanism-research/`) |
 | **Pricing** | Free / OSS (Apache-2.0); wraps public sources (Open Targets, ChEMBL, KEGG, Reactome, WikiPathways, STRING, DailyMed, PharmGKB, PubMed, Europe PMC) |
 | **Capabilities** | Read-only — database and literature queries; runs no computation on your data |
+| **Verified** | works · 2026-08-13 |
+| **Security** | cleared · 2026-08-13 — mims-harvard/ToolUniverse Apache-2.0, read-only public sources |
 
 ## How to install
 

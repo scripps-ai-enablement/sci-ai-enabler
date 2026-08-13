@@ -8,6 +8,12 @@ availability: GA
 tool_categories: [Neuroscience]
 last_verified: 2026-08-09
 summary: "Choose and validate dimensionality-reduction methods for neural population recordings — PCA, GPFA, dPCA and jPCA — with principled dimensionality selection"
+verification: works
+verified_on: 2026-08-13
+reviewed_on: 2026-08-13
+security: cleared
+security_on: 2026-08-13
+security_note: "repo-renamed confirmed genuine org transfer to NeuroAIHub this run, MIT, no external credentials"
 ---
 
 # Neural Population Analysis Guide (Claude Skill)
@@ -21,6 +27,8 @@ Guides Claude through latent-variable analysis of simultaneously recorded neural
 | **Availability** | GA — one of ~40 research skills in the collection |
 | **Pricing** | Free / OSS (MIT) |
 | **Capabilities** | Read/Write — methodology guidance; Claude writes and runs the analysis code locally |
+| **Verified** | works · 2026-08-13 |
+| **Security** | cleared · 2026-08-13 — genuine org transfer to NeuroAIHub confirmed, MIT, no external credentials |
 
 ## How to install
 

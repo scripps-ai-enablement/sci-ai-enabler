@@ -8,6 +8,12 @@ availability: GA
 tool_categories: [Drug Repurposing and Discovery, Translational Medicine]
 last_verified: 2026-08-09
 summary: ToolUniverse agent skill that scores trial feasibility across endpoint, population, comparator, effect size, duration, and regulatory pathway using precedent trials.
+verification: works
+verified_on: 2026-08-13
+reviewed_on: 2026-08-13
+security: cleared
+security_on: 2026-08-13
+security_note: "mims-harvard/ToolUniverse Apache-2.0 confirmed this run, read-only over public sources, no external credentials"
 ---
 
 # Clinical Trial Design (ToolUniverse Claude Skill)
@@ -21,6 +27,8 @@ A ToolUniverse agent skill that stress-tests a proposed trial before a statistic
 | **Availability** | GA — part of the ToolUniverse skills collection (`skills/tooluniverse-clinical-trial-design/`) |
 | **Pricing** | Free / OSS (Apache-2.0); wraps public sources (Open Targets, ClinicalTrials.gov, ClinVar, gnomAD, COSMIC, DrugBank, FDA Orange Book, openFDA, FAERS, PubMed) |
 | **Capabilities** | Read-only — evidence gathering and scoring; runs no statistical computation |
+| **Verified** | works · 2026-08-13 |
+| **Security** | cleared · 2026-08-13 — mims-harvard/ToolUniverse Apache-2.0, read-only public sources |
 
 ## How to install
 

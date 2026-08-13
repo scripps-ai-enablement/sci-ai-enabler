@@ -8,6 +8,12 @@ availability: GA
 tool_categories: [Molecular and Cellular Biology]
 last_verified: 2026-08-08
 summary: "Call focal chromatin loops from Hi-C or Micro-C maps with cooltools dots, chromosight and Mustache, and validate them with aggregate peak analysis"
+verification: works
+verified_on: 2026-08-13
+reviewed_on: 2026-08-13
+security: cleared
+security_on: 2026-08-13
+security_note: "GPTomics/bioSkills root LICENSE confirmed MIT this run, not archived, 1.2k stars, no external credentials"
 ---
 
 # Chromatin Loop Calling (bioSkills)
@@ -21,6 +27,8 @@ A Claude Code skill for finding corner-dot chromatin loops in a contact map — 
 | **Availability** | GA — part of the bioSkills collection |
 | **Pricing** | Free / OSS (MIT) — cooltools, chromosight and Mustache are installed separately (all open source) |
 | **Capabilities** | Read/Write — Claude runs the skill's workflow locally (Python/CLI), not as an MCP tool |
+| **Verified** | works · 2026-08-13 |
+| **Security** | cleared · 2026-08-13 — GPTomics/bioSkills MIT, no external credentials |
 
 ## How to install
 

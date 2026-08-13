@@ -8,6 +8,12 @@ availability: GA
 tool_categories: [Molecular and Cellular Biology]
 last_verified: 2026-08-08
 summary: "Call TAD boundaries from balanced Hi-C matrices with cooltools insulation scores, including the window sweep and boundary-strength ranking"
+verification: works
+verified_on: 2026-08-13
+reviewed_on: 2026-08-13
+security: cleared
+security_on: 2026-08-13
+security_note: "GPTomics/bioSkills root LICENSE confirmed MIT this run, not archived, 1.2k stars, no external credentials"
 ---
 
 # TAD Detection (bioSkills)
@@ -21,6 +27,8 @@ A Claude Code skill for calling topologically associating domain boundaries from
 | **Availability** | GA — part of the bioSkills collection |
 | **Pricing** | Free / OSS (MIT) — cooltools and HiCExplorer are installed separately (both open source) |
 | **Capabilities** | Read/Write — Claude runs the skill's workflow locally (Python/Bash), not as an MCP tool |
+| **Verified** | works · 2026-08-13 |
+| **Security** | cleared · 2026-08-13 — GPTomics/bioSkills MIT, no external credentials |
 
 ## How to install
 

@@ -8,6 +8,12 @@ availability: GA
 tool_categories: [Translational Medicine]
 last_verified: 2026-08-09
 summary: "Size superiority, non-inferiority and equivalence trials for continuous, binary and survival endpoints, with FDA M1/M2 margin logic and CONSORT-ready justification"
+verification: works
+verified_on: 2026-08-13
+reviewed_on: 2026-08-13
+security: cleared
+security_on: 2026-08-13
+security_note: "GPTomics/bioSkills root LICENSE confirmed MIT this run, not archived, 1.2k stars, no external credentials"
 ---
 
 # Power and Sample Size (bioSkills)
@@ -21,6 +27,8 @@ A Claude Code skill for justifying trial size in a protocol or SAP — picking t
 | **Availability** | GA — part of the bioSkills collection |
 | **Pricing** | Free / OSS (MIT) — `statsmodels`, `scipy`, `numpy`, `pandas` and the R packages `pwr`, `gsDesign`, `gsDesign2`, `rpact`, `presize`, `npsurvSS`, `nph`, `simtrial`, `PowerTOST`, `clusterPower`, `ratesci`, `nlme` are separately installed OSS. The commercial alternatives (nQuery, PASS, East) are not installed. |
 | **Capabilities** | Read/Write — Claude runs the skill's workflow locally (Python and R), not as an MCP tool |
+| **Verified** | works · 2026-08-13 |
+| **Security** | cleared · 2026-08-13 — GPTomics/bioSkills MIT, no external credentials |
 
 ## How to install
 
