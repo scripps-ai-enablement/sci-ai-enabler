@@ -16,6 +16,20 @@ Older entries live in [RECIPES_CHANGELOG_ARCHIVE.md](RECIPES_CHANGELOG_ARCHIVE.m
 ## 2026-08-15
 
 ### Added
+- **Look up the curated composition and stoichiometry of a protein complex** (Problem class: Knowledge synthesis; Evidence: Proposed) — the cookbook could infer PPI edges and characterize an interface it was handed, but had no followable path to the question both of those depend on: *is this a curated complex, and at what stoichiometry?* Rung 1 — Complex Portal and IntAct are chat-only Claude Science connectors with no addressable MCP URL, so the artifact is Claude Code scripting the CC0 ComplexTAB release files ([release dated 2026-01-14](https://ftp.ebi.ac.uk/pub/databases/intact/complex/current/complextab/), 19-column schema and the worked `CPX-4111` row verified this run). Four gates: refuse `9606_predicted.tsv` by default (it is the same 5.0 MB size as the curated human file, so a `*.tsv` glob silently doubles your hits); treat the `Evidence Code` ECO term as the headline field, not a footnote; fail on an unrecognised participant prefix rather than dropping a ChEBI cofactor; emit an explicit "no curated complex found" row, because curation is deliberately incomplete. Why not a PPI network has a number — only ~40% of expanded co-complex pairs also have genetic interactions ([Meldal et al. 2021](https://doi.org/10.1093/nar/gkab077)).
+
+### Updated
+- **Characterize a protein–protein interface** — step 6's orthogonal-evidence line cited Complex Portal and IntAct as links only; now cross-links the new recipe as the followable path.
+
+### Flagged
+- _None._
+
+### Verified (no changes)
+- Recheck slot off this run (`recipe_recheck: no`); no aging-recipe verification performed.
+
+## 2026-08-15
+
+### Added
 - **Compare bulk TCR/BCR repertoires across samples from raw immunosequencing reads** (Problem class: Data analysis; Evidence: Proposed) — the cookbook's first *bulk* repertoire recipe; the three existing pages are all single-cell, while the amplicon path most vaccine and immuno-oncology labs run had nothing. Rung 3 ([MiXCR](https://github.com/GPTomics/bioSkills) → VDJtools → Repertoire Visualization), with depth normalization written as a hard-abort gate rather than a step and the chemistry preset required in `config.yaml` before any read is aligned. Tagged `Institutional access`: MiXCR is free only for academic users with no commercial funding ([milaboratory/mixcr](https://github.com/milaboratory/mixcr), verified this run). The two gates are the evidenced part — multiplex-PCR frequencies only 42–62% accurate and uncorrected error inflating diversity up to 5000-fold ([Khan et al. 2016](https://pubmed.ncbi.nlm.nih.gov/26998518/)); the canonical age-vs-diversity result required precisely normalized per-10⁶-cell profiling ([Britanova et al. 2014](https://pubmed.ncbi.nlm.nih.gov/24510963/)); classical richness estimators frequently underestimate true TCR diversity ([Laydon et al. 2015](https://pubmed.ncbi.nlm.nih.gov/26150657/)).
 
 ### Updated

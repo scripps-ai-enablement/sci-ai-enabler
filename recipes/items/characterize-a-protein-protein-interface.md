@@ -104,6 +104,7 @@ The mechanical parts of the recipe (contacts, SASA, BSA) are not in question; th
 - [Interface Analysis (bioSkills)](../../catalog/tools/interface-analysis.html)
 - [PDB MCP Server](../../catalog/tools/pdb.html) · [PDBe](../../catalog/tools/pdbe.html) — fetch the biological assembly.
 - [Complex Portal](../../catalog/tools/complex-portal.html) · [IntAct](../../catalog/tools/intact.html) — curated orthogonal interaction evidence for the packing call.
+- [Look up the curated composition and stoichiometry of a protein complex](look-up-curated-complex-composition.html) — a followable path for that orthogonal-evidence check.
 - [Predict a protein–protein complex to map the binding interface](predict-protein-protein-complex-interface.html) — generates the input when you have no structure.
 - [Vet a PDB structure before reusing it](vet-a-pdb-structure-before-reusing-it.html) — run upstream.
 - [Reproducible, provenance-tracked AI analysis](../../guide/advanced/reproducibility.html)
