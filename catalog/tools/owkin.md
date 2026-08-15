@@ -7,6 +7,7 @@ supplier: Owkin
 availability: GA
 tool_categories: [Drug Repurposing and Discovery, Translational Medicine]
 last_verified: 2026-05-24
+flagged: "owkin.com no longer surfaces Pathology Explorer as a named product (homepage now leads with the K Pro agent) as of 2026-08-15; the owkin entry is still present in anthropics/life-sciences marketplace.json, so the install path stands, but confirm the product still exists before relying on it"
 summary: Owkin's Pathology Explorer agent — H&E whole-slide image analysis, cell-type detection, and tumour-microenvironment profiling — exposed to Claude as a remote MCP connector.
 verification: degraded
 verified_on: 2026-07-20

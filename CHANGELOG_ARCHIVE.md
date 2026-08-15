@@ -6,6 +6,46 @@ nav_exclude: true
 # Catalog updates archive
 
 Older entries rotated out of [CHANGELOG.md](CHANGELOG.md). Newest first, same format.
+## 2026-07-19 (Drug Repurposing and Discovery slot)
+
+Drug Repurposing and Discovery directed pass plus a manifest sweep. The `anthropics/life-sciences` (`.claude-plugin/marketplace.json`) and `anthropics/claude-plugins-official` marketplaces were re-fetched and diffed against the catalog — all life-science entries already covered. The Claude Science featured-connectors/skills list was re-checked (no new source-level additions). Seed queries (`DrugBank MCP server`, `drug repurposing agent MCP`) reconfirmed existing coverage (`drugbank.md` already carries the `openpharma-org` MCP + official hosted MCP + SciAgent paths). Four genuinely-new drug-discovery skills were drawn from the deferred `mims-harvard/ToolUniverse/skills/` queue and catalogued.
+
+### Added
+- **Small Molecule Discovery (ToolUniverse Claude Skill)** (Categories: Chemistry, Drug Repurposing and Discovery) — 6-phase compound workflow (identity → analog search → ChEMBL/BindingDB bioactivity → SwissADME/ADMET-AI drug-likeness → SwissTargetPrediction → eMolecules/Enamine sourcing) ([SKILL.md](https://github.com/mims-harvard/ToolUniverse/blob/main/skills/tooluniverse-small-molecule-discovery/SKILL.md)).
+- **Chemical Safety (ToolUniverse Claude Skill)** (Categories: Chemistry, Drug Repurposing and Discovery, Translational Medicine) — 8-phase toxicology pipeline (ADMET-AI + CTD + PubChemTox + AOPWiki + STITCH + ChEMBL structural alerts + FDA/DrugBank) with Critical/High/Medium/Low risk grading ([SKILL.md](https://github.com/mims-harvard/ToolUniverse/blob/main/skills/tooluniverse-chemical-safety/SKILL.md)).
+- **Cancer Genomics TCGA (ToolUniverse Claude Skill)** (Categories: Drug Repurposing and Discovery, Molecular and Cellular Biology, Translational Medicine) — 6-phase TCGA/GDC cohort analysis (clinical → somatic mutations → Progenetix CNV → GDC survival → OncoKB variant interpretation) ([SKILL.md](https://github.com/mims-harvard/ToolUniverse/blob/main/skills/tooluniverse-cancer-genomics-tcga/SKILL.md)).
+- **Rare Disease Genomics (ToolUniverse Claude Skill)** (Categories: Drug Repurposing and Discovery, Molecular and Cellular Biology, Translational Medicine) — 9-phase Orphanet → HPO → causative genes → GenCC validity → ClinVar → epidemiology → trials → Europe PMC → report workflow with repurposing leads ([SKILL.md](https://github.com/mims-harvard/ToolUniverse/blob/main/skills/tooluniverse-rare-disease-genomics/SKILL.md)).
+
+### Verified (no changes)
+- **ToolUniverse** base page re-verified (skills directory + `uvx tooluniverse` install path confirmed against upstream; `last_verified` bumped to 2026-07-19). Manifest sweep confirmed no new `anthropics/life-sciences`, `anthropics/claude-plugins-official`, or Claude Science entries; DrugBank / drug-repurposing seed queries reconfirmed existing coverage.
+
+## 2026-07-19 (Translational Medicine slot)
+
+Translational Medicine directed pass plus a manifest sweep. The `anthropics/life-sciences` (`.claude-plugin/marketplace.json`, ~19 entries) and `anthropics/claude-plugins-official` marketplaces were re-fetched and diffed against the catalog — all entries already covered. The Claude Science featured-connectors/skills list was re-checked (no new source-level additions). FHIR and ClinicalTrials.gov seed queries reconfirmed existing coverage (`fhir-wso2`, `fhir-momentum`, `clinicaltrials-gov-mcp`); the `AWS HealthLake MCP server` query surfaced one genuinely-new installable server. Also resolved the standing `anthropics/healthcare` deprecation flag by finishing the consolidated-plugin migration for the remaining pages.
+
+### Added
+- **AWS HealthLake MCP Server** (Categories: Translational Medicine) — Apache-2.0 MCP server (`awslabs/mcp`, PyPI `awslabs.healthlake-mcp-server`) exposing 11 tools over AWS HealthLake FHIR datastores: CRUD, advanced search, `patient_everything`, and bulk import/export jobs, with automatic datastore discovery and a `--readonly` safety flag; HIPAA-eligible on AWS ([GitHub](https://github.com/awslabs/mcp/tree/main/src/healthlake-mcp-server), [docs](https://awslabs.github.io/mcp/servers/healthlake-mcp-server), [AWS blog](https://aws.amazon.com/blogs/industries/building-healthcare-ai-agents-with-open-source-aws-healthlake-mcp-server/)).
+
+### Updated
+- **clinical-trial-protocol**, **fhir-developer** — install snippets now point at the consolidated `healthcare@healthcare` plugin (the standalone `@healthcare` plugin names are deprecated upstream per the re-fetched `anthropics/healthcare` marketplace.json).
+- **CMS Coverage MCP**, **NPI Registry MCP** — install snippets migrated to `healthcare@healthcare` and given literal hosted HTTP endpoints (`https://hcls.mcp.claude.com/cms_coverage/mcp`, `.../npi_registry/mcp`) plus `claude mcp add --transport http` and Claude Desktop `mcp-remote` snippets, replacing the prior "adapt the snippet" placeholders ([`anthropics/healthcare` `.mcp.json`](https://github.com/anthropics/healthcare/blob/main/plugins/healthcare/.mcp.json)).
+
+### Flagged
+- **`anthropics/healthcare` deprecation** — un-flagged (resolved). All affected pages now reference the consolidated `healthcare@healthcare` plugin; `pubmed.md` needs no change (it installs via the separate, non-deprecated `pubmed@life-sciences` marketplace path).
+
+### Verified (no changes)
+- 4 healthcare-plugin entries re-verified against upstream marketplace/`.mcp.json` (`last_verified` bumped to 2026-07-19); manifest sweep confirmed no new `anthropics/life-sciences`, `anthropics/claude-plugins-official`, or Claude Science entries; FHIR + ClinicalTrials.gov coverage reconfirmed.
+
+## 2026-07-19 (Neuroscience slot)
+
+Neuroscience directed pass plus a manifest sweep. The `anthropics/life-sciences` (`.claude-plugin/marketplace.json`, ~19 entries) and `anthropics/claude-plugins-official` marketplaces were re-fetched and diffed against the catalog — all entries already covered (Boltz, PubMed, ChEMBL, Open Targets, etc.). Neuroscience seed queries reconfirmed existing coverage: allenbrain-mcp (`allenbrain`, flagged for license), the EEG/BCI MCP (`bci-mcp`), SpikeLab spike-sorting (`spikelab`), and DANDI (covered via `neurosift`; the `bendichter/dandi-query-mcp` remains boilerplate and deferred). The abc_atlas_access package is a bare PyPI install (out of scope). One genuinely-new installable plugin surfaced.
+
+### Added
+- **NeuroFlow** (Categories: Neuroscience) — MIT Claude Code plugin (`stanislavjiricek/neuroflow`, v0.2.20) providing 20+ phase-aware slash commands for an end-to-end neuroscience research project: ideation, funder-adaptive grant writing, experiment/tool building, data preprocessing/analysis (BIDS), computational brain modeling, and manuscript/poster drafting; bundles a literature-search MCP ([README](https://github.com/stanislavjiricek/neuroflow), [LICENSE](https://github.com/stanislavjiricek/neuroflow/blob/main/LICENSE)).
+
+### Verified (no changes)
+- Manifest sweep confirmed no new `anthropics/life-sciences` or `anthropics/claude-plugins-official` plugins; Allen Brain Atlas, EEG/BCI, SpikeLab, and DANDI neuroscience surfaces reconfirmed against existing coverage.
+
 ## 2026-07-18 (Molecular and Cellular Biology slot)
 
 Molecular and Cellular Biology directed pass plus a manifest sweep. The `anthropics/life-sciences` marketplace (`.claude-plugin/marketplace.json`, 19 entries) was re-fetched and diffed against the catalog — all entries already covered. Seed queries reconfirmed the Scanpy MCP family (`scanpy-mcp`/`scmcp`, already catalogued and cross-linked) and the Ensembl MCP surface. The RNA-seq/regulatory-genomics query surfaced one genuinely-new installable plugin.

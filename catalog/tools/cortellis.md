@@ -6,7 +6,7 @@ tool_type: Claude Code Plugin
 supplier: Clarivate
 availability: GA
 tool_categories: [Drug Repurposing and Discovery, Translational Medicine]
-last_verified: 2026-06-07
+last_verified: 2026-08-15
 verification: degraded
 verified_on: 2026-07-20
 verification_note: "cortellis plugin dir confirmed in the anthropics/life-sciences marketplace repo, but the underlying Cortellis MCP data is behind a commercial Clarivate subscription so functional use is not verifiable without an entitled account"
