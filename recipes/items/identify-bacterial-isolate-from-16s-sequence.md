@@ -9,7 +9,7 @@ evidence_level: Reported
 complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Laptop
-last_verified: 2026-07-04
+last_verified: 2026-08-15
 summary: Use the BLAST MCP server to search a Sanger 16S rRNA read against a pinned reference database and assign genus/species by the standard identity thresholds.
 ---
 

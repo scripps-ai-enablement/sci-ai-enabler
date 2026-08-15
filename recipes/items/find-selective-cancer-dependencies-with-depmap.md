@@ -9,7 +9,7 @@ evidence_level: Reported
 complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Laptop
-last_verified: 2026-07-04
+last_verified: 2026-08-15
 summary: Use the DepMap skill to mine genome-wide CRISPR screens for genes selectively essential in a cancer lineage or genotype, corrected for copy-number bias.
 ---
 

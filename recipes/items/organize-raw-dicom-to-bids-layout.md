@@ -9,7 +9,7 @@ evidence_level: Proposed
 complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Laptop
-last_verified: 2026-07-04
+last_verified: 2026-08-15
 summary: Drive HeuDiConv or dcm2bids from Claude Code via the K-Dense BIDS skill to convert a raw DICOM dump into a validated BIDS dataset ready for BIDS-Apps and OpenNeuro submission.
 ---
 
@@ -162,7 +162,7 @@ The recipe combines components each of which has independent peer-reviewed valid
 - [BIDS Claude Skill](../../catalog/tools/bids.html)
 - [Discover NWB recordings on DANDI and prepare them for sorting](discover-nwb-recordings-on-dandi.html) — the discovery counterpart for electrophysiology data (NWB) rather than imaging (BIDS).
 - [Sort spikes from a Neuropixels recording end-to-end](sort-spikes-from-neuropixels-recording.html) — companion electrophysiology workflow.
-- [OpenNeuro MCP](../../catalog/tools/openneuro.html) — submission target archive for validated BIDS datasets.
+- [OpenNeuro MCP](../../catalog/tools/openneuro.html) — the submission archive, but its catalog page has been `verification: broken` since 2026-07-20 with no working install path; submit through the OpenNeuro website instead.
 
 ## Sources
 

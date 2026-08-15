@@ -13,6 +13,17 @@ Reverse-chronological log of changes to the [recipes cookbook]({{ '/recipes/' | 
 
 Older entries live in [RECIPES_CHANGELOG_ARCHIVE.md](RECIPES_CHANGELOG_ARCHIVE.md).
 
+## 2026-08-15
+
+### Added
+- **Get balanced reactions and cross-references for a metabolite or EC number** (Problem class: Knowledge synthesis; Evidence: Proposed) — discharges the top Chemistry deferred item. Rung **1**, not 2: [Rhea](catalog/tools/rhea.html) and [ChEBI](catalog/tools/chebi.html) are catalogued as Claude Science *connectors* with no addressable MCP URL, so they cannot leave a re-runnable artifact behind; the recipe has Claude Code script the CC BY 4.0 release files instead and names the connector as the interactive alternative. Four gates, each traceable to a documented Rhea convention verified this run: map the ChEBI ID through `chebi_pH7_3_mapping.tsv` before searching (participants are the major microspecies at pH 7.3, so a query on the neutral form returns nothing — indistinguishable from "no known reactions"); never emit a master ID as a modelling result (the quartet is UN/LR/RL/BI with four identifiers, the master's direction undefined); label columns `side_left`/`side_right`, never `substrates`/`products`, because Rhea attaches no semantic meaning to the two sides; and join cross-references on `MASTER_ID`, since an external database may have mapped to any quartet member ([Morgat et al. 2020](https://doi.org/10.1093/bioinformatics/btz817)). Release 141 (2026-06-10, 18,558 reactions) and all ten TSV files confirmed against [the FTP release directory](https://ftp.expasy.org/databases/rhea/tsv/) and its `README.txt` this run. Stdlib-only, so no `## Dependencies` block; `Fully open`, `Laptop`, fully local after the download ([Bansal et al. 2022](https://doi.org/10.1093/nar/gkab1016)).
+
+### Updated
+- **Organize a raw DICOM dataset into a BIDS layout** — the bare **See also** link to the OpenNeuro MCP now carries that component's `verification: broken` status (no working install path for four consecutive catalog runs) and points readers at the OpenNeuro website for submission instead.
+
+### Verified (no changes)
+- 6 recipes cleared from the 2026-07-04 recheck backlog and bumped to today: `screen-genome-for-resistance-and-virulence-genes`, `find-selective-cancer-dependencies-with-depmap`, `identify-bacterial-isolate-from-16s-sequence`, `organize-raw-dicom-to-bids-layout`, `build-phylogenetic-tree-from-sequences`, `integrate-single-cell-datasets`. Every linked catalog page resolves, every load-bearing component is `verification: works`, and every `Fully open` tag is consistent with its components. Scope note: the component and availability legs were verified; external Sources URLs were not re-fetched. `sort-spikes-from-neuropixels-recording` remains at 2026-07-04 and is first in line next recheck slot.
+
 ## 2026-08-09
 
 ### Added
@@ -319,34 +330,4 @@ Directed pass on **Immunology and Microbiology**. Two recipes shipped, both clos
 ### Verified (no changes)
 
 - 3 Chemistry recipes spot-checked, all current, `last_verified` bumped to 2026-07-25: **Filter a virtual screening hit list** (MedChem/Datamol/RDKit links + PAINS/BRENK/Lipinski/Veber sources resolve; K-Dense marketplace live), **Identify an unknown compound from an MS/MS spectrum** (matchms skill + pyOpenMS/PubChem links resolve), **Estimate pharmacokinetic properties of a small molecule** (RDKit/MedChem/ChEMBL links resolve).
-
-## 2026-07-19 (Drug Repurposing and Discovery directed pass)
-
-### Added
-
-- **Analyze the SAR of a measured compound series** (Problem class: Data analysis; Evidence: Reported) — rung-2 [SAR Analysis skill](catalog/tools/sar-analysis.html) recipe: a CSV of assayed analogs (`smiles` + IC50/Ki) → optional [datamol](catalog/tools/datamol.html) standardization → maximum-common-substructure scaffold detection + R-group decomposition (RDKit `rdFMCS`/`rdRGroupDecomposition`) → substituent-vs-pIC50 table per R-position → single-change activity-cliff flagging (|ΔpIC50| ≥ 1) → committed `sar_analysis.py` + pinned `requirements.txt` + `sar_table.csv`/`activity_cliffs.csv` + aligned-structure HTML report + `provenance.json` (RDKit/pandas versions, skill commit, MCS threshold, cliff cutoff, input sha256, run date, model id). Retrospective *analyze-what-you-measured* sibling of the forward [enumerate-analogs](recipes/items/enumerate-analogs-around-a-lead.html) recipe (cross-linked both ways). `Reported` — R-group decomposition and matched-pair single-substituent comparison are field-standard for lead optimization ([Raut & Dixit, *RSC Med. Chem.* 2025](https://pubmed.ncbi.nlm.nih.gov/40438290/); [Ding et al., *Curr. Med. Chem.* 2020](https://pubmed.ncbi.nlm.nih.gov/32338210/); [Kombo & LaMarche, *J. Med. Chem.* 2025](https://pubmed.ncbi.nlm.nih.gov/40418162/)) and the BixBench-evaluated skill calls validated RDKit routines; the Claude-driven path is not separately benchmarked. `Fully open`; `Laptop`.
-
-### Verified (no changes)
-
-- 3 recipes spot-checked, `last_verified` bumped to 2026-07-19: [benchmark-admet-property-with-pytdc](recipes/items/benchmark-admet-property-with-pytdc.html) (TDC ADMET_Group leaderboard resolves; PyTDC/molfeat/datamol catalog pages present), [score-drug-combination-synergy](recipes/items/score-drug-combination-synergy.html) (ToolUniverse + drug-synergy catalog pages present), [scan-adverse-events-for-drug-safety-signal](recipes/items/scan-adverse-events-for-drug-safety-signal.html) (ythalorossy OpenFDA MCP repo + openFDA auth page still load; OpenFDA/BioMCP catalog pages present).
-
-## 2026-07-19 (Translational Medicine directed pass)
-
-### Added
-
-- **Diagnose a rare disease from patient phenotypes** (Problem class: Knowledge synthesis; Evidence: Reported) — rung-2 [ToolUniverse Rare Disease Diagnosis skill](catalog/tools/tooluniverse-rare-disease-diagnosis.html) recipe: patient HPO terms (+ optional candidate variants) captured in a committed `case.yaml` → skill federates HPO/Orphanet/OMIM/DisGeNET disease+gene lookup → gene prioritization (MARRVEL, ClinGen validity, GTEx tissue expression) → per-variant ACMG interpretation (ClinVar, gnomAD, EVE/SpliceAI) → tiered (T1–T4) `reports/*.md` + raw `results/*.json` audit trail + `provenance.json` (tooluniverse version, skill commit, per-database query dates, ClinVar/gnomAD release accessions, input sha256, model id). Phenotype-first sibling of [interpret-clinical-variant](recipes/items/interpret-clinical-variant.html) (cross-linked both ways). `Reported` — knowledge-grounded LLM layers over the same MARRVEL/ClinVar/gnomAD tool stack give +12–15 pp Recall@1 for phenotype-driven gene prioritization ([LA-MARRVEL, Lee et al., *arXiv* 2511.02263, 2025-11 / rev 2026-03](https://arxiv.org/abs/2511.02263)), and tool grounding is what carries the workflow (MARRVEL-MCP 95% vs 33% without tools, [bioRxiv 2025-11-28](https://www.biorxiv.org/content/10.1101/2025.11.26.690887v1)); rung-1 baseline fails (database-free GPT-4 ~16%, [Kim et al., 2024](https://arxiv.org/abs/2403.14801)). The exact ToolUniverse-skill composition is not separately benchmarked. `Fully open`; `Laptop`.
-
-### Verified (no changes)
-
-- 1 recipe spot-checked, `last_verified` bumped to 2026-07-19: [interpret-clinical-variant](recipes/items/interpret-clinical-variant.html) — BioMCP catalog page resolves and not flagged, MARRVEL-MCP source URL still loads; added cross-link to the new rare-disease recipe.
-
-## 2026-07-19 (Neuroscience directed pass)
-
-### Added
-
-- **Build a resting-state functional-connectivity matrix from preprocessed fMRI** (Problem class: Data analysis; Evidence: Reported) — rung-2 [Nilearn skill](catalog/tools/nilearn-tool.html) recipe: fMRIPrep-preprocessed BOLD + confounds TSV → named atlas (Schaefer 2018) `NiftiLabelsMasker` (standardize/detrend/band-pass) → explicit fMRIPrep confound strategy (motion + cosines + aCompCor + non-steady-state) → ROI time-series with confounds regressed → Pearson + partial-correlation ROI-to-ROI matrices → network-ordered heatmap + FD/scrubbing QC → committed `build_connectome.py` + pinned `requirements.txt` + `connectivity_pearson.csv`/`connectivity_partial.csv` + figure + `provenance.json` (Nilearn version, atlas name/release, confound columns, band-pass/TR, connectivity kind, input sha256s, run date, model id). fMRI counterpart to the EEG [ERP-extraction recipe](recipes/items/extract-event-related-potentials-from-eeg.html) (cross-linked). `Reported` — Nilearn is the field-standard connectivity library ([Abraham et al., *Front. Neuroinform.* 2014](https://doi.org/10.3389/fninf.2014.00014)) and the atlas→confound-regression→correlation workflow is canonical ([Kumar et al., *PLoS Comput. Biol.* 2020](https://doi.org/10.1371/journal.pcbi.1007549)) and reused in current rs-FC studies ([Messina et al., *Neurology* 2026](https://doi.org/10.1212/WNL.0000000000214656); [Dai et al., *J. Affect. Disord.* 2026](https://doi.org/10.1016/j.jad.2025.120969)); the Claude+Nilearn-skill assembly is not separately benchmarked. `Fully open`; `Laptop`.
-
-### Verified (no changes)
-
-- 3 recipes spot-checked, all current, `last_verified` bumped to 2026-07-19: [triage-new-preprints](recipes/items/triage-new-preprints.html), [qc-single-cell-rna-seq](recipes/items/qc-single-cell-rna-seq.html), [map-disease-to-genes-and-pathways](recipes/items/map-disease-to-genes-and-pathways.html) — all linked catalog pages resolve and all source URLs still load.
 

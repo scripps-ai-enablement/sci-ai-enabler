@@ -6,6 +6,36 @@ nav_exclude: true
 # Recipes updates archive
 
 Older entries rotated out of [RECIPES_CHANGELOG.md](RECIPES_CHANGELOG.md). Newest first, same format.
+## 2026-07-19 (Drug Repurposing and Discovery directed pass)
+
+### Added
+
+- **Analyze the SAR of a measured compound series** (Problem class: Data analysis; Evidence: Reported) — rung-2 [SAR Analysis skill](catalog/tools/sar-analysis.html) recipe: a CSV of assayed analogs (`smiles` + IC50/Ki) → optional [datamol](catalog/tools/datamol.html) standardization → maximum-common-substructure scaffold detection + R-group decomposition (RDKit `rdFMCS`/`rdRGroupDecomposition`) → substituent-vs-pIC50 table per R-position → single-change activity-cliff flagging (|ΔpIC50| ≥ 1) → committed `sar_analysis.py` + pinned `requirements.txt` + `sar_table.csv`/`activity_cliffs.csv` + aligned-structure HTML report + `provenance.json` (RDKit/pandas versions, skill commit, MCS threshold, cliff cutoff, input sha256, run date, model id). Retrospective *analyze-what-you-measured* sibling of the forward [enumerate-analogs](recipes/items/enumerate-analogs-around-a-lead.html) recipe (cross-linked both ways). `Reported` — R-group decomposition and matched-pair single-substituent comparison are field-standard for lead optimization ([Raut & Dixit, *RSC Med. Chem.* 2025](https://pubmed.ncbi.nlm.nih.gov/40438290/); [Ding et al., *Curr. Med. Chem.* 2020](https://pubmed.ncbi.nlm.nih.gov/32338210/); [Kombo & LaMarche, *J. Med. Chem.* 2025](https://pubmed.ncbi.nlm.nih.gov/40418162/)) and the BixBench-evaluated skill calls validated RDKit routines; the Claude-driven path is not separately benchmarked. `Fully open`; `Laptop`.
+
+### Verified (no changes)
+
+- 3 recipes spot-checked, `last_verified` bumped to 2026-07-19: [benchmark-admet-property-with-pytdc](recipes/items/benchmark-admet-property-with-pytdc.html) (TDC ADMET_Group leaderboard resolves; PyTDC/molfeat/datamol catalog pages present), [score-drug-combination-synergy](recipes/items/score-drug-combination-synergy.html) (ToolUniverse + drug-synergy catalog pages present), [scan-adverse-events-for-drug-safety-signal](recipes/items/scan-adverse-events-for-drug-safety-signal.html) (ythalorossy OpenFDA MCP repo + openFDA auth page still load; OpenFDA/BioMCP catalog pages present).
+
+## 2026-07-19 (Translational Medicine directed pass)
+
+### Added
+
+- **Diagnose a rare disease from patient phenotypes** (Problem class: Knowledge synthesis; Evidence: Reported) — rung-2 [ToolUniverse Rare Disease Diagnosis skill](catalog/tools/tooluniverse-rare-disease-diagnosis.html) recipe: patient HPO terms (+ optional candidate variants) captured in a committed `case.yaml` → skill federates HPO/Orphanet/OMIM/DisGeNET disease+gene lookup → gene prioritization (MARRVEL, ClinGen validity, GTEx tissue expression) → per-variant ACMG interpretation (ClinVar, gnomAD, EVE/SpliceAI) → tiered (T1–T4) `reports/*.md` + raw `results/*.json` audit trail + `provenance.json` (tooluniverse version, skill commit, per-database query dates, ClinVar/gnomAD release accessions, input sha256, model id). Phenotype-first sibling of [interpret-clinical-variant](recipes/items/interpret-clinical-variant.html) (cross-linked both ways). `Reported` — knowledge-grounded LLM layers over the same MARRVEL/ClinVar/gnomAD tool stack give +12–15 pp Recall@1 for phenotype-driven gene prioritization ([LA-MARRVEL, Lee et al., *arXiv* 2511.02263, 2025-11 / rev 2026-03](https://arxiv.org/abs/2511.02263)), and tool grounding is what carries the workflow (MARRVEL-MCP 95% vs 33% without tools, [bioRxiv 2025-11-28](https://www.biorxiv.org/content/10.1101/2025.11.26.690887v1)); rung-1 baseline fails (database-free GPT-4 ~16%, [Kim et al., 2024](https://arxiv.org/abs/2403.14801)). The exact ToolUniverse-skill composition is not separately benchmarked. `Fully open`; `Laptop`.
+
+### Verified (no changes)
+
+- 1 recipe spot-checked, `last_verified` bumped to 2026-07-19: [interpret-clinical-variant](recipes/items/interpret-clinical-variant.html) — BioMCP catalog page resolves and not flagged, MARRVEL-MCP source URL still loads; added cross-link to the new rare-disease recipe.
+
+## 2026-07-19 (Neuroscience directed pass)
+
+### Added
+
+- **Build a resting-state functional-connectivity matrix from preprocessed fMRI** (Problem class: Data analysis; Evidence: Reported) — rung-2 [Nilearn skill](catalog/tools/nilearn-tool.html) recipe: fMRIPrep-preprocessed BOLD + confounds TSV → named atlas (Schaefer 2018) `NiftiLabelsMasker` (standardize/detrend/band-pass) → explicit fMRIPrep confound strategy (motion + cosines + aCompCor + non-steady-state) → ROI time-series with confounds regressed → Pearson + partial-correlation ROI-to-ROI matrices → network-ordered heatmap + FD/scrubbing QC → committed `build_connectome.py` + pinned `requirements.txt` + `connectivity_pearson.csv`/`connectivity_partial.csv` + figure + `provenance.json` (Nilearn version, atlas name/release, confound columns, band-pass/TR, connectivity kind, input sha256s, run date, model id). fMRI counterpart to the EEG [ERP-extraction recipe](recipes/items/extract-event-related-potentials-from-eeg.html) (cross-linked). `Reported` — Nilearn is the field-standard connectivity library ([Abraham et al., *Front. Neuroinform.* 2014](https://doi.org/10.3389/fninf.2014.00014)) and the atlas→confound-regression→correlation workflow is canonical ([Kumar et al., *PLoS Comput. Biol.* 2020](https://doi.org/10.1371/journal.pcbi.1007549)) and reused in current rs-FC studies ([Messina et al., *Neurology* 2026](https://doi.org/10.1212/WNL.0000000000214656); [Dai et al., *J. Affect. Disord.* 2026](https://doi.org/10.1016/j.jad.2025.120969)); the Claude+Nilearn-skill assembly is not separately benchmarked. `Fully open`; `Laptop`.
+
+### Verified (no changes)
+
+- 3 recipes spot-checked, all current, `last_verified` bumped to 2026-07-19: [triage-new-preprints](recipes/items/triage-new-preprints.html), [qc-single-cell-rna-seq](recipes/items/qc-single-cell-rna-seq.html), [map-disease-to-genes-and-pathways](recipes/items/map-disease-to-genes-and-pathways.html) — all linked catalog pages resolve and all source URLs still load.
+
 ## 2026-07-18 (Molecular and Cellular Biology directed pass)
 
 ### Added

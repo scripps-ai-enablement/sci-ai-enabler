@@ -9,7 +9,7 @@ evidence_level: Reported
 complexity: One skill or MCP
 availability: Fully open
 compute_requirements: Laptop
-last_verified: 2026-07-04
+last_verified: 2026-08-15
 summary: Use the BLAST MCP server to search a bacterial assembly's proteins against CARD and VFDB, emitting a curated resistance- and virulence-gene profile with a committed script and pinned databases.
 ---
 
