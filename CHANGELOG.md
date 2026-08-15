@@ -16,6 +16,23 @@ Older entries live in [CHANGELOG_ARCHIVE.md](CHANGELOG_ARCHIVE.md).
 ## 2026-08-15
 
 ### Added
+- **Structural Alignment (bioSkills)** (Categories: Integrative Structural and Computational Biology) — routes structure comparison to Foldseek, TM-align, US-align, DALI, FATCAT/CE or FoldMason and reads TM-score, DALI Z-score, RMSD and lDDT against usable cutoffs; carries the sequence-identity ladder that says when to stop aligning sequences and the "mask pLDDT < 70 before Foldseek indexing" warning ([SKILL.md](https://github.com/GPTomics/bioSkills/blob/main/alignment/structural-alignment/SKILL.md))
+- **Multiple Sequence Alignment (bioSkills)** (Categories: Integrative Structural and Computational Biology, Molecular and Cellular Biology) — picks MAFFT, MUSCLE5, Clustal Omega or T-Coffee from dataset size and divergence, with MAFFT `--auto` boundaries made explicit, the twilight-zone table, and codon-aware routing through PAL2NAL/PRANK/MACSE for dN/dS work ([SKILL.md](https://github.com/GPTomics/bioSkills/blob/main/alignment/multiple-alignment/SKILL.md))
+- **Alignment Trimming (bioSkills)** (Categories: Integrative Structural and Computational Biology, Molecular and Cellular Biology) — ClipKIT, trimAl, BMGE, Divvier or HMMcleaner chosen by downstream goal, with working BMGE/trimAl parameters, a > 60% column-retention check, mandated before/after tree sensitivity analysis, and column-index mapping for site-specific claims ([SKILL.md](https://github.com/GPTomics/bioSkills/blob/main/alignment/alignment-trimming/SKILL.md))
+- **MSA Statistics (bioSkills)** (Categories: Integrative Structural and Computational Biology, Molecular and Cellular Biology) — percent identity under four named denominators (PID1–PID4, up to 11.5% spread on the same alignment), Capra–Singh JSD conservation, information content and gap profiles in BioPython, plus the silent-failure trap where `.get()` on a `substitution_matrices` array always returns 0 ([SKILL.md](https://github.com/GPTomics/bioSkills/blob/main/alignment/msa-statistics/SKILL.md))
+
+### Updated
+- _None._
+
+### Flagged
+- _None._
+
+### Verified (no changes)
+- _None._ (`link_recheck: no` this run — existing pages were not re-verified.)
+
+## 2026-08-15
+
+### Added
 - **CAN-IMMUNE** (Categories: Drug Repurposing and Discovery, Immunology and Microbiology, Translational Medicine) — hosted, keyless MCP server over the Li/Purcell Lab (Monash) cancer neoantigen catalogue: ~4.49M unique mutant peptides from COSMIC and DepMap/CCLE, 12 read-only tools, and MHC class I binding predicted with NetMHCpan-EL via the IEDB API. One-line install with `claude mcp add --transport http` ([repo](https://github.com/sanjaysgk/can-immune-mcp), [connector setup](https://canelib.erc.monash.edu/connector), [MCP Registry](https://registry.modelcontextprotocol.io/v0/servers?search=can-immune))
 - **Blatant-Why (BY) Protein Design Agent** (Categories: Drug Repurposing and Discovery, Immunology and Microbiology, Integrative Structural and Computational Biology) — MIT Claude Code scaffold for antibody, nanobody, and de novo binder design campaigns: 19 skills, 13 `/by:…` commands, and 11 bundled MCP servers driving BoltzGen, PXDesign, and Protenix, with optional cloud or local GPU compute ([repo](https://github.com/001TMF/blatant-why), [npm](https://www.npmjs.com/package/blatant-why))
 
