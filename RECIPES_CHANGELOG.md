@@ -16,6 +16,20 @@ Older entries live in [RECIPES_CHANGELOG_ARCHIVE.md](RECIPES_CHANGELOG_ARCHIVE.m
 ## 2026-08-15
 
 ### Added
+- **Find differentially regulated phosphosites, not just changed proteins** (Problem class: Data analysis; Evidence: Proposed) — the cookbook could call a protein changed but had no path to the residue-level question, which carries machinery the protein-level page does not: a localization gate, site-level rather than protein-level rollup, and normalization to protein abundance. Rung 2 on the [MaxQuant skill](https://github.com/jaechang-hits/SciAgent-Skills) — and the rung survives a correction made this run: the skill's own workflow stops at `proteinGroups.txt` and does **not** document phospho site tables, so it earns its place by driving step 1's paired unenriched proteome arm, with the site layer scripted on top against column names verified against the [MaxQuant output-tables reference](https://cox-labs.github.io/coxdocs/output_tables.html). Three gates: declare the unenriched arm *before* enriching (1,150 of 5,385 proteins changed significantly alongside 4,218 regulated sites in the same samples — [Esnault et al. 2018](https://doi.org/10.1021/acs.jproteome.8b00057)); record the localization-probability cutoff next to the fragmentation method, since a 1% false localization rate needs a different threshold per method ([Savitski et al. 2011](https://doi.org/10.1074/mcp.M110.003830)); and expand the `___1`/`___2`/`___3` multiplicity columns to rows rather than summing them.
+
+### Updated
+- **Find differentially abundant proteins in a label-free proteomics experiment** — cross-linked the new site-level sibling in **See also**; this recipe is the phospho recipe's unenriched arm.
+
+### Flagged
+- _None._
+
+### Verified (no changes)
+- Recheck slot off this run (`recipe_recheck: no`); no aging-recipe verification performed.
+
+## 2026-08-15
+
+### Added
 - **Look up the curated composition and stoichiometry of a protein complex** (Problem class: Knowledge synthesis; Evidence: Proposed) — the cookbook could infer PPI edges and characterize an interface it was handed, but had no followable path to the question both of those depend on: *is this a curated complex, and at what stoichiometry?* Rung 1 — Complex Portal and IntAct are chat-only Claude Science connectors with no addressable MCP URL, so the artifact is Claude Code scripting the CC0 ComplexTAB release files ([release dated 2026-01-14](https://ftp.ebi.ac.uk/pub/databases/intact/complex/current/complextab/), 19-column schema and the worked `CPX-4111` row verified this run). Four gates: refuse `9606_predicted.tsv` by default (it is the same 5.0 MB size as the curated human file, so a `*.tsv` glob silently doubles your hits); treat the `Evidence Code` ECO term as the headline field, not a footnote; fail on an unrecognised participant prefix rather than dropping a ChEBI cofactor; emit an explicit "no curated complex found" row, because curation is deliberately incomplete. Why not a PPI network has a number — only ~40% of expanded co-complex pairs also have genetic interactions ([Meldal et al. 2021](https://doi.org/10.1093/nar/gkab077)).
 
 ### Updated

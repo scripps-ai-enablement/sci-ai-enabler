@@ -126,6 +126,7 @@ Scale up hardware, not the recipe, past ~50 raw files: a many-core server, or th
 
 - [MaxQuant (Claude Skill)](../../catalog/tools/maxquant-proteomics.html)
 - [PRIDE (Claude Skill)](../../catalog/tools/pride-database.html) — public dataset discovery and download, the reanalysis entry point.
+- [Find differentially regulated phosphosites, not just changed proteins](find-differentially-regulated-phosphosites.html) — the site-level sibling; this recipe is its unenriched arm, and it is what you need if the question is about a residue rather than a protein.
 - [Run bulk RNA-seq differential expression](run-bulk-rnaseq-differential-expression.html) — the transcript-level counterpart, and a useful contrast: counts are not missing-not-at-random.
 - [Run functional enrichment on a gene list](run-functional-enrichment-on-a-gene-list.html) — what to do with the hit list.
 - [Quantify western blot densitometry](quantify-western-blot-densitometry.html) — the orthogonal validation most reviewers will ask for.
