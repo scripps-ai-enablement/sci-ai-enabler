@@ -16,6 +16,20 @@ Older entries live in [RECIPES_CHANGELOG_ARCHIVE.md](RECIPES_CHANGELOG_ARCHIVE.m
 ## 2026-08-15
 
 ### Added
+- **Compare bulk TCR/BCR repertoires across samples from raw immunosequencing reads** (Problem class: Data analysis; Evidence: Proposed) — the cookbook's first *bulk* repertoire recipe; the three existing pages are all single-cell, while the amplicon path most vaccine and immuno-oncology labs run had nothing. Rung 3 ([MiXCR](https://github.com/GPTomics/bioSkills) → VDJtools → Repertoire Visualization), with depth normalization written as a hard-abort gate rather than a step and the chemistry preset required in `config.yaml` before any read is aligned. Tagged `Institutional access`: MiXCR is free only for academic users with no commercial funding ([milaboratory/mixcr](https://github.com/milaboratory/mixcr), verified this run). The two gates are the evidenced part — multiplex-PCR frequencies only 42–62% accurate and uncorrected error inflating diversity up to 5000-fold ([Khan et al. 2016](https://pubmed.ncbi.nlm.nih.gov/26998518/)); the canonical age-vs-diversity result required precisely normalized per-10⁶-cell profiling ([Britanova et al. 2014](https://pubmed.ncbi.nlm.nih.gov/24510963/)); classical richness estimators frequently underestimate true TCR diversity ([Laydon et al. 2015](https://pubmed.ncbi.nlm.nih.gov/26150657/)).
+
+### Updated
+- _None._
+
+### Flagged
+- _None._
+
+### Verified (no changes)
+- `recipe_recheck: no` this run — no aging-recipe recheck performed.
+
+## 2026-08-15
+
+### Added
 - **Get balanced reactions and cross-references for a metabolite or EC number** (Problem class: Knowledge synthesis; Evidence: Proposed) — discharges the top Chemistry deferred item. Rung **1**, not 2: [Rhea](catalog/tools/rhea.html) and [ChEBI](catalog/tools/chebi.html) are catalogued as Claude Science *connectors* with no addressable MCP URL, so they cannot leave a re-runnable artifact behind; the recipe has Claude Code script the CC BY 4.0 release files instead and names the connector as the interactive alternative. Four gates, each traceable to a documented Rhea convention verified this run: map the ChEBI ID through `chebi_pH7_3_mapping.tsv` before searching (participants are the major microspecies at pH 7.3, so a query on the neutral form returns nothing — indistinguishable from "no known reactions"); never emit a master ID as a modelling result (the quartet is UN/LR/RL/BI with four identifiers, the master's direction undefined); label columns `side_left`/`side_right`, never `substrates`/`products`, because Rhea attaches no semantic meaning to the two sides; and join cross-references on `MASTER_ID`, since an external database may have mapped to any quartet member ([Morgat et al. 2020](https://doi.org/10.1093/bioinformatics/btz817)). Release 141 (2026-06-10, 18,558 reactions) and all ten TSV files confirmed against [the FTP release directory](https://ftp.expasy.org/databases/rhea/tsv/) and its `README.txt` this run. Stdlib-only, so no `## Dependencies` block; `Fully open`, `Laptop`, fully local after the download ([Bansal et al. 2022](https://doi.org/10.1093/nar/gkab1016)).
 
 ### Updated
