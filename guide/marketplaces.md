@@ -41,8 +41,11 @@ Other source forms:
 ```bash
 /plugin marketplace add anthropics/claude-plugins-community
 /plugin marketplace add https://github.com/your-org/your-marketplace.git
+/plugin marketplace add https://gitlab.com/your-org/your-marketplace.git
 /plugin marketplace add ~/projects/local-marketplace
 ```
+
+GitLab repos work as a full `https://gitlab.com/...` URL, shown above. The v2.1.232 (2026-08-13) changelog also describes a bare `gitlab.com/owner/repo` shorthand (no scheme, nested subgroups included) cloning like GitHub's `owner/repo` form — Anthropic's plugin-marketplaces doc hasn't caught up to that yet, so stick to the full URL if the bare form doesn't resolve for you.
 
 List, remove, or update with `/plugin marketplace list`, `/plugin marketplace remove <name>` (or `rm`), and `/plugin marketplace update <name>`.
 
@@ -75,4 +78,6 @@ List, remove, or update with `/plugin marketplace list`, `/plugin marketplace re
 - [`anthropics/financial-services`](https://github.com/anthropics/financial-services) — verified 2026-05-27 (this run) — `claude-for-financial-services` marketplace; install `financial-analysis` first (provides shared MCP connectors).
 - [Install financial services plugins for Cowork](https://support.claude.com/en/articles/13851150-install-financial-services-plugins-for-cowork) — Anthropic help center; verified 2026-05-27 — Cowork install path (Customize → Add marketplace from GitHub).
 - [Create and distribute a plugin marketplace](https://code.claude.com/docs/en/plugin-marketplaces) — Anthropic docs; verified 2026-08-08 (this run) — marketplace-entry source kinds (relative path, `github`, git URL, `git-subdir`, `npm`, and the new `archive` zip-over-HTTPS source with optional `sha256` pin).
-- [Claude Code changelog (v2.1.224, 2026-08-07)](https://code.claude.com/docs/en/changelog) — Anthropic docs; verified 2026-08-08 (this run) — added the `archive` plugin source type.
+- [Claude Code changelog (v2.1.224, 2026-08-07)](https://code.claude.com/docs/en/changelog) — Anthropic docs; verified 2026-08-08 — added the `archive` plugin source type.
+- [Claude Code changelog (v2.1.232, 2026-08-13)](https://code.claude.com/docs/en/changelog) — Anthropic docs; verified 2026-08-15 (this run) — bare `gitlab.com` repo URLs (including nested subgroups) now clone like `github.com` shorthand URLs; clone auth-failure hints name the actual git host.
+- [Create and distribute a plugin marketplace](https://code.claude.com/docs/en/plugin-marketplaces) — Anthropic docs; re-verified 2026-08-15 (this run) — still documents only the full-URL `git` source kind for GitLab (as of v2.1.196, a host typed without a scheme is rejected), not yet the v2.1.232 bare-shorthand behavior — doc-page lag noted in the changelog for this run.

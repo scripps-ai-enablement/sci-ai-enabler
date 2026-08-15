@@ -13,6 +13,26 @@ Reverse-chronological log of changes to the [guide]({{ '/guide/' | relative_url 
 
 Older entries live in [GUIDE_CHANGELOG_ARCHIVE.md](GUIDE_CHANGELOG_ARCHIVE.md).
 
+## 2026-08-15
+
+### Updated
+- **[claude-surfaces, surfaces/claude-code] Cross-session `@`-mentions (v2.1.232, 2026-08-13).** Type `@` plus a session name in any prompt to message another of your Claude Code sessions directly (routes through the existing `SendMessage`); inbound requests now show up under new `/config` rows ("Dialog expiry," "Messages from your other sessions") where you accept, hold, or refuse them. Extended the existing "Background sessions" cross-cutting bullet on `claude-surfaces.md` and the web/background paragraph on `surfaces/claude-code.md` rather than creating a new entry, since it's a direct extension of the already-documented `SendMessage`/`ListAgents` feature. Grounded in the [Claude Code changelog](https://code.claude.com/docs/en/changelog), v2.1.232, fetched this run.
+- **[surfaces/claude-code] GitLab merge requests in `--worktree` and `claude agents` (v2.1.233, 2026-08-14).** Both now recognize GitLab MRs (shown as `!N`) alongside GitHub PRs — de-GitHub-centric'd the surrounding sentence. Grounded in the [Claude Code changelog](https://code.claude.com/docs/en/changelog), v2.1.233, fetched this run.
+- **[marketplaces] GitLab marketplace support (v2.1.232, 2026-08-13).** Added a `https://gitlab.com/...` example to the copy-pasteable marketplace-add commands (this form was already implicitly covered by "any Git URL" but wasn't shown explicitly) and a note that a bare `gitlab.com/owner/repo` shorthand also now clones like GitHub's `owner/repo` form per the changelog — flagged that the canonical [plugin-marketplaces doc](https://code.claude.com/docs/en/plugin-marketplaces) (re-fetched this run) still only documents the full-URL form and rejects a schemeless non-GitHub host as of v2.1.196, so the page tells readers to fall back to the full URL if the shorthand doesn't resolve. This is a doc-page-lags-changelog case per the source-priority rule.
+- **[advanced/slash-commands] Fork subagents now default (v2.1.232, 2026-08-13).** `subagent_type: "fork"` — a subagent that inherits the parent's full conversation and prompt cache instead of starting isolated — now runs by default whenever the orchestrator picks that type; confirmed against the canonical [Subagents reference](https://code.claude.com/docs/en/subagents) (re-fetched this run), which independently describes fork's cache-reuse behavior. Added one sentence; this is the same mechanism the existing `/fork` command already used, now generalized to any subagent spawn.
+- **[claude-surfaces, surfaces/claude-code] Refreshed install-command and changelog citations.** Re-fetched `claude.com/product/claude-code` (unchanged: `curl -fsSL https://claude.ai/install.sh | bash`, same launch surfaces) and the Claude Code changelog through the current latest release, **v2.1.233 (2026-08-14)**.
+
+### Verified (no changes)
+- Skills, MCP servers, Connectors, Plugins, Decision tree, Hooks, Routines, Authentication, Reproducibility, Verification, Claude.ai, Claude Desktop, Claude Cowork, Claude API, Claude Science, Claude Tag — spot-checked, no stale claims found this run.
+- v2.1.225–v2.1.230 (MCP gateway spend-limit messages, a marketplace `command` source kind for IDE-printed plugin directories, connector false-authorization-needed fix, skills-from-claude.ai hardening, MCP OAuth redirect-URI fix, MCP v2 stream-reopen fix) reviewed and judged below the beginner threshold for this guide — mostly bug fixes and an IDE-integration authoring detail, consistent with prior runs' treatment of similar internal changes.
+- Anthropic news feed scanned (through 2026-08-14: "How Claude's text watermark works," "Improving Fable 5's biology safeguards," Tino Cuéllar appointment) — none are beginner-facing component-model concepts; no new page or cross-cutting bullet warranted.
+- Connectors directory count — still could not confirm an updated total via WebFetch (page renders as a filtered/paginated view with no visible directory-wide count); left the existing "950+" figure in place, consistent with the prior run's note.
+
+### Flagged for review
+- **GitLab bare-URL marketplace shorthand** — changelog says it works (v2.1.232); the canonical doc page hasn't been updated to match. Re-check `plugin-marketplaces` doc next run and simplify the marketplaces.md wording once it catches up.
+- **Marketplace `command` source kind (v2.1.229)** — an IDE-oriented authoring detail (local command prints the plugin directory, re-resolved each session); currently judged below the beginner bar for `marketplaces.md`'s already-long source-kind list. Revisit if it becomes a common end-user path rather than an IDE-integration internal.
+- Carried over from 2026-08-08: Opus 5 fast-mode plan-tiering (still research preview); Agent SDK billing split (still paused); subagent spawn-cap history discrepancy across secondary trackers; Claude for Government / org-level DLP (admin-only, out of scope); Mythos 5 GA restricted to approved orgs; promote `security-guidance` to its own page only if a human expands the fixed topic list.
+
 ## 2026-08-08
 
 ### Added
@@ -255,24 +275,5 @@ Older entries live in [GUIDE_CHANGELOG_ARCHIVE.md](GUIDE_CHANGELOG_ARCHIVE.md).
 - **Fable 5 subscription-availability flips 2026-06-23** — newly added. Re-verify after 06-22 that the "free until / credits from" dates on `surfaces/claude-api.md` and `surfaces/claude-code.md` reflect live state, and update if Anthropic restores Fable 5 as a standard subscription feature.
 - **Claude Mythos 5 / Project Glasswing** — noted as invitation-only, not a beginner component; left as a one-line aside.
 - **Advisor tool (API)** — carried over; advanced developer cost-optimization pattern, omitted by scope.
-- **Promote `security-guidance` to its own page** — carried over; schema fixes the file set, stays inside `plugins.md` unless a human expands the topic list.
-
-## 2026-06-09
-
-### Added
-- **[surfaces/claude-api] New pitfall: Opus 4.7 / 4.8 reject `temperature`, `top_p`, `top_k` with a 400.** Rejection is by presence (not value) and the SDK won't catch it at compile time, so it bites beginners migrating off older models — especially via OpenAI-compat layers or frameworks that inject `temperature`. Grounded in [What's new in Claude Opus 4.8](https://platform.claude.com/docs/en/about-claude/models/whats-new-claude-4-8) (verified this run via WebSearch summary). The page already covered the `budget_tokens` → adaptive-thinking deprecation; this completes the sampling-parameter story.
-
-### Verified (no changes)
-- claude-surfaces.md, surfaces/claude-code.md — install command (`curl -fsSL https://claude.ai/install.sh | bash`) re-verified via WebSearch against `claude.com/product/claude-code`: native installer canonical, Windows `irm …/install.ps1 | iex` / `winget install Anthropic.ClaudeCode`, `brew install --cask claude-code` (stable) / `claude-code@latest`, npm-with-deprecation-banner all unchanged. Latest documented release is v2.1.169 (June): v2.1.165–v2.1.169 are bug fixes plus the `fallbackModel` setting (up to three fallbacks when primary is overloaded), deny-rule glob support, and cross-session-messaging hardening — all below the beginner threshold. `/code-review` (bug-hunting) vs `/simplify` (cleanup-only) split, Channels, Dynamic Workflows (`ultracode`), Claude Security, MCP tunnels, routines, per-surface sandboxing all current.
-- surfaces/claude-api.md — Opus 4.8 default + low/medium/high/xhigh/max effort ladder unchanged; Managed Agents (Outcomes/Dreams/orchestration), mid-conversation system messages, prompt caching all current.
-- surfaces/claude-ai.md, surfaces/claude-desktop.md, surfaces/claude-cowork.md — unchanged.
-- skills.md, mcp-servers.md, plugins.md, marketplaces.md, connectors.md, decision-tree.md — unchanged. June legal/Cowork-plugin and connector news already reflected.
-- advanced/hooks.md, advanced/slash-commands.md, advanced/routines.md, advanced/authentication.md — unchanged.
-
-### Flagged for review
-- WebFetch remained unavailable this run (404 on `claude-3-5-haiku-20241022`, same regression as prior runs). All verification went through WebSearch summaries of `claude.com/product/claude-code`, `code.claude.com/docs/en/changelog`, `github.com/anthropics/claude-code/releases`, `releasebot.io/updates/anthropic`, `anthropic.com/news`, and `platform.claude.com` docs. A human should spot-check the product landing page and changelog directly.
-- **`claude -p` / Agent SDK billing split lands 2026-06-15** — carried over; still 6 days out as of today (2026-06-09); credit-claim emails reportedly arriving ~2026-06-08. Re-verify after 06-15 that `surfaces/claude-code.md` and `surfaces/claude-api.md` describe live behavior, not the pre-launch announcement.
-- **Sonnet 4 / Opus 4 retirement 2026-06-15 9am PT** — carried over; re-verify `surfaces/claude-api.md` after the date that the IDs now error.
-- **Advisor tool (API)** — carried over; still an advanced developer cost-optimization pattern, omitted by scope.
 - **Promote `security-guidance` to its own page** — carried over; schema fixes the file set, stays inside `plugins.md` unless a human expands the topic list.
 
