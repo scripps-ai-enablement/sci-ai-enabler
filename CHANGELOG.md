@@ -16,6 +16,21 @@ Older entries live in [CHANGELOG_ARCHIVE.md](CHANGELOG_ARCHIVE.md).
 ## 2026-08-15
 
 ### Added
+- **CAN-IMMUNE** (Categories: Drug Repurposing and Discovery, Immunology and Microbiology, Translational Medicine) — hosted, keyless MCP server over the Li/Purcell Lab (Monash) cancer neoantigen catalogue: ~4.49M unique mutant peptides from COSMIC and DepMap/CCLE, 12 read-only tools, and MHC class I binding predicted with NetMHCpan-EL via the IEDB API. One-line install with `claude mcp add --transport http` ([repo](https://github.com/sanjaysgk/can-immune-mcp), [connector setup](https://canelib.erc.monash.edu/connector), [MCP Registry](https://registry.modelcontextprotocol.io/v0/servers?search=can-immune))
+- **Blatant-Why (BY) Protein Design Agent** (Categories: Drug Repurposing and Discovery, Immunology and Microbiology, Integrative Structural and Computational Biology) — MIT Claude Code scaffold for antibody, nanobody, and de novo binder design campaigns: 19 skills, 13 `/by:…` commands, and 11 bundled MCP servers driving BoltzGen, PXDesign, and Protenix, with optional cloud or local GPU compute ([repo](https://github.com/001TMF/blatant-why), [npm](https://www.npmjs.com/package/blatant-why))
+
+### Updated
+- _None._
+
+### Flagged
+- _None._
+
+### Verified (no changes)
+- Manifest sweep found no uncatalogued entries: `anthropics/life-sciences` (21 plugins, all covered), `anthropics/claude-plugins-official` (no new life-science plugins), and Claude Science featured connectors and research skills (zero diff). Note the `anthropics/*` marketplace manifests now resolve only at `.claude-plugin/marketplace.json` — the repository-root path returns 404.
+
+## 2026-08-15
+
+### Added
 - **ALKYL** (Categories: Chemistry, Drug Repurposing and Discovery, Integrative Structural and Computational Biology) — MIT Claude Code plugin packaging 27 computational-chemistry skills (RDKit, docking, MD, quantum chemistry, free energy, generative design), 22 standalone RDKit scripts, and four keyless MCP servers. The page corrects the upstream README's placeholder clone URL, records that the repo ships no `marketplace.json` (so `/plugin marketplace add` will not resolve), and warns that skills stay in the clone rather than being copied to `~/.claude/skills/` — moving the clone breaks them ([repo](https://github.com/Kdevos12/ALKYL), [plugin.json](https://github.com/Kdevos12/ALKYL/blob/master/.claude-plugin/plugin.json))
 
 ### Updated
