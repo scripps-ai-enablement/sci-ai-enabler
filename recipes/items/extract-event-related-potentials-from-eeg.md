@@ -88,7 +88,7 @@ Reported. MNE-Python is the documented, field-standard M/EEG analysis toolbox ([
 
 - **Plain Claude Code + raw MNE-Python.** Fine for users fluent in the MNE API who want no skill layer. The skill's value is encoding the step ordering and surfacing the parameter knobs so they don't get silently defaulted.
 - **A GUI pipeline (EEG-Pype, EEGLAB, or MNE's own interactive plots) with no agent.** The right call for a one-off dataset where you want to click through manual bad-channel/epoch selection. Reach for this recipe when you want the pipeline captured as re-runnable, version-controlled code across many subjects.
-- **Resting-state spectral analysis instead of ERPs.** If your recording has no event structure and you want band-power / connectivity / microstates rather than event-locked averages, that is a different (still MNE-based) workflow — a natural sibling recipe, not this one.
+- **Resting-state spectral analysis instead of ERPs.** If your recording has no event structure and you want band-power and aperiodic parameters rather than event-locked averages, use the sibling recipe [Extract spectral features from resting-state EEG](extract-resting-state-eeg-spectral-features.html).
 - **An autonomous-science system.** None targets ERP extraction; the problem is too well-scoped to justify one.
 
 ## See also
