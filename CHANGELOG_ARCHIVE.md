@@ -6,6 +6,51 @@ nav_exclude: true
 # Catalog updates archive
 
 Older entries rotated out of [CHANGELOG.md](CHANGELOG.md). Newest first, same format.
+## 2026-07-25 (Molecular and Cellular Biology slot)
+
+Molecular and Cellular Biology directed pass plus a manifest sweep. The `anthropics/life-sciences` `.claude-plugin/marketplace.json` (18 plugin entries) and `anthropics/claude-plugins-official` were re-fetched and diffed against the catalog — all entries already covered (Boltz is the only life-science plugin in the official marketplace and is present as `boltz.md`). M&CB seed queries (`single-cell RNA-seq MCP server Scanpy Bioconductor`, `Ensembl Bioconductor CRISPR MCP server Claude skill`, `Geneformer/scGPT MCP server`, `CRISPR guide RNA design MCP server`) reconfirmed existing single-cell coverage (scanpy-mcp/scmcp/LIANA/decoupler/CellRank, CELLxGENE, scvi-tools) and the standing Geneformer/scGPT-wrapper and standalone-CRISPR-gRNA-design gaps; one new install path for an already-catalogued tool was surfaced.
+
+### Updated
+- **gget** — added the `longevity-genie/gget-mcp` MCP-server install path (MIT, PyPI `gget-mcp`, 13 keyless tools, `uvx --from gget-mcp@latest stdio`) as an alternative to the catalogued K-Dense/SciAgent skill packagings; Notes + Sources now distinguish the skill vs. MCP surfaces; `last_verified` bumped to 2026-07-25 ([GitHub](https://github.com/longevity-genie/gget-mcp)).
+
+### Verified (no changes)
+- Manifest sweep confirmed no new `anthropics/life-sciences` or `claude-plugins-official` life-science entries. `scanpy.md` (scmcphub family), `ensembl.md` (effieklimi + Pipeworx HTTP variant already noted), `cellxgene-census.md`, and `encode-toolkit.md` spot-checked and current; Geneformer/scGPT foundation-model wrapper and standalone CRISPR gRNA-design MCP/Skill gaps remain open (deferred).
+
+## 2026-07-25 (Integrative Structural and Computational Biology slot)
+
+Integrative Structural and Computational Biology directed pass plus a manifest sweep. The `anthropics/life-sciences` `.claude-plugin/marketplace.json` (19 plugin entries) and the Claude Science featured-connectors/skills list were re-fetched and diffed against the catalog — all entries already covered (the featured connectors decompose to source-level pages already present; featured research skills — AlphaFold2, Boltz-2, Chai-1, ESMFold2, OpenFold3, ProteinMPNN/LigandMPNN/SolubleMPNN, DiffDock, ESM-2, Evo 2, Borzoi, scGPT, scvi-tools — all present). Structural seed queries (`RCSB PDB MCP server protein structure ChimeraX MCP`, `molecular dynamics MCP server GROMACS OpenMM cryo-EM Claude skill`) reconfirmed the standing cryo-EM-wrapper gap and existing GROMACS/OpenMM/PDB/PyMOL coverage; two genuinely-new installable structural-biology MCP servers were surfaced and catalogued.
+
+### Added
+- **Protein MCP Server** (Categories: Integrative Structural and Computational Biology) — keyless federated protein-structure engine over RCSB PDB + AlphaFold DB + 3D-Beacons + UniProt + InterPro + Foldseek; 7 tools for search, fetch, sequence/fold-homolog search, ligand tracking, TM-align/jFATCAT comparison, collection profiling, and annotation. Apache-2.0, npm `@cyanheads/protein-mcp-server` (stdio) plus a public HTTP instance ([GitHub](https://github.com/cyanheads/protein-mcp-server)).
+- **ChimeraX MCP Server** (Categories: Integrative Structural and Computational Biology) — natural-language UCSF ChimeraX driver: 39 tools for structure open/edit/mutate/minimize, surface/cartoon/label visualization, distance/angle/RMSD/contact measurement, and selection; ChimeraX auto-launches. MIT, PyPI `chimerax-mcp` ([GitHub](https://github.com/mahynotch/chimerax-mcp)).
+
+### Verified (no changes)
+- Manifest sweep confirmed no new `anthropics/life-sciences` or Claude Science featured-connector/skill entries. `pdb.md` and `pymol.md` (structural neighbors) spot-checked and current; cryo-EM (RELION/cryoSPARC/CTFFIND) wrapper gap remains open (deferred).
+
+## 2026-07-25 (Immunology and Microbiology slot)
+
+Immunology and Microbiology directed pass plus a manifest sweep. The `anthropics/life-sciences` plugin directories and the Claude Science featured-connectors/skills list were re-checked against the catalog — all entries already covered (the Claude Science featured connectors decompose to sources already catalogued at source-level; featured research skills — AlphaFold2, Boltz-2, Chai-1, ESMFold2, OpenFold3, ProteinMPNN, DiffDock, ESM-2, Evo 2, Borzoi, scGPT, scvi-tools — all present). Five genuinely-new immunology/microbiology skills were drawn from the deferred `GPTomics/bioSkills` (MIT) queue and catalogued; each SKILL.md, its tool/database list, and the MIT license were verified against the upstream repo this run.
+
+### Added
+- **Repertoire Visualization (bioSkills)** (Categories: Immunology and Microbiology) — TCR/BCR figure skill: VDJtools + R circlize/iNEXT + Python networkx/rapidfuzz for V-J chord diagrams, spectratypes, clonal tracking, rarefaction/extrapolation, overlap heatmaps and similarity networks, with Morisita-Horn/Jaccard depth-robust metric guidance ([SKILL.md](https://github.com/GPTomics/bioSkills/blob/main/tcr-bcr-analysis/repertoire-visualization/SKILL.md)).
+- **Specificity Annotation (bioSkills)** (Categories: Immunology and Microbiology) — TCR/BCR antigen-specificity annotation (VDJdb/McPAS/IEDB+TCRMatch), clustering (tcrdist3/GLIPH2/GIANA/clusTCR), and generation-probability nulls (OLGA/IGoR/SONIA), treating matches as hypotheses ([SKILL.md](https://github.com/GPTomics/bioSkills/blob/main/tcr-bcr-analysis/specificity-annotation/SKILL.md)).
+- **VDJtools Analysis (bioSkills)** (Categories: Immunology and Microbiology) — repertoire diversity (Hill orders q=0/1/2), depth-normalized overlap, clonality, and V/J segment usage via VDJtools/immunarch ([SKILL.md](https://github.com/GPTomics/bioSkills/blob/main/tcr-bcr-analysis/vdjtools-analysis/SKILL.md)).
+- **Amplicon Processing (bioSkills)** (Categories: Immunology and Microbiology) — 16S/ITS ASV inference with DADA2: cutadapt primer removal, per-run error modeling, pair merging, chimera + decontam removal ([SKILL.md](https://github.com/GPTomics/bioSkills/blob/main/microbiome/amplicon-processing/SKILL.md)).
+- **Taxonomy Assignment (bioSkills)** (Categories: Immunology and Microbiology) — 16S/ITS/18S ASV classification via DADA2/DECIPHER IDTAXA/QIIME2 against SILVA/GTDB/Greengenes2/UNITE/PR2, with region-specific training and confidence-threshold guidance ([SKILL.md](https://github.com/GPTomics/bioSkills/blob/main/microbiome/taxonomy-assignment/SKILL.md)).
+
+### Verified (no changes)
+- Manifest sweep confirmed no new `anthropics/life-sciences` or Claude Science featured-connector/skill entries. bioSkills MIT `LICENSE` and the five new `SKILL.md` directories confirmed live upstream this run.
+
+## 2026-07-25 (Chemistry slot)
+
+Chemistry directed pass plus a manifest sweep. The `anthropics/life-sciences` `.claude-plugin/marketplace.json` (~17 entries) was re-fetched and diffed against the catalog — all entries already covered (pubmed, biorender, synapse, wiley-scholar-gateway, biorxiv, clinical-trials, chembl, owkin, open-targets, tooluniverse, and the local skills). Chemistry seed queries (`cheminformatics MCP server RDKit`, `MCP server SMILES publication reaction scheme mechanism`, `retrosynthesis MCP`, `Polaris drug discovery MCP`) reconfirmed existing RDKit coverage (`chemcp`, `rdkit-mcp`, `rdkit-skill`, `rdkit-agent`) and the standing retrosynthesis/Polaris gaps; one genuinely-new installable ChemDraw-CDXML MCP server was surfaced and catalogued.
+
+### Added
+- **CDXML Toolkit** (Categories: Chemistry) — MIT-licensed MCP server + Python toolkit (PyPI `cdxml-toolkit` v0.5.17) exposing 15 grounded chemistry tools for ChemDraw CDXML office automation: molecule/reaction rendering to publication-ready CDXML, structure extraction from images via DECIMER OCR, ELN/LCMS/NMR parsing, and PPTX/DOCX ChemDraw-OLE embed/extract. Windows + ChemDraw 2015+ required ([GitHub](https://github.com/leehiufung911/cdxml-toolkit), [PyPI](https://pypi.org/project/cdxml-toolkit/)).
+
+### Verified (no changes)
+- Manifest sweep confirmed no new `anthropics/life-sciences` entries; ChEMBL (`chembl.md`, last_verified 2026-07-15) spot-checked and current. Chemistry seed queries reconfirmed existing RDKit-based coverage; the OSS retrosynthesis-wrapper and Polaris-MCP gaps remain open (deferred).
+
 ## 2026-07-19 (Drug Repurposing and Discovery slot)
 
 Drug Repurposing and Discovery directed pass plus a manifest sweep. The `anthropics/life-sciences` (`.claude-plugin/marketplace.json`) and `anthropics/claude-plugins-official` marketplaces were re-fetched and diffed against the catalog — all life-science entries already covered. The Claude Science featured-connectors/skills list was re-checked (no new source-level additions). Seed queries (`DrugBank MCP server`, `drug repurposing agent MCP`) reconfirmed existing coverage (`drugbank.md` already carries the `openpharma-org` MCP + official hosted MCP + SciAgent paths). Four genuinely-new drug-discovery skills were drawn from the deferred `mims-harvard/ToolUniverse/skills/` queue and catalogued.
