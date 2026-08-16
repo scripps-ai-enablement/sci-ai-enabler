@@ -16,6 +16,24 @@ Older entries live in [CHANGELOG_ARCHIVE.md](CHANGELOG_ARCHIVE.md).
 ## 2026-08-16
 
 ### Added
+- **Medicare MCP Server (OpenPharma)** (Categories: Translational Medicine) — MIT-licensed MCP over public CMS Medicare data: one `medicare_info` tool with 17 methods for provider/prescriber utilization, hospital quality and safety measures, Part B ASP pricing and Part D formularies. Keyless; installs from source (no npm package — both candidate names 404) ([repo](https://github.com/openpharma-org/medicare-mcp), [CMS Provider Data Catalog](https://data.cms.gov/provider-data/))
+- **ACMG Classification (bioSkills)** (Categories: Translational Medicine) — applies ACMG/AMP 2015 as currently practised: ClinGen SVI specifications, the Tavtigian Bayesian point system, PVS1 decision tree, and calibrated PP3/BP4 thresholds for REVEL/BayesDel/AlphaMissense/SpliceAI ([SKILL.md](https://github.com/GPTomics/bioSkills/blob/main/clinical-databases/acmg-classification/SKILL.md))
+- **Tumor Mutational Burden (bioSkills)** (Categories: Translational Medicine) — TMB from WES/WGS/panel with Friends of Cancer Research harmonization and per-assay calibration, germline and VAF filtering, hypermutator tiering, blood TMB, HLA-LOH and neoantigen-quality integration ([SKILL.md](https://github.com/GPTomics/bioSkills/blob/main/clinical-databases/tumor-mutational-burden/SKILL.md))
+- **MSI Detection (bioSkills)** (Categories: Translational Medicine) — microsatellite instability calling with MSIsensor / MSIsensor-pro / MSIsensor-ct / MANTIS / mSINGS and their panel-calibrated cutoffs, for dMMR, Lynch screening and checkpoint-inhibitor eligibility ([SKILL.md](https://github.com/GPTomics/bioSkills/blob/main/clinical-databases/msi-detection/SKILL.md))
+- **Somatic Signatures (bioSkills)** (Categories: Molecular and Cellular Biology, Translational Medicine) — COSMIC v3.4 signature extraction and refit via SigProfilerSuite, MutationalPatterns, MuSiCal, SigNet and HRDetect, with stability gating and etiology-to-action mapping (HRD → PARP, MMR-D/POLE → ICI) ([SKILL.md](https://github.com/GPTomics/bioSkills/blob/main/clinical-databases/somatic-signatures/SKILL.md))
+
+### Updated
+- Curator state — `openpharma-org/medicare-mcp` cleared its license blocker (GitHub API now reports MIT with a `LICENSE` file) and is no longer deferred; the bioSkills `clinical-databases/` category is now down to one uncatalogued candidate (`polygenic-risk`, verified and ready to write next Translational Medicine slot), with the seven data-source wrappers recorded as deliberate declines.
+
+### Flagged
+- No new flags this run.
+
+### Verified (no changes)
+- Manifest sweep: `anthropics/life-sciences` (18 plugins) and `anthropics/claude-plugins-official` re-fetched — all life-science entries already catalogued, zero diff.
+
+## 2026-08-16
+
+### Added
 - **NWB MCP Server** (Categories: Neuroscience) — closes the standing Neurodata Without Borders gap reconfirmed on the 2026-06-05 and 2026-08-02 Neuroscience passes: ten read-only tools exposing local, S3, or DANDI-hosted NWB files as a virtual SQL database via `lazynwb`; MIT, PyPI 0.1.9 (2026-06-07), `uvx nwb-mcp-server` with no clone. Upstream documents only a VS Code Copilot `mcp.json` block, so the Claude Code and Claude Desktop registration forms on the page are adapted from it and marked unverified ([repo](https://github.com/bjhardcastle/nwb-mcp-server), [PyPI](https://pypi.org/project/nwb-mcp-server/))
 - **neuro-mcp** (Categories: Neuroscience, Translational Medicine) — 54-tool MCP server covering MNE-Python EEG/MEG preprocessing, ICA, ERP and time-frequency analysis, source imaging through to parcellated label time courses, a BIDS/EHR record store with an audit log, and offline interactive Plotly views; BSD-3-Clause, PyPI 0.1.3 (2026-07-24). Page flags that it writes state, that the project targets clinicians without publishing any clearance or medical disclaimer, and that at v0.1.3 with no publication it is unproven ([repo](https://github.com/AImplifier/neuro-mcp), [PyPI](https://pypi.org/project/neuro-mcp/))
 
