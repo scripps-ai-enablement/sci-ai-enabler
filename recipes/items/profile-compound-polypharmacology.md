@@ -117,6 +117,7 @@ No peer-reviewed benchmark of "Claude + ChEMBL connector" vs a hand-written ChEM
 
 - [ChEMBL Connector](../../catalog/tools/chembl.html)
 - [PubChem MCP Server](../../catalog/tools/pubchem.html)
+- [Find a selective tool compound for a target](find-a-selective-tool-compound-for-a-target.html) — the target-first mirror over expert-curated GtoPdb pharmacology; use it when you have a target and no compound, and use this recipe to cross-check its top candidate's affinity.
 - [Filter a virtual screening hit list with drug-likeness rules and structural alerts](filter-virtual-screening-hits.html) — what to do *before* a compound earns a polypharmacology profile.
 - [Build a target dossier from gene name to structure to cancer dependency](build-target-dossier.html) — the target-centric mirror of this recipe.
 - [Scan approved drugs for repurposing candidates against a disease](scan-drug-repurposing-candidates.html) — bulk version of the same lookup, target-driven.

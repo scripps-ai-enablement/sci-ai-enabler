@@ -16,6 +16,17 @@ Older entries live in [RECIPES_CHANGELOG_ARCHIVE.md](RECIPES_CHANGELOG_ARCHIVE.m
 ## 2026-08-16
 
 ### Added
+- **Find a selective tool compound for a target** (Problem class: Knowledge synthesis; Evidence: Proposed) — rung-2 recipe over the [GtoPdb Claude Skill](../catalog/tools/gtopdb-database.html): resolve a target by UniProt accession, pull its curated interactions, and rank candidate ligands by affinity *and* a measured selectivity window computed from each ligand's own off-target profile. Three gates guard the arithmetic — species is declared before any affinity is read and never pooled, `affinity` can be an empty string and is routed to `no_affinity.csv` rather than coerced to zero, and the window is a log *subtraction* (Δ 1.5 ≈ 30-fold) not a ratio. The verdict defaults to `insufficiently_profiled`, because absence of off-target data is not selectivity ([Bindel & Seifert 2026](https://doi.org/10.1016/j.molpha.2026.100139) report pKi deviations up to 4.2 log units between curated sources and 69 of 302 aminergic ligands with incomplete functional characterisation; [Harding et al. 2026](https://doi.org/10.1093/nar/gkaf1067) give current coverage at 3,103 protein targets and 13,260 ligands).
+
+### Updated
+- **Profile a compound's polypharmacology from ChEMBL bioactivity data** — cross-linked in See also to the new target-first sibling, with a one-line note on which recipe to enter from which starting point.
+
+### Flagged
+- _None._
+
+## 2026-08-16
+
+### Added
 - **Design a Bayesian trial that borrows external control data** (Problem class: Experimental design; Evidence: Proposed) — discharges the second-ranked Translational Medicine deferred item and opens the Bayesian leg of the clinical-trials chain, which until now had a frequentist group-sequential page and nothing for the borrowing decision. Rung 2 on the [Bayesian Trials skill](catalog/tools/bayesian-trials.html). Built around three gates: the no-borrowing comparator is designed and committed first, the borrowed information is declared as a **prior effective sample size in patients** against the skill's 20–80%-of-control-arm band, and operating characteristics are simulated over a two-way **true effect × prior-data conflict** grid rather than only under exchangeability ([Schmidli et al. 2014](https://doi.org/10.1111/biom.12242), [Hupf et al. 2021](https://doi.org/10.1002/sim.8970)).
 
 ### Updated
