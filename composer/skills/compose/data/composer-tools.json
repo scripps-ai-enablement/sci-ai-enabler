@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "generated": "2026-08-13",
-  "count": 521,
+  "generated": "2026-08-16",
+  "count": 543,
   "tools": [
     {
       "slug": "10x-genomics-cloud",
@@ -63,6 +63,26 @@
         "sMRI"
       ],
       "path": "catalog/tools/abide-skill.md"
+    },
+    {
+      "slug": "acmg-classification",
+      "title": "ACMG Classification (bioSkills)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-08-16",
+      "claude_science": false,
+      "summary": "\"Classifies germline variants P/LP/VUS/LB/B under ACMG-AMP 2015 with ClinGen SVI specifications, Tavtigian Bayesian points, and calibrated in-silico thresholds\"",
+      "keywords": [
+        "ACMG",
+        "ACMG-AMP",
+        "AMP",
+        "SVI",
+        "VUS"
+      ],
+      "path": "catalog/tools/acmg-classification.md"
     },
     {
       "slug": "adaptive-designs",
@@ -241,6 +261,46 @@
         "NWB-introspection"
       ],
       "path": "catalog/tools/aind-data.md"
+    },
+    {
+      "slug": "alignment-trimming",
+      "title": "Alignment Trimming (bioSkills)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Integrative Structural and Computational Biology",
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-08-15",
+      "claude_science": false,
+      "summary": "\"Trim multiple sequence alignments with ClipKIT, trimAl, BMGE, Divvier or HMMcleaner, choosing the mode by downstream goal rather than by habit\"",
+      "keywords": [
+        "BMGE",
+        "ClipKIT",
+        "HMMcleaner"
+      ],
+      "path": "catalog/tools/alignment-trimming.md"
+    },
+    {
+      "slug": "alkyl",
+      "title": "ALKYL",
+      "tool_type": "Claude Code Plugin",
+      "availability": "Beta",
+      "tool_categories": [
+        "Chemistry",
+        "Drug Repurposing and Discovery",
+        "Integrative Structural and Computational Biology"
+      ],
+      "last_verified": "2026-08-15",
+      "claude_science": false,
+      "summary": "Claude Code plugin bundling 27 computational-chemistry skills — RDKit, docking, MD, quantum chemistry, free energy, generative design — plus four keyless MCP servers.",
+      "keywords": [
+        "ALKYL",
+        "RDKit",
+        "RDKit-based",
+        "Twenty-seven"
+      ],
+      "path": "catalog/tools/alkyl.md"
     },
     {
       "slug": "allenbrain",
@@ -967,6 +1027,26 @@
       "path": "catalog/tools/blast.md"
     },
     {
+      "slug": "blatant-why",
+      "title": "Blatant-Why (BY) Protein Design Agent",
+      "tool_type": "Claude Code Plugin",
+      "availability": "Beta",
+      "tool_categories": [
+        "Drug Repurposing and Discovery",
+        "Immunology and Microbiology",
+        "Integrative Structural and Computational Biology"
+      ],
+      "last_verified": "2026-08-15",
+      "claude_science": false,
+      "summary": "Scaffolds a Claude Code antibody and nanobody design campaign — 19 skills, 13 slash commands, and 11 MCP servers wired to design models and cloud compute.",
+      "keywords": [
+        "Blatant-Why",
+        "ipSAE",
+        "PXDesign"
+      ],
+      "path": "catalog/tools/blatant-why.md"
+    },
+    {
       "slug": "bnt",
       "title": "BrainNetworkTransformer (BNT) (Claude Skill)",
       "tool_type": "Claude Skill",
@@ -1195,6 +1275,26 @@
         "sMRI"
       ],
       "path": "catalog/tools/camcan-skill.md"
+    },
+    {
+      "slug": "can-immune",
+      "title": "CAN-IMMUNE",
+      "tool_type": "MCP server",
+      "availability": "GA",
+      "tool_categories": [
+        "Drug Repurposing and Discovery",
+        "Immunology and Microbiology",
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-08-15",
+      "claude_science": false,
+      "summary": "Hosted MCP server over the CAN-IMMUNE cancer neoantigen database — mutant peptides, cell lines, tissues, and MHC-I binding predictions.",
+      "keywords": [
+        "CAN-IMMUNE",
+        "MHC",
+        "MHC-I"
+      ],
+      "path": "catalog/tools/can-immune.md"
     },
     {
       "slug": "cbioportal-database",
@@ -2084,7 +2184,7 @@
         "Drug Repurposing and Discovery",
         "Translational Medicine"
       ],
-      "last_verified": "2026-06-07",
+      "last_verified": "2026-08-15",
       "claude_science": false,
       "summary": "Clarivate Cortellis MCP plugin surfacing global drug-pipeline, clinical-trial, regulatory, safety, and deals intelligence to Claude for competitive scouting and regulatory work.",
       "keywords": [
@@ -5038,6 +5138,22 @@
       "path": "catalog/tools/maxquant-proteomics.md"
     },
     {
+      "slug": "mcptools",
+      "title": "mcptools (R)",
+      "tool_type": "MCP server",
+      "availability": "GA",
+      "tool_categories": [
+        "General-Purpose Utilities"
+      ],
+      "last_verified": "2026-08-15",
+      "claude_science": false,
+      "summary": "\"Posit's CRAN package that turns a live R session into an MCP server, letting Claude run R and call your own R functions as tools.\"",
+      "keywords": [
+        "CRAN"
+      ],
+      "path": "catalog/tools/mcptools.md"
+    },
+    {
       "slug": "mdanalysis-trajectory",
       "title": "MDAnalysis (Claude Skill)",
       "tool_type": "Claude Skill",
@@ -5128,6 +5244,23 @@
         "SNOMED"
       ],
       "path": "catalog/tools/medical-terminologies-mcp.md"
+    },
+    {
+      "slug": "medicare-mcp",
+      "title": "Medicare MCP Server (OpenPharma)",
+      "tool_type": "MCP server",
+      "availability": "Beta",
+      "tool_categories": [
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-08-16",
+      "claude_science": false,
+      "summary": "MIT MCP server over public CMS Medicare data — provider and prescriber lookup, hospital quality and safety measures, Part B/D drug pricing and formularies.",
+      "keywords": [
+        "CMS",
+        "MIT"
+      ],
+      "path": "catalog/tools/medicare-mcp.md"
     },
     {
       "slug": "medidata",
@@ -5519,6 +5652,32 @@
       "path": "catalog/tools/mouse-phenome-database.md"
     },
     {
+      "slug": "msa-statistics",
+      "title": "MSA Statistics (bioSkills)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Integrative Structural and Computational Biology",
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-08-15",
+      "claude_science": false,
+      "summary": "\"Compute percent identity, conservation scores, gap profiles and substitution-matrix statistics over a multiple alignment with BioPython, and read them correctly\"",
+      "keywords": [
+        "AUC",
+        "DNA",
+        "MSA",
+        "PDB",
+        "PID1",
+        "PID2",
+        "PID3",
+        "PID4",
+        "RNA",
+        "Top-30"
+      ],
+      "path": "catalog/tools/msa-statistics.md"
+    },
+    {
       "slug": "mschallenge-skill",
       "title": "MS Lesion Segmentation Challenge Pipeline (Claude Skill)",
       "tool_type": "Claude Skill",
@@ -5535,6 +5694,58 @@
         "ISBI"
       ],
       "path": "catalog/tools/mschallenge-skill.md"
+    },
+    {
+      "slug": "msi-detection",
+      "title": "MSI Detection (bioSkills)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-08-16",
+      "claude_science": false,
+      "summary": "\"Calls microsatellite instability from WES/WGS/panel or cfDNA with MSIsensor-pro, MANTIS and mSINGS for dMMR, Lynch screening and ICI eligibility\"",
+      "keywords": [
+        "cfDNA",
+        "dMMR",
+        "ICI",
+        "MANTIS",
+        "MSI",
+        "mSINGS",
+        "MSIsensor-pro",
+        "WES",
+        "WGS"
+      ],
+      "path": "catalog/tools/msi-detection.md"
+    },
+    {
+      "slug": "multiple-alignment",
+      "title": "Multiple Sequence Alignment (bioSkills)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Integrative Structural and Computational Biology",
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-08-15",
+      "claude_science": false,
+      "summary": "\"Build multiple sequence alignments with MAFFT, MUSCLE5, Clustal Omega or T-Coffee, choosing the algorithm by dataset size and divergence\"",
+      "keywords": [
+        "BLAST",
+        "BUSTED",
+        "Codon-aware",
+        "FFT-NS-2",
+        "FFT-NS-i",
+        "GUIDANCE2",
+        "INS-i",
+        "MACSE",
+        "MAFFT",
+        "MEME-grade",
+        "MUSCLE5",
+        "PAL2NAL"
+      ],
+      "path": "catalog/tools/multiple-alignment.md"
     },
     {
       "slug": "multiplicity-graphical",
@@ -5723,6 +5934,30 @@
         "PCA"
       ],
       "path": "catalog/tools/neural-population-analysis-guide.md"
+    },
+    {
+      "slug": "neuro-mcp",
+      "title": "neuro-mcp",
+      "tool_type": "MCP server",
+      "availability": "Alpha",
+      "tool_categories": [
+        "Neuroscience",
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-08-16",
+      "claude_science": false,
+      "summary": "54-tool MCP server wrapping MNE-Python EEG/MEG preprocessing, source imaging, a BIDS/EHR record store, and offline interactive plots.",
+      "keywords": [
+        "BIDS",
+        "BIDS-backed",
+        "EEG",
+        "EHR",
+        "ERP",
+        "ICA",
+        "MEG",
+        "MNE-Python"
+      ],
+      "path": "catalog/tools/neuro-mcp.md"
     },
     {
       "slug": "neuroflow",
@@ -6013,6 +6248,25 @@
         "NSD"
       ],
       "path": "catalog/tools/nsd-skill.md"
+    },
+    {
+      "slug": "nwb-mcp-server",
+      "title": "NWB MCP Server",
+      "tool_type": "MCP server",
+      "availability": "Beta",
+      "tool_categories": [
+        "Neuroscience"
+      ],
+      "last_verified": "2026-08-16",
+      "claude_science": false,
+      "summary": "Query local, S3, or DANDI-hosted NWB neurophysiology files as a virtual SQL database, read-only, without writing Python.",
+      "keywords": [
+        "DANDI",
+        "DANDI-hosted",
+        "NWB",
+        "SQL"
+      ],
+      "path": "catalog/tools/nwb-mcp-server.md"
     },
     {
       "slug": "oasis-skill",
@@ -6499,6 +6753,26 @@
         "ssGSEA"
       ],
       "path": "catalog/tools/pathway-enrichment.md"
+    },
+    {
+      "slug": "pbmcpedia",
+      "title": "PBMCpedia MCP",
+      "tool_type": "MCP server",
+      "availability": "Beta",
+      "tool_categories": [
+        "Immunology and Microbiology",
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-08-15",
+      "claude_science": false,
+      "summary": "\"Query PBMCpedia's harmonized PBMC single-cell atlas — per-cell-type expression, DEGs, pathways and antibody chains — filtered by sex, age and disease.\"",
+      "keywords": [
+        "DEGs",
+        "PBMC",
+        "PBMCpedia",
+        "scRNA-seq"
+      ],
+      "path": "catalog/tools/pbmcpedia.md"
     },
     {
       "slug": "pdb",
@@ -8574,6 +8848,34 @@
       "path": "catalog/tools/solublempnn.md"
     },
     {
+      "slug": "somatic-signatures",
+      "title": "Somatic Signatures (bioSkills)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Translational Medicine",
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-08-16",
+      "claude_science": false,
+      "summary": "\"Extracts and assigns COSMIC v3.4 mutational signatures from somatic VCFs with SigProfiler, MutationalPatterns, MuSiCal or HRDetect to read DNA-damage etiology\"",
+      "keywords": [
+        "APOBEC3A",
+        "BRCA-deficiency",
+        "BRCA1",
+        "COSMIC",
+        "DBS",
+        "DNA-damage",
+        "HRDetect",
+        "MMR",
+        "NMF",
+        "PARP-inhibitor",
+        "POLE",
+        "SBS"
+      ],
+      "path": "catalog/tools/somatic-signatures.md"
+    },
+    {
       "slug": "spacenet",
       "title": "SpaceNet Classifier (Claude Skill)",
       "tool_type": "Claude Skill",
@@ -8760,6 +9062,27 @@
         "STRING"
       ],
       "path": "catalog/tools/string-database-ppi.md"
+    },
+    {
+      "slug": "structural-alignment",
+      "title": "Structural Alignment (bioSkills)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Integrative Structural and Computational Biology"
+      ],
+      "last_verified": "2026-08-15",
+      "claude_science": false,
+      "summary": "\"Superpose and score protein structures with Foldseek, TM-align, US-align, DALI or FoldMason when sequence identity is too low to align reliably\"",
+      "keywords": [
+        "DALI",
+        "lDDT",
+        "RMSD",
+        "TM-align",
+        "TM-score",
+        "US-align"
+      ],
+      "path": "catalog/tools/structural-alignment.md"
     },
     {
       "slug": "structure-preparation",
@@ -9063,6 +9386,24 @@
       "path": "catalog/tools/tooluniverse-adverse-outcome-pathway.md"
     },
     {
+      "slug": "tooluniverse-aging-senescence",
+      "title": "Aging and Senescence Research (ToolUniverse Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Drug Repurposing and Discovery",
+        "Molecular and Cellular Biology",
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-08-16",
+      "claude_science": false,
+      "summary": "ToolUniverse agent skill for geroscience — senescence markers, aging hallmarks, longevity GWAS, and senolytic target discovery with graded evidence.",
+      "keywords": [
+        "GWAS"
+      ],
+      "path": "catalog/tools/tooluniverse-aging-senescence.md"
+    },
+    {
       "slug": "tooluniverse-binder-discovery",
       "title": "Binder Discovery (ToolUniverse Claude Skill)",
       "tool_type": "Claude Skill",
@@ -9341,6 +9682,58 @@
       "path": "catalog/tools/tooluniverse-drug-target-validation.md"
     },
     {
+      "slug": "tooluniverse-enzyme-kinetics",
+      "title": "Enzyme Kinetics (ToolUniverse Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Chemistry",
+        "Drug Repurposing and Discovery",
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-08-16",
+      "claude_science": false,
+      "summary": "ToolUniverse agent skill that fits Michaelis-Menten kinetics to substrate-velocity data and classifies inhibition mechanism with a Ki estimate.",
+      "keywords": [
+        "Michaelis-Menten"
+      ],
+      "path": "catalog/tools/tooluniverse-enzyme-kinetics.md"
+    },
+    {
+      "slug": "tooluniverse-gene-liability",
+      "title": "Gene Liability Evaluation (ToolUniverse Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Drug Repurposing and Discovery",
+        "Molecular and Cellular Biology",
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-08-16",
+      "claude_science": false,
+      "summary": "ToolUniverse agent skill that scores the human safety liability of inhibiting or knocking out a gene across five evidence dimensions.",
+      "keywords": [],
+      "path": "catalog/tools/tooluniverse-gene-liability.md"
+    },
+    {
+      "slug": "tooluniverse-gpcr-structural-pharmacology",
+      "title": "GPCR Structural Pharmacology (ToolUniverse Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Drug Repurposing and Discovery",
+        "Integrative Structural and Computational Biology"
+      ],
+      "last_verified": "2026-08-16",
+      "claude_science": false,
+      "summary": "ToolUniverse agent skill for GPCR drug discovery — ligand classification, GPCRdb structures, mutation effects, and antibody-antigen interface analysis.",
+      "keywords": [
+        "GPCR",
+        "GPCRdb"
+      ],
+      "path": "catalog/tools/tooluniverse-gpcr-structural-pharmacology.md"
+    },
+    {
       "slug": "tooluniverse-gwas-drug-discovery",
       "title": "GWAS Drug Discovery (ToolUniverse Claude Skill)",
       "tool_type": "Claude Skill",
@@ -9380,6 +9773,26 @@
         "TMB"
       ],
       "path": "catalog/tools/tooluniverse-immunotherapy-response-prediction.md"
+    },
+    {
+      "slug": "tooluniverse-mendelian-randomization",
+      "title": "Mendelian Randomization (ToolUniverse Claude Skill)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Drug Repurposing and Discovery",
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-08-16",
+      "claude_science": false,
+      "summary": "ToolUniverse agent skill that uses genetic variants as instrumental variables to test whether an exposure causally affects a disease outcome.",
+      "keywords": [
+        "EpiGraphDB",
+        "IEU",
+        "MR-EvE",
+        "OpenGWAS"
+      ],
+      "path": "catalog/tools/tooluniverse-mendelian-randomization.md"
     },
     {
       "slug": "tooluniverse-pharmacovigilance",
@@ -9623,6 +10036,33 @@
       "path": "catalog/tools/trial-reporting.md"
     },
     {
+      "slug": "tumor-mutational-burden",
+      "title": "Tumor Mutational Burden (bioSkills)",
+      "tool_type": "Claude Skill",
+      "availability": "GA",
+      "tool_categories": [
+        "Translational Medicine"
+      ],
+      "last_verified": "2026-08-16",
+      "claude_science": false,
+      "summary": "\"Calculates TMB from WES/WGS/panel data with Friends of Cancer Research harmonization, per-assay calibration, hypermutator tiering and blood TMB\"",
+      "keywords": [
+        "bTMB",
+        "Cross-assay",
+        "ctDNA-fraction",
+        "DASH",
+        "ESMO",
+        "FDA",
+        "gnomAD",
+        "HLA",
+        "LOHHLA",
+        "MMR-deficient",
+        "POLD1",
+        "POLE"
+      ],
+      "path": "catalog/tools/tumor-mutational-burden.md"
+    },
+    {
       "slug": "ucla-cnp-skill",
       "title": "UCLA CNP Pipeline (Claude Skill)",
       "tool_type": "Claude Skill",
@@ -9643,6 +10083,23 @@
         "UCLA"
       ],
       "path": "catalog/tools/ucla-cnp-skill.md"
+    },
+    {
+      "slug": "ucsc-cell-browser",
+      "title": "UCSC Cell Browser MCP",
+      "tool_type": "MCP server",
+      "availability": "Beta",
+      "tool_categories": [
+        "Molecular and Cellular Biology"
+      ],
+      "last_verified": "2026-08-15",
+      "claude_science": false,
+      "summary": "\"Search the UCSC Cell Browser's public single-cell dataset collection by organism, tissue, disease or project, and pull per-dataset metadata.\"",
+      "keywords": [
+        "RNA-seq",
+        "UCSC"
+      ],
+      "path": "catalog/tools/ucsc-cell-browser.md"
     },
     {
       "slug": "ucsc-genome-browser",

@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "generated": "2026-08-13",
-  "count": 4,
+  "generated": "2026-08-16",
+  "count": 6,
   "dependencies": [
     {
       "package": "DeepSlice",
@@ -44,6 +44,34 @@
       ],
       "verdict": "pass",
       "verdict_on": "2026-08-13"
+    },
+    {
+      "package": "fooof",
+      "registry": "PyPI",
+      "pin": "1.1.1",
+      "license": "Apache-2.0",
+      "import": "fooof",
+      "source_url": "https://github.com/fooof-tools/fooof",
+      "source_label": "fooof-tools/fooof",
+      "recipes": [
+        "extract-resting-state-eeg-spectral-features"
+      ],
+      "verdict": "",
+      "verdict_on": ""
+    },
+    {
+      "package": "pyddm",
+      "registry": "PyPI",
+      "pin": "0.9.0",
+      "license": "MIT",
+      "import": "pyddm",
+      "source_url": "https://doi.org/10.7554/eLife.56938",
+      "source_label": "Shinn et al., *eLife* 2020",
+      "recipes": [
+        "fit-a-drift-diffusion-model-to-choice-rt-data"
+      ],
+      "verdict": "",
+      "verdict_on": ""
     },
     {
       "package": "rdkit",

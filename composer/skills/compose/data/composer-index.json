@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "generated": "2026-08-13",
+  "generated": "2026-08-16",
   "counts": {
-    "tools": 521,
-    "recipes": 121
+    "tools": 543,
+    "recipes": 129
   },
   "tools_file": "composer-tools.json",
   "recipes": [
@@ -373,7 +373,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-07-04",
+      "last_verified": "2026-08-15",
       "summary": "Use the phylogenetics Claude skill to take a FASTA of homologous sequences through MAFFT alignment, IQ-TREE 2 maximum-likelihood inference with bootstrap support, and an annotated tree figure.",
       "keywords": [
         "ETE3",
@@ -470,6 +470,28 @@
         "PDB"
       ],
       "path": "recipes/items/characterize-a-protein-protein-interface.md"
+    },
+    {
+      "slug": "compare-bulk-tcr-repertoires-across-samples",
+      "title": "Compare bulk TCR/BCR repertoires across samples from raw immunosequencing reads",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Immunology and Microbiology"
+      ],
+      "evidence_level": "Proposed",
+      "complexity": "Multi-tool harness",
+      "availability": "Institutional access",
+      "compute_requirements": "Workstation with GPU",
+      "last_verified": "2026-08-15",
+      "summary": "Assemble clonotypes with MiXCR, normalize samples to a common depth with VDJtools, then compare diversity, clonality and overlap as a committed pipeline.",
+      "keywords": [
+        "BCR",
+        "FASTQs",
+        "MiXCR",
+        "TCR",
+        "VDJtools"
+      ],
+      "path": "recipes/items/compare-bulk-tcr-repertoires-across-samples.md"
     },
     {
       "slug": "compute-16s-microbiome-diversity",
@@ -638,6 +660,24 @@
         "SQL"
       ],
       "path": "recipes/items/define-a-phenotype-cohort-in-an-omop-database.md"
+    },
+    {
+      "slug": "design-a-bayesian-trial-that-borrows-external-data",
+      "title": "Design a Bayesian trial that borrows external control data",
+      "problem_class": "Experimental design",
+      "subject_areas": [
+        "Translational Medicine"
+      ],
+      "evidence_level": "Proposed",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-08-16",
+      "summary": "Use the Bayesian Trials skill and RBesT to turn historical controls into a MAP prior with a declared effective sample size, then simulate what it costs under prior-data conflict.",
+      "keywords": [
+        "MAP"
+      ],
+      "path": "recipes/items/design-a-bayesian-trial-that-borrows-external-data.md"
     },
     {
       "slug": "design-a-group-sequential-trial-with-interim-looks",
@@ -933,6 +973,29 @@
       "path": "recipes/items/extract-event-related-potentials-from-eeg.md"
     },
     {
+      "slug": "extract-resting-state-eeg-spectral-features",
+      "title": "Extract spectral features from resting-state EEG",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Neuroscience"
+      ],
+      "evidence_level": "Proposed",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-08-16",
+      "summary": "Use the EEG Processing skill in Claude Code plus specparam/FOOOF to turn eyes-closed resting recordings into per-channel band power and aperiodic exponents.",
+      "keywords": [
+        "Apache-2",
+        "EEG",
+        "FOOOF",
+        "MNE-Python",
+        "PSD",
+        "Resting-state"
+      ],
+      "path": "recipes/items/extract-resting-state-eeg-spectral-features.md"
+    },
+    {
       "slug": "extract-structured-data-from-clinical-notes",
       "title": "Extract structured variables from free-text clinical notes",
       "problem_class": "Data analysis",
@@ -973,6 +1036,23 @@
       "path": "recipes/items/filter-virtual-screening-hits.md"
     },
     {
+      "slug": "find-a-selective-tool-compound-for-a-target",
+      "title": "Find a selective tool compound for a target",
+      "problem_class": "Knowledge synthesis",
+      "subject_areas": [
+        "Chemistry",
+        "Drug Repurposing and Discovery"
+      ],
+      "evidence_level": "Proposed",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-08-16",
+      "summary": "Rank candidate tool compounds for one target by curated affinity and measured selectivity using the GtoPdb skill, with an explicit \"not profiled enough to call\" verdict.",
+      "keywords": [],
+      "path": "recipes/items/find-a-selective-tool-compound-for-a-target.md"
+    },
+    {
       "slug": "find-differentially-abundant-proteins-in-lfq-ms",
       "title": "Find differentially abundant proteins in a label-free proteomics experiment",
       "problem_class": "Data analysis",
@@ -990,6 +1070,24 @@
         "LFQ"
       ],
       "path": "recipes/items/find-differentially-abundant-proteins-in-lfq-ms.md"
+    },
+    {
+      "slug": "find-differentially-regulated-phosphosites",
+      "title": "Find differentially regulated phosphosites, not just changed proteins",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Molecular and Cellular Biology"
+      ],
+      "evidence_level": "Proposed",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-08-15",
+      "summary": "Use the MaxQuant skill on a paired phospho-enriched and unenriched run to get site-level regulation calls that are not just protein-abundance changes in disguise.",
+      "keywords": [
+        "IMAC"
+      ],
+      "path": "recipes/items/find-differentially-regulated-phosphosites.md"
     },
     {
       "slug": "find-repurposing-candidates-in-a-knowledge-graph",
@@ -1022,7 +1120,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-07-04",
+      "last_verified": "2026-08-15",
       "summary": "Use the DepMap skill to mine genome-wide CRISPR screens for genes selectively essential in a cancer lineage or genotype, corrected for copy-number bias.",
       "keywords": [
         "ATP1B1",
@@ -1051,6 +1149,28 @@
         "OTU"
       ],
       "path": "recipes/items/find-taxa-differing-between-microbiome-groups.md"
+    },
+    {
+      "slug": "fit-a-drift-diffusion-model-to-choice-rt-data",
+      "title": "Fit a drift-diffusion model to choice and reaction-time data",
+      "problem_class": "Data analysis",
+      "subject_areas": [
+        "Neuroscience"
+      ],
+      "evidence_level": "Proposed",
+      "complexity": "One skill or MCP",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-08-16",
+      "summary": "Use the Drift-Diffusion Model skill in Claude Code with PyDDM to decompose two-choice accuracy and RT into drift rate, boundary, bias and non-decision time.",
+      "keywords": [
+        "Drift-Diffusion",
+        "EEG",
+        "fMRI",
+        "MIT",
+        "PyDDM"
+      ],
+      "path": "recipes/items/fit-a-drift-diffusion-model-to-choice-rt-data.md"
     },
     {
       "slug": "fit-dose-response-curve-to-ic50",
@@ -1118,6 +1238,26 @@
       "path": "recipes/items/generate-cross-corpus-drug-repurposing-hypotheses.md"
     },
     {
+      "slug": "get-balanced-reactions-for-a-metabolite",
+      "title": "Get balanced reactions and cross-references for a metabolite or EC number",
+      "problem_class": "Knowledge synthesis",
+      "subject_areas": [
+        "Chemistry",
+        "Molecular and Cellular Biology"
+      ],
+      "evidence_level": "Proposed",
+      "complexity": "Claude Code alone",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-08-15",
+      "summary": "Have Claude Code script the Rhea release files so a metabolite name or EC number returns mass- and charge-balanced reactions with direction and cross-references.",
+      "keywords": [
+        "ChEBI",
+        "KEGG"
+      ],
+      "path": "recipes/items/get-balanced-reactions-for-a-metabolite.md"
+    },
+    {
       "slug": "handle-missing-endpoint-data-in-a-trial",
       "title": "Handle missing endpoint data in a confirmatory trial",
       "problem_class": "Data analysis",
@@ -1173,7 +1313,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-07-04",
+      "last_verified": "2026-08-15",
       "summary": "Use the BLAST MCP server to search a Sanger 16S rRNA read against a pinned reference database and assign genus/species by the standard identity thresholds.",
       "keywords": [
         "BLAST",
@@ -1338,7 +1478,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Workstation with GPU",
-      "last_verified": "2026-07-04",
+      "last_verified": "2026-08-15",
       "summary": "Use the scvi-tools skill in Claude Code to fit scVI (or scANVI when labels are available) on a concatenated AnnData of multiple batches, returning a batch-corrected latent space and integrated UMAP.",
       "keywords": [
         "RNA-seq",
@@ -1430,6 +1570,23 @@
       "path": "recipes/items/localize-implant-tip-in-brain-atlas-subregion.md"
     },
     {
+      "slug": "look-up-curated-complex-composition",
+      "title": "Look up the curated composition and stoichiometry of a protein complex",
+      "problem_class": "Knowledge synthesis",
+      "subject_areas": [
+        "Integrative Structural and Computational Biology",
+        "Molecular and Cellular Biology"
+      ],
+      "evidence_level": "Proposed",
+      "complexity": "Claude Code alone",
+      "availability": "Fully open",
+      "compute_requirements": "Laptop",
+      "last_verified": "2026-08-15",
+      "summary": "Have Claude Code script the Complex Portal release files so a gene or UniProt accession returns curated subunits, stoichiometry, and an evidence class.",
+      "keywords": [],
+      "path": "recipes/items/look-up-curated-complex-composition.md"
+    },
+    {
       "slug": "map-disease-to-genes-and-pathways",
       "title": "Map a disease to its implicated genes and pathways",
       "problem_class": "Knowledge synthesis",
@@ -1501,7 +1658,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-07-04",
+      "last_verified": "2026-08-15",
       "summary": "Drive HeuDiConv or dcm2bids from Claude Code via the K-Dense BIDS skill to convert a raw DICOM dump into a validated BIDS dataset ready for BIDS-Apps and OpenNeuro submission.",
       "keywords": [
         "BIDS",
@@ -2303,7 +2460,7 @@
       "complexity": "One skill or MCP",
       "availability": "Fully open",
       "compute_requirements": "Laptop",
-      "last_verified": "2026-07-04",
+      "last_verified": "2026-08-15",
       "summary": "Use the BLAST MCP server to search a bacterial assembly's proteins against CARD and VFDB, emitting a curated resistance- and virulence-gene profile with a committed script and pinned databases.",
       "keywords": [
         "AMR",
