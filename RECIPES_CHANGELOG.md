@@ -15,6 +15,17 @@ Older entries live in [RECIPES_CHANGELOG_ARCHIVE.md](RECIPES_CHANGELOG_ARCHIVE.m
 
 ## 2026-08-16
 
+### Added
+- **Design a Bayesian trial that borrows external control data** (Problem class: Experimental design; Evidence: Proposed) — discharges the second-ranked Translational Medicine deferred item and opens the Bayesian leg of the clinical-trials chain, which until now had a frequentist group-sequential page and nothing for the borrowing decision. Rung 2 on the [Bayesian Trials skill](catalog/tools/bayesian-trials.html). Built around three gates: the no-borrowing comparator is designed and committed first, the borrowed information is declared as a **prior effective sample size in patients** against the skill's 20–80%-of-control-arm band, and operating characteristics are simulated over a two-way **true effect × prior-data conflict** grid rather than only under exchangeability ([Schmidli et al. 2014](https://doi.org/10.1111/biom.12242), [Hupf et al. 2021](https://doi.org/10.1002/sim.8970)).
+
+### Updated
+- **Design a group-sequential trial with interim looks** — added the new Bayesian recipe to **See also** as the other-framework sibling; the page had named the skill under Alternatives without a followable path.
+
+### Verified (no changes)
+- `recipe_recheck: no` this run — no aging-recipe verification pass performed.
+
+## 2026-08-16
+
 Neuroscience directed pass. Two recipes, both rung 2, both `Proposed`, both `Fully open` / `Laptop` — one discharging the section's banked resting-state EEG item, one opening a leg the section did not have.
 
 ### Added

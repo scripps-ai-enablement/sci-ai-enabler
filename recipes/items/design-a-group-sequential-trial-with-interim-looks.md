@@ -139,6 +139,7 @@ The skill contributes the regulatory anchoring (FDA 2019 final guidance; ICH E20
 
 - [Adaptive Designs (bioSkills)](../../catalog/tools/adaptive-designs.html)
 - [Bayesian Trials (bioSkills)](../../catalog/tools/bayesian-trials.html)
+- [Design a Bayesian trial that borrows external control data](design-a-bayesian-trial-that-borrows-external-data.html) — the other-framework sibling: reach for it when the external information is the point rather than the interim looks.
 - [Draft a Phase 2/3 clinical trial protocol](draft-phase23-clinical-trial-protocol.html)
 - [Handle missing endpoint data in a confirmatory trial](handle-missing-endpoint-data-in-a-trial.html) — the analysis-stage sibling, where the estimand fixed at design time gets defended.
 - [Fit a survival model to censored clinical outcomes](fit-survival-model-to-clinical-outcomes.html)
