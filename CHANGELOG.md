@@ -16,6 +16,25 @@ Older entries live in [CHANGELOG_ARCHIVE.md](CHANGELOG_ARCHIVE.md).
 ## 2026-08-16
 
 ### Added
+- **Gene Liability Evaluation (ToolUniverse Claude Skill)** (Categories: Drug Repurposing and Discovery, Molecular and Cellular Biology, Translational Medicine) — scores the human safety liability of inhibiting or knocking out a target across five evidence dimensions (gnomAD constraint, mouse knockout phenotype, GTEx critical-organ expression, Open Targets safety profile, DepMap essentiality) into a 0–100 figure and a modulation-strategy recommendation; the safety complement to the already-catalogued target-validation skill ([SKILL.md](https://github.com/mims-harvard/ToolUniverse/blob/main/skills/tooluniverse-gene-liability/SKILL.md))
+- **GPCR Structural Pharmacology (ToolUniverse Claude Skill)** (Categories: Drug Repurposing and Discovery, Integrative Structural and Computational Biology) — GPCRdb receptor and ligand pharmacology, state-filtered structures, mutation effects, and PDBePISA/SAbDab interface analysis; brings GPCRdb, PDBePISA and SAbDab into the catalog for the first time ([SKILL.md](https://github.com/mims-harvard/ToolUniverse/blob/main/skills/tooluniverse-gpcr-structural-pharmacology/SKILL.md))
+- **Mendelian Randomization (ToolUniverse Claude Skill)** (Categories: Drug Repurposing and Discovery, Translational Medicine) — genetic causal inference over IEU OpenGWAS and EpiGraphDB MR-EvE, with MOE instrument-quality scoring, IVW/MR-Egger/weighted-median agreement, bidirectional MR for reverse causation, and genetic correlation reported explicitly as not causation ([SKILL.md](https://github.com/mims-harvard/ToolUniverse/blob/main/skills/tooluniverse-mendelian-randomization/SKILL.md))
+- **Aging and Senescence Research (ToolUniverse Claude Skill)** (Categories: Drug Repurposing and Discovery, Molecular and Cellular Biology, Translational Medicine) — the catalog's first geroscience entry: hallmarks classification, OpenGenes and longevity GWAS evidence, senescence/autophagy/telomere pathway analysis, and senolytic target discovery with correlative-vs-causal grading ([SKILL.md](https://github.com/mims-harvard/ToolUniverse/blob/main/skills/tooluniverse-aging-senescence/SKILL.md))
+- **Enzyme Kinetics (ToolUniverse Claude Skill)** (Categories: Chemistry, Drug Repurposing and Discovery, Molecular and Cellular Biology) — Michaelis-Menten nonlinear regression for Km/Vmax/kcat/(kcat/Km) plus competitive/uncompetitive/non-competitive inhibition classification with Ki, gated at R² ≥ 0.98 and explicitly not a BRENDA lookup ([SKILL.md](https://github.com/mims-harvard/ToolUniverse/blob/main/skills/tooluniverse-enzyme-kinetics/SKILL.md))
+
+### Updated
+- _None._
+
+### Flagged
+- _None._
+
+### Verified (no changes)
+- Manifest sweep: `anthropics/life-sciences/.claude-plugin/marketplace.json` re-read — all plugins already catalogued, zero diff.
+- Drug repurposing seed search returned no uncatalogued, license-clear MCP server: NovoMCP (Apache-2.0, 68 tools) is already catalogued, as are the BioMCP, ChEMBL and openFDA wrappers it surfaced.
+
+## 2026-08-16
+
+### Added
 - **Medicare MCP Server (OpenPharma)** (Categories: Translational Medicine) — MIT-licensed MCP over public CMS Medicare data: one `medicare_info` tool with 17 methods for provider/prescriber utilization, hospital quality and safety measures, Part B ASP pricing and Part D formularies. Keyless; installs from source (no npm package — both candidate names 404) ([repo](https://github.com/openpharma-org/medicare-mcp), [CMS Provider Data Catalog](https://data.cms.gov/provider-data/))
 - **ACMG Classification (bioSkills)** (Categories: Translational Medicine) — applies ACMG/AMP 2015 as currently practised: ClinGen SVI specifications, the Tavtigian Bayesian point system, PVS1 decision tree, and calibrated PP3/BP4 thresholds for REVEL/BayesDel/AlphaMissense/SpliceAI ([SKILL.md](https://github.com/GPTomics/bioSkills/blob/main/clinical-databases/acmg-classification/SKILL.md))
 - **Tumor Mutational Burden (bioSkills)** (Categories: Translational Medicine) — TMB from WES/WGS/panel with Friends of Cancer Research harmonization and per-assay calibration, germline and VAF filtering, hypermutator tiering, blood TMB, HLA-LOH and neoantigen-quality integration ([SKILL.md](https://github.com/GPTomics/bioSkills/blob/main/clinical-databases/tumor-mutational-burden/SKILL.md))
