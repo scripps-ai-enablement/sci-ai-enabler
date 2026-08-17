@@ -1,12 +1,14 @@
 name: Verify catalog
 
 on:
-  schedule:
-    # Weekday runs, offset from the weekend catalog/recipe curators so the two
-    # agents don't edit catalog/tools/*.md at the same time. Mon/Thu 08:00 UTC.
-    # Cut from Mon/Wed/Fri now that the staleness gate below makes a run with
-    # nothing due cost zero tokens.
-    - cron: '0 8 * * 1,4'
+  # Schedule disabled pending a refactor of the curator cadence. Restore by
+  # uncommenting; workflow_dispatch still runs this on demand.
+  # schedule:
+  #   # Weekday runs, offset from the weekend catalog/recipe curators so the two
+  #   # agents don't edit catalog/tools/*.md at the same time. Mon/Thu 08:00 UTC.
+  #   # Cut from Mon/Wed/Fri now that the staleness gate below makes a run with
+  #   # nothing due cost zero tokens.
+  #   - cron: '0 8 * * 1,4'
   workflow_dispatch:
     inputs:
       count:

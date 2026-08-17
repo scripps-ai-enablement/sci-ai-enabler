@@ -1,18 +1,21 @@
 name: Composer index
 
 on:
-  schedule:
-    # Weekly, Sunday 20:30 UTC — after the last weekend curator slot (recipes
-    # Sun 15:00) and the weekly digest (Sun 18:00), so it sweeps up the whole
-    # weekend's edits.
-    #
-    # This was daily at 10:30, anchored to a daily curator chain (catalog 07:00 ->
-    # guide 08:00 -> coscientist 09:00 -> recipes 10:00) that no longer exists —
-    # the curators are weekend-based now, so five of seven daily runs fired on days
-    # nothing had changed and Saturday's landed between curator slots rather than
-    # after them. The push trigger below already covers every content change; this
-    # cron is only a safety net for a change that somehow bypassed it.
-    - cron: '30 20 * * 0'
+  # Schedule disabled pending a refactor of the curator cadence. Restore by
+  # uncommenting; the push trigger below is unaffected and still rebuilds the
+  # index on every content change.
+  # schedule:
+  #   # Weekly, Sunday 20:30 UTC — after the last weekend curator slot (recipes
+  #   # Sun 15:00) and the weekly digest (Sun 18:00), so it sweeps up the whole
+  #   # weekend's edits.
+  #   #
+  #   # This was daily at 10:30, anchored to a daily curator chain (catalog 07:00 ->
+  #   # guide 08:00 -> coscientist 09:00 -> recipes 10:00) that no longer exists —
+  #   # the curators are weekend-based now, so five of seven daily runs fired on days
+  #   # nothing had changed and Saturday's landed between curator slots rather than
+  #   # after them. The push trigger below already covers every content change; this
+  #   # cron is only a safety net for a change that somehow bypassed it.
+  #   - cron: '30 20 * * 0'
   push:
     branches: [main]
     # Rebuild whenever a human PR (or any commit) changes the knowledge-base content,
