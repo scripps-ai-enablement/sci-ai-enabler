@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated": "2026-08-16",
+  "generated": "2026-08-17",
   "count": 6,
   "dependencies": [
     {
@@ -15,7 +15,7 @@
         "localize-implant-tip-in-brain-atlas-subregion"
       ],
       "verdict": "pass",
-      "verdict_on": "2026-08-13"
+      "verdict_on": "2026-08-17"
     },
     {
       "package": "PyNutil",
@@ -29,7 +29,7 @@
         "localize-implant-tip-in-brain-atlas-subregion"
       ],
       "verdict": "pass",
-      "verdict_on": "2026-08-13"
+      "verdict_on": "2026-08-17"
     },
     {
       "package": "brainglobe-atlasapi",
@@ -43,7 +43,7 @@
         "localize-implant-tip-in-brain-atlas-subregion"
       ],
       "verdict": "pass",
-      "verdict_on": "2026-08-13"
+      "verdict_on": "2026-08-17"
     },
     {
       "package": "fooof",
@@ -56,8 +56,8 @@
       "recipes": [
         "extract-resting-state-eeg-spectral-features"
       ],
-      "verdict": "",
-      "verdict_on": ""
+      "verdict": "pass",
+      "verdict_on": "2026-08-17"
     },
     {
       "package": "pyddm",
@@ -70,8 +70,8 @@
       "recipes": [
         "fit-a-drift-diffusion-model-to-choice-rt-data"
       ],
-      "verdict": "",
-      "verdict_on": ""
+      "verdict": "pass",
+      "verdict_on": "2026-08-17"
     },
     {
       "package": "rdkit",
@@ -85,7 +85,7 @@
         "rank-conformers-and-tautomers-with-xtb"
       ],
       "verdict": "pass",
-      "verdict_on": "2026-08-13"
+      "verdict_on": "2026-08-17"
     }
   ]
 }

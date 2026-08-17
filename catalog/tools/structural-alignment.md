@@ -7,6 +7,12 @@ supplier: GPTomics bioSkills
 availability: GA
 tool_categories: [Integrative Structural and Computational Biology]
 last_verified: 2026-08-15
+verification: works
+verified_on: 2026-08-17
+reviewed_on: 2026-08-17
+security: caution
+security_on: 2026-08-17
+security_note: "upstream GPTomics/bioSkills repo confirmed archived on GitHub 2026-08-15; MIT root license and skill directory still intact, no further upstream maintenance expected"
 summary: "Superpose and score protein structures with Foldseek, TM-align, US-align, DALI or FoldMason when sequence identity is too low to align reliably"
 ---
 
@@ -21,6 +27,8 @@ A Claude Code skill for the case where sequence alignment has run out of signal:
 | **Availability** | GA — part of the bioSkills collection |
 | **Pricing** | Free / OSS (MIT). The aligners are installed separately and are individually free: Foldseek and FoldMason (GPL-3.0, Steinegger Lab), TM-align / US-align (Zhang Lab, free for academic use), open-source PyMOL. DALI is used as a web server or via DaliLite from the Holm lab |
 | **Capabilities** | Read/Write — Claude runs the skill's workflow locally (Bash/Python), not as an MCP tool |
+| **Verified** | works · 2026-08-17 |
+| **Security** | caution · 2026-08-17 — GPTomics/bioSkills is now archived upstream; MIT and skill dir confirmed unchanged |
 
 ## How to install
 

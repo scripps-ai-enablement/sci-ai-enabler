@@ -7,6 +7,12 @@ supplier: Posit Software, PBC
 availability: GA
 tool_categories: [General-Purpose Utilities]
 last_verified: 2026-08-15
+verification: works
+verified_on: 2026-08-17
+reviewed_on: 2026-08-17
+security: cleared
+security_on: 2026-08-17
+security_note: "raw LICENSE.md fetched this run is standard MIT (Posit Software PBC, 2025), resolving the license-unrecognized flag; provenance matches Posit, launch command confirmed verbatim against the package vignette"
 summary: "Posit's CRAN package that turns a live R session into an MCP server, letting Claude run R and call your own R functions as tools."
 ---
 
@@ -21,6 +27,8 @@ Posit's CRAN package that exposes R to Claude over MCP — either as a standalon
 | **Availability** | GA — CRAN 1.0.1, published 2026-07-27 |
 | **Pricing** | Free / OSS — MIT |
 | **Capabilities** | Read/Write — runs R in your session; the exact surface is whatever tools you register |
+| **Verified** | works · 2026-08-17 |
+| **Security** | cleared · 2026-08-17 — MIT confirmed via raw LICENSE.md, provenance matches Posit, no advisories |
 
 ## How to install
 

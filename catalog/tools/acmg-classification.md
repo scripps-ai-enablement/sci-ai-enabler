@@ -7,6 +7,12 @@ supplier: GPTomics bioSkills
 availability: GA
 tool_categories: [Translational Medicine]
 last_verified: 2026-08-16
+verification: works
+verified_on: 2026-08-17
+reviewed_on: 2026-08-17
+security: caution
+security_on: 2026-08-17
+security_note: "upstream GPTomics/bioSkills repo confirmed archived on GitHub 2026-08-15; MIT root license and skill directory still intact, no further upstream maintenance expected"
 summary: "Classifies germline variants P/LP/VUS/LB/B under ACMG-AMP 2015 with ClinGen SVI specifications, Tavtigian Bayesian points, and calibrated in-silico thresholds"
 ---
 
@@ -21,6 +27,8 @@ A Claude Code skill that applies the ACMG/AMP variant-classification framework a
 | **Availability** | GA — part of the bioSkills collection |
 | **Pricing** | Free / OSS (MIT). The predictor scores and population data it reasons over (REVEL, BayesDel, AlphaMissense, SpliceAI, gnomAD, ClinVar) come from their own sources under their own terms |
 | **Capabilities** | Read/Write — Claude runs the skill's Python workflow locally and queries public APIs; it is not an MCP tool |
+| **Verified** | works · 2026-08-17 |
+| **Security** | caution · 2026-08-17 — GPTomics/bioSkills is now archived upstream; MIT and skill dir confirmed unchanged |
 
 ## How to install
 

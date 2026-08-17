@@ -7,6 +7,12 @@ supplier: GPTomics bioSkills
 availability: GA
 tool_categories: [Translational Medicine, Molecular and Cellular Biology]
 last_verified: 2026-08-16
+verification: works
+verified_on: 2026-08-17
+reviewed_on: 2026-08-17
+security: caution
+security_on: 2026-08-17
+security_note: "GPTomics/bioSkills now archived upstream (MIT root and skill dir unchanged); COSMIC signature data also needs a paid commercial licence for non-academic use, same pattern as kegg"
 summary: "Extracts and assigns COSMIC v3.4 mutational signatures from somatic VCFs with SigProfiler, MutationalPatterns, MuSiCal or HRDetect to read DNA-damage etiology"
 ---
 
@@ -21,6 +27,8 @@ A Claude Code skill that turns a somatic VCF into mutational-signature assignmen
 | **Availability** | GA — part of the bioSkills collection |
 | **Pricing** | Free / OSS (MIT). SigProfilerSuite, MutationalPatterns, MuSiCal, SigNet and HRDetect install separately under their own licences; COSMIC signature data is subject to COSMIC's terms (free for academic use, commercial licence required otherwise) |
 | **Capabilities** | Read/Write — Claude runs the Python and R workflows locally on your VCFs; it is not an MCP tool |
+| **Verified** | works · 2026-08-17 |
+| **Security** | caution · 2026-08-17 — GPTomics/bioSkills now archived upstream; COSMIC data needs a paid licence for non-academic use |
 
 ## How to install
 

@@ -7,6 +7,12 @@ supplier: AImplifier
 availability: Alpha
 tool_categories: [Neuroscience, Translational Medicine]
 last_verified: 2026-08-16
+verification: works
+verified_on: 2026-08-17
+reviewed_on: 2026-08-17
+security: caution
+security_on: 2026-08-17
+security_note: "AImplifier org confirmed not archived, BSD-3-Clause via GitHub license API, provenance matches; Alpha 0-star single-org project persisting subject and EHR records locally with no independent evaluation"
 summary: 54-tool MCP server wrapping MNE-Python EEG/MEG preprocessing, source imaging, a BIDS/EHR record store, and offline interactive plots.
 ---
 
@@ -21,6 +27,8 @@ MCP server that gives Claude an end-to-end EEG/MEG workflow — MNE-Python prepr
 | **Availability** | Alpha (PyPI 0.1.3, released 2026-07-24; MCP Registry `io.github.AImplifier/neuro-mcp`) |
 | **Pricing** | Free / OSS — BSD-3-Clause |
 | **Capabilities** | Read/Write — reads recordings, writes derived files, subject records, annotations, and EHR entries to a local database |
+| **Verified** | works · 2026-08-17 |
+| **Security** | caution · 2026-08-17 — BSD-3-Clause and provenance confirmed; Alpha/single-org project writing local subject and EHR records |
 
 ## How to install
 

@@ -7,6 +7,12 @@ supplier: 001TMF
 availability: Beta
 tool_categories: [Drug Repurposing and Discovery, Immunology and Microbiology, Integrative Structural and Computational Biology]
 last_verified: 2026-08-15
+verification: works
+verified_on: 2026-08-17
+reviewed_on: 2026-08-17
+security: caution
+security_on: 2026-08-17
+security_note: "001TMF/blatant-why confirmed not archived, MIT, provenance matches; ships optional TAMARIND_API_KEY/RUNPOD_API_KEY/ADAPTYV_API_TOKEN credentials to third-party compute and wet-lab services"
 summary: Scaffolds a Claude Code antibody and nanobody design campaign — 19 skills, 13 slash commands, and 11 MCP servers wired to design models and cloud compute.
 ---
 
@@ -21,6 +27,8 @@ A Claude Code project scaffold that turns an antibody, nanobody, or de novo bind
 | **Availability** | Beta — npm `blatant-why` at v0.1.0-beta, published 2026-04-03 |
 | **Pricing** | Free / OSS (MIT). Compute is optional and billed by third parties: Tamarind Bio free tier of 10 jobs/month, RunPod GPU pods ~$0.40–$2.50/hr, Adaptyv Bio lab work priced by the vendor. Local GPU mode costs nothing beyond your hardware. |
 | **Capabilities** | Read/Write — writes campaign state and design outputs to the project directory, submits compute jobs, and can submit designs for wet-lab expression (gated) |
+| **Verified** | works · 2026-08-17 |
+| **Security** | caution · 2026-08-17 — MIT and provenance confirmed; optional external compute/lab credentials (Tamarind, RunPod, Adaptyv) |
 
 ## How to install
 

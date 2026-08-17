@@ -7,6 +7,12 @@ supplier: MCPmed
 availability: Beta
 tool_categories: [Immunology and Microbiology, Molecular and Cellular Biology]
 last_verified: 2026-08-15
+verification: works
+verified_on: 2026-08-17
+reviewed_on: 2026-08-17
+security: caution
+security_on: 2026-08-17
+security_note: "MCPmed org confirmed not archived, BSD-3-Clause via GitHub license API; port and tool names confirmed against server.ts and README, but repo is stale (last push 2026-02-25) and low-traffic (0 stars)"
 summary: "Query PBMCpedia's harmonized PBMC single-cell atlas — per-cell-type expression, DEGs, pathways and antibody chains — filtered by sex, age and disease."
 ---
 
@@ -21,6 +27,8 @@ Query [PBMCpedia](https://web.ccb.uni-saarland.de/pbmcpedia/), a harmonized peri
 | **Availability** | Beta — last upstream commit 2026-02-25 |
 | **Pricing** | Free / OSS — BSD-3-Clause; the backing PBMCpedia web service is public and needs no API key |
 | **Capabilities** | Read-only — six query tools against the public PBMCpedia API |
+| **Verified** | works · 2026-08-17 |
+| **Security** | caution · 2026-08-17 — BSD-3-Clause and provenance confirmed; repo stale (last push 2026-02-25) and low-traffic |
 
 ## How to install
 

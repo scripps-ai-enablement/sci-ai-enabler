@@ -7,6 +7,12 @@ supplier: OpenPharma
 availability: Beta
 tool_categories: [Translational Medicine]
 last_verified: 2026-08-16
+verification: works
+verified_on: 2026-08-17
+reviewed_on: 2026-08-17
+security: cleared
+security_on: 2026-08-17
+security_note: "openpharma-org confirmed as org (not archived), MIT via GitHub license API; build/index.js bin entry and node launch command confirmed against package.json and README, same publisher already cleared for fda-mcp"
 summary: MIT MCP server over public CMS Medicare data — provider and prescriber lookup, hospital quality and safety measures, Part B/D drug pricing and formularies.
 ---
 
@@ -21,6 +27,8 @@ Community MCP server that exposes public CMS Medicare datasets — physician and
 | **Availability** | Beta — `package.json` declares v0.3.0 and **no npm package is published** (both `medicare-mcp` and `@openpharma-org/medicare-mcp-server` return 404 on the registry as of 2026-08-16), so installation is from source |
 | **Pricing** | Free / OSS (MIT, `LICENSE` in repo root, confirmed via the GitHub license API 2026-08-16). No API key required — CMS public APIs are keyless |
 | **Capabilities** | Read-only — queries public CMS APIs (provider data, Socrata ASP pricing) |
+| **Verified** | works · 2026-08-17 |
+| **Security** | cleared · 2026-08-17 — MIT, provenance matches OpenPharma org, launch command confirmed against package.json/README |
 
 ## How to install
 

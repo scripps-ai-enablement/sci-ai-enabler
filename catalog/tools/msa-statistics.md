@@ -7,6 +7,12 @@ supplier: GPTomics bioSkills
 availability: GA
 tool_categories: [Integrative Structural and Computational Biology, Molecular and Cellular Biology]
 last_verified: 2026-08-15
+verification: works
+verified_on: 2026-08-17
+reviewed_on: 2026-08-17
+security: caution
+security_on: 2026-08-17
+security_note: "upstream GPTomics/bioSkills repo confirmed archived on GitHub 2026-08-15; MIT root license and skill directory still intact, no further upstream maintenance expected"
 summary: "Compute percent identity, conservation scores, gap profiles and substitution-matrix statistics over a multiple alignment with BioPython, and read them correctly"
 ---
 
@@ -21,6 +27,8 @@ A Claude Code skill for measuring an alignment rather than eyeballing it — per
 | **Availability** | GA — part of the bioSkills collection |
 | **Pricing** | Free / OSS (MIT); BioPython is BSD-style, NumPy BSD-3-Clause |
 | **Capabilities** | Read/Write — Claude runs the skill's Python workflow locally, not as an MCP tool |
+| **Verified** | works · 2026-08-17 |
+| **Security** | caution · 2026-08-17 — GPTomics/bioSkills is now archived upstream; MIT and skill dir confirmed unchanged |
 
 ## How to install
 

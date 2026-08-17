@@ -7,6 +7,12 @@ supplier: GPTomics bioSkills
 availability: GA
 tool_categories: [Integrative Structural and Computational Biology, Molecular and Cellular Biology]
 last_verified: 2026-08-15
+verification: works
+verified_on: 2026-08-17
+reviewed_on: 2026-08-17
+security: caution
+security_on: 2026-08-17
+security_note: "upstream GPTomics/bioSkills repo confirmed archived on GitHub 2026-08-15; MIT root license and skill directory still intact, no further upstream maintenance expected"
 summary: "Trim multiple sequence alignments with ClipKIT, trimAl, BMGE, Divvier or HMMcleaner, choosing the mode by downstream goal rather than by habit"
 ---
 
@@ -21,6 +27,8 @@ A Claude Code skill for the step between alignment and inference: remove the col
 | **Availability** | GA — part of the bioSkills collection |
 | **Pricing** | Free / OSS (MIT). The trimmers install separately and are all free: ClipKIT (MIT), trimAl (GPL-3.0), BMGE, Divvier, HMMcleaner (`Bio::MUST::Apps::HmmCleaner`, CPAN) |
 | **Capabilities** | Read/Write — Claude runs the skill's workflow locally (Bash/Python), not as an MCP tool |
+| **Verified** | works · 2026-08-17 |
+| **Security** | caution · 2026-08-17 — GPTomics/bioSkills is now archived upstream; MIT and skill dir confirmed unchanged |
 
 ## How to install
 

@@ -7,6 +7,12 @@ supplier: Kyllian de Vos (community)
 availability: Beta
 tool_categories: [Chemistry, Drug Repurposing and Discovery, Integrative Structural and Computational Biology]
 last_verified: 2026-08-15
+verification: works
+verified_on: 2026-08-17
+reviewed_on: 2026-08-17
+security: caution
+security_on: 2026-08-17
+security_note: "Kdevos12/ALKYL confirmed not archived, MIT via GitHub license API, but single-maintainer Beta project (6 stars, 1 open issue, last push 2026-03-15) with no CI-passing tests documented"
 summary: Claude Code plugin bundling 27 computational-chemistry skills — RDKit, docking, MD, quantum chemistry, free energy, generative design — plus four keyless MCP servers.
 ---
 
@@ -21,6 +27,8 @@ Community Claude Code plugin that turns a Claude Code session into a computation
 | **Availability** | Beta — `plugin.json` declares v1.0.0; source-only install, 6 stars, last pushed 2026-03-15 |
 | **Pricing** | Free / OSS (MIT, confirmed via the GitHub license API). The optional external engines carry their own terms — xTB and GROMACS are free, ORCA is free for academic use after registration, MODELLER requires a licence key. |
 | **Capabilities** | Read/Write — the bundled scripts read and write structure, descriptor and report files on your machine |
+| **Verified** | works · 2026-08-17 |
+| **Security** | caution · 2026-08-17 — single-maintainer Beta project, MIT and provenance confirmed, no OSV advisories |
 
 ## How to install
 

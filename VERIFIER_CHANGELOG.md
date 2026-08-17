@@ -13,6 +13,25 @@ on-demand run that produces changes prepends a dated block; the top block is mir
 
 Older entries live in [VERIFIER_CHANGELOG_ARCHIVE.md](VERIFIER_CHANGELOG_ARCHIVE.md).
 
+## 2026-08-17
+
+### Verified
+- Adjudicated the injected 15-page digest: `acmg-classification`, `alignment-trimming`, `alkyl`, `blatant-why`, `can-immune`, `mcptools`, `medicare-mcp`, `msa-statistics`, `msi-detection`, `multiple-alignment`, `neuro-mcp`, `nwb-mcp-server`, `pbmcpedia`, `somatic-signatures`, `structural-alignment`. All 15 graded `works`; 13 `caution`, 2 `cleared` (`mcptools`, `medicare-mcp`). 9 further digest pages were over this run's 15-page review budget and were intentionally left untouched.
+- Confirmed install/launch commands against primary sources for every non-smoke-tested page in the batch: `mcptools` (package vignette), `medicare-mcp` (`package.json` + README), `pbmcpedia` (`server.ts` + README) all match the catalog pages verbatim.
+
+### Fixed
+- No install-path or launch-command defects found this run; no page-content fixes were required beyond the stamp fields and table rows.
+
+### Flagged
+- **Discrepancy vs. prior runs:** `GPTomics/bioSkills` is now confirmed `archived: true` on GitHub (1187★, pushed 2026-08-15). This reverses the not-archived status this same repo has carried across 5+ prior verifier runs (most recently 2026-08-13). All 7 affected catalog pages (`acmg-classification`, `alignment-trimming`, `msa-statistics`, `msi-detection`, `multiple-alignment`, `somatic-signatures`, `structural-alignment`) are graded `works`/`caution` this run — MIT root license and skill directories are still intact and resolve, but no further upstream maintenance should be expected. Flagged in `catalog/verifier-state.md` for next-run recheck.
+- 9 digest pages remain over this run's review budget and stay due for the next run.
+
+### Security
+- Resolved 3 digest flags as non-issues on primary-source evidence: `osv-advisory` on `requests` (`acmg-classification`) and on `uv` (`nwb-mcp-server`) both trace to GHSA fixes that shipped before each page's pinned version; `license-unrecognized` (`mcptools`) resolved via a raw `LICENSE.md` fetch confirming standard MIT (GitHub's classifier had simply failed to auto-detect it) — regraded `cleared`.
+- `endpoint-non-2xx` on `can-immune` confirmed as expected live-server behavior (406 to a browser-shaped GET, consistent with the digest's own 405 finding).
+- New `caution` grades (first review, provenance/license clean but carrying an independent risk signal): `alkyl` (single-maintainer Beta, no CI-passing tests), `blatant-why` (optional external compute/wet-lab API keys), `can-immune` (new/low-traffic repo over COSMIC/DepMap-derived data), `neuro-mcp` (Alpha/0-star single-org project persisting subject and EHR records locally), `nwb-mcp-server` (single-maintainer, pins a pre-release dependency), `pbmcpedia` (stale, low-traffic repo).
+- New `cleared` grades: `mcptools` (MIT confirmed), `medicare-mcp` (MIT confirmed, provenance and launch command verified against package.json/README).
+
 ## 2026-08-13
 
 ### Verified
@@ -265,66 +284,4 @@ refreshed to 2026-07-27. Catalog is now at full `verification:` coverage (459 to
 ### Security
 - All four cleared: provenance matches supplier, real licenses (MIT / first-party OSS), no OSV
   advisories, maintained. Skills execute locally via Bash/Python (no smoke target).
-
-## 2026-07-27 (worklist maintenance — 12 unstamped stamped, 13 rechecked, novomcp drift)
-
-Worked the injected worklist top-to-bottom: stamped the 12 unstamped pages, then rechecked the 13
-already-stamped pages (all 2026-07-20, within cadence). One real drift found on recheck: `novomcp`.
-
-### Verified (newly stamped)
-- `cdxml-toolkit` works/caution — PyPI `cdxml-toolkit` 0.5.17 MIT resolves; both the `cdxml-mcp`
-  entry point and the `cdxml_toolkit.mcp_server` module launch are confirmed in PyPI metadata (the
-  smoke `boot_error` was only because the dep resolver backtracked to 0.5.1, which lacks the entry
-  point). Windows+ChemDraw-only so not smoke-testable. Provenance matches leehiufung911; single-
-  maintainer Beta.
-- `chimerax-mcp` works/caution — PyPI `chimerax-mcp` 0.1.1 MIT resolves; `chimerax-mcp` entry point
-  confirmed. Needs GUI + separate ChimeraX install so not smoke-tested. Provenance matches mahynotch;
-  early v0.1.1 single-maintainer (3★) + runs arbitrary scripts.
-- `openfda-mcp-server` works/cleared — **smoke test passed this run** (`npx -y
-  @cyanheads/openfda-mcp-server@latest` installed + booted v0.11.0 over stdio). `cyanheads` Apache-2.0,
-  pushed 2026-07-27.
-- `protein-mcp-server` works/cleared — npm `@cyanheads/protein-mcp-server` 0.4.0 Apache-2.0; bin
-  `protein-mcp-server`→dist/index.js confirms the npx launch. Pushed 2026-07-03.
-- `cms-datagov-mcp` works/caution — `clarifyhealth/cms-datagov-mcp-server` MIT; package.json bin
-  `cms-datagov-mcp-server`→build/index.js confirms the npm-link launch. Clone-and-build so not
-  smoke-tested; single-maintainer (1★) + stale (pushed 2025-12-02).
-- `admetlab-mcp` degraded/caution — `ToxMCP/admetlab-mcp` Apache-2.0 resolves; uvicorn HTTP launch
-  documented but not smoke-tested, and depends on the upstream ADMETlab 3.0 API the project notes is
-  unstable. Not on PyPI, 2★ Beta.
-- `amplicon-processing`, `repertoire-visualization`, `specificity-annotation`, `taxonomy-assignment`,
-  `vdjtools-analysis` works/cleared — all anchor `GPTomics/bioSkills` MIT/not-archived/pushed
-  2026-07-25/1084★; clone + copy install path current. Wrapped tools (DADA2/QIIME2/VDJtools/etc.) are
-  separately-installed OSS.
-
-### Fixed
-- (none — `drug-pipeline-mcp` flagged rather than fixed; see below)
-
-### Flagged
-- `drug-pipeline-mcp` degraded/caution + `flagged:` — `DasClown/drug-pipeline-mcp` MIT repo resolves
-  (pushed 2026-07-07) and the `git+https` source install works, but PyPI `drug-pipeline-mcp` returned
-  404 on all three endpoints (JSON, simple index, project page) this run, so the documented `pip
-  install drug-pipeline-mcp` / `uvx drug-pipeline-mcp` launch does NOT resolve despite the page's
-  GA/PyPI claim. Curator: confirm the real PyPI package name or drop the pip/uvx blocks in favor of
-  the git-source install.
-
-### Security / drift
-- `novomcp` still degraded/unknown but **note refreshed for a real change**: novomcp.com now points
-  to a self-host repo `NovoMCP/novomcp` (pushed 2026-07-26, 2★) exposing a local `localhost:8018/mcp`
-  endpoint — a shift from the prior closed-source-SaaS assessment. GitHub reports its license as
-  NOASSERTION (site claims Apache-2.0). Launch command not yet confirmed against the README and the
-  hosted FAVES tier stays application-gated, so kept degraded/unknown this run. Next run: fetch the
-  repo README, confirm the self-host launch, and reconcile the LICENSE — likely flips toward
-  works/caution if the self-host path checks out.
-
-### Verified (rechecked, unchanged — within cadence, 2026-07-20 stamps left in place)
-- `CUHK-AIM-Group/NeuroClaw` MIT/not-archived/pushed 2026-07-26/76★ → `nii2dcm`, `nibabel-skill`,
-  `nilearn-tool`, `nifd-skill`, `neurostorm` works.
-- `K-Dense-AI/scientific-agent-skills` MIT/not-archived/pushed 2026-07-27/31.9k★ → `neurokit2`,
-  `neuropixels-analysis` works.
-- `jaechang-hits/SciAgent-Skills` NOASSERTION-classifier-but-CC-BY-4.0-root/pushed 2026-07-24/284★ →
-  `nnunet-segmentation` works/cleared.
-- `stanislavjiricek/neuroflow` MIT/pushed 2026-06-04/6★ → `neuroflow` works/caution (unchanged).
-- `magland/neurosift-mcps` no-LICENSE/pushed 2025-11-03/1★ → `neurosift` works/caution (unchanged).
-- Anthropic first-party: `nextflow-development` (life-sciences), `npi-registry` (healthcare) works —
-  unchanged.
 

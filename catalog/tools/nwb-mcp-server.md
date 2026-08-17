@@ -7,6 +7,12 @@ supplier: Ben Hardcastle
 availability: Beta
 tool_categories: [Neuroscience]
 last_verified: 2026-08-16
+verification: works
+verified_on: 2026-08-17
+reviewed_on: 2026-08-17
+security: caution
+security_on: 2026-08-17
+security_note: "bjhardcastle confirmed not archived, MIT via GitHub license API, provenance matches; uv OSV advisories all fixed-before pinned 0.12.5, non-issue; single-maintainer project (2 stars) pins a pre-release lazynwb 1.0.0dev3 per its own docs"
 summary: Query local, S3, or DANDI-hosted NWB neurophysiology files as a virtual SQL database, read-only, without writing Python.
 ---
 
@@ -21,6 +27,8 @@ MCP server that exposes Neurodata Without Borders (NWB) files — on disk, on S3
 | **Availability** | Beta (PyPI 0.1.9, released 2026-06-07; repo last pushed 2026-06-07) |
 | **Pricing** | Free / OSS — MIT |
 | **Capabilities** | Read-only — the server never writes to NWB files |
+| **Verified** | works · 2026-08-17 |
+| **Security** | caution · 2026-08-17 — MIT and provenance confirmed; uv OSV advisories all fixed-before pinned version, non-issue; single-maintainer project pinning a pre-release dependency |
 
 ## How to install
 

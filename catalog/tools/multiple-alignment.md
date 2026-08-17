@@ -7,6 +7,12 @@ supplier: GPTomics bioSkills
 availability: GA
 tool_categories: [Integrative Structural and Computational Biology, Molecular and Cellular Biology]
 last_verified: 2026-08-15
+verification: works
+verified_on: 2026-08-17
+reviewed_on: 2026-08-17
+security: caution
+security_on: 2026-08-17
+security_note: "upstream GPTomics/bioSkills repo confirmed archived on GitHub 2026-08-15; MIT root license and skill directory still intact, no further upstream maintenance expected"
 summary: "Build multiple sequence alignments with MAFFT, MUSCLE5, Clustal Omega or T-Coffee, choosing the algorithm by dataset size and divergence"
 ---
 
@@ -21,6 +27,8 @@ A Claude Code skill that picks the alignment algorithm from the two facts that d
 | **Availability** | GA — part of the bioSkills collection |
 | **Pricing** | Free / OSS (MIT). The aligners install separately and are all free/OSS: MAFFT (BSD), MUSCLE5 (GPL-3.0), Clustal Omega (GPL-2.0), T-Coffee (GPL-3.0) |
 | **Capabilities** | Read/Write — Claude runs the skill's workflow locally (Bash/Python), not as an MCP tool |
+| **Verified** | works · 2026-08-17 |
+| **Security** | caution · 2026-08-17 — GPTomics/bioSkills is now archived upstream; MIT and skill dir confirmed unchanged |
 
 ## How to install
 

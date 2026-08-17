@@ -7,6 +7,12 @@ supplier: GPTomics bioSkills
 availability: GA
 tool_categories: [Translational Medicine]
 last_verified: 2026-08-16
+verification: works
+verified_on: 2026-08-17
+reviewed_on: 2026-08-17
+security: caution
+security_on: 2026-08-17
+security_note: "upstream GPTomics/bioSkills repo confirmed archived on GitHub 2026-08-15; MIT root license and skill directory still intact, no further upstream maintenance expected"
 summary: "Calls microsatellite instability from WES/WGS/panel or cfDNA with MSIsensor-pro, MANTIS and mSINGS for dMMR, Lynch screening and ICI eligibility"
 ---
 
@@ -21,6 +27,8 @@ A Claude Code skill that calls microsatellite instability status from sequencing
 | **Availability** | GA — part of the bioSkills collection |
 | **Pricing** | Free / OSS (MIT). MSIsensor, MSIsensor-pro, MSIsensor-ct, MANTIS and mSINGS are separately installed command-line tools under their own licences |
 | **Capabilities** | Read/Write — Claude drives the CLI tools locally on your BAMs; it is not an MCP tool |
+| **Verified** | works · 2026-08-17 |
+| **Security** | caution · 2026-08-17 — GPTomics/bioSkills is now archived upstream; MIT and skill dir confirmed unchanged |
 
 ## How to install
 
