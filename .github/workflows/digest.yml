@@ -1,11 +1,13 @@
 name: Weekly digest
 
 on:
-  schedule:
-    # Sunday 18:00 UTC — after the last weekend curation slot (recipes Sun 15:00,
-    # capped at ~25 min) so every area's run has finished and committed its
-    # changelog. Gives a >2h margin over the latest slot plus cron delay.
-    - cron: '0 18 * * 0'
+  # Schedule disabled pending a refactor of the curator cadence. Restore by
+  # uncommenting; workflow_dispatch still runs this on demand.
+  # schedule:
+  #   # Sunday 18:00 UTC — after the last weekend curation slot (recipes Sun 15:00,
+  #   # capped at ~25 min) so every area's run has finished and committed its
+  #   # changelog. Gives a >2h margin over the latest slot plus cron delay.
+  #   - cron: '0 18 * * 0'
   workflow_dispatch:
     inputs:
       since:

@@ -1,13 +1,15 @@
 name: Curate catalog
 
 on:
-  schedule:
-    # Weekend run, seven 6-hour slots so all seven focus categories are covered
-    # once each weekend (one category per slot — see the derivation below).
-    # Catalog leads the chain; guide/autonomous-science run once early Saturday
-    # and recipes trails each catalog slot by 3 hours.
-    - cron: '0 0,6,12,18 * * 6'   # Sat 00/06/12/18 UTC -> categories 1-4
-    - cron: '0 0,6,12 * * 0'      # Sun 00/06/12 UTC    -> categories 5-7
+  # Schedule disabled pending a refactor of the curator cadence. Restore by
+  # uncommenting; workflow_dispatch still runs this on demand.
+  # schedule:
+  #   # Weekend run, seven 6-hour slots so all seven focus categories are covered
+  #   # once each weekend (one category per slot — see the derivation below).
+  #   # Catalog leads the chain; guide/autonomous-science run once early Saturday
+  #   # and recipes trails each catalog slot by 3 hours.
+  #   - cron: '0 0,6,12,18 * * 6'   # Sat 00/06/12/18 UTC -> categories 1-4
+  #   - cron: '0 0,6,12 * * 0'      # Sun 00/06/12 UTC    -> categories 5-7
   workflow_dispatch:
     inputs:
       category:

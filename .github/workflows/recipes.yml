@@ -1,15 +1,17 @@
 name: Recipes
 
 on:
-  schedule:
-    # Weekend run, seven 6-hour slots (same cadence as catalog) so all seven
-    # focus subject areas are covered once each weekend. Trails the catalog
-    # slot by 3 hours and runs after the once-Saturday autonomous-science cron,
-    # so the assembler sees a fresh systems index and catalog state. The 3-hour
-    # offset stays inside the same 6-hour bucket, so the derived area matches the
-    # catalog category of that slot.
-    - cron: '0 3,9,15,21 * * 6'   # Sat 03/09/15/21 UTC -> areas 1-4
-    - cron: '0 3,9,15 * * 0'      # Sun 03/09/15 UTC    -> areas 5-7
+  # Schedule disabled pending a refactor of the curator cadence. Restore by
+  # uncommenting; workflow_dispatch still runs this on demand.
+  # schedule:
+  #   # Weekend run, seven 6-hour slots (same cadence as catalog) so all seven
+  #   # focus subject areas are covered once each weekend. Trails the catalog
+  #   # slot by 3 hours and runs after the once-Saturday autonomous-science cron,
+  #   # so the assembler sees a fresh systems index and catalog state. The 3-hour
+  #   # offset stays inside the same 6-hour bucket, so the derived area matches the
+  #   # catalog category of that slot.
+  #   - cron: '0 3,9,15,21 * * 6'   # Sat 03/09/15/21 UTC -> areas 1-4
+  #   - cron: '0 3,9,15 * * 0'      # Sun 03/09/15 UTC    -> areas 5-7
   workflow_dispatch:
     inputs:
       scope:

@@ -1,10 +1,12 @@
 name: Guide
 
 on:
-  schedule:
-    # Weekly on Saturday at 01:00 UTC. One full pass per weekend (the guide has no
-    # category rotation), an hour after the catalog weekend run begins.
-    - cron: '0 1 * * 6'
+  # Schedule disabled pending a refactor of the curator cadence. Restore by
+  # uncommenting; workflow_dispatch still runs this on demand.
+  # schedule:
+  #   # Weekly on Saturday at 01:00 UTC. One full pass per weekend (the guide has no
+  #   # category rotation), an hour after the catalog weekend run begins.
+  #   - cron: '0 1 * * 6'
   workflow_dispatch:
     inputs:
       topic:
