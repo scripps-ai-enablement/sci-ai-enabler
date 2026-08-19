@@ -62,14 +62,20 @@
         "step_number": 3
       },
       {
-        "description": "Join ClinVar significance and AlphaMissense via the BioMCP variant getter's `predictions` section (MyVariant.info / dbNSFP).",
+        "description": "Join AlphaMissense from ProtVar's canonical isoform (accession-keyed, batched) and ClinVar significance from BioMCP via ProtVar's allele-specific rsID, verified against the canonical protein change.",
         "input_list": [
+          {
+            "uri": "https://www.ebi.ac.uk/ProtVar/api"
+          },
           {
             "uri": "https://myvariant.info"
           }
         ],
         "name": "Annotation join (BioMCP)",
         "output_list": [
+          {
+            "uri": "https://github.com/scripps-ai-enablement/sci-ai-enabler/blob/main/recipes/examples/glyco-variants/fixtures/protvar"
+          },
           {
             "uri": "https://github.com/scripps-ai-enablement/sci-ai-enabler/blob/main/recipes/examples/glyco-variants/fixtures/biomcp"
           }
@@ -107,14 +113,17 @@
   },
   "error_domain": {
     "algorithmic_error": {
+      "alphamissense_coverage": "AlphaMissense covers canonical isoforms; a variant on an accession it does not score returns no value rather than a substitute",
+      "clinvar_source_filter": "ProtVar's clinicalSignificances aggregates several sources; only ClinVar-sourced calls are reported as ClinVar (an Ensembl-only call is not a ClinVar submission), and a BioMCP record is used only when its own hgvs_p matches the canonical change",
       "expression_check": "recipe step 3 (demote candidates not expressed in the tissue of interest) is inert here \u2014 no tissue/disease context supplied",
       "numbering": "variants whose stated wild-type residue does not match the canonical UniProt residue are reported as 'unmapped' rather than classified",
       "ranking": "a triage heuristic (AlphaMissense pathogenicity + ClinVar), not a validated pathogenicity score",
-      "scope": "single-residue missense only; indels, frameshift, splice and nonsense variants are not classified"
+      "scope": "single-residue missense only; indels, frameshift, splice and nonsense variants are not classified",
+      "variant_match_ambiguity": "AlphaMissense is taken from ProtVar's canonical isoform for the accession under analysis, so it cannot drift onto another transcript's residue; a ProtVar reference-residue WARN, or a change that is not SNV-reachable, is refused as unmapped rather than annotated"
     },
     "empirical_error": {}
   },
-  "etag": "fbd53bd9dae1360b08824b84780339b9a087e613e9b1d2dcb74d02121ae18c9d",
+  "etag": "aa819366be697d34c44e4d6e5cae7ea6a583d23efea48f690f2ac84b5ab50eab",
   "execution_domain": {
     "environment_variables": {},
     "external_data_endpoints": [
@@ -129,6 +138,10 @@
       {
         "name": "MyVariant.info (via BioMCP)",
         "url": "https://myvariant.info"
+      },
+      {
+        "name": "EBI ProtVar (AlphaMissense, accession-keyed)",
+        "url": "https://www.ebi.ac.uk/ProtVar/api"
       }
     ],
     "script": [
@@ -181,13 +194,13 @@
       },
       {
         "uri": {
-          "filename": "GlyGen human germline mutation dataset (BCO)",
+          "filename": "human_protein_mutation_germline_all.csv",
           "uri": "https://data.glygen.org/GLY_001534"
         }
       },
       {
         "uri": {
-          "filename": "GlyGen human cancer mutation dataset (BCO)",
+          "filename": "human_protein_mutation_cancer_all.csv",
           "uri": "https://data.glygen.org/GLY_001537"
         }
       }

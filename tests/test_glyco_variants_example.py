@@ -182,6 +182,17 @@ class TestBioComputeObject(unittest.TestCase):
             self.assertIn("https://data.glygen.org/GLY_001534", uris)
             self.assertIn("https://data.glygen.org/GLY_001537", uris)
 
+    def test_glygen_inputs_name_the_dataset_file(self):
+        """Each GlyGen BCO input names the file it distributes, not a prose label."""
+        with tempfile.TemporaryDirectory() as d:
+            bco = self._bco(Path(d))
+            names = {i["uri"]["uri"]: i["uri"].get("filename")
+                     for i in bco["io_domain"]["input_subdomain"]}
+            self.assertEqual(names["https://data.glygen.org/GLY_001534"],
+                             "human_protein_mutation_germline_all.csv")
+            self.assertEqual(names["https://data.glygen.org/GLY_001537"],
+                             "human_protein_mutation_cancer_all.csv")
+
     @unittest.skipUnless(_HAS_SCHEMA_DEPS, "jsonschema + referencing not installed")
     def test_validates_against_ieee2791_schema(self):
         with tempfile.TemporaryDirectory() as d:
@@ -190,6 +201,61 @@ class TestBioComputeObject(unittest.TestCase):
         committed = json.loads((EXAMPLE / "results" / "glyco_run.bco.json").read_text())
         ok, errors = glyco.validate_bco(committed, SCHEMA_DIR)
         self.assertTrue(ok, f"committed BCO invalid: {errors}")
+
+
+class TestProtVarJoin(unittest.TestCase):
+    """The annotation join is accession-keyed; refuse rather than annotate the wrong residue."""
+
+    # Shape of a ProtVar /mapping input entry, canonical isoform flagged.
+    OK_ENTRY = {
+        "inputStr": "P01008 114 S N", "messages": [],
+        "derivedGenomicVariants": [{"genes": [{"isoforms": [
+            {"accession": "Q8TCE1", "canonical": False, "isoformPosition": 114,
+             "amScore": {"type": "AM", "amPathogenicity": 0.9209, "amClass": "PATHOGENIC"}},
+            {"accession": "P01008", "canonical": True, "isoformPosition": 114,
+             "amScore": {"type": "AM", "amPathogenicity": 0.8726, "amClass": "PATHOGENIC"}},
+        ]}]}],
+    }
+    # The real P01008 220 R C response: reference-residue WARN + 9 derived variants.
+    WARN_ENTRY = {
+        "inputStr": "P01008 220 R C",
+        "messages": [{"type": "WARN", "text": "User input reference amino acid (Arg) does not match "
+                                              "the UniProt sequence (Lys) at position 220."}],
+        "derivedGenomicVariants": [{"genes": [{"isoforms": []}]} for _ in range(9)],
+    }
+
+    def test_picks_the_canonical_isoform_not_the_first(self):
+        iso, warns = glyco.protvar_canonical(self.OK_ENTRY)
+        self.assertEqual(warns, [])
+        self.assertEqual(iso["accession"], "P01008")       # not the Q8TCE1 fragment listed first
+        self.assertEqual(iso["isoformPosition"], 114)
+        # 0.8726 is P01008's score; 0.9209 is the fragment's, and is what the old
+        # first-element behaviour reported.
+        self.assertEqual(glyco.protvar_alphamissense(iso), ("PATHOGENIC", 0.8726))
+
+    def test_reference_residue_warning_is_surfaced(self):
+        iso, warns = glyco.protvar_canonical(self.WARN_ENTRY)
+        self.assertIsNone(iso)
+        self.assertTrue(any("does not match" in w for w in warns))
+        self.assertTrue(any("derived genomic variants" in w for w in warns))
+
+    def test_clinvar_only_counts_clinvar_sourced_calls(self):
+        """P01008 N167S: ProtVar says Pathogenic, but sourced from Ensembl, not ClinVar."""
+        pop = {"variants": [{"alternativeSequence": "Ser",
+                             "clinicalSignificances": [{"type": "Pathogenic", "sources": ["Ensembl"]}],
+                             "xrefs": [{"name": "dbSNP", "id": "rs121909570"}]}]}
+        self.assertEqual(glyco.protvar_clinvar(pop, "S"), ("", ""))
+
+    def test_clinvar_sourced_call_is_taken_with_its_rsid(self):
+        pop = {"variants": [{"alternativeSequence": "Asn",
+                             "clinicalSignificances": [{"type": "Pathogenic", "sources": ["Ensembl", "ClinVar"]}],
+                             "xrefs": [{"name": "dbSNP", "id": "rs1657909645"}]}]}
+        self.assertEqual(glyco.protvar_clinvar(pop, "N"), ("Pathogenic", "rs1657909645"))
+
+    def test_alt_residue_must_match(self):
+        pop = {"variants": [{"alternativeSequence": "Thr",
+                             "clinicalSignificances": [{"type": "Pathogenic", "sources": ["ClinVar"]}]}]}
+        self.assertEqual(glyco.protvar_clinvar(pop, "S"), ("", ""))
 
 
 class TestClassifierUnits(unittest.TestCase):

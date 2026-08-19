@@ -1,93 +1,149 @@
 {
-  "_meta": {
-    "evidence_urls": [
-      {
-        "label": "dbSNP",
-        "url": "https://www.ncbi.nlm.nih.gov/snp/rs74315444"
-      }
-    ],
-    "ladder": [
-      {
-        "command": "biomcp get variant \"BRAF V600E\" clinvar predictions population",
-        "step": 1,
-        "what_it_gives": "Clinical significance, computational predictions, and allele-frequency context."
-      },
-      {
-        "command": "biomcp get variant \"BRAF V600E\" civic cgi",
-        "step": 2,
-        "what_it_gives": "Curated cancer evidence and biomarker interpretation."
-      },
-      {
-        "command": "biomcp variant trials \"BRAF V600E\" --limit 5",
-        "step": 3,
-        "what_it_gives": "Variant-matched clinical trials."
-      },
-      {
-        "command": "biomcp variant articles \"BRAF V600E\" --limit 5",
-        "step": 4,
-        "what_it_gives": "Literature follow-up anchored on the variant."
-      }
-    ],
-    "next_commands": [
-      "biomcp get gene IFNGR2",
-      "biomcp search drug --target IFNGR2",
-      "biomcp variant trials \"chr21:g.34799281C>A\"",
-      "biomcp variant articles \"chr21:g.34799281C>A\""
-    ],
-    "section_sources": [
-      {
-        "key": "identity",
-        "label": "Identity",
-        "sources": [
-          "MyVariant.info",
-          "ClinVar"
-        ]
-      },
-      {
-        "key": "expanded_predictions",
-        "label": "Expanded Predictions",
-        "sources": [
-          "MyVariant.info"
-        ]
-      }
-    ],
-    "workflow": "variant-pathogenicity"
-  },
-  "cadd_score": 0.005,
-  "consequence": "missense_variant",
-  "expanded_predictions": [
-    {
-      "score": 0.044,
-      "tool": "REVEL"
-    },
-    {
-      "prediction": "Benign",
-      "score": 0.0855,
-      "tool": "AlphaMissense"
-    },
-    {
-      "prediction": "T",
-      "score": 0.044805404036398,
-      "tool": "ClinPred"
-    },
-    {
-      "prediction": "Tolerated",
-      "score": 0.497,
-      "tool": "SIFT"
-    },
-    {
-      "prediction": "D",
-      "score": 0.5261329,
-      "tool": "MetaRNN"
-    }
+ "_meta": {
+  "evidence_urls": [
+   {
+    "label": "ClinVar",
+    "url": "https://www.ncbi.nlm.nih.gov/clinvar/variation/14727/"
+   },
+   {
+    "label": "dbSNP",
+    "url": "https://www.ncbi.nlm.nih.gov/snp/rs74315444"
+   }
   ],
-  "gene": "IFNGR2",
-  "hgvs_c": "c.560C>A",
-  "hgvs_p": "p.T168N",
-  "id": "chr21:g.34799281C>A",
-  "legacy_name": "IFNGR2 T168N",
-  "polyphen_pred": "Benign",
-  "rsid": "rs74315444",
-  "sift_pred": "Tolerated",
-  "significance": "Pathogenic"
+  "ladder": [
+   {
+    "command": "biomcp get variant \"BRAF V600E\" clinvar predictions population",
+    "step": 1,
+    "what_it_gives": "Clinical significance, computational predictions, and allele-frequency context."
+   },
+   {
+    "command": "biomcp get variant \"BRAF V600E\" civic cgi",
+    "step": 2,
+    "what_it_gives": "Curated cancer evidence and biomarker interpretation."
+   },
+   {
+    "command": "biomcp variant trials \"BRAF V600E\" --limit 5",
+    "step": 3,
+    "what_it_gives": "Variant-matched clinical trials."
+   },
+   {
+    "command": "biomcp variant articles \"BRAF V600E\" --limit 5",
+    "step": 4,
+    "what_it_gives": "Literature follow-up anchored on the variant."
+   }
+  ],
+  "next_commands": [
+   "biomcp get gene IFNGR2",
+   "biomcp search drug --target IFNGR2",
+   "biomcp variant trials \"chr21:g.34799281C>A\"",
+   "biomcp variant articles \"chr21:g.34799281C>A\""
+  ],
+  "section_sources": [
+   {
+    "key": "identity",
+    "label": "Identity",
+    "sources": [
+     "MyVariant.info",
+     "ClinVar"
+    ]
+   },
+   {
+    "key": "clinvar",
+    "label": "ClinVar",
+    "sources": [
+     "ClinVar"
+    ]
+   },
+   {
+    "key": "conservation",
+    "label": "Conservation",
+    "sources": [
+     "MyVariant.info"
+    ]
+   },
+   {
+    "key": "expanded_predictions",
+    "label": "Expanded Predictions",
+    "sources": [
+     "MyVariant.info"
+    ]
+   },
+   {
+    "key": "civic",
+    "label": "CIViC",
+    "sources": [
+     "CIViC"
+    ]
+   }
+  ],
+  "workflow": "variant-pathogenicity"
+ },
+ "cadd_score": 0.005,
+ "cancer_frequency_source": "study=msk_impact_2017, sample_list=msk_impact_2017_all, profile=msk_impact_2017_mutations (override with BIOMCP_CBIOPORTAL_STUDY/BIOMCP_CBIOPORTAL_SAMPLE_LIST/BIOMCP_CBIOPORTAL_MUTATION_PROFILE)",
+ "civic": {
+  "graphql": {
+   "assertion_total_count": 0,
+   "evidence_total_count": 0
+  }
+ },
+ "clinvar_condition_reports": 1,
+ "clinvar_conditions": [
+  {
+   "condition": "Immunodeficiency 28 (IMD28)",
+   "reports": 1
+  }
+ ],
+ "clinvar_id": "14727",
+ "clinvar_review_stars": 0,
+ "clinvar_review_status": "no assertion criteria provided",
+ "conditions": [
+  "Immunodeficiency 28 (IMD28)"
+ ],
+ "consequence": "missense_variant",
+ "conservation": {
+  "phastcons_100way_vertebrate": 0.06391,
+  "phastcons_470way_mammalian": 0.08366,
+  "phylop_100way_vertebrate": 0.06789,
+  "phylop_470way_mammalian": 0.04039
+ },
+ "expanded_predictions": [
+  {
+   "score": 0.044,
+   "tool": "REVEL"
+  },
+  {
+   "prediction": "Benign",
+   "score": 0.0855,
+   "tool": "AlphaMissense"
+  },
+  {
+   "prediction": "T",
+   "score": 0.044805404036398,
+   "tool": "ClinPred"
+  },
+  {
+   "prediction": "Tolerated",
+   "score": 0.497,
+   "tool": "SIFT"
+  },
+  {
+   "prediction": "D",
+   "score": 0.5261329,
+   "tool": "MetaRNN"
+  }
+ ],
+ "gene": "IFNGR2",
+ "hgvs_c": "c.560C>A",
+ "hgvs_p": "p.T168N",
+ "id": "chr21:g.34799281C>A",
+ "legacy_name": "IFNGR2 T168N",
+ "polyphen_pred": "Benign",
+ "rsid": "rs74315444",
+ "sift_pred": "Tolerated",
+ "significance": "Pathogenic",
+ "supporting_pmids": [],
+ "top_disease": {
+  "condition": "Immunodeficiency 28 (IMD28)",
+  "reports": 1
+ }
 }

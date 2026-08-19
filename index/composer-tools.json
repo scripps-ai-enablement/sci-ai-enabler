@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "generated": "2026-08-17",
-  "count": 543,
+  "generated": "2026-08-19",
+  "count": 544,
   "tools": [
     {
       "slug": "10x-genomics-cloud",
@@ -7326,6 +7326,28 @@
       "summary": "Integration with protocols.io API for managing scientific protocols.",
       "keywords": [],
       "path": "catalog/tools/protocolsio-integration.md"
+    },
+    {
+      "slug": "protvar",
+      "title": "ProtVar MCP Server",
+      "tool_type": "MCP server",
+      "availability": "Alpha",
+      "tool_categories": [
+        "Translational Medicine",
+        "Molecular and Cellular Biology",
+        "Integrative Structural and Computational Biology"
+      ],
+      "last_verified": "2026-08-19",
+      "claude_science": false,
+      "summary": "First-party EMBL-EBI MCP server over ProtVar — maps missense variants onto UniProt coordinates and returns AlphaMissense, EVE, ESM1b, popEVE, FoldX, pockets, interactions and population data keyed by accession and residue.",
+      "keywords": [
+        "EMBL-EBI",
+        "ESM1b",
+        "EVE",
+        "First-party",
+        "popEVE"
+      ],
+      "path": "catalog/tools/protvar.md"
     },
     {
       "slug": "pubchem",

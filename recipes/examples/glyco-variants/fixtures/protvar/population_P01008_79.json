@@ -1,0 +1,1951 @@
+{
+ "accession": "P01008",
+ "altBase": null,
+ "chromosome": null,
+ "freqMap": {},
+ "genomicPosition": null,
+ "position": 79,
+ "variants": [
+  {
+   "alternativeSequence": "Cys",
+   "association": [
+    {
+     "dbReferences": [
+      {
+       "id": "613118",
+       "name": "MIM",
+       "reviewed": false,
+       "url": "https://www.omim.org/entry/613118"
+      }
+     ],
+     "description": "An important risk factor for hereditary thrombophilia, a hemostatic disorder characterized by a tendency to recurrent thrombosis. Antithrombin-III deficiency is classified into 4 types. Type I: characterized by a 50% decrease in antigenic and functional levels. Type II: has defects affecting the thrombin-binding domain. Type III: alteration of the heparin-binding domain. Plasma AT-III antigen levels are normal in type II and III. Type IV: consists of miscellaneous group of unclassifiable mutations.",
+     "disease": true,
+     "evidences": [
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/10997988",
+        "id": "10997988",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/10997988"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/11713457",
+        "id": "11713457",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/11713457"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/11794707",
+        "id": "11794707",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/11794707"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/12353073",
+        "id": "12353073",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/12353073"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/12595305",
+        "id": "12595305",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/12595305"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/12894857",
+        "id": "12894857",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/12894857"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/15140129",
+        "id": "15140129",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/15140129"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/15164384",
+        "id": "15164384",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/15164384"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/1547341",
+        "id": "1547341",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/1547341"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/1555650",
+        "id": "1555650",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/1555650"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/16908819",
+        "id": "16908819",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/16908819"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/1906811",
+        "id": "1906811",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/1906811"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/2013320",
+        "id": "2013320",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/2013320"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/2229057",
+        "id": "2229057",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/2229057"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/22758787",
+        "id": "22758787",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/22758787"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/2365065",
+        "id": "2365065",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/2365065"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/23910795",
+        "id": "23910795",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/23910795"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/2781509",
+        "id": "2781509",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/2781509"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/30046692",
+        "id": "30046692",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/30046692"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/3080419",
+        "id": "3080419",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/3080419"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/3162733",
+        "id": "3162733",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/3162733"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/3179438",
+        "id": "3179438",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/3179438"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/3191114",
+        "id": "3191114",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/3191114"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/32920809",
+        "id": "32920809",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/32920809"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/3805013",
+        "id": "3805013",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/3805013"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/6582486",
+        "id": "6582486",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/6582486"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/7734359",
+        "id": "7734359",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/7734359"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/7832187",
+        "id": "7832187",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/7832187"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/7878627",
+        "id": "7878627",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/7878627"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/7959685",
+        "id": "7959685",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/7959685"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/7981186",
+        "id": "7981186",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/7981186"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/7989582",
+        "id": "7989582",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/7989582"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/7994035",
+        "id": "7994035",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/7994035"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/8274732",
+        "id": "8274732",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/8274732"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/8443391",
+        "id": "8443391",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/8443391"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/8486379",
+        "id": "8486379",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/8486379"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/9031473",
+        "id": "9031473",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/9031473"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/9157604",
+        "id": "9157604",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/9157604"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/9759613",
+        "id": "9759613",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/9759613"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/9845533",
+        "id": "9845533",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/9845533"
+       }
+      }
+     ],
+     "name": "Antithrombin III deficiency (AT3D)"
+    },
+    {
+     "dbReferences": [
+      {
+       "id": "613118",
+       "name": "MIM",
+       "reviewed": false,
+       "url": "https://www.omim.org/entry/613118"
+      }
+     ],
+     "disease": true,
+     "evidences": [
+      {
+       "code": "ECO:0000313",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/20027064",
+        "id": "20027064",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/20027064"
+       }
+      },
+      {
+       "code": "ECO:0000313",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/35645034",
+        "id": "35645034",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/35645034"
+       }
+      },
+      {
+       "code": "ECO:0000313",
+       "source": {
+        "alternativeUrl": "https://www.ensembl.org/homo_sapiens/Variation/Explore?v=RCV000019620",
+        "id": "RCV000019620",
+        "name": "ClinVar",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/clinvar/RCV000019620"
+       }
+      }
+     ],
+     "name": "Hereditary antithrombin deficiency (AT3D)"
+    }
+   ],
+   "begin": "79",
+   "clinicalSignificances": [
+    {
+     "sources": [
+      "Ensembl",
+      "ClinVar",
+      "UniProt"
+     ],
+     "type": "Pathogenic"
+    }
+   ],
+   "codon": "CGT/TGT",
+   "consequenceType": "missense",
+   "cytogeneticBand": "1q25.1",
+   "end": "79",
+   "evidences": [
+    {
+     "code": "ECO:0000313",
+     "source": {
+      "alternativeUrl": "https://europepmc.org/abstract/MED/2615648",
+      "id": "2615648",
+      "name": "pubmed",
+      "reviewed": false,
+      "url": "https://www.ncbi.nlm.nih.gov/pubmed/2615648"
+     }
+    },
+    {
+     "code": "ECO:0000313",
+     "source": {
+      "alternativeUrl": "https://europepmc.org/abstract/MED/3413737",
+      "id": "3413737",
+      "name": "pubmed",
+      "reviewed": false,
+      "url": "https://www.ncbi.nlm.nih.gov/pubmed/3413737"
+     }
+    },
+    {
+     "code": "ECO:0000313",
+     "source": {
+      "alternativeUrl": "https://europepmc.org/abstract/MED/3563974",
+      "id": "3563974",
+      "name": "pubmed",
+      "reviewed": false,
+      "url": "https://www.ncbi.nlm.nih.gov/pubmed/3563974"
+     }
+    },
+    {
+     "code": "ECO:0000313",
+     "source": {
+      "alternativeUrl": "https://europepmc.org/abstract/MED/3605071",
+      "id": "3605071",
+      "name": "pubmed",
+      "reviewed": false,
+      "url": "https://www.ncbi.nlm.nih.gov/pubmed/3605071"
+     }
+    },
+    {
+     "code": "ECO:0000313",
+     "source": {
+      "alternativeUrl": "https://europepmc.org/abstract/MED/3715788",
+      "id": "3715788",
+      "name": "pubmed",
+      "reviewed": false,
+      "url": "https://www.ncbi.nlm.nih.gov/pubmed/3715788"
+     }
+    },
+    {
+     "code": "ECO:0000313",
+     "source": {
+      "alternativeUrl": "https://europepmc.org/abstract/MED/3775688",
+      "id": "3775688",
+      "name": "pubmed",
+      "reviewed": false,
+      "url": "https://www.ncbi.nlm.nih.gov/pubmed/3775688"
+     }
+    },
+    {
+     "code": "ECO:0000313",
+     "source": {
+      "alternativeUrl": "https://europepmc.org/abstract/MED/3960724",
+      "id": "3960724",
+      "name": "pubmed",
+      "reviewed": false,
+      "url": "https://www.ncbi.nlm.nih.gov/pubmed/3960724"
+     }
+    },
+    {
+     "code": "ECO:0000313",
+     "source": {
+      "alternativeUrl": "https://europepmc.org/abstract/MED/6204398",
+      "id": "6204398",
+      "name": "pubmed",
+      "reviewed": false,
+      "url": "https://www.ncbi.nlm.nih.gov/pubmed/6204398"
+     }
+    },
+    {
+     "code": "ECO:0000269",
+     "source": {
+      "alternativeUrl": "https://europepmc.org/abstract/MED/6582486",
+      "id": "6582486",
+      "name": "pubmed",
+      "reviewed": false,
+      "url": "https://www.ncbi.nlm.nih.gov/pubmed/6582486"
+     }
+    },
+    {
+     "code": "ECO:0000313",
+     "source": {
+      "alternativeUrl": "https://europepmc.org/abstract/MED/6582486",
+      "id": "6582486",
+      "name": "pubmed",
+      "reviewed": false,
+      "url": "https://www.ncbi.nlm.nih.gov/pubmed/6582486"
+     }
+    },
+    {
+     "code": "ECO:0000313",
+     "source": {
+      "alternativeUrl": "https://europepmc.org/abstract/MED/6636045",
+      "id": "6636045",
+      "name": "pubmed",
+      "reviewed": false,
+      "url": "https://www.ncbi.nlm.nih.gov/pubmed/6636045"
+     }
+    },
+    {
+     "code": "ECO:0000313",
+     "source": {
+      "alternativeUrl": "https://europepmc.org/abstract/MED/6871478",
+      "id": "6871478",
+      "name": "pubmed",
+      "reviewed": false,
+      "url": "https://www.ncbi.nlm.nih.gov/pubmed/6871478"
+     }
+    },
+    {
+     "code": "ECO:0000313",
+     "source": {
+      "alternativeUrl": "https://europepmc.org/abstract/MED/7082587",
+      "id": "7082587",
+      "name": "pubmed",
+      "reviewed": false,
+      "url": "https://www.ncbi.nlm.nih.gov/pubmed/7082587"
+     }
+    },
+    {
+     "code": "ECO:0000313",
+     "source": {
+      "alternativeUrl": "https://europepmc.org/abstract/MED/8664906",
+      "id": "8664906",
+      "name": "pubmed",
+      "reviewed": false,
+      "url": "https://www.ncbi.nlm.nih.gov/pubmed/8664906"
+     }
+    },
+    {
+     "code": "ECO:0000269",
+     "source": {
+      "alternativeUrl": "https://europepmc.org/abstract/MED/9031473",
+      "id": "9031473",
+      "name": "pubmed",
+      "reviewed": false,
+      "url": "https://www.ncbi.nlm.nih.gov/pubmed/9031473"
+     }
+    },
+    {
+     "code": "ECO:0000269",
+     "source": {
+      "alternativeUrl": "https://europepmc.org/abstract/MED/9759613",
+      "id": "9759613",
+      "name": "pubmed",
+      "reviewed": false,
+      "url": "https://www.ncbi.nlm.nih.gov/pubmed/9759613"
+     }
+    }
+   ],
+   "ftId": "VAR_007037",
+   "genomicLocation": [
+    "NC_000001.11:g.173914726G>A"
+   ],
+   "populationFrequencies": [
+    {
+     "frequency": 2e-05,
+     "populationName": "MAF",
+     "source": "ClinVar"
+    }
+   ],
+   "sourceType": "mixed",
+   "type": "VARIANT",
+   "wildType": "Arg",
+   "xrefs": [
+    {
+     "id": "CA210748",
+     "name": "ClinGen",
+     "reviewed": false,
+     "url": "https://reg.clinicalgenome.org/redmine/projects/registry/genboree_registry/by_caid?caid=CA210748"
+    },
+    {
+     "alternativeUrl": "https://www.ensembl.org/homo_sapiens/Variation/Explore?v=COSV62930109",
+     "id": "COSV62930109",
+     "name": "cosmic curated",
+     "reviewed": false,
+     "url": "https://cancer.sanger.ac.uk/cosmic/search?q=COSV62930109"
+    },
+    {
+     "alternativeUrl": "https://www.ensembl.org/homo_sapiens/Variation/Explore?v=RCV000019620",
+     "id": "RCV000019620",
+     "name": "ClinVar",
+     "reviewed": false,
+     "url": "https://www.ncbi.nlm.nih.gov/clinvar/RCV000019620"
+    },
+    {
+     "alternativeUrl": "https://www.ensembl.org/homo_sapiens/Variation/Explore?v=RCV004791230",
+     "id": "RCV004791230",
+     "name": "ClinVar",
+     "reviewed": false,
+     "url": "https://www.ncbi.nlm.nih.gov/clinvar/RCV004791230"
+    },
+    {
+     "id": "VAR_007037",
+     "name": "UniProt",
+     "reviewed": false,
+     "url": "https://web.expasy.org/variant_pages/VAR_007037.html"
+    },
+    {
+     "id": "rs121909547",
+     "name": "ExAC",
+     "reviewed": false,
+     "url": "https://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?type=rs&rs=rs121909547"
+    },
+    {
+     "alternativeUrl": "http://gnomad.broadinstitute.org/awesome?query=rs121909547",
+     "id": "rs121909547",
+     "name": "TOPMed",
+     "reviewed": false,
+     "url": "https://www.ncbi.nlm.nih.gov/snp/rs121909547#frequency_tab"
+    },
+    {
+     "id": "rs121909547",
+     "name": "dbSNP",
+     "reviewed": false,
+     "url": "https://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?type=rs&rs=rs121909547"
+    },
+    {
+     "id": "rs121909547",
+     "name": "gnomAD",
+     "reviewed": false,
+     "url": "https://gnomad.broadinstitute.org/variant/rs121909547?dataset=gnomad_r2_1"
+    }
+   ]
+  },
+  {
+   "alternativeSequence": "His",
+   "association": [
+    {
+     "description": "From tissue: Endometrium",
+     "disease": true,
+     "name": "Adenomas and Adenocarcinomas"
+    },
+    {
+     "dbReferences": [
+      {
+       "id": "613118",
+       "name": "MIM",
+       "reviewed": false,
+       "url": "https://www.omim.org/entry/613118"
+      }
+     ],
+     "description": "An important risk factor for hereditary thrombophilia, a hemostatic disorder characterized by a tendency to recurrent thrombosis. Antithrombin-III deficiency is classified into 4 types. Type I: characterized by a 50% decrease in antigenic and functional levels. Type II: has defects affecting the thrombin-binding domain. Type III: alteration of the heparin-binding domain. Plasma AT-III antigen levels are normal in type II and III. Type IV: consists of miscellaneous group of unclassifiable mutations.",
+     "disease": true,
+     "evidences": [
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/10997988",
+        "id": "10997988",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/10997988"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/11713457",
+        "id": "11713457",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/11713457"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/11794707",
+        "id": "11794707",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/11794707"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/12353073",
+        "id": "12353073",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/12353073"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/12595305",
+        "id": "12595305",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/12595305"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/12894857",
+        "id": "12894857",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/12894857"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/15140129",
+        "id": "15140129",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/15140129"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/15164384",
+        "id": "15164384",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/15164384"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/1547341",
+        "id": "1547341",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/1547341"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/1555650",
+        "id": "1555650",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/1555650"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/16908819",
+        "id": "16908819",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/16908819"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/1906811",
+        "id": "1906811",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/1906811"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/2013320",
+        "id": "2013320",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/2013320"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/2229057",
+        "id": "2229057",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/2229057"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/22758787",
+        "id": "22758787",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/22758787"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/2365065",
+        "id": "2365065",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/2365065"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/23910795",
+        "id": "23910795",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/23910795"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/2781509",
+        "id": "2781509",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/2781509"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/30046692",
+        "id": "30046692",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/30046692"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/3080419",
+        "id": "3080419",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/3080419"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/3162733",
+        "id": "3162733",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/3162733"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/3179438",
+        "id": "3179438",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/3179438"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/3191114",
+        "id": "3191114",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/3191114"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/32920809",
+        "id": "32920809",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/32920809"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/3805013",
+        "id": "3805013",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/3805013"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/6582486",
+        "id": "6582486",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/6582486"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/7734359",
+        "id": "7734359",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/7734359"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/7832187",
+        "id": "7832187",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/7832187"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/7878627",
+        "id": "7878627",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/7878627"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/7959685",
+        "id": "7959685",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/7959685"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/7981186",
+        "id": "7981186",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/7981186"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/7989582",
+        "id": "7989582",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/7989582"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/7994035",
+        "id": "7994035",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/7994035"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/8274732",
+        "id": "8274732",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/8274732"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/8443391",
+        "id": "8443391",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/8443391"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/8486379",
+        "id": "8486379",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/8486379"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/9031473",
+        "id": "9031473",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/9031473"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/9157604",
+        "id": "9157604",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/9157604"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/9759613",
+        "id": "9759613",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/9759613"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/9845533",
+        "id": "9845533",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/9845533"
+       }
+      }
+     ],
+     "name": "Antithrombin III deficiency (AT3D)"
+    },
+    {
+     "dbReferences": [
+      {
+       "id": "613118",
+       "name": "MIM",
+       "reviewed": false,
+       "url": "https://www.omim.org/entry/613118"
+      }
+     ],
+     "disease": true,
+     "evidences": [
+      {
+       "code": "ECO:0000313",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/20027064",
+        "id": "20027064",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/20027064"
+       }
+      },
+      {
+       "code": "ECO:0000313",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/35645034",
+        "id": "35645034",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/35645034"
+       }
+      },
+      {
+       "code": "ECO:0000313",
+       "source": {
+        "alternativeUrl": "https://www.ensembl.org/homo_sapiens/Variation/Explore?v=RCV000019630",
+        "id": "RCV000019630",
+        "name": "ClinVar",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/clinvar/RCV000019630"
+       }
+      }
+     ],
+     "name": "Hereditary antithrombin deficiency (AT3D)"
+    },
+    {
+     "disease": true,
+     "evidences": [
+      {
+       "code": "ECO:0000313",
+       "source": {
+        "alternativeUrl": "https://www.ensembl.org/homo_sapiens/Variation/Explore?v=RCV004754265",
+        "id": "RCV004754265",
+        "name": "ClinVar",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/clinvar/RCV004754265"
+       }
+      }
+     ],
+     "name": "SERPINC1-related disorder"
+    }
+   ],
+   "begin": "79",
+   "clinicalSignificances": [
+    {
+     "sources": [
+      "Ensembl",
+      "ClinVar",
+      "UniProt"
+     ],
+     "type": "Pathogenic"
+    }
+   ],
+   "codon": "CGT/CAT",
+   "consequenceType": "missense",
+   "cytogeneticBand": "1q25.1",
+   "end": "79",
+   "evidences": [
+    {
+     "code": "ECO:0000313",
+     "source": {
+      "alternativeUrl": "https://europepmc.org/abstract/MED/1998601",
+      "id": "1998601",
+      "name": "pubmed",
+      "reviewed": false,
+      "url": "https://www.ncbi.nlm.nih.gov/pubmed/1998601"
+     }
+    },
+    {
+     "code": "ECO:0000313",
+     "source": {
+      "alternativeUrl": "https://europepmc.org/abstract/MED/2615648",
+      "id": "2615648",
+      "name": "pubmed",
+      "reviewed": false,
+      "url": "https://www.ncbi.nlm.nih.gov/pubmed/2615648"
+     }
+    },
+    {
+     "code": "ECO:0000313",
+     "source": {
+      "alternativeUrl": "https://europepmc.org/abstract/MED/3567355",
+      "id": "3567355",
+      "name": "pubmed",
+      "reviewed": false,
+      "url": "https://www.ncbi.nlm.nih.gov/pubmed/3567355"
+     }
+    },
+    {
+     "code": "ECO:0000269",
+     "source": {
+      "alternativeUrl": "https://europepmc.org/abstract/MED/7981186",
+      "id": "7981186",
+      "name": "pubmed",
+      "reviewed": false,
+      "url": "https://www.ncbi.nlm.nih.gov/pubmed/7981186"
+     }
+    },
+    {
+     "code": "ECO:0000313",
+     "source": {
+      "alternativeUrl": "https://europepmc.org/abstract/MED/7981186",
+      "id": "7981186",
+      "name": "pubmed",
+      "reviewed": false,
+      "url": "https://www.ncbi.nlm.nih.gov/pubmed/7981186"
+     }
+    },
+    {
+     "code": "ECO:0000269",
+     "source": {
+      "alternativeUrl": "https://europepmc.org/abstract/MED/9031473",
+      "id": "9031473",
+      "name": "pubmed",
+      "reviewed": false,
+      "url": "https://www.ncbi.nlm.nih.gov/pubmed/9031473"
+     }
+    }
+   ],
+   "ftId": "VAR_007038",
+   "genomicLocation": [
+    "NC_000001.11:g.173914725C>T"
+   ],
+   "populationFrequencies": [
+    {
+     "frequency": 0.0004,
+     "populationName": "MAF",
+     "source": "1000Genomes"
+    },
+    {
+     "frequency": 0.0004,
+     "populationName": "MAF",
+     "source": "ClinVar"
+    }
+   ],
+   "sourceType": "mixed",
+   "type": "VARIANT",
+   "wildType": "Arg",
+   "xrefs": [
+    {
+     "id": "CA210758",
+     "name": "ClinGen",
+     "reviewed": false,
+     "url": "https://reg.clinicalgenome.org/redmine/projects/registry/genboree_registry/by_caid?caid=CA210758"
+    },
+    {
+     "alternativeUrl": "https://www.ensembl.org/homo_sapiens/Variation/Explore?v=COSV62929680",
+     "id": "COSV62929680",
+     "name": "NCI-TCGA Cosmic",
+     "reviewed": false,
+     "url": "https://cancer.sanger.ac.uk/cosmic/search?q=COSV62929680"
+    },
+    {
+     "alternativeUrl": "https://www.ensembl.org/homo_sapiens/Variation/Explore?v=COSV62930719",
+     "id": "COSV62930719",
+     "name": "cosmic curated",
+     "reviewed": false,
+     "url": "https://cancer.sanger.ac.uk/cosmic/search?q=COSV62930719"
+    },
+    {
+     "alternativeUrl": "https://www.ensembl.org/homo_sapiens/Variation/Explore?v=RCV000019630",
+     "id": "RCV000019630",
+     "name": "ClinVar",
+     "reviewed": false,
+     "url": "https://www.ncbi.nlm.nih.gov/clinvar/RCV000019630"
+    },
+    {
+     "alternativeUrl": "https://www.ensembl.org/homo_sapiens/Variation/Explore?v=RCV002054451",
+     "id": "RCV002054451",
+     "name": "ClinVar",
+     "reviewed": false,
+     "url": "https://www.ncbi.nlm.nih.gov/clinvar/RCV002054451"
+    },
+    {
+     "alternativeUrl": "https://www.ensembl.org/homo_sapiens/Variation/Explore?v=RCV004754265",
+     "id": "RCV004754265",
+     "name": "ClinVar",
+     "reviewed": false,
+     "url": "https://www.ncbi.nlm.nih.gov/clinvar/RCV004754265"
+    },
+    {
+     "id": "VAR_007038",
+     "name": "UniProt",
+     "reviewed": false,
+     "url": "https://web.expasy.org/variant_pages/VAR_007038.html"
+    },
+    {
+     "id": "d649e434-1a1b-4a2d-a25f-6a9a9c098a8d",
+     "name": "NCI-TCGA",
+     "reviewed": false
+    },
+    {
+     "id": "rs121909552",
+     "name": "1000Genomes",
+     "reviewed": false,
+     "url": "https://www.ensembl.org/homo_sapiens/Variation/Explore?v=rs121909552"
+    },
+    {
+     "alternativeUrl": "https://www.ensembl.org/homo_sapiens/Variation/Explore?v=rs121909552",
+     "id": "rs121909552",
+     "name": "ESP",
+     "reviewed": false,
+     "url": "https://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?type=rs&rs=rs121909552"
+    },
+    {
+     "id": "rs121909552",
+     "name": "ExAC",
+     "reviewed": false,
+     "url": "https://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?type=rs&rs=rs121909552"
+    },
+    {
+     "alternativeUrl": "http://gnomad.broadinstitute.org/awesome?query=rs121909552",
+     "id": "rs121909552",
+     "name": "TOPMed",
+     "reviewed": false,
+     "url": "https://www.ncbi.nlm.nih.gov/snp/rs121909552#frequency_tab"
+    },
+    {
+     "id": "rs121909552",
+     "name": "dbSNP",
+     "reviewed": false,
+     "url": "https://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?type=rs&rs=rs121909552"
+    },
+    {
+     "id": "rs121909552",
+     "name": "gnomAD",
+     "reviewed": false,
+     "url": "https://gnomad.broadinstitute.org/variant/rs121909552?dataset=gnomad_r2_1"
+    }
+   ]
+  },
+  {
+   "alternativeSequence": "Ser",
+   "association": [
+    {
+     "dbReferences": [
+      {
+       "id": "613118",
+       "name": "MIM",
+       "reviewed": false,
+       "url": "https://www.omim.org/entry/613118"
+      }
+     ],
+     "description": "An important risk factor for hereditary thrombophilia, a hemostatic disorder characterized by a tendency to recurrent thrombosis. Antithrombin-III deficiency is classified into 4 types. Type I: characterized by a 50% decrease in antigenic and functional levels. Type II: has defects affecting the thrombin-binding domain. Type III: alteration of the heparin-binding domain. Plasma AT-III antigen levels are normal in type II and III. Type IV: consists of miscellaneous group of unclassifiable mutations.",
+     "disease": true,
+     "evidences": [
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/10997988",
+        "id": "10997988",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/10997988"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/11713457",
+        "id": "11713457",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/11713457"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/11794707",
+        "id": "11794707",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/11794707"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/12353073",
+        "id": "12353073",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/12353073"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/12595305",
+        "id": "12595305",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/12595305"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/12894857",
+        "id": "12894857",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/12894857"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/15140129",
+        "id": "15140129",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/15140129"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/15164384",
+        "id": "15164384",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/15164384"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/1547341",
+        "id": "1547341",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/1547341"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/1555650",
+        "id": "1555650",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/1555650"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/16908819",
+        "id": "16908819",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/16908819"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/1906811",
+        "id": "1906811",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/1906811"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/2013320",
+        "id": "2013320",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/2013320"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/2229057",
+        "id": "2229057",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/2229057"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/22758787",
+        "id": "22758787",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/22758787"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/2365065",
+        "id": "2365065",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/2365065"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/23910795",
+        "id": "23910795",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/23910795"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/2781509",
+        "id": "2781509",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/2781509"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/30046692",
+        "id": "30046692",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/30046692"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/3080419",
+        "id": "3080419",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/3080419"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/3162733",
+        "id": "3162733",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/3162733"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/3179438",
+        "id": "3179438",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/3179438"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/3191114",
+        "id": "3191114",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/3191114"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/32920809",
+        "id": "32920809",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/32920809"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/3805013",
+        "id": "3805013",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/3805013"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/6582486",
+        "id": "6582486",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/6582486"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/7734359",
+        "id": "7734359",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/7734359"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/7832187",
+        "id": "7832187",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/7832187"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/7878627",
+        "id": "7878627",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/7878627"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/7959685",
+        "id": "7959685",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/7959685"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/7981186",
+        "id": "7981186",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/7981186"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/7989582",
+        "id": "7989582",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/7989582"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/7994035",
+        "id": "7994035",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/7994035"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/8274732",
+        "id": "8274732",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/8274732"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/8443391",
+        "id": "8443391",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/8443391"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/8486379",
+        "id": "8486379",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/8486379"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/9031473",
+        "id": "9031473",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/9031473"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/9157604",
+        "id": "9157604",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/9157604"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/9759613",
+        "id": "9759613",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/9759613"
+       }
+      },
+      {
+       "code": "ECO:0000269",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/9845533",
+        "id": "9845533",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/9845533"
+       }
+      }
+     ],
+     "name": "Antithrombin III deficiency (AT3D)"
+    },
+    {
+     "dbReferences": [
+      {
+       "id": "613118",
+       "name": "MIM",
+       "reviewed": false,
+       "url": "https://www.omim.org/entry/613118"
+      }
+     ],
+     "disease": true,
+     "evidences": [
+      {
+       "code": "ECO:0000313",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/20027064",
+        "id": "20027064",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/20027064"
+       }
+      },
+      {
+       "code": "ECO:0000313",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/35645034",
+        "id": "35645034",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/35645034"
+       }
+      },
+      {
+       "code": "ECO:0000313",
+       "source": {
+        "alternativeUrl": "https://www.ensembl.org/homo_sapiens/Variation/Explore?v=RCV000019631",
+        "id": "RCV000019631",
+        "name": "ClinVar",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/clinvar/RCV000019631"
+       }
+      }
+     ],
+     "name": "Hereditary antithrombin deficiency (AT3D)"
+    }
+   ],
+   "begin": "79",
+   "clinicalSignificances": [
+    {
+     "sources": [
+      "Ensembl",
+      "UniProt"
+     ],
+     "type": "Pathogenic"
+    }
+   ],
+   "codon": "CGT/AGT",
+   "consequenceType": "missense",
+   "cytogeneticBand": "1q25.1",
+   "end": "79",
+   "evidences": [
+    {
+     "code": "ECO:0000313",
+     "source": {
+      "alternativeUrl": "https://europepmc.org/abstract/MED/2365065",
+      "id": "2365065",
+      "name": "pubmed",
+      "reviewed": false,
+      "url": "https://www.ncbi.nlm.nih.gov/pubmed/2365065"
+     }
+    },
+    {
+     "code": "ECO:0000269",
+     "source": {
+      "alternativeUrl": "https://europepmc.org/abstract/MED/9031473",
+      "id": "9031473",
+      "name": "pubmed",
+      "reviewed": false,
+      "url": "https://www.ncbi.nlm.nih.gov/pubmed/9031473"
+     }
+    }
+   ],
+   "ftId": "VAR_007039",
+   "genomicLocation": [
+    "NC_000001.11:g.173914726G>T"
+   ],
+   "sourceType": "mixed",
+   "type": "VARIANT",
+   "wildType": "Arg",
+   "xrefs": [
+    {
+     "id": "CA210760",
+     "name": "ClinGen",
+     "reviewed": false,
+     "url": "https://reg.clinicalgenome.org/redmine/projects/registry/genboree_registry/by_caid?caid=CA210760"
+    },
+    {
+     "alternativeUrl": "https://www.ensembl.org/homo_sapiens/Variation/Explore?v=RCV000019631",
+     "id": "RCV000019631",
+     "name": "ClinVar",
+     "reviewed": false,
+     "url": "https://www.ncbi.nlm.nih.gov/clinvar/RCV000019631"
+    },
+    {
+     "id": "VAR_007039",
+     "name": "UniProt",
+     "reviewed": false,
+     "url": "https://web.expasy.org/variant_pages/VAR_007039.html"
+    },
+    {
+     "id": "rs121909547",
+     "name": "ExAC",
+     "reviewed": false,
+     "url": "https://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?type=rs&rs=rs121909547"
+    },
+    {
+     "alternativeUrl": "http://gnomad.broadinstitute.org/awesome?query=rs121909547",
+     "id": "rs121909547",
+     "name": "TOPMed",
+     "reviewed": false,
+     "url": "https://www.ncbi.nlm.nih.gov/snp/rs121909547#frequency_tab"
+    },
+    {
+     "id": "rs121909547",
+     "name": "dbSNP",
+     "reviewed": false,
+     "url": "https://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?type=rs&rs=rs121909547"
+    },
+    {
+     "id": "rs121909547",
+     "name": "gnomAD",
+     "reviewed": false,
+     "url": "https://gnomad.broadinstitute.org/variant/rs121909547?dataset=gnomad_r2_1"
+    }
+   ]
+  }
+ ]
+}
