@@ -1,0 +1,97 @@
+{
+ "accession": "P38484",
+ "altBase": null,
+ "chromosome": null,
+ "freqMap": {},
+ "genomicPosition": null,
+ "position": 70,
+ "variants": [
+  {
+   "alternativeSequence": "Ile",
+   "association": [
+    {
+     "description": "From tissue: Lung, NOS",
+     "disease": true,
+     "name": "Squamous Cell Neoplasms"
+    }
+   ],
+   "begin": "70",
+   "consequenceType": "missense",
+   "cytogeneticBand": "21q22.11",
+   "end": "70",
+   "genomicLocation": [
+    "NC_000021.9:g.33421482C>T"
+   ],
+   "predictions": [
+    {
+     "predAlgorithmNameType": "PolyPhen",
+     "predictionValType": "benign",
+     "score": 0.037
+    },
+    {
+     "predAlgorithmNameType": "SIFT",
+     "predictionValType": "tolerated",
+     "score": 0.07
+    }
+   ],
+   "sourceType": "large_scale_study",
+   "type": "VARIANT",
+   "wildType": "Thr",
+   "xrefs": [
+    {
+     "id": "53dd03b5-808d-44e6-86b6-4f5f2b82bb2c",
+     "name": "NCI-TCGA",
+     "reviewed": false
+    },
+    {
+     "alternativeUrl": "https://www.ensembl.org/homo_sapiens/Variation/Explore?v=COSV51639917",
+     "id": "COSV51639917",
+     "name": "NCI-TCGA Cosmic",
+     "reviewed": false,
+     "url": "https://cancer.sanger.ac.uk/cosmic/search?q=COSV51639917"
+    },
+    {
+     "alternativeUrl": "https://www.ensembl.org/homo_sapiens/Variation/Explore?v=COSV51639917",
+     "id": "COSV51639917",
+     "name": "cosmic curated",
+     "reviewed": false,
+     "url": "https://cancer.sanger.ac.uk/cosmic/search?q=COSV51639917"
+    }
+   ]
+  },
+  {
+   "alternativeSequence": "Pro",
+   "begin": "70",
+   "codon": "ACC/CCC",
+   "consequenceType": "missense",
+   "cytogeneticBand": "21q22.11",
+   "end": "70",
+   "genomicLocation": [
+    "NC_000021.9:g.33421481A>C"
+   ],
+   "predictions": [
+    {
+     "predAlgorithmNameType": "PolyPhen",
+     "predictionValType": "benign",
+     "score": 0.038
+    },
+    {
+     "predAlgorithmNameType": "SIFT",
+     "predictionValType": "tolerated",
+     "score": 0.11
+    }
+   ],
+   "sourceType": "large_scale_study",
+   "type": "VARIANT",
+   "wildType": "Thr",
+   "xrefs": [
+    {
+     "id": "rs77053956",
+     "name": "Ensembl",
+     "reviewed": false,
+     "url": "https://www.ensembl.org/homo_sapiens/Variation/Explore?v=rs77053956"
+    }
+   ]
+  }
+ ]
+}

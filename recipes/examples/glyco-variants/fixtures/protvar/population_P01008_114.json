@@ -1,0 +1,118 @@
+{
+ "accession": "P01008",
+ "altBase": null,
+ "chromosome": null,
+ "freqMap": {},
+ "genomicPosition": null,
+ "position": 114,
+ "variants": [
+  {
+   "alternativeSequence": "Asn",
+   "association": [
+    {
+     "dbReferences": [
+      {
+       "id": "613118",
+       "name": "MIM",
+       "reviewed": false,
+       "url": "https://www.omim.org/entry/613118"
+      }
+     ],
+     "disease": true,
+     "evidences": [
+      {
+       "code": "ECO:0000313",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/20027064",
+        "id": "20027064",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/20027064"
+       }
+      },
+      {
+       "code": "ECO:0000313",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/35645034",
+        "id": "35645034",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/35645034"
+       }
+      },
+      {
+       "code": "ECO:0000313",
+       "source": {
+        "alternativeUrl": "https://www.ensembl.org/homo_sapiens/Variation/Explore?v=RCV001045955",
+        "id": "RCV001045955",
+        "name": "ClinVar",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/clinvar/RCV001045955"
+       }
+      }
+     ],
+     "name": "Hereditary antithrombin deficiency (AT3D)"
+    }
+   ],
+   "begin": "114",
+   "clinicalSignificances": [
+    {
+     "sources": [
+      "Ensembl",
+      "ClinVar"
+     ],
+     "type": "Pathogenic"
+    }
+   ],
+   "codon": "AGT/AAT",
+   "consequenceType": "missense",
+   "cytogeneticBand": "1q25.1",
+   "end": "114",
+   "genomicLocation": [
+    "NC_000001.11:g.173914620C>T"
+   ],
+   "predictions": [
+    {
+     "predAlgorithmNameType": "PolyPhen",
+     "predictionValType": "probably damaging",
+     "score": 0.998
+    },
+    {
+     "predAlgorithmNameType": "SIFT",
+     "predictionValType": "deleterious",
+     "score": 0.0
+    }
+   ],
+   "sourceType": "large_scale_study",
+   "type": "VARIANT",
+   "wildType": "Ser",
+   "xrefs": [
+    {
+     "id": "CA343777442",
+     "name": "ClinGen",
+     "reviewed": false,
+     "url": "https://reg.clinicalgenome.org/redmine/projects/registry/genboree_registry/by_caid?caid=CA343777442"
+    },
+    {
+     "alternativeUrl": "https://www.ensembl.org/homo_sapiens/Variation/Explore?v=RCV001045955",
+     "id": "RCV001045955",
+     "name": "ClinVar",
+     "reviewed": false,
+     "url": "https://www.ncbi.nlm.nih.gov/clinvar/RCV001045955"
+    },
+    {
+     "id": "rs1657909645",
+     "name": "Ensembl",
+     "reviewed": false,
+     "url": "https://www.ensembl.org/homo_sapiens/Variation/Explore?v=rs1657909645"
+    },
+    {
+     "id": "rs1657909645",
+     "name": "dbSNP",
+     "reviewed": false,
+     "url": "https://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?type=rs&rs=rs1657909645"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,1164 @@
+{
+ "assembly": "AUTO",
+ "content": {
+  "inputs": [
+   {
+    "accession": "P01008",
+    "altAA": "S",
+    "altUnknown": false,
+    "derivedGenomicVariants": [
+     {
+      "altBase": "C",
+      "chromosome": "1",
+      "genes": [
+       {
+        "altAllele": "C",
+        "caddScore": 23.3,
+        "ensg": "ENSG00000117601.15",
+        "geneName": "SERPINC1",
+        "isoforms": [
+         {
+          "accession": "P01008",
+          "amScore": {
+           "amClass": "BENIGN",
+           "amPathogenicity": 0.0836,
+           "type": "AM"
+          },
+          "aminoAcidChange": "Asn/Ser",
+          "canonical": true,
+          "canonicalAccession": "P01008",
+          "codonChange": "aAc/aGc",
+          "codonPosition": 2,
+          "consequences": "missense",
+          "isoformPosition": 167,
+          "popEveScore": {
+           "esm1v": 0.171,
+           "eve": 4.131,
+           "gapFreq": 0.125,
+           "mt": "S",
+           "popeve": -3.229,
+           "poppedEsm1v": -3.068,
+           "poppedEve": -3.39,
+           "type": "POPEVE"
+          },
+          "populationObservationsUri": "/population/P01008/167?genomicVariant=1-173911923-T-C",
+          "proteinName": "Antithrombin-III",
+          "proteinStructureUri": "/structure/P01008/167",
+          "refAA": "Asn",
+          "refCodon": "aAc",
+          "referenceFunctionUri": "/function/P01008/167?variantAA=SER",
+          "transcripts": [
+           {
+            "ense": "ENSE00003644352",
+            "ensp": "ENSP00000356671.3",
+            "enst": "ENST00000367698.4"
+           }
+          ],
+          "variantAA": "Ser",
+          "variantCodon": "aGc"
+         }
+        ],
+        "refAllele": "T",
+        "reverseStrand": true
+       }
+      ],
+      "position": 173911923,
+      "refBase": "T",
+      "variantKey": "1:173911923"
+     }
+    ],
+    "format": "INTERNAL_PROTEIN",
+    "inputStr": "P01008 167 N S",
+    "messages": [],
+    "originalIndex": 0,
+    "position": 167,
+    "refAA": "N",
+    "refseqId": null,
+    "type": "PROTEIN"
+   },
+   {
+    "accession": "P38484",
+    "altAA": "N",
+    "altUnknown": false,
+    "derivedGenomicVariants": [
+     {
+      "altBase": "A",
+      "chromosome": "21",
+      "genes": [
+       {
+        "altAllele": "A",
+        "caddScore": 0.02,
+        "ensg": "ENSG00000159128.16",
+        "geneName": "IFNGR2",
+        "isoforms": [
+         {
+          "accession": "P38484",
+          "amScore": {
+           "amClass": "BENIGN",
+           "amPathogenicity": 0.0855,
+           "type": "AM"
+          },
+          "aminoAcidChange": "Thr/Asn",
+          "canonical": true,
+          "canonicalAccession": "P38484",
+          "codonChange": "aCc/aAc",
+          "codonPosition": 2,
+          "consequences": "missense",
+          "isoformPosition": 168,
+          "popEveScore": {
+           "esm1v": 0.688,
+           "eve": 2.239,
+           "gapFreq": 0.246,
+           "mt": "N",
+           "popeve": -2.944,
+           "poppedEsm1v": -3.055,
+           "poppedEve": -2.833,
+           "type": "POPEVE"
+          },
+          "populationObservationsUri": "/population/P38484/168?genomicVariant=21-33426974-C-A",
+          "proteinName": "Interferon gamma receptor 2",
+          "proteinStructureUri": "/structure/P38484/168",
+          "refAA": "Thr",
+          "refCodon": "aCc",
+          "referenceFunctionUri": "/function/P38484/168?variantAA=ASN",
+          "transcripts": [
+           {
+            "ense": "ENSE00003495624",
+            "ensp": "ENSP00000290219.5",
+            "enst": "ENST00000290219.11"
+           }
+          ],
+          "variantAA": "Asn",
+          "variantCodon": "aAc"
+         },
+         {
+          "accession": "B5MCZ0",
+          "aminoAcidChange": "Thr/Asn",
+          "canonical": false,
+          "canonicalAccession": "P38484",
+          "codonChange": "aCc/aAc",
+          "codonPosition": 2,
+          "consequences": "missense",
+          "isoformPosition": 89,
+          "proteinName": "Interferon gamma receptor 2",
+          "refAA": "Thr",
+          "refCodon": "aCc",
+          "transcripts": [
+           {
+            "ense": "ENSE00003495624",
+            "ensp": "ENSP00000385044.1",
+            "enst": "ENST00000405436.5"
+           }
+          ],
+          "variantAA": "Asn",
+          "variantCodon": "aAc"
+         },
+         {
+          "accession": "E7EUY1",
+          "aminoAcidChange": "Thr/Asn",
+          "canonical": false,
+          "canonicalAccession": "P38484",
+          "codonChange": "aCc/aAc",
+          "codonPosition": 2,
+          "consequences": "missense",
+          "isoformPosition": 187,
+          "proteinName": "Interferon gamma receptor 2",
+          "refAA": "Thr",
+          "refCodon": "aCc",
+          "transcripts": [
+           {
+            "ense": "ENSE00003495624",
+            "ensp": "ENSP00000371425.1",
+            "enst": "ENST00000381995.5"
+           }
+          ],
+          "variantAA": "Asn",
+          "variantCodon": "aAc"
+         },
+         {
+          "accession": "A0A8Q3SIY7",
+          "aminoAcidChange": "Thr/Asn",
+          "canonical": false,
+          "canonicalAccession": "P38484",
+          "codonChange": "aCc/aAc",
+          "codonPosition": 2,
+          "consequences": "missense",
+          "isoformPosition": 165,
+          "proteinName": "Interferon gamma receptor 2 (Fragment)",
+          "refAA": "Thr",
+          "refCodon": "aCc",
+          "transcripts": [
+           {
+            "ense": "ENSE00003495624",
+            "ensp": "ENSP00000512835.1",
+            "enst": "ENST00000696724.1"
+           }
+          ],
+          "variantAA": "Asn",
+          "variantCodon": "aAc"
+         },
+         {
+          "accession": "A8K881",
+          "aminoAcidChange": "Thr/Asn",
+          "canonical": false,
+          "canonicalAccession": "P38484",
+          "codonChange": "aCc/aAc",
+          "codonPosition": 2,
+          "consequences": "missense",
+          "isoformPosition": 168,
+          "proteinName": "Interferon gamma receptor 2 (Interferon gamma transducer 1), isoform CRA_a",
+          "refAA": "Thr",
+          "refCodon": "aCc",
+          "transcripts": [
+           {
+            "ense": "ENSE00003495624",
+            "ensp": "ENSP00000290219.5",
+            "enst": "ENST00000290219.11"
+           }
+          ],
+          "variantAA": "Asn",
+          "variantCodon": "aAc"
+         }
+        ],
+        "refAllele": "C",
+        "reverseStrand": false
+       }
+      ],
+      "position": 33426974,
+      "refBase": "C",
+      "variantKey": "21:33426974"
+     }
+    ],
+    "format": "INTERNAL_PROTEIN",
+    "inputStr": "P38484 168 T N",
+    "messages": [],
+    "originalIndex": 1,
+    "position": 168,
+    "refAA": "T",
+    "refseqId": null,
+    "type": "PROTEIN"
+   },
+   {
+    "accession": "P01008",
+    "altAA": "N",
+    "altUnknown": false,
+    "derivedGenomicVariants": [
+     {
+      "altBase": "T",
+      "chromosome": "1",
+      "genes": [
+       {
+        "altAllele": "T",
+        "caddScore": 27.7,
+        "ensg": "ENSG00000117601.15",
+        "geneName": "SERPINC1",
+        "isoforms": [
+         {
+          "accession": "P01008",
+          "amScore": {
+           "amClass": "PATHOGENIC",
+           "amPathogenicity": 0.8726,
+           "type": "AM"
+          },
+          "aminoAcidChange": "Ser/Asn",
+          "canonical": true,
+          "canonicalAccession": "P01008",
+          "codonChange": "aGu/aAu",
+          "codonPosition": 2,
+          "consequences": "missense",
+          "isoformPosition": 114,
+          "popEveScore": {
+           "esm1v": -5.81,
+           "eve": 6.976,
+           "gapFreq": 0.071,
+           "mt": "N",
+           "popeve": -4.328,
+           "poppedEsm1v": -4.66,
+           "poppedEve": -3.996,
+           "type": "POPEVE"
+          },
+          "populationObservationsUri": "/population/P01008/114?genomicVariant=1-173914620-C-T",
+          "proteinName": "Antithrombin-III",
+          "proteinStructureUri": "/structure/P01008/114",
+          "refAA": "Ser",
+          "refCodon": "aGu",
+          "referenceFunctionUri": "/function/P01008/114?variantAA=ASN",
+          "transcripts": [
+           {
+            "ense": "ENSE00003578986",
+            "ensp": "ENSP00000356671.3",
+            "enst": "ENST00000367698.4"
+           }
+          ],
+          "variantAA": "Asn",
+          "variantCodon": "aAu"
+         }
+        ],
+        "refAllele": "C",
+        "reverseStrand": true
+       }
+      ],
+      "position": 173914620,
+      "refBase": "C",
+      "variantKey": "1:173914620"
+     }
+    ],
+    "format": "INTERNAL_PROTEIN",
+    "inputStr": "P01008 114 S N",
+    "messages": [],
+    "originalIndex": 2,
+    "position": 114,
+    "refAA": "S",
+    "refseqId": null,
+    "type": "PROTEIN"
+   },
+   {
+    "accession": "P38484",
+    "altAA": "N",
+    "altUnknown": false,
+    "derivedGenomicVariants": [
+     {
+      "altBase": "A",
+      "chromosome": "21",
+      "genes": [
+       {
+        "altAllele": "A",
+        "caddScore": 0.746,
+        "ensg": "ENSG00000159128.16",
+        "geneName": "IFNGR2",
+        "isoforms": [
+         {
+          "accession": "P38484",
+          "amScore": {
+           "amClass": "BENIGN",
+           "amPathogenicity": 0.1845,
+           "type": "AM"
+          },
+          "aminoAcidChange": "Thr/Asn",
+          "canonical": true,
+          "canonicalAccession": "P38484",
+          "codonChange": "aCc/aAc",
+          "codonPosition": 2,
+          "consequences": "missense",
+          "isoformPosition": 70,
+          "popEveScore": {
+           "esm1v": 0.452,
+           "eve": 4.52,
+           "gapFreq": 0.117,
+           "mt": "N",
+           "popeve": -3.198,
+           "poppedEsm1v": -3.102,
+           "poppedEve": -3.293,
+           "type": "POPEVE"
+          },
+          "populationObservationsUri": "/population/P38484/70?genomicVariant=21-33421482-C-A",
+          "proteinName": "Interferon gamma receptor 2",
+          "proteinStructureUri": "/structure/P38484/70",
+          "refAA": "Thr",
+          "refCodon": "aCc",
+          "referenceFunctionUri": "/function/P38484/70?variantAA=ASN",
+          "transcripts": [
+           {
+            "ense": "ENSE00003612383",
+            "ensp": "ENSP00000290219.5",
+            "enst": "ENST00000290219.11"
+           }
+          ],
+          "variantAA": "Asn",
+          "variantCodon": "aAc"
+         },
+         {
+          "accession": "F8WE34",
+          "aminoAcidChange": "Pro/Thr",
+          "canonical": false,
+          "canonicalAccession": "P38484",
+          "codonChange": "Ccg/Acg",
+          "codonPosition": 1,
+          "consequences": "missense",
+          "isoformPosition": 26,
+          "proteinName": "Interferon gamma receptor 2",
+          "refAA": "Pro",
+          "refCodon": "Ccg",
+          "transcripts": [
+           {
+            "ense": "ENSE00003521958",
+            "ensp": "ENSP00000442735.2",
+            "enst": "ENST00000545369.2"
+           }
+          ],
+          "variantAA": "Thr",
+          "variantCodon": "Acg"
+         },
+         {
+          "accession": "E7EUY1",
+          "aminoAcidChange": "Thr/Asn",
+          "canonical": false,
+          "canonicalAccession": "P38484",
+          "codonChange": "aCc/aAc",
+          "codonPosition": 2,
+          "consequences": "missense",
+          "isoformPosition": 89,
+          "proteinName": "Interferon gamma receptor 2",
+          "refAA": "Thr",
+          "refCodon": "aCc",
+          "transcripts": [
+           {
+            "ense": "ENSE00003612383",
+            "ensp": "ENSP00000371425.1",
+            "enst": "ENST00000381995.5"
+           }
+          ],
+          "variantAA": "Asn",
+          "variantCodon": "aAc"
+         },
+         {
+          "accession": "A0A8Q3SIY7",
+          "aminoAcidChange": "Thr/Asn",
+          "canonical": false,
+          "canonicalAccession": "P38484",
+          "codonChange": "aCc/aAc",
+          "codonPosition": 2,
+          "consequences": "missense",
+          "isoformPosition": 35,
+          "proteinName": "Interferon gamma receptor 2 (Fragment)",
+          "refAA": "Thr",
+          "refCodon": "aCc",
+          "transcripts": [
+           {
+            "ense": "ENSE00003612383",
+            "ensp": "ENSP00000512835.1",
+            "enst": "ENST00000696724.1"
+           }
+          ],
+          "variantAA": "Asn",
+          "variantCodon": "aAc"
+         },
+         {
+          "accession": "A8K881",
+          "aminoAcidChange": "Thr/Asn",
+          "canonical": false,
+          "canonicalAccession": "P38484",
+          "codonChange": "aCc/aAc",
+          "codonPosition": 2,
+          "consequences": "missense",
+          "isoformPosition": 70,
+          "proteinName": "Interferon gamma receptor 2 (Interferon gamma transducer 1), isoform CRA_a",
+          "refAA": "Thr",
+          "refCodon": "aCc",
+          "transcripts": [
+           {
+            "ense": "ENSE00003612383",
+            "ensp": "ENSP00000290219.5",
+            "enst": "ENST00000290219.11"
+           }
+          ],
+          "variantAA": "Asn",
+          "variantCodon": "aAc"
+         }
+        ],
+        "refAllele": "C",
+        "reverseStrand": false
+       }
+      ],
+      "position": 33421482,
+      "refBase": "C",
+      "variantKey": "21:33421482"
+     }
+    ],
+    "format": "INTERNAL_PROTEIN",
+    "inputStr": "P38484 70 T N",
+    "messages": [],
+    "originalIndex": 3,
+    "position": 70,
+    "refAA": "T",
+    "refseqId": null,
+    "type": "PROTEIN"
+   },
+   {
+    "accession": "P01008",
+    "altAA": "D",
+    "altUnknown": false,
+    "derivedGenomicVariants": [
+     {
+      "altBase": "C",
+      "chromosome": "1",
+      "genes": [
+       {
+        "altAllele": "C",
+        "caddScore": 25.4,
+        "ensg": "ENSG00000117601.15",
+        "geneName": "SERPINC1",
+        "isoforms": [
+         {
+          "accession": "P01008",
+          "amScore": {
+           "amClass": "PATHOGENIC",
+           "amPathogenicity": 0.6557,
+           "type": "AM"
+          },
+          "aminoAcidChange": "Asn/Asp",
+          "canonical": true,
+          "canonicalAccession": "P01008",
+          "codonChange": "Aac/Gac",
+          "codonPosition": 1,
+          "consequences": "missense",
+          "isoformPosition": 219,
+          "popEveScore": {
+           "esm1v": -4.187,
+           "eve": 6.865,
+           "gapFreq": 0.005,
+           "mt": "D",
+           "popeve": -3.969,
+           "poppedEsm1v": -3.976,
+           "poppedEve": -3.962,
+           "type": "POPEVE"
+          },
+          "populationObservationsUri": "/population/P01008/219?genomicVariant=1-173910861-T-C",
+          "proteinName": "Antithrombin-III",
+          "proteinStructureUri": "/structure/P01008/219",
+          "refAA": "Asn",
+          "refCodon": "Aac",
+          "referenceFunctionUri": "/function/P01008/219?variantAA=ASP",
+          "transcripts": [
+           {
+            "ense": "ENSE00000789909",
+            "ensp": "ENSP00000356671.3",
+            "enst": "ENST00000367698.4"
+           }
+          ],
+          "variantAA": "Asp",
+          "variantCodon": "Gac"
+         }
+        ],
+        "refAllele": "T",
+        "reverseStrand": true
+       }
+      ],
+      "position": 173910861,
+      "refBase": "T",
+      "variantKey": "1:173910861"
+     }
+    ],
+    "format": "INTERNAL_PROTEIN",
+    "inputStr": "P01008 219 N D",
+    "messages": [],
+    "originalIndex": 4,
+    "position": 219,
+    "refAA": "N",
+    "refseqId": null,
+    "type": "PROTEIN"
+   },
+   {
+    "accession": "P01008",
+    "altAA": "C",
+    "altUnknown": false,
+    "derivedGenomicVariants": [
+     {
+      "altBase": "A",
+      "chromosome": "1",
+      "genes": [
+       {
+        "altAllele": "A",
+        "caddScore": 33.0,
+        "ensg": "ENSG00000117601.15",
+        "geneName": "SERPINC1",
+        "isoforms": [
+         {
+          "accession": "P01008",
+          "amScore": {
+           "amClass": "PATHOGENIC",
+           "amPathogenicity": 0.8094,
+           "type": "AM"
+          },
+          "aminoAcidChange": "Arg/Cys",
+          "canonical": true,
+          "canonicalAccession": "P01008",
+          "codonChange": "Cgu/Ugu",
+          "codonPosition": 1,
+          "consequences": "missense",
+          "isoformPosition": 79,
+          "popEveScore": {
+           "esm1v": -2.727,
+           "eve": 10.883,
+           "gapFreq": 0.443,
+           "mt": "C",
+           "popeve": -4.046,
+           "poppedEsm1v": -3.5,
+           "poppedEve": -4.591,
+           "type": "POPEVE"
+          },
+          "populationObservationsUri": "/population/P01008/79?genomicVariant=1-173914726-G-A",
+          "proteinName": "Antithrombin-III",
+          "proteinStructureUri": "/structure/P01008/79",
+          "refAA": "Arg",
+          "refCodon": "Cgu",
+          "referenceFunctionUri": "/function/P01008/79?variantAA=CYS",
+          "transcripts": [
+           {
+            "ense": "ENSE00003578986",
+            "ensp": "ENSP00000356671.3",
+            "enst": "ENST00000367698.4"
+           }
+          ],
+          "variantAA": "Cys",
+          "variantCodon": "Ugu"
+         }
+        ],
+        "refAllele": "G",
+        "reverseStrand": true
+       }
+      ],
+      "position": 173914726,
+      "refBase": "G",
+      "variantKey": "1:173914726"
+     }
+    ],
+    "format": "INTERNAL_PROTEIN",
+    "inputStr": "P01008 79 R C",
+    "messages": [],
+    "originalIndex": 5,
+    "position": 79,
+    "refAA": "R",
+    "refseqId": null,
+    "type": "PROTEIN"
+   },
+   {
+    "accession": "P01008",
+    "altAA": "C",
+    "altUnknown": false,
+    "derivedGenomicVariants": [
+     {
+      "altBase": "A",
+      "chromosome": "1",
+      "genes": [
+       {
+        "altAllele": "A",
+        "caddScore": 29.2,
+        "ensg": "ENSG00000117601.15",
+        "geneName": "SERPINC1",
+        "isoforms": [
+         {
+          "accession": "P01008",
+          "aminoAcidChange": "Lys/Ter",
+          "canonical": true,
+          "canonicalAccession": "P01008",
+          "codonChange": "Aaa/Uaa",
+          "codonPosition": 1,
+          "consequences": "stop gained",
+          "isoformPosition": 220,
+          "populationObservationsUri": "/population/P01008/220?genomicVariant=1-173910858-T-A",
+          "proteinName": "Antithrombin-III",
+          "proteinStructureUri": "/structure/P01008/220",
+          "refAA": "Lys",
+          "refCodon": "Aaa",
+          "referenceFunctionUri": "/function/P01008/220?variantAA=TER",
+          "transcripts": [
+           {
+            "ense": "ENSE00000789909",
+            "ensp": "ENSP00000356671.3",
+            "enst": "ENST00000367698.4"
+           }
+          ],
+          "variantAA": "Ter",
+          "variantCodon": "Uaa"
+         }
+        ],
+        "refAllele": "T",
+        "reverseStrand": true
+       }
+      ],
+      "position": 173910858,
+      "refBase": "T",
+      "variantKey": "1:173910858"
+     },
+     {
+      "altBase": "G",
+      "chromosome": "1",
+      "genes": [
+       {
+        "altAllele": "G",
+        "caddScore": 6.386,
+        "ensg": "ENSG00000117601.15",
+        "geneName": "SERPINC1",
+        "isoforms": [
+         {
+          "accession": "P01008",
+          "amScore": {
+           "amClass": "BENIGN",
+           "amPathogenicity": 0.0659,
+           "type": "AM"
+          },
+          "aminoAcidChange": "Lys/Gln",
+          "canonical": true,
+          "canonicalAccession": "P01008",
+          "codonChange": "Aaa/Caa",
+          "codonPosition": 1,
+          "consequences": "missense",
+          "isoformPosition": 220,
+          "popEveScore": {
+           "esm1v": -0.334,
+           "eve": -0.03,
+           "gapFreq": 0.004,
+           "mt": "Q",
+           "popeve": -2.881,
+           "poppedEsm1v": -3.095,
+           "poppedEve": -2.667,
+           "type": "POPEVE"
+          },
+          "populationObservationsUri": "/population/P01008/220?genomicVariant=1-173910858-T-G",
+          "proteinName": "Antithrombin-III",
+          "proteinStructureUri": "/structure/P01008/220",
+          "refAA": "Lys",
+          "refCodon": "Aaa",
+          "referenceFunctionUri": "/function/P01008/220?variantAA=GLN",
+          "transcripts": [
+           {
+            "ense": "ENSE00000789909",
+            "ensp": "ENSP00000356671.3",
+            "enst": "ENST00000367698.4"
+           }
+          ],
+          "variantAA": "Gln",
+          "variantCodon": "Caa"
+         }
+        ],
+        "refAllele": "T",
+        "reverseStrand": true
+       }
+      ],
+      "position": 173910858,
+      "refBase": "T",
+      "variantKey": "1:173910858"
+     },
+     {
+      "altBase": "C",
+      "chromosome": "1",
+      "genes": [
+       {
+        "altAllele": "C",
+        "caddScore": 2.129,
+        "ensg": "ENSG00000117601.15",
+        "geneName": "SERPINC1",
+        "isoforms": [
+         {
+          "accession": "P01008",
+          "amScore": {
+           "amClass": "BENIGN",
+           "amPathogenicity": 0.064,
+           "type": "AM"
+          },
+          "aminoAcidChange": "Lys/Glu",
+          "canonical": true,
+          "canonicalAccession": "P01008",
+          "codonChange": "Aaa/Gaa",
+          "codonPosition": 1,
+          "consequences": "missense",
+          "isoformPosition": 220,
+          "popEveScore": {
+           "esm1v": 0.243,
+           "eve": -2.464,
+           "gapFreq": 0.004,
+           "mt": "E",
+           "popeve": -2.722,
+           "poppedEsm1v": -3.066,
+           "poppedEve": -2.379,
+           "type": "POPEVE"
+          },
+          "populationObservationsUri": "/population/P01008/220?genomicVariant=1-173910858-T-C",
+          "proteinName": "Antithrombin-III",
+          "proteinStructureUri": "/structure/P01008/220",
+          "refAA": "Lys",
+          "refCodon": "Aaa",
+          "referenceFunctionUri": "/function/P01008/220?variantAA=GLU",
+          "transcripts": [
+           {
+            "ense": "ENSE00000789909",
+            "ensp": "ENSP00000356671.3",
+            "enst": "ENST00000367698.4"
+           }
+          ],
+          "variantAA": "Glu",
+          "variantCodon": "Gaa"
+         }
+        ],
+        "refAllele": "T",
+        "reverseStrand": true
+       }
+      ],
+      "position": 173910858,
+      "refBase": "T",
+      "variantKey": "1:173910858"
+     },
+     {
+      "altBase": "A",
+      "chromosome": "1",
+      "genes": [
+       {
+        "altAllele": "A",
+        "caddScore": 23.3,
+        "ensg": "ENSG00000117601.15",
+        "geneName": "SERPINC1",
+        "isoforms": [
+         {
+          "accession": "P01008",
+          "amScore": {
+           "amClass": "BENIGN",
+           "amPathogenicity": 0.1433,
+           "type": "AM"
+          },
+          "aminoAcidChange": "Lys/Ile",
+          "canonical": true,
+          "canonicalAccession": "P01008",
+          "codonChange": "aAa/aUa",
+          "codonPosition": 2,
+          "consequences": "missense",
+          "isoformPosition": 220,
+          "popEveScore": {
+           "esm1v": -3.754,
+           "eve": 3.633,
+           "gapFreq": 0.004,
+           "mt": "I",
+           "popeve": -3.557,
+           "poppedEsm1v": -3.817,
+           "poppedEve": -3.297,
+           "type": "POPEVE"
+          },
+          "populationObservationsUri": "/population/P01008/220?genomicVariant=1-173910857-T-A",
+          "proteinName": "Antithrombin-III",
+          "proteinStructureUri": "/structure/P01008/220",
+          "refAA": "Lys",
+          "refCodon": "aAa",
+          "referenceFunctionUri": "/function/P01008/220?variantAA=ILE",
+          "transcripts": [
+           {
+            "ense": "ENSE00000789909",
+            "ensp": "ENSP00000356671.3",
+            "enst": "ENST00000367698.4"
+           }
+          ],
+          "variantAA": "Ile",
+          "variantCodon": "aUa"
+         }
+        ],
+        "refAllele": "T",
+        "reverseStrand": true
+       }
+      ],
+      "position": 173910857,
+      "refBase": "T",
+      "variantKey": "1:173910857"
+     },
+     {
+      "altBase": "G",
+      "chromosome": "1",
+      "genes": [
+       {
+        "altAllele": "G",
+        "caddScore": 20.5,
+        "ensg": "ENSG00000117601.15",
+        "geneName": "SERPINC1",
+        "isoforms": [
+         {
+          "accession": "P01008",
+          "amScore": {
+           "amClass": "BENIGN",
+           "amPathogenicity": 0.0676,
+           "type": "AM"
+          },
+          "aminoAcidChange": "Lys/Thr",
+          "canonical": true,
+          "canonicalAccession": "P01008",
+          "codonChange": "aAa/aCa",
+          "codonPosition": 2,
+          "consequences": "missense",
+          "isoformPosition": 220,
+          "popEveScore": {
+           "esm1v": -0.605,
+           "eve": 0.555,
+           "gapFreq": 0.004,
+           "mt": "T",
+           "popeve": -2.954,
+           "poppedEsm1v": -3.118,
+           "poppedEve": -2.791,
+           "type": "POPEVE"
+          },
+          "populationObservationsUri": "/population/P01008/220?genomicVariant=1-173910857-T-G",
+          "proteinName": "Antithrombin-III",
+          "proteinStructureUri": "/structure/P01008/220",
+          "refAA": "Lys",
+          "refCodon": "aAa",
+          "referenceFunctionUri": "/function/P01008/220?variantAA=THR",
+          "transcripts": [
+           {
+            "ense": "ENSE00000789909",
+            "ensp": "ENSP00000356671.3",
+            "enst": "ENST00000367698.4"
+           }
+          ],
+          "variantAA": "Thr",
+          "variantCodon": "aCa"
+         }
+        ],
+        "refAllele": "T",
+        "reverseStrand": true
+       }
+      ],
+      "position": 173910857,
+      "refBase": "T",
+      "variantKey": "1:173910857"
+     },
+     {
+      "altBase": "C",
+      "chromosome": "1",
+      "genes": [
+       {
+        "altAllele": "C",
+        "caddScore": 17.87,
+        "ensg": "ENSG00000117601.15",
+        "geneName": "SERPINC1",
+        "isoforms": [
+         {
+          "accession": "P01008",
+          "amScore": {
+           "amClass": "BENIGN",
+           "amPathogenicity": 0.073,
+           "type": "AM"
+          },
+          "aminoAcidChange": "Lys/Arg",
+          "canonical": true,
+          "canonicalAccession": "P01008",
+          "codonChange": "aAa/aGa",
+          "codonPosition": 2,
+          "consequences": "missense",
+          "isoformPosition": 220,
+          "popEveScore": {
+           "esm1v": -1.126,
+           "eve": 0.977,
+           "gapFreq": 0.004,
+           "mt": "R",
+           "popeve": -2.997,
+           "poppedEsm1v": -3.178,
+           "poppedEve": -2.816,
+           "type": "POPEVE"
+          },
+          "populationObservationsUri": "/population/P01008/220?genomicVariant=1-173910857-T-C",
+          "proteinName": "Antithrombin-III",
+          "proteinStructureUri": "/structure/P01008/220",
+          "refAA": "Lys",
+          "refCodon": "aAa",
+          "referenceFunctionUri": "/function/P01008/220?variantAA=ARG",
+          "transcripts": [
+           {
+            "ense": "ENSE00000789909",
+            "ensp": "ENSP00000356671.3",
+            "enst": "ENST00000367698.4"
+           }
+          ],
+          "variantAA": "Arg",
+          "variantCodon": "aGa"
+         }
+        ],
+        "refAllele": "T",
+        "reverseStrand": true
+       }
+      ],
+      "position": 173910857,
+      "refBase": "T",
+      "variantKey": "1:173910857"
+     },
+     {
+      "altBase": "A",
+      "chromosome": "1",
+      "genes": [
+       {
+        "altAllele": "A",
+        "caddScore": 2.548,
+        "ensg": "ENSG00000117601.15",
+        "geneName": "SERPINC1",
+        "isoforms": [
+         {
+          "accession": "P01008",
+          "amScore": {
+           "amClass": "BENIGN",
+           "amPathogenicity": 0.0805,
+           "type": "AM"
+          },
+          "aminoAcidChange": "Lys/Asn",
+          "canonical": true,
+          "canonicalAccession": "P01008",
+          "codonChange": "aaA/aaU",
+          "codonPosition": 3,
+          "consequences": "missense",
+          "isoformPosition": 220,
+          "popEveScore": {
+           "esm1v": -0.062,
+           "eve": -2.139,
+           "gapFreq": 0.004,
+           "mt": "N",
+           "popeve": -2.734,
+           "poppedEsm1v": -3.078,
+           "poppedEve": -2.391,
+           "type": "POPEVE"
+          },
+          "populationObservationsUri": "/population/P01008/220?genomicVariant=1-173910856-T-A",
+          "proteinName": "Antithrombin-III",
+          "proteinStructureUri": "/structure/P01008/220",
+          "refAA": "Lys",
+          "refCodon": "aaA",
+          "referenceFunctionUri": "/function/P01008/220?variantAA=ASN",
+          "transcripts": [
+           {
+            "ense": "ENSE00000789909",
+            "ensp": "ENSP00000356671.3",
+            "enst": "ENST00000367698.4"
+           }
+          ],
+          "variantAA": "Asn",
+          "variantCodon": "aaU"
+         }
+        ],
+        "refAllele": "T",
+        "reverseStrand": true
+       }
+      ],
+      "position": 173910856,
+      "refBase": "T",
+      "variantKey": "1:173910856"
+     },
+     {
+      "altBase": "G",
+      "chromosome": "1",
+      "genes": [
+       {
+        "altAllele": "G",
+        "caddScore": 2.682,
+        "ensg": "ENSG00000117601.15",
+        "geneName": "SERPINC1",
+        "isoforms": [
+         {
+          "accession": "P01008",
+          "amScore": {
+           "amClass": "BENIGN",
+           "amPathogenicity": 0.0805,
+           "type": "AM"
+          },
+          "aminoAcidChange": "Lys/Asn",
+          "canonical": true,
+          "canonicalAccession": "P01008",
+          "codonChange": "aaA/aaC",
+          "codonPosition": 3,
+          "consequences": "missense",
+          "isoformPosition": 220,
+          "popEveScore": {
+           "esm1v": -0.062,
+           "eve": -2.139,
+           "gapFreq": 0.004,
+           "mt": "N",
+           "popeve": -2.734,
+           "poppedEsm1v": -3.078,
+           "poppedEve": -2.391,
+           "type": "POPEVE"
+          },
+          "populationObservationsUri": "/population/P01008/220?genomicVariant=1-173910856-T-G",
+          "proteinName": "Antithrombin-III",
+          "proteinStructureUri": "/structure/P01008/220",
+          "refAA": "Lys",
+          "refCodon": "aaA",
+          "referenceFunctionUri": "/function/P01008/220?variantAA=ASN",
+          "transcripts": [
+           {
+            "ense": "ENSE00000789909",
+            "ensp": "ENSP00000356671.3",
+            "enst": "ENST00000367698.4"
+           }
+          ],
+          "variantAA": "Asn",
+          "variantCodon": "aaC"
+         }
+        ],
+        "refAllele": "T",
+        "reverseStrand": true
+       }
+      ],
+      "position": 173910856,
+      "refBase": "T",
+      "variantKey": "1:173910856"
+     },
+     {
+      "altBase": "C",
+      "chromosome": "1",
+      "genes": [
+       {
+        "altAllele": "C",
+        "caddScore": 1.626,
+        "ensg": "ENSG00000117601.15",
+        "geneName": "SERPINC1",
+        "isoforms": [
+         {
+          "accession": "P01008",
+          "aminoAcidChange": "Lys/Lys",
+          "canonical": true,
+          "canonicalAccession": "P01008",
+          "codonChange": "aaA/aaG",
+          "codonPosition": 3,
+          "consequences": "synonymous",
+          "isoformPosition": 220,
+          "populationObservationsUri": "/population/P01008/220?genomicVariant=1-173910856-T-C",
+          "proteinName": "Antithrombin-III",
+          "proteinStructureUri": "/structure/P01008/220",
+          "refAA": "Lys",
+          "refCodon": "aaA",
+          "referenceFunctionUri": "/function/P01008/220?variantAA=LYS",
+          "transcripts": [
+           {
+            "ense": "ENSE00000789909",
+            "ensp": "ENSP00000356671.3",
+            "enst": "ENST00000367698.4"
+           }
+          ],
+          "variantAA": "Lys",
+          "variantCodon": "aaG"
+         }
+        ],
+        "refAllele": "T",
+        "reverseStrand": true
+       }
+      ],
+      "position": 173910856,
+      "refBase": "T",
+      "variantKey": "1:173910856"
+     }
+    ],
+    "format": "INTERNAL_PROTEIN",
+    "inputStr": "P01008 220 R C",
+    "messages": [
+     {
+      "text": "User input reference amino acid (Arg) does not match the UniProt sequence (Lys) at position 220. ProtVar will use the reference amino acid (Lys).",
+      "type": "WARN"
+     },
+     {
+      "text": "User input variant amino acid (Cys) cannot be caused by an SNV from the reference amino acid (Lys), therefore the returned results are position but not variant specific.",
+      "type": "WARN"
+     }
+    ],
+    "originalIndex": 6,
+    "position": 220,
+    "refAA": "K",
+    "refseqId": null,
+    "type": "PROTEIN"
+   }
+  ],
+  "messages": [
+   {
+    "text": "7 protein inputs",
+    "type": "INFO"
+   }
+  ]
+ },
+ "last": true,
+ "page": 1,
+ "pageSize": 100,
+ "totalCap": null,
+ "totalItems": 7,
+ "totalPages": 1
+}

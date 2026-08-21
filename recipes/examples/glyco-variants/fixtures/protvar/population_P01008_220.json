@@ -1,0 +1,56 @@
+{
+ "accession": "P01008",
+ "altBase": null,
+ "chromosome": null,
+ "freqMap": {},
+ "genomicPosition": null,
+ "position": 220,
+ "variants": [
+  {
+   "alternativeSequence": "Thr",
+   "association": [
+    {
+     "description": "From tissue: Endometrium",
+     "disease": true,
+     "name": "Adenomas and Adenocarcinomas"
+    }
+   ],
+   "begin": "220",
+   "consequenceType": "missense",
+   "cytogeneticBand": "1q25.1",
+   "end": "220",
+   "genomicLocation": [
+    "NC_000001.11:g.173910857T>G"
+   ],
+   "predictions": [
+    {
+     "predAlgorithmNameType": "PolyPhen",
+     "predictionValType": "benign",
+     "score": 0.112
+    },
+    {
+     "predAlgorithmNameType": "SIFT",
+     "predictionValType": "tolerated",
+     "score": 0.15
+    }
+   ],
+   "sourceType": "large_scale_study",
+   "type": "VARIANT",
+   "wildType": "Lys",
+   "xrefs": [
+    {
+     "id": "8e807781-7d03-4a61-9a68-cdea87270f41",
+     "name": "NCI-TCGA",
+     "reviewed": false
+    },
+    {
+     "alternativeUrl": "https://www.ensembl.org/homo_sapiens/Variation/Explore?v=COSV100875077",
+     "id": "COSV100875077",
+     "name": "NCI-TCGA Cosmic",
+     "reviewed": false,
+     "url": "https://cancer.sanger.ac.uk/cosmic/search?q=COSV100875077"
+    }
+   ]
+  }
+ ]
+}

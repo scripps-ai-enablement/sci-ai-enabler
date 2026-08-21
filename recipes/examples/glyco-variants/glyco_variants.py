@@ -13,8 +13,9 @@ Per variant (`UniProt, protein_change` — e.g. `P01008, N167S`):
      residue does not match, refuse to classify (`unmapped`).
   3. Classify by an N-X-S/T sequon delta (X != P) + GlyGen O-glycosite loss:
      LOG / GOG / none.
-  4. Join ClinVar significance + AlphaMissense pathogenicity from BioMCP's
-     `predictions` section (MyVariant.info / dbNSFP).
+  4. Join AlphaMissense from EBI ProtVar, keyed by UniProt accession (one batched
+     submission for the whole list), and ClinVar significance from BioMCP via the
+     allele-specific rsID ProtVar returns, verified against the canonical change.
   5. Rank GOG/LOG hits above `none` (unmapped last), and within that group by
      AlphaMissense pathogenicity then ClinVar significance — per the recipe.
      Emit `glyco_candidates.csv` (columns: uniprot, site, class, glygen_evidence,
@@ -50,13 +51,19 @@ from pathlib import Path
 
 SCRIPT_VERSION = "3.0.0"       # 3.x: recipe-faithful 7-column output + recipe ranking
 GLYGEN_MCP_URL = "https://mcp.glygen.org/mcp"
+PROTVAR_API = "https://www.ebi.ac.uk/ProtVar/api"
+AA3 = {"A": "Ala", "R": "Arg", "N": "Asn", "D": "Asp", "C": "Cys", "Q": "Gln", "E": "Glu",
+       "G": "Gly", "H": "His", "I": "Ile", "L": "Leu", "K": "Lys", "M": "Met", "F": "Phe",
+       "P": "Pro", "S": "Ser", "T": "Thr", "W": "Trp", "Y": "Tyr", "V": "Val"}
 SPEC_VERSION = "https://w3id.org/ieee/ieee-2791-schema/2791object.json"
 ARTIFACT_BASE = ("https://github.com/scripps-ai-enablement/sci-ai-enabler/blob/main/"
                  "recipes/examples/glyco-variants")
 
 CLASS_PRIORITY = {"GOG": 0, "LOG": 0, "none": 1, "unmapped": 2}
 HGVSP_RE = re.compile(r"^p?\.?([A-Z])(\d+)([A-Z])$")
-AM_LABEL = {"B": "Benign", "P": "Pathogenic", "A": "Ambiguous"}
+# dbNSFP/BioMCP short codes and ProtVar's amClass both normalise to the same three labels.
+AM_LABEL = {"B": "Benign", "P": "Pathogenic", "A": "Ambiguous",
+            "BENIGN": "Benign", "PATHOGENIC": "Pathogenic", "AMBIGUOUS": "Ambiguous"}
 # ClinVar significance -> severity (higher = more pathogenic), for the secondary sort.
 CLINVAR_SEVERITY = {
     "pathogenic": 5, "likely pathogenic": 4, "pathogenic/likely pathogenic": 4,
@@ -94,6 +101,53 @@ def classify(seq: str, sites: dict[int, str], wt: str, pos: int, mt: str) -> tup
     if pos in sites and sites[pos] in ("THR", "SER") and mt not in "ST":
         return "LOG", f"removes GlyGen O-glycosite ({sites[pos].title()}) at residue {pos}"
     return "none", "no known glycosite removed and no new N-X-S/T sequon created"
+
+
+def protvar_canonical(entry: dict) -> tuple[dict | None, list[str]]:
+    """(canonical-isoform annotation, warnings) from one ProtVar /mapping input entry.
+
+    ProtVar is keyed by UniProt accession, so the isoform flagged `canonical` is the one
+    the analysis is about -- no positional guessing over dbNSFP's isoform-aligned arrays.
+    Warnings are ProtVar's own reference-residue check, e.g. for `P01008 220 R C`:
+    "User input reference amino acid (Arg) does not match the UniProt sequence (Lys) at
+    position 220". A wild-type mismatch also makes the change non-SNV-reachable, so
+    ProtVar enumerates every base of the codon: >1 derived variant is the same refusal.
+    """
+    warns = [m.get("text", "") for m in (entry.get("messages") or []) if m.get("type") == "WARN"]
+    derived = entry.get("derivedGenomicVariants") or []
+    if len(derived) != 1:
+        warns.append(f"{len(derived)} derived genomic variants; not variant-specific")
+    for gv in derived:
+        for gene in gv.get("genes") or []:
+            for iso in gene.get("isoforms") or []:
+                if iso.get("canonical"):
+                    return iso, warns
+    return None, warns
+
+
+def protvar_alphamissense(iso: dict | None) -> tuple[str, float | None]:
+    am = (iso or {}).get("amScore") or {}
+    return am.get("amClass") or "", am.get("amPathogenicity")
+
+
+def protvar_clinvar(population: dict, alt1: str) -> tuple[str, str]:
+    """(significance, rsid) for the specific alt residue -- ClinVar-sourced calls only.
+
+    ProtVar's `clinicalSignificances` aggregates several sources; an Ensembl-only call is
+    not a ClinVar submission. P01008 N167S is the trap: ProtVar reports Pathogenic with
+    `sources: ["Ensembl"]` and no ClinVar xref, and MyVariant has no ClinVar record there
+    -- rs121909570 marks the position, but N167T is the ClinVar allele, not N167S.
+    """
+    alt3 = AA3.get(alt1, alt1)
+    for v in population.get("variants") or []:
+        if v.get("alternativeSequence") != alt3:
+            continue
+        sig = next((c.get("type") for c in (v.get("clinicalSignificances") or [])
+                    if "ClinVar" in (c.get("sources") or [])), "")
+        if sig:
+            rsid = next((x.get("id") for x in (v.get("xrefs") or []) if x.get("name") == "dbSNP"), "")
+            return sig, rsid
+    return "", ""
 
 
 def alphamissense(bio: dict):
@@ -141,6 +195,33 @@ def load_offline(uniprot: str, change: str, fx: Path):
     return seq, sites, (bio[0] if isinstance(bio, list) and bio else bio)
 
 
+def protvar_entries(fx: Path, live: bool, variants: list[dict]) -> dict[str, dict]:
+    """{"<ACC> <pos> <ref> <alt>": mapping entry} -- one batched call for the whole list."""
+    if not live:
+        batch = json.loads((fx / "protvar" / "mapping_batch.json").read_text())
+    else:
+        import requests
+        lines = "\n".join(_protvar_key(v) for v in variants) + "\n"
+        iid = requests.post(f"{PROTVAR_API}/input/text", data=lines.encode(),
+                            headers={"Content-Type": "text/plain"}, timeout=90).json()["inputId"]
+        batch = requests.get(f"{PROTVAR_API}/mapping/{iid}", params={"pageSize": 500}, timeout=180).json()
+    return {e["inputStr"]: e for e in batch.get("content", {}).get("inputs", [])}
+
+
+def protvar_population(fx: Path, live: bool, uniprot: str, pos: int) -> dict:
+    if not live:
+        fp = fx / "protvar" / f"population_{uniprot}_{pos}.json"
+        return json.loads(fp.read_text()) if fp.exists() else {}
+    import requests
+    return requests.get(f"{PROTVAR_API}/population/{uniprot}/{pos}", timeout=90).json()
+
+
+def _protvar_key(v: dict) -> str:
+    m = HGVSP_RE.match(v["protein_change"].strip())
+    wt, pos, mt = m.group(1), m.group(2), m.group(3)
+    return f'{v["uniprot"].strip()} {pos} {wt} {mt}'
+
+
 def glygen_release(fx: Path) -> dict:
     try:
         rel = json.loads((fx / "glygen" / "release_info.json").read_text())
@@ -156,7 +237,30 @@ def load_live(uniprot: str, gene: str, change: str):
         f"https://rest.uniprot.org/uniprotkb/{uniprot}.fasta", timeout=30).text.splitlines()
         if not l.startswith(">"))
     sites = glygen_sites_from(_glygen_call("get_protein_glycosylation_sites", {"uniprot_ac": uniprot}))
-    return seq, sites, _biomcp_variant(gene, change)
+    return seq, sites, {}
+
+
+def biomcp_clinvar(rsid: str, change: str, live: bool, fx: Path, uniprot: str) -> dict:
+    """ClinVar record for an allele-specific rsID, verified against the canonical change.
+
+    ProtVar supplies the rsID for the exact alt residue, but an rsID can still span several
+    alleles at a position -- so the record is only used when its own `hgvs_p` agrees with the
+    canonical protein change. That check is the point: it is what the old gene+hgvsp search
+    could not do.
+    """
+    if not rsid:
+        return {}
+    if not live:
+        fp = fx / "biomcp" / f"{uniprot}_{change}.json"
+        rec = json.loads(fp.read_text()) if fp.exists() else {}
+    else:
+        rec = _biomcp_json(["get", "variant", "--json", "--no-cache", rsid, "all"])
+    rec = rec[0] if isinstance(rec, list) and rec else rec
+    if (rec or {}).get("hgvs_p", "").replace("p.", "") != change:
+        print(f"  [warn] {rsid} returned {rec.get('hgvs_p') if rec else None}, not p.{change}; "
+              "not using it for ClinVar", file=sys.stderr)
+        return {}
+    return rec
 
 
 def _glygen_call(tool: str, args: dict):
@@ -171,16 +275,6 @@ def _glygen_call(tool: str, args: dict):
                 res = await s.call_tool(tool, args)
                 return json.loads(res.content[0].text) if res.content else None
     return asyncio.run(_run())
-
-
-def _biomcp_variant(gene: str, change: str) -> dict:
-    hit = _biomcp_json(["search", "variant", "--json", "--no-cache", "-g", gene, "--hgvsp", f"p.{change}", "--limit", "5"])
-    results = hit.get("results", hit) if isinstance(hit, dict) else hit
-    match = next((r for r in results if r.get("hgvs_p") in (f"p.{change}", change)), None)
-    if not match:
-        return {}
-    got = _biomcp_json(["get", "variant", "--json", "--no-cache", match["id"], "predictions"])
-    return got[0] if isinstance(got, list) and got else got
 
 
 def _biomcp_json(args):
@@ -238,8 +332,11 @@ def build_bco(rows: list[dict], release: dict, run_date: str) -> dict:
                  "input_list": [_uri(f"{ARTIFACT_BASE}/variants.csv", "variants.csv")],
                  "output_list": [_uri(f"{ARTIFACT_BASE}/results/glyco_candidates.csv", "glyco_candidates.csv")]},
                 {"step_number": 4, "name": "Annotation join (BioMCP)",
-                 "description": "Join ClinVar significance and AlphaMissense via the BioMCP variant getter's `predictions` section (MyVariant.info / dbNSFP).",
-                 "input_list": [_uri("https://myvariant.info")], "output_list": [_uri(f"{ARTIFACT_BASE}/fixtures/biomcp")]},
+                 "description": ("Join AlphaMissense from ProtVar's canonical isoform (accession-keyed, batched) "
+                                 "and ClinVar significance from BioMCP via ProtVar's allele-specific rsID, "
+                                 "verified against the canonical protein change."),
+                 "input_list": [_uri(PROTVAR_API), _uri("https://myvariant.info")],
+                 "output_list": [_uri(f"{ARTIFACT_BASE}/fixtures/protvar"), _uri(f"{ARTIFACT_BASE}/fixtures/biomcp")]},
                 {"step_number": 5, "name": "Rank + report",
                  "description": "Rank GOG/LOG above none (unmapped last); within by AlphaMissense pathogenicity then ClinVar significance. Emit the candidate table.",
                  "input_list": [_uri(f"{ARTIFACT_BASE}/results/glyco_candidates.csv", "glyco_candidates.csv")],
@@ -258,7 +355,8 @@ def build_bco(rows: list[dict], release: dict, run_date: str) -> dict:
             "external_data_endpoints": [
                 {"name": "GlyGen MCP server", "url": GLYGEN_MCP_URL},
                 {"name": "UniProt REST", "url": "https://rest.uniprot.org"},
-                {"name": "MyVariant.info (via BioMCP)", "url": "https://myvariant.info"},
+                {"name": "MyVariant.info (ClinVar, via BioMCP)", "url": "https://myvariant.info"},
+                {"name": "EBI ProtVar (AlphaMissense, accession-keyed)", "url": PROTVAR_API},
             ],
             "environment_variables": {},
         },
@@ -271,8 +369,10 @@ def build_bco(rows: list[dict], release: dict, run_date: str) -> dict:
         "io_domain": {
             "input_subdomain": [
                 {"uri": _uri(f"{ARTIFACT_BASE}/variants.csv", "variants.csv")},
-                {"uri": _uri("https://data.glygen.org/GLY_001534", "GlyGen human germline mutation dataset (BCO)")},
-                {"uri": _uri("https://data.glygen.org/GLY_001537", "GlyGen human cancer mutation dataset (BCO)")},
+                # `filename` names the dataset file each GlyGen BCO distributes, so the
+                # record keeps both the GLY_* identifier and the specific input file.
+                {"uri": _uri("https://data.glygen.org/GLY_001534", "human_protein_mutation_germline_all.csv")},
+                {"uri": _uri("https://data.glygen.org/GLY_001537", "human_protein_mutation_cancer_all.csv")},
             ],
             "output_subdomain": [
                 {"mediatype": "text/csv", "uri": _uri(f"{ARTIFACT_BASE}/results/glyco_candidates.csv", "glyco_candidates.csv")},
@@ -283,6 +383,16 @@ def build_bco(rows: list[dict], release: dict, run_date: str) -> dict:
             "empirical_error": {},
             "algorithmic_error": {
                 "scope": "single-residue missense only; indels, frameshift, splice and nonsense variants are not classified",
+                "variant_match_ambiguity": ("AlphaMissense is taken from ProtVar's canonical isoform for the "
+                                            "accession under analysis, so it cannot drift onto another transcript's "
+                                            "residue; a ProtVar reference-residue WARN, or a change that is not "
+                                            "SNV-reachable, is refused as unmapped rather than annotated"),
+                "clinvar_source_filter": ("ProtVar's clinicalSignificances aggregates several sources; only "
+                                          "ClinVar-sourced calls are reported as ClinVar (an Ensembl-only call is "
+                                          "not a ClinVar submission), and a BioMCP record is used only when its "
+                                          "own hgvs_p matches the canonical change"),
+                "alphamissense_coverage": ("AlphaMissense covers canonical isoforms; a variant on an accession it "
+                                           "does not score returns no value rather than a substitute"),
                 "expression_check": "recipe step 3 (demote candidates not expressed in the tissue of interest) is inert here — no tissue/disease context supplied",
                 "ranking": "a triage heuristic (AlphaMissense pathogenicity + ClinVar), not a validated pathogenicity score",
                 "numbering": "variants whose stated wild-type residue does not match the canonical UniProt residue are reported as 'unmapped' rather than classified",
@@ -329,6 +439,8 @@ def run(variants_path: Path, fixtures: Path, outdir: Path, live: bool = False, r
     release = glygen_release(fixtures)
     run_date = run_date or (release.get("data_release_date", "") or "")[:10] or "unknown"
 
+    pv = protvar_entries(fixtures, live, variants)
+
     rows = []
     for v in variants:
         uniprot, gene, change = v["uniprot"].strip(), v["gene"].strip(), v["protein_change"].strip()
@@ -339,10 +451,24 @@ def run(variants_path: Path, fixtures: Path, outdir: Path, live: bool = False, r
                          "alphamissense": "", "_am": -1.0, "_cv": 0})
             continue
         wt, pos, mt = m.group(1), int(m.group(2)), m.group(3)
-        seq, sites, bio = (load_live(uniprot, gene, change) if live else load_offline(uniprot, change, fixtures))
+        seq, sites, _ = (load_live(uniprot, gene, change) if live else load_offline(uniprot, change, fixtures))
         cls, evidence = classify(seq, sites, wt, pos, mt)
-        am_pred, am_score = alphamissense(bio)
-        clinvar = bio.get("significance") or "not_provided"
+
+        # ProtVar resolves the variant against the *accession*, so the annotation join needs
+        # no genomic coordinate and cannot drift onto another transcript's residue.
+        iso, warns = protvar_canonical(pv.get(_protvar_key(v), {}))
+        if warns:
+            cls = "unmapped"
+            evidence = "UNMAPPED — " + "; ".join(warns)
+            rows.append({"uniprot": uniprot, "site": change, "class": cls,
+                         "glygen_evidence": evidence, "clinvar_significance": "not_evaluated",
+                         "alphamissense": "", "_am": -1.0, "_cv": 0})
+            continue
+
+        am_pred, am_score = protvar_alphamissense(iso)
+        sig, rsid = protvar_clinvar(protvar_population(fixtures, live, uniprot, pos), mt)
+        bio = biomcp_clinvar(rsid, change, live, fixtures, uniprot)
+        clinvar = bio.get("significance") or sig or "not_in_ClinVar"
         rows.append({
             "uniprot": uniprot, "site": change, "class": cls, "glygen_evidence": evidence,
             "clinvar_significance": clinvar, "alphamissense": am_display(am_pred, am_score),
@@ -378,8 +504,13 @@ def run(variants_path: Path, fixtures: Path, outdir: Path, live: bool = False, r
         "sources": {
             "glygen_mcp": {"endpoint": GLYGEN_MCP_URL, **release},
             "uniprot": {"api": "https://rest.uniprot.org", "note": "canonical sequence, per-accession"},
-            "biomcp": {"cli": "biomcp", "provides": ["ClinVar significance", "AlphaMissense"],
-                       "note": "AlphaMissense from the `predictions` section (biomcp get variant <id> predictions)"},
+            "protvar": {"api": PROTVAR_API, "provides": ["AlphaMissense", "reference-residue check", "rsID"],
+                        "note": ("accession-keyed: POST /input/text (batched) -> GET /mapping/{id}, "
+                                 "AlphaMissense read from the isoform flagged canonical; "
+                                 "GET /population/{acc}/{pos} for the allele's ClinVar call + rsID")},
+            "biomcp": {"cli": "biomcp", "provides": ["ClinVar significance"],
+                       "note": ("biomcp get variant <rsid> all, using ProtVar's allele-specific rsID; the record "
+                                "is used only when its hgvs_p matches the canonical change")},
         },
         "input_sha256": sha256(variants_path),
         "outputs": {out_csv.name: sha256(out_csv), bco_path.name: sha256(bco_path)},

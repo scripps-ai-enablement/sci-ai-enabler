@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "generated": "2026-08-17",
+  "generated": "2026-08-19",
   "counts": {
-    "tools": 543,
+    "tools": 544,
     "recipes": 129
   },
   "tools_file": "composer-tools.json",
@@ -1529,7 +1529,7 @@
       "availability": "Fully open",
       "compute_requirements": "Laptop",
       "last_verified": "2026-07-16",
-      "summary": "Flag coding variants that destroy or create N-/O-glycosylation sites with the GlyGen MCP, join to ClinVar/AlphaMissense via BioMCP, and emit a ranked, provenance-tracked candidate table.",
+      "summary": "Flag coding variants that destroy or create N-/O-glycosylation sites with the GlyGen MCP, join to accession-keyed AlphaMissense (ProtVar) and ClinVar (BioMCP), and emit a ranked, provenance-tracked candidate table.",
       "keywords": [
         "BioMCP",
         "GOG",

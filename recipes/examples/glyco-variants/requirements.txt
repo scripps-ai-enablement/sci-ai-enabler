@@ -2,11 +2,12 @@
 #
 # The offline replay itself is standard-library only and reads fixtures/ — it
 # still *emits* the IEEE-2791 BCO with no deps. These packages are needed for:
-#   - the live run (mcp, requests) — drives the GlyGen MCP server + UniProt;
+#   - the live run (mcp, requests) — drives the GlyGen MCP server, UniProt and ProtVar;
 #   - validating the emitted BCO against the bundled IEEE-2791 schema
 #     (jsonschema, referencing). Without them, the script still writes the BCO
 #     and reports validation as "skipped".
 #
+# ProtVar is a plain REST API (no client library) — https://www.ebi.ac.uk/ProtVar/api
 # BioMCP is NOT a pip dependency: the live run shells out to the `biomcp` CLI,
 # installed out-of-band as the recipe prescribes:
 #   uv tool install biomcp-cli        # provides `biomcp` (this run used 0.8.25)

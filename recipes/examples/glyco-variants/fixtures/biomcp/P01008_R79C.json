@@ -1,107 +1,266 @@
 {
-  "_meta": {
-    "evidence_urls": [
-      {
-        "label": "dbSNP",
-        "url": "https://www.ncbi.nlm.nih.gov/snp/rs121909547"
-      },
-      {
-        "label": "gnomAD",
-        "url": "https://gnomad.broadinstitute.org/variant/rs121909547"
-      }
-    ],
-    "ladder": [
-      {
-        "command": "biomcp get variant \"BRAF V600E\" clinvar predictions population",
-        "step": 1,
-        "what_it_gives": "Clinical significance, computational predictions, and allele-frequency context."
-      },
-      {
-        "command": "biomcp get variant \"BRAF V600E\" civic cgi",
-        "step": 2,
-        "what_it_gives": "Curated cancer evidence and biomarker interpretation."
-      },
-      {
-        "command": "biomcp variant trials \"BRAF V600E\" --limit 5",
-        "step": 3,
-        "what_it_gives": "Variant-matched clinical trials."
-      },
-      {
-        "command": "biomcp variant articles \"BRAF V600E\" --limit 5",
-        "step": 4,
-        "what_it_gives": "Literature follow-up anchored on the variant."
-      }
-    ],
-    "next_commands": [
-      "biomcp get gene SERPINC1",
-      "biomcp search drug --target SERPINC1",
-      "biomcp variant trials \"chr1:g.173883864G>A\"",
-      "biomcp variant articles \"chr1:g.173883864G>A\""
-    ],
-    "section_sources": [
-      {
-        "key": "identity",
-        "label": "Identity",
-        "sources": [
-          "MyVariant.info",
-          "ClinVar"
-        ]
-      },
-      {
-        "key": "population",
-        "label": "Population",
-        "sources": [
-          "gnomAD via MyVariant.info"
-        ]
-      },
-      {
-        "key": "expanded_predictions",
-        "label": "Expanded Predictions",
-        "sources": [
-          "MyVariant.info"
-        ]
-      }
-    ],
-    "workflow": "variant-pathogenicity"
-  },
-  "allele_frequency_percent": "< 0.01%",
-  "allele_frequency_raw": 0.0000477209,
-  "cadd_score": 33.0,
-  "consequence": "missense_variant",
-  "expanded_predictions": [
-    {
-      "score": 0.743,
-      "tool": "REVEL"
-    },
-    {
-      "prediction": "Pathogenic",
-      "score": 0.9098,
-      "tool": "AlphaMissense"
-    },
-    {
-      "prediction": "D",
-      "score": 0.679943382740021,
-      "tool": "ClinPred"
-    },
-    {
-      "prediction": "Deleterious",
-      "score": 0.0,
-      "tool": "SIFT"
-    },
-    {
-      "prediction": "D",
-      "score": 0.8395686,
-      "tool": "MetaRNN"
-    }
+ "_meta": {
+  "evidence_urls": [
+   {
+    "label": "ClinVar",
+    "url": "https://www.ncbi.nlm.nih.gov/clinvar/variation/18004/"
+   },
+   {
+    "label": "dbSNP",
+    "url": "https://www.ncbi.nlm.nih.gov/snp/rs121909547"
+   },
+   {
+    "label": "gnomAD",
+    "url": "https://gnomad.broadinstitute.org/variant/rs121909547"
+   }
   ],
-  "gene": "SERPINC1",
-  "gnomad_af": 0.0000477209,
-  "hgvs_c": "c.235C>T",
-  "hgvs_p": "p.R79C",
-  "id": "chr1:g.173883864G>A",
-  "legacy_name": "SERPINC1 R79C",
-  "polyphen_pred": "Probably damaging",
-  "rsid": "rs121909547",
-  "sift_pred": "Deleterious",
-  "significance": "Pathogenic"
+  "ladder": [
+   {
+    "command": "biomcp get variant \"BRAF V600E\" clinvar predictions population",
+    "step": 1,
+    "what_it_gives": "Clinical significance, computational predictions, and allele-frequency context."
+   },
+   {
+    "command": "biomcp get variant \"BRAF V600E\" civic cgi",
+    "step": 2,
+    "what_it_gives": "Curated cancer evidence and biomarker interpretation."
+   },
+   {
+    "command": "biomcp variant trials \"BRAF V600E\" --limit 5",
+    "step": 3,
+    "what_it_gives": "Variant-matched clinical trials."
+   },
+   {
+    "command": "biomcp variant articles \"BRAF V600E\" --limit 5",
+    "step": 4,
+    "what_it_gives": "Literature follow-up anchored on the variant."
+   }
+  ],
+  "next_commands": [
+   "biomcp get gene SERPINC1",
+   "biomcp search drug --target SERPINC1",
+   "biomcp variant trials \"chr1:g.173883864G>A\"",
+   "biomcp variant articles \"chr1:g.173883864G>A\""
+  ],
+  "section_sources": [
+   {
+    "key": "identity",
+    "label": "Identity",
+    "sources": [
+     "MyVariant.info",
+     "ClinVar"
+    ]
+   },
+   {
+    "key": "clinvar",
+    "label": "ClinVar",
+    "sources": [
+     "ClinVar"
+    ]
+   },
+   {
+    "key": "population",
+    "label": "Population",
+    "sources": [
+     "gnomAD via MyVariant.info"
+    ]
+   },
+   {
+    "key": "conservation",
+    "label": "Conservation",
+    "sources": [
+     "MyVariant.info"
+    ]
+   },
+   {
+    "key": "expanded_predictions",
+    "label": "Expanded Predictions",
+    "sources": [
+     "MyVariant.info"
+    ]
+   },
+   {
+    "key": "civic",
+    "label": "CIViC",
+    "sources": [
+     "CIViC"
+    ]
+   }
+  ],
+  "workflow": "variant-pathogenicity"
+ },
+ "allele_frequency_percent": "< 0.01%",
+ "allele_frequency_raw": 4.77209e-05,
+ "cadd_score": 33.0,
+ "cancer_frequency_source": "study=msk_impact_2017, sample_list=msk_impact_2017_all, profile=msk_impact_2017_mutations (override with BIOMCP_CBIOPORTAL_STUDY/BIOMCP_CBIOPORTAL_SAMPLE_LIST/BIOMCP_CBIOPORTAL_MUTATION_PROFILE)",
+ "civic": {
+  "graphql": {
+   "assertion_total_count": 0,
+   "evidence_total_count": 0
+  }
+ },
+ "clinvar_condition_reports": 2,
+ "clinvar_conditions": [
+  {
+   "condition": "Hereditary antithrombin deficiency (AT3D)",
+   "reports": 1
+  },
+  {
+   "condition": "not provided",
+   "reports": 1
+  }
+ ],
+ "clinvar_id": "18004",
+ "clinvar_review_stars": 3,
+ "clinvar_review_status": "reviewed by expert panel",
+ "conditions": [
+  "Hereditary antithrombin deficiency (AT3D)",
+  "not provided"
+ ],
+ "consequence": "missense_variant",
+ "conservation": {
+  "phastcons_100way_vertebrate": 0.40164,
+  "phastcons_470way_mammalian": 0.35428,
+  "phylop_100way_vertebrate": 0.45541,
+  "phylop_470way_mammalian": 0.35502
+ },
+ "expanded_predictions": [
+  {
+   "score": 0.743,
+   "tool": "REVEL"
+  },
+  {
+   "prediction": "Pathogenic",
+   "score": 0.9098,
+   "tool": "AlphaMissense"
+  },
+  {
+   "prediction": "D",
+   "score": 0.679943382740021,
+   "tool": "ClinPred"
+  },
+  {
+   "prediction": "Deleterious",
+   "score": 0.0,
+   "tool": "SIFT"
+  },
+  {
+   "prediction": "D",
+   "score": 0.8395686,
+   "tool": "MetaRNN"
+  }
+ ],
+ "gene": "SERPINC1",
+ "gnomad_af": 4.77209e-05,
+ "hgvs_c": "c.235C>T",
+ "hgvs_p": "p.R79C",
+ "id": "chr1:g.173883864G>A",
+ "legacy_name": "SERPINC1 R79C",
+ "polyphen_pred": "Probably damaging",
+ "population_breakdown": {
+  "exac_af": 1.647e-05,
+  "exac_nontcga_af": 1.883e-05,
+  "populations": [
+   {
+    "af": 0.0,
+    "population": "African/African American"
+   },
+   {
+    "af": 0.0,
+    "is_subgroup": true,
+    "population": "African/African American (female)"
+   },
+   {
+    "af": 0.0,
+    "is_subgroup": true,
+    "population": "African/African American (male)"
+   },
+   {
+    "af": 5.78168e-05,
+    "population": "Latino/Admixed American"
+   },
+   {
+    "af": 0.0,
+    "is_subgroup": true,
+    "population": "Latino/Admixed American (female)"
+   },
+   {
+    "af": 0.000139645,
+    "is_subgroup": true,
+    "population": "Latino/Admixed American (male)"
+   },
+   {
+    "af": 0.000326193,
+    "population": "East Asian"
+   },
+   {
+    "af": 0.0,
+    "is_subgroup": true,
+    "population": "East Asian (Japanese)"
+   },
+   {
+    "af": 0.0015715,
+    "is_subgroup": true,
+    "population": "East Asian (Korean)"
+   },
+   {
+    "af": 2.63764e-05,
+    "population": "Non-Finnish European"
+   },
+   {
+    "af": 0.0,
+    "is_subgroup": true,
+    "population": "Non-Finnish European (Bulgarian)"
+   },
+   {
+    "af": 0.0,
+    "is_subgroup": true,
+    "population": "Non-Finnish European (Estonian)"
+   },
+   {
+    "af": 7.10833e-05,
+    "is_subgroup": true,
+    "population": "Non-Finnish European (Northwestern)"
+   },
+   {
+    "af": 0.0,
+    "is_subgroup": true,
+    "population": "Non-Finnish European (Other)"
+   },
+   {
+    "af": 0.0,
+    "is_subgroup": true,
+    "population": "Non-Finnish European (Southeastern)"
+   },
+   {
+    "af": 0.0,
+    "is_subgroup": true,
+    "population": "Non-Finnish European (Swedish)"
+   },
+   {
+    "af": 3.26627e-05,
+    "population": "South Asian"
+   },
+   {
+    "af": 0.0,
+    "population": "Ashkenazi Jewish"
+   },
+   {
+    "af": 0.0,
+    "population": "Finnish"
+   },
+   {
+    "af": 0.0,
+    "population": "Other"
+   }
+  ]
+ },
+ "rsid": "rs121909547",
+ "sift_pred": "Deleterious",
+ "significance": "Pathogenic",
+ "supporting_pmids": [],
+ "top_disease": {
+  "condition": "Hereditary antithrombin deficiency (AT3D)",
+  "reports": 1
+ }
 }

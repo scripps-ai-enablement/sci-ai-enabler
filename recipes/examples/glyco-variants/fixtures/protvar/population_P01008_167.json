@@ -1,0 +1,191 @@
+{
+ "accession": "P01008",
+ "altBase": null,
+ "chromosome": null,
+ "freqMap": {},
+ "genomicPosition": null,
+ "position": 167,
+ "variants": [
+  {
+   "alternativeSequence": "Ser",
+   "begin": "167",
+   "clinicalSignificances": [
+    {
+     "sources": [
+      "Ensembl"
+     ],
+     "type": "Pathogenic"
+    }
+   ],
+   "codon": "AAC/AGC",
+   "consequenceType": "missense",
+   "cytogeneticBand": "1q25.1",
+   "end": "167",
+   "genomicLocation": [
+    "NC_000001.11:g.173911923T>C"
+   ],
+   "predictions": [
+    {
+     "predAlgorithmNameType": "PolyPhen",
+     "predictionValType": "benign",
+     "score": 0.065
+    },
+    {
+     "predAlgorithmNameType": "SIFT",
+     "predictionValType": "deleterious",
+     "score": 0.02
+    }
+   ],
+   "sourceType": "large_scale_study",
+   "type": "VARIANT",
+   "wildType": "Asn",
+   "xrefs": [
+    {
+     "alternativeUrl": "http://gnomad.broadinstitute.org/awesome?query=rs121909570",
+     "id": "rs121909570",
+     "name": "TOPMed",
+     "reviewed": false,
+     "url": "https://www.ncbi.nlm.nih.gov/snp/rs121909570#frequency_tab"
+    },
+    {
+     "id": "rs121909570",
+     "name": "gnomAD",
+     "reviewed": false,
+     "url": "https://gnomad.broadinstitute.org/variant/rs121909570?dataset=gnomad_r2_1"
+    }
+   ]
+  },
+  {
+   "alternativeSequence": "Thr",
+   "association": [
+    {
+     "dbReferences": [
+      {
+       "id": "613118",
+       "name": "MIM",
+       "reviewed": false,
+       "url": "https://www.omim.org/entry/613118"
+      }
+     ],
+     "disease": true,
+     "evidences": [
+      {
+       "code": "ECO:0000313",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/20027064",
+        "id": "20027064",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/20027064"
+       }
+      },
+      {
+       "code": "ECO:0000313",
+       "source": {
+        "alternativeUrl": "https://europepmc.org/abstract/MED/35645034",
+        "id": "35645034",
+        "name": "pubmed",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/pubmed/35645034"
+       }
+      },
+      {
+       "code": "ECO:0000313",
+       "source": {
+        "alternativeUrl": "https://www.ensembl.org/homo_sapiens/Variation/Explore?v=RCV000019657",
+        "id": "RCV000019657",
+        "name": "ClinVar",
+        "reviewed": false,
+        "url": "https://www.ncbi.nlm.nih.gov/clinvar/RCV000019657"
+       }
+      }
+     ],
+     "name": "Hereditary antithrombin deficiency (AT3D)"
+    }
+   ],
+   "begin": "167",
+   "clinicalSignificances": [
+    {
+     "sources": [
+      "Ensembl",
+      "ClinVar"
+     ],
+     "type": "Pathogenic"
+    }
+   ],
+   "codon": "AAC/ACC",
+   "consequenceType": "missense",
+   "cytogeneticBand": "1q25.1",
+   "end": "167",
+   "evidences": [
+    {
+     "code": "ECO:0000269",
+     "source": {
+      "alternativeUrl": "https://europepmc.org/abstract/MED/10361121",
+      "id": "10361121",
+      "name": "pubmed",
+      "reviewed": false,
+      "url": "https://www.ncbi.nlm.nih.gov/pubmed/10361121"
+     }
+    },
+    {
+     "code": "ECO:0000313",
+     "source": {
+      "alternativeUrl": "https://europepmc.org/abstract/MED/10361121",
+      "id": "10361121",
+      "name": "pubmed",
+      "reviewed": false,
+      "url": "https://www.ncbi.nlm.nih.gov/pubmed/10361121"
+     }
+    }
+   ],
+   "ftId": "VAR_012750",
+   "genomicLocation": [
+    "NC_000001.11:g.173911923T>G"
+   ],
+   "sourceType": "mixed",
+   "type": "VARIANT",
+   "wildType": "Asn",
+   "xrefs": [
+    {
+     "id": "CA210795",
+     "name": "ClinGen",
+     "reviewed": false,
+     "url": "https://reg.clinicalgenome.org/redmine/projects/registry/genboree_registry/by_caid?caid=CA210795"
+    },
+    {
+     "alternativeUrl": "https://www.ensembl.org/homo_sapiens/Variation/Explore?v=RCV000019657",
+     "id": "RCV000019657",
+     "name": "ClinVar",
+     "reviewed": false,
+     "url": "https://www.ncbi.nlm.nih.gov/clinvar/RCV000019657"
+    },
+    {
+     "id": "VAR_012750",
+     "name": "UniProt",
+     "reviewed": false,
+     "url": "https://web.expasy.org/variant_pages/VAR_012750.html"
+    },
+    {
+     "alternativeUrl": "http://gnomad.broadinstitute.org/awesome?query=rs121909570",
+     "id": "rs121909570",
+     "name": "TOPMed",
+     "reviewed": false,
+     "url": "https://www.ncbi.nlm.nih.gov/snp/rs121909570#frequency_tab"
+    },
+    {
+     "id": "rs121909570",
+     "name": "dbSNP",
+     "reviewed": false,
+     "url": "https://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?type=rs&rs=rs121909570"
+    },
+    {
+     "id": "rs121909570",
+     "name": "gnomAD",
+     "reviewed": false,
+     "url": "https://gnomad.broadinstitute.org/variant/rs121909570?dataset=gnomad_r2_1"
+    }
+   ]
+  }
+ ]
+}
