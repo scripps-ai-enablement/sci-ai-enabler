@@ -355,7 +355,7 @@ def build_bco(rows: list[dict], release: dict, run_date: str) -> dict:
             "external_data_endpoints": [
                 {"name": "GlyGen MCP server", "url": GLYGEN_MCP_URL},
                 {"name": "UniProt REST", "url": "https://rest.uniprot.org"},
-                {"name": "MyVariant.info (via BioMCP)", "url": "https://myvariant.info"},
+                {"name": "MyVariant.info (ClinVar, via BioMCP)", "url": "https://myvariant.info"},
                 {"name": "EBI ProtVar (AlphaMissense, accession-keyed)", "url": PROTVAR_API},
             ],
             "environment_variables": {},

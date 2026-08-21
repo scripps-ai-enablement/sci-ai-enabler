@@ -123,7 +123,7 @@
     },
     "empirical_error": {}
   },
-  "etag": "aa819366be697d34c44e4d6e5cae7ea6a583d23efea48f690f2ac84b5ab50eab",
+  "etag": "906105b80adf87a3dceffb87ba0bdef96f2382e39fc2427d480a3546362c35ce",
   "execution_domain": {
     "environment_variables": {},
     "external_data_endpoints": [
@@ -136,7 +136,7 @@
         "url": "https://rest.uniprot.org"
       },
       {
-        "name": "MyVariant.info (via BioMCP)",
+        "name": "MyVariant.info (ClinVar, via BioMCP)",
         "url": "https://myvariant.info"
       },
       {

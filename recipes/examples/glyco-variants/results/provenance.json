@@ -1,7 +1,7 @@
 {
   "analysis": "interpret-glycosylation-altering-variants",
   "biocompute_object": {
-    "etag": "aa819366be697d34c44e4d6e5cae7ea6a583d23efea48f690f2ac84b5ab50eab",
+    "etag": "906105b80adf87a3dceffb87ba0bdef96f2382e39fc2427d480a3546362c35ce",
     "file": "glyco_run.bco.json",
     "input_dataset_bcos": [
       "https://data.glygen.org/GLY_001534",
@@ -15,7 +15,7 @@
   "mode": "offline-replay",
   "outputs": {
     "glyco_candidates.csv": "671f488ef648db1a1e89379aaba54beb86fc2c95f010fa26aba01528a9705255",
-    "glyco_run.bco.json": "e55b88f7db8fd0cfdbdcb62ccaaac8fa8f86b6c5af8270e0b7eb7a13087a674d"
+    "glyco_run.bco.json": "36cb208dde0320352029cdff53311601b5dfe42f44c8c64c9b92a2c30a00469f"
   },
   "ranking": "GOG/LOG above none (unmapped last); within by AlphaMissense pathogenicity then ClinVar significance",
   "run_date": "2026-05-04",
