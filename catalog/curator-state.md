@@ -138,9 +138,9 @@ nav_exclude: true
 
 ## User requests (blocked)
 
-_None._
-
 - [#98 @QuantaAIBot 2026-08-19] queue: catalog | request=new-tool | name="FDA 510(k) product-code CSV exporter" | url="https://github.com/QuantaAIBot/fda-510k-product-code-export" | subject_area="Translational Medicine" | author=@QuantaAIBot | issue=98
+
+- [#100 @vladimir-mitev 2026-08-26] queue: catalog | request=new-tool | name="Folklore Clinical Variant Interpretation MCP" | url="https://github.com/helena-bioinformatics/folklore-mcp" | subject_area="Translational Medicine" | author=@vladimir-mitev | issue=100
 
 ## User requests (closed this run)
 
