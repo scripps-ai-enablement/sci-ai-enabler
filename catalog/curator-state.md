@@ -142,6 +142,8 @@ nav_exclude: true
 
 - [#100 @vladimir-mitev 2026-08-26] queue: catalog | request=new-tool | name="Folklore Clinical Variant Interpretation MCP" | url="https://github.com/helena-bioinformatics/folklore-mcp" | subject_area="Translational Medicine" | author=@vladimir-mitev | issue=100
 
+- [#101 @helena-good-outreach 2026-08-31] queue: catalog | request=new-tool | name="Noodle Biomedical Literature Discovery MCP" | url="https://github.com/helena-bioinformatics/noodle-mcp" | subject_area="Translational Medicine" | author=@helena-good-outreach | issue=101
+
 ## User requests (closed this run)
 
 _None._
