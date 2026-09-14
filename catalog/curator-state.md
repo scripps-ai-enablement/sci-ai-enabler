@@ -144,6 +144,8 @@ nav_exclude: true
 
 - [#101 @helena-good-outreach 2026-08-31] queue: catalog | request=new-tool | name="Noodle Biomedical Literature Discovery MCP" | url="https://github.com/helena-bioinformatics/noodle-mcp" | subject_area="Translational Medicine" | author=@helena-good-outreach | issue=101
 
+- [#102 @goodb 2026-09-14] queue: catalog | request=new-tool | name="MErlin" | url="https://github.com/IacopoPasseri/MErlin" | subject_area="Molecular and Cellular Biology" | author=@goodb | issue=102
+
 ## User requests (closed this run)
 
 _None._
