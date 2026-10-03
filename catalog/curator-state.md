@@ -146,6 +146,8 @@ nav_exclude: true
 
 - [#102 @goodb 2026-09-14] queue: catalog | request=new-tool | name="MErlin" | url="https://github.com/IacopoPasseri/MErlin" | subject_area="Molecular and Cellular Biology" | author=@goodb | issue=102
 
+- [#104 @SidneyBissoli 2026-10-03] queue: catalog | feedback-on=medical-terminologies-mcp | sentiment=something_else | author=@SidneyBissoli | issue=104
+
 ## User requests (closed this run)
 
 _None._
