@@ -148,6 +148,8 @@ nav_exclude: true
 
 - [#104 @SidneyBissoli 2026-10-03] queue: catalog | feedback-on=medical-terminologies-mcp | sentiment=something_else | author=@SidneyBissoli | issue=104
 
+- [#107 @goodb 2026-10-22] queue: catalog | request=new-tool | name="DeepMind Science Skills" | url="https://github.com/google-deepmind/science-skills/tree/main/skills" | subject_area="Integrative Structural and Computational Biology" | author=@goodb | issue=107
+
 ## User requests (closed this run)
 
 _None._
